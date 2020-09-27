@@ -4,8 +4,13 @@ import dal.asd.dpl.UserInput.CmdUserInput;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static junit.framework.Assert.assertEquals;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+
 import static org.junit.jupiter.api.Assertions.*;
+
+import static junit.framework.Assert.assertEquals;
+//import static org.junit.jupiter.api.Assertions.*;
 
 class CmdUserInputTest {
 
@@ -17,20 +22,26 @@ class CmdUserInputTest {
     }
 
     @Test
-    void setInitialValues() {
+    void setInitialValuesTest() {
         cmdInput.setInitialValues();
         assertEquals("", cmdInput.getInput());
     }
 
     @Test
-    void getInput() {
-        cmdInput.setInput("Testing Get Input");
+    void getInputTest() {
+        String input = "Testing Get Input";
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+        cmdInput.setInput();
         assertEquals("Testing Get Input", cmdInput.getInput());
     }
 
     @Test
-    void setInput() {
-        cmdInput.setInput("Testing Set Input");
+    void setInputTest() {
+        String input = "Testing Set Input";
+        InputStream in = new ByteArrayInputStream(input.getBytes());
+        System.setIn(in);
+        cmdInput.setInput();
         assertEquals("Testing Set Input", cmdInput.getInput());
     }
 }

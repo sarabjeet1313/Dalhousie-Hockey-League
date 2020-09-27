@@ -2,5 +2,5 @@ package dal.asd.dpl.Parser;
 
 public interface IParser {
 
-    public void parse();
+    public String parse(String field);
 }

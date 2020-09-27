@@ -6,5 +6,5 @@ public interface IUserInput {
 
     public String getInput();
 
-    public void setInput(String inputResponse);
+    public void setInput();
 }

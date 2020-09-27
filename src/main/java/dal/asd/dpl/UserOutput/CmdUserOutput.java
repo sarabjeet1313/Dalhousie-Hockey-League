@@ -17,6 +17,7 @@ public class CmdUserOutput {
     }
 
     public String sendOutput() {
+        System.out.println(this.OutputResponse);
         return this.OutputResponse;
     }
 

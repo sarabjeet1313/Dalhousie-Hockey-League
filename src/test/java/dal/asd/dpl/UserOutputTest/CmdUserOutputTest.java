@@ -16,19 +16,19 @@ class CmdUserOutputTest {
     }
 
     @Test
-    void setInitialValues() {
+    void setInitialValuesTest() {
         cmdOutput.setInitialValues();
         assertEquals("", cmdOutput.sendOutput());
     }
 
     @Test
-    void setOutput() {
+    void setOutputTest() {
         cmdOutput.setOutput("Testing Output");
         assertEquals(cmdOutput.sendOutput(), "Testing Output");
     }
 
     @Test
-    void sendOutput() {
+    void sendOutputTest() {
 
         //Base case
         cmdOutput.setInitialValues();

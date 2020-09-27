@@ -1,24 +1,89 @@
-//package dal.asd.dpl.Parser;
-//
-//import dal.asd.dpl.UserInput.CmdUserInput;
-//import jdk.nashorn.internal.parser.JSONParser;
-//import java.io.FileReader;
-//
-//public class CmdParseJSON implements IParser{
-//
-//    private static String filePath;
-//
-//    CmdParseJSON (String filePath) {
-//        this.filePath = filePath;
-//    }
-//
-//    public void parse(){
-//
-////        JSONParser parser = new JSONParser();
-////
-//////        try{
-//////
-//////            Object jsobObj = parser.parse(new FileReader(filePath));
-//////        }
-//    }
-//}
+package dal.asd.dpl.Parser;
+
+import com.google.gson.*;
+
+import dal.asd.dpl.UserOutput.CmdUserOutput;
+
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+public class CmdParseJSON implements IParser{
+
+    private static String filePath;
+    private static CmdUserOutput output;
+
+    public CmdParseJSON (String filePath) {
+        this.filePath = filePath;
+        this.output = new CmdUserOutput();
+    }
+
+    public String parse(String field){
+
+        JsonParser parser = new JsonParser();
+        try{
+            Object obj = parser.parse(new FileReader(filePath));
+            JsonObject jsonObject = (JsonObject)obj;
+            return jsonObject.get(field).toString();
+
+            // Debug
+            //output.setOutput(League);
+            //output.sendOutput();
+        }
+        catch(FileNotFoundException e) {
+            output.setOutput("Input JSON file not found");
+            output.sendOutput();
+        }
+        catch (JsonSyntaxException e) {
+            output.setOutput("Error in parsing Json file. Please check the syntax of the file");
+            output.sendOutput();
+        }
+        catch(NullPointerException e) {
+            output.setOutput("Error in parsing Json file. Please verify the " + field + " name in file");
+            output.sendOutput();
+        }
+        catch(IOException e) {
+            output.setOutput("Found error in reading the file");
+            output.sendOutput();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    public JsonArray parseList(String field){
+
+        JsonArray items = null;
+        JsonParser parser = new JsonParser();
+        try{
+            Object obj = parser.parse(new FileReader(filePath));
+            JsonObject jsonObject = (JsonObject)obj;
+            items = (JsonArray) jsonObject.get(field);
+            return items;
+        }
+        catch(FileNotFoundException e) {
+            output.setOutput("Input JSON file not found");
+            output.sendOutput();
+        }
+        catch (JsonSyntaxException e) {
+            output.setOutput("Error in parsing Json file. Please check the syntax of the file");
+            output.sendOutput();
+        }
+        catch(NullPointerException e) {
+            output.setOutput("Error in parsing Json file. Please verify the " + field + " name in file");
+            output.sendOutput();
+        }
+        catch(IOException e) {
+            output.setOutput("Found error in reading the file");
+            output.sendOutput();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return items;
+    }
+}
