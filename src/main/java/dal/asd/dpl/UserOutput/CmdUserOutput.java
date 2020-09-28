@@ -1,6 +1,6 @@
 package dal.asd.dpl.UserOutput;
 
-public class CmdUserOutput {
+public class CmdUserOutput implements IUserOutput{
 
     private String OutputResponse;
 

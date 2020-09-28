@@ -74,11 +74,15 @@ public class InitializeLeagues {
 
         League = new Leagues(LeagueName, ConferenceList);
 
+        // TODO
+        // send the league object to Praneeth.
+        // initialize the genManager and headCoach
+
         // DEBUG
 
-//        System.out.println(League.getLeagueName() + " : " + ConferenceList.get(0).getConferenceName() + " : " +
-//                           DivisionList.get(0).getDivisionName() + " : " + TeamList.get(0).getGeneralManager() +
-//                           PlayerList.get(0).getPlayerName());
+        System.out.println(League.getLeagueName() + " : " + ConferenceList.get(0).getConferenceName() + " : " +
+                           DivisionList.get(0).getDivisionName() + " : " + TeamList.get(0).getGeneralManager() +
+                           " : " + PlayerList.get(0).getPlayerName());
     }
 
 }
