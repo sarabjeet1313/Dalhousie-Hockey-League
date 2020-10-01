@@ -21,7 +21,7 @@ build:
     paths:
       - .m2/repository
   tags:
-    - dalfcs_gitlab_docker_ci
+    - ugrad
   script: ./mvnw package
     # artifacts:
     #  paths:
