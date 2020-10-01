@@ -1,0 +1,16 @@
+stages:
+  - build
+
+cache:
+  paths:
+    - .m2/repository/
+    - target/
+
+image: maven:latest
+
+build:
+  stage: build
+  tags:
+    - dalfcs_gitlab_docker_ci
+  script:
+    - mvn compile
