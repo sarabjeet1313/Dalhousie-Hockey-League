@@ -6,9 +6,8 @@ cache:
     - .m2/repository/
     - target/
 
-image: maven:latest
-
 build:
+  image: maven:3-jdk-11-openj9
   stage: build
   tags:
     - dalfcs_gitlab_docker_ci
