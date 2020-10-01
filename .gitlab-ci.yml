@@ -22,7 +22,8 @@ build:
       - .m2/repository
   tags:
     - ugrad
-  script: ./mvnw package
+  script: 
+    - mvn compile
     # artifacts:
     #  paths:
     #   - target/*.jar
