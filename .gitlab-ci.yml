@@ -1,15 +1,28 @@
 stages:
   - build
 
-cache:
-  paths:
-    - .m2/repository/
-    - target/
+# cache:
+#   paths:
+#     - .m2/repository/
+#     - target/
 
+# build:
+#   image: maven:3-jdk-11-openj9
+#   stage: build
+#   tags:
+#     - dalfcs_gitlab_docker_ci
+#   script:
+#     - mvn compile
+    
 build:
   image: maven:3-jdk-11-openj9
   stage: build
+  cache:
+    paths:
+      - .m2/repository
   tags:
     - dalfcs_gitlab_docker_ci
-  script:
-    - mvn compile
+  script: ./mvnw package
+    # artifacts:
+    #  paths:
+    #   - target/*.jar
