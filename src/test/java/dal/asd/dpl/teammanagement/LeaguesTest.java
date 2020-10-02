@@ -11,14 +11,16 @@ import org.junit.Assert;
 public class LeaguesTest {
 	Players player1 = new Players("Player1", "Forword", false);
 	Players player2 = new Players("Player2", "Forword", false);
+	Players player3 = new Players("Player3", "defence", false);
+	Players player4 = new Players("Player4", "Goalie", false);
+	ArrayList<Players> freeAgents = new ArrayList<Players>();
 	ArrayList<Players> playerList = new ArrayList<Players>();
-	FreeAgents availablePlayerList = new FreeAgents(playerList);
 	ArrayList<Divisions> divisionList = new ArrayList<Divisions>();
 	ArrayList<Divisions> divisionList1 = new ArrayList<Divisions>();
 	ArrayList<Conferences> conferenceList = new ArrayList<Conferences>();
 	Conferences conference = new Conferences("Eastern Conference", divisionList);
 	Conferences conference1 = new Conferences("Western Conference", divisionList1);
-	Leagues league = new Leagues("Dalhousie Hockey League", conferenceList, availablePlayerList);
+	Leagues league = new Leagues("Dalhousie Hockey League", conferenceList, freeAgents);
 	ILeague object = new LeageMockData();
 	ILeague obj = new LeagueDataDB();
 	
@@ -29,11 +31,12 @@ public class LeaguesTest {
 		league.setConferenceList(conferenceList);
 		playerList.add(player1);
 		playerList.add(player2);
-		availablePlayerList.setFreePlayerList(playerList);
-		league.setFreeAgents(availablePlayerList);
+		freeAgents.add(player3);
+		freeAgents.add(player4);
+		league.setFreeAgents(freeAgents);
 		Assert.assertEquals("Dalhousie Hockey League", league.getLeagueName());
 		Assert.assertEquals(2, league.getConferenceList().size());
-		Assert.assertEquals(2, league.getFreeAgents().getFreePlayerList().size());
+		Assert.assertEquals(2, league.getFreeAgents().size());
 	}
 	
 	@Test
@@ -50,14 +53,14 @@ public class LeaguesTest {
 	@Test
 	public void getConferenceListTest() {
 		conferenceList.add(conference);
-		Leagues league = new Leagues("Dalhousie Hockey League", conferenceList, availablePlayerList);
+		Leagues league = new Leagues("Dalhousie Hockey League", conferenceList, freeAgents);
 		Assert.assertEquals(1, league.getConferenceList().size());
 	}
 	
 	@Test
 	public void setConferenceListTest() {
 		conferenceList.add(conference);
-		Leagues league1 = new Leagues("Dalhousie Hockey League", conferenceList, availablePlayerList);
+		Leagues league1 = new Leagues("Dalhousie Hockey League", conferenceList, freeAgents);
 		conferenceList.add(conference1);
 		league1.setConferenceList(conferenceList);
 		Assert.assertEquals(2, league1.getConferenceList().size());
@@ -65,27 +68,23 @@ public class LeaguesTest {
 	
 	@Test
 	public void getFreeAgentsTest() {
-		playerList.add(player1);
-		availablePlayerList.setFreePlayerList(playerList);
-		league.setFreeAgents(availablePlayerList);
-		Assert.assertEquals(1, league.getFreeAgents().getFreePlayerList().size());
+		freeAgents.add(player1);
+		league.setFreeAgents(freeAgents);
+		Assert.assertEquals(1, league.getFreeAgents().size());
 	}
 	
 	@Test
 	public void setFreeAgentsTest() {
-		playerList.add(player1);
-		availablePlayerList.setFreePlayerList(playerList);
-		league.setFreeAgents(availablePlayerList);
-		Assert.assertEquals(1, league.getFreeAgents().getFreePlayerList().size());
-		playerList.add(player2);
-		availablePlayerList.setFreePlayerList(playerList);
-		league.setFreeAgents(availablePlayerList);
-		Assert.assertEquals(2, league.getFreeAgents().getFreePlayerList().size());
+		freeAgents.add(player1);
+		league.setFreeAgents(freeAgents);
+		Assert.assertEquals(1, league.getFreeAgents().size());
+		freeAgents.add(player2);
+		league.setFreeAgents(freeAgents);
+		Assert.assertEquals(2, league.getFreeAgents().size());
 	}
 	
 	@Test
 	public void getTeamDataTest() {
-		
 		Assert.assertTrue(league.getTeamData("Boston", object));
 	}
 	

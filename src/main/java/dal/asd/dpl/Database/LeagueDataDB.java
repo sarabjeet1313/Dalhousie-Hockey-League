@@ -2,10 +2,10 @@ package dal.asd.dpl.Database;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.List;
 
 import dal.asd.dpl.teammanagement.Conferences;
 import dal.asd.dpl.teammanagement.Divisions;
-import dal.asd.dpl.teammanagement.FreeAgents;
 import dal.asd.dpl.teammanagement.ILeague;
 import dal.asd.dpl.teammanagement.Leagues;
 import dal.asd.dpl.teammanagement.Players;
@@ -57,8 +57,8 @@ public class LeagueDataDB implements ILeague{
 				divisionList.add(division);
 				Conferences conference = new Conferences(tempConferenceName,divisionList);
 				conferenceList.add(conference);
-				FreeAgents agents = null;
-				league = new Leagues(tempLeagueName, conferenceList, agents);
+				List<Players> freeAgents = null;
+				league = new Leagues(tempLeagueName, conferenceList, freeAgents);
 			}
 			result.close();
 		} catch (Exception e) {

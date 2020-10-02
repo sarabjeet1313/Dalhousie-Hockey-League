@@ -7,9 +7,9 @@ import dal.asd.dpl.Database.LeagueDataDB;
 public class Leagues {
 	private String leagueName;
 	private List<Conferences> conferenceList;
-	private FreeAgents freeAgents;
+	private List<Players> freeAgents;
 	
-	public Leagues(String leagueName, List<Conferences> conferenceList, FreeAgents freeAgents) {
+	public Leagues(String leagueName, List<Conferences> conferenceList, List<Players> freeAgents) {
 		this.leagueName = leagueName;
 		this.conferenceList = conferenceList;
 		this.freeAgents = freeAgents;
@@ -31,14 +31,14 @@ public class Leagues {
 		this.conferenceList = conferenceList;
 	}
 
-	public FreeAgents getFreeAgents() {
+	public List<Players> getFreeAgents() {
 		return freeAgents;
 	}
 
-	public void setFreeAgents(FreeAgents freeAgents) {
+	public void setFreeAgents(List<Players> freeAgents) {
 		this.freeAgents = freeAgents;
 	}
-	
+
 	public boolean getTeamData(String teamName, ILeague object) {
 		boolean isValidTeam = false;
 //		ILeague object = new LoadLeagueData();

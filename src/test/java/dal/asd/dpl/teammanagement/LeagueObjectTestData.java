@@ -29,8 +29,7 @@ public class LeagueObjectTestData {
 		Conferences conference = new Conferences("Eastern Conference", divisionList);
 		ArrayList<Conferences> conferenceList = new ArrayList<Conferences>();
 		conferenceList.add(conference);
-		FreeAgents freeAgent = new FreeAgents(freePlayerList);
-		Leagues league = new Leagues("Dalhousie Hockey League", conferenceList, freeAgent);
+		Leagues league = new Leagues("Dalhousie Hockey League", conferenceList, freePlayerList);
 		return league;
 	}
 }
