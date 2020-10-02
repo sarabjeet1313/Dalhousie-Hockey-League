@@ -53,7 +53,8 @@ public class DivisionsTest {
 	@Test
 	public void isValidDivisionNameTest() {
 		LeagueObjectTestData leagueData = new LeagueObjectTestData();
+		String conferenceName = "Eastern Conference";
 		String divisionName = "Atlantic";
-		Assert.assertTrue(division.isValidDivisionName(divisionName, leagueData.getLeagueData()));
+		Assert.assertTrue(division.isValidDivisionName(conferenceName, divisionName, leagueData.getLeagueData()));
 	}
 }

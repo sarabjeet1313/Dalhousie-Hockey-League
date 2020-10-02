@@ -1,4 +1,4 @@
-package dal.asd.dpl.Database;
+package dal.asd.dpl.database;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -91,5 +91,35 @@ public class LeagueDataDB implements ILeague{
 		}
 		
 		return rowCount;
+	}
+	
+	@Override
+	public boolean persisitLeagueData(String leagueName, String conferenceName, String divisionName, String teamName,
+			String generalManager, String headCoach, String playerName, String position, boolean captain) {
+		String query = "{CALL persist_league_data(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
+		ResultSet result;
+		boolean isPersisted = false;
+		try (Connection connnection = db.getConnection(); CallableStatement statement = connnection.prepareCall(query)) {
+			statement.setString(1, leagueName);
+			statement.setString(2, conferenceName);
+			statement.setString(3, divisionName);
+			statement.setString(4, teamName);
+			statement.setString(5, generalManager);
+			statement.setString(6, headCoach);
+			statement.setString(7, playerName);
+			statement.setString(8, position);
+			statement.setBoolean(9, captain);
+			statement.registerOutParameter(10, Types.BOOLEAN);
+			result = statement.executeQuery();
+			isPersisted = result.getBoolean(10);
+		}
+		catch (Exception e) {
+			System.out.println("Database Error:" + e.getMessage());
+			db.disconnect();
+		}
+		finally {
+			db.disconnect();
+		}
+		return isPersisted;
 	}
 }

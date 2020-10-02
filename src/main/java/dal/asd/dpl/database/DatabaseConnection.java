@@ -1,4 +1,4 @@
-package dal.asd.dpl.Database;
+package dal.asd.dpl.database;
 
 import java.sql.*;
 

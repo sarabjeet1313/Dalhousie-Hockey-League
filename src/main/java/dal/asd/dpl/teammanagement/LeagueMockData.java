@@ -3,7 +3,7 @@ package dal.asd.dpl.teammanagement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LeageMockData implements ILeague {
+public class LeagueMockData implements ILeague {
 	
 	Players player1 = new Players("Player One", "forward", true);
 	Players player2 = new Players("Player Two", "defense", false);
@@ -61,5 +61,17 @@ public class LeageMockData implements ILeague {
 			rowCount = 1;
 		}
 		return rowCount;
+	}
+	
+	@Override
+	public boolean persisitLeagueData(String leagueName, String conferenceName, String divisionName, String teamName,
+			String generalManager, String headCoach, String playerName, String position, boolean captain) {
+		if(teamName.equals("Empty")) {
+			Players player = new Players(playerName, position, captain);
+			List<Players> playerList = new ArrayList<Players>() ;
+			playerList.add(player1);
+		}
+		
+		return true;
 	}
 }

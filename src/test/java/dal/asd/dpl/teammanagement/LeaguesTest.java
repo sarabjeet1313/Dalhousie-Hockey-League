@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import dal.asd.dpl.Database.LeagueDataDB;
+import dal.asd.dpl.database.LeagueDataDB;
 
 import org.junit.Assert;
 
@@ -21,7 +21,7 @@ public class LeaguesTest {
 	Conferences conference = new Conferences("Eastern Conference", divisionList);
 	Conferences conference1 = new Conferences("Western Conference", divisionList1);
 	Leagues league = new Leagues("Dalhousie Hockey League", conferenceList, freeAgents);
-	ILeague object = new LeageMockData();
+	ILeague object = new LeagueMockData();
 	ILeague obj = new LeagueDataDB();
 	
 	@Test
@@ -93,5 +93,10 @@ public class LeaguesTest {
 		Assert.assertTrue(league.isValidLeagueName("Dalhousie", object));
 	}
 	
+	@Test
+	public void createTeamTest() {
+		LeagueObjectTestData leagueData = new LeagueObjectTestData();
+		Assert.assertTrue(league.createTeam(leagueData.getLeagueData(), object));
+	}
 	
 }

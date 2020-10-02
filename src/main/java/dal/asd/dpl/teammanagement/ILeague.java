@@ -6,4 +6,7 @@ public interface ILeague {
 	
 	public int checkLeagueName(String leagueName);
 	
+	public boolean persisitLeagueData(String leagueName, String conferenceName, String divisionName, String teamName, 
+			String generalManager, String headCoach, String playerName, String position, boolean captain);
+	
 }

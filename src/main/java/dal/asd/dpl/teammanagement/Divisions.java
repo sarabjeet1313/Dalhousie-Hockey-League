@@ -29,18 +29,20 @@ public class Divisions {
 		this.teamList = teamList;
 	}
     
-	public boolean isValidDivisionName(String divisionName, Leagues league) {
+	public boolean isValidDivisionName(String conferenceName, String divisionName, Leagues league) {
 		List<Conferences> conferenceList =  league.getConferenceList();
 		boolean isValid = false;
-		for(int index = 0; index <= conferenceList.size(); index++) {
-			List<Divisions> divisionList = conferenceList.get(index).getDivisionList();
-			for(int dIndex = 0 ; dIndex <= divisionList.size(); dIndex++) {
-				if(divisionList.get(dIndex).divisionName.equals(divisionName)) {
-					isValid = true;
-					break;
+		for(int index = 0; index < conferenceList.size(); index++) {
+			if(conferenceList.get(index).getConferenceName().equals(conferenceName)) {
+				List<Divisions> divisionList = conferenceList.get(index).getDivisionList();
+				
+				for(int dIndex = 0 ; dIndex < divisionList.size(); dIndex++) {
+					if(divisionList.get(dIndex).divisionName.equals(divisionName)) {
+						isValid = true;
+						break;
+					}
 				}
 			}
-			break;
 		}
 		return isValid;
 	}

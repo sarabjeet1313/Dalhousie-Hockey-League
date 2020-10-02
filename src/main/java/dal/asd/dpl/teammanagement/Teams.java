@@ -42,20 +42,27 @@ public class Teams {
 		this.playerList = playerList;
 	}
 	
-	public boolean isValidTeamName(String teamName, Leagues league) {
+	//If returns true then json is invalid 
+	public boolean isValidTeamName(String conferenceName, String divisionName, String teamName, Leagues league) {
 		List<Conferences> conferenceList =  league.getConferenceList();
 		boolean isValid = false;
-		for(int index = 0; index <= conferenceList.size(); index++) {
-			List<Divisions> divisionList = conferenceList.get(index).getDivisionList();
-			for(int dIndex = 0; dIndex < divisionList.size(); dIndex++) {
-				List<Teams> teamList = divisionList.get(dIndex).getTeamList();
-				for(int tIndex = 0; tIndex < teamList.size(); tIndex++) {
-					if(teamList.get(dIndex).teamName.equals(teamName)) {
-						isValid = true;
-						break;
+		for(int index = 0; index < conferenceList.size(); index++) {
+			if(conferenceList.get(index).getConferenceName().equals(conferenceName)) {
+				List<Divisions> divisionList = conferenceList.get(index).getDivisionList();
+				
+				for(int dIndex = 0; dIndex < divisionList.size(); dIndex++) {
+					if(divisionList.get(dIndex).getDivisionName().equals(divisionName)) {
+						List<Teams> teamList = divisionList.get(dIndex).getTeamList();
+						
+						for(int tIndex = 0; tIndex < teamList.size(); tIndex++) {
+							if(teamList.get(dIndex).teamName.equals(teamName)) {
+								isValid = true;
+								break;
+							}
+						}
 					}
+
 				}
-				break;
 			}
 			break;
 		}

@@ -79,8 +79,10 @@ public class TeamsTest {
 	@Test
 	public void isValidTeamNameTest() {
 		LeagueObjectTestData leagueData = new LeagueObjectTestData();
-		String teamName = "Boston";
-		Assert.assertTrue(team.isValidTeamName(teamName, leagueData.getLeagueData()));
+		String teamName = "dal";
+		String conferenceName = "Eastern Conference";
+		String divisionName = "Atlantic";
+		Assert.assertFalse(team.isValidTeamName(conferenceName, divisionName, teamName, leagueData.getLeagueData()));
 	}
 	
 }
