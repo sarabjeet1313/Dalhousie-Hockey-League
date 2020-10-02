@@ -2,14 +2,17 @@ package dal.asd.dpl.teammanagement;
 
 import java.util.List;
 
+import dal.asd.dpl.Database.LeagueDataDB;
+
 public class Leagues {
 	private String leagueName;
 	private List<Conferences> conferenceList;
+	private FreeAgents freeAgents;
 	
-	public Leagues(String leagueName, List<Conferences> conferenceList) {
-		super();
+	public Leagues(String leagueName, List<Conferences> conferenceList, FreeAgents freeAgents) {
 		this.leagueName = leagueName;
 		this.conferenceList = conferenceList;
+		this.freeAgents = freeAgents;
 	}
 
 	public String getLeagueName() {
@@ -27,6 +30,34 @@ public class Leagues {
 	public void setConferenceList(List<Conferences> conferenceList) {
 		this.conferenceList = conferenceList;
 	}
+
+	public FreeAgents getFreeAgents() {
+		return freeAgents;
+	}
+
+	public void setFreeAgents(FreeAgents freeAgents) {
+		this.freeAgents = freeAgents;
+	}
 	
+	public boolean getTeamData(String teamName, ILeague object) {
+		boolean isValidTeam = false;
+//		ILeague object = new LoadLeagueData();
+//		ILeague object = obj;
+		Leagues league = object.getLeagueData(teamName);
+		if(league == null) {
+			isValidTeam = true;
+		}
+		return !isValidTeam;
+	}
 	
+	public boolean isValidLeagueName(String leagueName, ILeague object) {
+		int rowCount = 0;
+		boolean isValid = true;
+//		ILeague object = new LeageMockData();
+		rowCount = object.checkLeagueName(leagueName);
+		if(rowCount > 0) {
+			isValid = false;
+		}
+		return isValid;
+	}
 }
