@@ -4,46 +4,57 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 public class DivisionsTest {
+	ArrayList<Players> playerList = new ArrayList<Players>();
+	ArrayList<Players> playerList1 = new ArrayList<Players>();
+	Teams team = new Teams("Boston", "Mister Fred", "Mary Smith", playerList);
+	Teams team1 = new Teams("Florida", "Ashely", "Robert", playerList1);
+	ArrayList<Teams> teamList = new ArrayList<Teams>();
+	Divisions division = new Divisions("Atlantic", teamList);
+	
+	@Test
+	public void parameterizedConstructorTest() {
+		teamList.add(team);
+		teamList.add(team);
+		division.setTeamList(teamList);
+		Assert.assertEquals("Atlantic", division.getDivisionName());
+		Assert.assertEquals(2, division.getTeamList().size());
+	}
 	
 	@Test
 	public void getDivisionNameTest() {
-		ArrayList<Teams> teamList = null;
-		Divisions division = new Divisions("Atlantic", teamList);
 		Assert.assertEquals("Atlantic", division.getDivisionName());
 	}
 	
 	@Test
 	public void setDivisionNameTest() {
-		ArrayList<Teams> teamList = null;
-		Divisions division = new Divisions("Atlantic", teamList);
 		division.setDivisionName("Adams");
 		Assert.assertEquals("Adams", division.getDivisionName());
 	}
 	
 	@Test
 	public void getTeamTest() {
-		ArrayList<Players> playerList = null;
-		Teams team = new Teams("Boston", "Mister Fred", "Mary Smith", playerList);
-		ArrayList<Teams> teamList = new ArrayList<Teams>();
 		teamList.add(team);
-		Divisions division = new Divisions("Atlantic", teamList);
-		Assert.assertEquals(1, division.getTeamList().size());
+		Divisions division1 = new Divisions("Atlantic", teamList);
+		Assert.assertEquals(1, division1.getTeamList().size());
 	}
 	
 	@Test
 	public void setTeamTest() {
-		ArrayList<Players> playerList = null;
-		ArrayList<Players> playerList1 = null;
-		ArrayList<Teams> teamList = new ArrayList<Teams>();
-		Teams team = new Teams("Boston", "Mister Fred", "Mary Smith", playerList);
-		Teams team1 = new Teams("Florida", "Ashely", "Robert", playerList1);
 		teamList.add(team);
-		Divisions division = new Divisions("Atlantic", teamList);
+		Divisions division1 = new Divisions("Atlantic", teamList);
 		teamList.add(team1);
-		division.setTeamList(teamList);
-		Assert.assertEquals(2, division.getTeamList().size());
+		division1.setTeamList(teamList);
+		Assert.assertEquals(2, division1.getTeamList().size());
+	}
+	
+	@Test
+	public void isValidDivisionNameTest() {
+		LeagueObjectTestData leagueData = new LeagueObjectTestData();
+		String conferenceName = "Eastern Conference";
+		String divisionName = "Atlantic";
+		Assert.assertTrue(division.isValidDivisionName(conferenceName, divisionName, leagueData.getLeagueData()));
 	}
 }
