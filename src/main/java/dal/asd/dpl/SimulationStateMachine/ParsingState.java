@@ -24,7 +24,6 @@ public class ParsingState implements IState {
     }
 
     public void doProcessing(){
-
         output.setOutput("Welcome to the Parsing State. It's time to parse the JSON and initialize the models");
         output.sendOutput();
 
