@@ -4,47 +4,56 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 public class ConferencesTest {
-
+	ArrayList<Divisions> divisionList = new ArrayList<Divisions>();
+	Conferences conference = new Conferences("Eastern Conference", divisionList);
+	ArrayList<Teams> teamList = new ArrayList<Teams>();
+	ArrayList<Teams> teamList1 = new ArrayList<Teams>();
+	Divisions division = new Divisions("Atlantic", teamList);
+	Divisions division1 = new Divisions("Florida", teamList1);
+	
+	@Test
+	public void parameterizedConstructorTest() {
+		divisionList.add(division);
+		divisionList.add(division1);
+		conference.setDivisionList(divisionList);
+		Assert.assertEquals("Eastern Conference", conference.getConferenceName());
+		Assert.assertEquals(2, conference.getDivisionList().size());
+	}
+	
 	@Test
 	public void getConferenceNameTest() {
-		ArrayList<Divisions> divisionList = null;
-		Conferences conference = new Conferences("Eastern Conference", divisionList);
 		Assert.assertEquals("Eastern Conference", conference.getConferenceName());
 	}
 	
 	@Test
 	public void setConferenceNameTest() {
-		ArrayList<Divisions> divisionList = null;
-		Conferences conference = new Conferences("Eastern Conference", divisionList);
 		conference.setConferenceName("Western Conference");
 		Assert.assertEquals("Western Conference", conference.getConferenceName());
 	}
 	
 	@Test
 	public void getDivisionListTest() {
-		ArrayList<Teams> teamList = null;
-		Divisions division = new Divisions("Atlantic", teamList);
-		ArrayList<Divisions> divisionList = new ArrayList<Divisions>();
 		divisionList.add(division);
-		Conferences conference = new Conferences("Eastern Conference", divisionList);
+		conference.setDivisionList(divisionList);
 		Assert.assertEquals(1, conference.getDivisionList().size());
 	}
 	
 	@Test
 	public void setDivisionListTest() {
-		ArrayList<Teams> teamList = null;
-		ArrayList<Teams> teamList1 = null;
-		ArrayList<Divisions> divisionList = new ArrayList<Divisions>();
-		Divisions division = new Divisions("Atlantic", teamList);
-		Divisions division1 = new Divisions("Florida", teamList1);
 		divisionList.add(division);
-		Conferences conference = new Conferences("Eastern Conference", divisionList);
+		Conferences conference1 = new Conferences("Westren Conference", divisionList);
 		divisionList.add(division1);
-		conference.setDivisionList(divisionList);
-		Assert.assertEquals(2, conference.getDivisionList().size());
+		conference1.setDivisionList(divisionList);
+		Assert.assertEquals(2, conference1.getDivisionList().size());
 	}
-
+	
+	@Test
+	public void isValidConferenceNameTest() {
+		LeagueObjectTestData leagueData = new LeagueObjectTestData();
+		String conferenceName = "Eastern Conference";
+		Assert.assertTrue(conference.isValidConferenceName(conferenceName, leagueData.getLeagueData()));
+	}
 }

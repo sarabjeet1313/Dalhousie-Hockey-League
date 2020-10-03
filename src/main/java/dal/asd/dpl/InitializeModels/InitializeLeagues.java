@@ -78,8 +78,8 @@ public class InitializeLeagues {
 
             ConferenceList.add(new Conferences(ConferenceName, DivisionList));
         }
-
-        League = new Leagues(LeagueName, ConferenceList);
+        List<Players> freeAgents =null;
+        League = new Leagues(LeagueName, ConferenceList, freeAgents);
 
         // TODO
         // send the league object to Praneeth.
