@@ -10,6 +10,8 @@ import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.CmdUserOutput;
 import dal.asd.dpl.UserOutput.IUserOutput;
 
+import java.io.File;
+
 public class App 
 {
     public static void main( String[] args ) {
