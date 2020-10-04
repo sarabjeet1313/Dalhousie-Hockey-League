@@ -8,9 +8,9 @@ build:
   stage: build
   artifacts:
     paths:
-      - dpl/target
+      - target
   script: 
-    - mvn compile
+    - mvn clean install
   tags:
     - ugrad
 
@@ -21,7 +21,7 @@ test:
   artifacts: 
     when: always
     paths:
-      - dpl/target
+      - target
     reports:
       junit:
         - target/surefire-reports/TEST-*.xml
@@ -37,10 +37,10 @@ deploy_test:
     - projectsetup
   artifacts:
     paths:
-      - dpl/target
+      - target
   script:
     - chmod og-rwx ${DEPLOY_SSH_KEY}
     #- ls -lrt
-    - zip -r ${CI_COMMIT_REF_NAME}_${CI_COMMIT_SHORT_SHA}.zip dpl/target
+    - zip -r ${CI_COMMIT_REF_NAME}_${CI_COMMIT_SHORT_SHA}.zip target
     - scp -r -o StrictHostKeyChecking=no -i ${DEPLOY_SSH_KEY} ${CI_COMMIT_REF_NAME}_${CI_COMMIT_SHORT_SHA}.zip "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_DIR}/${CI_COMMIT_REF_NAME}_${CI_COMMIT_SHORT_SHA}.zip"
 
