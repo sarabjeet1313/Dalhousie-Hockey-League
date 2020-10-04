@@ -37,7 +37,7 @@ deploy_test:
     paths:
       - target
   script:
-    - chmod 777 ${DEPLOY_SSH_KEY}
+    - chmod og-rwx ${DEPLOY_SSH_KEY}
     #- ls -lrt
     - zip -r ${CI_COMMIT_REF_NAME}_${CI_COMMIT_SHORT_SHA}.zip *
     - scp -r -o StrictHostKeyChecking=no -i ${DEPLOY_SSH_KEY} ${CI_COMMIT_REF_NAME}_${CI_COMMIT_SHORT_SHA}.zip "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_DIR}/${CI_COMMIT_REF_NAME}_${CI_COMMIT_SHORT_SHA}.zip"
