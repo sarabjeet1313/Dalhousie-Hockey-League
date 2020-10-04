@@ -27,7 +27,7 @@ public class InitializeLeagues {
 
 
         String LeagueName = parser.parse("leagueName");
-        League = new Leagues(LeagueName, null);
+        League = new Leagues(LeagueName, null, null);
 
         // Ileague lg = new LeagueDataDB();
        //  bool check = League.isValidLeagueName(LeagueName, lg);
