@@ -1,18 +1,35 @@
 stages:
-  - build
+  - build_test
+  - build_prod
   - test
   - deploy_test
+  - deploy_prod
 
-build:
+build_test:
   image: maven
-  stage: build
+  stage: build_test
   artifacts:
     paths:
       - target
   script: 
-    - mvn clean install
+    - mvn clean install -P test
   tags:
     - ugrad
+  only:
+    - develop
+
+build_prod:
+  image: maven
+  stage: build_prod
+  artifacts:
+    paths:
+      - target
+  script: 
+    - mvn clean install -P prod
+  tags:
+    - ugrad
+  only:
+    - master
 
 test:
   stage: test
@@ -45,3 +62,19 @@ deploy_test:
     - zip -r ${CI_COMMIT_REF_NAME}_${CI_COMMIT_SHORT_SHA}.zip target
     - scp -r -o StrictHostKeyChecking=no ${CI_COMMIT_REF_NAME}_${CI_COMMIT_SHORT_SHA}.zip "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_DIR}/${CI_COMMIT_REF_NAME}_${CI_COMMIT_SHORT_SHA}.zip"
 
+deploy_prod:
+  stage: deploy_prod
+  image: maven
+  tags:
+    - ugrad
+  only:
+    - master
+  before_script:
+    - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - echo "$DEPLOY_SSH_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+  script:
+    - zip -r ${CI_COMMIT_REF_NAME}_${CI_COMMIT_SHORT_SHA}.zip target
+    - scp -r -o StrictHostKeyChecking=no ${CI_COMMIT_REF_NAME}_${CI_COMMIT_SHORT_SHA}.zip "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_DIR}/${CI_COMMIT_REF_NAME}_${CI_COMMIT_SHORT_SHA}.zip"
