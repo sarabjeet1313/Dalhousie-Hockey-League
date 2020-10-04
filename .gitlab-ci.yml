@@ -16,7 +16,7 @@ build_test:
   tags:
     - ugrad
   only:
-    - develop
+    - projectsetup
 
 build_prod:
   image: maven
