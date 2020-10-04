@@ -15,6 +15,7 @@ public class InitialState implements IState {
     }
 
     public void nextState(StateContext context){
+        // Do nothing, this is the initial dummy state.
     }
 
     public void doProcessing(){

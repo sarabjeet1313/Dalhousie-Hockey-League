@@ -25,7 +25,14 @@ public class InitializeLeagues {
         DivisionList = new ArrayList<Divisions>();
         ConferenceList = new ArrayList<Conferences>();
 
+
         String LeagueName = parser.parse("leagueName");
+        League = new Leagues(LeagueName, null);
+
+        // Ileague lg = new LeagueDataDB();
+       //  bool check = League.isValidLeagueName(LeagueName, lg);
+
+
         JsonArray conferences = parser.parseList("conferences");
         Iterator<JsonElement> conferenceList = conferences.iterator();
 
