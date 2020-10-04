@@ -6,9 +6,9 @@ stages:
 build:
   image: maven
   stage: build
-  cache:
+  artifacts:
     paths:
-      - .m2/repository
+      - dpl/target
   script: 
     - mvn compile
   tags:
@@ -20,6 +20,8 @@ test:
     - mvn verify
   artifacts: 
     when: always
+    paths:
+      - dpl/target
     reports:
       junit:
         - target/surefire-reports/TEST-*.xml
@@ -35,10 +37,10 @@ deploy_test:
     - projectsetup
   artifacts:
     paths:
-      - target
+      - dpl/target
   script:
     - chmod og-rwx ${DEPLOY_SSH_KEY}
     #- ls -lrt
-    - zip -r ${CI_COMMIT_REF_NAME}_${CI_COMMIT_SHORT_SHA}.zip *
+    - zip -r ${CI_COMMIT_REF_NAME}_${CI_COMMIT_SHORT_SHA}.zip dpl/target
     - scp -r -o StrictHostKeyChecking=no -i ${DEPLOY_SSH_KEY} ${CI_COMMIT_REF_NAME}_${CI_COMMIT_SHORT_SHA}.zip "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_DIR}/${CI_COMMIT_REF_NAME}_${CI_COMMIT_SHORT_SHA}.zip"
 
