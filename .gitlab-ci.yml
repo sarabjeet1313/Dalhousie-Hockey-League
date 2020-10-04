@@ -37,8 +37,6 @@ test:
     - mvn verify
   artifacts: 
     when: always
-    paths:
-      - target
     reports:
       junit:
         - target/surefire-reports/TEST-*.xml
