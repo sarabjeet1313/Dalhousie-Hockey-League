@@ -8,7 +8,7 @@ public class InitialState implements IState {
     private static IUserOutput output;
     private static IUserInput input;
 
-    InitialState(IUserInput input, IUserOutput output) {
+    public InitialState(IUserInput input, IUserOutput output) {
         this.input = input;
         this.output = output;
         doProcessing();

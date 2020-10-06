@@ -2,13 +2,14 @@ package dal.asd.dpl;
 
 import dal.asd.dpl.InitializeModels.InitializeLeagues;
 import dal.asd.dpl.Parser.CmdParseJSON;
-import dal.asd.dpl.SimulationStateMachine.LoadTeamState;
-import dal.asd.dpl.SimulationStateMachine.ParsingState;
-import dal.asd.dpl.SimulationStateMachine.StateContext;
+import dal.asd.dpl.SimulationStateMachine.*;
 import dal.asd.dpl.UserInput.CmdUserInput;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.CmdUserOutput;
 import dal.asd.dpl.UserOutput.IUserOutput;
+import dal.asd.dpl.database.LeagueDataDB;
+import dal.asd.dpl.teammanagement.ILeague;
+import dal.asd.dpl.teammanagement.LeagueMockData;
 
 import java.io.File;
 
@@ -18,16 +19,18 @@ public class App
 
         IUserInput input = new CmdUserInput();
         IUserOutput output = new CmdUserOutput();
+        ILeague leagueDb = new LeagueMockData();
 
         StateContext context = new StateContext(input, output);
+        context.setState(new InitialState(input, output));
 
         if(args == null || args.length == 0) {
-            context.setState(new LoadTeamState(input, output));
+            context.setState(new LoadTeamState(input, output, leagueDb));
             context.nextState(); // Simulate state
         }
         else {
             String filePath = args[0];
-            context.setState(new ParsingState(input, output, filePath));
+            context.setState(new ParsingState(input, output, filePath, leagueDb));
             context.nextState(); // Create Team State
             context.nextState(); // Simulate state
         }
