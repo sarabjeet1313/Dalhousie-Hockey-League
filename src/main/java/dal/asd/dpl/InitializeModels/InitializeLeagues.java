@@ -63,7 +63,6 @@ public class InitializeLeagues {
         if(LeagueName == "Error"){
             return null;
         }
-
         LeagueName = truncateString(LeagueName);
 
         League = new Leagues(LeagueName, null, null);

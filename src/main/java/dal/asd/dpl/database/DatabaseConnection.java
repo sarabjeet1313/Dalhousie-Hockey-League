@@ -1,33 +1,58 @@
 package dal.asd.dpl.database;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
+import java.util.Properties;
 
-public class DatabaseConnection {
+import dal.asd.dpl.util.ConstantsUtil;
 
-	Connection connect= null;
-	Statement statement=null;
-	ResultSet resultSet=null;
+public class DatabaseConnection implements IDatabaseConnection {
+
+	Connection connect = null;
+	private Properties properties;
 	
-	public Connection getConnection() {
-		try {
-			Class.forName("com.mysql.cj.jdbc.Driver");
-			connect=DriverManager.getConnection("jdbc:mysql://db.cs.dal.ca:3306?serverTimezone=UTC", "praneethn", "B00832226");
-//			statement = connect.createStatement();
-//			statement.execute("use csci3901;");	
-			return connect;
-		} catch (Exception e) {
-			System.out.println("Failed to establish connection");
-			return connect;
-		}
+	/*private static DatabaseConnection databaseConnection = null;
+
+	private DatabaseConnection() {
+		super();
 	}
-	
+
+	public static DatabaseConnection getSingleInstance() {
+		if (null == databaseConnection) {
+			databaseConnection = new DatabaseConnection();
+		}
+		return databaseConnection;
+	}*/
+
+	public Connection getConnection() {
+		InputStream is = getClass().getClassLoader().getResourceAsStream(ConstantsUtil.PROP_FILE.toString());
+		this.properties = new Properties();
+		try {
+			this.properties.load(is);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		try {
+			Class.forName(ConstantsUtil.DRIVER_NAME.toString());
+			
+			String dbURL = properties.getProperty(ConstantsUtil.DB_URL.toString());
+			String dbUserName = properties.getProperty(ConstantsUtil.DB_USER_NAME.toString());
+			String dbPassword = properties.getProperty(ConstantsUtil.DB_PASSWORD.toString());
+			
+			connect = DriverManager.getConnection(dbURL, dbUserName, dbPassword);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return connect;
+
+	}
+
 	public void disconnect() {
 		try {
-			resultSet.close();
-			statement.close();
 			connect.close();
 		} catch (Exception e) {
-			System.out.println("Failed to disconnect connection");
-		}	
+			e.printStackTrace();
+		}
 	}
 }
