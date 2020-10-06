@@ -1,16 +1,15 @@
-package dal.asd.dpl.SimulationStateMachine;
-
-
+package dal.asd.dpl.InternalStateMachine;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
 
-public class StateContext {
+public class InternalStateContext {
 
-    IState currentState;
+    ISimulationState currentState;
+    String stateName;
     IUserOutput output;
     IUserInput input;
 
-    public StateContext(IUserInput input, IUserOutput output) {
+    public InternalStateContext(IUserInput input, IUserOutput output) {
         this.input = input;
         this.output = output;
     }
@@ -19,8 +18,7 @@ public class StateContext {
         this.currentState.nextState(this);
     }
 
-    public void setState(IState state) {
+    public void setState(ISimulationState state) {
         this.currentState = state;
     }
-
 }
