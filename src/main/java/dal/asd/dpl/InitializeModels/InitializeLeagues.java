@@ -32,7 +32,7 @@ public class InitializeLeagues {
         this.output = output;
     }
 
-    private boolean isEmptyString(String valueToCheck) {
+    public boolean isEmptyString(String valueToCheck) {
         if(valueToCheck == "" || valueToCheck == null) {
             return true;
         }
@@ -40,7 +40,7 @@ public class InitializeLeagues {
             return false;
     }
 
-    private String truncateString(String inputString) {
+    public String truncateString(String inputString) {
         return inputString.replace("\"", "");
     }
 
@@ -51,8 +51,6 @@ public class InitializeLeagues {
         divisionList = new ArrayList<Divisions>();
         conferenceList = new ArrayList<Conferences>();
         freeAgents = new ArrayList<Players>();
-
-
 
         String LeagueName = parser.parse("leagueName");
         if(isEmptyString(LeagueName)) {
