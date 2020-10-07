@@ -23,4 +23,8 @@ public class StateContext {
         this.currentState = state;
     }
 
+    public void doProcessing() {
+        this.currentState.doProcessing();
+    }
+
 }

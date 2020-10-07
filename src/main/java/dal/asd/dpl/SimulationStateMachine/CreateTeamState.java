@@ -5,6 +5,7 @@ import dal.asd.dpl.UserOutput.CmdUserOutput;
 import dal.asd.dpl.UserOutput.IUserOutput;
 import dal.asd.dpl.teammanagement.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.ToDoubleBiFunction;
 
@@ -22,6 +23,8 @@ public class CreateTeamState implements IState {
     private static String teamName = "";
     private static String genManager = "";
     private static String headCoach = "";
+    private static String stateName;
+    private static String nextStateName;
 
     public CreateTeamState(IUserInput input, IUserOutput output, Leagues league, ILeague leagueDb) {
         this.input = input;
@@ -31,11 +34,11 @@ public class CreateTeamState implements IState {
         this.conferences = new Conferences("",null);
         this.divisions = new Divisions("",null);
         this.teams = new Teams("","","",null);
-
-        doProcessing();
+        this.stateName = "Create Team";
     }
 
     public void nextState(StateContext context){
+        this.nextStateName = "Simulate";
         context.setState(new SimulateState(input, output, teamName));
     }
 
@@ -87,7 +90,7 @@ public class CreateTeamState implements IState {
         input.setInput();
         genManager = input.getInput();
 
-        output.setOutput("Please enter General Manager name for the team");
+        output.setOutput("Please enter Head Coach name for the team");
         output.sendOutput();
 
         input.setInput();
@@ -96,7 +99,7 @@ public class CreateTeamState implements IState {
         createTeamInLeague(conferenceName, divisionName, teamName, genManager, headCoach, initializedLeague);
     }
 
-    public void createTeamInLeague(String conferenceName, String divisionName, String teamName, String genManager, String headCoach, Leagues initializedLeague) {
+    public boolean createTeamInLeague(String conferenceName, String divisionName, String teamName, String genManager, String headCoach, Leagues initializedLeague) {
 
         List<Conferences> conferenceList =  initializedLeague.getConferenceList();
         for(int index = 0; index < conferenceList.size(); index++) {
@@ -105,7 +108,8 @@ public class CreateTeamState implements IState {
                 for (int dIndex = 0; dIndex < divisionList.size(); dIndex++) {
                     if (divisionList.get(dIndex).getDivisionName().equals(divisionName)) {
                         List<Teams> teamList = divisionList.get(dIndex).getTeamList();
-                        Teams newTeam = new Teams(teamName, genManager, headCoach, null);
+                        List<Players> playersList = new ArrayList<Players>();
+                        Teams newTeam = new Teams(teamName, genManager, headCoach, playersList);
                         teamList.add(newTeam);
                         break;
                     }
@@ -114,6 +118,15 @@ public class CreateTeamState implements IState {
             }
         }
 
-        initializedLeague.createTeam(initializedLeague, leagueDb);
+        return initializedLeague.createTeam(initializedLeague, leagueDb);
+    }
+
+
+    public String getStateName(){
+        return this.stateName;
+    }
+
+    public String getNextStateName(){
+        return this.nextStateName;
     }
 }

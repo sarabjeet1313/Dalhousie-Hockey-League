@@ -53,7 +53,7 @@ public class InitializeLeagues {
         conferenceList = new ArrayList<Conferences>();
         freeAgents = new ArrayList<Players>();
 
-        leagueDb = new LeagueDataDB();
+        leagueDb = new LeagueMockData();
 
         String LeagueName = parser.parse("leagueName");
         if(isEmptyString(LeagueName)) {
