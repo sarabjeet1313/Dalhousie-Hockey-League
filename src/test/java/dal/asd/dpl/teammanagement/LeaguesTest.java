@@ -1,6 +1,7 @@
 package dal.asd.dpl.teammanagement;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -23,6 +24,7 @@ public class LeaguesTest {
 	Leagues league = new Leagues("Dalhousie Hockey League", conferenceList, freeAgents);
 	ILeague object = new LeagueMockData();
 	ILeague obj = new LeagueDataDB();
+	List<Leagues> leagueList = new ArrayList<Leagues>();
 	
 	@Test
 	public void parameterizedConstructorTest() {
@@ -84,8 +86,13 @@ public class LeaguesTest {
 	}
 	
 	@Test
-	public void getTeamDataTest() {
-		Assert.assertTrue(league.getTeamData("Boston", object));
+	public void getLeagueNamesTest() {
+		Assert.assertEquals(1,league.getLeagueNames("Boston",object).size());
+	}
+	
+	@Test
+	public void loadLeagueDataTest() {
+		Assert.assertTrue(league.loadLeagueData("Dalhousie Hockey League"));
 	}
 	
 	@Test

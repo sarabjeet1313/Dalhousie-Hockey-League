@@ -9,6 +9,7 @@ public class Leagues {
 	private String leagueName;
 	private List<Conferences> conferenceList;
 	private List<Players> freeAgents;
+	private static List<Leagues> leagueList;
 	
 	public Leagues(String leagueName, List<Conferences> conferenceList, List<Players> freeAgents) {
 		this.leagueName = leagueName;
@@ -40,15 +41,23 @@ public class Leagues {
 		this.freeAgents = freeAgents;
 	}
 
-	public boolean getTeamData(String teamName, ILeague object) {
-		boolean isValidTeam = false;
-//		ILeague object = new LoadLeagueData();
-//		ILeague object = obj;
-		Leagues league = object.getLeagueData(teamName);
-		if(league == null) {
-			isValidTeam = true;
+	public List<String> getLeagueNames(String teamName, ILeague object){
+		List<String> leagueNames = new ArrayList<String>();
+		leagueList = object.getLeagueData(teamName);
+		for(int index = 0; index < leagueList.size(); index++) {
+			leagueNames.add(leagueList.get(index).getLeagueName());
 		}
-		return !isValidTeam;
+		return leagueNames;
+	}
+	
+	public boolean loadLeagueData(String leagueName) {
+		boolean isValidTeam = false;
+		for(int index = 0; index < leagueList.size(); index++) {
+			if(leagueName.equals(leagueList.get(index).getLeagueName())) {
+				isValidTeam = true;
+			}
+		}
+		return isValidTeam;
 	}
 	
 	public boolean isValidLeagueName(String leagueName, ILeague object) {
@@ -71,6 +80,7 @@ public class Leagues {
 		List<Teams> teamList;
 		List<Divisions> divisionList;
 		List<Players> playerList;
+		
 		for(int cIndex = 0; cIndex < conferenceList.size(); cIndex++) {
 			conferenceName = conferenceList.get(cIndex).getConferenceName();
 			divisionList = conferenceList.get(cIndex).getDivisionList();
@@ -102,7 +112,7 @@ public class Leagues {
 				}
 			}
 		}
-
+		conferenceName = divisionName = teamName = generalManager = headCoach = "Empty";
 		playerList = league.getFreeAgents();
 		if(!playerList.isEmpty()) {
 			for(int index = 0; index < playerList.size(); index++) {

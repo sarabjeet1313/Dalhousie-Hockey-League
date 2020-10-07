@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import dal.asd.dpl.Parser.CmdParseJSON;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
+import dal.asd.dpl.database.LeagueDataDB;
 import dal.asd.dpl.teammanagement.*;
 
 import java.util.ArrayList;
@@ -51,6 +52,8 @@ public class InitializeLeagues {
         divisionList = new ArrayList<Divisions>();
         conferenceList = new ArrayList<Conferences>();
         freeAgents = new ArrayList<Players>();
+
+        leagueDb = new LeagueDataDB();
 
         String LeagueName = parser.parse("leagueName");
         if(isEmptyString(LeagueName)) {
