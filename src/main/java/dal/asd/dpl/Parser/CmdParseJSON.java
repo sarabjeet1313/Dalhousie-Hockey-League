@@ -36,23 +36,28 @@ public class CmdParseJSON implements IParser{
         catch(FileNotFoundException e) {
             output.setOutput("Input JSON file not found");
             output.sendOutput();
+            return "Error";
         }
         catch (JsonSyntaxException e) {
             output.setOutput("Error in parsing Json file. Please check the syntax of the file");
             output.sendOutput();
+            return "Error";
         }
         catch(NullPointerException e) {
             output.setOutput("Error in parsing Json file. Please verify the " + field + " name in file");
             output.sendOutput();
+            return "Error";
         }
         catch(IOException e) {
             output.setOutput("Found error in reading the file");
             output.sendOutput();
+            return "Error";
         }
         catch (Exception e) {
-            e.printStackTrace();
+            output.setOutput("Exception found in json file parsing.");
+            output.sendOutput();
+            return "Error";
         }
-        return "";
     }
 
     public JsonArray parseList(String field){
