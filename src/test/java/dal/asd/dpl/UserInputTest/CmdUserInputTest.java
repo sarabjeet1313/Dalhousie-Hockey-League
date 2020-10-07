@@ -1,34 +1,32 @@
 package dal.asd.dpl.UserInputTest;
 
 import dal.asd.dpl.UserInput.CmdUserInput;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
-import static junit.framework.Assert.assertEquals;
-//import static org.junit.jupiter.api.Assertions.*;
-
-class CmdUserInputTest {
+public class CmdUserInputTest {
 
     private static CmdUserInput cmdInput;
 
-    @BeforeAll
-    static void setUpClass() throws Exception {
+    @Before
+    public void setUpClass() throws Exception {
         cmdInput = new CmdUserInput();
     }
 
     @Test
-    void setInitialValuesTest() {
+    public void setInitialValuesTest() {
         cmdInput.setInitialValues();
         assertEquals("", cmdInput.getInput());
+
     }
 
     @Test
-    void getInputTest() {
+    public void getInputTest() {
         String input = "Testing Get Input";
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
@@ -37,11 +35,12 @@ class CmdUserInputTest {
     }
 
     @Test
-    void setInputTest() {
+    public void setInputTest() {
         String input = "Testing Set Input";
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
         cmdInput.setInput();
         assertEquals("Testing Set Input", cmdInput.getInput());
+
     }
 }

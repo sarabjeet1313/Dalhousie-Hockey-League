@@ -8,8 +8,8 @@ import dal.asd.dpl.UserInput.CmdUserInput;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.CmdUserOutput;
 import dal.asd.dpl.UserOutput.IUserOutput;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.Test;
+import org.junit.Before;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -24,8 +24,8 @@ public class InternalStateContextTest {
     private static IUserOutput output;
     private static InternalStateContext context;
 
-    @BeforeAll
-    public static void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         input = new CmdUserInput();
         output = new CmdUserOutput();
         state = new InternalStartState(input, output, "");

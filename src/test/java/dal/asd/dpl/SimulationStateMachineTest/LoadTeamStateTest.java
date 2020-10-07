@@ -9,8 +9,8 @@ import dal.asd.dpl.UserOutput.CmdUserOutput;
 import dal.asd.dpl.UserOutput.IUserOutput;
 import dal.asd.dpl.teammanagement.ILeague;
 import dal.asd.dpl.teammanagement.LeagueMockData;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.*;
@@ -23,21 +23,22 @@ public class LoadTeamStateTest {
     private static StateContext context;
     private static ILeague leagueMock;
 
-    @BeforeAll
-    public static void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         input = new CmdUserInput();
         output = new CmdUserOutput();
         leagueMock = new LeagueMockData();
         state = new LoadTeamState(input, output, leagueMock);
         context = new StateContext(input, output);
+        context.setState(state);
     }
 
-  //  @Test
-//    public void nextStateTest() {
-//        context.nextState();
-//        assertEquals("Simulate", state.getNextStateName());
-//        context.setState(state);
-//    }
+    @Test
+    public void nextStateTest() {
+        context.nextState();
+        assertEquals("Simulate", state.getNextStateName());
+        context.setState(state);
+    }
 
     @Test
     public void doProcessingTest() {
@@ -48,10 +49,10 @@ public class LoadTeamStateTest {
         assertEquals("Load Team", state.getStateName());
     }
 
- //   @Test
-//    public void getNextStateNameTest() {
-//        context.nextState();
-//        assertEquals("Simulate", state.getNextStateName());
-//        context.setState(state);
-//    }
+    @Test
+    public void getNextStateNameTest() {
+        context.nextState();
+        assertEquals("Simulate", state.getNextStateName());
+        context.setState(state);
+    }
 }

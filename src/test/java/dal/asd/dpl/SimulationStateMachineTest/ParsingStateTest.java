@@ -11,8 +11,8 @@ import dal.asd.dpl.UserOutput.IUserOutput;
 import dal.asd.dpl.teammanagement.ILeague;
 import dal.asd.dpl.teammanagement.LeagueMockData;
 import dal.asd.dpl.teammanagement.Leagues;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -31,31 +31,29 @@ public class ParsingStateTest {
     private static LeagueMockData leagueDb;
     private static String filePath;
 
-    @BeforeAll
-    public static void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
 
         File file = new File("resources/json/input.json");
         filePath = file.getCanonicalPath();
 
-
         input = new CmdUserInput();
         output = new CmdUserOutput();
         leagueDb = new LeagueMockData();
-     //   filePath = "/Users/sarabjeetsingh/AdvSDC/input.json";
         state = new ParsingState(input, output, filePath, leagueDb);
         context = new StateContext(input, output);
         context.setState(state);
     }
 
     @Test
-    public void nextState() {
+    public void nextStateTest() {
         context.nextState();
         assertEquals("Create Team", state.getNextStateName());
         context.setState(state);
     }
 
     @Test
-    public void doProcessing() {
+    public void doProcessingTest() {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
         context.doProcessing();
@@ -68,12 +66,12 @@ public class ParsingStateTest {
     }
 
     @Test
-    public void getStateName() {
+    public void getStateNameTest() {
         assertEquals("Parsing", state.getStateName());
     }
 
     @Test
-    public void getNextStateName() {
+    public void getNextStateNameTest() {
         context.nextState();
         assertEquals("Create Team", state.getNextStateName());
         context.setState(state);

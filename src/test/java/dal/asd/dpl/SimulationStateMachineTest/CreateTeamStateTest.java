@@ -9,8 +9,8 @@ import dal.asd.dpl.UserOutput.CmdUserOutput;
 import dal.asd.dpl.UserOutput.IUserOutput;
 import dal.asd.dpl.teammanagement.ILeague;
 import dal.asd.dpl.teammanagement.LeagueMockData;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.Test;
 
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.*;
@@ -23,8 +23,8 @@ public class CreateTeamStateTest {
     private static StateContext context;
     private static LeagueMockData mockData;
 
-    @BeforeAll
-    public static void setUp() throws Exception {
+    @Before
+    public void setUp() throws Exception {
         input = new CmdUserInput();
         output = new CmdUserOutput();
         mockData = new LeagueMockData();
