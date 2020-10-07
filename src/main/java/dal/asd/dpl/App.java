@@ -19,7 +19,7 @@ public class App
 
         IUserInput input = new CmdUserInput();
         IUserOutput output = new CmdUserOutput();
-        ILeague leagueDb = new LeagueMockData();
+        ILeague leagueDb = new LeagueDataDB();
 
         StateContext context = new StateContext(input, output);
         context.setState(new InitialState(input, output));

@@ -106,6 +106,7 @@ public class Leagues {
 						}
 					}
 					else {
+						playerName = position = "Empty";
 						isCreated = object.persisitLeagueData(leagueName, conferenceName, divisionName, 
 								teamName, generalManager, headCoach, playerName, position, captain);
 					}
