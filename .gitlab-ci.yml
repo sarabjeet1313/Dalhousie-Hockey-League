@@ -15,8 +15,8 @@ build_test:
     - mvn clean install -P test
   tags:
     - ugrad
-  only:
-    - develop
+  except:
+    - master
 
 build_prod:
   image: maven
