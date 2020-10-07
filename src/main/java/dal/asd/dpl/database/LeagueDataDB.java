@@ -15,17 +15,20 @@ public class LeagueDataDB implements ILeague{
 	DatabaseConnection db = new DatabaseConnection();
 	
 	@Override
-	public Leagues getLeagueData(String teamName) {
+	public List<Leagues> getLeagueData(String teamName) {
 		Leagues league = null;
+		List<Leagues> leagueList = new ArrayList<Leagues>(); 
 		ArrayList<Players> playerList = new ArrayList<Players>();
 		ArrayList<Teams> teamList = new ArrayList<Teams>();
 		ArrayList<Divisions> divisionList = new ArrayList<Divisions>();
 		ArrayList<Conferences> conferenceList = new ArrayList<Conferences>();
-		String tempTeamName ="", tempGeneralManager = "", tempHeadCoach = "", tempDivisionName = "", tempConferenceName = "", tempLeagueName = ""; 
+		String tempTeamName ="", tempGeneralManager = "", tempHeadCoach = "", tempDivisionName = "", 
+				tempConferenceName = "", tempLeagueName = ""; 
 		String query = "{CALL get_league_data(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
 		ResultSet result;
 		boolean flag = true;
-		try (Connection connnection = db.getConnection(); CallableStatement statement = connnection.prepareCall(query)) {
+		try (Connection connnection = db.getConnection(); ) {
+			CallableStatement statement = connnection.prepareCall(query);
 			statement.setString(1, teamName);
 			statement.registerOutParameter(2, Types.VARCHAR);
 			statement.registerOutParameter(3, Types.VARCHAR);
@@ -38,27 +41,29 @@ public class LeagueDataDB implements ILeague{
 			statement.registerOutParameter(10, Types.VARCHAR);
 			result = statement.executeQuery();
 			while(result.next()) {
-				if(flag) {
-					tempTeamName = result.getString(5);
-					tempGeneralManager = result.getString(6);
-					tempHeadCoach = result.getString(7);
-					tempDivisionName = result.getString(8);
-					tempConferenceName = result.getString(9);
-					tempLeagueName = result.getString(10);
-					flag = false;
+				if(!flag && !tempLeagueName.equals(result.getString(10))) {
+					flag = true;
+					league.getConferenceList().get(0).getDivisionList().get(0)
+						.getTeamList().get(0).setPlayerList(playerList);
+					leagueList.add(league);
+					playerList.clear();
 				}
 				Players player = new Players(result.getString(2), result.getString(3), result.getBoolean(4));
 				playerList.add(player);
-			}
-			if(!flag) {
-				Teams team = new Teams(tempTeamName, tempGeneralManager, tempHeadCoach, playerList);
-				teamList.add(team);
-				Divisions division = new Divisions(tempDivisionName,teamList);
-				divisionList.add(division);
-				Conferences conference = new Conferences(tempConferenceName,divisionList);
-				conferenceList.add(conference);
-				List<Players> freeAgents = null;
-				league = new Leagues(tempLeagueName, conferenceList, freeAgents);
+				
+				if(flag) {
+					Teams team = new Teams(result.getString(5), result.getString(6), result.getString(7), playerList);
+					teamList.add(team);
+					Divisions division = new Divisions(result.getString(8),teamList);
+					divisionList.add(division);
+					Conferences conference = new Conferences(result.getString(9),divisionList);
+					conferenceList.add(conference);
+					List<Players> freeAgents = new ArrayList<Players>();
+					league = new Leagues(result.getString(10), conferenceList, freeAgents);
+					tempLeagueName = result.getString(10);
+					flag = false;
+				}
+				
 			}
 			result.close();
 		} catch (Exception e) {
@@ -68,19 +73,29 @@ public class LeagueDataDB implements ILeague{
 		finally {
 			db.disconnect();
 		}
-		return league;
+		return leagueList;
 	}
 	
 	@Override
 	public int checkLeagueName(String leagueName) {
-		String query = "{CALL get_league_name(?, ?)}";
+//		String query = "{CALL get_league_name_Test(?,?)}";
 		ResultSet result;
 		int rowCount = 0;
-		try (Connection connnection = db.getConnection(); CallableStatement statement = connnection.prepareCall(query)) {
+	try (Connection connnection = db.getConnection()) {
+//		try {
+//			Connection connnection = db.getConnection();
+//			CallableStatement statement = connnection.prepareCall("{CALL get_league_name_Test(?)}");
+		System.out.println(connnection);
+			CallableStatement statement = connnection.prepareCall("{CALL get_league_name_Test(?)}");
+			
+//			System.out.println(statement);
 			statement.setString(1, leagueName);
-			statement.registerOutParameter(2, Types.INTEGER);
+			
 			result = statement.executeQuery();
-			rowCount = result.getInt(2);
+			while(result.next()) {
+				rowCount = result.getInt("cc");
+			}
+			
 		}
 		catch (Exception e) {
 			System.out.println("Database Error:" + e.getMessage());
