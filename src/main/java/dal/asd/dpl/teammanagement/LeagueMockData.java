@@ -31,7 +31,7 @@ public class LeagueMockData implements ILeague {
 		Conferences conference = new Conferences("Eastern Conference", divisionList);
 		ArrayList<Conferences> conferenceList = new ArrayList<Conferences>();
 		conferenceList.add(conference);
-		Leagues league = new Leagues("Dalhousie Hockey League", conferenceList, freePlayerList);
+		Leagues league = new Leagues("Dal Hockey League", conferenceList, freePlayerList);
 		return league;
 	} 
 	

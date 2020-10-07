@@ -15,17 +15,19 @@ public class ParsingState implements IState {
     private static String filePath;
     private static ILeague leagueDb;
     private static Leagues initializedLeague;
+    private static String stateName;
+    private static String nextStateName;
 
     public ParsingState(IUserInput input, IUserOutput output, String filePath, ILeague leagueDb) {
         this.input = input;
         this.output = output;
         this.filePath = filePath;
         this.leagueDb = leagueDb;
-
-        doProcessing();
+        this.stateName = "Parsing";
     }
 
     public void nextState(StateContext context){
+        this.nextStateName = "Create Team";
         context.setState(new CreateTeamState(input, output, initializedLeague, leagueDb));
     }
 
@@ -40,4 +42,13 @@ public class ParsingState implements IState {
             System.exit(0);
         }
     }
+
+    public String getStateName(){
+        return this.stateName;
+    }
+
+    public String getNextStateName(){
+        return this.nextStateName;
+    }
+
 }

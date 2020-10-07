@@ -23,16 +23,22 @@ public class App
 
         StateContext context = new StateContext(input, output);
         context.setState(new InitialState(input, output));
+        context.doProcessing();
 
         if(args == null || args.length == 0) {
             context.setState(new LoadTeamState(input, output, leagueDb));
+            context.doProcessing();
             context.nextState(); // Simulate state
+            context.doProcessing();
         }
         else {
             String filePath = args[0];
             context.setState(new ParsingState(input, output, filePath, leagueDb));
+            context.doProcessing();
             context.nextState(); // Create Team State
+            context.doProcessing();
             context.nextState(); // Simulate state
+            context.doProcessing();
         }
     }
 }

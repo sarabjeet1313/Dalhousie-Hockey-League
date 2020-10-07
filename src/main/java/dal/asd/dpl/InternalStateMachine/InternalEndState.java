@@ -1,24 +1,36 @@
 package dal.asd.dpl.InternalStateMachine;
 
-public class InternalEndState {
+import dal.asd.dpl.UserInput.IUserInput;
+import dal.asd.dpl.UserOutput.IUserOutput;
 
-    public InternalEndState(){
+public class InternalEndState implements ISimulationState{
 
+    private static IUserInput input;
+    private static IUserOutput output;
+    private static String stateName;
+    private static String nextStateName;
+
+
+    public InternalEndState(IUserInput input, IUserOutput output){
+        this.input = input;
+        this.output = output;
+        this.stateName = "End";
     }
 
     public void nextState(InternalStateContext context){
-
+        this.nextStateName = "None";
+        return;
     }
-    public void doProcessing(){
 
+    public void doProcessing(){
+        output.setOutput("Thanks for using the Dynasty mode. Please come back soon.");
+        output.sendOutput();
     }
 
     public String getStateName(){
-
-        return "";
+        return this.stateName;
     }
     public String getNextStateName(){
-
-        return "";
+        return this.nextStateName;
     }
 }
