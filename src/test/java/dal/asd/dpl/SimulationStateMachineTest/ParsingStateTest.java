@@ -15,10 +15,12 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.PrintStream;
 
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.*;
+
 
 public class ParsingStateTest {
 
@@ -31,10 +33,15 @@ public class ParsingStateTest {
 
     @BeforeAll
     public static void setUp() throws Exception {
+
+        File file = new File("resources/json/input.json");
+        filePath = file.getCanonicalPath();
+
+
         input = new CmdUserInput();
         output = new CmdUserOutput();
         leagueDb = new LeagueMockData();
-        filePath = "/Users/sarabjeetsingh/AdvSDC/input.json";
+     //   filePath = "/Users/sarabjeetsingh/AdvSDC/input.json";
         state = new ParsingState(input, output, filePath, leagueDb);
         context = new StateContext(input, output);
         context.setState(state);
