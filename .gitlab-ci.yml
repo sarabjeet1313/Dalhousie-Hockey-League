@@ -10,7 +10,7 @@ build_test:
   stage: build_test
   artifacts:
     paths:
-      - *.jar
+      - /*.jar
   script: 
     - mvn clean install -P test
   tags:
@@ -57,7 +57,7 @@ deploy_test:
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
   script:
-    - scp -r -o StrictHostKeyChecking=no *.jar "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_DIR}/*.jar"
+    - scp -r -o StrictHostKeyChecking=no /*.jar "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_DIR}/*.jar"
 
 deploy_prod:
   stage: deploy_prod
