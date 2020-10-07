@@ -57,7 +57,7 @@ deploy_test:
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
   script:
-    - scp -r -o StrictHostKeyChecking=no target/*.jar "${DEPLOY_PROD_USER}@${DEPLOY_PROD_HOST}:${DEPLOY_DIR}/dpl-PROD.jar"
+    - scp -r -o StrictHostKeyChecking=no target/*.jar "${DEPLOY_PROD_USER}@${DEPLOY_HOST}:${DEPLOY_DIR}/dpl-PROD.jar"
 
 deploy_prod:
   stage: deploy_prod
