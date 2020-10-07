@@ -10,7 +10,7 @@ build_test:
   stage: build_test
   artifacts:
     paths:
-      - /*.jar
+      - target/*.jar
   script: 
     - mvn clean install -P test
   tags:
