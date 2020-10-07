@@ -10,7 +10,7 @@ build_test:
   stage: build_test
   artifacts:
     paths:
-      - target/*.jar
+      - *.jar
   script: 
     - mvn clean install -P test
   tags:
@@ -57,8 +57,7 @@ deploy_test:
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
   script:
-    - zip -r ${CI_COMMIT_REF_NAME}_${CI_COMMIT_SHORT_SHA}.zip target/*.jar
-    - scp -r -o StrictHostKeyChecking=no ${CI_COMMIT_REF_NAME}_${CI_COMMIT_SHORT_SHA}.zip "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_DIR}/${CI_COMMIT_REF_NAME}_${CI_COMMIT_SHORT_SHA}.zip"
+    - scp -r -o StrictHostKeyChecking=no *.jar "${DEPLOY_USER}@${DEPLOY_HOST}:${DEPLOY_DIR}/*.jar"
 
 deploy_prod:
   stage: deploy_prod
