@@ -36,21 +36,22 @@ public class LeagueMockData implements ILeague {
 	} 
 	
 	@Override
-	public Leagues getLeagueData(String teamName) {
+	public List<Leagues> getLeagueData(String teamName) {
 		Leagues league1 = null;
+		List<Leagues> leagueList = new ArrayList<Leagues>();
 		Leagues league = getTestData();
 		List<Conferences> conferenceList = league.getConferenceList();
 		List<Divisions> divisionList = conferenceList.get(0).getDivisionList();
 		List<Teams> teamList = divisionList.get(0).getTeamList();
 		for(int index = 0; index < teamList.size(); index++) {
 			if(teamList.get(index).getTeamName().equals(teamName)) {
-				return league;
+				leagueList.add(league);
 			}
 			else {
 				return null;
 			}
 		}
-		return league1;
+		return leagueList;
 	}
 	
 	@Override

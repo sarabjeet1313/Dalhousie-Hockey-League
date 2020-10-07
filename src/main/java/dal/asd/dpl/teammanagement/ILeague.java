@@ -1,8 +1,10 @@
 package dal.asd.dpl.teammanagement;
 
+import java.util.List;
+
 public interface ILeague {
 	
-	public Leagues getLeagueData(String teamName);
+	public List<Leagues> getLeagueData(String teamName);
 	
 	public int checkLeagueName(String leagueName);
 	
