@@ -32,9 +32,9 @@ public class LoadTeamState implements IState {
     }
 
     public void doProcessing(){
-        output.setOutput("Welcome to Simulate state :-) ");
+        output.setOutput("Welcome to Load Team state :-) ");
         output.sendOutput();
-        output.setOutput("Please enter the team name and we will simulate the complete League for you.");
+        output.setOutput("Please enter the team name and we will load the complete League for you.");
         output.sendOutput();
         input.setInput();
         teamName = input.getInput();
