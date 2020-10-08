@@ -13,7 +13,7 @@ import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import static junit.framework.Assert.assertEquals;
+
 import static org.junit.Assert.*;
 
 public class InternalSimulationStateTest {
@@ -54,7 +54,7 @@ public class InternalSimulationStateTest {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
 
-        String output = "Season 1 simulated for testTeam ..." + "\n" + "Season 2 simulated for testTeam ...\n";
+        String output = "Season 1 simulated for testTeam ..." + "\r\n" + "Season 2 simulated for testTeam ...\r\n";
         state.doProcessing();
         assertEquals(output, out.toString());
 

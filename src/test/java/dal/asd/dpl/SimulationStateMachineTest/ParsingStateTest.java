@@ -18,7 +18,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
 
-import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.*;
 
 
@@ -60,7 +59,7 @@ public class ParsingStateTest {
 
         Leagues initializedLeague = leagueDb.getTestData();
 
-        String expected  = "Welcome to the Parsing State. It's time to parse the JSON and initialize your league.\n";
+        String expected  = "Welcome to the Parsing State. It's time to parse the JSON and initialize your league.\r\n";
         assertEquals(expected, out.toString());
         assertNotNull(initializedLeague);
     }

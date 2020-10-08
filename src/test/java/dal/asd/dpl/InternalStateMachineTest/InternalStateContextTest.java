@@ -14,7 +14,6 @@ import org.junit.Before;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.*;
 
 public class InternalStateContextTest {
@@ -54,7 +53,7 @@ public class InternalStateContextTest {
         System.setOut(new PrintStream(out));
         context.doProcessing();
 
-        String expected  = "Thanks for using the Dynasty mode. Please come back soon.\n";
+        String expected  = "Thanks for using the Dynasty mode. Please come back soon.\r\n";
         assertEquals(expected, out.toString());
     }
 }
