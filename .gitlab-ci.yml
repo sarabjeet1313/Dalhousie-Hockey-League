@@ -1,26 +1,24 @@
 stages:
-  - build_test
-  - build_prod
+  - build
   - test
-  - deploy_test
-  - deploy_prod
+  - deploy
 
 build_test:
   image: maven
-  stage: build_test
+  stage: build
   artifacts:
     paths:
-      - target/*.jar
+      - target
   script: 
     - mvn clean install -P test
   tags:
     - ugrad
   except:
-    - master
+    - release
 
 build_prod:
   image: maven
-  stage: build_prod
+  stage: build
   artifacts:
     paths:
       - target
@@ -29,7 +27,7 @@ build_prod:
   tags:
     - ugrad
   only:
-    - master
+    - release
 
 test:
   stage: test
@@ -44,7 +42,7 @@ test:
     - ugrad
 
 deploy_test:
-  stage: deploy_test
+  stage: deploy
   image: maven
   tags:
     - ugrad
@@ -60,12 +58,12 @@ deploy_test:
     - scp -r -o StrictHostKeyChecking=no target/*.jar "${DEPLOY_TEST_USER}@${DEPLOY_HOST}:${DEPLOY_DIR}/dpl-test.jar"
 
 deploy_prod:
-  stage: deploy_prod
+  stage: deploy
   image: maven
   tags:
     - ugrad
   only:
-    - master
+    - release
   before_script:
     - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
