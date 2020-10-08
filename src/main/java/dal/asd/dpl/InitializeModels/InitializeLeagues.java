@@ -53,9 +53,6 @@ public class InitializeLeagues {
         conferenceList = new ArrayList<Conferences>();
         freeAgents = new ArrayList<Players>();
 
-//        leagueDb = new LeagueMockData();
-        leagueDb = new LeagueDataDB();
-
         String LeagueName = parser.parse("leagueName");
         if(isEmptyString(LeagueName)) {
             output.setOutput("Please enter League name. Null values are not accepted.");
@@ -69,7 +66,7 @@ public class InitializeLeagues {
 
         League = new Leagues(LeagueName, null, null);
         boolean check = League.isValidLeagueName(LeagueName, leagueDb);
-        if(check == false) {
+        if(!check) {
             output.setOutput("Please enter valid League name.");
             output.sendOutput();
             return null;

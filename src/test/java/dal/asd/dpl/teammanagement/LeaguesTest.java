@@ -89,9 +89,10 @@ public class LeaguesTest {
 	public void getLeagueNamesTest() {
 		Assert.assertEquals(1,league.getLeagueNames("Boston",object).size());
 	}
+
 	@Test
 	public void loadLeagueDataTest() {
-		Assert.assertFalse(league.loadLeagueData("Dalhousie Hockey League"));
+		Assert.assertFalse(league.loadLeagueData("Dal Hockey League"));
 	}
 	
 	@Test
