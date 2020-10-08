@@ -41,10 +41,6 @@ public class LoadTeamStateTest {
     }
 
     @Test
-    public void doProcessingTest() {
-    }
-
-    @Test
     public void getStateNameTest() {
         assertEquals("Load Team", state.getStateName());
     }

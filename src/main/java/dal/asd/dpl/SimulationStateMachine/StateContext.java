@@ -6,13 +6,15 @@ import dal.asd.dpl.UserOutput.IUserOutput;
 
 public class StateContext {
 
-    IState currentState;
-    IUserOutput output;
-    IUserInput input;
+    private static IState currentState;
+    private static IUserOutput output;
+    private static IUserInput input;
+    public String currentStateName;
 
     public StateContext(IUserInput input, IUserOutput output) {
         this.input = input;
         this.output = output;
+        this.currentStateName = "";
     }
 
     public void nextState() {
@@ -20,6 +22,7 @@ public class StateContext {
     }
 
     public void setState(IState state) {
+        this.currentStateName = state.getStateName();
         this.currentState = state;
     }
 
