@@ -1,34 +1,34 @@
 package dal.asd.dpl.UserOutputTest;
 
 import dal.asd.dpl.UserOutput.CmdUserOutput;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+import org.junit.Before;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 
-class CmdUserOutputTest {
+public class CmdUserOutputTest {
 
     private static CmdUserOutput cmdOutput;
 
-    @BeforeAll
-    static void setUpClass() throws Exception {
+    @Before
+    public void setUpClass() throws Exception {
         cmdOutput = new CmdUserOutput();
     }
 
     @Test
-    void setInitialValuesTest() {
+    public void setInitialValuesTest() {
         cmdOutput.setInitialValues();
         assertEquals("", cmdOutput.sendOutput());
     }
 
     @Test
-    void setOutputTest() {
+    public void setOutputTest() {
         cmdOutput.setOutput("Testing Output");
         assertEquals(cmdOutput.sendOutput(), "Testing Output");
     }
 
     @Test
-    void sendOutputTest() {
+    public void sendOutputTest() {
 
         //Base case
         cmdOutput.setInitialValues();
@@ -38,4 +38,5 @@ class CmdUserOutputTest {
         assertEquals(cmdOutput.sendOutput(), "Setting Dummy Output");
 
     }
+
 }

@@ -40,6 +40,10 @@ public class DatabaseConnection implements IDatabaseConnection {
 			String dbUserName = properties.getProperty(ConstantsUtil.DB_USER_NAME.toString());
 			String dbPassword = properties.getProperty(ConstantsUtil.DB_PASSWORD.toString());
 			
+//			String dbURL = "jdbc:mysql://db-5308.cs.dal.ca:3306/CSCI5308_8_DEVINT_USER";
+//			String dbUserName = "CSCI5308_8_DEVINT_USER";
+//			String dbPassword = "cWhbaAs94F";
+			
 			connect = DriverManager.getConnection(dbURL, dbUserName, dbPassword);
 		} catch (Exception e) {
 			e.printStackTrace();

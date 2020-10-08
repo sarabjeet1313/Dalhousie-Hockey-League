@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import dal.asd.dpl.Parser.CmdParseJSON;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
+import dal.asd.dpl.database.LeagueDataDB;
 import dal.asd.dpl.teammanagement.*;
 
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ public class InitializeLeagues {
         this.output = output;
     }
 
-    private boolean isEmptyString(String valueToCheck) {
+    public boolean isEmptyString(String valueToCheck) {
         if(valueToCheck == "" || valueToCheck == null) {
             return true;
         }
@@ -40,7 +41,7 @@ public class InitializeLeagues {
             return false;
     }
 
-    private String truncateString(String inputString) {
+    public String truncateString(String inputString) {
         return inputString.replace("\"", "");
     }
 
@@ -52,7 +53,8 @@ public class InitializeLeagues {
         conferenceList = new ArrayList<Conferences>();
         freeAgents = new ArrayList<Players>();
 
-
+//        leagueDb = new LeagueMockData();
+        leagueDb = new LeagueDataDB();
 
         String LeagueName = parser.parse("leagueName");
         if(isEmptyString(LeagueName)) {
