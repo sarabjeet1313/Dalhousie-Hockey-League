@@ -13,7 +13,6 @@ import dal.asd.dpl.teammanagement.Teams;
 
 public class LeagueDataDB implements ILeague{
 	InvokeStoredProcedure isp = null;
-	DatabaseConnection db = new DatabaseConnection();
 	@Override
 	public List<Leagues> getLeagueData(String teamName) throws SQLException {
 		Leagues league = null;
@@ -117,7 +116,6 @@ public class LeagueDataDB implements ILeague{
 		}
 		catch (Exception e) {
 			System.out.println("Database Error:" + e.getMessage());
-			db.disconnect();
 		}
 		finally {
 			isp.closeConnection();
