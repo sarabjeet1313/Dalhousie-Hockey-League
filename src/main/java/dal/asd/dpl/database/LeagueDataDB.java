@@ -12,25 +12,23 @@ import dal.asd.dpl.teammanagement.Players;
 import dal.asd.dpl.teammanagement.Teams;
 
 public class LeagueDataDB implements ILeague{
+	InvokeStoredProcedure isp = null;
 	DatabaseConnection db = new DatabaseConnection();
-	
 	@Override
-	public List<Leagues> getLeagueData(String teamName) {
+	public List<Leagues> getLeagueData(String teamName) throws SQLException {
 		Leagues league = null;
 		List<Leagues> leagueList = new ArrayList<Leagues>(); 
 		ArrayList<Players> playerList = new ArrayList<Players>();
 		ArrayList<Teams> teamList = new ArrayList<Teams>();
 		ArrayList<Divisions> divisionList = new ArrayList<Divisions>();
 		ArrayList<Conferences> conferenceList = new ArrayList<Conferences>();
-		String tempTeamName ="", tempGeneralManager = "", tempHeadCoach = "", tempDivisionName = "", 
-				tempConferenceName = "", tempLeagueName = ""; 
-		String query = "{CALL get_league_data(?)}";
+		String tempLeagueName = "";
 		ResultSet result;
 		boolean flag = true;
-		try (Connection connnection = db.getConnection(); ) {
-			CallableStatement statement = connnection.prepareCall(query);
-			statement.setString(1, teamName);
-			result = statement.executeQuery();
+		try  {
+			isp = new InvokeStoredProcedure("spLoadLeagueData(?)");
+			isp.setParameter(1, teamName);
+			result = isp.executeQueryWithResults();
 			
 			while(result.next()) {
 				if(!flag && !tempLeagueName.equals(result.getString("leagueName"))) {
@@ -63,41 +61,33 @@ public class LeagueDataDB implements ILeague{
 			result.close();
 		} catch (Exception e) {
 			System.out.println("Database Error:" + e.getMessage());
-			db.disconnect();
 		}
 		finally {
-			db.disconnect();
+			isp.closeConnection();
 		}
 		return leagueList;
 	}
 	
 	@Override
-	public int checkLeagueName(String leagueName) {
+	public int checkLeagueName(String leagueName) throws SQLException {
 //		String query = "{CALL get_league_name_Test(?,?)}";
 		ResultSet result;
 		int rowCount = 0;
-	try (Connection connnection = db.getConnection()) {
-//		try {
-//			Connection connnection = db.getConnection();
-//			CallableStatement statement = connnection.prepareCall("{CALL get_league_name_Test(?)}");
-		System.out.println(connnection);
-			CallableStatement statement = connnection.prepareCall("{CALL get_league_name_Test(?)}");
+	try  {
+			isp = new InvokeStoredProcedure("spCheckLeagueName(?)");
+			isp.setParameter(1, leagueName);
 			
-//			System.out.println(statement);
-			statement.setString(1, leagueName);
-			
-			result = statement.executeQuery();
+			result = isp.executeQueryWithResults();
 			while(result.next()) {
-				rowCount = result.getInt("cc");
+				rowCount = result.getInt("rowCount");
 			}
 			
 		}
 		catch (Exception e) {
 			System.out.println("Database Error:" + e.getMessage());
-			db.disconnect();
 		}
 		finally {
-			db.disconnect();
+			isp.closeConnection();
 		}
 		
 		return rowCount;
@@ -105,22 +95,22 @@ public class LeagueDataDB implements ILeague{
 	
 	@Override
 	public boolean persisitLeagueData(String leagueName, String conferenceName, String divisionName, String teamName,
-			String generalManager, String headCoach, String playerName, String position, boolean captain) {
-		String query = "{CALL persist_league_data(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
+			String generalManager, String headCoach, String playerName, String position, boolean captain) throws SQLException {
+//		String query = "{CALL persist_league_data(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
 		ResultSet result;
 		boolean isPersisted = false;
-		try (Connection connnection = db.getConnection()) {
-			CallableStatement statement = connnection.prepareCall(query);
-			statement.setString(1, leagueName);
-			statement.setString(2, conferenceName);
-			statement.setString(3, divisionName);
-			statement.setString(4, teamName);
-			statement.setString(5, generalManager);
-			statement.setString(6, headCoach);
-			statement.setString(7, playerName);
-			statement.setString(8, position);
-			statement.setBoolean(9, captain);
-			result = statement.executeQuery();
+		try {
+			isp = new InvokeStoredProcedure("spPersistLeagueData(?, ?, ?, ?, ?, ?, ?, ?, ?,?)");
+			isp.setParameter(1, leagueName);
+			isp.setParameter(2, conferenceName);
+			isp.setParameter(3, divisionName);
+			isp.setParameter(4, teamName);
+			isp.setParameter(5, generalManager);
+			isp.setParameter(6, headCoach);
+			isp.setParameter(7, playerName);
+			isp.setParameter(8, position);
+			isp.setParameter(9, captain);
+			result = isp.executeQueryWithResults();
 			while(result.next()) {
 				isPersisted = result.getBoolean("success");
 			}
@@ -130,7 +120,7 @@ public class LeagueDataDB implements ILeague{
 			db.disconnect();
 		}
 		finally {
-			db.disconnect();
+			isp.closeConnection();
 		}
 		return isPersisted;
 	}
