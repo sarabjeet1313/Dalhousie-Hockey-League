@@ -28,7 +28,7 @@ public class CmdParseJSONTest {
     @Test
     public void parseTest() {
         CmdParseJSON parser = new CmdParseJSON(this.filePath);
-        assertEquals("\"Dalhousie Hockey League\"", parser.parse("leagueName"));
+        assertEquals("\"Dal Hockey League\"", parser.parse("leagueName"));
     }
 
     @Test

@@ -50,7 +50,7 @@ public class InitializeLeaguesTest {
     public void parseAndInitializeModelsTest(){
         Leagues outputLeague = league.parseAndInitializeModels();
 
-        assertEquals("Dalhousie Hockey League", outputLeague.getLeagueName());
+        assertEquals("Dal Hockey League", outputLeague.getLeagueName());
         assertEquals("Eastern Conference", outputLeague.getConferenceList().get(0).getConferenceName());
     }
 
