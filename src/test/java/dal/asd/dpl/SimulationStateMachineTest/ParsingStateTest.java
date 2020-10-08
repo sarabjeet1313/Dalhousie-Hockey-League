@@ -59,7 +59,7 @@ public class ParsingStateTest {
 
         Leagues initializedLeague = leagueDb.getTestData();
 
-        String expected  = "Welcome to the Parsing State. It's time to parse the JSON and initialize your league.\r\n";
+        String expected  = "Welcome to the Parsing State. It's time to parse the JSON and initialize your league.\n";
         assertEquals(expected, out.toString());
         assertNotNull(initializedLeague);
     }

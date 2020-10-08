@@ -53,7 +53,7 @@ public class InternalStateContextTest {
         System.setOut(new PrintStream(out));
         context.doProcessing();
 
-        String expected  = "Thanks for using the Dynasty mode. Please come back soon.\r\n";
+        String expected  = "Thanks for using the Dynasty mode. Please come back soon.\n";
         assertEquals(expected, out.toString());
     }
 }

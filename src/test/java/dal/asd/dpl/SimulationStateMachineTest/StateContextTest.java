@@ -63,7 +63,7 @@ public class StateContextTest {
         System.setOut(new PrintStream(out));
         context.doProcessing();
 
-        String expected  = "Welcome to the Dynasty Mode. It's time to conquer the hockey arena.\r\n";
+        String expected  = "Welcome to the Dynasty Mode. It's time to conquer the hockey arena.\n";
         assertEquals(expected, out.toString());
     }
 }

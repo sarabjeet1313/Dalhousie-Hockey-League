@@ -54,7 +54,7 @@ public class InternalSimulationStateTest {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
 
-        String output = "Season 1 simulated for testTeam ..." + "\r\n" + "Season 2 simulated for testTeam ...\r\n";
+        String output = "Season 1 simulated for testTeam ..." + "\n" + "Season 2 simulated for testTeam ...\n";
         state.doProcessing();
         assertEquals(output, out.toString());
 

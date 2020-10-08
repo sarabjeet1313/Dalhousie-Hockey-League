@@ -16,7 +16,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
 
-import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.*;
 
 public class SimulateStateTest {
