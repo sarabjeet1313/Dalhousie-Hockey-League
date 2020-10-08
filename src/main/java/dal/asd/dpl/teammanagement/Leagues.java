@@ -43,7 +43,12 @@ public class Leagues {
 
 	public List<String> getLeagueNames(String teamName, ILeague object){
 		List<String> leagueNames = new ArrayList<String>();
-		leagueList = object.getLeagueData(teamName);
+		try {
+			leagueList = object.getLeagueData(teamName);
+		}catch (Exception e) {
+			System.out.println("error "+ e.getMessage());
+		}
+
 		for(int index = 0; index < leagueList.size(); index++) {
 			leagueNames.add(leagueList.get(index).getLeagueName());
 		}
@@ -64,7 +69,12 @@ public class Leagues {
 		int rowCount = 0;
 		boolean isValid = true;
 //		ILeague object = new LeageMockData();
-		rowCount = object.checkLeagueName(leagueName);
+		try {
+			rowCount = object.checkLeagueName(leagueName);
+		}catch (Exception e) {
+			System.out.println("error "+ e.getMessage());
+		}
+
 		if(rowCount > 0) {
 			isValid = false;
 		}
@@ -80,50 +90,55 @@ public class Leagues {
 		List<Teams> teamList;
 		List<Divisions> divisionList;
 		List<Players> playerList;
-		
-		for(int cIndex = 0; cIndex < conferenceList.size(); cIndex++) {
-			conferenceName = conferenceList.get(cIndex).getConferenceName();
-			divisionList = conferenceList.get(cIndex).getDivisionList();
-			
-			for(int dIndex = 0; dIndex < divisionList.size(); dIndex++) {
-				divisionName = divisionList.get(dIndex).getDivisionName();
-				teamList = divisionList.get(dIndex).getTeamList();
-				
-				for(int tIndex = 0; tIndex < teamList.size(); tIndex++) {
-					teamName = teamList.get(tIndex).getTeamName();
-					generalManager = teamList.get(tIndex).getGeneralManager();
-					headCoach = teamList.get(tIndex).getHeadCoach();
-					
-					if(!teamList.get(tIndex).getPlayerList().isEmpty()) {
-						playerList = teamList.get(tIndex).getPlayerList();
-						
-						for(int pIndex = 0; pIndex < playerList.size(); pIndex++) {
-							playerName = playerList.get(pIndex).getPlayerName();
-							position = playerList.get(pIndex).getPlayerPosition();
-							captain = playerList.get(pIndex).getCaptain();
-							isCreated = object.persisitLeagueData(leagueName, conferenceName, divisionName, 
+		try {
+
+			for(int cIndex = 0; cIndex < conferenceList.size(); cIndex++) {
+				conferenceName = conferenceList.get(cIndex).getConferenceName();
+				divisionList = conferenceList.get(cIndex).getDivisionList();
+
+				for(int dIndex = 0; dIndex < divisionList.size(); dIndex++) {
+					divisionName = divisionList.get(dIndex).getDivisionName();
+					teamList = divisionList.get(dIndex).getTeamList();
+
+					for(int tIndex = 0; tIndex < teamList.size(); tIndex++) {
+						teamName = teamList.get(tIndex).getTeamName();
+						generalManager = teamList.get(tIndex).getGeneralManager();
+						headCoach = teamList.get(tIndex).getHeadCoach();
+
+						if(!teamList.get(tIndex).getPlayerList().isEmpty()) {
+							playerList = teamList.get(tIndex).getPlayerList();
+
+							for(int pIndex = 0; pIndex < playerList.size(); pIndex++) {
+								playerName = playerList.get(pIndex).getPlayerName();
+								position = playerList.get(pIndex).getPlayerPosition();
+								captain = playerList.get(pIndex).getCaptain();
+								isCreated = object.persisitLeagueData(leagueName, conferenceName, divisionName,
+										teamName, generalManager, headCoach, playerName, position, captain);
+							}
+						}
+						else {
+							playerName = position = "Empty";
+							isCreated = object.persisitLeagueData(leagueName, conferenceName, divisionName,
 									teamName, generalManager, headCoach, playerName, position, captain);
 						}
 					}
-					else {
-						playerName = position = "Empty";
-						isCreated = object.persisitLeagueData(leagueName, conferenceName, divisionName, 
-								teamName, generalManager, headCoach, playerName, position, captain);
-					}
 				}
 			}
-		}
-		conferenceName = divisionName = teamName = generalManager = headCoach = "Empty";
-		playerList = league.getFreeAgents();
-		if(!playerList.isEmpty()) {
-			for(int index = 0; index < playerList.size(); index++) {
-				playerName = playerList.get(index).getPlayerName();
-				position = playerList.get(index).getPlayerPosition();
-				captain = playerList.get(index).getCaptain();
-				isCreated = object.persisitLeagueData(leagueName, conferenceName, divisionName, 
-						teamName, generalManager, headCoach, playerName, position, captain);
+			conferenceName = divisionName = teamName = generalManager = headCoach = "Empty";
+			playerList = league.getFreeAgents();
+			if(!playerList.isEmpty()) {
+				for(int index = 0; index < playerList.size(); index++) {
+					playerName = playerList.get(index).getPlayerName();
+					position = playerList.get(index).getPlayerPosition();
+					captain = playerList.get(index).getCaptain();
+					isCreated = object.persisitLeagueData(leagueName, conferenceName, divisionName,
+							teamName, generalManager, headCoach, playerName, position, captain);
+				}
 			}
+		}catch (Exception e) {
+			System.out.println("error "+ e.getMessage());
 		}
+
 		return isCreated;
 	}
 }
