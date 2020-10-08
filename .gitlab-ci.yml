@@ -10,7 +10,7 @@ build_test:
     paths:
       - target
   script: 
-    - mvn clean install -P dev
+    - mvn clean install -P test
   tags:
     - ugrad
   except:
