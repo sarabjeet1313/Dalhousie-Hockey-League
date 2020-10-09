@@ -51,18 +51,16 @@ public class ParsingStateTest {
         context.setState(state);
     }
 
-//    @Test
-//    public void doProcessingTest() {
-//        ByteArrayOutputStream out = new ByteArrayOutputStream();
-//        System.setOut(new PrintStream(out));
-//        context.doProcessing();
-//
-//        Leagues initializedLeague = leagueDb.getTestData();
-//
-//        String expected  = "Welcome to the Parsing State. It's time to parse the JSON and initialize your league.\n";
-//        assertEquals(expected, out.toString());
-//        assertNotNull(initializedLeague);
-//    }
+    @Test
+    public void doProcessingTest() {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(out));
+        context.doProcessing();
+        Leagues initializedLeague = leagueDb.getTestData();
+        String expected  = "Welcome to the Parsing State. It's time to parse the JSON and initialize your league.\n";
+        assertEquals(expected.length()+1, out.toString().length());
+        assertNotNull(initializedLeague);
+    }
 
     @Test
     public void getStateNameTest() {

@@ -72,7 +72,6 @@ public class LeagueDataDB implements ILeague{
 	
 	@Override
 	public int checkLeagueName(String leagueName) throws SQLException {
-//		String query = "{CALL get_league_name_Test(?,?)}";
 		ResultSet result;
 		int rowCount = 0;
 	try  {
@@ -98,11 +97,10 @@ public class LeagueDataDB implements ILeague{
 	@Override
 	public boolean persisitLeagueData(String leagueName, String conferenceName, String divisionName, String teamName,
 			String generalManager, String headCoach, String playerName, String position, boolean captain) throws SQLException {
-//		String query = "{CALL persist_league_data(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
 		ResultSet result;
 		boolean isPersisted = false;
 		try {
-			isp = new InvokeStoredProcedure("spPersistLeagueData(?, ?, ?, ?, ?, ?, ?, ?, ?,?)");
+			isp = new InvokeStoredProcedure("spPersistLeagueData(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			isp.setParameter(1, leagueName);
 			isp.setParameter(2, conferenceName);
 			isp.setParameter(3, divisionName);
