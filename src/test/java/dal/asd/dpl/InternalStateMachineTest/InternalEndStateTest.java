@@ -54,7 +54,7 @@ public class InternalEndStateTest {
         System.setOut(new PrintStream(out));
         state.doProcessing();
         String expected  = "Thanks for using the Dynasty mode. Please come back soon.\n";
-        assertEquals(expected.length()+1, out.toString().length());
+        assertEquals(expected.length(), out.toString().length());
     }
 
 }
