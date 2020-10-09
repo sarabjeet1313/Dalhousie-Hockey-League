@@ -45,13 +45,13 @@ public class InternalStateContextTest {
         assertEquals("Start", context.currentStateName);
     }
 
-//    @Test
-//    public void doProcessing() {
-//        context.setState(new InternalEndState(input, output));
-//        ByteArrayOutputStream out = new ByteArrayOutputStream();
-//        System.setOut(new PrintStream(out));
-//        context.doProcessing();
-//        String expected  = "Thanks for using the Dynasty mode. Please come back soon.\n";
-//        assertEquals(expected.length()+1, out.toString().length());
-//    }
+    @Test
+    public void doProcessing() {
+        context.setState(new InternalEndState(input, output));
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(out));
+        context.doProcessing();
+        String expected  = "Thanks for using the Dynasty mode. Please come back soon.\n";
+        assertEquals(expected.length(), out.toString().length());
+    }
 }
