@@ -1,28 +1,22 @@
 package dal.asd.dpl;
 
-import dal.asd.dpl.InitializeModels.InitializeLeagues;
-import dal.asd.dpl.Parser.CmdParseJSON;
+import dal.asd.dpl.Database.LeagueDataDB;
 import dal.asd.dpl.SimulationStateMachine.*;
+import dal.asd.dpl.TeamManagement.ILeague;
 import dal.asd.dpl.UserInput.CmdUserInput;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.CmdUserOutput;
 import dal.asd.dpl.UserOutput.IUserOutput;
-import dal.asd.dpl.database.LeagueDataDB;
-import dal.asd.dpl.teammanagement.ILeague;
-import dal.asd.dpl.teammanagement.LeagueMockData;
 
-import java.io.File;
-
-public class App 
-{
+public class App {
+	
     public static void main( String[] args ) {
-
         IUserInput input = new CmdUserInput();
         IUserOutput output = new CmdUserOutput();
         ILeague leagueDb = new LeagueDataDB();
-
         StateContext context = new StateContext(input, output);
         context.setState(new InitialState(input, output));
+
         context.doProcessing();
 
         if(args == null || args.length == 0) {

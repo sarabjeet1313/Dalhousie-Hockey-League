@@ -1,7 +1,4 @@
 package dal.asd.dpl.SimulationStateMachineTest;
-
-import dal.asd.dpl.InternalStateMachine.InternalStartState;
-import dal.asd.dpl.InternalStateMachine.InternalStateContext;
 import dal.asd.dpl.SimulationStateMachine.InitialState;
 import dal.asd.dpl.SimulationStateMachine.StateContext;
 import dal.asd.dpl.UserInput.CmdUserInput;
@@ -10,14 +7,11 @@ import dal.asd.dpl.UserOutput.CmdUserOutput;
 import dal.asd.dpl.UserOutput.IUserOutput;
 import org.junit.Before;
 import org.junit.Test;
-
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-
 import static org.junit.Assert.*;
 
 public class InitialStateTest {
-
     private static InitialState state;
     private static IUserInput input;
     private static IUserOutput output;
@@ -44,8 +38,10 @@ public class InitialStateTest {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
         context.doProcessing();
-        String expected  = "Welcome to the Dynasty Mode. It's time to conquer the hockey arena.\n";
-        assertEquals(expected.length(), out.toString().length());
+        String expected  = "Welcome to the Dynasty Mode. It's time to conquer the hockey arena.";
+        String gotOutput = out.toString().replaceAll("\n", "");
+        gotOutput = gotOutput.replaceAll("\r", "");
+        assertEquals(expected, gotOutput);
     }
 
     @Test

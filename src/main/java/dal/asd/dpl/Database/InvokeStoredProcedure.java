@@ -1,4 +1,4 @@
-package dal.asd.dpl.database;
+package dal.asd.dpl.Database;
 
 
 import java.sql.*;
@@ -52,7 +52,7 @@ public class InvokeStoredProcedure {
                 connection.close();
                 db.disconnect();
             }
-//
+
         } catch (SQLException e) {
             System.out.println("Error"+ e.getMessage());
             throw e;

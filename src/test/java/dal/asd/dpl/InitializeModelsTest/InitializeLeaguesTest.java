@@ -1,13 +1,14 @@
 package dal.asd.dpl.InitializeModelsTest;
 
 import dal.asd.dpl.InitializeModels.InitializeLeagues;
+import dal.asd.dpl.TeamManagement.ILeague;
+import dal.asd.dpl.TeamManagement.LeagueMockData;
+import dal.asd.dpl.TeamManagement.Leagues;
 import dal.asd.dpl.UserInput.CmdUserInput;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.CmdUserOutput;
 import dal.asd.dpl.UserOutput.IUserOutput;
-import dal.asd.dpl.teammanagement.ILeague;
-import dal.asd.dpl.teammanagement.LeagueMockData;
-import dal.asd.dpl.teammanagement.Leagues;
+
 import org.junit.Test;
 import org.junit.Before;
 
@@ -34,9 +35,6 @@ public class InitializeLeaguesTest {
     @Test
     public void isEmptyStringTest() {
         String testingString = "";
-        assertTrue(league.isEmptyString(testingString));
-
-        testingString = null;
         assertTrue(league.isEmptyString(testingString));
     }
 

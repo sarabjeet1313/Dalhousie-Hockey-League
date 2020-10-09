@@ -1,13 +1,15 @@
-package dal.asd.dpl.teammanagement;
+package dal.asd.dpl.TeamManagementTest;
 
 import java.util.ArrayList;
-
 import org.junit.Test;
-
+import dal.asd.dpl.TeamManagement.LeagueObjectTestData;
+import dal.asd.dpl.TeamManagement.Players;
+import dal.asd.dpl.TeamManagement.Teams;
 import org.junit.Assert;
 
 
 public class TeamsTest {
+	
 	ArrayList<Players> playerList = new ArrayList<Players>();
 	Teams team = new Teams("Boston", "Mister Fred", "Mary Smith", playerList);
 	Players player1 = new Players("Player1", "Forword", false);

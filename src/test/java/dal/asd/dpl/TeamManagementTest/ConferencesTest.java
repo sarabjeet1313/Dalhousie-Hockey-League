@@ -1,12 +1,15 @@
-package dal.asd.dpl.teammanagement;
+package dal.asd.dpl.TeamManagementTest;
 
 import java.util.ArrayList;
-
 import org.junit.Test;
-
+import dal.asd.dpl.TeamManagement.Conferences;
+import dal.asd.dpl.TeamManagement.Divisions;
+import dal.asd.dpl.TeamManagement.LeagueObjectTestData;
+import dal.asd.dpl.TeamManagement.Teams;
 import org.junit.Assert;
 
 public class ConferencesTest {
+	
 	ArrayList<Divisions> divisionList = new ArrayList<Divisions>();
 	Conferences conference = new Conferences("Eastern Conference", divisionList);
 	ArrayList<Teams> teamList = new ArrayList<Teams>();
@@ -56,4 +59,5 @@ public class ConferencesTest {
 		String conferenceName = "Eastern Conference";
 		Assert.assertTrue(conference.isValidConferenceName(conferenceName, leagueData.getLeagueData()));
 	}
+	
 }

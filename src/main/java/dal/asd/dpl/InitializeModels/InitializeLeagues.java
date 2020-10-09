@@ -1,14 +1,16 @@
 package dal.asd.dpl.InitializeModels;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dal.asd.dpl.Parser.CmdParseJSON;
+import dal.asd.dpl.TeamManagement.Conferences;
+import dal.asd.dpl.TeamManagement.Divisions;
+import dal.asd.dpl.TeamManagement.ILeague;
+import dal.asd.dpl.TeamManagement.Leagues;
+import dal.asd.dpl.TeamManagement.Players;
+import dal.asd.dpl.TeamManagement.Teams;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
-import dal.asd.dpl.database.LeagueDataDB;
-import dal.asd.dpl.teammanagement.*;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -18,23 +20,18 @@ public class InitializeLeagues {
     private static String filePath;
     private static ILeague leagueDb;
     private static IUserOutput output;
-    private static IUserInput input;
     private List<Conferences> conferenceList;
-    private List<Divisions> divisionList;
-    private Leagues League;
-    private List<Players> playerList;
+    private Leagues league;
     private List<Players> freeAgents;
-    private List<Teams> teamList;
 
     public InitializeLeagues(String filePath, ILeague leagueDb, IUserOutput output, IUserInput input) {
         this.filePath = filePath;
         this.leagueDb = leagueDb;
-        this.input = input;
         this.output = output;
     }
 
     public boolean isEmptyString(String valueToCheck) {
-        if(valueToCheck == "" || valueToCheck == null) {
+        if(valueToCheck.isEmpty() || valueToCheck == null) {
             return true;
         }
         else
@@ -47,25 +44,25 @@ public class InitializeLeagues {
 
     public Leagues parseAndInitializeModels() {
         parser = new CmdParseJSON(this.filePath);
-        playerList = new ArrayList<Players>();
-        teamList = new ArrayList<Teams>();
-        divisionList = new ArrayList<Divisions>();
         conferenceList = new ArrayList<Conferences>();
         freeAgents = new ArrayList<Players>();
 
-        String LeagueName = parser.parse("leagueName");
-        if(isEmptyString(LeagueName)) {
+        String leagueName = parser.parse("leagueName");
+
+        if(isEmptyString(leagueName)) {
             output.setOutput("Please enter League name. Null values are not accepted.");
             output.sendOutput();
             return null;
         }
-        if(LeagueName == "Error"){
+
+        if(leagueName == "Error"){
             return null;
         }
-        LeagueName = truncateString(LeagueName);
 
-        League = new Leagues(LeagueName, null, null);
-        boolean check = League.isValidLeagueName(LeagueName, leagueDb);
+        leagueName = truncateString(leagueName);
+        league = new Leagues(leagueName, conferenceList, freeAgents);
+        boolean check = league.isValidLeagueName(leagueName, leagueDb);
+
         if(!check) {
             output.setOutput("Please enter valid League name.");
             output.sendOutput();
@@ -73,91 +70,108 @@ public class InitializeLeagues {
         }
 
         JsonArray conferences = parser.parseList("conferences");
-        Iterator<JsonElement> conference_List = conferences.iterator();
+        Iterator<JsonElement> conferenceListElement = conferences.iterator();
 
-        while(conference_List.hasNext()) {
-            JsonObject conference = conference_List.next().getAsJsonObject();
-            String ConferenceName = conference.get("conferenceName").toString();
-            if(isEmptyString(ConferenceName)){
+        while(conferenceListElement.hasNext()) {
+            JsonObject conference = conferenceListElement.next().getAsJsonObject();
+            String conferenceName = conference.get("conferenceName").toString();
+            List<Divisions> bufferDivisionList = new ArrayList<Divisions>();
+
+            conferenceName = truncateString(conferenceName);
+
+            if(isEmptyString(conferenceName)){
                 output.setOutput("Please enter Conference name. Null values are not accepted.");
                 output.sendOutput();
                 return null;
             }
-            ConferenceName = truncateString(ConferenceName);
 
+            Conferences conferenceObject = new Conferences(conferenceName, bufferDivisionList);
+            conferenceList.add(conferenceObject);
             JsonArray divisions = conference.get("divisions").getAsJsonArray();
-            Iterator<JsonElement> division_List = divisions.iterator();
+            Iterator<JsonElement> divisionListElement = divisions.iterator();
 
-            while(division_List.hasNext()) {
-                JsonObject division =  division_List.next().getAsJsonObject();
-                String DivisionName = division.get("divisionName").toString();
+            while(divisionListElement.hasNext()) {
+                JsonObject division =  divisionListElement.next().getAsJsonObject();
+                String divisionName = division.get("divisionName").toString();
+                List<Teams> bufferTeamList = new ArrayList<Teams>();
+                divisionName = truncateString(divisionName);
 
-                if(isEmptyString(DivisionName)){
+                if(isEmptyString(divisionName)){
                     output.setOutput("Please enter Division name. Null values are not accepted.");
                     output.sendOutput();
                     return null;
                 }
-                DivisionName = truncateString(DivisionName);
 
+                Divisions divisionObject = new Divisions(divisionName, bufferTeamList);
+                bufferDivisionList.add(divisionObject);
+                conferenceObject.setDivisionList(bufferDivisionList);
                 JsonArray teams = division.get("teams").getAsJsonArray();
-                Iterator<JsonElement> team_List = teams.iterator();
+                Iterator<JsonElement> teamListElement = teams.iterator();
 
-                while(team_List.hasNext()) {
-                    JsonObject team = team_List.next().getAsJsonObject();
-
+                while(teamListElement.hasNext()) {
+                    JsonObject team = teamListElement.next().getAsJsonObject();
                     String teamName = team.get("teamName").toString();
+                    List<Players> bufferPlayerList = new ArrayList<Players>();
+                    teamName = truncateString(teamName);
                     if(isEmptyString(teamName)){
                         output.setOutput("Please enter Team name. Null values are not accepted.");
                         output.sendOutput();
                         return null;
                     }
-                    teamName = truncateString(teamName);
 
                     String genManager = team.get("generalManager").toString();
+                    genManager = truncateString(genManager);
+
                     if(isEmptyString(genManager)){
                         output.setOutput("Please enter General Manager name. Null values are not accepted.");
                         output.sendOutput();
                         return null;
                     }
-                    genManager = truncateString(genManager);
 
                     String headCoach = team.get("headCoach").toString();
+                    headCoach = truncateString(headCoach);
+
                     if(isEmptyString(headCoach)){
                         output.setOutput("Please enter Head Coach name. Null values are not accepted.");
                         output.sendOutput();
                         return null;
                     }
-                    headCoach = truncateString(headCoach);
 
+                    Teams teamObject = new Teams(teamName, genManager, headCoach, bufferPlayerList);
+                    bufferTeamList.add(teamObject);
+                    divisionObject.setTeamList(bufferTeamList);
                     JsonArray players = team.get("players").getAsJsonArray();
+
                     if(players.size() > 20){
                         output.setOutput("Team cannot have more than 20 players. Please correct the team size.");
                         output.sendOutput();
                         return null;
                     }
-                    Iterator<JsonElement> player_List = players.iterator();
 
+                    Iterator<JsonElement> player_List = players.iterator();
                     boolean isCaptainPositionOccupied = false;
                     int count = 0;
+
                     while(player_List.hasNext()){
                         count++;
                         JsonObject player = player_List.next().getAsJsonObject();
-
                         String playerName = player.get("playerName").toString();
+                        playerName = truncateString(playerName);
+
                         if(isEmptyString(playerName)){
                             output.setOutput("Please enter Player name. Player:" + count + " name is empty.");
                             output.sendOutput();
                             return null;
                         }
-                        playerName = truncateString(playerName);
 
                         String position = player.get("position").toString();
+                        position = truncateString(position);
+
                         if(isEmptyString(position)){
                             output.setOutput("Please enter player:" + count + " position. Null values are not accepted.");
                             output.sendOutput();
                             return null;
                         }
-                        position = truncateString(position);
 
                         if(!(position.contains("forward") || position.contains("goalie") || position.contains("defense"))) {
                             output.setOutput("Player:" + count + " position must be either 'goalie', 'forward', or 'defense'.");
@@ -166,50 +180,49 @@ public class InitializeLeagues {
                         }
 
                         Boolean captain = player.get("captain").getAsBoolean();
+
                         if(captain && isCaptainPositionOccupied) {
                             output.setOutput("A team can only have one captain.");
                             output.sendOutput();
                             return null;
                         }
+
                         if(captain) {
                             isCaptainPositionOccupied = captain;
                         }
 
-                        playerList.add(new Players(playerName, position, captain));
+                        Players playerObject = new Players(playerName, position, captain);
+                        bufferPlayerList.add(playerObject);
+                        teamObject.setPlayerList(bufferPlayerList);
                     }
-
-                    teamList.add(new Teams(teamName, genManager, headCoach, playerList));
                 }
-
-                divisionList.add(new Divisions(DivisionName, teamList));
             }
-
-            conferenceList.add(new Conferences(ConferenceName, divisionList));
         }
 
         JsonArray freeAgentsArray = parser.parseList("freeAgents");
-        Iterator<JsonElement> free_agents = freeAgentsArray.iterator();
-
+        Iterator<JsonElement> freeAgentElement = freeAgentsArray.iterator();
         int count = 0;
-        while(free_agents.hasNext()) {
-            count++;
-            JsonObject free_agent = free_agents.next().getAsJsonObject();
 
-            String agentName = free_agent.get("playerName").toString();
+        while(freeAgentElement.hasNext()) {
+            count++;
+            JsonObject freeAgentObj = freeAgentElement.next().getAsJsonObject();
+            String agentName = freeAgentObj.get("playerName").toString();
+            agentName = truncateString(agentName);
+
             if(isEmptyString(agentName)){
                 output.setOutput("Please enter Free Agent:" + count + " name.");
                 output.sendOutput();
                 return null;
             }
-            agentName = truncateString(agentName);
 
-            String position = free_agent.get("position").toString();
+            String position = freeAgentObj.get("position").toString();
+            position = truncateString(position);
+
             if(isEmptyString(position)){
                 output.setOutput("Please enter Free Agent:" + count + " position.");
                 output.sendOutput();
                 return null;
             }
-            position = truncateString(position);
 
             if(!(position.contains("forward") || position.contains("goalie") || position.contains("defense"))) {
                 output.setOutput("Free Agent:" + count + " position must be either 'goalie', 'forward, or 'defense'.");
@@ -217,27 +230,19 @@ public class InitializeLeagues {
                 return null;
             }
 
-            Boolean captain = free_agent.get("captain").getAsBoolean();
+            Boolean captain = freeAgentObj.get("captain").getAsBoolean();
+
             if(captain) {
                 output.setOutput("A free agent:" + count + " cannot be a captain.");
                 output.sendOutput();
                 return null;
             }
+
             freeAgents.add(new Players(agentName, position, captain));
         }
 
-        League = new Leagues(LeagueName, conferenceList, freeAgents);
-        return League;
-
-        // DEBUG prints
-        /*
-        *
-        * System.out.println(League.getLeagueName() + " : " + conferenceList.get(0).getConferenceName() + " : " +
-        * divisionList.get(0).getDivisionName() + " : " + teamList.get(0).getGeneralManager() +
-        * " : " + playerList.get(0).getPlayerName());
-        *
-        */
-
+        league.setConferenceList(conferenceList);
+        league.setFreeAgents(freeAgents);
+        return league;
     }
-
 }

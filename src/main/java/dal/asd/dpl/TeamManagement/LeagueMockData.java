@@ -1,4 +1,4 @@
-package dal.asd.dpl.teammanagement;
+package dal.asd.dpl.TeamManagement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,6 @@ public class LeagueMockData implements ILeague {
 	Players player6 = new Players("Agent Three", "goalie", false);
 	ArrayList<Players> playerList = new ArrayList<Players>();
 	ArrayList<Players> freePlayerList = new ArrayList<Players>();
-	
 	
 	public Leagues getTestData() {
 		playerList.add(player1);
@@ -75,4 +74,5 @@ public class LeagueMockData implements ILeague {
 		
 		return true;
 	}
+	
 }

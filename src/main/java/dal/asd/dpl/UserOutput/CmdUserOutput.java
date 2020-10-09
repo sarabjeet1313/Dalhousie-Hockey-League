@@ -1,24 +1,22 @@
 package dal.asd.dpl.UserOutput;
 
 public class CmdUserOutput implements IUserOutput{
-
-    private String OutputResponse;
+    private String outputResponse;
 
     public CmdUserOutput() {
         setInitialValues();
     }
 
     public void setInitialValues() {
-        OutputResponse = "";
+        outputResponse = "";
     }
 
     public void setOutput(String outputResponse) {
-        this.OutputResponse = outputResponse;
+        this.outputResponse = outputResponse;
     }
 
     public String sendOutput() {
-        System.out.println(this.OutputResponse);
-        return this.OutputResponse;
+        System.out.println(this.outputResponse);
+        return this.outputResponse;
     }
-
 }

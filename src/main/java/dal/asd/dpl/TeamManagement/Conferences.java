@@ -1,8 +1,9 @@
-package dal.asd.dpl.teammanagement;
+package dal.asd.dpl.TeamManagement;
 
 import java.util.List;
 
 public class Conferences {
+	
 	private String conferenceName;
 	private List<Divisions> divisionList;
 	
@@ -39,4 +40,5 @@ public class Conferences {
 		}
 		return isValid;
 	}
+	
 }

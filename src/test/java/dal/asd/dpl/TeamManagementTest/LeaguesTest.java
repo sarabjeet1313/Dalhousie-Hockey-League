@@ -1,15 +1,20 @@
-package dal.asd.dpl.teammanagement;
+package dal.asd.dpl.TeamManagementTest;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.Test;
-
-import dal.asd.dpl.database.LeagueDataDB;
+import dal.asd.dpl.TeamManagement.Conferences;
+import dal.asd.dpl.TeamManagement.Divisions;
+import dal.asd.dpl.TeamManagement.ILeague;
+import dal.asd.dpl.TeamManagement.LeagueMockData;
+import dal.asd.dpl.TeamManagement.LeagueObjectTestData;
+import dal.asd.dpl.TeamManagement.Leagues;
+import dal.asd.dpl.TeamManagement.Players;
 
 import org.junit.Assert;
 
 public class LeaguesTest {
+	
 	Players player1 = new Players("Player1", "Forword", false);
 	Players player2 = new Players("Player2", "Forword", false);
 	Players player3 = new Players("Player3", "defence", false);
@@ -23,7 +28,6 @@ public class LeaguesTest {
 	Conferences conference1 = new Conferences("Western Conference", divisionList1);
 	Leagues league = new Leagues("Dalhousie Hockey League", conferenceList, freeAgents);
 	ILeague object = new LeagueMockData();
-	ILeague obj = new LeagueDataDB();
 	List<Leagues> leagueList = new ArrayList<Leagues>();
 	
 	@Test

@@ -1,18 +1,11 @@
 package dal.asd.dpl.Parser;
-
 import com.google.gson.*;
-
 import dal.asd.dpl.UserOutput.CmdUserOutput;
-
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
-public class CmdParseJSON implements IParser{
-
+public class CmdParseJSON implements IParser {
     private static String filePath;
     private static CmdUserOutput output;
 
@@ -21,17 +14,13 @@ public class CmdParseJSON implements IParser{
         this.output = new CmdUserOutput();
     }
 
-    public String parse(String field){
-
+    public String parse(String field) {
         JsonParser parser = new JsonParser();
+
         try{
             Object obj = parser.parse(new FileReader(filePath));
             JsonObject jsonObject = (JsonObject)obj;
             return jsonObject.get(field).toString();
-
-            // Debug
-            //output.setOutput(League);
-            //output.sendOutput();
         }
         catch(FileNotFoundException e) {
             output.setOutput("Input JSON file not found");
@@ -60,8 +49,7 @@ public class CmdParseJSON implements IParser{
         }
     }
 
-    public JsonArray parseList(String field){
-
+    public JsonArray parseList(String field) {
         JsonArray items = null;
         JsonParser parser = new JsonParser();
         try{

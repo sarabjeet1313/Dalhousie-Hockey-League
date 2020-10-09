@@ -1,17 +1,18 @@
-package dal.asd.dpl.teammanagement;
+package dal.asd.dpl.TeamManagementTest;
 
 import org.junit.Test;
-
+import dal.asd.dpl.TeamManagement.Players;
 import org.junit.Assert;
 
 public class PlayersTest {
+	
 	Players player = new Players("Player1", "Forword", false);
 	
 	@Test
 	public void parameterizedConstructorTest() {
 		Assert.assertEquals("Player1", player.getPlayerName());
 		Assert.assertEquals("Forword", player.getPlayerPosition());
-		Assert.assertTrue(player.getCaptain());
+		Assert.assertFalse(player.getCaptain());
 	}
 	
 	@Test
@@ -38,7 +39,7 @@ public class PlayersTest {
 	
 	@Test
 	public void getCaptainTest() {
-		Assert.assertTrue(player.getCaptain());
+		Assert.assertFalse(player.getCaptain());
 	} 
 	
 	@Test
@@ -46,4 +47,5 @@ public class PlayersTest {
 		player.setCaptain(true);
 		Assert.assertTrue(player.getCaptain());
 	}
+	
 }

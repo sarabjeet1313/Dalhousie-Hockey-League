@@ -1,16 +1,12 @@
 package dal.asd.dpl.UserInputTest;
-
 import dal.asd.dpl.UserInput.CmdUserInput;
 import org.junit.Before;
 import org.junit.Test;
-
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-
 import static org.junit.Assert.*;
 
 public class CmdUserInputTest {
-
     private static CmdUserInput cmdInput;
 
     @Before
