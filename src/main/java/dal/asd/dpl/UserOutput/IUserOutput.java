@@ -7,5 +7,4 @@ public interface IUserOutput {
     public void setOutput(String outputResponse);
 
     public String sendOutput();
-
 }

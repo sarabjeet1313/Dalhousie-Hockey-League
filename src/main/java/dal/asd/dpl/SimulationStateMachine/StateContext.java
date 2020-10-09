@@ -1,11 +1,8 @@
 package dal.asd.dpl.SimulationStateMachine;
-
-
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
 
 public class StateContext {
-
     private static IState currentState;
     private static IUserOutput output;
     private static IUserInput input;
@@ -29,5 +26,4 @@ public class StateContext {
     public void doProcessing() {
         this.currentState.doProcessing();
     }
-
 }

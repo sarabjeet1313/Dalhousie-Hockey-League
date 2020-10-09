@@ -3,13 +3,10 @@ package dal.asd.dpl.SimulationStateMachine;
 import dal.asd.dpl.InitializeModels.InitializeLeagues;
 import dal.asd.dpl.TeamManagement.ILeague;
 import dal.asd.dpl.TeamManagement.Leagues;
-import dal.asd.dpl.UserInput.CmdUserInput;
 import dal.asd.dpl.UserInput.IUserInput;
-import dal.asd.dpl.UserOutput.CmdUserOutput;
 import dal.asd.dpl.UserOutput.IUserOutput;
 
 public class ParsingState implements IState {
-
     private static IUserOutput output;
     private static IUserInput input;
     private static String filePath;
@@ -34,7 +31,6 @@ public class ParsingState implements IState {
     public void doProcessing(){
         output.setOutput("Welcome to the Parsing State. It's time to parse the JSON and initialize your league.");
         output.sendOutput();
-
         InitializeLeagues leagueModel = new InitializeLeagues(filePath, leagueDb, output, input);
         initializedLeague = leagueModel.parseAndInitializeModels();
 

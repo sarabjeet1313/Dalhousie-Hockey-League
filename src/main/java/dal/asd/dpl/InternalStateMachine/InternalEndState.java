@@ -1,18 +1,14 @@
 package dal.asd.dpl.InternalStateMachine;
-
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
 
 public class InternalEndState implements ISimulationState{
-
-    private static IUserInput input;
     private static IUserOutput output;
     private static String stateName;
     private static String nextStateName;
 
 
     public InternalEndState(IUserInput input, IUserOutput output){
-        this.input = input;
         this.output = output;
         this.stateName = "End";
     }
@@ -30,6 +26,7 @@ public class InternalEndState implements ISimulationState{
     public String getStateName(){
         return this.stateName;
     }
+
     public String getNextStateName(){
         return this.nextStateName;
     }
