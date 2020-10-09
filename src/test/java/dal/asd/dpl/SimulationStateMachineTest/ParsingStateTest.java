@@ -17,6 +17,7 @@ import org.junit.Test;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.PrintStream;
+import java.net.URL;
 
 import static org.junit.Assert.*;
 
@@ -33,8 +34,8 @@ public class ParsingStateTest {
     @Before
     public void setUp() throws Exception {
 
-        File file = new File("resources/json/input.json");
-        filePath = file.getCanonicalPath();
+        URL i = getClass().getClassLoader().getResource("input.json");
+        filePath = i.getPath();
 
         input = new CmdUserInput();
         output = new CmdUserOutput();
