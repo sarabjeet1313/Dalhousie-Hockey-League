@@ -48,14 +48,13 @@ public class InternalEndStateTest {
         assertEquals("None", state.getNextStateName());
     }
 
-//    @Test
-//    public void doProcessingTest(){
-//        ByteArrayOutputStream out = new ByteArrayOutputStream();
-//        System.setOut(new PrintStream(out));
-//        state.doProcessing();
-//
-//        String expected  = "Thanks for using the Dynasty mode. Please come back soon.\r\n";
-//        assertEquals(expected, out.toString());
-//    }
+    @Test
+    public void doProcessingTest(){
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(out));
+        state.doProcessing();
+        String expected  = "Thanks for using the Dynasty mode. Please come back soon.\n";
+        assertEquals(expected.length(), out.toString().length());
+    }
 
 }

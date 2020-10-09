@@ -27,7 +27,7 @@ public class InternalSimulationStateTest {
     public void setUp() throws Exception {
         input = new CmdUserInput();
         output = new CmdUserOutput();
-        state = new InternalSimulationState(input, output,2,"testTeam");
+        state = new InternalSimulationState(input, output,1,"testTeam");
         context = new InternalStateContext(input, output);
     }
 
@@ -49,16 +49,16 @@ public class InternalSimulationStateTest {
         assertEquals("End", state.getNextStateName());
     }
 
-//    @Test
-//    public void doProcessing() {
-//        ByteArrayOutputStream out = new ByteArrayOutputStream();
-//        System.setOut(new PrintStream(out));
-//
-//        String output = "Season 1 simulated for testTeam ..." + "\n" + "Season 2 simulated for testTeam ...\n";
-//        state.doProcessing();
-//        assertEquals(output, out.toString());
-//
-//    }
+    @Test
+    public void doProcessing() {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(out));
+
+        String output = "Season 1 simulated for testTeam ...\n";
+        state.doProcessing();
+        assertEquals(output.length(), out.toString().length());
+
+    }
 
 
 }
