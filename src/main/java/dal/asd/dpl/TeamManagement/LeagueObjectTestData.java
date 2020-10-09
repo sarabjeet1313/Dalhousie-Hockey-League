@@ -1,8 +1,9 @@
-package dal.asd.dpl.teammanagement;
+package dal.asd.dpl.TeamManagement;
 
 import java.util.ArrayList;
 
 public class LeagueObjectTestData {
+	
 	Players player1 = new Players("Player One", "forward", true);
 	Players player2 = new Players("Player Two", "defense", false);
 	Players player3 = new Players("Player Three", "goalie", false);
@@ -32,4 +33,5 @@ public class LeagueObjectTestData {
 		Leagues league = new Leagues("Dalhousie Hockey League", conferenceList, freePlayerList);
 		return league;
 	}
+	
 }

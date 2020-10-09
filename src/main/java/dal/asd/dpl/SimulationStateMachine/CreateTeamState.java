@@ -1,9 +1,14 @@
 package dal.asd.dpl.SimulationStateMachine;
 
+import dal.asd.dpl.TeamManagement.Conferences;
+import dal.asd.dpl.TeamManagement.Divisions;
+import dal.asd.dpl.TeamManagement.ILeague;
+import dal.asd.dpl.TeamManagement.Leagues;
+import dal.asd.dpl.TeamManagement.Players;
+import dal.asd.dpl.TeamManagement.Teams;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.CmdUserOutput;
 import dal.asd.dpl.UserOutput.IUserOutput;
-import dal.asd.dpl.teammanagement.*;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,9 +1,9 @@
-package dal.asd.dpl.teammanagement;
+package dal.asd.dpl.TeamManagement;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Divisions {
+	
     private String divisionName;
     private List<Teams> teamList;
     
@@ -46,4 +46,5 @@ public class Divisions {
 		}
 		return isValid;
 	}
+	
 }

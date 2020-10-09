@@ -1,11 +1,10 @@
-package dal.asd.dpl.teammanagement;
+package dal.asd.dpl.TeamManagement;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import dal.asd.dpl.database.LeagueDataDB;
-
 public class Leagues {
+	
 	private String leagueName;
 	private List<Conferences> conferenceList;
 	private List<Players> freeAgents;
@@ -68,13 +67,11 @@ public class Leagues {
 	public boolean isValidLeagueName(String leagueName, ILeague object) {
 		int rowCount = 0;
 		boolean isValid = true;
-//		ILeague object = new LeageMockData();
 		try {
 			rowCount = object.checkLeagueName(leagueName);
 		}catch (Exception e) {
 			System.out.println("error "+ e.getMessage());
 		}
-
 		if(rowCount > 0) {
 			isValid = false;
 		}

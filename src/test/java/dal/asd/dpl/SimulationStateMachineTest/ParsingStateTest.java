@@ -4,13 +4,14 @@ import dal.asd.dpl.InitializeModels.InitializeLeagues;
 import dal.asd.dpl.SimulationStateMachine.InitialState;
 import dal.asd.dpl.SimulationStateMachine.ParsingState;
 import dal.asd.dpl.SimulationStateMachine.StateContext;
+import dal.asd.dpl.TeamManagement.ILeague;
+import dal.asd.dpl.TeamManagement.LeagueMockData;
+import dal.asd.dpl.TeamManagement.Leagues;
 import dal.asd.dpl.UserInput.CmdUserInput;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.CmdUserOutput;
 import dal.asd.dpl.UserOutput.IUserOutput;
-import dal.asd.dpl.teammanagement.ILeague;
-import dal.asd.dpl.teammanagement.LeagueMockData;
-import dal.asd.dpl.teammanagement.Leagues;
+
 import org.junit.Before;
 import org.junit.Test;
 

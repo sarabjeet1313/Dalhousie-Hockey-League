@@ -3,11 +3,17 @@ package dal.asd.dpl.InitializeModels;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+
+import dal.asd.dpl.Database.LeagueDataDB;
 import dal.asd.dpl.Parser.CmdParseJSON;
+import dal.asd.dpl.TeamManagement.Conferences;
+import dal.asd.dpl.TeamManagement.Divisions;
+import dal.asd.dpl.TeamManagement.ILeague;
+import dal.asd.dpl.TeamManagement.Leagues;
+import dal.asd.dpl.TeamManagement.Players;
+import dal.asd.dpl.TeamManagement.Teams;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
-import dal.asd.dpl.database.LeagueDataDB;
-import dal.asd.dpl.teammanagement.*;
 
 import java.util.ArrayList;
 import java.util.Iterator;

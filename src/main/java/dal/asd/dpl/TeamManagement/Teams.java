@@ -1,4 +1,4 @@
-package dal.asd.dpl.teammanagement;
+package dal.asd.dpl.TeamManagement;
 
 import java.util.List;
 
@@ -20,29 +20,35 @@ public class Teams {
 	public String getTeamName() {
 		return teamName;
 	}
+	
 	public void setTeamName(String teamName) {
 		this.teamName = teamName;
 	}
+	
 	public String getGeneralManager() {
 		return generalManager;
 	}
+	
 	public void setGeneralManager(String generalManager) {
 		this.generalManager = generalManager;
 	}
+	
 	public String getHeadCoach() {
 		return headCoach;
 	}
+	
 	public void setHeadCoach(String headCoach) {
 		this.headCoach = headCoach;
 	}
+	
 	public List<Players> getPlayerList() {
 		return playerList;
 	}
+	
 	public void setPlayerList(List<Players> playerList) {
 		this.playerList = playerList;
 	}
 	
-	//If returns true then json is invalid 
 	public boolean isValidTeamName(String conferenceName, String divisionName, String teamName, Leagues league) {
 		List<Conferences> conferenceList =  league.getConferenceList();
 		boolean isValid = false;
@@ -61,7 +67,6 @@ public class Teams {
 							}
 						}
 					}
-
 				}
 			}
 			break;

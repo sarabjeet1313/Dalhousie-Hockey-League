@@ -1,4 +1,4 @@
-package dal.asd.dpl.teammanagement;
+package dal.asd.dpl.TeamManagement;
 
 import java.sql.SQLException;
 import java.util.List;

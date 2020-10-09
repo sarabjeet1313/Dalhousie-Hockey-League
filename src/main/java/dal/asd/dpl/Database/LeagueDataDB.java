@@ -1,17 +1,18 @@
-package dal.asd.dpl.database;
+package dal.asd.dpl.Database;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import dal.asd.dpl.teammanagement.Conferences;
-import dal.asd.dpl.teammanagement.Divisions;
-import dal.asd.dpl.teammanagement.ILeague;
-import dal.asd.dpl.teammanagement.Leagues;
-import dal.asd.dpl.teammanagement.Players;
-import dal.asd.dpl.teammanagement.Teams;
+import dal.asd.dpl.TeamManagement.Conferences;
+import dal.asd.dpl.TeamManagement.Divisions;
+import dal.asd.dpl.TeamManagement.ILeague;
+import dal.asd.dpl.TeamManagement.Leagues;
+import dal.asd.dpl.TeamManagement.Players;
+import dal.asd.dpl.TeamManagement.Teams;
 
 public class LeagueDataDB implements ILeague{
+	
 	InvokeStoredProcedure isp = null;
 	@Override
 	public List<Leagues> getLeagueData(String teamName) throws SQLException {
@@ -28,7 +29,6 @@ public class LeagueDataDB implements ILeague{
 			isp = new InvokeStoredProcedure("spLoadLeagueData(?)");
 			isp.setParameter(1, teamName);
 			result = isp.executeQueryWithResults();
-			
 			while(result.next()) {
 				if(!flag && !tempLeagueName.equals(result.getString("leagueName"))) {
 					flag = true;
@@ -36,10 +36,6 @@ public class LeagueDataDB implements ILeague{
 						.getTeamList().get(0).setPlayerList(playerList);
 					leagueList.add(league);
 					playerList.clear();
-				}
-				if(result.getString("playerName") != null) {
-					Players player = new Players(result.getString("playerName"), result.getString("position"), result.getBoolean("captain"));
-					playerList.add(player);
 				}
 				if(flag) {
 					Teams team = new Teams(result.getString("teamName"), result.getString("generalManager"), result.getString("headCoach"), playerList);
@@ -73,15 +69,13 @@ public class LeagueDataDB implements ILeague{
 	public int checkLeagueName(String leagueName) throws SQLException {
 		ResultSet result;
 		int rowCount = 0;
-	try  {
+		try {
 			isp = new InvokeStoredProcedure("spCheckLeagueName(?)");
 			isp.setParameter(1, leagueName);
-			
 			result = isp.executeQueryWithResults();
 			while(result.next()) {
 				rowCount = result.getInt("rowCount");
-			}
-			
+			}	
 		}
 		catch (Exception e) {
 			System.out.println("Database Error:" + e.getMessage());
@@ -89,7 +83,6 @@ public class LeagueDataDB implements ILeague{
 		finally {
 			isp.closeConnection();
 		}
-		
 		return rowCount;
 	}
 	
@@ -122,4 +115,5 @@ public class LeagueDataDB implements ILeague{
 		}
 		return isPersisted;
 	}
+	
 }

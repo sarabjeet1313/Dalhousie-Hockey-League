@@ -1,6 +1,7 @@
-package dal.asd.dpl.teammanagement;
+package dal.asd.dpl.TeamManagement;
 
 public class Players {
+	
 	private String playerName;
 	private String position;
 	private boolean captain;
@@ -28,10 +29,11 @@ public class Players {
 	}
 	
 	public boolean getCaptain() {
-		return true;
+		return captain;
 	}
 	
 	public void setCaptain(boolean c) {
 		captain = c;
 	}
+	
 }

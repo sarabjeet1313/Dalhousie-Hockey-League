@@ -1,4 +1,4 @@
-package dal.asd.dpl.database;
+package dal.asd.dpl.Database;
 
 import java.io.IOException;
 import java.io.InputStream;
