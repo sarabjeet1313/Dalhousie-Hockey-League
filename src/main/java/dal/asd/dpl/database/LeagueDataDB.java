@@ -41,12 +41,6 @@ public class LeagueDataDB implements ILeague{
 					Players player = new Players(result.getString("playerName"), result.getString("position"), result.getBoolean("captain"));
 					playerList.add(player);
 				}
-
-				if(result.isLast()) {
-					league.getConferenceList().get(0).getDivisionList().get(0)
-					.getTeamList().get(0).setPlayerList(playerList);
-					leagueList.add(league);
-				}
 				if(flag) {
 					Teams team = new Teams(result.getString("teamName"), result.getString("generalManager"), result.getString("headCoach"), playerList);
 					teamList.add(team);
@@ -58,6 +52,11 @@ public class LeagueDataDB implements ILeague{
 					league = new Leagues(result.getString("leagueName"), conferenceList, freeAgents);
 					tempLeagueName = result.getString("leagueName");
 					flag = false;
+				}
+				if(result.isLast()) {
+					league.getConferenceList().get(0).getDivisionList().get(0)
+					.getTeamList().get(0).setPlayerList(playerList);
+					leagueList.add(league);
 				}
 			}
 			result.close();
