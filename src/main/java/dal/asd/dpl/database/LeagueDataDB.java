@@ -37,8 +37,11 @@ public class LeagueDataDB implements ILeague{
 					leagueList.add(league);
 					playerList.clear();
 				}
-				Players player = new Players(result.getString("playerName"), result.getString("position"), result.getBoolean("captain"));
-				playerList.add(player);
+				if(result.getString("playerName") != null) {
+					Players player = new Players(result.getString("playerName"), result.getString("position"), result.getBoolean("captain"));
+					playerList.add(player);
+				}
+
 				if(result.isLast()) {
 					league.getConferenceList().get(0).getDivisionList().get(0)
 					.getTeamList().get(0).setPlayerList(playerList);

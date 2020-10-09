@@ -5,10 +5,14 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dal.asd.dpl.App;
 import dal.asd.dpl.Parser.CmdParseJSON;
+import dal.asd.dpl.util.ConstantsUtil;
+
 import org.junit.Test;
 import org.junit.Before;
 
 import java.io.File;
+import java.io.InputStream;
+import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Iterator;
@@ -21,8 +25,8 @@ public class CmdParseJSONTest {
 
     @Before
     public void setUpClass() throws Exception {
-        File file = new File("resources/json/input.json");
-        filePath = file.getCanonicalPath();
+    	URL i = getClass().getClassLoader().getResource("input.json");
+    	filePath = i.getPath();
     }
 
     @Test

@@ -12,6 +12,7 @@ import org.junit.Test;
 import org.junit.Before;
 
 import java.io.File;
+import java.net.URL;
 
 import static org.junit.Assert.*;
 
@@ -24,9 +25,8 @@ public class InitializeLeaguesTest {
         ILeague leagueDb = new LeagueMockData();
         IUserOutput output = new CmdUserOutput();
         IUserInput input = new CmdUserInput();
-
-        File file = new File("resources/json/input.json");
-        String filePath = file.getCanonicalPath();
+        URL i = getClass().getClassLoader().getResource("input.json");
+        String filePath = i.getPath();
 
         league = new InitializeLeagues(filePath, leagueDb, output, input);
     }
