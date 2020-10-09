@@ -1,13 +1,9 @@
 package dal.asd.dpl.SimulationStateMachine;
-
 import dal.asd.dpl.UserInput.IUserInput;
-import dal.asd.dpl.UserOutput.CmdUserOutput;
 import dal.asd.dpl.UserOutput.IUserOutput;
 import dal.asd.dpl.teammanagement.*;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.ToDoubleBiFunction;
 
 public class CreateTeamState implements IState {
 
@@ -43,64 +39,50 @@ public class CreateTeamState implements IState {
     }
 
     public void doProcessing(){
+        boolean validConference = false;
+        boolean validDivision = false;
+        boolean validTeam = true;
 
         output.setOutput("Welcome to the Create Team State. It's time to create and store the team.\n");
         output.sendOutput();
 
-        boolean validConference = false;
         do {
             output.setOutput("Please enter existing Conference name for the team");
             output.sendOutput();
-
             input.setInput();
             conferenceName = input.getInput();
-
             validConference = conferences.isValidConferenceName(conferenceName, initializedLeague);
-
         } while(validConference == false);
 
-        boolean validDivision = false;
         do {
             output.setOutput("Please enter existing Division name for the team");
             output.sendOutput();
-
             input.setInput();
             divisionName = input.getInput();
-
             validDivision = divisions.isValidDivisionName(conferenceName, divisionName, initializedLeague);
-
         } while(validDivision == false);
 
-        boolean validTeam = true;
         do {
             output.setOutput("Please enter Team name that does not exist in League already.");
             output.sendOutput();
-
             input.setInput();
             teamName = input.getInput();
             if(teamName == "") continue;
-
             validTeam = teams.isValidTeamName(conferenceName, divisionName, teamName, initializedLeague);
-
         } while(validTeam);
 
         output.setOutput("Please enter General Manager name for the team");
         output.sendOutput();
-
         input.setInput();
         genManager = input.getInput();
-
         output.setOutput("Please enter Head Coach name for the team");
         output.sendOutput();
-
         input.setInput();
         headCoach = input.getInput();
-
         createTeamInLeague(conferenceName, divisionName, teamName, genManager, headCoach, initializedLeague);
     }
 
     public boolean createTeamInLeague(String conferenceName, String divisionName, String teamName, String genManager, String headCoach, Leagues initializedLeague) {
-
         List<Conferences> conferenceList =  initializedLeague.getConferenceList();
         for(int index = 0; index < conferenceList.size(); index++) {
             if (conferenceList.get(index).getConferenceName().equals(conferenceName)) {

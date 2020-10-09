@@ -1,6 +1,4 @@
 package dal.asd.dpl.SimulationStateMachineTest;
-
-import dal.asd.dpl.SimulationStateMachine.InitialState;
 import dal.asd.dpl.SimulationStateMachine.LoadTeamState;
 import dal.asd.dpl.SimulationStateMachine.StateContext;
 import dal.asd.dpl.UserInput.CmdUserInput;
@@ -11,12 +9,10 @@ import dal.asd.dpl.teammanagement.ILeague;
 import dal.asd.dpl.teammanagement.LeagueMockData;
 import org.junit.Before;
 import org.junit.Test;
-
 import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.*;
 
 public class LoadTeamStateTest {
-
     private static LoadTeamState state;
     private static IUserInput input;
     private static IUserOutput output;

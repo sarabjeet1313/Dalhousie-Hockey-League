@@ -1,26 +1,13 @@
 package dal.asd.dpl.ParserTest;
-
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import dal.asd.dpl.App;
 import dal.asd.dpl.Parser.CmdParseJSON;
-import dal.asd.dpl.util.ConstantsUtil;
-
 import org.junit.Test;
 import org.junit.Before;
-
-import java.io.File;
-import java.io.InputStream;
 import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Iterator;
-
 import static org.junit.Assert.*;
 
 public class CmdParseJSONTest {
-
     private static String filePath;
 
     @Before
@@ -40,7 +27,6 @@ public class CmdParseJSONTest {
         CmdParseJSON parser = new CmdParseJSON(this.filePath);
         JsonArray conferences = parser.parseList("conferences");
         JsonObject conference = conferences.get(0).getAsJsonObject();
-
         assertEquals("\"Eastern Conference\"",conference.get("conferenceName").toString());
     }
 }

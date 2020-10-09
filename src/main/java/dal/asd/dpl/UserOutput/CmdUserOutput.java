@@ -1,7 +1,6 @@
 package dal.asd.dpl.UserOutput;
 
 public class CmdUserOutput implements IUserOutput{
-
     private String outputResponse;
 
     public CmdUserOutput() {
@@ -20,5 +19,4 @@ public class CmdUserOutput implements IUserOutput{
         System.out.println(this.outputResponse);
         return this.outputResponse;
     }
-
 }

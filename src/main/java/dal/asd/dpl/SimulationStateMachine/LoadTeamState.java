@@ -1,17 +1,13 @@
 package dal.asd.dpl.SimulationStateMachine;
-
 import dal.asd.dpl.UserInput.IUserInput;
-import dal.asd.dpl.UserOutput.CmdUserOutput;
 import dal.asd.dpl.UserOutput.IUserOutput;
 import dal.asd.dpl.teammanagement.Conferences;
 import dal.asd.dpl.teammanagement.ILeague;
 import dal.asd.dpl.teammanagement.Leagues;
 import dal.asd.dpl.teammanagement.Players;
-
 import java.util.List;
 
 public class LoadTeamState implements IState {
-
     private static IUserInput input;
     private static IUserOutput output;
     private static String teamName;
@@ -43,12 +39,12 @@ public class LoadTeamState implements IState {
         boolean result = false;
         String finalLeagueName = "";
         Leagues league = new Leagues("test", conferencesList, freeAgents);
-
         List<String> leagues = league.getLeagueNames(teamName, leagueDb);
 
         if(leagues.size() == 1) {
             result = league.loadLeagueData(leagues.get(0));
         }
+
         else if(leagues.size() > 1) {
             output.setOutput("We have found multiple leagues for the given team. Which one do you like to load?");
             output.sendOutput();
@@ -65,6 +61,7 @@ public class LoadTeamState implements IState {
                 result = league.loadLeagueData(finalLeagueName);
             }
         }
+
         else {
             output.setOutput("No League found for the team.");
             output.sendOutput();

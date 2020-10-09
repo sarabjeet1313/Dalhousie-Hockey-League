@@ -1,5 +1,4 @@
 package dal.asd.dpl.InternalStateMachine;
-
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
 
@@ -35,6 +34,7 @@ public class InternalSimulationState implements ISimulationState{
     public String getStateName(){
         return this.stateName;
     }
+
     public String getNextStateName(){
         return this.nextStateName;
     }

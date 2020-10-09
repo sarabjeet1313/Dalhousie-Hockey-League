@@ -1,10 +1,7 @@
 package dal.asd.dpl.UserInput;
-
-
 import java.util.Scanner;
 
 public class CmdUserInput implements IUserInput{
-
     private String inputResponse;
 
     public CmdUserInput() {

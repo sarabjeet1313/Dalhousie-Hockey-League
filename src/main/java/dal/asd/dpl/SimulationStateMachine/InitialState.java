@@ -1,7 +1,5 @@
 package dal.asd.dpl.SimulationStateMachine;
-
 import dal.asd.dpl.UserInput.IUserInput;
-import dal.asd.dpl.UserOutput.CmdUserOutput;
 import dal.asd.dpl.UserOutput.IUserOutput;
 
 public class InitialState implements IState {

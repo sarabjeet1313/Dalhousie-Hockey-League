@@ -1,5 +1,4 @@
 package dal.asd.dpl.InternalStateMachineTest;
-
 import dal.asd.dpl.InternalStateMachine.InternalEndState;
 import dal.asd.dpl.InternalStateMachine.InternalStateContext;
 import dal.asd.dpl.UserInput.CmdUserInput;
@@ -8,14 +7,12 @@ import dal.asd.dpl.UserOutput.CmdUserOutput;
 import dal.asd.dpl.UserOutput.IUserOutput;
 import org.junit.Before;
 import org.junit.Test;
-
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
 import static org.junit.Assert.*;
 
 public class InternalEndStateTest {
-
     private static InternalEndState state;
     private static IUserInput input;
     private static IUserOutput output;
@@ -59,5 +56,4 @@ public class InternalEndStateTest {
         gotOutput = gotOutput.replaceAll("\r", "");
         assertEquals(expected, gotOutput);
     }
-
 }
