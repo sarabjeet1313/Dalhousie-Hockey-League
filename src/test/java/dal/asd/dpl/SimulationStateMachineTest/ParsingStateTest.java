@@ -59,7 +59,7 @@ public class ParsingStateTest {
         context.doProcessing();
         Leagues initializedLeague = leagueDb.getTestData();
         String expected  = "Welcome to the Parsing State. It's time to parse the JSON and initialize your league.\n";
-        assertEquals(expected.length(), out.toString().length());
+        assertEquals(expected.length()+1, out.toString().length());
         assertNotNull(initializedLeague);
     }
 

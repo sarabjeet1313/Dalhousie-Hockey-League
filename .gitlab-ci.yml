@@ -57,6 +57,12 @@ deploy_test:
   script:
     - echo ${INPUT_JSON} > input.json
     - mv input.json target
+    - echo ${SAMPLE_JSON_1} > sample_json_1.json
+    - mv sample_json_1 target
+    - echo ${SAMPLE_JSON_2} > sample_json_2.json
+    - mv sample_json_2 target
+    - echo ${SAMPLE_JSON_3} > sample_json_3.json
+    - mv sample_json_3 target
     - zip -r ${CI_COMMIT_REF_NAME}_${CI_COMMIT_SHORT_SHA}.zip target
     - scp -r -o StrictHostKeyChecking=no ${CI_COMMIT_REF_NAME}_${CI_COMMIT_SHORT_SHA}.zip "${DEPLOY_TEST_USER}@${DEPLOY_HOST}:${DEPLOY_DIR}/${CI_COMMIT_REF_NAME}${CI_COMMIT_SHORT_SHA}.zip"
 
@@ -74,4 +80,13 @@ deploy_prod:
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
   script:
-    - scp -r -o StrictHostKeyChecking=no target/*.jar "${DEPLOY_PROD_USER}@${DEPLOY_HOST}:${DEPLOY_DIR}/dpl-prod.jar"
+    - echo ${INPUT_JSON} > input.json
+    - mv input.json target
+    - echo ${SAMPLE_JSON_1} > sample_json_1.json
+    - mv sample_json_1 target
+    - echo ${SAMPLE_JSON_2} > sample_json_2.json
+    - mv sample_json_2 target
+    - echo ${SAMPLE_JSON_3} > sample_json_3.json
+    - mv sample_json_3 target
+    - zip -r ${CI_COMMIT_REF_NAME}_${CI_COMMIT_SHORT_SHA}.zip target
+    - scp -r -o StrictHostKeyChecking=no ${CI_COMMIT_REF_NAME}_${CI_COMMIT_SHORT_SHA}.zip "${DEPLOY_PROD_USER}@${DEPLOY_HOST}:${DEPLOY_DIR}/${CI_COMMIT_REF_NAME}${CI_COMMIT_SHORT_SHA}.zip"

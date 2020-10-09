@@ -42,7 +42,7 @@ public class LeagueDataDB implements ILeague{
 					playerList.add(player);
 				}
 
-				if(result.isLast()) {
+				if(result.isLast() && !flag) {
 					league.getConferenceList().get(0).getDivisionList().get(0)
 					.getTeamList().get(0).setPlayerList(playerList);
 					leagueList.add(league);
@@ -58,6 +58,11 @@ public class LeagueDataDB implements ILeague{
 					league = new Leagues(result.getString("leagueName"), conferenceList, freeAgents);
 					tempLeagueName = result.getString("leagueName");
 					flag = false;
+					if(result.isLast()) {
+						league.getConferenceList().get(0).getDivisionList().get(0)
+						.getTeamList().get(0).setPlayerList(playerList);
+						leagueList.add(league);
+					}
 				}
 			}
 			result.close();

@@ -56,7 +56,7 @@ public class InternalSimulationStateTest {
 
         String output = "Season 1 simulated for testTeam ...\n";
         state.doProcessing();
-        assertEquals(output.length(), out.toString().length());
+        assertEquals(output.length()+1, out.toString().length());
 
     }
 
