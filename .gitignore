@@ -3,7 +3,6 @@ bin/
 tmp/
 *.tmp
 target/
-app.properties
 
 ### Eclipse ###
 .apt_generated

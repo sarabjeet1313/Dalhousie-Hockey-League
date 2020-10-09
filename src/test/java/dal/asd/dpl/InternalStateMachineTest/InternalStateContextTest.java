@@ -51,7 +51,10 @@ public class InternalStateContextTest {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
         context.doProcessing();
-        String expected  = "Thanks for using the Dynasty mode. Please come back soon.\n";
-        assertEquals(expected.length(), out.toString().length());
+        String expected  = "Thanks for using the Dynasty mode. Please come back soon.";
+
+        String gotOutput = out.toString().replaceAll("\n", "");
+        gotOutput = gotOutput.replaceAll("\r", "");
+        assertEquals(expected, gotOutput);
     }
 }

@@ -28,10 +28,6 @@ public class CmdParseJSON implements IParser{
             Object obj = parser.parse(new FileReader(filePath));
             JsonObject jsonObject = (JsonObject)obj;
             return jsonObject.get(field).toString();
-
-            // Debug
-            //output.setOutput(League);
-            //output.sendOutput();
         }
         catch(FileNotFoundException e) {
             output.setOutput("Input JSON file not found");

@@ -61,7 +61,10 @@ public class StateContextTest {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
         context.doProcessing();
-        String expected  = "Welcome to the Dynasty Mode. It's time to conquer the hockey arena.\n";
-        assertEquals(expected.length(), out.toString().length());
+        String expected  = "Welcome to the Dynasty Mode. It's time to conquer the hockey arena.";
+
+        String gotOutput = out.toString().replaceAll("\n", "");
+        gotOutput = gotOutput.replaceAll("\r", "");
+        assertEquals(expected, gotOutput);
     }
 }

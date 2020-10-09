@@ -1,6 +1,8 @@
 package dal.asd.dpl.Parser;
 
-public interface IParser {
+import com.google.gson.JsonArray;
 
+public interface IParser {
     public String parse(String field);
+    public JsonArray parseList(String field);
 }

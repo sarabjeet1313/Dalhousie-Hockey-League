@@ -35,9 +35,6 @@ public class InitializeLeaguesTest {
     public void isEmptyStringTest() {
         String testingString = "";
         assertTrue(league.isEmptyString(testingString));
-
-        testingString = null;
-        assertTrue(league.isEmptyString(testingString));
     }
 
     @Test

@@ -117,10 +117,8 @@ public class CreateTeamState implements IState {
                 break;
             }
         }
-
         return initializedLeague.createTeam(initializedLeague, leagueDb);
     }
-
 
     public String getStateName(){
         return this.stateName;

@@ -1,7 +1,6 @@
 package dal.asd.dpl.InternalStateMachineTest;
 
 import dal.asd.dpl.InternalStateMachine.InternalEndState;
-import dal.asd.dpl.InternalStateMachine.InternalSimulationState;
 import dal.asd.dpl.InternalStateMachine.InternalStateContext;
 import dal.asd.dpl.UserInput.CmdUserInput;
 import dal.asd.dpl.UserInput.IUserInput;
@@ -52,9 +51,13 @@ public class InternalEndStateTest {
     public void doProcessingTest(){
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
+
         state.doProcessing();
-        String expected  = "Thanks for using the Dynasty mode. Please come back soon.\n";
-        assertEquals(expected.length(), out.toString().length());
+
+        String expected  = "Thanks for using the Dynasty mode. Please come back soon.";
+        String gotOutput = out.toString().replaceAll("\n", "");
+        gotOutput = gotOutput.replaceAll("\r", "");
+        assertEquals(expected, gotOutput);
     }
 
 }
