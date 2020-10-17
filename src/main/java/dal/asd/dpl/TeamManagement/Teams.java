@@ -1,5 +1,6 @@
 package dal.asd.dpl.TeamManagement;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Teams {
@@ -73,5 +74,39 @@ public class Teams {
 		}
 		return isValid;
 	}
+	
+	public List<String> getGeneralManagerList(Leagues league){
+		List<String> list = new ArrayList<String>();
+		
+		return list;
+	}
     
+	public boolean isValidGeneralManager(String name, List<String> gmList) {
+		boolean isValid = false;
+		for(int index = 0; index < gmList.size() ; index++) {
+			if(name.equals(gmList.get(index))) {
+				isValid = true;
+				break;
+			}
+		}
+		return isValid;
+	}
+	
+	public List<String> getCoachList(Leagues league){
+		List<String> list = new ArrayList<String>();
+		
+		return list;
+	}
+    
+	public boolean isValidHeadCoach(String name, List<String> gmList) {
+		boolean isValid = false;
+		for(int index = 0; index < gmList.size() ; index++) {
+			if(name.equals(gmList.get(index))) {
+				isValid = true;
+				break;
+			}
+		}
+		return isValid;
+	}
+	
 }

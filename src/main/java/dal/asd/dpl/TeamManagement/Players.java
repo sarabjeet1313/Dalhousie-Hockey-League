@@ -1,5 +1,8 @@
 package dal.asd.dpl.TeamManagement;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Players {
 	
 	private String playerName;
@@ -96,4 +99,59 @@ public class Players {
 		this.saving = saving;
 	}
 	
+	public List<List<Players>> getAvailablePlayersList(Leagues league){
+		List<Players> goalieList = new ArrayList<Players>();
+		List<Players> forwordList = new ArrayList<Players>();
+		List<Players> defenseList = new ArrayList<Players>();
+		List<List<Players>> list = new ArrayList<List<Players>>(); 
+		List<Players> playerList = league.getFreeAgents();
+		for(int index = 0; index < playerList.size(); index++) {
+			if(playerList.get(index).getPlayerPosition().equals("goalie")) {
+				goalieList.add(playerList.get(index));
+			}
+			else if(playerList.get(index).getPlayerPosition().equals("forward")) {
+				forwordList.add(playerList.get(index));
+			}
+			else {
+				defenseList.add(playerList.get(index));
+			}
+		}
+		
+		list.add(goalieList);
+		list.add(forwordList);
+		list.add(defenseList);
+		return list;
+	}
+	
+//	public List<Players> sortList(String playerType, List<Players> list){
+//		List<Players> tempList = list;
+//		for(int index = 0; index < tempList.size(); index++) {
+//			if(tempList.get(index).getPlayerPosition().equals("goalie")) {
+//				
+//			}
+//		}
+//		return list;
+//	}
+	
+//	@Override
+//	public int compareTo(Players player) {
+//		int value = 0;
+//		if(player.getPlayerPosition().equals("goalie")) {
+//			value = player.getSaving();
+//		}
+//		else if(player.getPlayerPosition().equals("goalie")) {
+//			value = player.get;
+//		}
+//		else {
+//			value = player.getSaving();
+//		}
+//		return this.saving - value;
+//	}
+	
+//	@Override
+//	public String toString() {
+//		return "Players"
+//	}
+	
+
 }
