@@ -25,9 +25,9 @@ public class InitializeLeagues {
     private List<Players> freeAgents;
 
     public InitializeLeagues(String filePath, ILeague leagueDb, IUserOutput output, IUserInput input) {
-        this.filePath = filePath;
-        this.leagueDb = leagueDb;
-        this.output = output;
+    	 InitializeLeagues.filePath = filePath;
+         InitializeLeagues.leagueDb = leagueDb;
+         InitializeLeagues.output = output;
     }
 
     public boolean isEmptyString(String valueToCheck) {
@@ -43,7 +43,7 @@ public class InitializeLeagues {
     }
 
     public Leagues parseAndInitializeModels() {
-        parser = new CmdParseJSON(this.filePath);
+        parser = new CmdParseJSON(InitializeLeagues.filePath);
         conferenceList = new ArrayList<Conferences>();
         freeAgents = new ArrayList<Players>();
 
@@ -190,8 +190,44 @@ public class InitializeLeagues {
                         if(captain) {
                             isCaptainPositionOccupied = captain;
                         }
+                        
 
-                        Players playerObject = new Players(playerName, position, captain);
+                        int age = player.get("age").getAsInt();
+                        if(age < 0){
+                            output.setOutput("Please enter Player's age correctly. Player:" + count + " age should be integer and greater than 0.");
+                            output.sendOutput();
+                            return null;
+                        }
+
+                        int skating = player.get("skating").getAsInt();
+                        if(skating < 0 && skating > 20){
+                            output.setOutput("Please enter Player's skating correctly. Player:" + count + " skating value should be between 0 and 20.");
+                            output.sendOutput();
+                            return null;
+                        }
+
+                        int shooting = player.get("shooting").getAsInt();
+                        if(shooting < 0 && shooting > 20){
+                            output.setOutput("Please enter Player's shooting correctly. Player:" + count + " shooting value should be between 0 and 20.");
+                            output.sendOutput();
+                            return null;
+                        }
+
+                        int checking = player.get("checking").getAsInt();
+                        if(checking < 0 && checking > 20){
+                            output.setOutput("Please enter Player's checking correctly. Player:" + count + " checking value should be between 0 and 20.");
+                            output.sendOutput();
+                            return null;
+                        }
+
+                        int saving = player.get("saving").getAsInt();
+                        if(saving < 0 && saving > 20){
+                            output.setOutput("Please enter Player's saving correctly. Player:" + count + " saving value should be between 0 and 20.");
+                            output.sendOutput();
+                            return null;
+                        }                    
+
+                        Players playerObject = new Players(playerName, position, captain, age, skating, shooting, checking, saving);
                         bufferPlayerList.add(playerObject);
                         teamObject.setPlayerList(bufferPlayerList);
                     }
@@ -230,15 +266,50 @@ public class InitializeLeagues {
                 return null;
             }
 
-            Boolean captain = freeAgentObj.get("captain").getAsBoolean();
+            Boolean captain = false;
 
             if(captain) {
                 output.setOutput("A free agent:" + count + " cannot be a captain.");
                 output.sendOutput();
                 return null;
             }
+            
+            int age = freeAgentObj.get("age").getAsInt();
+            if(age < 0){
+                output.setOutput("Please enter Player's age correctly. Player:" + count + " age should be integer and greater than 0.");
+                output.sendOutput();
+                return null;
+            }
 
-            freeAgents.add(new Players(agentName, position, captain));
+            int skating = freeAgentObj.get("skating").getAsInt();
+            if(skating < 0 && skating > 20){
+                output.setOutput("Please enter Player's skating correctly. Player:" + count + " skating value should be between 0 and 20.");
+                output.sendOutput();
+                return null;
+            }
+
+            int shooting = freeAgentObj.get("shooting").getAsInt();
+            if(shooting < 0 && shooting > 20){
+                output.setOutput("Please enter Player's shooting correctly. Player:" + count + " shooting value should be between 0 and 20.");
+                output.sendOutput();
+                return null;
+            }
+
+            int checking = freeAgentObj.get("checking").getAsInt();
+            if(checking < 0 && checking > 20){
+                output.setOutput("Please enter Player's checking correctly. Player:" + count + " checking value should be between 0 and 20.");
+                output.sendOutput();
+                return null;
+            }
+
+            int saving = freeAgentObj.get("saving").getAsInt();
+            if(saving < 0 && saving > 20){
+                output.setOutput("Please enter Player's saving correctly. Player:" + count + " saving value should be between 0 and 20.");
+                output.sendOutput();
+                return null;
+            }
+
+            freeAgents.add(new Players(agentName, position, captain, age, skating, shooting, checking, saving));
         }
 
         league.setConferenceList(conferenceList);

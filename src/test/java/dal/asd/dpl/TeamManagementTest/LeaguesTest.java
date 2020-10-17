@@ -15,10 +15,10 @@ import org.junit.Assert;
 
 public class LeaguesTest {
 	
-	Players player1 = new Players("Player1", "Forword", false);
-	Players player2 = new Players("Player2", "Forword", false);
-	Players player3 = new Players("Player3", "defence", false);
-	Players player4 = new Players("Player4", "Goalie", false);
+	Players player1 = new Players("Player1", "Forward", false, 1, 1, 1, 1, 1);
+	Players player2 = new Players("Player2", "Forward", false, 1, 1, 1, 1, 1);
+	Players player3 = new Players("Player3", "defence", false, 1, 1, 1, 1, 1);
+	Players player4 = new Players("Player4", "Goalie", false, 1, 1, 1, 1, 1);
 	ArrayList<Players> freeAgents = new ArrayList<Players>();
 	ArrayList<Players> playerList = new ArrayList<Players>();
 	ArrayList<Divisions> divisionList = new ArrayList<Divisions>();

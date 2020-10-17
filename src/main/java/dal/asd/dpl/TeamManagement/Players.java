@@ -5,11 +5,23 @@ public class Players {
 	private String playerName;
 	private String position;
 	private boolean captain;
+	private int age;
+	private int skating;
+	private int shooting;
+	private int checking;
+	private int saving;
 	
-	public Players(String playerName, String position, boolean captain) {
+	public Players(String playerName, String position, boolean captain, int age, int skating, int shooting,
+			int checking, int saving) {
+		super();
 		this.playerName = playerName;
 		this.position = position;
 		this.captain = captain;
+		this.age = age;
+		this.skating = skating;
+		this.shooting = shooting;
+		this.checking = checking;
+		this.saving = saving;
 	}
 	
 	public String getPlayerName() {
@@ -34,6 +46,54 @@ public class Players {
 	
 	public void setCaptain(boolean c) {
 		captain = c;
+	}
+
+	public String getPosition() {
+		return position;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public int getSkating() {
+		return skating;
+	}
+
+	public void setSkating(int skating) {
+		this.skating = skating;
+	}
+
+	public int getShooting() {
+		return shooting;
+	}
+
+	public void setShooting(int shooting) {
+		this.shooting = shooting;
+	}
+
+	public int getChecking() {
+		return checking;
+	}
+
+	public void setChecking(int checking) {
+		this.checking = checking;
+	}
+
+	public int getSaving() {
+		return saving;
+	}
+
+	public void setSaving(int saving) {
+		this.saving = saving;
 	}
 	
 }
