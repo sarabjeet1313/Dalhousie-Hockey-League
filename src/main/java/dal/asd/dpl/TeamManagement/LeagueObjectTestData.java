@@ -4,12 +4,12 @@ import java.util.ArrayList;
 
 public class LeagueObjectTestData {
 	
-	Players player1 = new Players("Player One", "forward", true);
-	Players player2 = new Players("Player Two", "defense", false);
-	Players player3 = new Players("Player Three", "goalie", false);
-	Players player4 = new Players("Agent One", "forward", false);
-	Players player5 = new Players("Agent Two", "defense", false);
-	Players player6 = new Players("Agent Three", "goalie", false);
+	Players player1 = new Players("Player One", "forward", true, 1, 1, 1, 1, 1);
+	Players player2 = new Players("Player Two", "defense", false, 1, 1, 1, 1, 1);
+	Players player3 = new Players("Player Three", "goalie", false, 1, 1, 1, 1, 1);
+	Players player4 = new Players("Agent One", "forward", false, 1, 1, 1, 1, 1);
+	Players player5 = new Players("Agent Two", "defense", false, 1, 1, 1, 1, 1);
+	Players player6 = new Players("Agent Three", "goalie", false, 1, 1, 1, 1, 1);
 	ArrayList<Players> playerList = new ArrayList<Players>();
 	ArrayList<Players> freePlayerList = new ArrayList<Players>();
 	

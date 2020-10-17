@@ -6,7 +6,7 @@ import org.junit.Assert;
 
 public class PlayersTest {
 	
-	Players player = new Players("Player1", "Forword", false);
+	Players player = new Players("Player1", "Forword", false, 1, 1, 1, 1, 1);
 	
 	@Test
 	public void parameterizedConstructorTest() {
@@ -46,6 +46,61 @@ public class PlayersTest {
 	public void setCaptainTest() {
 		player.setCaptain(true);
 		Assert.assertTrue(player.getCaptain());
+	}
+
+	@Test
+	public void getAgeTest() {
+		Assert.assertEquals(1, player.getAge());
+	} 
+	
+	@Test
+	public void setAgeTest() {		
+		player.setAge(1);
+		Assert.assertEquals(1, player.getAge());
+	} 
+	
+	@Test
+	public void getSkatingTest() {
+		Assert.assertEquals(1, player.getSkating());
+	} 
+	
+	@Test
+	public void setSkatingTest() {		
+		player.setSkating(1);
+		Assert.assertEquals(1, player.getSkating());
+	} 
+	
+	@Test
+	public void getShootingTest() {
+		Assert.assertEquals(1, player.getShooting());
+	} 
+	
+	@Test
+	public void setShootingTest() {		
+		player.setShooting(1);
+		Assert.assertEquals(1, player.getShooting());
+	}
+	
+	@Test
+	public void getCheckingTest() {
+		Assert.assertEquals(1, player.getChecking());
+	} 
+	
+	@Test
+	public void setCheckingTest() {		
+		player.setChecking(1);
+		Assert.assertEquals(1, player.getChecking());
+	}
+	
+	@Test
+	public void getSavingTest() {
+		Assert.assertEquals(1, player.getSaving());
+	} 
+	
+	@Test
+	public void setSavingTest() {		
+		player.setSaving(1);
+		Assert.assertEquals(1, player.getSaving());
 	}
 	
 }

@@ -10,6 +10,6 @@ public interface ILeague {
 	public int checkLeagueName(String leagueName) throws SQLException;
 	
 	public boolean persisitLeagueData(String leagueName, String conferenceName, String divisionName, String teamName, 
-			String generalManager, String headCoach, String playerName, String position, boolean captain) throws SQLException;
+			String generalManager, String headCoach, String playerName, String position, boolean captain, int age, int skating, int shooting, int checking, int saving) throws SQLException;
 	
 }

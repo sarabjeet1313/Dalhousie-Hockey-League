@@ -83,6 +83,7 @@ public class Leagues {
 		String leagueName = league.getLeagueName();
 		String conferenceName = "Empty", divisionName = "Empty", teamName = "Empty", generalManager = "Empty",
 				headCoach = "Empty", playerName = "Empty", position = "Empty";
+		int age = 0, skating = 0, shooting = 0, checking = 0, saving = 0;
 		List<Conferences> conferenceList = league.getConferenceList();
 		List<Teams> teamList;
 		List<Divisions> divisionList;
@@ -109,15 +110,20 @@ public class Leagues {
 								playerName = playerList.get(pIndex).getPlayerName();
 								position = playerList.get(pIndex).getPlayerPosition();
 								captain = playerList.get(pIndex).getCaptain();
+								age = playerList.get(pIndex).getAge();
+								skating = playerList.get(pIndex).getSkating();
+								shooting = playerList.get(pIndex).getShooting();
+								checking = playerList.get(pIndex).getChecking();
+								saving = playerList.get(pIndex).getSaving();
 								isCreated = object.persisitLeagueData(leagueName, conferenceName, divisionName,
-										teamName, generalManager, headCoach, playerName, position, captain);
-							}
+										teamName, generalManager, headCoach, playerName, position, captain, age, skating, shooting, checking, saving);
+								}
 						}
 						else {
 							playerName = position = "Empty";
 							isCreated = object.persisitLeagueData(leagueName, conferenceName, divisionName,
-									teamName, generalManager, headCoach, playerName, position, captain);
-						}
+									teamName, generalManager, headCoach, playerName, position, captain, age, skating, shooting, checking, saving);
+							}
 					}
 				}
 			}
@@ -128,9 +134,14 @@ public class Leagues {
 					playerName = playerList.get(index).getPlayerName();
 					position = playerList.get(index).getPlayerPosition();
 					captain = playerList.get(index).getCaptain();
+					age = playerList.get(index).getAge();
+					skating = playerList.get(index).getSkating();
+					shooting = playerList.get(index).getShooting();
+					checking = playerList.get(index).getChecking();
+					saving = playerList.get(index).getSaving();
 					isCreated = object.persisitLeagueData(leagueName, conferenceName, divisionName,
-							teamName, generalManager, headCoach, playerName, position, captain);
-				}
+							teamName, generalManager, headCoach, playerName, position, captain, age, skating, shooting, checking, saving);
+					}
 			}
 		}catch (Exception e) {
 			System.out.println("error "+ e.getMessage());

@@ -88,7 +88,7 @@ public class LeagueDataDB implements ILeague{
 	
 	@Override
 	public boolean persisitLeagueData(String leagueName, String conferenceName, String divisionName, String teamName,
-			String generalManager, String headCoach, String playerName, String position, boolean captain) throws SQLException {
+			String generalManager, String headCoach, String playerName, String position, boolean captain, int age, int skating, int shooting, int checking, int saving) throws SQLException {
 		ResultSet result;
 		boolean isPersisted = false;
 		try {
@@ -102,6 +102,11 @@ public class LeagueDataDB implements ILeague{
 			isp.setParameter(7, playerName);
 			isp.setParameter(8, position);
 			isp.setParameter(9, captain);
+			isp.setParameter(10, age);
+			isp.setParameter(11, skating);
+			isp.setParameter(12, shooting);
+			isp.setParameter(13, checking);
+			isp.setParameter(14, saving);
 			result = isp.executeQueryWithResults();
 			while(result.next()) {
 				isPersisted = result.getBoolean("success");
