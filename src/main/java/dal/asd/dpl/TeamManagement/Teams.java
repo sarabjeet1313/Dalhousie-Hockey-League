@@ -6,10 +6,10 @@ public class Teams {
     
     private String teamName;
     private String generalManager;
-    private String headCoach;
-    private List<Players> playerList;
+    private Coach headCoach;
+    private List<Player> playerList;
     
-    public Teams(String teamName, String generalManager, String headCoach, List<Players> playerList) {
+    public Teams(String teamName, String generalManager, Coach headCoach, List<Player> playerList) {
 		super();
 		this.teamName = teamName;
 		this.generalManager = generalManager;
@@ -33,19 +33,19 @@ public class Teams {
 		this.generalManager = generalManager;
 	}
 	
-	public String getHeadCoach() {
+	public Coach getHeadCoach() {
 		return headCoach;
 	}
 	
-	public void setHeadCoach(String headCoach) {
+	public void setHeadCoach(Coach headCoach) {
 		this.headCoach = headCoach;
 	}
 	
-	public List<Players> getPlayerList() {
+	public List<Player> getPlayerList() {
 		return playerList;
 	}
 	
-	public void setPlayerList(List<Players> playerList) {
+	public void setPlayerList(List<Player> playerList) {
 		this.playerList = playerList;
 	}
 	

@@ -5,14 +5,19 @@ import java.util.List;
 
 public class LeagueMockData implements ILeague {
 	
-	Players player1 = new Players("Player One", "forward", true, 1, 1, 1, 1, 1);
-	Players player2 = new Players("Player Two", "defense", false, 1, 1, 1, 1, 1);
-	Players player3 = new Players("Player Three", "goalie", false, 1, 1, 1, 1, 1);
-	Players player4 = new Players("Agent One", "forward", false, 1, 1, 1, 1, 1);
-	Players player5 = new Players("Agent Two", "defense", false, 1, 1, 1, 1, 1);
-	Players player6 = new Players("Agent Three", "goalie", false, 1, 1, 1, 1, 1);
-	ArrayList<Players> playerList = new ArrayList<Players>();
-	ArrayList<Players> freePlayerList = new ArrayList<Players>();
+	Player player1 = new Player("Player One", "forward", true, 1, 1, 1, 1, 1);
+	Player player2 = new Player("Player Two", "defense", false, 1, 1, 1, 1, 1);
+	Player player3 = new Player("Player Three", "goalie", false, 1, 1, 1, 1, 1);
+	Player player4 = new Player("Agent One", "forward", false, 1, 1, 1, 1, 1);
+	Player player5 = new Player("Agent Two", "defense", false, 1, 1, 1, 1, 1);
+	Player player6 = new Player("Agent Three", "goalie", false, 1, 1, 1, 1, 1);
+	Coach coach1 = new Coach("Coach One", 0.1, 0.2, 0.1, 0.1);
+	Coach coach2 = new Coach("Coach Two", 0.1, 0.2, 0.1, 0.1);
+	Coach coach3 = new Coach("Coach Three", 0.1, 0.2, 0.1, 0.1);
+	Coach headCoach = new Coach("Mary Smith", 0.2, 0.3, 0.1, 0.4);
+	List<Player> playerList = new ArrayList<Player>();
+	List<Player> freePlayerList = new ArrayList<Player>();
+	List<Coach> coachList = new ArrayList<Coach>();
 	
 	public Leagues getTestData() {
 		playerList.add(player1);
@@ -21,7 +26,10 @@ public class LeagueMockData implements ILeague {
 		freePlayerList.add(player4);
 		freePlayerList.add(player5);
 		freePlayerList.add(player6);
-		Teams team = new Teams("Boston", "Mister Fred", "Mary Smith", playerList);
+		coachList.add(coach1);
+		coachList.add(coach2);
+		coachList.add(coach3);
+		Teams team = new Teams("Boston", "Mister Fred", headCoach, playerList);
 		ArrayList<Teams> teamList = new ArrayList<Teams>();
 		teamList.add(team);
 		Divisions division = new Divisions("Atlantic", teamList);
@@ -30,13 +38,12 @@ public class LeagueMockData implements ILeague {
 		Conferences conference = new Conferences("Eastern Conference", divisionList);
 		ArrayList<Conferences> conferenceList = new ArrayList<Conferences>();
 		conferenceList.add(conference);
-		Leagues league = new Leagues("Dalhousie Hockey League", conferenceList, freePlayerList);
+		Leagues league = new Leagues("Dalhousie Hockey League", conferenceList, freePlayerList, coachList);
 		return league;
 	} 
 	
 	@Override
 	public List<Leagues> getLeagueData(String teamName) {
-		Leagues league1 = null;
 		List<Leagues> leagueList = new ArrayList<Leagues>();
 		Leagues league = getTestData();
 		List<Conferences> conferenceList = league.getConferenceList();
@@ -65,10 +72,9 @@ public class LeagueMockData implements ILeague {
 	
 	@Override
 	public boolean persisitLeagueData(String leagueName, String conferenceName, String divisionName, String teamName,
-			String generalManager, String headCoach, String playerName, String position, boolean captain, int age, int skating, int shooting, int checking, int saving) {
+			String generalManager, Coach headCoach, String playerName, String position, boolean captain, int age, int skating, int shooting, int checking, int saving) {
 		if(teamName.equals("Empty")) {
-			Players player = new Players(playerName, position, captain, age, skating, shooting, checking, saving);
-			List<Players> playerList = new ArrayList<Players>() ;
+			List<Player> playerList = new ArrayList<Player>() ;
 			playerList.add(player1);
 		}
 		

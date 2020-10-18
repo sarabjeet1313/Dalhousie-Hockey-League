@@ -6,7 +6,7 @@ import java.sql.*;
 public class InvokeStoredProcedure {
 
     private Connection connection  ;
-    private DatabaseConnection db = new DatabaseConnection();
+    private DatabaseConnection db = DatabaseConnection.getSingleInstance();
     private String procedureName;
     private CallableStatement statement;
 

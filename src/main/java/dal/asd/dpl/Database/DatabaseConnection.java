@@ -12,7 +12,7 @@ public class DatabaseConnection implements IDatabaseConnection {
 	Connection connect = null;
 	private Properties properties;
 	
-	/*private static DatabaseConnection databaseConnection = null;
+	private static DatabaseConnection databaseConnection = null;
 
 	private DatabaseConnection() {
 		super();
@@ -23,7 +23,7 @@ public class DatabaseConnection implements IDatabaseConnection {
 			databaseConnection = new DatabaseConnection();
 		}
 		return databaseConnection;
-	}*/
+	}
 
 	public Connection getConnection() {
 		InputStream is = getClass().getClassLoader().getResourceAsStream(ConstantsUtil.PROP_FILE.toString());
@@ -39,10 +39,6 @@ public class DatabaseConnection implements IDatabaseConnection {
 			String dbURL = properties.getProperty(ConstantsUtil.DB_URL.toString());
 			String dbUserName = properties.getProperty(ConstantsUtil.DB_USER_NAME.toString());
 			String dbPassword = properties.getProperty(ConstantsUtil.DB_PASSWORD.toString());
-			
-//			String dbURL = "jdbc:mysql://db-5308.cs.dal.ca:3306/CSCI5308_8_DEVINT_USER";
-//			String dbUserName = "CSCI5308_8_DEVINT_USER";
-//			String dbPassword = "cWhbaAs94F";
 			
 			connect = DriverManager.getConnection(dbURL, dbUserName, dbPassword);
 		} catch (Exception e) {

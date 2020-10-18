@@ -1,17 +1,21 @@
 package dal.asd.dpl.TeamManagementTest;
 
 import org.junit.Test;
-import dal.asd.dpl.TeamManagement.Players;
+import dal.asd.dpl.TeamManagement.Player;
 import org.junit.Assert;
 
-public class PlayersTest {
+public class PlayerTest {
 	
-	Players player = new Players("Player1", "Forword", false, 1, 1, 1, 1, 1);
+	Player player = new Player("Player1", "Forword", false, 1, 1, 1, 1, 1);
 	
 	@Test
 	public void parameterizedConstructorTest() {
 		Assert.assertEquals("Player1", player.getPlayerName());
 		Assert.assertEquals("Forword", player.getPlayerPosition());
+		Assert.assertEquals(1, player.getSkating());
+		Assert.assertEquals(1, player.getShooting());
+		Assert.assertEquals(1, player.getChecking());
+		Assert.assertEquals(1, player.getSaving());
 		Assert.assertFalse(player.getCaptain());
 	}
 	

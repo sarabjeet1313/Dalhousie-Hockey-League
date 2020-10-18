@@ -7,13 +7,15 @@ public class Leagues {
 	
 	private String leagueName;
 	private List<Conferences> conferenceList;
-	private List<Players> freeAgents;
+	private List<Player> freeAgents;
+	private List<Coach> coaches;
 	private static List<Leagues> leagueList;
 	
-	public Leagues(String leagueName, List<Conferences> conferenceList, List<Players> freeAgents) {
+	public Leagues(String leagueName, List<Conferences> conferenceList, List<Player> freeAgents, List<Coach> coaches) {
 		this.leagueName = leagueName;
 		this.conferenceList = conferenceList;
 		this.freeAgents = freeAgents;
+		this.coaches = coaches;
 	}
 
 	public String getLeagueName() {
@@ -32,12 +34,20 @@ public class Leagues {
 		this.conferenceList = conferenceList;
 	}
 
-	public List<Players> getFreeAgents() {
+	public List<Player> getFreeAgents() {
 		return freeAgents;
 	}
 
-	public void setFreeAgents(List<Players> freeAgents) {
+	public void setFreeAgents(List<Player> freeAgents) {
 		this.freeAgents = freeAgents;
+	}
+	
+	public List<Coach> getCoaches() {
+		return coaches;
+	}
+
+	public void setCoaches(List<Coach> coaches) {
+		this.coaches = coaches;
 	}
 
 	public List<String> getLeagueNames(String teamName, ILeague object){
@@ -82,12 +92,13 @@ public class Leagues {
 		boolean isCreated = false, captain = false;
 		String leagueName = league.getLeagueName();
 		String conferenceName = "Empty", divisionName = "Empty", teamName = "Empty", generalManager = "Empty",
-				headCoach = "Empty", playerName = "Empty", position = "Empty";
+				playerName = "Empty", position = "Empty";
 		int age = 0, skating = 0, shooting = 0, checking = 0, saving = 0;
+		Coach headCoach;
 		List<Conferences> conferenceList = league.getConferenceList();
 		List<Teams> teamList;
 		List<Divisions> divisionList;
-		List<Players> playerList;
+		List<Player> playerList;
 		try {
 
 			for(int cIndex = 0; cIndex < conferenceList.size(); cIndex++) {
@@ -127,7 +138,8 @@ public class Leagues {
 					}
 				}
 			}
-			conferenceName = divisionName = teamName = generalManager = headCoach = "Empty";
+			conferenceName = divisionName = teamName = generalManager = "Empty";
+			headCoach = null;
 			playerList = league.getFreeAgents();
 			if(!playerList.isEmpty()) {
 				for(int index = 0; index < playerList.size(); index++) {

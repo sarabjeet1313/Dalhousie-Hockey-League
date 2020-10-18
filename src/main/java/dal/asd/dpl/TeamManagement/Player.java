@@ -1,6 +1,6 @@
 package dal.asd.dpl.TeamManagement;
 
-public class Players {
+public class Player {
 	
 	private String playerName;
 	private String position;
@@ -11,7 +11,7 @@ public class Players {
 	private int checking;
 	private int saving;
 	
-	public Players(String playerName, String position, boolean captain, int age, int skating, int shooting,
+	public Player(String playerName, String position, boolean captain, int age, int skating, int shooting,
 			int checking, int saving) {
 		super();
 		this.playerName = playerName;
