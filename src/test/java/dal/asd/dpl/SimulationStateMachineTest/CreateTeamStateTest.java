@@ -1,6 +1,7 @@
 package dal.asd.dpl.SimulationStateMachineTest;
 import dal.asd.dpl.SimulationStateMachine.CreateTeamState;
 import dal.asd.dpl.SimulationStateMachine.StateContext;
+import dal.asd.dpl.TeamManagement.Coach;
 import dal.asd.dpl.TeamManagement.LeagueMockData;
 import dal.asd.dpl.UserInput.CmdUserInput;
 import dal.asd.dpl.UserInput.IUserInput;
@@ -37,7 +38,8 @@ public class CreateTeamStateTest {
 
     @Test
     public void createTeamInLeagueTest() {
-        boolean success = state.createTeamInLeague("Eastern Conference", "Atlantic", "testTeam", "testGM", "testHC", mockData.getTestData());
+    	Coach headCoach = new Coach("Mary Smith", 0.2, 0.3, 0.1, 0.4);
+        boolean success = state.createTeamInLeague("Eastern Conference", "Atlantic", "testTeam", "testGM", headCoach, mockData.getTestData());
         assertTrue(success);
     }
 

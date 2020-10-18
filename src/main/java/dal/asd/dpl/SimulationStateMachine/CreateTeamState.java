@@ -1,9 +1,10 @@
 package dal.asd.dpl.SimulationStateMachine;
+import dal.asd.dpl.TeamManagement.Coach;
 import dal.asd.dpl.TeamManagement.Conferences;
 import dal.asd.dpl.TeamManagement.Divisions;
 import dal.asd.dpl.TeamManagement.ILeague;
 import dal.asd.dpl.TeamManagement.Leagues;
-import dal.asd.dpl.TeamManagement.Players;
+import dal.asd.dpl.TeamManagement.Player;
 import dal.asd.dpl.TeamManagement.Teams;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
@@ -23,23 +24,25 @@ public class CreateTeamState implements IState {
     private static String divisionName = "";
     private static String teamName = "";
     private static String genManager = "";
-    private static String headCoach = "";
+    private static String headCoach;
     private static String stateName;
     private static String nextStateName;
+    
+    private static Coach headCoachObj;
 
     public CreateTeamState(IUserInput input, IUserOutput output, Leagues league, ILeague leagueDb) {
-        this.input = input;
-        this.output = output;
-        this.leagueDb = leagueDb;
-        this.initializedLeague = league;
-        this.conferences = new Conferences("",null);
-        this.divisions = new Divisions("",null);
-        this.teams = new Teams("","","",null);
-        this.stateName = "Create Team";
+        CreateTeamState.input = input;
+        CreateTeamState.output = output;
+        CreateTeamState.leagueDb = leagueDb;
+        CreateTeamState.initializedLeague = league;
+        CreateTeamState.conferences = new Conferences("",null);
+        CreateTeamState.divisions = new Divisions("",null);
+        CreateTeamState.teams = new Teams("","", headCoachObj,null);
+        CreateTeamState.stateName = "Create Team";
     }
 
     public void nextState(StateContext context){
-        this.nextStateName = "Simulate";
+        CreateTeamState.nextStateName = "Simulate";
         context.setState(new SimulateState(input, output, teamName));
     }
 
@@ -84,10 +87,10 @@ public class CreateTeamState implements IState {
         output.sendOutput();
         input.setInput();
         headCoach = input.getInput();
-        createTeamInLeague(conferenceName, divisionName, teamName, genManager, headCoach, initializedLeague);
+        createTeamInLeague(conferenceName, divisionName, teamName, genManager, headCoachObj, initializedLeague);
     }
 
-    public boolean createTeamInLeague(String conferenceName, String divisionName, String teamName, String genManager, String headCoach, Leagues initializedLeague) {
+    public boolean createTeamInLeague(String conferenceName, String divisionName, String teamName, String genManager, Coach headCoach, Leagues initializedLeague) {
         List<Conferences> conferenceList =  initializedLeague.getConferenceList();
         for(int index = 0; index < conferenceList.size(); index++) {
             if (conferenceList.get(index).getConferenceName().equals(conferenceName)) {
@@ -95,7 +98,7 @@ public class CreateTeamState implements IState {
                 for (int dIndex = 0; dIndex < divisionList.size(); dIndex++) {
                     if (divisionList.get(dIndex).getDivisionName().equals(divisionName)) {
                         List<Teams> teamList = divisionList.get(dIndex).getTeamList();
-                        List<Players> playersList = new ArrayList<Players>();
+                        List<Player> playersList = new ArrayList<Player>();
                         Teams newTeam = new Teams(teamName, genManager, headCoach, playersList);
                         teamList.add(newTeam);
                         break;
@@ -108,10 +111,10 @@ public class CreateTeamState implements IState {
     }
 
     public String getStateName(){
-        return this.stateName;
+        return CreateTeamState.stateName;
     }
 
     public String getNextStateName(){
-        return this.nextStateName;
+        return CreateTeamState.nextStateName;
     }
 }
