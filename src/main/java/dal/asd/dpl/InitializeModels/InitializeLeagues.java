@@ -7,7 +7,7 @@ import dal.asd.dpl.TeamManagement.Conferences;
 import dal.asd.dpl.TeamManagement.Divisions;
 import dal.asd.dpl.TeamManagement.ILeague;
 import dal.asd.dpl.TeamManagement.Leagues;
-import dal.asd.dpl.TeamManagement.Players;
+import dal.asd.dpl.TeamManagement.Player;
 import dal.asd.dpl.TeamManagement.Teams;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
@@ -22,7 +22,7 @@ public class InitializeLeagues {
     private static IUserOutput output;
     private List<Conferences> conferenceList;
     private Leagues league;
-    private List<Players> freeAgents;
+    private List<Player> freeAgents;
 
     public InitializeLeagues(String filePath, ILeague leagueDb, IUserOutput output, IUserInput input) {
     	 InitializeLeagues.filePath = filePath;
@@ -45,7 +45,7 @@ public class InitializeLeagues {
     public Leagues parseAndInitializeModels() {
         parser = new CmdParseJSON(InitializeLeagues.filePath);
         conferenceList = new ArrayList<Conferences>();
-        freeAgents = new ArrayList<Players>();
+        freeAgents = new ArrayList<Player>();
 
         String leagueName = parser.parse("leagueName");
 
@@ -111,7 +111,7 @@ public class InitializeLeagues {
                 while(teamListElement.hasNext()) {
                     JsonObject team = teamListElement.next().getAsJsonObject();
                     String teamName = team.get("teamName").toString();
-                    List<Players> bufferPlayerList = new ArrayList<Players>();
+                    List<Player> bufferPlayerList = new ArrayList<Player>();
                     teamName = truncateString(teamName);
                     if(isEmptyString(teamName)){
                         output.setOutput("Please enter Team name. Null values are not accepted.");
@@ -227,7 +227,7 @@ public class InitializeLeagues {
                             return null;
                         }                    
 
-                        Players playerObject = new Players(playerName, position, captain, age, skating, shooting, checking, saving);
+                        Player playerObject = new Player(playerName, position, captain, age, skating, shooting, checking, saving);
                         bufferPlayerList.add(playerObject);
                         teamObject.setPlayerList(bufferPlayerList);
                     }
@@ -309,7 +309,7 @@ public class InitializeLeagues {
                 return null;
             }
 
-            freeAgents.add(new Players(agentName, position, captain, age, skating, shooting, checking, saving));
+            freeAgents.add(new Player(agentName, position, captain, age, skating, shooting, checking, saving));
         }
 
         league.setConferenceList(conferenceList);

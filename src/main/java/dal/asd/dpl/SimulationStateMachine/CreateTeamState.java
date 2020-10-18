@@ -3,7 +3,7 @@ import dal.asd.dpl.TeamManagement.Conferences;
 import dal.asd.dpl.TeamManagement.Divisions;
 import dal.asd.dpl.TeamManagement.ILeague;
 import dal.asd.dpl.TeamManagement.Leagues;
-import dal.asd.dpl.TeamManagement.Players;
+import dal.asd.dpl.TeamManagement.Player;
 import dal.asd.dpl.TeamManagement.Teams;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
@@ -19,7 +19,7 @@ public class CreateTeamState implements IState {
     private static Conferences conferences;
     private static Divisions divisions;
     private static Teams teams;
-    private static Players players;
+    private static Player player;
     private static String conferenceName = "";
     private static String divisionName = "";
     private static String teamName = "";
@@ -54,7 +54,7 @@ public class CreateTeamState implements IState {
         boolean validDefender = false;
         boolean validAttacker = false;
         List<Integer> indexList = new ArrayList<Integer>();
-        List<Players> playersList = new ArrayList<Players>();
+        List<Player> playersList = new ArrayList<Player>();
 
         output.setOutput("Welcome to the Create Team State. It's time to create and store the team.\n");
         output.sendOutput();
@@ -118,11 +118,11 @@ public class CreateTeamState implements IState {
         
         output.setOutput("Please Roster Players for "+ teamName);
         output.sendOutput();
-        List<List<Players>> list = players.getAvailablePlayersList(initializedLeague);
+        List<List<Player>> list = player.getAvailablePlayersList(initializedLeague);
         do {
         	output.setOutput("Please select 2 Golies");
             output.sendOutput();
-    		List<Players> pList = list.get(0);
+    		List<Player> pList = list.get(0);
     		output.setOutput("PlayerNo. |	PLAYER NAME     		| AGE  | SKATING | SHOOTING | CHECKING | SAVING");
             output.sendOutput();
     		for(int index = 0; index < pList.size(); index++) {
@@ -145,8 +145,8 @@ public class CreateTeamState implements IState {
     		}
     		output.setOutput("Please select 18 Skaters (forward and defense)");
             output.sendOutput();
-    		List<Players> fList = list.get(1);
-    		List<Players> dList = list.get(2);
+    		List<Player> fList = list.get(1);
+    		List<Player> dList = list.get(2);
     		output.setOutput("PlayerNo. | PLAYER TYPE |	PLAYER NAME     		| AGE  | SKATING | SHOOTING | CHECKING | SAVING");
             output.sendOutput();
     		for(int index = 0; index < fList.size(); index++) {
@@ -159,7 +159,7 @@ public class CreateTeamState implements IState {
     					+" |  "+dList.get(index).getShooting()+" |  "+dList.get(index).getChecking()+" |  "+dList.get(index).getSaving());
                 output.sendOutput();
     		}
-    		List<Players> fdList =new ArrayList<Players>();
+    		List<Player> fdList =new ArrayList<Player>();
     		fdList.addAll(fList);
     		fdList.addAll(dList);
     		for(int i = 0; i < 18; i++) {
@@ -178,7 +178,7 @@ public class CreateTeamState implements IState {
         createTeamInLeague(conferenceName, divisionName, teamName, genManager, headCoach, playersList, initializedLeague);
     }
 
-    public boolean createTeamInLeague(String conferenceName, String divisionName, String teamName, String genManager, String headCoach,List<Players> playerList, Leagues initializedLeague) {
+    public boolean createTeamInLeague(String conferenceName, String divisionName, String teamName, String genManager, String headCoach,List<Player> playerList, Leagues initializedLeague) {
         List<Conferences> conferenceList =  initializedLeague.getConferenceList();
         for(int index = 0; index < conferenceList.size(); index++) {
             if (conferenceList.get(index).getConferenceName().equals(conferenceName)) {

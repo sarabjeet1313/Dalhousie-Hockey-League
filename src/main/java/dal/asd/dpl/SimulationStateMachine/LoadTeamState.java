@@ -3,7 +3,7 @@ package dal.asd.dpl.SimulationStateMachine;
 import dal.asd.dpl.TeamManagement.Conferences;
 import dal.asd.dpl.TeamManagement.ILeague;
 import dal.asd.dpl.TeamManagement.Leagues;
-import dal.asd.dpl.TeamManagement.Players;
+import dal.asd.dpl.TeamManagement.Player;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
 import java.util.List;
@@ -36,7 +36,7 @@ public class LoadTeamState implements IState {
         input.setInput();
         teamName = input.getInput();
         List<Conferences> conferencesList = null;
-        List<Players> freeAgents = null;
+        List<Player> freeAgents = null;
         boolean result = false;
         String finalLeagueName = "";
         Leagues league = new Leagues("test", conferencesList, freeAgents);

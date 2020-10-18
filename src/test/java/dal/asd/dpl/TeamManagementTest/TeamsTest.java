@@ -3,19 +3,19 @@ package dal.asd.dpl.TeamManagementTest;
 import java.util.ArrayList;
 import org.junit.Test;
 import dal.asd.dpl.TeamManagement.LeagueObjectTestData;
-import dal.asd.dpl.TeamManagement.Players;
+import dal.asd.dpl.TeamManagement.Player;
 import dal.asd.dpl.TeamManagement.Teams;
 import org.junit.Assert;
 
 
 public class TeamsTest {
 	
-	ArrayList<Players> playerList = new ArrayList<Players>();
+	ArrayList<Player> playerList = new ArrayList<Player>();
 	Teams team = new Teams("Boston", "Mister Fred", "Mary Smith", playerList);
-	Players player1 = new Players("Player1", "Forword", false, 1, 1, 1, 1, 1);
-	Players player2 = new Players("Player2", "Forword", false, 1, 1, 1, 1, 1);
-	Players player3 = new Players("Player3", "Goalie", false, 1, 1, 1, 1, 1);
-	Players player4 = new Players("Player4", "Defender", false, 1, 1, 1, 1, 1);
+	Player player1 = new Player("Player1", "Forword", false, 1, 1, 1, 1, 1);
+	Player player2 = new Player("Player2", "Forword", false, 1, 1, 1, 1, 1);
+	Player player3 = new Player("Player3", "Goalie", false, 1, 1, 1, 1, 1);
+	Player player4 = new Player("Player4", "Defender", false, 1, 1, 1, 1, 1);
 	
 	@Test
 	public void parameterizedConstructorTest() {

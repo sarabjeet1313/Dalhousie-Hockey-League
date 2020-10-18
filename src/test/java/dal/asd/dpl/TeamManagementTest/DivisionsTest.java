@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import org.junit.Test;
 import dal.asd.dpl.TeamManagement.Divisions;
 import dal.asd.dpl.TeamManagement.LeagueObjectTestData;
-import dal.asd.dpl.TeamManagement.Players;
+import dal.asd.dpl.TeamManagement.Player;
 import dal.asd.dpl.TeamManagement.Teams;
 import org.junit.Assert;
 
 public class DivisionsTest {
 	
-	ArrayList<Players> playerList = new ArrayList<Players>();
-	ArrayList<Players> playerList1 = new ArrayList<Players>();
+	ArrayList<Player> playerList = new ArrayList<Player>();
+	ArrayList<Player> playerList1 = new ArrayList<Player>();
 	Teams team = new Teams("Boston", "Mister Fred", "Mary Smith", playerList);
 	Teams team1 = new Teams("Florida", "Ashely", "Robert", playerList1);
 	ArrayList<Teams> teamList = new ArrayList<Teams>();

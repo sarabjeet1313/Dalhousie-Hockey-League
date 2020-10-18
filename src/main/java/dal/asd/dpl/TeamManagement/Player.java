@@ -3,7 +3,7 @@ package dal.asd.dpl.TeamManagement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Players {
+public class Player {
 	
 	private String playerName;
 	private String position;
@@ -14,7 +14,7 @@ public class Players {
 	private int checking;
 	private int saving;
 	
-	public Players(String playerName, String position, boolean captain, int age, int skating, int shooting,
+	public Player(String playerName, String position, boolean captain, int age, int skating, int shooting,
 			int checking, int saving) {
 		super();
 		this.playerName = playerName;
@@ -99,12 +99,12 @@ public class Players {
 		this.saving = saving;
 	}
 	
-	public List<List<Players>> getAvailablePlayersList(Leagues league){
-		List<Players> goalieList = new ArrayList<Players>();
-		List<Players> forwordList = new ArrayList<Players>();
-		List<Players> defenseList = new ArrayList<Players>();
-		List<List<Players>> list = new ArrayList<List<Players>>(); 
-		List<Players> playerList = league.getFreeAgents();
+	public List<List<Player>> getAvailablePlayersList(Leagues league){
+		List<Player> goalieList = new ArrayList<Player>();
+		List<Player> forwordList = new ArrayList<Player>();
+		List<Player> defenseList = new ArrayList<Player>();
+		List<List<Player>> list = new ArrayList<List<Player>>(); 
+		List<Player> playerList = league.getFreeAgents();
 		for(int index = 0; index < playerList.size(); index++) {
 			if(playerList.get(index).getPlayerPosition().equals("goalie")) {
 				goalieList.add(playerList.get(index));

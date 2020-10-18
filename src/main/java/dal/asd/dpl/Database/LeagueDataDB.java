@@ -8,7 +8,7 @@ import dal.asd.dpl.TeamManagement.Conferences;
 import dal.asd.dpl.TeamManagement.Divisions;
 import dal.asd.dpl.TeamManagement.ILeague;
 import dal.asd.dpl.TeamManagement.Leagues;
-import dal.asd.dpl.TeamManagement.Players;
+import dal.asd.dpl.TeamManagement.Player;
 import dal.asd.dpl.TeamManagement.Teams;
 
 public class LeagueDataDB implements ILeague{
@@ -18,7 +18,7 @@ public class LeagueDataDB implements ILeague{
 	public List<Leagues> getLeagueData(String teamName) throws SQLException {
 		Leagues league = null;
 		List<Leagues> leagueList = new ArrayList<Leagues>(); 
-		ArrayList<Players> playerList = new ArrayList<Players>();
+		ArrayList<Player> playerList = new ArrayList<Player>();
 		ArrayList<Teams> teamList = new ArrayList<Teams>();
 		ArrayList<Divisions> divisionList = new ArrayList<Divisions>();
 		ArrayList<Conferences> conferenceList = new ArrayList<Conferences>();
@@ -44,7 +44,7 @@ public class LeagueDataDB implements ILeague{
 					divisionList.add(division);
 					Conferences conference = new Conferences(result.getString("conferenceName"),divisionList);
 					conferenceList.add(conference);
-					List<Players> freeAgents = new ArrayList<Players>();
+					List<Player> freeAgents = new ArrayList<Player>();
 					league = new Leagues(result.getString("leagueName"), conferenceList, freeAgents);
 					tempLeagueName = result.getString("leagueName");
 					flag = false;

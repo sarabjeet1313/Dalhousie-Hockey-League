@@ -9,18 +9,18 @@ import dal.asd.dpl.TeamManagement.ILeague;
 import dal.asd.dpl.TeamManagement.LeagueMockData;
 import dal.asd.dpl.TeamManagement.LeagueObjectTestData;
 import dal.asd.dpl.TeamManagement.Leagues;
-import dal.asd.dpl.TeamManagement.Players;
+import dal.asd.dpl.TeamManagement.Player;
 
 import org.junit.Assert;
 
 public class LeaguesTest {
 	
-	Players player1 = new Players("Player1", "Forward", false, 1, 1, 1, 1, 1);
-	Players player2 = new Players("Player2", "Forward", false, 1, 1, 1, 1, 1);
-	Players player3 = new Players("Player3", "defence", false, 1, 1, 1, 1, 1);
-	Players player4 = new Players("Player4", "Goalie", false, 1, 1, 1, 1, 1);
-	ArrayList<Players> freeAgents = new ArrayList<Players>();
-	ArrayList<Players> playerList = new ArrayList<Players>();
+	Player player1 = new Player("Player1", "Forward", false, 1, 1, 1, 1, 1);
+	Player player2 = new Player("Player2", "Forward", false, 1, 1, 1, 1, 1);
+	Player player3 = new Player("Player3", "defence", false, 1, 1, 1, 1, 1);
+	Player player4 = new Player("Player4", "Goalie", false, 1, 1, 1, 1, 1);
+	ArrayList<Player> freeAgents = new ArrayList<Player>();
+	ArrayList<Player> playerList = new ArrayList<Player>();
 	ArrayList<Divisions> divisionList = new ArrayList<Divisions>();
 	ArrayList<Divisions> divisionList1 = new ArrayList<Divisions>();
 	ArrayList<Conferences> conferenceList = new ArrayList<Conferences>();

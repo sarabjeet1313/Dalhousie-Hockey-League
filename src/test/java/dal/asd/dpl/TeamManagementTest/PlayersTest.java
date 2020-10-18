@@ -1,12 +1,12 @@
 package dal.asd.dpl.TeamManagementTest;
 
 import org.junit.Test;
-import dal.asd.dpl.TeamManagement.Players;
+import dal.asd.dpl.TeamManagement.Player;
 import org.junit.Assert;
 
 public class PlayersTest {
 	
-	Players player = new Players("Player1", "Forword", false, 1, 1, 1, 1, 1);
+	Player player = new Player("Player1", "Forword", false, 1, 1, 1, 1, 1);
 	
 	@Test
 	public void parameterizedConstructorTest() {

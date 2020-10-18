@@ -7,10 +7,10 @@ public class Leagues {
 	
 	private String leagueName;
 	private List<Conferences> conferenceList;
-	private List<Players> freeAgents;
+	private List<Player> freeAgents;
 	private static List<Leagues> leagueList;
 	
-	public Leagues(String leagueName, List<Conferences> conferenceList, List<Players> freeAgents) {
+	public Leagues(String leagueName, List<Conferences> conferenceList, List<Player> freeAgents) {
 		this.leagueName = leagueName;
 		this.conferenceList = conferenceList;
 		this.freeAgents = freeAgents;
@@ -32,11 +32,11 @@ public class Leagues {
 		this.conferenceList = conferenceList;
 	}
 
-	public List<Players> getFreeAgents() {
+	public List<Player> getFreeAgents() {
 		return freeAgents;
 	}
 
-	public void setFreeAgents(List<Players> freeAgents) {
+	public void setFreeAgents(List<Player> freeAgents) {
 		this.freeAgents = freeAgents;
 	}
 
@@ -87,7 +87,7 @@ public class Leagues {
 		List<Conferences> conferenceList = league.getConferenceList();
 		List<Teams> teamList;
 		List<Divisions> divisionList;
-		List<Players> playerList;
+		List<Player> playerList;
 		try {
 
 			for(int cIndex = 0; cIndex < conferenceList.size(); cIndex++) {
