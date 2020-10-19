@@ -37,6 +37,10 @@ public class InvokeStoredProcedure {
     public void setParameter(int paramIndex, int value) throws SQLException {
         statement.setInt(paramIndex, value);
     }
+    
+    public void setParameter(int paramIndex, double value) throws SQLException {
+        statement.setDouble(paramIndex, value);
+    }
 
     public ResultSet executeQueryWithResults() throws SQLException {
         ResultSet result = null;

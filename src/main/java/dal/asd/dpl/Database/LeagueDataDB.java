@@ -16,7 +16,7 @@ public class LeagueDataDB implements ILeague {
 	
 	InvokeStoredProcedure isp = null;
 	@Override
-	public List<Leagues> getLeagueData(String teamName) throws SQLException {
+	public List<Leagues> getLeagueData(String teamName) {
 		Leagues league = null;
 		List<Leagues> leagueList = new ArrayList<Leagues>(); 
 		ArrayList<Player> playerList = new ArrayList<Player>();
@@ -47,8 +47,9 @@ public class LeagueDataDB implements ILeague {
 					Conferences conference = new Conferences(result.getString("conferenceName"),divisionList);
 					conferenceList.add(conference);
 					List<Player> freeAgents = new ArrayList<Player>();
+					List<String> managers = new ArrayList<String>(); 	
 					List<Coach> coachesList = new ArrayList<Coach>();
-					league = new Leagues(result.getString("leagueName"), conferenceList, freeAgents, coachesList);
+					league = new Leagues(result.getString("leagueName"), conferenceList, freeAgents, coachesList, managers);
 					tempLeagueName = result.getString("leagueName");
 					flag = false;
 				}
@@ -63,13 +64,17 @@ public class LeagueDataDB implements ILeague {
 			System.out.println("Database Error:" + e.getMessage());
 		}
 		finally {
-			isp.closeConnection();
+			try {
+				isp.closeConnection();
+			} catch (SQLException e) {
+				System.out.println("Database Error:" + e.getMessage());
+			}
 		}
 		return leagueList;
 	}
 	
 	@Override
-	public int checkLeagueName(String leagueName) throws SQLException {
+	public int checkLeagueName(String leagueName) {
 		ResultSet result;
 		int rowCount = 0;
 		try {
@@ -84,32 +89,36 @@ public class LeagueDataDB implements ILeague {
 			System.out.println("Database Error:" + e.getMessage());
 		}
 		finally {
-			isp.closeConnection();
+			try {
+				isp.closeConnection();
+			} catch (SQLException e) {
+				System.out.println("Database Error:" + e.getMessage());
+			}
 		}
 		return rowCount;
 	}
 	
 	@Override
 	public boolean persisitLeagueData(String leagueName, String conferenceName, String divisionName, String teamName,
-			String generalManager, Coach headCoach, String playerName, String position, boolean captain, int age, int skating, int shooting, int checking, int saving) throws SQLException {
+			String generalManager, String headCoach, Player player) {
 		ResultSet result;
 		boolean isPersisted = false;
 		try {
-			isp = new InvokeStoredProcedure("spPersistLeagueData(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			isp = new InvokeStoredProcedure("spPersistLeagueData(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			isp.setParameter(1, leagueName);
 			isp.setParameter(2, conferenceName);
 			isp.setParameter(3, divisionName);
 			isp.setParameter(4, teamName);
 			isp.setParameter(5, generalManager);
-			isp.setParameter(6, "name");
-			isp.setParameter(7, playerName);
-			isp.setParameter(8, position);
-			isp.setParameter(9, captain);
-			isp.setParameter(10, age);
-			isp.setParameter(11, skating);
-			isp.setParameter(12, shooting);
-			isp.setParameter(13, checking);
-			isp.setParameter(14, saving);
+			isp.setParameter(6, headCoach);
+			isp.setParameter(7, player.getPlayerName());
+			isp.setParameter(8, player.getPlayerPosition());
+			isp.setParameter(9, player.getCaptain());
+			isp.setParameter(10, player.getAge());
+			isp.setParameter(11, player.getSkating());
+			isp.setParameter(12, player.getShooting());
+			isp.setParameter(13, player.getChecking());
+			isp.setParameter(14, player.getSaving());
 			result = isp.executeQueryWithResults();
 			while(result.next()) {
 				isPersisted = result.getBoolean("success");
@@ -119,9 +128,45 @@ public class LeagueDataDB implements ILeague {
 			System.out.println("Database Error:" + e.getMessage());
 		}
 		finally {
-			isp.closeConnection();
+			try {
+				isp.closeConnection();
+			} catch (SQLException e) {
+				System.out.println("Database Error:" + e.getMessage());
+			}
 		}
 		return isPersisted;
 	}
+
+	@Override
+	public boolean persisitCoaches(Coach coach, String teamName, String leagueName) {
+		boolean isPersisted = false;
+		ResultSet result;
+		try {
+			isp = new InvokeStoredProcedure("spPersistCoaches(?,?,?,?,?,?,?,?)");
+			isp.setParameter(1, coach.getCoachName());
+			isp.setParameter(2, coach.getSkating());
+			isp.setParameter(3, coach.getShooting());
+			isp.setParameter(4, coach.getChecking());
+			isp.setParameter(5, coach.getSaving());
+			isp.setParameter(6, teamName);
+			isp.setParameter(7, leagueName);
+			result = isp.executeQueryWithResults();
+			while(result.next()) {
+				isPersisted = result.getBoolean("success");
+			}
+		} catch (Exception e) {
+			System.out.println("Database Error:" + e.getMessage());
+		}
+		finally {
+			try {
+				isp.closeConnection();
+			} catch (SQLException e) {
+				System.out.println("Database Error:" + e.getMessage());
+			}
+		}
+		return isPersisted;
+	}
+	
+	
 	
 }
