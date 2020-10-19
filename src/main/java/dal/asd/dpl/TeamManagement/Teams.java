@@ -7,11 +7,9 @@ public class Teams {
     
     private String teamName;
     private String generalManager;
-    private String headCoach;
-    private List<Player> playerList;
-    
-    public Teams(String teamName, String generalManager, String headCoach, List<Player> playerList) {
-		super();
+    private Coach headCoach;
+    private List<Player> playerList;    
+    public Teams(String teamName, String generalManager, Coach headCoach, List<Player> playerList) {
 		this.teamName = teamName;
 		this.generalManager = generalManager;
 		this.headCoach = headCoach;
@@ -34,11 +32,11 @@ public class Teams {
 		this.generalManager = generalManager;
 	}
 	
-	public String getHeadCoach() {
+	public Coach getHeadCoach() {
 		return headCoach;
 	}
 	
-	public void setHeadCoach(String headCoach) {
+	public void setHeadCoach(Coach headCoach) {
 		this.headCoach = headCoach;
 	}
 	
@@ -75,38 +73,26 @@ public class Teams {
 		return isValid;
 	}
 	
-	public List<String> getGeneralManagerList(Leagues league){
-		List<String> list = new ArrayList<String>();
-		
-		return list;
-	}
-    
-	public boolean isValidGeneralManager(String name, List<String> gmList) {
-		boolean isValid = false;
-		for(int index = 0; index < gmList.size() ; index++) {
-			if(name.equals(gmList.get(index))) {
-				isValid = true;
-				break;
+	public List<List<Player>> getAvailablePlayersList(Leagues league){
+		List<List<Player>> list = new ArrayList<List<Player>>();
+		List<Player> playerList = league.getFreeAgents();
+		List<Player> golieList = new ArrayList<Player>();
+		List<Player> forwordList = new ArrayList<Player>();
+		List<Player> defenceList = new ArrayList<Player>();
+		for(int index = 0; index < playerList.size(); index++) {
+			if(playerList.get(index).getPlayerPosition().equals("goalie")) {
+				golieList.add(playerList.get(index));
+			}
+			else if(playerList.get(index).getPlayerPosition().equals("forward")) {
+				forwordList.add(playerList.get(index));
+			}
+			else {
+				defenceList.add(playerList.get(index));
 			}
 		}
-		return isValid;
-	}
-	
-	public List<String> getCoachList(Leagues league){
-		List<String> list = new ArrayList<String>();
-		
+		list.add(golieList);
+		list.add(forwordList);
+		list.add(defenceList);
 		return list;
 	}
-    
-	public boolean isValidHeadCoach(String name, List<String> gmList) {
-		boolean isValid = false;
-		for(int index = 0; index < gmList.size() ; index++) {
-			if(name.equals(gmList.get(index))) {
-				isValid = true;
-				break;
-			}
-		}
-		return isValid;
-	}
-	
 }

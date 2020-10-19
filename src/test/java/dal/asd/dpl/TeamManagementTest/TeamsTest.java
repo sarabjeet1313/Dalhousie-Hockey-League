@@ -1,7 +1,11 @@
 package dal.asd.dpl.TeamManagementTest;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
+
+import dal.asd.dpl.TeamManagement.Coach;
 import dal.asd.dpl.TeamManagement.LeagueObjectTestData;
 import dal.asd.dpl.TeamManagement.Player;
 import dal.asd.dpl.TeamManagement.Teams;
@@ -11,7 +15,8 @@ import org.junit.Assert;
 public class TeamsTest {
 	
 	ArrayList<Player> playerList = new ArrayList<Player>();
-	Teams team = new Teams("Boston", "Mister Fred", "Mary Smith", playerList);
+	Coach headCoach = new Coach("Mary Smith", 0.2, 0.3, 0.1, 0.4);
+	Teams team = new Teams("Boston", "Mister Fred", headCoach, playerList);
 	Player player1 = new Player("Player1", "Forword", false, 1, 1, 1, 1, 1);
 	Player player2 = new Player("Player2", "Forword", false, 1, 1, 1, 1, 1);
 	Player player3 = new Player("Player3", "Goalie", false, 1, 1, 1, 1, 1);
@@ -23,7 +28,7 @@ public class TeamsTest {
 		team.setPlayerList(playerList);
 		Assert.assertEquals("Boston", team.getTeamName());
 		Assert.assertEquals("Mister Fred", team.getGeneralManager());
-		Assert.assertEquals("Mary Smith", team.getHeadCoach());
+		Assert.assertEquals("Mary Smith", team.getHeadCoach().getCoachName());
 		Assert.assertEquals(1, team.getPlayerList().size());
 	}
 	
@@ -51,13 +56,14 @@ public class TeamsTest {
 	
 	@Test
 	public void getHeadCoachTest() {
-		Assert.assertEquals("Mary Smith", team.getHeadCoach());
+		Assert.assertEquals("Mary Smith", team.getHeadCoach().getCoachName());
 	}
 	
 	@Test
 	public void setHeadCoachTest() {
-		team.setHeadCoach("William");
-		Assert.assertEquals("William", team.getHeadCoach());
+		Coach headCoach = new Coach("William", 0.2, 0.3, 0.1, 0.4);
+		team.setHeadCoach(headCoach);
+		Assert.assertEquals("William", team.getHeadCoach().getCoachName());
 	}
 	
 	@Test
@@ -71,7 +77,7 @@ public class TeamsTest {
 	public void setPlayersTest() {
 		playerList.add(player1);
 		playerList.add(player2);
-		Teams team1 = new Teams("Boston", "Mister Fred", "Mary Smith", playerList);
+		Teams team1 = new Teams("Boston", "Mister Fred", headCoach, playerList);
 		playerList.add(player3);
 		playerList.add(player4);
 		team1.setPlayerList(playerList);
@@ -85,6 +91,13 @@ public class TeamsTest {
 		String conferenceName = "Eastern Conference";
 		String divisionName = "Atlantic";
 		Assert.assertFalse(team.isValidTeamName(conferenceName, divisionName, teamName, leagueData.getLeagueData()));
+	}
+	
+	@Test
+	public void getAvailablePlayersListTest() {
+		LeagueObjectTestData leagueData = new LeagueObjectTestData();
+		List<List<Player>> list = team.getAvailablePlayersList(leagueData.getLeagueData());
+		Assert.assertEquals(3, list.size());
 	}
 	
 }

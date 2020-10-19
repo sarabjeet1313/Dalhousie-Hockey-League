@@ -6,7 +6,7 @@ import java.sql.*;
 public class InvokeStoredProcedure {
 
     private Connection connection  ;
-    private DatabaseConnection db = new DatabaseConnection();
+    private DatabaseConnection db = DatabaseConnection.getSingleInstance();
     private String procedureName;
     private CallableStatement statement;
 
@@ -36,6 +36,10 @@ public class InvokeStoredProcedure {
     
     public void setParameter(int paramIndex, int value) throws SQLException {
         statement.setInt(paramIndex, value);
+    }
+    
+    public void setParameter(int paramIndex, double value) throws SQLException {
+        statement.setDouble(paramIndex, value);
     }
 
     public ResultSet executeQueryWithResults() throws SQLException {

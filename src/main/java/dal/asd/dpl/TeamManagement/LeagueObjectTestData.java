@@ -1,6 +1,7 @@
 package dal.asd.dpl.TeamManagement;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class LeagueObjectTestData {
 	
@@ -10,8 +11,14 @@ public class LeagueObjectTestData {
 	Player player4 = new Player("Agent One", "forward", false, 1, 1, 1, 1, 1);
 	Player player5 = new Player("Agent Two", "defense", false, 1, 1, 1, 1, 1);
 	Player player6 = new Player("Agent Three", "goalie", false, 1, 1, 1, 1, 1);
+	Coach coach1 = new Coach("Coach One", 0.1, 0.2, 0.1, 0.1);
+	Coach coach2 = new Coach("Coach Two", 0.1, 0.2, 0.1, 0.1);
+	Coach coach3 = new Coach("Coach Three", 0.1, 0.2, 0.1, 0.1);
+	Coach headCoach = new Coach("Head Coach", 0.1, 0.2, 0.1, 0.1);
 	ArrayList<Player> playerList = new ArrayList<Player>();
 	ArrayList<Player> freePlayerList = new ArrayList<Player>();
+	List<Coach> coachList = new ArrayList<Coach>();
+	List<String> managerList = new ArrayList<String>();
 	
 	
 	public Leagues getLeagueData() {
@@ -21,7 +28,13 @@ public class LeagueObjectTestData {
 		freePlayerList.add(player4);
 		freePlayerList.add(player5);
 		freePlayerList.add(player6);
-		Teams team = new Teams("Boston", "Mister Fred", "Mary Smith", playerList);
+		coachList.add(coach1);
+		coachList.add(coach2);
+		coachList.add(coach3);
+		managerList.add("Karen Potam");
+		managerList.add("Joseph Squidly");
+		managerList.add("Tom Spaghetti");
+		Teams team = new Teams("Boston", "Mister Fred", headCoach, playerList);
 		ArrayList<Teams> teamList = new ArrayList<Teams>();
 		teamList.add(team);
 		Divisions division = new Divisions("Atlantic", teamList);
@@ -30,7 +43,7 @@ public class LeagueObjectTestData {
 		Conferences conference = new Conferences("Eastern Conference", divisionList);
 		ArrayList<Conferences> conferenceList = new ArrayList<Conferences>();
 		conferenceList.add(conference);
-		Leagues league = new Leagues("Dalhousie Hockey League", conferenceList, freePlayerList);
+		Leagues league = new Leagues("Dalhousie Hockey League", conferenceList, freePlayerList, coachList, managerList);
 		return league;
 	}
 	

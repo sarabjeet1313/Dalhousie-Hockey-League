@@ -3,6 +3,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dal.asd.dpl.Parser.CmdParseJSON;
+import dal.asd.dpl.TeamManagement.Coach;
 import dal.asd.dpl.TeamManagement.Conferences;
 import dal.asd.dpl.TeamManagement.Divisions;
 import dal.asd.dpl.TeamManagement.ILeague;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class InitializeLeagues {
+public class InitializeLeagues implements IInitializeLeagues {
     private static CmdParseJSON parser;
     private static String filePath;
     private static ILeague leagueDb;
@@ -23,6 +24,10 @@ public class InitializeLeagues {
     private List<Conferences> conferenceList;
     private Leagues league;
     private List<Player> freeAgents;
+    private List<Coach> coaches;
+    private List<String> managers;
+    
+
 
     public InitializeLeagues(String filePath, ILeague leagueDb, IUserOutput output, IUserInput input) {
     	 InitializeLeagues.filePath = filePath;
@@ -46,7 +51,8 @@ public class InitializeLeagues {
         parser = new CmdParseJSON(InitializeLeagues.filePath);
         conferenceList = new ArrayList<Conferences>();
         freeAgents = new ArrayList<Player>();
-
+        coaches = new ArrayList<Coach>();
+        managers = new ArrayList<String>();
         String leagueName = parser.parse("leagueName");
 
         if(isEmptyString(leagueName)) {
@@ -60,7 +66,7 @@ public class InitializeLeagues {
         }
 
         leagueName = truncateString(leagueName);
-        league = new Leagues(leagueName, conferenceList, freeAgents);
+        league = new Leagues(leagueName, conferenceList, freeAgents, coaches, managers);
         boolean check = league.isValidLeagueName(leagueName, leagueDb);
 
         if(!check) {
@@ -128,16 +134,47 @@ public class InitializeLeagues {
                         return null;
                     }
 
-                    String headCoach = team.get("headCoach").toString();
-                    headCoach = truncateString(headCoach);
+                    JsonObject headCoach = team.get("headCoach").getAsJsonObject();
+                    String headCoachName = headCoach.get("name").toString();
+                    headCoachName = truncateString(headCoachName);
 
-                    if(isEmptyString(headCoach)){
+                    if(isEmptyString(headCoachName)){
                         output.setOutput("Please enter Head Coach name. Null values are not accepted.");
                         output.sendOutput();
                         return null;
                     }
+                    
+                    double coachSkating = headCoach.get("skating").getAsDouble();
+                    if(coachSkating < 0 || coachSkating > 1){
+                        output.setOutput("HeadCoach:" + headCoachName + " skating value should be between 0 and 1.");
+                        output.sendOutput();
+                        return null;
+                    }
+                    
+                    double coachShooting = headCoach.get("shooting").getAsDouble();
+                    if(coachShooting < 0 || coachShooting > 1){
+                        output.setOutput("HeadCoach:" + headCoachName + " shooting value should be between 0 and 1.");
+                        output.sendOutput();
+                        return null;
+                    }
+                    
+                    double coachChecking = headCoach.get("checking").getAsDouble();
+                    if(coachChecking < 0 || coachChecking > 1){
+                        output.setOutput("HeadCoach:" + headCoachName + " checking value should be between 0 and 1.");
+                        output.sendOutput();
+                        return null;
+                    }
+                    
+                    double coachSaving = headCoach.get("saving").getAsDouble();
+                    if(coachSaving < 0 || coachSaving > 1){
+                        output.setOutput("HeadCoach:" + headCoachName + " saving value should be between 0 and 1.");
+                        output.sendOutput();
+                        return null;
+                    }
+                    
+                    Coach headCoachObj = new Coach(headCoachName, coachSkating, coachShooting, coachChecking, coachSaving);
 
-                    Teams teamObject = new Teams(teamName, genManager, headCoach, bufferPlayerList);
+                    Teams teamObject = new Teams(teamName, genManager, headCoachObj, bufferPlayerList);
                     bufferTeamList.add(teamObject);
                     divisionObject.setTeamList(bufferTeamList);
                     JsonArray players = team.get("players").getAsJsonArray();
@@ -191,38 +228,37 @@ public class InitializeLeagues {
                             isCaptainPositionOccupied = captain;
                         }
                         
-
                         int age = player.get("age").getAsInt();
                         if(age < 0){
-                            output.setOutput("Please enter Player's age correctly. Player:" + count + " age should be integer and greater than 0.");
+                            output.setOutput("Player:" + count + " age should be integer and greater than 0.");
                             output.sendOutput();
                             return null;
                         }
 
                         int skating = player.get("skating").getAsInt();
-                        if(skating < 0 && skating > 20){
-                            output.setOutput("Please enter Player's skating correctly. Player:" + count + " skating value should be between 0 and 20.");
+                        if(skating < 0 || skating > 20){
+                            output.setOutput("Player:" + count + " skating value should be between 0 and 20.");
                             output.sendOutput();
                             return null;
                         }
 
                         int shooting = player.get("shooting").getAsInt();
-                        if(shooting < 0 && shooting > 20){
-                            output.setOutput("Please enter Player's shooting correctly. Player:" + count + " shooting value should be between 0 and 20.");
+                        if(shooting < 0 || shooting > 20){
+                            output.setOutput("Player:" + count + " shooting value should be between 0 and 20.");
                             output.sendOutput();
                             return null;
                         }
 
                         int checking = player.get("checking").getAsInt();
-                        if(checking < 0 && checking > 20){
-                            output.setOutput("Please enter Player's checking correctly. Player:" + count + " checking value should be between 0 and 20.");
+                        if(checking < 0 || checking > 20){
+                            output.setOutput("Player:" + count + " checking value should be between 0 and 20.");
                             output.sendOutput();
                             return null;
                         }
 
                         int saving = player.get("saving").getAsInt();
-                        if(saving < 0 && saving > 20){
-                            output.setOutput("Please enter Player's saving correctly. Player:" + count + " saving value should be between 0 and 20.");
+                        if(saving < 0 || saving > 20){
+                            output.setOutput("Player:" + count + " saving value should be between 0 and 20.");
                             output.sendOutput();
                             return null;
                         }                    
@@ -276,44 +312,108 @@ public class InitializeLeagues {
             
             int age = freeAgentObj.get("age").getAsInt();
             if(age < 0){
-                output.setOutput("Please enter Player's age correctly. Player:" + count + " age should be integer and greater than 0.");
+                output.setOutput("Player:" + count + " age should be integer and greater than 0.");
                 output.sendOutput();
                 return null;
             }
 
             int skating = freeAgentObj.get("skating").getAsInt();
-            if(skating < 0 && skating > 20){
-                output.setOutput("Please enter Player's skating correctly. Player:" + count + " skating value should be between 0 and 20.");
+            if(skating < 0 || skating > 20){
+                output.setOutput("Player:" + count + " skating value should be between 0 and 20.");
                 output.sendOutput();
                 return null;
             }
 
             int shooting = freeAgentObj.get("shooting").getAsInt();
-            if(shooting < 0 && shooting > 20){
-                output.setOutput("Please enter Player's shooting correctly. Player:" + count + " shooting value should be between 0 and 20.");
+            if(shooting < 0 || shooting > 20){
+                output.setOutput("Player:" + count + " shooting value should be between 0 and 20.");
                 output.sendOutput();
                 return null;
             }
 
             int checking = freeAgentObj.get("checking").getAsInt();
-            if(checking < 0 && checking > 20){
-                output.setOutput("Please enter Player's checking correctly. Player:" + count + " checking value should be between 0 and 20.");
+            if(checking < 0 || checking > 20){
+                output.setOutput("Player:" + count + " checking value should be between 0 and 20.");
                 output.sendOutput();
                 return null;
             }
 
             int saving = freeAgentObj.get("saving").getAsInt();
-            if(saving < 0 && saving > 20){
-                output.setOutput("Please enter Player's saving correctly. Player:" + count + " saving value should be between 0 and 20.");
+            if(saving < 0 || saving > 20){
+                output.setOutput("Player:" + count + " saving value should be between 0 and 20.");
                 output.sendOutput();
                 return null;
             }
 
             freeAgents.add(new Player(agentName, position, captain, age, skating, shooting, checking, saving));
         }
+        
+        JsonArray coachesList = parser.parseList("coaches");
+        Iterator<JsonElement> coachElement = coachesList.iterator();
+        int coachCount = 0;
 
+        while(coachElement.hasNext()) {
+        	coachCount++;
+            JsonObject coachObj = coachElement.next().getAsJsonObject();
+            String coachName = coachObj.get("name").toString();
+            coachName = truncateString(coachName);
+
+            if(isEmptyString(coachName)){
+                output.setOutput("Please enter Coach:" + coachCount + " name.");
+                output.sendOutput();
+                return null;
+            }
+
+            double coachSkating = coachObj.get("skating").getAsDouble();
+            if(coachSkating < 0 || coachSkating > 1){
+                output.setOutput("Coach:" + coachCount + " skating value should be between 0 and 1.");
+                output.sendOutput();
+                return null;
+            }
+            
+            double coachShooting = coachObj.get("shooting").getAsDouble();
+            if(coachShooting < 0 || coachShooting > 1){
+                output.setOutput("Coach:" + coachCount + " shooting value should be between 0 and 1.");
+                output.sendOutput();
+                return null;
+            }
+            
+            double coachChecking = coachObj.get("checking").getAsDouble();
+            if(coachChecking < 0 || coachChecking > 1){
+                output.setOutput("Coach:" + coachCount + " checking value should be between 0 and 1.");
+                output.sendOutput();
+                return null;
+            }
+            
+            double coachSaving = coachObj.get("saving").getAsDouble();
+            if(coachSaving < 0 || coachSaving > 1){
+                output.setOutput("Coach:" + coachCount + " saving value should be between 0 and 1.");
+                output.sendOutput();
+                return null;
+            }
+            
+            coaches.add(new Coach(coachName, coachSkating, coachShooting, coachChecking, coachSaving));
+        }
+        
+        JsonArray managerList = parser.parseList("generalManagers");
+        Iterator<JsonElement> managerElement = managerList.iterator();
+        int managerCount = 0;
+        
+        while(managerElement.hasNext()) {
+        	managerCount++;
+        	String managerName = managerElement.next().getAsString();
+        	managerName = truncateString(managerName);
+        	if(isEmptyString(managerName)){
+                output.setOutput("General manager cannot be empty");
+                output.sendOutput();
+                return null;
+            }
+        	managers.add(managerName);
+        }
         league.setConferenceList(conferenceList);
         league.setFreeAgents(freeAgents);
+        league.setCoaches(coaches);
+        league.setGeneralManager(managers);
         return league;
     }
 }

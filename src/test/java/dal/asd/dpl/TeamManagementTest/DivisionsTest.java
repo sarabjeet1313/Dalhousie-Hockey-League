@@ -2,6 +2,8 @@ package dal.asd.dpl.TeamManagementTest;
 
 import java.util.ArrayList;
 import org.junit.Test;
+
+import dal.asd.dpl.TeamManagement.Coach;
 import dal.asd.dpl.TeamManagement.Divisions;
 import dal.asd.dpl.TeamManagement.LeagueObjectTestData;
 import dal.asd.dpl.TeamManagement.Player;
@@ -12,8 +14,10 @@ public class DivisionsTest {
 	
 	ArrayList<Player> playerList = new ArrayList<Player>();
 	ArrayList<Player> playerList1 = new ArrayList<Player>();
-	Teams team = new Teams("Boston", "Mister Fred", "Mary Smith", playerList);
-	Teams team1 = new Teams("Florida", "Ashely", "Robert", playerList1);
+	Coach headCoach1 = new Coach("Mary Smith", 0.2, 0.3, 0.1, 0.4);
+	Coach headCoach2 = new Coach("Robert", 0.2, 0.3, 0.1, 0.4);
+	Teams team = new Teams("Boston", "Mister Fred", headCoach1, playerList);
+	Teams team1 = new Teams("Florida", "Ashely", headCoach2, playerList1);
 	ArrayList<Teams> teamList = new ArrayList<Teams>();
 	Divisions division = new Divisions("Atlantic", teamList);
 	

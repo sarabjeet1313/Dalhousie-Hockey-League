@@ -16,7 +16,6 @@ public class Player {
 	
 	public Player(String playerName, String position, boolean captain, int age, int skating, int shooting,
 			int checking, int saving) {
-		super();
 		this.playerName = playerName;
 		this.position = position;
 		this.captain = captain;
@@ -99,59 +98,4 @@ public class Player {
 		this.saving = saving;
 	}
 	
-	public List<List<Player>> getAvailablePlayersList(Leagues league){
-		List<Player> goalieList = new ArrayList<Player>();
-		List<Player> forwordList = new ArrayList<Player>();
-		List<Player> defenseList = new ArrayList<Player>();
-		List<List<Player>> list = new ArrayList<List<Player>>(); 
-		List<Player> playerList = league.getFreeAgents();
-		for(int index = 0; index < playerList.size(); index++) {
-			if(playerList.get(index).getPlayerPosition().equals("goalie")) {
-				goalieList.add(playerList.get(index));
-			}
-			else if(playerList.get(index).getPlayerPosition().equals("forward")) {
-				forwordList.add(playerList.get(index));
-			}
-			else {
-				defenseList.add(playerList.get(index));
-			}
-		}
-		
-		list.add(goalieList);
-		list.add(forwordList);
-		list.add(defenseList);
-		return list;
-	}
-	
-//	public List<Players> sortList(String playerType, List<Players> list){
-//		List<Players> tempList = list;
-//		for(int index = 0; index < tempList.size(); index++) {
-//			if(tempList.get(index).getPlayerPosition().equals("goalie")) {
-//				
-//			}
-//		}
-//		return list;
-//	}
-	
-//	@Override
-//	public int compareTo(Players player) {
-//		int value = 0;
-//		if(player.getPlayerPosition().equals("goalie")) {
-//			value = player.getSaving();
-//		}
-//		else if(player.getPlayerPosition().equals("goalie")) {
-//			value = player.get;
-//		}
-//		else {
-//			value = player.getSaving();
-//		}
-//		return this.saving - value;
-//	}
-	
-//	@Override
-//	public String toString() {
-//		return "Players"
-//	}
-	
-
 }
