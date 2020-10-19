@@ -28,7 +28,7 @@ public class LoadTeamState implements IState {
 
     public void nextState(StateContext context){
         LoadTeamState.nextStateName = "Simulate";
-        context.setState(new SimulateState(input, output, teamName));
+        context.setState(new SimulateState(input, output, teamName, null));
     }
 
     public void doProcessing(){

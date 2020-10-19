@@ -1,4 +1,5 @@
 package dal.asd.dpl.InternalStateMachine;
+import dal.asd.dpl.TeamManagement.Leagues;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
 
@@ -9,18 +10,20 @@ public class InternalStartState implements ISimulationState {
     public int numOfSeasons;
     private static String stateName;
     private static String nextStateName;
+    private static Leagues leagueToSimulate;
 
-    public InternalStartState(IUserInput input, IUserOutput output, String teamName){
+    public InternalStartState(IUserInput input, IUserOutput output, String teamName, Leagues leagueToSimulate){
         this.input = input;
         this.output = output;
         this.teamName = teamName;
         this.stateName = "Start";
+        this.leagueToSimulate = leagueToSimulate;
         this.numOfSeasons = 0;
     }
 
     public void nextState(InternalStateContext context){
         this.nextStateName = "Simulate";
-        context.setState(new InternalSimulationState(input, output, numOfSeasons, teamName));
+        context.setState(new InternalSimulationState(input, output, numOfSeasons, teamName, leagueToSimulate));
     }
 
     public void doProcessing(){

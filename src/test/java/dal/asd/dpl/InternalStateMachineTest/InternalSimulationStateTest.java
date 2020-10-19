@@ -1,6 +1,7 @@
 package dal.asd.dpl.InternalStateMachineTest;
 import dal.asd.dpl.InternalStateMachine.InternalSimulationState;
 import dal.asd.dpl.InternalStateMachine.InternalStateContext;
+import dal.asd.dpl.TeamManagement.Leagues;
 import dal.asd.dpl.UserInput.CmdUserInput;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.CmdUserOutput;
@@ -21,7 +22,7 @@ public class InternalSimulationStateTest {
     public void setUp() throws Exception {
         input = new CmdUserInput();
         output = new CmdUserOutput();
-        state = new InternalSimulationState(input, output,1,"testTeam");
+        state = new InternalSimulationState(input, output,1,"testTeam", null);
         context = new InternalStateContext(input, output);
     }
 

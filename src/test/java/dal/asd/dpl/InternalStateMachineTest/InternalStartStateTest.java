@@ -24,7 +24,7 @@ public class InternalStartStateTest {
     public void setUp() throws Exception {
         input = new CmdUserInput();
         output = new CmdUserOutput();
-        state = new InternalStartState(input, output, "");
+        state = new InternalStartState(input, output, "", null);
         context = new InternalStateContext(input, output);
     }
 

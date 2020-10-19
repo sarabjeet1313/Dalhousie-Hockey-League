@@ -43,7 +43,7 @@ public class CreateTeamState implements IState {
 
     public void nextState(StateContext context){
         CreateTeamState.nextStateName = "Simulate";
-        context.setState(new SimulateState(input, output, teamName));
+        context.setState(new SimulateState(input, output, teamName, initializedLeague));
     }
 
     public void doProcessing(){

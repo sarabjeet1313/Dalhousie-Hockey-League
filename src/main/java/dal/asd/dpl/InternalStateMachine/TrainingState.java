@@ -6,13 +6,13 @@ public class TrainingState implements ISimulationState {
     private static String nextStateName;
     private static boolean finalDay;
 
-    public TrainingState (boolean gamesLeft, boolean tradeDeadlinePassed) {
+    public TrainingState () {
         this.stateName = "Training";
 
-        if(gamesLeft)
+        if(/*gamesLeft*/ true)
             this.nextStateName = "SimulatePlayoffGame";
         else
-            if(tradeDeadlinePassed)
+            if(/*tradeDeadlinePassed*/ true)
                 this.nextStateName = "Aging";
             else
                 this.nextStateName = "Trading";
