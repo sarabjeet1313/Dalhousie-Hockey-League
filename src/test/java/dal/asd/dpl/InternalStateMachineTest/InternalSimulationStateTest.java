@@ -29,7 +29,7 @@ public class InternalSimulationStateTest {
     public void nextStateTest() {
         context.setState(state);
         context.nextState();
-        assertEquals("End", context.currentStateName);
+        assertEquals("GenerateRegularSeasonSchedule", context.currentStateName);
     }
 
     @Test
@@ -40,7 +40,7 @@ public class InternalSimulationStateTest {
     @Test
     public void getNextStateNameTest() {
         state.nextState(context);
-        assertEquals("End", state.getNextStateName());
+        assertEquals("GenerateRegularSeasonSchedule", state.getNextStateName());
     }
 
     @Test

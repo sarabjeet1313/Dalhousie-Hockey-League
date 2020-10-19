@@ -20,8 +20,8 @@ public class InternalSimulationState implements ISimulationState{
     }
 
     public void nextState(InternalStateContext context){
-        this.nextStateName = "End";
-        context.setState(new InternalEndState(input, output));
+        this.nextStateName = "GenerateRegularSeasonSchedule";
+        context.setState(new GenerateRegularSeasonScheduleState());
     }
 
     public void doProcessing(){
