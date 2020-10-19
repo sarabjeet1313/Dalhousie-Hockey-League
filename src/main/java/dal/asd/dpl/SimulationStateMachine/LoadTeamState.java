@@ -7,6 +7,8 @@ import dal.asd.dpl.TeamManagement.Leagues;
 import dal.asd.dpl.TeamManagement.Player;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class LoadTeamState implements IState {
@@ -39,9 +41,10 @@ public class LoadTeamState implements IState {
         List<Conferences> conferencesList = null;
         List<Player> freeAgents = null;
         List<Coach> coaches = null;
+        List<String> managers = new ArrayList<String>(); 
         boolean result = false;
         String finalLeagueName = "";
-        Leagues league = new Leagues("test", conferencesList, freeAgents, coaches);
+        Leagues league = new Leagues("test", conferencesList, freeAgents, coaches, managers);
         List<String> leagues = league.getLeagueNames(teamName, leagueDb);
 
         if(leagues.size() == 1) {

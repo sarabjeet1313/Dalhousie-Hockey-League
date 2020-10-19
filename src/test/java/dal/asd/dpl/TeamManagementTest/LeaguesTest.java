@@ -31,9 +31,10 @@ public class LeaguesTest {
 	ArrayList<Divisions> divisionList = new ArrayList<Divisions>();
 	ArrayList<Divisions> divisionList1 = new ArrayList<Divisions>();
 	ArrayList<Conferences> conferenceList = new ArrayList<Conferences>();
+	ArrayList<String> managerList = new ArrayList<String>();
 	Conferences conference = new Conferences("Eastern Conference", divisionList);
 	Conferences conference1 = new Conferences("Western Conference", divisionList1);
-	Leagues league = new Leagues("Dalhousie Hockey League", conferenceList, freeAgents, coachesList);
+	Leagues league = new Leagues("Dalhousie Hockey League", conferenceList, freeAgents, coachesList, managerList);
 	ILeague object = new LeagueMockData();
 	List<Leagues> leagueList = new ArrayList<Leagues>();
 	
@@ -66,14 +67,14 @@ public class LeaguesTest {
 	@Test
 	public void getConferenceListTest() {
 		conferenceList.add(conference);
-		Leagues league = new Leagues("Dalhousie Hockey League", conferenceList, freeAgents, coachesList);
+		Leagues league = new Leagues("Dalhousie Hockey League", conferenceList, freeAgents, coachesList, managerList);
 		Assert.assertEquals(1, league.getConferenceList().size());
 	}
 	
 	@Test
 	public void setConferenceListTest() {
 		conferenceList.add(conference);
-		Leagues league1 = new Leagues("Dalhousie Hockey League", conferenceList, freeAgents, coachesList);
+		Leagues league1 = new Leagues("Dalhousie Hockey League", conferenceList, freeAgents, coachesList, managerList);
 		conferenceList.add(conference1);
 		league1.setConferenceList(conferenceList);
 		Assert.assertEquals(2, league1.getConferenceList().size());
@@ -130,6 +131,12 @@ public class LeaguesTest {
 	public void createTeamTest() {
 		LeagueObjectTestData leagueData = new LeagueObjectTestData();
 		Assert.assertTrue(league.createTeam(leagueData.getLeagueData(), object));
+	}
+	
+	@Test
+	public void saveCoachesTest() {
+		LeagueObjectTestData leagueData = new LeagueObjectTestData();
+		Assert.assertTrue(league.saveCoaches(leagueData.getLeagueData(), object));
 	}
 	
 }

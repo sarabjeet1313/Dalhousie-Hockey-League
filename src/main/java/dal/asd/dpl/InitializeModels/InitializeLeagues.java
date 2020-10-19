@@ -25,6 +25,9 @@ public class InitializeLeagues implements IInitializeLeagues {
     private Leagues league;
     private List<Player> freeAgents;
     private List<Coach> coaches;
+    private List<String> managers;
+    
+
 
     public InitializeLeagues(String filePath, ILeague leagueDb, IUserOutput output, IUserInput input) {
     	 InitializeLeagues.filePath = filePath;
@@ -49,7 +52,7 @@ public class InitializeLeagues implements IInitializeLeagues {
         conferenceList = new ArrayList<Conferences>();
         freeAgents = new ArrayList<Player>();
         coaches = new ArrayList<Coach>();
-
+        managers = new ArrayList<String>();
         String leagueName = parser.parse("leagueName");
 
         if(isEmptyString(leagueName)) {
@@ -63,7 +66,7 @@ public class InitializeLeagues implements IInitializeLeagues {
         }
 
         leagueName = truncateString(leagueName);
-        league = new Leagues(leagueName, conferenceList, freeAgents, coaches);
+        league = new Leagues(leagueName, conferenceList, freeAgents, coaches, managers);
         boolean check = league.isValidLeagueName(leagueName, leagueDb);
 
         if(!check) {
@@ -391,10 +394,26 @@ public class InitializeLeagues implements IInitializeLeagues {
             
             coaches.add(new Coach(coachName, coachSkating, coachShooting, coachChecking, coachSaving));
         }
-
+        
+        JsonArray managerList = parser.parseList("generalManagers");
+        Iterator<JsonElement> managerElement = managerList.iterator();
+        int managerCount = 0;
+        
+        while(managerElement.hasNext()) {
+        	managerCount++;
+        	String managerName = managerElement.next().getAsString();
+        	managerName = truncateString(managerName);
+        	if(isEmptyString(managerName)){
+                output.setOutput("General manager cannot be empty");
+                output.sendOutput();
+                return null;
+            }
+        	managers.add(managerName);
+        }
         league.setConferenceList(conferenceList);
         league.setFreeAgents(freeAgents);
         league.setCoaches(coaches);
+        league.setGeneralManager(managers);
         return league;
     }
 }

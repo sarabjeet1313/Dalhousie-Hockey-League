@@ -1,6 +1,8 @@
 package dal.asd.dpl.TeamManagementTest;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Test;
 
 import dal.asd.dpl.TeamManagement.Coach;
@@ -89,6 +91,13 @@ public class TeamsTest {
 		String conferenceName = "Eastern Conference";
 		String divisionName = "Atlantic";
 		Assert.assertFalse(team.isValidTeamName(conferenceName, divisionName, teamName, leagueData.getLeagueData()));
+	}
+	
+	@Test
+	public void getAvailablePlayersListTest() {
+		LeagueObjectTestData leagueData = new LeagueObjectTestData();
+		List<List<Player>> list = team.getAvailablePlayersList(leagueData.getLeagueData());
+		Assert.assertEquals(3, list.size());
 	}
 	
 }

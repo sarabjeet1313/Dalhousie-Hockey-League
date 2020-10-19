@@ -1,5 +1,8 @@
 package dal.asd.dpl.TeamManagement;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Player {
 	
 	private String playerName;
@@ -13,7 +16,6 @@ public class Player {
 	
 	public Player(String playerName, String position, boolean captain, int age, int skating, int shooting,
 			int checking, int saving) {
-		super();
 		this.playerName = playerName;
 		this.position = position;
 		this.captain = captain;
