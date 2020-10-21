@@ -17,7 +17,7 @@ public class Trade implements ITrade  {
 
     @Override
     public boolean isEligibleToTrade(String teamName) {
-        
+
 
         return false;
     }
