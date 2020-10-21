@@ -1,29 +1,53 @@
 package dal.asd.dpl.Trading;
 
 import dal.asd.dpl.TeamManagement.Player;
-import dal.asd.dpl.TeamManagement.Teams;
 
 import java.util.List;
 
-public class Trade implements ITrade  {
-    private String team1;
-    private String team2;
+public class Trade {
+    private String tradeOfferTeam;
+    private String tradeRequestedTeam;
+    private List<Player> playerListOfferTeam;
+    private List<Player> playerListRequestedTeam;
 
-
-    @Override
-    public void getTeams() {
-
+    public Trade(String tradeOfferTeam, List<Player> playerListOfferTeam, String tradeRequestedTeam, List<Player> playerListRequestedTeam){
+        this.tradeOfferTeam= tradeOfferTeam;
+        this.tradeRequestedTeam = tradeRequestedTeam;
+        this.playerListOfferTeam = playerListOfferTeam;
+        this.playerListRequestedTeam = playerListRequestedTeam;
     }
 
-    @Override
-    public boolean isEligibleToTrade(String teamName) {
-
-
-        return false;
+    public String getTradeOfferTeam(){
+        return this.tradeOfferTeam;
     }
 
-    @Override
-    public List<Player> generateTradeOffer(String teamName) {
-        return null;
+    public void setTradeOfferTeam(String tradeOfferTeam) {
+        this.tradeOfferTeam = tradeOfferTeam;
     }
+
+    public String getTradeRequestedTeam() {
+        return tradeRequestedTeam;
+    }
+
+    public void setTradeRequestedTeam(String tradeRequestedTeam) {
+        this.tradeRequestedTeam = tradeRequestedTeam;
+    }
+
+    public List<Player> getPlayerListOfferTeam() {
+        return playerListOfferTeam;
+    }
+
+    public void setPlayerListOfferTeam(List<Player> playerListOfferTeam) {
+        this.playerListOfferTeam = playerListOfferTeam;
+    }
+
+    public List<Player> getPlayerListRequestedTeam() {
+        return playerListRequestedTeam;
+    }
+
+    public void setPlayerListRequestedTeam(List<Player> playerListRequestedTeam) {
+        this.playerListRequestedTeam = playerListRequestedTeam;
+    }
+
+
 }
