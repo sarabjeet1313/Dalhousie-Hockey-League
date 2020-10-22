@@ -1,8 +1,7 @@
 package dal.asd.dpl;
 
 import dal.asd.dpl.Database.LeagueDataDB;
-import dal.asd.dpl.NewsSystem.IGamesPlayed;
-import dal.asd.dpl.NewsSystem.NewsSystem;
+import dal.asd.dpl.NewsSystem.NewsSystemMock;
 import dal.asd.dpl.SimulationStateMachine.*;
 import dal.asd.dpl.TeamManagement.ILeague;
 import dal.asd.dpl.UserInput.CmdUserInput;
@@ -13,6 +12,7 @@ import dal.asd.dpl.UserOutput.IUserOutput;
 public class App {
 	
     public static void main( String[] args ) {
+        NewsSystemMock.newsMock();
         IUserInput input = new CmdUserInput();
         IUserOutput output = new CmdUserOutput();
         ILeague leagueDb = new LeagueDataDB();

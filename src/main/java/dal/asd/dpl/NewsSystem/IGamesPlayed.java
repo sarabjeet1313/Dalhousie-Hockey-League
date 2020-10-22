@@ -1,5 +1,5 @@
 package dal.asd.dpl.NewsSystem;
 
 public interface IGamesPlayed {
-    public void notifyGamesPlayed(String winner, String Loser);
+    public void updateGamesPlayed(String winner, String loser, String datePlayed);
 }

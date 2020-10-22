@@ -1,14 +1,11 @@
 package dal.asd.dpl.NewsSystem;
 
-public class TradePublisher {
-    private ITrade tradeSubscriber;
-
-    public TradePublisher(ITrade tradeSubscriber) {
-        this.tradeSubscriber = tradeSubscriber;
-    }
+public class TradePublisher extends AbstractPublisher{
 
     public void notify(String fromTeam, String toTeam, String[][] playersTraded) {
-        this.tradeSubscriber.updateTrade(fromTeam, toTeam, playersTraded);
+        for(Object subscriber : this.subscribers) {
+            ((ITrade)subscriber).updateTrade(fromTeam, toTeam, playersTraded);
+        }
     }
 
 }
