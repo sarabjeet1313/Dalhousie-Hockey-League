@@ -1,12 +1,14 @@
 package dal.asd.dpl.Database;
 
-
-import java.sql.*;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class InvokeStoredProcedure {
 
     private Connection connection  ;
-    private DatabaseConnection db = new DatabaseConnection();
+    private DatabaseConnection db = DatabaseConnection.getSingleInstance();
     private String procedureName;
     private CallableStatement statement;
 
@@ -32,6 +34,14 @@ public class InvokeStoredProcedure {
 
     public void setParameter(int paramIndex, boolean value) throws SQLException {
         statement.setBoolean(paramIndex, value);
+    }
+    
+    public void setParameter(int paramIndex, int value) throws SQLException {
+        statement.setInt(paramIndex, value);
+    }
+    
+    public void setParameter(int paramIndex, double value) throws SQLException {
+        statement.setDouble(paramIndex, value);
     }
 
     public ResultSet executeQueryWithResults() throws SQLException {

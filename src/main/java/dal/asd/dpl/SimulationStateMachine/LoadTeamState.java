@@ -1,11 +1,14 @@
 package dal.asd.dpl.SimulationStateMachine;
 
+import dal.asd.dpl.TeamManagement.Coach;
 import dal.asd.dpl.TeamManagement.Conferences;
 import dal.asd.dpl.TeamManagement.ILeague;
 import dal.asd.dpl.TeamManagement.Leagues;
-import dal.asd.dpl.TeamManagement.Players;
+import dal.asd.dpl.TeamManagement.Player;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class LoadTeamState implements IState {
@@ -17,14 +20,14 @@ public class LoadTeamState implements IState {
     private static String nextStateName;
 
     public LoadTeamState(IUserInput input, IUserOutput output, ILeague leagueDb) {
-        this.input = input;
-        this.output = output;
-        this.leagueDb = leagueDb;
-        this.stateName = "Load Team";
+        LoadTeamState.input = input;
+        LoadTeamState.output = output;
+        LoadTeamState.leagueDb = leagueDb;
+        LoadTeamState.stateName = "Load Team";
     }
 
     public void nextState(StateContext context){
-        this.nextStateName = "Simulate";
+        LoadTeamState.nextStateName = "Simulate";
         context.setState(new SimulateState(input, output, teamName));
     }
 
@@ -36,10 +39,12 @@ public class LoadTeamState implements IState {
         input.setInput();
         teamName = input.getInput();
         List<Conferences> conferencesList = null;
-        List<Players> freeAgents = null;
+        List<Player> freeAgents = null;
+        List<Coach> coaches = null;
+        List<String> managers = new ArrayList<String>(); 
         boolean result = false;
         String finalLeagueName = "";
-        Leagues league = new Leagues("test", conferencesList, freeAgents);
+        Leagues league = new Leagues("test", conferencesList, freeAgents, coaches, managers);
         List<String> leagues = league.getLeagueNames(teamName, leagueDb);
 
         if(leagues.size() == 1) {
@@ -76,10 +81,10 @@ public class LoadTeamState implements IState {
     }
 
     public String getStateName(){
-        return this.stateName;
+        return LoadTeamState.stateName;
     }
 
     public String getNextStateName(){
-        return this.nextStateName;
+        return LoadTeamState.nextStateName;
     }
 }

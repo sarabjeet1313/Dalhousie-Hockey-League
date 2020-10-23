@@ -3,30 +3,38 @@ package dal.asd.dpl.TeamManagementTest;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
+
+import dal.asd.dpl.TeamManagement.Coach;
 import dal.asd.dpl.TeamManagement.Conferences;
 import dal.asd.dpl.TeamManagement.Divisions;
 import dal.asd.dpl.TeamManagement.ILeague;
 import dal.asd.dpl.TeamManagement.LeagueMockData;
 import dal.asd.dpl.TeamManagement.LeagueObjectTestData;
 import dal.asd.dpl.TeamManagement.Leagues;
-import dal.asd.dpl.TeamManagement.Players;
+import dal.asd.dpl.TeamManagement.Player;
 
 import org.junit.Assert;
 
 public class LeaguesTest {
 	
-	Players player1 = new Players("Player1", "Forword", false);
-	Players player2 = new Players("Player2", "Forword", false);
-	Players player3 = new Players("Player3", "defence", false);
-	Players player4 = new Players("Player4", "Goalie", false);
-	ArrayList<Players> freeAgents = new ArrayList<Players>();
-	ArrayList<Players> playerList = new ArrayList<Players>();
+	Player player1 = new Player("Player1", "Forward", false, 1, 1, 1, 1, 1, false);
+	Player player2 = new Player("Player2", "Forward", false, 1, 1, 1, 1, 1, false);
+	Player player3 = new Player("Player3", "defence", false, 1, 1, 1, 1, 1, false);
+	Player player4 = new Player("Player4", "Goalie", false, 1, 1, 1, 1, 1, false);
+	Coach coach1 = new Coach("Coach One", 0.1, 0.2, 0.1, 0.1);
+	Coach coach2 = new Coach("Coach Two", 0.1, 0.2, 0.1, 0.1);
+	Coach coach3 = new Coach("Coach Three", 0.1, 0.2, 0.1, 0.1);
+	Coach headCoach = new Coach("Mary Smith", 0.2, 0.3, 0.1, 0.4);
+	ArrayList<Player> freeAgents = new ArrayList<Player>();
+	ArrayList<Player> playerList = new ArrayList<Player>();
+	ArrayList<Coach> coachesList = new ArrayList<Coach>();
 	ArrayList<Divisions> divisionList = new ArrayList<Divisions>();
 	ArrayList<Divisions> divisionList1 = new ArrayList<Divisions>();
 	ArrayList<Conferences> conferenceList = new ArrayList<Conferences>();
+	ArrayList<String> managerList = new ArrayList<String>();
 	Conferences conference = new Conferences("Eastern Conference", divisionList);
 	Conferences conference1 = new Conferences("Western Conference", divisionList1);
-	Leagues league = new Leagues("Dalhousie Hockey League", conferenceList, freeAgents);
+	Leagues league = new Leagues("Dalhousie Hockey League", conferenceList, freeAgents, coachesList, managerList);
 	ILeague object = new LeagueMockData();
 	List<Leagues> leagueList = new ArrayList<Leagues>();
 	
@@ -59,14 +67,14 @@ public class LeaguesTest {
 	@Test
 	public void getConferenceListTest() {
 		conferenceList.add(conference);
-		Leagues league = new Leagues("Dalhousie Hockey League", conferenceList, freeAgents);
+		Leagues league = new Leagues("Dalhousie Hockey League", conferenceList, freeAgents, coachesList, managerList);
 		Assert.assertEquals(1, league.getConferenceList().size());
 	}
 	
 	@Test
 	public void setConferenceListTest() {
 		conferenceList.add(conference);
-		Leagues league1 = new Leagues("Dalhousie Hockey League", conferenceList, freeAgents);
+		Leagues league1 = new Leagues("Dalhousie Hockey League", conferenceList, freeAgents, coachesList, managerList);
 		conferenceList.add(conference1);
 		league1.setConferenceList(conferenceList);
 		Assert.assertEquals(2, league1.getConferenceList().size());
@@ -100,6 +108,21 @@ public class LeaguesTest {
 	}
 	
 	@Test
+	public void getCoachesTest() {
+		coachesList.add(coach1);
+		Assert.assertEquals(1, league.getCoaches().size());
+	}
+	
+	@Test
+	public void setCoachesTest() {
+		coachesList.add(coach1);
+		Assert.assertEquals(1, league.getCoaches().size());
+		coachesList.add(coach2);
+		league.setCoaches(coachesList);
+		Assert.assertEquals(2, league.getCoaches().size());
+	}
+	
+	@Test
 	public void isValidLeagueNameTest() {
 		Assert.assertTrue(league.isValidLeagueName("Dalhousie", object));
 	}
@@ -108,6 +131,12 @@ public class LeaguesTest {
 	public void createTeamTest() {
 		LeagueObjectTestData leagueData = new LeagueObjectTestData();
 		Assert.assertTrue(league.createTeam(leagueData.getLeagueData(), object));
+	}
+	
+	@Test
+	public void saveCoachesTest() {
+		LeagueObjectTestData leagueData = new LeagueObjectTestData();
+		Assert.assertTrue(league.saveCoaches(leagueData.getLeagueData(), object));
 	}
 	
 }
