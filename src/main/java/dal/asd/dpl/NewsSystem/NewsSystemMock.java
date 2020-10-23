@@ -11,7 +11,7 @@ public class NewsSystemMock {
 		System.out.println("Trades");
 		TradePublisher tradePublisher = new TradePublisher();
 		tradePublisher.subscribe(new NewsSubscriber());
-		tradePublisher.notify("TeamA", "TeamB", new String[][] {{"Player1", "Player3"}, {"Player2"}});
+		tradePublisher.notify("TeamA", "TeamB", new String[][] {{"Player1", "gti 3"}, {"Player2"}});
 
 		System.out.println();
 		System.out.println("Injury");

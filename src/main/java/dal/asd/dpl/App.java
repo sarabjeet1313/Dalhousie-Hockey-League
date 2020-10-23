@@ -11,7 +11,6 @@ import dal.asd.dpl.UserOutput.IUserOutput;
 public class App {
 	
     public static void main( String[] args ) {
-
         IUserInput input = new CmdUserInput();
         IUserOutput output = new CmdUserOutput();
         ILeague leagueDb = new LeagueDataDB();
