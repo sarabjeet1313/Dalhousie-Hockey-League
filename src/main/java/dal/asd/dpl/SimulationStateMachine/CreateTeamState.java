@@ -99,12 +99,14 @@ public class CreateTeamState implements IState {
             	output.setOutput(index+1 +"	| "+ gmList.get(index));
             	output.sendOutput();
             }
-            output.setOutput("Please enter the selected general manager ID");
+            output.setOutput("Please enter the selected Manager ID");
             output.sendOutput();
             input.setInput();
             managerId = Integer.parseInt(input.getInput())-1;
             if(managerId <= -1 || (managerId > gmList.size())) {
             	validManager = false;
+            	output.setOutput("Please enter a valid Manager ID");
+                output.sendOutput();
             }
             else {
             	genManager = gmList.get(managerId);
@@ -131,6 +133,8 @@ public class CreateTeamState implements IState {
             input.setInput();
             headCoachNumber = Integer.parseInt(input.getInput())-1;
             if(headCoachNumber <= -1 || (headCoachNumber > cList.size())) {
+            	output.setOutput("Please enter a valid Coach ID");
+                output.sendOutput();
             	validCoach = false;
             }
             else {
@@ -174,9 +178,10 @@ public class CreateTeamState implements IState {
     			else {
     				playersList.add(pList.get(temp));
     				tempList1.add(pList.get(temp));
+    				indexList.add(temp+1);
     			}
     		}
-    		
+    		indexList.clear();
     		pList.removeAll(tempList1);
     		output.setOutput("Please select 18 Skaters (forward and defense)");
             output.sendOutput();
@@ -216,8 +221,10 @@ public class CreateTeamState implements IState {
     			else {
     				playersList.add(fdList.get(temp));
     				tempList2.add(fdList.get(temp));
+    				indexList.add(temp+1);
     			}
     		}
+    		
     		fdList.removeAll(tempList2);
     		fdList.addAll(pList);
     		initializedLeague.setFreeAgents(fdList);

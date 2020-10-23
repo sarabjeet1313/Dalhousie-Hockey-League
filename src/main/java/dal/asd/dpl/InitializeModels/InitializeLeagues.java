@@ -17,7 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class InitializeLeagues implements IInitializeLeagues {
-    private static CmdParseJSON parser;
+    private CmdParseJSON parser;
     private static String filePath;
     private static ILeague leagueDb;
     private static IUserOutput output;

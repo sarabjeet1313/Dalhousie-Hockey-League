@@ -1,6 +1,5 @@
 package dal.asd.dpl.TeamManagement;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public interface ILeague {
@@ -13,8 +12,6 @@ public interface ILeague {
 			String generalManager, String headCoach, Player player);
 	
 	public boolean persisitCoaches(Coach coach, String teamName, String leagueName);
-	
-	
 	
 	
 }
