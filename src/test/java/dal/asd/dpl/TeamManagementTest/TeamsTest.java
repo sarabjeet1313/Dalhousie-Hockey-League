@@ -17,10 +17,10 @@ public class TeamsTest {
 	ArrayList<Player> playerList = new ArrayList<Player>();
 	Coach headCoach = new Coach("Mary Smith", 0.2, 0.3, 0.1, 0.4);
 	Teams team = new Teams("Boston", "Mister Fred", headCoach, playerList);
-	Player player1 = new Player("Player1", "Forword", false, 1, 1, 1, 1, 1);
-	Player player2 = new Player("Player2", "Forword", false, 1, 1, 1, 1, 1);
-	Player player3 = new Player("Player3", "Goalie", false, 1, 1, 1, 1, 1);
-	Player player4 = new Player("Player4", "Defender", false, 1, 1, 1, 1, 1);
+	Player player1 = new Player("Player1", "Forword", false, 1, 1, 1, 1, 1, false);
+	Player player2 = new Player("Player2", "Forword", false, 1, 1, 1, 1, 1, false);
+	Player player3 = new Player("Player3", "Goalie", false, 1, 1, 1, 1, 1, false);
+	Player player4 = new Player("Player4", "Defender", false, 1, 1, 1, 1, 1, false);
 	
 	@Test
 	public void parameterizedConstructorTest() {

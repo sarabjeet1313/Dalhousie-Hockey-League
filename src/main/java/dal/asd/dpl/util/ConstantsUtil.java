@@ -5,7 +5,10 @@ public enum ConstantsUtil {
 	DB_URL("db_url"),
 	DB_USER_NAME("db_user_name"),
 	DB_PASSWORD("db_password"),
-	PROP_FILE("app.properties");
+	PROP_FILE("app.properties"),
+	FORWARD("forward"),
+	DEFENSE("defense"),
+	GOALIE("goalie");
 
 	private final String constantString;
 

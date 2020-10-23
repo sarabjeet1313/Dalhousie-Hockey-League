@@ -20,7 +20,7 @@ public class CreateTeamState implements IState {
     private static Conferences conferences;
     private static Divisions divisions;
     private static Teams teams;
-    private  Player player;
+    private Player player;
     private static String conferenceName = "";
     private static String divisionName = "";
     private static String teamName = "";
@@ -226,7 +226,7 @@ public class CreateTeamState implements IState {
             output.setOutput("PLAYER ID | PLAYER NAME | POSITION");
             output.sendOutput();
             for(int i = 0; i < playersList.size(); i++) {
-            	output.setOutput((i+1)+" 	| "+ playersList.get(i).getPlayerName()+" 	| "+playersList.get(i).getPlayerPosition());
+            	output.setOutput((i+1)+" 	| "+ playersList.get(i).getPlayerName()+" 	| "+playersList.get(i).getPosition());
                 output.sendOutput();
             }
             boolean validId = true;
