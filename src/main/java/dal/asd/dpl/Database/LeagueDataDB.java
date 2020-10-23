@@ -19,10 +19,10 @@ public class LeagueDataDB implements ILeague {
 	public List<Leagues> getLeagueData(String teamName) {
 		Leagues league = null;
 		List<Leagues> leagueList = new ArrayList<Leagues>(); 
-		ArrayList<Player> playerList = new ArrayList<Player>();
-		ArrayList<Teams> teamList = new ArrayList<Teams>();
-		ArrayList<Divisions> divisionList = new ArrayList<Divisions>();
-		ArrayList<Conferences> conferenceList = new ArrayList<Conferences>();
+		List<Player> playerList = new ArrayList<Player>();
+		List<Teams> teamList = new ArrayList<Teams>();
+		List<Divisions> divisionList = new ArrayList<Divisions>();
+		List<Conferences> conferenceList = new ArrayList<Conferences>();
 		String tempLeagueName = "";
 		ResultSet result;
 		boolean flag = true;
@@ -112,8 +112,8 @@ public class LeagueDataDB implements ILeague {
 			isp.setParameter(5, generalManager);
 			isp.setParameter(6, headCoach);
 			isp.setParameter(7, player.getPlayerName());
-			isp.setParameter(8, player.getPlayerPosition());
-			isp.setParameter(9, player.getCaptain());
+			isp.setParameter(8, player.getPosition());
+			isp.setParameter(9, player.isCaptain());
 			isp.setParameter(10, player.getAge());
 			isp.setParameter(11, player.getSkating());
 			isp.setParameter(12, player.getShooting());

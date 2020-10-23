@@ -1,10 +1,7 @@
 package dal.asd.dpl.TeamManagement;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Player {
-	
+
 	private String playerName;
 	private String position;
 	private boolean captain;
@@ -13,9 +10,11 @@ public class Player {
 	private int shooting;
 	private int checking;
 	private int saving;
-	
-	public Player(String playerName, String position, boolean captain, int age, int skating, int shooting,
-			int checking, int saving) {
+	private boolean isInjured;
+
+	public Player(String playerName, String position, boolean captain, int age, int skating, int shooting, int checking,
+			int saving, boolean isInjured) {
+		super();
 		this.playerName = playerName;
 		this.position = position;
 		this.captain = captain;
@@ -24,30 +23,15 @@ public class Player {
 		this.shooting = shooting;
 		this.checking = checking;
 		this.saving = saving;
+		this.isInjured = isInjured;
 	}
-	
+
 	public String getPlayerName() {
 		return playerName;
 	}
-	
-	public void setPlayerName(String name) {
-		playerName = name;
-	}
-	
-	public String getPlayerPosition() {
-		return position;
-	}
-	
-	public void setPlayerPosition(String p) {
-		position = p;
-	}
-	
-	public boolean getCaptain() {
-		return captain;
-	}
-	
-	public void setCaptain(boolean c) {
-		captain = c;
+
+	public void setPlayerName(String playerName) {
+		this.playerName = playerName;
 	}
 
 	public String getPosition() {
@@ -56,6 +40,14 @@ public class Player {
 
 	public void setPosition(String position) {
 		this.position = position;
+	}
+
+	public boolean isCaptain() {
+		return captain;
+	}
+
+	public void setCaptain(boolean captain) {
+		this.captain = captain;
 	}
 
 	public int getAge() {
@@ -97,5 +89,13 @@ public class Player {
 	public void setSaving(int saving) {
 		this.saving = saving;
 	}
-	
+
+	public boolean isInjured() {
+		return isInjured;
+	}
+
+	public void setInjured(boolean isInjured) {
+		this.isInjured = isInjured;
+	}
+
 }

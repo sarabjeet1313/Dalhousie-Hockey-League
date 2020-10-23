@@ -5,12 +5,12 @@ import java.util.List;
 
 public class LeagueObjectTestData {
 	
-	Player player1 = new Player("Player One", "forward", true, 1, 1, 1, 1, 1);
-	Player player2 = new Player("Player Two", "defense", false, 1, 1, 1, 1, 1);
-	Player player3 = new Player("Player Three", "goalie", false, 1, 1, 1, 1, 1);
-	Player player4 = new Player("Agent One", "forward", false, 1, 1, 1, 1, 1);
-	Player player5 = new Player("Agent Two", "defense", false, 1, 1, 1, 1, 1);
-	Player player6 = new Player("Agent Three", "goalie", false, 1, 1, 1, 1, 1);
+	Player player1 = new Player("Player One", "forward", true, 1, 1, 1, 1, 1, false);
+	Player player2 = new Player("Player Two", "defense", false, 1, 1, 1, 1, 1, false);
+	Player player3 = new Player("Player Three", "goalie", false, 1, 1, 1, 1, 1, false);
+	Player player4 = new Player("Agent One", "forward", false, 1, 1, 1, 1, 1, false);
+	Player player5 = new Player("Agent Two", "defense", false, 1, 1, 1, 1, 1, false);
+	Player player6 = new Player("Agent Three", "goalie", false, 1, 1, 1, 1, 1, false);
 	Coach coach1 = new Coach("Coach One", 0.1, 0.2, 0.1, 0.1);
 	Coach coach2 = new Coach("Coach Two", 0.1, 0.2, 0.1, 0.1);
 	Coach coach3 = new Coach("Coach Three", 0.1, 0.2, 0.1, 0.1);
