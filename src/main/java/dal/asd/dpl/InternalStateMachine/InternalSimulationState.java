@@ -29,7 +29,7 @@ public class InternalSimulationState implements ISimulationState{
 
     public void doProcessing(){
         for(int i=1; i <= totalSeasons; i++){
-            output.setOutput("Season " + i + " simulated for " + teamName + " ..." );
+            output.setOutput("Season " + i + " is simulating.");
             output.sendOutput();
         }
     }

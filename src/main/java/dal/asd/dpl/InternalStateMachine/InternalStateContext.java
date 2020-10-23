@@ -5,7 +5,6 @@ import dal.asd.dpl.UserOutput.IUserOutput;
 public class InternalStateContext {
     public static ISimulationState currentState;
     public String currentStateName;
-    public String currentDate;
 
     public InternalStateContext(IUserInput input, IUserOutput output) {
         this.currentStateName = "";

@@ -14,21 +14,22 @@ public class AdvanceTimeState implements ISimulationState{
     private static IUserInput input;
     private static String endDate;
     private static Calendar schedule;
+    private static boolean isLastDay;
+    private static ISchedule regularSeasonSchedule;
 
-    public AdvanceTimeState(Calendar schedule, String startDate, String endDate, IUserInput input, IUserOutput output) {
+    public AdvanceTimeState(ISchedule regularSeasonSchedule, String startDate, String endDate, IUserInput input, IUserOutput output) {
         this.stateName = "AdvanceTime";
-        this.schedule = schedule;
         this.currentDate = startDate;
         this.endDate = endDate;
         this.input = input;
         this.output = output;
+        this.isLastDay = false;
+        this.regularSeasonSchedule = regularSeasonSchedule;
     }
 
     public void nextState(InternalStateContext context) {
 
-        context.currentDate = this.currentDate;
-
-        if(this.currentDate.equals(this.endDate)){
+        if(isLastDay){
             this.nextStateName = "GeneratePlayoffSchedule";
             context.setState(new GeneratePlayoffScheduleState());
         }
@@ -41,17 +42,19 @@ public class AdvanceTimeState implements ISimulationState{
 
     public void doProcessing() {
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-mm-yyyy");
-        try{
-            schedule.setTime(dateFormat.parse(currentDate));
-        }catch(ParseException e){
-            output.setOutput("Exception while getting current date in Advance Time state");
-            output.sendOutput();
-        }
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+//        try{
+//            schedule.setTime(dateFormat.parse(currentDate));
+//        }catch(ParseException e){
+//            output.setOutput("Exception while getting current date in Advance Time state");
+//            output.sendOutput();
+//        }
+//
+//        // add a day to current date
+//        schedule.add(Calendar.DAY_OF_MONTH, 1);
+//        currentDate  = dateFormat.format(schedule.getTime());
 
-        // add a day to current date
-        schedule.add(Calendar.DAY_OF_MONTH, 1);
-        currentDate  = dateFormat.format(schedule.getTime());
+        isLastDay = regularSeasonSchedule.incrementCurrentDay();
 
     }
 

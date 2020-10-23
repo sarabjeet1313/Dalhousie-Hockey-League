@@ -30,6 +30,7 @@ public class SimulateState implements IState {
     public void doProcessing(){
         output.setOutput("Welcome to Simulation state :-) ");
         output.sendOutput();
+
         InternalStateContext stateContext = new InternalStateContext(input, output);
         stateContext.setState(new InternalStartState(input, output, teamName, leagueToSimulate));
         stateContext.doProcessing();
