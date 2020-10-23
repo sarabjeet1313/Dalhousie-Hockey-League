@@ -13,21 +13,25 @@ public class NewsSubscriber implements ITrade, IGamesPlayed, IInjuries, IFreeAge
     private static final String LOSER = "loser";
     private static final String DATE = "date";
     private static final String PLAYER = "player";
+    private static final String PLAYERS = "players";
     private static final String DAYS_INJURED = "daysInjured";
     private static final String AGE = "age";
+    private static final String TEAM = "team";
+    private static final String FROM = "from";
+    private static final String TO = "to";
 
     @Override
     public void updateTrade(String fromTeam, String toTeam, String[][] playersTraded) {
-        Map<String, Map<String, Object>> trades = new LinkedHashMap<String, Map<String, Object>>();
-        trades.put("from", createTrade(fromTeam, playersTraded[0]));
-        trades.put("to", createTrade(toTeam, playersTraded[1]));
+        Map<String, Map<String, Object>> trades = new LinkedHashMap<String, Map<String, Object>>(2);
+        trades.put(FROM, createTrade(fromTeam, playersTraded[0]));
+        trades.put(TO, createTrade(toTeam, playersTraded[1]));
 
         System.out.println(convertToJsonString(trades));
     }
 
     @Override
     public void updateGamesPlayed(String winner, String loser, String datePlayed) {
-        Map<String, String> gamePlayed = new LinkedHashMap<String, String>();
+        Map<String, String> gamePlayed = new LinkedHashMap<String, String>(3);
         gamePlayed.put(WINNER, winner);
         gamePlayed.put(LOSER, loser);
         gamePlayed.put(DATE, datePlayed);
@@ -37,7 +41,7 @@ public class NewsSubscriber implements ITrade, IGamesPlayed, IInjuries, IFreeAge
 
     @Override
     public void updateInjuries(String player, int daysInjured) {
-        Map<String, Object> injury = new LinkedHashMap<String, Object>();
+        Map<String, Object> injury = new LinkedHashMap<String, Object>(2);
         injury.put(PLAYER, player);
         injury.put(DAYS_INJURED, daysInjured);
 
@@ -46,7 +50,7 @@ public class NewsSubscriber implements ITrade, IGamesPlayed, IInjuries, IFreeAge
 
     @Override
     public void updateFreeAgency(String player, String hiredOrReleased) {
-        Map<String, String> playersHiredOrRelease =  new LinkedHashMap<String, String>();
+        Map<String, String> playersHiredOrRelease =  new LinkedHashMap<String, String>(1);
         playersHiredOrRelease.put(hiredOrReleased, player);
 
         System.out.println(convertToJsonString(playersHiredOrRelease));
@@ -54,7 +58,7 @@ public class NewsSubscriber implements ITrade, IGamesPlayed, IInjuries, IFreeAge
 
     @Override
     public void updateRetirement(String player, int age) {
-        Map<String, Object> retirement = new LinkedHashMap<String, Object>();
+        Map<String, Object> retirement = new LinkedHashMap<String, Object>(2);
         retirement.put(PLAYER, player);
         retirement.put(AGE, age);
 
@@ -63,9 +67,9 @@ public class NewsSubscriber implements ITrade, IGamesPlayed, IInjuries, IFreeAge
     }
 
     private Map<String, Object> createTrade(String team, String[] players) {
-        Map<String, Object> trade = new LinkedHashMap<String, Object>();
-        trade.put("team", team);
-        trade.put("player", Arrays.asList(players));
+        Map<String, Object> trade = new LinkedHashMap<String, Object>(2);
+        trade.put(TEAM, team);
+        trade.put(PLAYERS, Arrays.asList(players));
         return trade;
     }
 
