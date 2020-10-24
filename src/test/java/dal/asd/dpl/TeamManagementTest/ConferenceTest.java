@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import org.junit.Test;
 import dal.asd.dpl.TeamManagement.Conference;
 import dal.asd.dpl.TeamManagement.Division;
-import dal.asd.dpl.TeamManagement.LeagueObjectTestData;
 import dal.asd.dpl.TeamManagement.Team;
 import org.junit.Assert;
 

@@ -3,6 +3,7 @@ package dal.asd.dpl.InitializeModels;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import dal.asd.dpl.GameplayConfiguration.GameplayConfig;
 import dal.asd.dpl.Parser.CmdParseJSON;
 import dal.asd.dpl.TeamManagement.Coach;
 import dal.asd.dpl.TeamManagement.Conference;
@@ -18,20 +19,21 @@ import java.util.Iterator;
 import java.util.List;
 
 public class InitializeLeagues implements IInitializeLeagues {
-	private static CmdParseJSON parser;
-	private static String filePath;
-	private static ILeague leagueDb;
-	private static IUserOutput output;
+	private CmdParseJSON parser;
+	private String filePath;
+	private ILeague leagueDb;
+	private IUserOutput output;
 	private List<Conference> conferenceList;
 	private League league;
 	private List<Player> freeAgents;
 	private List<Coach> coaches;
 	private List<String> managers;
+	private GameplayConfig config;
 
 	public InitializeLeagues(String filePath, ILeague leagueDb, IUserOutput output, IUserInput input) {
-		InitializeLeagues.filePath = filePath;
-		InitializeLeagues.leagueDb = leagueDb;
-		InitializeLeagues.output = output;
+		this.filePath = filePath;
+		this.leagueDb = leagueDb;
+		this.output = output;
 	}
 
 	public boolean isEmptyString(String valueToCheck) {
@@ -46,11 +48,12 @@ public class InitializeLeagues implements IInitializeLeagues {
 	}
 
 	public League parseAndInitializeModels() {
-		parser = new CmdParseJSON(InitializeLeagues.filePath);
+		parser = new CmdParseJSON(this.filePath);
 		conferenceList = new ArrayList<Conference>();
 		freeAgents = new ArrayList<Player>();
 		coaches = new ArrayList<Coach>();
 		managers = new ArrayList<String>();
+		config = null;
 		String leagueName = parser.parse("leagueName");
 
 		if (isEmptyString(leagueName)) {
@@ -64,7 +67,7 @@ public class InitializeLeagues implements IInitializeLeagues {
 		}
 
 		leagueName = truncateString(leagueName);
-		league = new League(leagueName, conferenceList, freeAgents, coaches, managers);
+		league = new League(leagueName, conferenceList, freeAgents, coaches, managers, config);
 		boolean check = league.isValidLeagueName(leagueName, leagueDb);
 
 		if (!check) {

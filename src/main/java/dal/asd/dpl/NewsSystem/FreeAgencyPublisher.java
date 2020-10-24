@@ -4,22 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FreeAgencyPublisher {
-	private List<IFreeAgency> subscribers;
+	private List<IFreeAgencyInfo> subscribers;
 
 	public FreeAgencyPublisher(){
-		subscribers = new ArrayList<IFreeAgency>();
+		subscribers = new ArrayList<IFreeAgencyInfo>();
 	}
 
-	public void subscribe(IFreeAgency subscriber) {
+	public void subscribe(IFreeAgencyInfo subscriber) {
 		this.subscribers.add(subscriber);
 	}
 
-	public void unsubscribe(IFreeAgency subscriber) {
+	public void unsubscribe(IFreeAgencyInfo subscriber) {
 		this.subscribers.remove(subscriber);
 	}
 
 	public void notify(String player, String hiredOrReleased) {
-		for(IFreeAgency subscriber : this.subscribers) {
+		for(IFreeAgencyInfo subscriber : this.subscribers) {
 			subscriber.updateFreeAgency(player, hiredOrReleased);
 		}
 	}

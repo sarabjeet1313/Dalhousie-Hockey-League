@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
 
+import dal.asd.dpl.GameplayConfiguration.GameplayConfig;
 import dal.asd.dpl.TeamManagement.Coach;
 import dal.asd.dpl.TeamManagement.Conference;
 import dal.asd.dpl.TeamManagement.Division;
 import dal.asd.dpl.TeamManagement.ILeague;
-import dal.asd.dpl.TeamManagement.LeagueMockData;
-import dal.asd.dpl.TeamManagement.LeagueObjectTestData;
+import dal.asd.dpl.TeamManagementTest.LeagueMockData;
+import dal.asd.dpl.TeamManagementTest.LeagueObjectTestData;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagement.Player;
 
@@ -34,7 +35,8 @@ public class LeagueTest {
 	ArrayList<String> managerList = new ArrayList<String>();
 	Conference conference = new Conference("Eastern Conference", divisionList);
 	Conference conference1 = new Conference("Western Conference", divisionList1);
-	League league = new League("Dalhousie Hockey League", conferenceList, freeAgents, coachesList, managerList);
+	GameplayConfig config = null;
+	League league = new League("Dalhousie Hockey League", conferenceList, freeAgents, coachesList, managerList, config);
 	ILeague object = new LeagueMockData();
 	List<League> leagueList = new ArrayList<League>();
 	
@@ -67,14 +69,14 @@ public class LeagueTest {
 	@Test
 	public void getConferenceListTest() {
 		conferenceList.add(conference);
-		League league = new League("Dalhousie Hockey League", conferenceList, freeAgents, coachesList, managerList);
+		League league = new League("Dalhousie Hockey League", conferenceList, freeAgents, coachesList, managerList, config);
 		Assert.assertEquals(1, league.getConferenceList().size());
 	}
 	
 	@Test
 	public void setConferenceListTest() {
 		conferenceList.add(conference);
-		League league1 = new League("Dalhousie Hockey League", conferenceList, freeAgents, coachesList, managerList);
+		League league1 = new League("Dalhousie Hockey League", conferenceList, freeAgents, coachesList, managerList, config);
 		conferenceList.add(conference1);
 		league1.setConferenceList(conferenceList);
 		Assert.assertEquals(2, league1.getConferenceList().size());

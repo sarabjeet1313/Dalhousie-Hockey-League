@@ -4,22 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GamePlayedPublisher {
-	private List<IGamesPlayed> subscribers;
+	private List<IGamesPlayedInfo> subscribers;
 
 	public GamePlayedPublisher(){
-		subscribers = new ArrayList<IGamesPlayed>();
+		subscribers = new ArrayList<IGamesPlayedInfo>();
 	}
 
-	public void subscribe(IGamesPlayed subscriber) {
+	public void subscribe(IGamesPlayedInfo subscriber) {
 		this.subscribers.add(subscriber);
 	}
 
-	public void unsubscribe(IGamesPlayed subscriber) {
+	public void unsubscribe(IGamesPlayedInfo subscriber) {
 		this.subscribers.remove(subscriber);
 	}
 
 	public void notify(String winner, String loser, String datePlayed) {
-		for(IGamesPlayed subscriber : this.subscribers) {
+		for(IGamesPlayedInfo subscriber : this.subscribers) {
 			subscriber.updateGamesPlayed(winner, loser, datePlayed);
 		}
 
