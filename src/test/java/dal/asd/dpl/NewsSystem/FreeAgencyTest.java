@@ -12,7 +12,7 @@ import org.junit.Test;
 public class FreeAgencyTest {
 	private final ByteArrayOutputStream console = new ByteArrayOutputStream();
 	private FreeAgencyPublisher publisher = new FreeAgencyPublisher();
-	private IFreeAgency subscriber = NewsSubscriber.getInstance();
+	private IFreeAgencyInfo subscriber = NewsSubscriber.getInstance();
 	
 	@Before
 	public void before() {

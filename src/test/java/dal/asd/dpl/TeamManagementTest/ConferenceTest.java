@@ -2,20 +2,19 @@ package dal.asd.dpl.TeamManagementTest;
 
 import java.util.ArrayList;
 import org.junit.Test;
-import dal.asd.dpl.TeamManagement.Conferences;
-import dal.asd.dpl.TeamManagement.Divisions;
-import dal.asd.dpl.TeamManagement.LeagueObjectTestData;
-import dal.asd.dpl.TeamManagement.Teams;
+import dal.asd.dpl.TeamManagement.Conference;
+import dal.asd.dpl.TeamManagement.Division;
+import dal.asd.dpl.TeamManagement.Team;
 import org.junit.Assert;
 
-public class ConferencesTest {
+public class ConferenceTest {
 	
-	ArrayList<Divisions> divisionList = new ArrayList<Divisions>();
-	Conferences conference = new Conferences("Eastern Conference", divisionList);
-	ArrayList<Teams> teamList = new ArrayList<Teams>();
-	ArrayList<Teams> teamList1 = new ArrayList<Teams>();
-	Divisions division = new Divisions("Atlantic", teamList);
-	Divisions division1 = new Divisions("Florida", teamList1);
+	ArrayList<Division> divisionList = new ArrayList<Division>();
+	Conference conference = new Conference("Eastern Conference", divisionList);
+	ArrayList<Team> teamList = new ArrayList<Team>();
+	ArrayList<Team> teamList1 = new ArrayList<Team>();
+	Division division = new Division("Atlantic", teamList);
+	Division division1 = new Division("Florida", teamList1);
 	
 	@Test
 	public void parameterizedConstructorTest() {
@@ -47,7 +46,7 @@ public class ConferencesTest {
 	@Test
 	public void setDivisionListTest() {
 		divisionList.add(division);
-		Conferences conference1 = new Conferences("Westren Conference", divisionList);
+		Conference conference1 = new Conference("Westren Conference", divisionList);
 		divisionList.add(division1);
 		conference1.setDivisionList(divisionList);
 		Assert.assertEquals(2, conference1.getDivisionList().size());

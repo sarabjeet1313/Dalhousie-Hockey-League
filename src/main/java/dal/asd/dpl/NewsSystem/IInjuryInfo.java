@@ -1,5 +1,5 @@
 package dal.asd.dpl.NewsSystem;
 
-public interface IInjury {
+public interface IInjuryInfo {
     public void updateInjuries(String player, int daysInjured);
 }

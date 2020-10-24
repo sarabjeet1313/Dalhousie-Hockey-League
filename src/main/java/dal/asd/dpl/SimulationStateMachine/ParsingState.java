@@ -2,7 +2,7 @@ package dal.asd.dpl.SimulationStateMachine;
 
 import dal.asd.dpl.InitializeModels.InitializeLeagues;
 import dal.asd.dpl.TeamManagement.ILeague;
-import dal.asd.dpl.TeamManagement.Leagues;
+import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
 
@@ -11,7 +11,7 @@ public class ParsingState implements IState {
     private static IUserInput input;
     private static String filePath;
     private static ILeague leagueDb;
-    private static Leagues initializedLeague;
+    private static League initializedLeague;
     private static String stateName;
     private static String nextStateName;
 

@@ -1,6 +1,6 @@
 package dal.asd.dpl.InitializeModels;
 
-import dal.asd.dpl.TeamManagement.Leagues;
+import dal.asd.dpl.TeamManagement.League;
 
 public interface IInitializeLeagues {
 	
@@ -8,6 +8,6 @@ public interface IInitializeLeagues {
 	
 	public String truncateString(String inputString);
 	
-	public Leagues parseAndInitializeModels();
+	public League parseAndInitializeModels();
 	
 }

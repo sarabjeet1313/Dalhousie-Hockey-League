@@ -4,66 +4,78 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import dal.asd.dpl.GameplayConfiguration.Aging;
+import dal.asd.dpl.GameplayConfiguration.GameResolver;
+import dal.asd.dpl.GameplayConfiguration.GameplayConfig;
+import dal.asd.dpl.GameplayConfiguration.Injury;
+import dal.asd.dpl.GameplayConfiguration.Trading;
+import dal.asd.dpl.GameplayConfiguration.Training;
 import dal.asd.dpl.TeamManagement.Coach;
-import dal.asd.dpl.TeamManagement.Conferences;
-import dal.asd.dpl.TeamManagement.Divisions;
+import dal.asd.dpl.TeamManagement.Conference;
+import dal.asd.dpl.TeamManagement.Division;
 import dal.asd.dpl.TeamManagement.ILeague;
-import dal.asd.dpl.TeamManagement.Leagues;
+import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagement.Player;
-import dal.asd.dpl.TeamManagement.Teams;
+import dal.asd.dpl.TeamManagement.Team;
 
 public class LeagueDataDB implements ILeague {
-	
+
 	InvokeStoredProcedure isp = null;
+
 	@Override
-	public List<Leagues> getLeagueData(String teamName) {
-		Leagues league = null;
-		List<Leagues> leagueList = new ArrayList<Leagues>(); 
+	public List<League> getLeagueData(String teamName) {
+		League league = null;
+		List<League> leagueList = new ArrayList<League>();
 		List<Player> playerList = new ArrayList<Player>();
-		List<Teams> teamList = new ArrayList<Teams>();
-		List<Divisions> divisionList = new ArrayList<Divisions>();
-		List<Conferences> conferenceList = new ArrayList<Conferences>();
+		List<Team> teamList = new ArrayList<Team>();
+		List<Division> divisionList = new ArrayList<Division>();
+		List<Conference> conferenceList = new ArrayList<Conference>();
 		String tempLeagueName = "";
 		ResultSet result;
 		boolean flag = true;
-		try  {
+		try {
 			isp = new InvokeStoredProcedure("spLoadLeagueData(?)");
 			isp.setParameter(1, teamName);
 			result = isp.executeQueryWithResults();
-			while(result.next()) {
-				if(!flag && !tempLeagueName.equals(result.getString("leagueName"))) {
+			while (result.next()) {
+				if (!flag && !tempLeagueName.equals(result.getString("leagueName"))) {
 					flag = true;
-					league.getConferenceList().get(0).getDivisionList().get(0)
-						.getTeamList().get(0).setPlayerList(playerList);
+					league.getConferenceList().get(0).getDivisionList().get(0).getTeamList().get(0).setPlayerList(playerList);
 					leagueList.add(league);
 					playerList.clear();
 				}
-				if(flag) {
-					Coach headCoach = new Coach(result.getString("name"), result.getDouble("skating"), result.getDouble("shooting"), result.getDouble("checking"), result.getDouble("saving"));
-					Teams team = new Teams(result.getString("teamName"), result.getString("generalManager"), headCoach, playerList);
+				if (flag) {
+					Coach headCoach = new Coach(result.getString("name"), result.getDouble("skating"),
+							result.getDouble("shooting"), result.getDouble("checking"), result.getDouble("saving"));
+					Team team = new Team(result.getString("teamName"), result.getString("generalManager"), headCoach, playerList);
 					teamList.add(team);
-					Divisions division = new Divisions(result.getString("divisionName"),teamList);
+					Division division = new Division(result.getString("divisionName"), teamList);
 					divisionList.add(division);
-					Conferences conference = new Conferences(result.getString("conferenceName"),divisionList);
+					Conference conference = new Conference(result.getString("conferenceName"), divisionList);
 					conferenceList.add(conference);
 					List<Player> freeAgents = new ArrayList<Player>();
-					List<String> managers = new ArrayList<String>(); 	
+					List<String> managers = new ArrayList<String>();
 					List<Coach> coachesList = new ArrayList<Coach>();
-					league = new Leagues(result.getString("leagueName"), conferenceList, freeAgents, coachesList, managers);
+					Aging aging = null;
+					GameResolver gameResolver = null;
+					Injury injury = null;
+					Training training = null;
+					Trading trading = null;
+					GameplayConfig config = null;
+					league = new League(result.getString("leagueName"), conferenceList, freeAgents, coachesList, managers, config);
 					tempLeagueName = result.getString("leagueName");
 					flag = false;
 				}
-				if(result.isLast()) {
-					league.getConferenceList().get(0).getDivisionList().get(0)
-					.getTeamList().get(0).setPlayerList(playerList);
+				if (result.isLast()) {
+					league.getConferenceList().get(0).getDivisionList().get(0).getTeamList().get(0)
+							.setPlayerList(playerList);
 					leagueList.add(league);
 				}
 			}
 			result.close();
 		} catch (Exception e) {
 			System.out.println("Database Error:" + e.getMessage());
-		}
-		finally {
+		} finally {
 			try {
 				isp.closeConnection();
 			} catch (SQLException e) {
@@ -72,7 +84,7 @@ public class LeagueDataDB implements ILeague {
 		}
 		return leagueList;
 	}
-	
+
 	@Override
 	public int checkLeagueName(String leagueName) {
 		ResultSet result;
@@ -81,14 +93,12 @@ public class LeagueDataDB implements ILeague {
 			isp = new InvokeStoredProcedure("spCheckLeagueName(?)");
 			isp.setParameter(1, leagueName);
 			result = isp.executeQueryWithResults();
-			while(result.next()) {
+			while (result.next()) {
 				rowCount = result.getInt("rowCount");
-			}	
-		}
-		catch (Exception e) {
+			}
+		} catch (Exception e) {
 			System.out.println("Database Error:" + e.getMessage());
-		}
-		finally {
+		} finally {
 			try {
 				isp.closeConnection();
 			} catch (SQLException e) {
@@ -97,7 +107,7 @@ public class LeagueDataDB implements ILeague {
 		}
 		return rowCount;
 	}
-	
+
 	@Override
 	public boolean persisitLeagueData(String leagueName, String conferenceName, String divisionName, String teamName,
 			String generalManager, String headCoach, Player player) {
@@ -120,14 +130,12 @@ public class LeagueDataDB implements ILeague {
 			isp.setParameter(13, player.getChecking());
 			isp.setParameter(14, player.getSaving());
 			result = isp.executeQueryWithResults();
-			while(result.next()) {
+			while (result.next()) {
 				isPersisted = result.getBoolean("success");
 			}
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			System.out.println("Database Error:" + e.getMessage());
-		}
-		finally {
+		} finally {
 			try {
 				isp.closeConnection();
 			} catch (SQLException e) {
@@ -151,13 +159,12 @@ public class LeagueDataDB implements ILeague {
 			isp.setParameter(6, teamName);
 			isp.setParameter(7, leagueName);
 			result = isp.executeQueryWithResults();
-			while(result.next()) {
+			while (result.next()) {
 				isPersisted = result.getBoolean("success");
 			}
 		} catch (Exception e) {
 			System.out.println("Database Error:" + e.getMessage());
-		}
-		finally {
+		} finally {
 			try {
 				isp.closeConnection();
 			} catch (SQLException e) {
@@ -166,7 +173,5 @@ public class LeagueDataDB implements ILeague {
 		}
 		return isPersisted;
 	}
-	
-	
-	
+
 }

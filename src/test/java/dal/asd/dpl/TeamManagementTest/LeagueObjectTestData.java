@@ -1,17 +1,30 @@
-package dal.asd.dpl.TeamManagement;
+package dal.asd.dpl.TeamManagementTest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class LeagueMockData implements ILeague {
+import dal.asd.dpl.GameplayConfiguration.Aging;
+import dal.asd.dpl.GameplayConfiguration.GameResolver;
+import dal.asd.dpl.GameplayConfiguration.GameplayConfig;
+import dal.asd.dpl.GameplayConfiguration.Injury;
+import dal.asd.dpl.GameplayConfiguration.Trading;
+import dal.asd.dpl.GameplayConfiguration.Training;
+import dal.asd.dpl.TeamManagement.Coach;
+import dal.asd.dpl.TeamManagement.Conference;
+import dal.asd.dpl.TeamManagement.Division;
+import dal.asd.dpl.TeamManagement.League;
+import dal.asd.dpl.TeamManagement.Player;
+import dal.asd.dpl.TeamManagement.Team;
+
+public class LeagueObjectTestData {
 	
-	Player player1 = new Player("Player One", "forward", true, 1, 1, 1, 1, 1, false);
-	Player player2 = new Player("Player Two", "defense", false, 1, 1, 1, 1, 1, false);
-	Player player3 = new Player("Player Three", "goalie", false, 1, 1, 1, 1, 1, false);
-	Player player4 = new Player("Agent1", "forward", false, 1, 1, 1, 1, 1, false);
-	Player player5 = new Player("Agent2", "defense", false, 1, 1, 1, 1, 1, false);
-	Player player6 = new Player("Agent3", "defense", false, 1, 1, 1, 1, 1, false);
+	private Player player1 = new Player("Player One", "forward", true, 1, 1, 1, 1, 1, false);
+	private Player player2 = new Player("Player Two", "defense", false, 1, 1, 1, 1, 1, false);
+	private Player player3 = new Player("Player Three", "goalie", false, 1, 1, 1, 1, 1, false);
+	private Player player4 = new Player("Agent1", "forward", false, 1, 1, 1, 1, 1, false);
+	private Player player5 = new Player("Agent2", "defense", false, 1, 1, 1, 1, 1, false);
+	private Player player6 = new Player("Agent3", "defense", false, 1, 1, 1, 1, 1, false);
 	Player agent1 = new Player("Agent4", "forward", true, 1, 1, 1, 1, 1, false);
 	Player agent2 = new Player("Agent5", "goalie", false, 1, 1, 1, 1, 1, false);
 	Player agent3 = new Player("Agent6", "forward", false, 1, 1, 1, 1, 1, false);
@@ -47,8 +60,14 @@ public class LeagueMockData implements ILeague {
 	List<Player> freePlayerList = new ArrayList<Player>();
 	List<Coach> coachList = new ArrayList<Coach>();
 	List<String> managerList = new ArrayList<String>();
+	Aging aging = new Aging(35, 50);
+	GameResolver gameResolver = new GameResolver(0.1);
+	Injury injury = new Injury(0.05, 1, 260);
+	Training training = new Training(100);
+	Trading trading = new Trading(8, 0.05, 2, 0.05);
 	
-	public Leagues getTestData() {
+	
+	public League getLeagueData() {
 		playerList.add(player1);
 		playerList.add(player2);
 		playerList.add(player3);
@@ -62,68 +81,18 @@ public class LeagueMockData implements ILeague {
 		managerList.add("Karen Potam");
 		managerList.add("Joseph Squidly");
 		managerList.add("Tom Spaghetti");
-		Teams team = new Teams("Boston", "Mister Fred", headCoach, playerList);
-		ArrayList<Teams> teamList = new ArrayList<Teams>();
+		Team team = new Team("Boston", "Mister Fred", headCoach, playerList);
+		ArrayList<Team> teamList = new ArrayList<Team>();
 		teamList.add(team);
-		Divisions division = new Divisions("Atlantic", teamList);
-		ArrayList<Divisions> divisionList = new ArrayList<Divisions>();
+		Division division = new Division("Atlantic", teamList);
+		ArrayList<Division> divisionList = new ArrayList<Division>();
 		divisionList.add(division);
-		Conferences conference = new Conferences("Eastern Conference", divisionList);
-		ArrayList<Conferences> conferenceList = new ArrayList<Conferences>();
+		Conference conference = new Conference("Eastern Conference", divisionList);
+		ArrayList<Conference> conferenceList = new ArrayList<Conference>();
 		conferenceList.add(conference);
-		Leagues league = new Leagues("Dalhousie Hockey League", conferenceList, freePlayerList, coachList, managerList);
+		GameplayConfig config = new GameplayConfig(aging, gameResolver, injury, training, trading);
+		League league = new League("Dalhousie Hockey League", conferenceList, freePlayerList, coachList, managerList, config);
 		return league;
-	} 
-	
-	@Override
-	public List<Leagues> getLeagueData(String teamName) {
-		List<Leagues> leagueList = new ArrayList<Leagues>();
-		Leagues league = getTestData();
-		List<Conferences> conferenceList = league.getConferenceList();
-		List<Divisions> divisionList = conferenceList.get(0).getDivisionList();
-		List<Teams> teamList = divisionList.get(0).getTeamList();
-		for(int index = 0; index < teamList.size(); index++) {
-			if(teamList.get(index).getTeamName().equals(teamName)) {
-				leagueList.add(league);
-			}
-			else {
-				return null;
-			}
-		}
-		return leagueList;
-	}
-	
-	@Override
-	public int checkLeagueName(String leagueName) {
-		Leagues league = getTestData();
-		int rowCount = 0;
-		if(league.getLeagueName().equals(leagueName)) {
-			rowCount = 1;
-		}
-		return rowCount;
-	}
-	
-	@Override
-	public boolean persisitLeagueData(String leagueName, String conferenceName, String divisionName, String teamName,
-			String generalManager, String headCoach, Player player) {
-		if(teamName.equals("Empty")) {
-			List<Player> playerList = new ArrayList<Player>() ;
-			playerList.add(player1);
-		}
-		
-		return true;
-	}
-
-	@Override
-	public boolean persisitCoaches(Coach coach, String teamName, String leagueName) {
-		boolean isValid = false;
-		Leagues league = getTestData();
-		for(int index = 0; index < league.getCoaches().size(); index++) {
-			if(coach.getCoachName().equals(league.getCoaches().get(index).getCoachName())) {
-				isValid = true;
-			}
-		}
-		return isValid;
 	}
 	
 }

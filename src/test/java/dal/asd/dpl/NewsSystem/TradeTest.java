@@ -13,7 +13,7 @@ import org.junit.Test;
 public class TradeTest {
     private final ByteArrayOutputStream console = new ByteArrayOutputStream();
     private TradePublisher publisher = new TradePublisher();
-    private ITrade subscriber = NewsSubscriber.getInstance();
+    private ITradeInfo subscriber = NewsSubscriber.getInstance();
 
     @Before
     public void before() {

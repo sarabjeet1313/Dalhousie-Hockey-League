@@ -1,8 +1,10 @@
-package dal.asd.dpl.TeamManagement;
+package dal.asd.dpl.TeamManagementTest;
 
+import dal.asd.dpl.TeamManagement.IPlayerInfo;
+import dal.asd.dpl.TeamManagement.Player;
 import dal.asd.dpl.util.ConstantsUtil;
 
-public class PlayerInfo implements IPlayerInfo{
+public class PlayerInfoMock implements IPlayerInfo {
 
 	@Override
 	public double getPlayerStrength(Player player) {
@@ -29,5 +31,4 @@ public class PlayerInfo implements IPlayerInfo{
 			return strength;
 		}
 	}
-
 }
