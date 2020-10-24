@@ -4,6 +4,12 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import dal.asd.dpl.GameplayConfiguration.Aging;
+import dal.asd.dpl.GameplayConfiguration.GameResolver;
+import dal.asd.dpl.GameplayConfiguration.GameplayConfig;
+import dal.asd.dpl.GameplayConfiguration.Injury;
+import dal.asd.dpl.GameplayConfiguration.Trading;
+import dal.asd.dpl.GameplayConfiguration.Training;
 import dal.asd.dpl.TeamManagement.Coach;
 import dal.asd.dpl.TeamManagement.Conference;
 import dal.asd.dpl.TeamManagement.Division;
@@ -34,16 +40,14 @@ public class LeagueDataDB implements ILeague {
 			while (result.next()) {
 				if (!flag && !tempLeagueName.equals(result.getString("leagueName"))) {
 					flag = true;
-					league.getConferenceList().get(0).getDivisionList().get(0).getTeamList().get(0)
-							.setPlayerList(playerList);
+					league.getConferenceList().get(0).getDivisionList().get(0).getTeamList().get(0).setPlayerList(playerList);
 					leagueList.add(league);
 					playerList.clear();
 				}
 				if (flag) {
 					Coach headCoach = new Coach(result.getString("name"), result.getDouble("skating"),
 							result.getDouble("shooting"), result.getDouble("checking"), result.getDouble("saving"));
-					Team team = new Team(result.getString("teamName"), result.getString("generalManager"), headCoach,
-							playerList);
+					Team team = new Team(result.getString("teamName"), result.getString("generalManager"), headCoach, playerList);
 					teamList.add(team);
 					Division division = new Division(result.getString("divisionName"), teamList);
 					divisionList.add(division);
@@ -52,8 +56,13 @@ public class LeagueDataDB implements ILeague {
 					List<Player> freeAgents = new ArrayList<Player>();
 					List<String> managers = new ArrayList<String>();
 					List<Coach> coachesList = new ArrayList<Coach>();
-					league = new League(result.getString("leagueName"), conferenceList, freeAgents, coachesList,
-							managers);
+					Aging aging = null;
+					GameResolver gameResolver = null;
+					Injury injury = null;
+					Training training = null;
+					Trading trading = null;
+					GameplayConfig config = null;
+					league = new League(result.getString("leagueName"), conferenceList, freeAgents, coachesList, managers, config);
 					tempLeagueName = result.getString("leagueName");
 					flag = false;
 				}

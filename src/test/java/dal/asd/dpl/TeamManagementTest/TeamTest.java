@@ -5,8 +5,6 @@ import java.util.List;
 import org.junit.Test;
 import dal.asd.dpl.TeamManagement.Coach;
 import dal.asd.dpl.TeamManagement.ITeamInfo;
-import dal.asd.dpl.TeamManagement.LeagueMockData;
-import dal.asd.dpl.TeamManagement.LeagueObjectTestData;
 import dal.asd.dpl.TeamManagement.Player;
 import dal.asd.dpl.TeamManagement.Team;
 import org.junit.Assert;

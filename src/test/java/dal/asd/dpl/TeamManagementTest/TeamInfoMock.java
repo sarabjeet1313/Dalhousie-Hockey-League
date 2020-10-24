@@ -4,7 +4,7 @@ import java.util.List;
 
 import dal.asd.dpl.TeamManagement.IPlayerInfo;
 import dal.asd.dpl.TeamManagement.ITeamInfo;
-import dal.asd.dpl.TeamManagement.LeagueMockData;
+import dal.asd.dpl.TeamManagementTest.LeagueMockData;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagement.Player;
 

@@ -1,8 +1,8 @@
 package dal.asd.dpl.SimulationStateMachineTest;
 import dal.asd.dpl.SimulationStateMachine.ParsingState;
 import dal.asd.dpl.SimulationStateMachine.StateContext;
-import dal.asd.dpl.TeamManagement.LeagueMockData;
 import dal.asd.dpl.TeamManagement.League;
+import dal.asd.dpl.TeamManagementTest.LeagueMockData;
 import dal.asd.dpl.UserInput.CmdUserInput;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.CmdUserOutput;
