@@ -1,8 +1,9 @@
 package dal.asd.dpl.TeamManagement;
 
+import java.util.Random;
 import dal.asd.dpl.util.ConstantsUtil;
 
-public class Player implements IPlayerInfo {
+public class Player implements IPlayerInfo, IInjuryCalculator {
 
 	private String playerName;
 	private String position;
@@ -13,9 +14,10 @@ public class Player implements IPlayerInfo {
 	private int checking;
 	private int saving;
 	private boolean isInjured;
+	private int numberOfInjuryDays;
 
 	public Player(String playerName, String position, boolean captain, int age, int skating, int shooting, int checking,
-			int saving, boolean isInjured) {
+			int saving, boolean isInjured, int numberOfInjuryDays) {
 		super();
 		this.playerName = playerName;
 		this.position = position;
@@ -26,6 +28,7 @@ public class Player implements IPlayerInfo {
 		this.checking = checking;
 		this.saving = saving;
 		this.isInjured = isInjured;
+		this.numberOfInjuryDays= numberOfInjuryDays;
 	}
 
 	public String getPlayerName() {
@@ -100,6 +103,14 @@ public class Player implements IPlayerInfo {
 		this.isInjured = isInjured;
 	}
 
+	public int getNumberOfInjuryDays() {
+		return numberOfInjuryDays;
+	}
+
+	public void setNumberOfInjuryDays(int numberOfInjuryDays) {
+		this.numberOfInjuryDays = numberOfInjuryDays;
+	}
+
 	@Override
 	public double getPlayerStrength(Player player) {
 
@@ -124,6 +135,24 @@ public class Player implements IPlayerInfo {
 		} else {
 			return strength;
 		}
+	}
+
+	@Override
+	public Player getPlayerInjuryDays(Player player, League league) {
+		Random random = new Random();
+		
+		double randomInjuryChance = league.getGameConfig().getInjury().getRandomInjuryChance() * 100;
+		int injuryDaysLow = league.getGameConfig().getInjury().getInjuryDaysLow();
+		int injuryDaysHigh = league.getGameConfig().getInjury().getInjuryDaysHigh();
+		double randomValue = Math.random() * 100;
+		
+		if((randomValue <= randomInjuryChance) && (player.isInjured() == Boolean.FALSE)) {
+			player.setInjured(Boolean.TRUE);
+			int injuryDays = random.nextInt(injuryDaysHigh - injuryDaysLow) + injuryDaysLow;
+			player.setNumberOfInjuryDays(injuryDays);
+		}
+		
+		return player;
 	}
 
 }

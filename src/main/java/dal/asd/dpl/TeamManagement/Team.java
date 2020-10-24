@@ -3,7 +3,7 @@ package dal.asd.dpl.TeamManagement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Team implements ITeamPlayersInfo, ITeamInfo {
+public class Team implements ITeamPlayersInfo, ITeamInfo, IInjuryStatus {
 
 	private String teamName;
 	private String generalManager;
@@ -123,5 +123,30 @@ public class Team implements ITeamPlayersInfo, ITeamInfo {
 		}
 
 		return teamStrength;
+	}
+
+	@Override
+	public League getInjuryStatusByTeam(String teamName, League league) {
+		List<Conference> conferenceList = league.getConferenceList();
+		for (int index = 0; index < conferenceList.size(); index++) {
+			List<Division> divisionList = conferenceList.get(index).getDivisionList();
+			for (int dIndex = 0; dIndex < divisionList.size(); dIndex++) {
+				List<Team> teamList = divisionList.get(dIndex).getTeamList();
+				for (int tIndex = 0; tIndex < teamList.size(); tIndex++) {
+					if (teamList.get(dIndex).teamName.equals(teamName)) {
+						List<Player> playersByTeam = teamList.get(tIndex).getPlayerList();
+						for (Player player : playersByTeam) {
+							Player returnedPlayer = player.getPlayerInjuryDays(player, league);
+							if (returnedPlayer.getNumberOfInjuryDays() > 0) {
+								player.setInjured(true);
+								player.setNumberOfInjuryDays(returnedPlayer.getNumberOfInjuryDays());
+							}
+						}
+						break;
+					}
+				}
+			}
+		}
+		return league;
 	}
 }

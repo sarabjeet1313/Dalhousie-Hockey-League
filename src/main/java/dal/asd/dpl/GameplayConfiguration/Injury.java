@@ -4,7 +4,7 @@ public class Injury {
 	double randomInjuryChance;
 	int injuryDaysLow;
 	int injuryDaysHigh;
-	
+
 	public Injury(double randomInjuryChance, int injuryDaysLow, int injuryDaysHigh) {
 		this.randomInjuryChance = randomInjuryChance;
 		this.injuryDaysLow = injuryDaysLow;
