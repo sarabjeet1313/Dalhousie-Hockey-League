@@ -14,7 +14,7 @@ public class TrainingTest {
 	
 	League mockData = new LeagueObjectTestData().getLeagueData();
 	Training training = new Training(100);
-	Player player = new Player("Player One", "forward", true, 1, 1, 1, 1, 1, false);
+	Player player = new Player("Player One", "forward", true, 1, 1, 1, 1, 1, false, 0);
 	Coach coach = new Coach("Coach One", 0.5, 0.5, 0.5, 0.5);
 	
 	@Test

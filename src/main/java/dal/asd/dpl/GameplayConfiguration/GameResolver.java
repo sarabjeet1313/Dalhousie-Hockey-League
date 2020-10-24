@@ -15,5 +15,5 @@ public class GameResolver {
 	public void setRandomWinChance(double randomWinChance) {
 		this.randomWinChance = randomWinChance;
 	}
-	
+
 }
