@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface ITeamPlayersInfo {
 		
-	public List<Player> getPlayersByTeam(String teamName, Leagues league);
+	public List<Player> getPlayersByTeam(String teamName, League league);
 
 }

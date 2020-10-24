@@ -3,7 +3,7 @@ package dal.asd.dpl.InitializeModelsTest;
 import dal.asd.dpl.InitializeModels.InitializeLeagues;
 import dal.asd.dpl.TeamManagement.ILeague;
 import dal.asd.dpl.TeamManagement.LeagueMockData;
-import dal.asd.dpl.TeamManagement.Leagues;
+import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.UserInput.CmdUserInput;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.CmdUserOutput;
@@ -46,7 +46,7 @@ public class InitializeLeaguesTest {
 
     @Test
     public void parseAndInitializeModelsTest(){
-        Leagues outputLeague = league.parseAndInitializeModels();
+        League outputLeague = league.parseAndInitializeModels();
         assertEquals("Dal Hockey League", outputLeague.getLeagueName());
         assertEquals("Eastern Conference", outputLeague.getConferenceList().get(0).getConferenceName());
     }
