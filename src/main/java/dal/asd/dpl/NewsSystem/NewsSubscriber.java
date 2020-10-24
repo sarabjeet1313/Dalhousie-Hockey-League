@@ -7,7 +7,9 @@ import java.util.Map;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class NewsSubscriber implements ITrade, IGamesPlayed, IInjuries, IFreeAgency, IRetirement{
+public class NewsSubscriber implements ITrade, IGamesPlayed, IInjury, IFreeAgency, IRetirement{
+
+    private static final NewsSubscriber INSTANCE = new NewsSubscriber();
 
     private static final String WINNER = "winner";
     private static final String LOSER = "loser";
@@ -19,6 +21,13 @@ public class NewsSubscriber implements ITrade, IGamesPlayed, IInjuries, IFreeAge
     private static final String TEAM = "team";
     private static final String FROM = "from";
     private static final String TO = "to";
+
+    private NewsSubscriber(){
+        //no-ops
+    }
+    public static NewsSubscriber getInstance(){
+        return INSTANCE;
+    }
 
     @Override
     public void updateTrade(String fromTeam, String toTeam, String[][] playersTraded) {
@@ -52,7 +61,6 @@ public class NewsSubscriber implements ITrade, IGamesPlayed, IInjuries, IFreeAge
     public void updateFreeAgency(String player, String hiredOrReleased) {
         Map<String, String> playersHiredOrRelease =  new LinkedHashMap<String, String>(1);
         playersHiredOrRelease.put(hiredOrReleased, player);
-
         System.out.println(convertToJsonString(playersHiredOrRelease));
     }
 
