@@ -7,7 +7,7 @@ import java.util.Map;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class NewsSubscriber implements ITrade, IGamesPlayed, IInjury, IFreeAgency, IRetirement{
+public class NewsSubscriber implements ITradeInfo, IGamesPlayedInfo, IInjuryInfo, IFreeAgencyInfo, IRetirementInfo {
 
     private static final NewsSubscriber INSTANCE = new NewsSubscriber();
 

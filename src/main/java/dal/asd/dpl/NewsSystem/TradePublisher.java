@@ -5,22 +5,22 @@ import java.util.List;
 
 public class TradePublisher {
 
-    private List<ITrade> subscribers;
+    private List<ITradeInfo> subscribers;
 
     public TradePublisher(){
-        subscribers = new ArrayList<ITrade>();
+        subscribers = new ArrayList<ITradeInfo>();
     }
 
-    public void subscribe(ITrade subscriber) {
+    public void subscribe(ITradeInfo subscriber) {
         this.subscribers.add(subscriber);
     }
 
-    public void unsubscribe(ITrade subscriber) {
+    public void unsubscribe(ITradeInfo subscriber) {
         this.subscribers.remove(subscriber);
     }
 
     public void notify(String fromTeam, String toTeam, String[][] playersTraded) {
-        for(ITrade subscriber : this.subscribers) {
+        for(ITradeInfo subscriber : this.subscribers) {
             subscriber.updateTrade(fromTeam, toTeam, playersTraded);
         }
     }

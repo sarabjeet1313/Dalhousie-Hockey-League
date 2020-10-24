@@ -12,7 +12,7 @@ import org.junit.Test;
 public class GamePlayedTest {
 	private final ByteArrayOutputStream console = new ByteArrayOutputStream();
 	private GamePlayedPublisher publisher = new GamePlayedPublisher();
-	private IGamesPlayed subscriber = NewsSubscriber.getInstance();
+	private IGamesPlayedInfo subscriber = NewsSubscriber.getInstance();
 	
 	@Before
 	public void before() {
