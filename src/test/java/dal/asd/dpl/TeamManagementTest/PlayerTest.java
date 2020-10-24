@@ -6,17 +6,18 @@ import org.junit.Assert;
 
 public class PlayerTest {
 	
-	Player player = new Player("Player1", "Forword", false, 1, 1, 1, 1, 1);
+	Player player = new Player("Player1", "Forword", false, 1, 1, 1, 1, 1, false);
 	
 	@Test
 	public void parameterizedConstructorTest() {
 		Assert.assertEquals("Player1", player.getPlayerName());
-		Assert.assertEquals("Forword", player.getPlayerPosition());
+		Assert.assertEquals("Forword", player.getPosition());
 		Assert.assertEquals(1, player.getSkating());
 		Assert.assertEquals(1, player.getShooting());
 		Assert.assertEquals(1, player.getChecking());
 		Assert.assertEquals(1, player.getSaving());
-		Assert.assertFalse(player.getCaptain());
+		Assert.assertFalse(player.isCaptain());
+		Assert.assertFalse(player.isInjured());
 	}
 	
 	@Test
@@ -32,24 +33,24 @@ public class PlayerTest {
 	
 	@Test
 	public void getPlayerPositionTest() {
-		Assert.assertEquals("Forword", player.getPlayerPosition());
+		Assert.assertEquals("Forword", player.getPosition());
 	} 
 	
 	@Test
 	public void setPlayerPositionTest() {
-		player.setPlayerPosition("Defender");
-		Assert.assertEquals("Defender",player.getPlayerPosition());
+		player.setPosition("Defender");
+		Assert.assertEquals("Defender",player.getPosition());
 	}
 	
 	@Test
 	public void getCaptainTest() {
-		Assert.assertFalse(player.getCaptain());
+		Assert.assertFalse(player.isCaptain());
 	} 
 	
 	@Test
 	public void setCaptainTest() {
 		player.setCaptain(true);
-		Assert.assertTrue(player.getCaptain());
+		Assert.assertTrue(player.isCaptain());
 	}
 
 	@Test
@@ -105,6 +106,17 @@ public class PlayerTest {
 	public void setSavingTest() {		
 		player.setSaving(1);
 		Assert.assertEquals(1, player.getSaving());
+	}
+	
+	@Test
+	public void getInjuredTest() {
+		Assert.assertFalse(player.isInjured());
+	} 
+	
+	@Test
+	public void setInjuredTest() {
+		player.setInjured(true);
+		Assert.assertTrue(player.isInjured());
 	}
 	
 }

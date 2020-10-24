@@ -1,5 +1,5 @@
 package dal.asd.dpl.NewsSystem;
 
 public interface IRetirement {
-    public void notifyRetirement();
+    public void updateRetirement(String player, int age);
 }

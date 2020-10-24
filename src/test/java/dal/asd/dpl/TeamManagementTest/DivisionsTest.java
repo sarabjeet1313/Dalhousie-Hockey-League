@@ -4,10 +4,9 @@ import java.util.ArrayList;
 import org.junit.Test;
 
 import dal.asd.dpl.TeamManagement.Coach;
-import dal.asd.dpl.TeamManagement.Divisions;
-import dal.asd.dpl.TeamManagement.LeagueObjectTestData;
+import dal.asd.dpl.TeamManagement.Division;
 import dal.asd.dpl.TeamManagement.Player;
-import dal.asd.dpl.TeamManagement.Teams;
+import dal.asd.dpl.TeamManagement.Team;
 import org.junit.Assert;
 
 public class DivisionsTest {
@@ -16,10 +15,10 @@ public class DivisionsTest {
 	ArrayList<Player> playerList1 = new ArrayList<Player>();
 	Coach headCoach1 = new Coach("Mary Smith", 0.2, 0.3, 0.1, 0.4);
 	Coach headCoach2 = new Coach("Robert", 0.2, 0.3, 0.1, 0.4);
-	Teams team = new Teams("Boston", "Mister Fred", headCoach1, playerList);
-	Teams team1 = new Teams("Florida", "Ashely", headCoach2, playerList1);
-	ArrayList<Teams> teamList = new ArrayList<Teams>();
-	Divisions division = new Divisions("Atlantic", teamList);
+	Team team = new Team("Boston", "Mister Fred", headCoach1, playerList);
+	Team team1 = new Team("Florida", "Ashely", headCoach2, playerList1);
+	ArrayList<Team> teamList = new ArrayList<Team>();
+	Division division = new Division("Atlantic", teamList);
 	
 	@Test
 	public void parameterizedConstructorTest() {
@@ -44,14 +43,14 @@ public class DivisionsTest {
 	@Test
 	public void getTeamTest() {
 		teamList.add(team);
-		Divisions division1 = new Divisions("Atlantic", teamList);
+		Division division1 = new Division("Atlantic", teamList);
 		Assert.assertEquals(1, division1.getTeamList().size());
 	}
 	
 	@Test
 	public void setTeamTest() {
 		teamList.add(team);
-		Divisions division1 = new Divisions("Atlantic", teamList);
+		Division division1 = new Division("Atlantic", teamList);
 		teamList.add(team1);
 		division1.setTeamList(teamList);
 		Assert.assertEquals(2, division1.getTeamList().size());

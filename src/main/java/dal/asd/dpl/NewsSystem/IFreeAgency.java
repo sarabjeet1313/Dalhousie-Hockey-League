@@ -1,5 +1,5 @@
 package dal.asd.dpl.NewsSystem;
 
 public interface IFreeAgency {
-    public void notifyFreeAgency();
+    public void updateFreeAgency(String player, String hiredOrReleased);
 }

@@ -2,12 +2,12 @@ package dal.asd.dpl.TeamManagement;
 
 import java.util.List;
 
-public class Conferences {
+public class Conference {
 	
 	private String conferenceName;
-	private List<Divisions> divisionList;
+	private List<Division> divisionList;
 	
-	public Conferences(String conferenceName, List<Divisions> divisionList) {
+	public Conference(String conferenceName, List<Division> divisionList) {
 		super();
 		this.conferenceName = conferenceName;
 		this.divisionList = divisionList;
@@ -21,16 +21,16 @@ public class Conferences {
 		this.conferenceName = conferenceName;
 	}
 
-	public List<Divisions> getDivisionList() {
+	public List<Division> getDivisionList() {
 		return divisionList;
 	}
 
-	public void setDivisionList(List<Divisions> divisionList) {
+	public void setDivisionList(List<Division> divisionList) {
 		this.divisionList = divisionList;
 	}
 	
-	public boolean isValidConferenceName(String conferenceName, Leagues league) {
-		List<Conferences> conferenceList =  league.getConferenceList();
+	public boolean isValidConferenceName(String conferenceName, League league) {
+		List<Conference> conferenceList =  league.getConferenceList();
 		boolean isValid = false;
 		for(int index = 0; index < conferenceList.size(); index++) {
 			if(conferenceList.get(index).conferenceName.equals(conferenceName)) {
