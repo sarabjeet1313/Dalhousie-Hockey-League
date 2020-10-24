@@ -2,7 +2,6 @@ package dal.asd.dpl.GameplayConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import dal.asd.dpl.TeamManagement.Coach;
 import dal.asd.dpl.TeamManagement.Conference;
 import dal.asd.dpl.TeamManagement.Division;

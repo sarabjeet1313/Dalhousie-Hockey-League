@@ -2,7 +2,6 @@ package dal.asd.dpl.TeamManagement;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import dal.asd.dpl.GameplayConfiguration.GameplayConfig;
 
 public class League {
@@ -15,8 +14,6 @@ public class League {
 	private static List<League> leagueList;
 	private GameplayConfig gameConfig;
 
-	
-
 	public League(String leagueName, List<Conference> conferenceList, List<Player> freeAgents, List<Coach> coaches,
 			List<String> generalManager, GameplayConfig gameConfig) {
 		this.leagueName = leagueName;
@@ -27,19 +24,13 @@ public class League {
 		this.gameConfig = gameConfig;
 	}
 	
-	
-
 	public GameplayConfig getGameConfig() {
 		return gameConfig;
 	}
 
-
-
 	public void setGameConfig(GameplayConfig gameConfig) {
 		this.gameConfig = gameConfig;
 	}
-
-
 
 	public String getLeagueName() {
 		return leagueName;

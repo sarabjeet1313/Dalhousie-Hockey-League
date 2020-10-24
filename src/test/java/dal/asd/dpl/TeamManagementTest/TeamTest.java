@@ -2,16 +2,14 @@ package dal.asd.dpl.TeamManagementTest;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.Test;
-
 import dal.asd.dpl.TeamManagement.Coach;
+import dal.asd.dpl.TeamManagement.ITeamInfo;
 import dal.asd.dpl.TeamManagement.Player;
 import dal.asd.dpl.TeamManagement.Team;
 import org.junit.Assert;
 
-
-public class TeamsTest {
+public class TeamTest {
 	
 	ArrayList<Player> playerList = new ArrayList<Player>();
 	Coach headCoach = new Coach("Mary Smith", 0.2, 0.3, 0.1, 0.4);
@@ -20,6 +18,10 @@ public class TeamsTest {
 	Player player2 = new Player("Player2", "Forword", false, 1, 1, 1, 1, 1, false);
 	Player player3 = new Player("Player3", "Goalie", false, 1, 1, 1, 1, 1, false);
 	Player player4 = new Player("Player4", "Defender", false, 1, 1, 1, 1, 1, false);
+	ITeamInfo teamInfo = new TeamInfoMock();
+	LeagueMockData league = new LeagueMockData();
+	private static final double DELTA = 1e-15;
+	List<Player> playersList = new ArrayList<Player>();
 	
 	@Test
 	public void parameterizedConstructorTest() {
@@ -97,6 +99,13 @@ public class TeamsTest {
 		LeagueObjectTestData leagueData = new LeagueObjectTestData();
 		List<List<Player>> list = team.getAvailablePlayersList(leagueData.getLeagueData());
 		Assert.assertEquals(3, list.size());
+	}
+	
+	@Test
+	public void getTeamStrengthTest() {
+		String teamName="Boston";
+		double teamStrength = teamInfo.getTeamStrength(teamName, league.getTestData());
+		Assert.assertEquals(7, teamStrength, DELTA);
 	}
 	
 }

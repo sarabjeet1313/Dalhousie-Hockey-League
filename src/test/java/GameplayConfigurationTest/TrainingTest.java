@@ -38,7 +38,7 @@ public class TrainingTest {
 		double beforeStatUpdate = player.getShooting() + player.getSkating() + player.getChecking() + player.getSaving();
 		training.updateStats(player, coach);
 		double afterStatUpdate = player.getShooting() + player.getSkating() + player.getChecking() + player.getSaving();
-		assertTrue(afterStatUpdate > beforeStatUpdate);
+		assertTrue(afterStatUpdate >= beforeStatUpdate);
 	}
 	
 	@Test

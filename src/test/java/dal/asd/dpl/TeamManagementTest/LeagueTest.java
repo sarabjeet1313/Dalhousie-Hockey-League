@@ -9,12 +9,14 @@ import dal.asd.dpl.TeamManagement.Coach;
 import dal.asd.dpl.TeamManagement.Conference;
 import dal.asd.dpl.TeamManagement.Division;
 import dal.asd.dpl.TeamManagement.ILeague;
+import dal.asd.dpl.TeamManagementTest.LeagueMockData;
+import dal.asd.dpl.TeamManagementTest.LeagueObjectTestData;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagement.Player;
 
 import org.junit.Assert;
 
-public class LeaguesTest {
+public class LeagueTest {
 	
 	Player player1 = new Player("Player1", "Forward", false, 1, 1, 1, 1, 1, false);
 	Player player2 = new Player("Player2", "Forward", false, 1, 1, 1, 1, 1, false);

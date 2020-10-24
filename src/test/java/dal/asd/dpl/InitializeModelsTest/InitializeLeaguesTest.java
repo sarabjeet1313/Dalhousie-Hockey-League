@@ -8,13 +8,9 @@ import dal.asd.dpl.UserInput.CmdUserInput;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.CmdUserOutput;
 import dal.asd.dpl.UserOutput.IUserOutput;
-
 import org.junit.Test;
 import org.junit.Before;
-
-import java.io.File;
 import java.net.URL;
-
 import static org.junit.Assert.*;
 
 public class InitializeLeaguesTest {

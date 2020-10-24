@@ -3,7 +3,6 @@ package dal.asd.dpl.InitializeModels;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-
 import dal.asd.dpl.GameplayConfiguration.GameplayConfig;
 import dal.asd.dpl.Parser.CmdParseJSON;
 import dal.asd.dpl.TeamManagement.Coach;

@@ -9,7 +9,7 @@ import dal.asd.dpl.TeamManagement.Player;
 import dal.asd.dpl.TeamManagement.Team;
 import org.junit.Assert;
 
-public class DivisionsTest {
+public class DivisionTest {
 	
 	ArrayList<Player> playerList = new ArrayList<Player>();
 	ArrayList<Player> playerList1 = new ArrayList<Player>();

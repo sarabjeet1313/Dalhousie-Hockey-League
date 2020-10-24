@@ -7,7 +7,7 @@ import dal.asd.dpl.TeamManagement.Division;
 import dal.asd.dpl.TeamManagement.Team;
 import org.junit.Assert;
 
-public class ConferencesTest {
+public class ConferenceTest {
 	
 	ArrayList<Division> divisionList = new ArrayList<Division>();
 	Conference conference = new Conference("Eastern Conference", divisionList);
