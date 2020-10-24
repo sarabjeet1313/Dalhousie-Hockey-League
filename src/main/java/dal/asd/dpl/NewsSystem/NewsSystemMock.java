@@ -1,28 +1,29 @@
 package dal.asd.dpl.NewsSystem;
 
 public class NewsSystemMock {
+
 	public static void newsMock() {
 		System.out.println("Game Played");
 		GamePlayedPublisher gamePlayedPublisher = new GamePlayedPublisher();
-		gamePlayedPublisher.subscribe(new NewsSubscriber());
+		gamePlayedPublisher.subscribe(NewsSubscriber.getInstance());
 		gamePlayedPublisher.notify("TeamA", "TeamB", "10-01-2020");
 
 		System.out.println();
 		System.out.println("Trades");
 		TradePublisher tradePublisher = new TradePublisher();
-		tradePublisher.subscribe(new NewsSubscriber());
+		tradePublisher.subscribe(NewsSubscriber.getInstance());
 		tradePublisher.notify("TeamA", "TeamB", new String[][] {{"Player1", "gti 3"}, {"Player2"}});
 
 		System.out.println();
 		System.out.println("Injury");
 		InjuryPublisher injuryPublisher = new InjuryPublisher();
-		injuryPublisher.subscribe(new NewsSubscriber());
+		injuryPublisher.subscribe(NewsSubscriber.getInstance());
 		injuryPublisher.notify("Wayne Gretzky", 20);
 
 		System.out.println();
 		System.out.println("Player Hired From Free Agent List");
 		FreeAgencyPublisher freeAgencyPublisher = new FreeAgencyPublisher();
-		freeAgencyPublisher.subscribe(new NewsSubscriber());
+		freeAgencyPublisher.subscribe(NewsSubscriber.getInstance());
 		freeAgencyPublisher.notify("Wayne Gretzky", "hired");
 
 		System.out.println();
@@ -32,7 +33,7 @@ public class NewsSystemMock {
 		System.out.println();
 		System.out.println("Player Retired");
 		RetirementPublisher retirementPublisher = new RetirementPublisher();
-		retirementPublisher.subscribe(new NewsSubscriber());
+		retirementPublisher.subscribe(NewsSubscriber.getInstance());
 		retirementPublisher.notify("Wayne Gretzky", 38);
 
 	}

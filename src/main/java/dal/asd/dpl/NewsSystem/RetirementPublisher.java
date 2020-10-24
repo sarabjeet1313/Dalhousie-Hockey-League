@@ -1,10 +1,26 @@
 package dal.asd.dpl.NewsSystem;
 
-public class RetirementPublisher extends AbstractPublisher{
+import java.util.ArrayList;
+import java.util.List;
+
+public class RetirementPublisher {
+	private List<IRetirement> subscribers;
+
+	public RetirementPublisher(){
+		subscribers = new ArrayList<IRetirement>();
+	}
+
+	public void subscribe(IRetirement subscriber) {
+		this.subscribers.add(subscriber);
+	}
+
+	public void unsubscribe(IRetirement subscriber) {
+		this.subscribers.remove(subscriber);
+	}
 
 	public void notify(String player, int age) {
-		for(Object subscriber : this.subscribers) {
-			((IRetirement)subscriber).updateRetirement(player, age);
+		for(IRetirement subscriber : this.subscribers) {
+			subscriber.updateRetirement(player, age);
 		}
 	}
 }

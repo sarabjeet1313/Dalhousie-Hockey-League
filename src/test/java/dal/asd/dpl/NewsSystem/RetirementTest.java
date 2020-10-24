@@ -12,7 +12,7 @@ import org.junit.Test;
 public class RetirementTest {
 	private final ByteArrayOutputStream console = new ByteArrayOutputStream();
 	private RetirementPublisher publisher = new RetirementPublisher();
-	private IRetirement subscriber = new NewsSubscriber();
+	private IRetirement subscriber = NewsSubscriber.getInstance();
 	
 	@Before
 	public void before() {

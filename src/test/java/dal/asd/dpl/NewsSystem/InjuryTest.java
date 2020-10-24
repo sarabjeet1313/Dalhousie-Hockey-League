@@ -12,7 +12,7 @@ import org.junit.Test;
 public class InjuryTest {
 	private final ByteArrayOutputStream console = new ByteArrayOutputStream();
 	private InjuryPublisher publisher = new InjuryPublisher();
-	private IInjuries subscriber = new NewsSubscriber();
+	private IInjury subscriber = NewsSubscriber.getInstance();
 	
 	@Before
 	public void before() {
