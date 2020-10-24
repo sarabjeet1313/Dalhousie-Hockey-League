@@ -3,7 +3,7 @@ package dal.asd.dpl.TeamManagement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Teams {
+public class Teams implements ITeamPlayersInfo, ITeamInfo {
 
 	private String teamName;
 	private String generalManager;
@@ -92,5 +92,36 @@ public class Teams {
 		list.add(forwordList);
 		list.add(defenceList);
 		return list;
+	}
+
+	@Override
+	public List<Player> getPlayersByTeam(String teamName, Leagues league) {
+		List<Conferences> conferenceList = league.getConferenceList();
+		List<Player> playersByTeam = new ArrayList<Player>();
+		for (int index = 0; index < conferenceList.size(); index++) {
+			List<Divisions> divisionList = conferenceList.get(index).getDivisionList();
+			for (int dIndex = 0; dIndex < divisionList.size(); dIndex++) {
+				List<Teams> teamList = divisionList.get(dIndex).getTeamList();
+				for (int tIndex = 0; tIndex < teamList.size(); tIndex++) {
+					if (teamList.get(dIndex).teamName.equals(teamName)) {
+						playersByTeam = teamList.get(tIndex).getPlayerList();
+						break;
+					}
+				}
+			}
+		}
+		return playersByTeam;
+	}
+
+	@Override
+	public double getTeamStrength(String teamName, Leagues league) {
+		List<Player> players = this.getPlayersByTeam(teamName, league);
+		double teamStrength = 0.0;
+
+		for (Player player : players) {
+			teamStrength = teamStrength + player.getPlayerStrength(player);
+		}
+
+		return teamStrength;
 	}
 }

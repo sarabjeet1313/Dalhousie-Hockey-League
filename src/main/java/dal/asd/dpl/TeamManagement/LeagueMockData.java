@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class LeagueMockData implements ILeague {
+public class LeagueMockData implements ILeague, ITeamPlayersInfo {
 	
-	Player player1 = new Player("Player One", "forward", true, 1, 1, 1, 1, 1, false);
-	Player player2 = new Player("Player Two", "defense", false, 1, 1, 1, 1, 1, false);
-	Player player3 = new Player("Player Three", "goalie", false, 1, 1, 1, 1, 1, false);
-	Player player4 = new Player("Agent1", "forward", false, 1, 1, 1, 1, 1, false);
-	Player player5 = new Player("Agent2", "defense", false, 1, 1, 1, 1, 1, false);
-	Player player6 = new Player("Agent3", "defense", false, 1, 1, 1, 1, 1, false);
+	private Player player1 = new Player("Player One", "forward", true, 1, 1, 1, 1, 1, false);
+	private Player player2 = new Player("Player Two", "defense", false, 1, 1, 1, 1, 1, false);
+	private Player player3 = new Player("Player Three", "goalie", false, 1, 1, 1, 1, 1, false);
+	private Player player4 = new Player("Agent1", "forward", false, 1, 1, 1, 1, 1, false);
+	private Player player5 = new Player("Agent2", "defense", false, 1, 1, 1, 1, 1, false);
+	private Player player6 = new Player("Agent3", "defense", false, 1, 1, 1, 1, 1, false);
 	Player agent1 = new Player("Agent4", "forward", true, 1, 1, 1, 1, 1, false);
 	Player agent2 = new Player("Agent5", "goalie", false, 1, 1, 1, 1, 1, false);
 	Player agent3 = new Player("Agent6", "forward", false, 1, 1, 1, 1, 1, false);
@@ -124,6 +124,17 @@ public class LeagueMockData implements ILeague {
 			}
 		}
 		return isValid;
+	}
+
+	@Override
+	public List<Player> getPlayersByTeam(String teamName, Leagues league) {
+		
+		List<Player> playerList=new ArrayList<Player>();
+		playerList.add(this.player1);
+		playerList.add(this.player2);
+		playerList.add(this.player3);
+
+		return playerList;
 	}
 	
 }

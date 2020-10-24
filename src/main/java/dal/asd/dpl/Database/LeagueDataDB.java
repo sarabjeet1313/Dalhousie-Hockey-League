@@ -13,12 +13,13 @@ import dal.asd.dpl.TeamManagement.Player;
 import dal.asd.dpl.TeamManagement.Teams;
 
 public class LeagueDataDB implements ILeague {
-	
+
 	InvokeStoredProcedure isp = null;
+
 	@Override
 	public List<Leagues> getLeagueData(String teamName) {
 		Leagues league = null;
-		List<Leagues> leagueList = new ArrayList<Leagues>(); 
+		List<Leagues> leagueList = new ArrayList<Leagues>();
 		List<Player> playerList = new ArrayList<Player>();
 		List<Teams> teamList = new ArrayList<Teams>();
 		List<Divisions> divisionList = new ArrayList<Divisions>();
@@ -26,44 +27,46 @@ public class LeagueDataDB implements ILeague {
 		String tempLeagueName = "";
 		ResultSet result;
 		boolean flag = true;
-		try  {
+		try {
 			isp = new InvokeStoredProcedure("spLoadLeagueData(?)");
 			isp.setParameter(1, teamName);
 			result = isp.executeQueryWithResults();
-			while(result.next()) {
-				if(!flag && !tempLeagueName.equals(result.getString("leagueName"))) {
+			while (result.next()) {
+				if (!flag && !tempLeagueName.equals(result.getString("leagueName"))) {
 					flag = true;
-					league.getConferenceList().get(0).getDivisionList().get(0)
-						.getTeamList().get(0).setPlayerList(playerList);
+					league.getConferenceList().get(0).getDivisionList().get(0).getTeamList().get(0)
+							.setPlayerList(playerList);
 					leagueList.add(league);
 					playerList.clear();
 				}
-				if(flag) {
-					Coach headCoach = new Coach(result.getString("name"), result.getDouble("skating"), result.getDouble("shooting"), result.getDouble("checking"), result.getDouble("saving"));
-					Teams team = new Teams(result.getString("teamName"), result.getString("generalManager"), headCoach, playerList);
+				if (flag) {
+					Coach headCoach = new Coach(result.getString("name"), result.getDouble("skating"),
+							result.getDouble("shooting"), result.getDouble("checking"), result.getDouble("saving"));
+					Teams team = new Teams(result.getString("teamName"), result.getString("generalManager"), headCoach,
+							playerList);
 					teamList.add(team);
-					Divisions division = new Divisions(result.getString("divisionName"),teamList);
+					Divisions division = new Divisions(result.getString("divisionName"), teamList);
 					divisionList.add(division);
-					Conferences conference = new Conferences(result.getString("conferenceName"),divisionList);
+					Conferences conference = new Conferences(result.getString("conferenceName"), divisionList);
 					conferenceList.add(conference);
 					List<Player> freeAgents = new ArrayList<Player>();
-					List<String> managers = new ArrayList<String>(); 	
+					List<String> managers = new ArrayList<String>();
 					List<Coach> coachesList = new ArrayList<Coach>();
-					league = new Leagues(result.getString("leagueName"), conferenceList, freeAgents, coachesList, managers);
+					league = new Leagues(result.getString("leagueName"), conferenceList, freeAgents, coachesList,
+							managers);
 					tempLeagueName = result.getString("leagueName");
 					flag = false;
 				}
-				if(result.isLast()) {
-					league.getConferenceList().get(0).getDivisionList().get(0)
-					.getTeamList().get(0).setPlayerList(playerList);
+				if (result.isLast()) {
+					league.getConferenceList().get(0).getDivisionList().get(0).getTeamList().get(0)
+							.setPlayerList(playerList);
 					leagueList.add(league);
 				}
 			}
 			result.close();
 		} catch (Exception e) {
 			System.out.println("Database Error:" + e.getMessage());
-		}
-		finally {
+		} finally {
 			try {
 				isp.closeConnection();
 			} catch (SQLException e) {
@@ -72,7 +75,7 @@ public class LeagueDataDB implements ILeague {
 		}
 		return leagueList;
 	}
-	
+
 	@Override
 	public int checkLeagueName(String leagueName) {
 		ResultSet result;
@@ -81,14 +84,12 @@ public class LeagueDataDB implements ILeague {
 			isp = new InvokeStoredProcedure("spCheckLeagueName(?)");
 			isp.setParameter(1, leagueName);
 			result = isp.executeQueryWithResults();
-			while(result.next()) {
+			while (result.next()) {
 				rowCount = result.getInt("rowCount");
-			}	
-		}
-		catch (Exception e) {
+			}
+		} catch (Exception e) {
 			System.out.println("Database Error:" + e.getMessage());
-		}
-		finally {
+		} finally {
 			try {
 				isp.closeConnection();
 			} catch (SQLException e) {
@@ -97,7 +98,7 @@ public class LeagueDataDB implements ILeague {
 		}
 		return rowCount;
 	}
-	
+
 	@Override
 	public boolean persisitLeagueData(String leagueName, String conferenceName, String divisionName, String teamName,
 			String generalManager, String headCoach, Player player) {
@@ -120,14 +121,12 @@ public class LeagueDataDB implements ILeague {
 			isp.setParameter(13, player.getChecking());
 			isp.setParameter(14, player.getSaving());
 			result = isp.executeQueryWithResults();
-			while(result.next()) {
+			while (result.next()) {
 				isPersisted = result.getBoolean("success");
 			}
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			System.out.println("Database Error:" + e.getMessage());
-		}
-		finally {
+		} finally {
 			try {
 				isp.closeConnection();
 			} catch (SQLException e) {
@@ -151,13 +150,12 @@ public class LeagueDataDB implements ILeague {
 			isp.setParameter(6, teamName);
 			isp.setParameter(7, leagueName);
 			result = isp.executeQueryWithResults();
-			while(result.next()) {
+			while (result.next()) {
 				isPersisted = result.getBoolean("success");
 			}
 		} catch (Exception e) {
 			System.out.println("Database Error:" + e.getMessage());
-		}
-		finally {
+		} finally {
 			try {
 				isp.closeConnection();
 			} catch (SQLException e) {
@@ -166,7 +164,5 @@ public class LeagueDataDB implements ILeague {
 		}
 		return isPersisted;
 	}
-	
-	
-	
+
 }

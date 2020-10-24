@@ -1,0 +1,28 @@
+package dal.asd.dpl.TeamManagementTest;
+
+import java.util.List;
+
+import dal.asd.dpl.TeamManagement.IPlayerInfo;
+import dal.asd.dpl.TeamManagement.ITeamInfo;
+import dal.asd.dpl.TeamManagement.LeagueMockData;
+import dal.asd.dpl.TeamManagement.Leagues;
+import dal.asd.dpl.TeamManagement.Player;
+
+public class TeamInfoMock implements ITeamInfo {
+
+	@Override
+	public double getTeamStrength(String teamName, Leagues league) {
+
+		LeagueMockData leagueMock= new LeagueMockData();
+		List<Player> players = leagueMock.getPlayersByTeam(teamName, league);
+		IPlayerInfo playerInfo = new PlayerInfoMock();
+
+		double teamStrength = 0.0;
+		for (Player player : players) {
+			teamStrength = teamStrength + playerInfo.getPlayerStrength(player);
+		}
+
+		return teamStrength;
+	}
+
+}
