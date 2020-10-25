@@ -40,8 +40,6 @@ public class GenerateRegularSeasonScheduleState implements ISimulationState {
         // setting final day of regular season
         this.endDate = getFinalDayOfSeason() + "-04-" + String.valueOf(this.currentYear+1);
         schedule.setLastDay(endDate);
-
-        setTradeDeadline();
     }
 
     @Override
@@ -70,20 +68,12 @@ public class GenerateRegularSeasonScheduleState implements ISimulationState {
         schedule.setCurrentDay("30-09-" + year);
     }
 
-    private String getFinalDayOfSeason() {
+    public String getFinalDayOfSeason() {
         seasonCalendar.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
         seasonCalendar.set(Calendar.DAY_OF_WEEK_IN_MONTH, 1);
         seasonCalendar.set(Calendar.MONTH, Calendar.APRIL);
         seasonCalendar.set(Calendar.YEAR, this.currentYear + 1);
         return String.valueOf(seasonCalendar.get(Calendar.DATE));
-    }
-
-    private void setTradeDeadline() {
-        seasonCalendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        seasonCalendar.set(Calendar.DAY_OF_WEEK_IN_MONTH, 4);
-        seasonCalendar.set(Calendar.MONTH, Calendar.FEBRUARY);
-        seasonCalendar.set(Calendar.YEAR, this.currentYear + 1);
-        this.tradeDeadline = String.valueOf(seasonCalendar.get(Calendar.DATE));
     }
 
     public String getRegularSeasonEndDate() {
