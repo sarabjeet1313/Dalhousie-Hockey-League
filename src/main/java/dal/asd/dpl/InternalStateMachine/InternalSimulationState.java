@@ -5,13 +5,14 @@ import dal.asd.dpl.UserOutput.IUserOutput;
 
 public class InternalSimulationState implements ISimulationState{
 
-    private static IUserInput input;
-    private static IUserOutput output;
-    private static int totalSeasons;
-    private static String teamName;
-    private static String stateName;
-    private static String nextStateName;
-    private static Leagues leagueToSimulate;
+    private IUserInput input;
+    private IUserOutput output;
+    private int season;
+    private int totalSeasons;
+    private String teamName;
+    private String stateName;
+    private String nextStateName;
+    private Leagues leagueToSimulate;
 
     public InternalSimulationState(IUserInput input, IUserOutput output, int seasons, String teamName, Leagues leagueToSimulate){
         this.input = input;
@@ -20,15 +21,17 @@ public class InternalSimulationState implements ISimulationState{
         this.teamName = teamName;
         this.leagueToSimulate = leagueToSimulate;
         this.stateName = "Simulate";
+        this.season = 0;
     }
 
     public void nextState(InternalStateContext context){
         this.nextStateName = "GenerateRegularSeasonSchedule";
-        context.setState(new GenerateRegularSeasonScheduleState(leagueToSimulate, input, output));
+        context.setState(new GenerateRegularSeasonScheduleState(leagueToSimulate, input, output,season));
     }
 
     public void doProcessing(){
         for(int i=1; i <= totalSeasons; i++){
+            this.season = i-1;
             output.setOutput("Season " + i + " is simulating.");
             output.sendOutput();
         }

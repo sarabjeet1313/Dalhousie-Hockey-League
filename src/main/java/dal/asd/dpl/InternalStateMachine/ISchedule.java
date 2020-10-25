@@ -5,6 +5,8 @@ import java.util.Map;
 
 public interface ISchedule {
 
+    void setSeasonType(int seasonType);
+    int getSeasonType();
     String getCurrentDay();
     void setCurrentDay(String currentDay);
     String getFirstDay();
@@ -13,4 +15,5 @@ public interface ISchedule {
     void setLastDay(String lastDay);
     void generateSchedule(Leagues league);
     boolean incrementCurrentDay();
+    public Map< String, List<Map<String, String>>> getFinalSchedule();
 }

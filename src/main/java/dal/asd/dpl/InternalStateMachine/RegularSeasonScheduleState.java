@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-public class RegularSeasonSchedule implements ISchedule {
+public class RegularSeasonScheduleState implements ISchedule {
 
     private String currentDay;
     private String firstDay;
@@ -19,6 +19,7 @@ public class RegularSeasonSchedule implements ISchedule {
     private int matchesPerDay;
     private Calendar calendar;
     private IUserOutput output;
+    private int seasonType;
     private Map< String /*Date*/, List<Map<String, String> /*Teams Competing*/>> finalSchedule;
     private Map<String, List<String>> conferenceTeamsMap;
     private Map<String, List<String>> divisionTeamsMap;
@@ -28,10 +29,11 @@ public class RegularSeasonSchedule implements ISchedule {
     private List<String> listOfConferences;
 
 
-    RegularSeasonSchedule(Calendar calendar, IUserOutput output) {
+    RegularSeasonScheduleState(Calendar calendar, IUserOutput output) {
 
         this.totalDivisions = 0;
         this.totalTeams = 0;
+        this.seasonType = 0 /*Regular Season*/;
         this.calendar = calendar;
         this.output = output;
         listOfConferences = new ArrayList<String>();
@@ -43,6 +45,14 @@ public class RegularSeasonSchedule implements ISchedule {
         finalSchedule = new HashMap<String, List<Map<String, String>>>();
         matchesOnADay = new HashMap<String, Integer>();
 
+    }
+
+    public int getSeasonType(){
+        return this.seasonType;
+    }
+
+    public void setSeasonType(int seasonType) {
+        this.seasonType = seasonType;
     }
 
     public String getCurrentDay(){
@@ -107,7 +117,15 @@ public class RegularSeasonSchedule implements ISchedule {
                     matchScheduledForTeam.put(teamName, 0);
                 }
 
-                conferenceTeamsMap.put(conferenceName,teams);
+                if(conferenceTeamsMap.containsKey(conferenceName)) {
+                    List<String> alreadyAddedTeams = conferenceTeamsMap.get(conferenceName);
+                    alreadyAddedTeams.addAll(teams);
+                    conferenceTeamsMap.put(conferenceName, alreadyAddedTeams);
+                }
+                else {
+                    conferenceTeamsMap.put(conferenceName, teams);
+                }
+
                 divisionTeamsMap.put(divisionName, teams);
             }
             conferenceDivisionMap.put(conferenceName, divisions);
@@ -411,10 +429,9 @@ public class RegularSeasonSchedule implements ISchedule {
             try {
                 calendar.setTime(dateFormat.parse(currentDay));
             } catch (ParseException e) {
-                output.setOutput("Exception while getting current date in Advance Time state");
+                output.setOutput("Exception while getting current date in Regular Season State");
                 output.sendOutput();
             }
-
             // add a day to current date if it is not last date for the season
             calendar.add(Calendar.DAY_OF_MONTH, 1);
             currentDay = dateFormat.format(calendar.getTime());
@@ -422,7 +439,7 @@ public class RegularSeasonSchedule implements ISchedule {
         }
     }
 
-    private Map< String, List<Map<String, String>>> getFinalSchedule(){
+    public Map< String, List<Map<String, String>>> getFinalSchedule(){
         return this.finalSchedule;
     }
 

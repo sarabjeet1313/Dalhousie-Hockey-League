@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class GenerateRegularSeasonScheduleStateTest {
+public class GenerateRegularSeasonScheduleStateStateTest {
     private static GenerateRegularSeasonScheduleState state;
     private static IUserInput input;
     private static IUserOutput output;
@@ -20,7 +20,7 @@ public class GenerateRegularSeasonScheduleStateTest {
     public void setUp() throws Exception {
         input = new CmdUserInput();
         output = new CmdUserOutput();
-        state = new GenerateRegularSeasonScheduleState(null, input, output);
+        state = new GenerateRegularSeasonScheduleState(null, input, output, 0);
         context = new InternalStateContext(input, output);
     }
 
