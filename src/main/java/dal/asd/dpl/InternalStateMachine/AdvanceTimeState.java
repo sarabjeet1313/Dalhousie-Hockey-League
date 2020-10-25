@@ -45,7 +45,7 @@ public class AdvanceTimeState implements ISimulationState{
     }
 
     public void doProcessing() {
-        matchSchedule.incrementCurrentDay();
+        incrementCurrentDay();
     }
 
     public void incrementCurrentDay(){

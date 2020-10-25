@@ -48,7 +48,7 @@ public class InternalSimulationStateTest {
     public void doProcessing() {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
-        String expected = "Season 1 simulated for testTeam ...";
+        String expected = "Season 1 is simulating.";
 
         state.doProcessing();
 

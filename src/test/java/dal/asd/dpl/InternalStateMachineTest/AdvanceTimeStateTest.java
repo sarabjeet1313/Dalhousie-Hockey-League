@@ -25,7 +25,7 @@ public class AdvanceTimeStateTest {
         input = new CmdUserInput();
         output = new CmdUserOutput();
         seasonCalendar = Calendar.getInstance();
-        state = new AdvanceTimeState(null,null, null, "02-04-2021", "03-04-2021", 2019, input, output);
+        state = new AdvanceTimeState(null,null, seasonCalendar, "02-04-2021", "03-04-2021", 2019, input, output);
         context = new InternalStateContext(input, output);
     }
 
