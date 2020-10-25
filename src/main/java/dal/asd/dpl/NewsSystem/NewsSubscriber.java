@@ -59,7 +59,7 @@ public class NewsSubscriber implements ITradeInfo, IGamesPlayedInfo, IInjuryInfo
 
     @Override
     public void updateFreeAgency(String player, String hiredOrReleased) {
-        Map<String, String> playersHiredOrRelease =  new LinkedHashMap<String, String>(1);
+        Map<String, String> playersHiredOrRelease =  new LinkedHashMap<>(1);
         playersHiredOrRelease.put(hiredOrReleased, player);
         System.out.println(convertToJsonString(playersHiredOrRelease));
     }
