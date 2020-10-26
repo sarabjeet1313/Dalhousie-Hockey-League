@@ -2,23 +2,34 @@ package dal.asd.dpl.TeamManagement;
 
 import java.util.ArrayList;
 import java.util.List;
+import dal.asd.dpl.GameplayConfiguration.GameplayConfig;
 
-public class Leagues {
+public class League {
 	
 	private String leagueName;
-	private List<Conferences> conferenceList;
+	private List<Conference> conferenceList;
 	private List<Player> freeAgents;
 	private List<Coach> coaches;
 	private List<String> generalManager;
-	private static List<Leagues> leagueList;
+	private static List<League> leagueList;
+	private GameplayConfig gameConfig;
 
-	public Leagues(String leagueName, List<Conferences> conferenceList, List<Player> freeAgents
-				, List<Coach> coaches, List<String> generalManager) {
+	public League(String leagueName, List<Conference> conferenceList, List<Player> freeAgents, List<Coach> coaches,
+			List<String> generalManager, GameplayConfig gameConfig) {
 		this.leagueName = leagueName;
 		this.conferenceList = conferenceList;
 		this.freeAgents = freeAgents;
 		this.coaches = coaches;
 		this.generalManager = generalManager;
+		this.gameConfig = gameConfig;
+	}
+	
+	public GameplayConfig getGameConfig() {
+		return gameConfig;
+	}
+
+	public void setGameConfig(GameplayConfig gameConfig) {
+		this.gameConfig = gameConfig;
 	}
 
 	public String getLeagueName() {
@@ -29,11 +40,11 @@ public class Leagues {
 		this.leagueName = leagueName;
 	}
 
-	public List<Conferences> getConferenceList() {
+	public List<Conference> getConferenceList() {
 		return conferenceList;
 	}
 
-	public void setConferenceList(List<Conferences> conferenceList) {
+	public void setConferenceList(List<Conference> conferenceList) {
 		this.conferenceList = conferenceList;
 	}
 
@@ -99,16 +110,16 @@ public class Leagues {
 		return isValid;
 	}
 	
-	public boolean createTeam(Leagues league, ILeague object) {
+	public boolean createTeam(League league, ILeague object) {
 		boolean isCreated = false, captain = false;
 		String leagueName = league.getLeagueName();
 		String conferenceName = "Empty", divisionName = "Empty", teamName = "Empty", generalManager = "Empty",
 				playerName = "Empty", position = "Empty", coachName = "Empty";
 		int age = 0, skating = 0, shooting = 0, checking = 0, saving = 0;
 		Coach headCoach;
-		List<Conferences> conferenceList = league.getConferenceList();
-		List<Teams> teamList;
-		List<Divisions> divisionList;
+		List<Conference> conferenceList = league.getConferenceList();
+		List<Team> teamList;
+		List<Division> divisionList;
 		List<Player> playerList = new ArrayList<Player>();
 		try {
 
@@ -149,7 +160,7 @@ public class Leagues {
 		return isCreated;
 	}
 	
-	public boolean saveCoaches(Leagues league, ILeague object) {
+	public boolean saveCoaches(League league, ILeague object) {
 		List<Coach> coachList = league.getCoaches();
 		String leagueName = league.getLeagueName();
 		boolean isValid = false, flag =true;

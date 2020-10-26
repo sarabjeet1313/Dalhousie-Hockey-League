@@ -1,10 +1,10 @@
 package dal.asd.dpl.TeamManagement;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Random;
+import dal.asd.dpl.util.ConstantsUtil;
 
-public class Player {
-	
+public class Player implements IPlayerInfo, IInjuryCalculator {
+
 	private String playerName;
 	private String position;
 	private boolean captain;
@@ -13,9 +13,12 @@ public class Player {
 	private int shooting;
 	private int checking;
 	private int saving;
-	
-	public Player(String playerName, String position, boolean captain, int age, int skating, int shooting,
-			int checking, int saving) {
+	private boolean isInjured;
+	private int numberOfInjuryDays;
+
+	public Player(String playerName, String position, boolean captain, int age, int skating, int shooting, int checking,
+			int saving, boolean isInjured, int numberOfInjuryDays) {
+		super();
 		this.playerName = playerName;
 		this.position = position;
 		this.captain = captain;
@@ -24,30 +27,16 @@ public class Player {
 		this.shooting = shooting;
 		this.checking = checking;
 		this.saving = saving;
+		this.isInjured = isInjured;
+		this.numberOfInjuryDays= numberOfInjuryDays;
 	}
-	
+
 	public String getPlayerName() {
 		return playerName;
 	}
-	
-	public void setPlayerName(String name) {
-		playerName = name;
-	}
-	
-	public String getPlayerPosition() {
-		return position;
-	}
-	
-	public void setPlayerPosition(String p) {
-		position = p;
-	}
-	
-	public boolean getCaptain() {
-		return captain;
-	}
-	
-	public void setCaptain(boolean c) {
-		captain = c;
+
+	public void setPlayerName(String playerName) {
+		this.playerName = playerName;
 	}
 
 	public String getPosition() {
@@ -56,6 +45,14 @@ public class Player {
 
 	public void setPosition(String position) {
 		this.position = position;
+	}
+
+	public boolean isCaptain() {
+		return captain;
+	}
+
+	public void setCaptain(boolean captain) {
+		this.captain = captain;
 	}
 
 	public int getAge() {
@@ -97,5 +94,65 @@ public class Player {
 	public void setSaving(int saving) {
 		this.saving = saving;
 	}
-	
+
+	public boolean isInjured() {
+		return isInjured;
+	}
+
+	public void setInjured(boolean isInjured) {
+		this.isInjured = isInjured;
+	}
+
+	public int getNumberOfInjuryDays() {
+		return numberOfInjuryDays;
+	}
+
+	public void setNumberOfInjuryDays(int numberOfInjuryDays) {
+		this.numberOfInjuryDays = numberOfInjuryDays;
+	}
+
+	@Override
+	public double getPlayerStrength(Player player) {
+
+		double strength = 0.0;
+		String position = player.getPosition();
+		int skating = player.getSkating();
+		int shooting = player.getShooting();
+		int checking = player.getChecking();
+		int saving = player.getSaving();
+		boolean isInjured = player.isInjured();
+
+		if (position.equalsIgnoreCase(ConstantsUtil.FORWARD.toString())) {
+			strength = skating + shooting + (checking / 2.0);
+		} else if (position.equalsIgnoreCase(ConstantsUtil.DEFENSE.toString())) {
+			strength = skating + checking + (shooting / 2.0);
+		} else if (position.equalsIgnoreCase(ConstantsUtil.GOALIE.toString())) {
+			strength = skating + saving;
+		}
+
+		if (isInjured) {
+			return strength / 2;
+		} else {
+			return strength;
+		}
+	}
+
+	@Override
+	public Player getPlayerInjuryDays(Player player, League league) {
+		Random random = new Random();
+		
+		double randomInjuryChance = league.getGameConfig().getInjury().getRandomInjuryChance() * 100;
+		int injuryDaysLow = league.getGameConfig().getInjury().getInjuryDaysLow();
+		int injuryDaysHigh = league.getGameConfig().getInjury().getInjuryDaysHigh();
+		double randomValue = Math.random() * 100;
+		
+		if((randomValue <= randomInjuryChance) && (player.isInjured() == Boolean.FALSE)) {
+			player.setInjured(Boolean.TRUE);
+			int injuryDays = random.nextInt(injuryDaysHigh - injuryDaysLow) + injuryDaysLow;
+			player.setNumberOfInjuryDays(injuryDays);
+		}
+		
+		return player;
+	}
+
 }
