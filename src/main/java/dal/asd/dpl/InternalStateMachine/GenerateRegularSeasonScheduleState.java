@@ -10,47 +10,44 @@ public class GenerateRegularSeasonScheduleState implements ISimulationState {
     private String nextStateName;
     private String startDate;
     private String endDate;
-    private String tradeDeadline;
     private String year;
     private Calendar seasonCalendar;
     private Leagues leagueToSimulate;
     private int currentYear;
     private IUserInput input;
     private IUserOutput output;
+    private InternalStateContext context;
     private ISchedule schedule;
+    private ScheduleUtlity utility;
 
-    public GenerateRegularSeasonScheduleState(Leagues leagueToSimulate, IUserInput input, IUserOutput output, int season) {
+    public GenerateRegularSeasonScheduleState(Leagues leagueToSimulate, IUserInput input, IUserOutput output, int season, InternalStateContext context) {
         this.stateName = "GenerateRegularSeasonSchedule";
         this.leagueToSimulate = leagueToSimulate;
         this.seasonCalendar = Calendar.getInstance();
         this.schedule = new RegularSeasonScheduleState(seasonCalendar, output);
+        this.utility = new ScheduleUtlity(season);
         this.input = input;
         this.output = output;
+        this.context = context;
 
-        // getting current year
-        this.currentYear = this.seasonCalendar.get(Calendar.YEAR);
-        this.currentYear += season;
-        this.year = String.valueOf(this.currentYear);
+        this.startDate = utility.getRegularSeasonStartDay();
+        schedule.setCurrentDay(this.startDate);
 
-        // setting simulation start date to 30th September every year.
-        this.startDate = "30-09-" + year;
-        schedule.setCurrentDay(startDate);
-        schedule.setFirstDay("01-10-" + year);
+        schedule.setFirstDay(utility.getRegularSeasonFirstDay());
 
-        // setting final day of regular season
-        this.endDate = getFinalDayOfSeason() + "-04-" + String.valueOf(this.currentYear+1);
-        schedule.setLastDay(endDate);
+        this.endDate = utility.getRegularSeasonLastDay();
+        schedule.setLastDay(this.endDate);
+        utility.setLastSeasonDay(this.endDate);
     }
 
-    @Override
+
     public void nextState(InternalStateContext context) {
         this.nextStateName = "AdvanceTime";
-        context.setState(new AdvanceTimeState(this.schedule, this.leagueToSimulate, this.seasonCalendar, this.startDate, this.endDate, this.currentYear, this.input, this.output));
+        context.setState(new AdvanceTimeState(this.schedule, this.leagueToSimulate, this.startDate, this.endDate, this.utility, this.output, context));
 
     }
 
     public void doProcessing() {
-
         output.setOutput("Scheduling the regular season for simulation.");
         output.sendOutput();
 
@@ -64,20 +61,16 @@ public class GenerateRegularSeasonScheduleState implements ISimulationState {
         output.setOutput("Regular season has been scheduled successfully.");
         output.sendOutput();
 
-        String year = String.valueOf(this.currentYear);
-        schedule.setCurrentDay("30-09-" + year);
-    }
-
-    public String getFinalDayOfSeason() {
-        seasonCalendar.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
-        seasonCalendar.set(Calendar.DAY_OF_WEEK_IN_MONTH, 1);
-        seasonCalendar.set(Calendar.MONTH, Calendar.APRIL);
-        seasonCalendar.set(Calendar.YEAR, this.currentYear + 1);
-        return String.valueOf(seasonCalendar.get(Calendar.DATE));
+        schedule.setCurrentDay(utility.getRegularSeasonStartDay());
+       // nextState(this.context);
     }
 
     public String getRegularSeasonEndDate() {
         return this.endDate;
+    }
+
+    public String getRegularSeasonStartDate() {
+        return this.startDate;
     }
 
     public String getStateName() {
@@ -87,5 +80,12 @@ public class GenerateRegularSeasonScheduleState implements ISimulationState {
     public String getNextStateName() {
         return this.nextStateName;
     }
+
+    //=======
+    public ISchedule getSchedule() {
+        return schedule;
+    }
+
+
 
 }

@@ -20,8 +20,8 @@ public class GenerateRegularSeasonScheduleStateStateTest {
     public void setUp() throws Exception {
         input = new CmdUserInput();
         output = new CmdUserOutput();
-        state = new GenerateRegularSeasonScheduleState(null, input, output, 0);
         context = new InternalStateContext(input, output);
+        state = new GenerateRegularSeasonScheduleState(null, input, output, 0, context);
     }
 
     @Test
@@ -37,13 +37,8 @@ public class GenerateRegularSeasonScheduleStateStateTest {
     }
 
     @Test
-    public void getFinalDayOfSeasonTest() {
-        assertEquals("3", state.getFinalDayOfSeason());
-    }
-
-    @Test
     public void getRegularSeasonEndDateTest() {
-        assertEquals("3-04-2021", state.getRegularSeasonEndDate());
+        assertEquals("03-04-2021", state.getRegularSeasonEndDate());
     }
 
     @Test

@@ -1,7 +1,7 @@
 package dal.asd.dpl.InternalStateMachineTest;
 
-import dal.asd.dpl.InternalStateMachine.AdvanceTimeState;
-import dal.asd.dpl.InternalStateMachine.InternalStateContext;
+import dal.asd.dpl.InternalStateMachine.*;
+import dal.asd.dpl.TeamManagement.Leagues;
 import dal.asd.dpl.UserInput.CmdUserInput;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.CmdUserOutput;
@@ -14,19 +14,23 @@ import java.util.Calendar;
 import static org.junit.Assert.*;
 
 public class AdvanceTimeStateTest {
-    private static AdvanceTimeState state;
-    private static IUserInput input;
-    private static IUserOutput output;
-    private static InternalStateContext context;
-    private static Calendar seasonCalendar;
+    private AdvanceTimeState state;
+    private IUserInput input;
+    private IUserOutput output;
+    private InternalStateContext context;
+    private Calendar seasonCalendar;
+    private ScheduleUtlity utility;
 
     @Before
     public void setUp() throws Exception {
         input = new CmdUserInput();
         output = new CmdUserOutput();
         seasonCalendar = Calendar.getInstance();
-        state = new AdvanceTimeState(null,null, seasonCalendar, "02-04-2021", "03-04-2021", 2019, input, output);
+        utility = new ScheduleUtlity(0);
         context = new InternalStateContext(input, output);
+        //TODO to be replaced with mock schedule
+        ISchedule schedule = new RegularSeasonScheduleState(seasonCalendar, output);
+        state = new AdvanceTimeState(schedule,null, "02-04-2021", "03-04-2021", utility, output, context);
     }
 
     @Test

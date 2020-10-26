@@ -16,43 +16,59 @@ public class TrainingState implements ISimulationState {
     private boolean finalDay;
     private Leagues leagueToSimulate;
     private String currentDate;
-    private IUserInput input;
     private IUserOutput output;
+    private InternalStateContext context;
     private ISchedule schedule;
+    private ScheduleUtlity utility;
 
-    public TrainingState (Leagues leagueToSimulate, ISchedule schedule, String currentDate, IUserInput input, IUserOutput output) {
+    public TrainingState (Leagues leagueToSimulate, ISchedule schedule, ScheduleUtlity utility, String currentDate, IUserOutput output, InternalStateContext context) {
         this.leagueToSimulate = leagueToSimulate;
-        this.input = input;
         this.output = output;
+        this.context = context;
         this.schedule = schedule;
         this.currentDate = currentDate;
+        this.utility = utility;
         this.stateName = "Training";
+
+       // doProcessing();
     }
 
     public void nextState(InternalStateContext context) {
-        if(anyUnplayedGames())
-            this.nextStateName = "SimulatePlayoffGame";
-        else
-        if(/*tradeDeadlinePassed*/ true)
-            this.nextStateName = "Aging";
-        else
-            this.nextStateName = "Trading";
-
+        if(anyUnplayedGames()) {
+            this.nextStateName = "SimulateGame";
+            context.setState(new SimulateGameState(leagueToSimulate, schedule, context, utility, currentDate, output));
+        }
+        else {
+            if (utility.isTradeDeadlinePending(this.currentDate)) {
+                this.nextStateName = "Trading";
+                context.setState(new TradingState(leagueToSimulate, schedule, context, utility, currentDate, output));
+            }
+            else {
+                this.nextStateName = "Aging";
+                context.setState(new AgingState(leagueToSimulate, schedule, context, utility, currentDate, output));
+            }
+        }
     }
 
     public void doProcessing() {
 
         // TODO training logic to be implemented.
+
+        output.setOutput("Inside Training state");
+        output.sendOutput();
+    //    nextState(this.context);
     }
 
-    private boolean anyUnplayedGames() {
+    public boolean anyUnplayedGames() {
         Map< String, List<Map<String, String>>> finalSchedule = schedule.getFinalSchedule();
-        if(finalSchedule.containsKey(this.currentDate)){
-            return true;
+        if(finalSchedule.containsKey(this.currentDate)) {
+            if (finalSchedule.get(this.currentDate).size() > 0) {
+                return true;
+            } else {
+                return false;
+            }
         }
-        else {
-            return false;
-        }
+        return false;
     }
 
     public String getStateName() {

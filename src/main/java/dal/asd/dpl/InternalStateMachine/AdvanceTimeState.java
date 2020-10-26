@@ -1,9 +1,8 @@
 package dal.asd.dpl.InternalStateMachine;
 import dal.asd.dpl.TeamManagement.Leagues;
-import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
 public class AdvanceTimeState implements ISimulationState{
@@ -12,56 +11,55 @@ public class AdvanceTimeState implements ISimulationState{
     private String nextStateName;
     private String currentDate;
     private IUserOutput output;
-    private IUserInput input;
+    private InternalStateContext context;
     private String endDate;
     private int year;
     private Calendar calendar;
     private boolean isALastDay;
     private ISchedule matchSchedule;
     private Leagues leagueToSimulate;
+    private ScheduleUtlity utility;
 
-    public AdvanceTimeState(ISchedule schedule, Leagues leagueToSimulate, Calendar calendar, String startDate, String endDate, int year, IUserInput input, IUserOutput output) {
+    public AdvanceTimeState(ISchedule schedule, Leagues leagueToSimulate, String startDate, String endDate, ScheduleUtlity utlity, IUserOutput output, InternalStateContext context) {
         this.stateName = "AdvanceTime";
         this.currentDate = startDate;
         this.endDate = endDate;
-        this.input = input;
         this.output = output;
-        this.year = year;
+        this.utility = utlity;
+        this.context = context;
         this.isALastDay = false;
         this.matchSchedule = schedule;
-        this.calendar = calendar;
+        this.calendar = Calendar.getInstance();
         this.leagueToSimulate = leagueToSimulate;
+
+        //doProcessing();
     }
 
     public void nextState(InternalStateContext context) {
         if(isALastDay){
             this.nextStateName = "GeneratePlayoffSchedule";
-            context.setState(new GeneratePlayoffScheduleState(leagueToSimulate, currentDate, input, output, year));
+            context.setState(new GeneratePlayoffScheduleState(leagueToSimulate, utility, currentDate, output, context));
         }
         else {
             this.nextStateName = "Training";
-            context.setState(new TrainingState(leagueToSimulate, matchSchedule, currentDate, input, output));
+            context.setState(new TrainingState(leagueToSimulate, matchSchedule, utility,  currentDate, output, context));
         }
     }
 
     public void doProcessing() {
+        output.setOutput("Advanced the date by one day");
+        output.sendOutput();
+
         incrementCurrentDay();
+       // nextState(this.context);
     }
 
     public void incrementCurrentDay(){
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
-        try {
-            calendar.setTime(dateFormat.parse(currentDate));
-        } catch (ParseException e) {
-            output.setOutput("Exception while getting current date in Advance Time state");
-            output.sendOutput();
-        }
-        // add a day to current date if it is not last date for the season
-        calendar.add(Calendar.DAY_OF_MONTH, 1);
-        this.currentDate = dateFormat.format(calendar.getTime());
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        this.currentDate = LocalDate.parse(this.currentDate, formatter).plusDays(1).format(formatter).toString();
 
-        if(this.currentDate == this.endDate) {
+        if(this.currentDate.equals(this.endDate)) {
             this.isALastDay = true;
         }
     }
@@ -75,4 +73,9 @@ public class AdvanceTimeState implements ISimulationState{
     public String getNextStateName() {
         return this.nextStateName;
     }
+
+    public boolean isALastDay() {
+        return isALastDay;
+    }
+
 }

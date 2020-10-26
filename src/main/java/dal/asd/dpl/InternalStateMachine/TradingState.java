@@ -1,23 +1,44 @@
 package dal.asd.dpl.InternalStateMachine;
 
+import dal.asd.dpl.TeamManagement.Leagues;
+import dal.asd.dpl.UserOutput.IUserOutput;
+
 public class TradingState implements ISimulationState {
 
-    private static String stateName;
-    private static String nextStateName;
+    private String stateName;
+    private String nextStateName;
+    private Leagues leagueToSimulate;
+    private ISchedule schedule;
+    private InternalStateContext context;
+    private String currentDate;
+    private ScheduleUtlity utility;
+    private IUserOutput output;
 
-    public TradingState () {
-
+    public TradingState (Leagues leagueToSimulate, ISchedule schedule, InternalStateContext context, ScheduleUtlity utility, String currentDate, IUserOutput output) {
         this.stateName = "Trading";
-        this.nextStateName = "None";
+        this.leagueToSimulate = leagueToSimulate;
+        this.schedule = schedule;
+        this.context = context;
+        this.utility = utility;
+        this.currentDate = currentDate;
+        this.output = output;
 
+       // doProcessing();
     }
 
     public void nextState(InternalStateContext context) {
-
+        this.nextStateName = "Aging";
+        context.setState(new AgingState(leagueToSimulate, schedule, context, utility, currentDate, output));
     }
 
     public void doProcessing() {
 
+        output.setOutput("Inside Trading state");
+        output.sendOutput();
+
+        //TODO call Breej's method to do trade
+
+      //  nextState(this.context);
     }
 
     public String getStateName() {

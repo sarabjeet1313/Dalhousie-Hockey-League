@@ -19,7 +19,7 @@ public class InternalEndState implements ISimulationState{
     }
 
     public void doProcessing(){
-        output.setOutput("Thanks for using the Dynasty mode. Please come back soon.");
+        output.setOutput("Thanks for using the DHL's Dynasty mode. Please come back soon.");
         output.sendOutput();
     }
 

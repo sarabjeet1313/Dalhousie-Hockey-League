@@ -62,9 +62,11 @@ public class LeagueMockData implements ILeague {
 		managerList.add("Karen Potam");
 		managerList.add("Joseph Squidly");
 		managerList.add("Tom Spaghetti");
-		Teams team = new Teams("Boston", "Mister Fred", headCoach, playerList);
+		Teams team1 = new Teams("Boston", "Mister Fred", headCoach, playerList);
+		Teams team2 = new Teams("Halifax", "Mister Fred", headCoach, playerList);
 		ArrayList<Teams> teamList = new ArrayList<Teams>();
-		teamList.add(team);
+		teamList.add(team1);
+		teamList.add(team2);
 		Divisions division = new Divisions("Atlantic", teamList);
 		ArrayList<Divisions> divisionList = new ArrayList<Divisions>();
 		divisionList.add(division);
@@ -85,6 +87,7 @@ public class LeagueMockData implements ILeague {
 		for(int index = 0; index < teamList.size(); index++) {
 			if(teamList.get(index).getTeamName().equals(teamName)) {
 				leagueList.add(league);
+				return leagueList;
 			}
 			else {
 				return null;

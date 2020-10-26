@@ -29,7 +29,7 @@ public class RegularSeasonScheduleState implements ISchedule {
     private List<String> listOfConferences;
 
 
-    RegularSeasonScheduleState(Calendar calendar, IUserOutput output) {
+    public RegularSeasonScheduleState(Calendar calendar, IUserOutput output) {
 
         this.totalDivisions = 0;
         this.totalTeams = 0;
@@ -183,6 +183,11 @@ public class RegularSeasonScheduleState implements ISchedule {
         List<String> teamsInDivision = divisionTeamsMap.get(divisionName);
 
         int matchCounter = 0;
+        if(teamsInDivision.size() < 2 ){
+            output.setOutput("Less than 2 teams provided. Cannot simulate league.");
+            output.sendOutput();
+            return;
+        }
         int loopCounter = 28/(teamsInDivision.size()-1);
         int i = 0;
         do {
@@ -267,6 +272,11 @@ public class RegularSeasonScheduleState implements ISchedule {
         }
 
         int matchCounter = 0;
+        if(teamsInOtherDivision.size() < 2){
+            output.setOutput("Less than 2 teams provided. Cannot simulate league.");
+            output.sendOutput();
+            return;
+        }
         int loopCounter = 28/(teamsInOtherDivision.size()-1);
         int i = 0;
         do {
@@ -348,6 +358,11 @@ public class RegularSeasonScheduleState implements ISchedule {
         }
 
         int matchCounter = 0;
+        if(teamsInOtherConferences.size() < 2){
+            output.setOutput("Less than 2 teams provided. Cannot simulate league.");
+            output.sendOutput();
+            return;
+        }
         int loopCounter = 28/(teamsInOtherConferences.size()-1) ;
         int i = 0;
         do {
@@ -439,12 +454,34 @@ public class RegularSeasonScheduleState implements ISchedule {
         }
     }
 
+    public void setTeamsToBeScheduled(List<String> teamsToBeScheduled) {
+        // Do nothing, just a place holder
+    }
+
+    public List<String> getTeamsToBeScheduled() {
+        // Do nothing, just a place holder
+        return new ArrayList<String>();
+    }
+
+    public void setTeamsScheduled(List<String> teamsScheduled) {
+        // Do nothing, just a place holder
+    }
+
+    public List<String> getTeamsScheduled() {
+        // Do nothing, just a place holder
+        return new ArrayList<String>();
+    }
+
+    public void generateScheduleOnTheFly(List<String> teamsToCompete, String currentDay){
+        // Do nothing, just a place holder
+    }
+
     public Map< String, List<Map<String, String>>> getFinalSchedule(){
         return this.finalSchedule;
     }
 
-//    private void print() {
-//
-//    }
+    public void setFinalSchedule(Map< String, List<Map<String, String>>> schedule) {
+        this.finalSchedule = schedule;
+    }
 
 }

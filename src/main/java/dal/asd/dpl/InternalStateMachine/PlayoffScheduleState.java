@@ -21,15 +21,18 @@ public class PlayoffScheduleState implements ISchedule {
     private int matchesPerDay;
     private Map<String, List<String>> conferenceTeamList;
     private Map< String /*Date*/, List<Map<String, String> /*Teams Competing*/>> finalSchedule;
-    public Map<Integer/*rounds in playoffs*/, List<String> /*Teams Competing*/> teamsToBeScheduled;
+   // public Map<Integer/*rounds in playoffs*/, List<String> /*Teams Competing*/> teamsToBeScheduled;
+    private List<String> teamsToBeScheduled;
+    private List<String> teamsScheduled;
 
-    PlayoffScheduleState(Calendar calendar, IUserOutput output){
-        this.calendar = calendar;
+    PlayoffScheduleState(IUserOutput output){
+        this.calendar = Calendar.getInstance();
         this.output = output;
         this.seasonType = 1 /*Playoff Season*/;
         conferenceTeamList = new HashMap<>();
         finalSchedule = new HashMap<>();
-        teamsToBeScheduled = new HashMap<>();
+        teamsToBeScheduled = new ArrayList<>();
+        teamsScheduled = new ArrayList<>();
     }
 
     public int getSeasonType(){
@@ -64,14 +67,30 @@ public class PlayoffScheduleState implements ISchedule {
         this.currentDay = currentDay;
     }
 
+    public void setTeamsToBeScheduled(List<String> teamsToBeScheduled) {
+        this.teamsToBeScheduled = teamsToBeScheduled;
+    }
+
+    public List<String> getTeamsToBeScheduled() {
+        return this.teamsToBeScheduled;
+    }
+
+    public void setTeamsScheduled(List<String> teamsScheduled) {
+        this.teamsScheduled = teamsScheduled;
+    }
+
+    public List<String> getTeamsScheduled() {
+        return this.teamsScheduled;
+    }
+
     public void generateSchedule(Leagues leagueToSimulate){
-        incrementCurrentDay();
+//        incrementCurrentDay();
         setMatchesPerDay();
         populateInternalModel(leagueToSimulate);
 
         for (Map.Entry<String, List<String>> entry : conferenceTeamList.entrySet()) {
             List<String> teamsToCompete = entry.getValue();
-            generateScheduleOnTheFly(teamsToCompete);
+            generateScheduleOnTheFly(teamsToCompete, this.currentDay);
         }
     }
 
@@ -106,20 +125,22 @@ public class PlayoffScheduleState implements ISchedule {
                     conferenceTeamList.put(conferenceName, teams);
                 }
 
-                if(teamsToBeScheduled.containsKey(1 /*round-1*/)) {
-                    List<String> teamsParticipating = teamsToBeScheduled.get(1);
-                    teamsParticipating.addAll(teams);
-                    teamsToBeScheduled.put(1, teamsParticipating);
-                }
-                else {
-                    teamsToBeScheduled.put(1, teams);
-                }
-
+                teamsScheduled.addAll(teams);
+//                if(teamsToBeScheduled.containsKey(1 /*round-1*/)) {
+//                    List<String> teamsParticipating = teamsToBeScheduled.get(1);
+//                    teamsParticipating.addAll(teams);
+//                    teamsToBeScheduled.put(1, teamsParticipating);
+//                }
+//                else {
+//                    teamsToBeScheduled.put(1, teams);
+//                }
             }
         }
     }
 
-    public void generateScheduleOnTheFly(List<String> teamsToCompete) {
+    public void generateScheduleOnTheFly(List<String> teamsToCompete, String currentDay) {
+        this.currentDay = currentDay;
+         incrementCurrentDay();
 
          int totalTeams = teamsToCompete.size();
          for(int i=0; i < totalTeams/2 ; i++) {
@@ -127,7 +148,7 @@ public class PlayoffScheduleState implements ISchedule {
              teamsCompeting.put(teamsToCompete.get(i), teamsToCompete.get(totalTeams-1-i));
              List<Map<String, String>> matchList = new ArrayList<>();
              matchList.add(teamsCompeting);
-             this.finalSchedule.put(currentDay, matchList);
+             this.finalSchedule.put(this.currentDay, matchList);
 
              incrementCurrentDay();
          }
@@ -180,6 +201,10 @@ public class PlayoffScheduleState implements ISchedule {
 
     public Map< String, List<Map<String, String>>> getFinalSchedule(){
         return this.finalSchedule;
+    }
+
+    public void setFinalSchedule(Map< String, List<Map<String, String>>> schedule) {
+        this.finalSchedule = schedule;
     }
 
 }

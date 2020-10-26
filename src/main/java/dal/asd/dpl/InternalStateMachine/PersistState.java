@@ -1,28 +1,50 @@
 package dal.asd.dpl.InternalStateMachine;
 
+import dal.asd.dpl.TeamManagement.Leagues;
+import dal.asd.dpl.UserOutput.IUserOutput;
+
 public class PersistState implements ISimulationState {
 
-    private static String stateName;
-    private static String nextStateName;
+    private String stateName;
+    private String nextStateName;
+    private Leagues leagueToSimulate;
+    private ISchedule schedule;
+    private InternalStateContext context;
+    private ScheduleUtlity utility;
+    private String currentDate;
+    private String lastDate;
+    private IUserOutput output;
 
-    public PersistState (boolean cupWinnerDeclared) {
-
+    public PersistState (Leagues leagueToSimulate, ISchedule schedule, InternalStateContext context, ScheduleUtlity utility, String currentDate, IUserOutput output) {
         this.stateName = "Persist";
-        if(cupWinnerDeclared) {
-            this.nextStateName = "GenerateRegularSeasonSchedule";
-        }
-        else {
-            this.nextStateName = "AdvanceTime";
-        }
+        this.leagueToSimulate = leagueToSimulate;
+        this.schedule = schedule;
+        this.context = context;
+        this.utility = utility;
+        this.currentDate = currentDate;
+        this.lastDate = utility.getRegularSeasonLastDay();
+        this.output = output;
 
+      //  doProcessing();
     }
 
     public void nextState(InternalStateContext context) {
-
+        if(/*utility.getSeasonOverStatus()*/ false) {
+            this.nextStateName = "GenerateRegularSeasonSchedule";
+            return;
+        }
+        else {
+            this.nextStateName = "AdvanceTime";
+            context.setState(new AdvanceTimeState(this.schedule, this.leagueToSimulate, this.currentDate, this.lastDate, this.utility, this.output, context));
+        }
     }
 
     public void doProcessing() {
 
+        output.setOutput("Inside persist state");
+        output.sendOutput();
+        //TODO persist data to db
+     //   nextState(this.context);
     }
 
     public String getStateName() {

@@ -51,7 +51,7 @@ public class InternalEndStateTest {
 
         state.doProcessing();
 
-        String expected  = "Thanks for using the Dynasty mode. Please come back soon.";
+        String expected  = "Thanks for using the DHL's Dynasty mode. Please come back soon.";
         String gotOutput = out.toString().replaceAll("\n", "");
         gotOutput = gotOutput.replaceAll("\r", "");
         assertEquals(expected, gotOutput);
