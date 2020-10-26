@@ -16,7 +16,7 @@ public class CmdUserOutput implements IUserOutput{
     }
 
     public String sendOutput() {
-        System.out.println(this.outputResponse);
+        System.out.println(outputResponse);
         return this.outputResponse;
     }
 }

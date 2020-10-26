@@ -1,26 +1,31 @@
 package dal.asd.dpl.InternalStateMachine;
+import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
 
 public class InternalStartState implements ISimulationState {
-    private static IUserInput input;
-    private static IUserOutput output;
-    private static String teamName;
+    private IUserInput input;
+    private IUserOutput output;
+    private String teamName;
     public int numOfSeasons;
-    private static String stateName;
-    private static String nextStateName;
+    private String stateName;
+    private String nextStateName;
+    private League leagueToSimulate;
+    private InternalStateContext context;
 
-    public InternalStartState(IUserInput input, IUserOutput output, String teamName){
+    public InternalStartState(IUserInput input, IUserOutput output, String teamName, League leagueToSimulate, InternalStateContext context){
         this.input = input;
         this.output = output;
         this.teamName = teamName;
         this.stateName = "Start";
+        this.leagueToSimulate = leagueToSimulate;
+        this.context = context;
         this.numOfSeasons = 0;
     }
 
     public void nextState(InternalStateContext context){
         this.nextStateName = "Simulate";
-        context.setState(new InternalSimulationState(input, output, numOfSeasons, teamName));
+        context.setState(new InternalSimulationState(input, output, numOfSeasons, teamName, leagueToSimulate, context));
     }
 
     public void doProcessing(){

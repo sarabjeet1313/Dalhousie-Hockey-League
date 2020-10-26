@@ -11,8 +11,6 @@ import dal.asd.dpl.UserOutput.IUserOutput;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mysql.cj.xdevapi.Schema.Validation;
-
 public class CreateTeamState implements IState {
 
     private static IUserInput input;
@@ -51,7 +49,7 @@ public class CreateTeamState implements IState {
 
     public void nextState(StateContext context){
         CreateTeamState.nextStateName = "Simulate";
-        context.setState(new SimulateState(input, output, teamName));
+        context.setState(new SimulateState(input, output, teamName, initializedLeague));
     }
     
     private void displayManagerList() {
