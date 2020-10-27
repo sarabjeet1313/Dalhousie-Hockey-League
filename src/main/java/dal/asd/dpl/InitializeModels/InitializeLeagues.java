@@ -269,7 +269,7 @@ public class InitializeLeagues implements IInitializeLeagues {
 						}
 
 						Player playerObject = new Player(playerName, position, captain, age, skating, shooting,
-								checking, saving, false, 0);
+								checking, saving, false, false, 0);
 						bufferPlayerList.add(playerObject);
 						teamObject.setPlayerList(bufferPlayerList);
 					}
@@ -351,7 +351,7 @@ public class InitializeLeagues implements IInitializeLeagues {
 				return null;
 			}
 
-			freeAgents.add(new Player(agentName, position, captain, age, skating, shooting, checking, saving, false, 0));
+			freeAgents.add(new Player(agentName, position, captain, age, skating, shooting, checking, saving, false, false, 0));
 		}
 
 		JsonArray coachesList = parser.parseList("coaches");

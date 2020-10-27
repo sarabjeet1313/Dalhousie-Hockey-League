@@ -137,9 +137,9 @@ public class Team implements ITeamPlayersInfo, ITeamInfo, IInjuryStatus {
 						List<Player> playersByTeam = teamList.get(tIndex).getPlayerList();
 						for (Player player : playersByTeam) {
 							Player returnedPlayer = player.getPlayerInjuryDays(player, league);
-							if (returnedPlayer.getNumberOfInjuryDays() > 0) {
+							if (returnedPlayer.getDaysInjured() > 0) {
 								player.setInjured(true);
-								player.setNumberOfInjuryDays(returnedPlayer.getNumberOfInjuryDays());
+								player.setDaysInjured(returnedPlayer.getDaysInjured());
 							}
 						}
 						break;
