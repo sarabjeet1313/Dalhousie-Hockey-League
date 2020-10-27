@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import dal.asd.dpl.TeamManagement.Player;
 
 public class NewsSubscriber implements ITradeInfo, IGamesPlayedInfo, IInjuryInfo, IFreeAgencyInfo, IRetirementInfo {
 
@@ -49,10 +50,10 @@ public class NewsSubscriber implements ITradeInfo, IGamesPlayedInfo, IInjuryInfo
     }
 
     @Override
-    public void updateInjuries(String player, int daysInjured) {
+    public void updateInjuries(Player player) {
         Map<String, Object> injury = new LinkedHashMap<String, Object>(2);
-        injury.put(PLAYER, player);
-        injury.put(DAYS_INJURED, daysInjured);
+        injury.put(PLAYER, player.getPlayerName());
+        injury.put(DAYS_INJURED, player.getDaysInjured());
 
         System.out.println(convertToJsonString(injury));
     }

@@ -2,6 +2,9 @@ package dal.asd.dpl.TeamManagement;
 
 import java.util.List;
 import java.util.Random;
+
+import dal.asd.dpl.NewsSystem.InjuryPublisher;
+import dal.asd.dpl.NewsSystem.NewsSubscriber;
 import dal.asd.dpl.util.ConstantsUtil;
 
 public class Player implements IPlayerInfo, IInjuryCalculator, IAgingCalculator {
@@ -17,6 +20,7 @@ public class Player implements IPlayerInfo, IInjuryCalculator, IAgingCalculator 
 	private boolean isInjured;
 	private boolean retireStatus;
 	private int daysInjured;
+	private InjuryPublisher injurypublisher;
 
 	public Player(String playerName, String position, boolean captain, int age, int skating, int shooting, int checking,
 			int saving, boolean isInjured, boolean retireStatus, int daysInjured) {
@@ -32,6 +36,9 @@ public class Player implements IPlayerInfo, IInjuryCalculator, IAgingCalculator 
 		this.isInjured = isInjured;
 		this.retireStatus = retireStatus;
 		this.daysInjured = daysInjured;
+		injurypublisher =new InjuryPublisher();
+		injurypublisher.subscribe(NewsSubscriber.getInstance());
+
 	}
 
 	public String getPlayerName() {
@@ -162,8 +169,9 @@ public class Player implements IPlayerInfo, IInjuryCalculator, IAgingCalculator 
 			int injuryDays = random.nextInt(injuryDaysHigh - injuryDaysLow) + injuryDaysLow;
 			player.setDaysInjured(injuryDays);
 		}
-
+		injurypublisher.notify(player);
 		return player;
+
 	}
 
 	@Override

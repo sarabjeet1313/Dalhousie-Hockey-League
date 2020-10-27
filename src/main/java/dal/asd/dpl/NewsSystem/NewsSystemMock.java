@@ -18,7 +18,7 @@ public class NewsSystemMock {
 		System.out.println("Injury");
 		InjuryPublisher injuryPublisher = new InjuryPublisher();
 		injuryPublisher.subscribe(NewsSubscriber.getInstance());
-		injuryPublisher.notify("Wayne Gretzky", 20);
+		//injuryPublisher.notify("Wayne Gretzky", 20);
 
 		System.out.println();
 		System.out.println("Player Hired From Free Agent List");

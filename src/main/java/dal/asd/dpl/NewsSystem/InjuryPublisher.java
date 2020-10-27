@@ -1,5 +1,7 @@
 package dal.asd.dpl.NewsSystem;
 
+import dal.asd.dpl.TeamManagement.Player;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,9 +21,9 @@ public class InjuryPublisher {
 		this.subscribers.remove(subscriber);
 	}
 
-	public void notify(String player, int daysInjured) {
+	public void notify(Player player) {
 		for(IInjuryInfo subscriber : this.subscribers) {
-			subscriber.updateInjuries(player, daysInjured);
+			subscriber.updateInjuries(player);
 		}
 	}
 }

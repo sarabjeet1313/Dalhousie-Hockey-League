@@ -1,4 +1,6 @@
 package dal.asd.dpl.SimulationStateMachine;
+import dal.asd.dpl.NewsSystem.FreeAgencyPublisher;
+import dal.asd.dpl.NewsSystem.NewsSubscriber;
 import dal.asd.dpl.TeamManagement.Coach;
 import dal.asd.dpl.TeamManagement.Conference;
 import dal.asd.dpl.TeamManagement.Division;
@@ -32,6 +34,7 @@ public class CreateTeamState implements IState {
     private List<Integer> indexList = new ArrayList<Integer>();
     private List<Player> playersList = new ArrayList<Player>();
     List<Player> tempList2 =new ArrayList<Player>();
+    private FreeAgencyPublisher freeAgencyPublisher;
     
     
 
@@ -44,6 +47,8 @@ public class CreateTeamState implements IState {
         CreateTeamState.divisions = new Division("",null);
         CreateTeamState.teams = new Team("","", headCoach,null);
         CreateTeamState.stateName = "Create Team";
+        freeAgencyPublisher = new FreeAgencyPublisher();
+        freeAgencyPublisher.subscribe(NewsSubscriber.getInstance());
     }
 
     public void nextState(StateContext context){
@@ -125,6 +130,7 @@ public class CreateTeamState implements IState {
 	        	validCoach = false;
 	        }
 	        else {
+
 	        	headCoach = cList.get(headCoachNumber);
 	        	cList.remove(headCoachNumber);
 	        	initializedLeague.setCoaches(cList);
@@ -247,7 +253,9 @@ public class CreateTeamState implements IState {
         for(int index = 0; index < playersList.size(); index++) {
         	output.setOutput((index+1)+" 	| "+ playersList.get(index).getPlayerName()+" 	| "+playersList.get(index).getPosition());
             output.sendOutput();
+            freeAgencyPublisher.notify( playersList.get(index).getPlayerName(), "hired");
         }
+        
         while(validId) {
             output.setOutput("Please enter the selected captain Player ID");
             output.sendOutput();
@@ -336,6 +344,7 @@ public class CreateTeamState implements IState {
         fdList.removeAll(tempList2);
         fdList.addAll(pList);
         displayCaptain();
+        //call notify
         initializedLeague.setFreeAgents(fdList);
         createTeamInLeague(conferenceName, divisionName, teamName, genManager, headCoach, playersList, initializedLeague);
     }
