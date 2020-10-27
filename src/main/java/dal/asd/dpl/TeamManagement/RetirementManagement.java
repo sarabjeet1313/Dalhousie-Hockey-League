@@ -1,8 +1,6 @@
 package dal.asd.dpl.TeamManagement;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
@@ -49,64 +47,39 @@ public class RetirementManagement implements IRetirementManager {
 				List<Team> teamList = divisionList.get(dIndex).getTeamList();
 				for (int tIndex = 0; tIndex < teamList.size(); tIndex++) {
 					List<Player> playersByTeam = teamList.get(tIndex).getPlayerList();
-					for (Player player : playersByTeam) {
-						if(player.isRetireStatus()) {
-
-							Player returnedPlayer = updateRetiredPlayers(player, freeAgentsList);
-
-							if (returnedPlayer.equals(player)) {
-								break;
-							} else {
-								for (Player freeAgent : freeAgentsList) {
-									if (returnedPlayer.equals(freeAgent)) {									
-										freeAgentsList.remove(freeAgent);
-										playersByTeam.remove(player);
-										retiredPlayersList.add(player);
-										playersByTeam.add(returnedPlayer);
-										break;
+					for (int pIndex = 0; pIndex < playersByTeam.size(); pIndex++) {
+						if(playersByTeam.get(pIndex).isRetireStatus()) {
+							int selectedIndex = 0;
+							double max = 0;
+							
+							for(int findex = 0; findex < freeAgentsList.size(); findex++){
+								Player freeAgent = freeAgentsList.get(findex);
+								if(freeAgent.getPosition().equals(playersByTeam.get(pIndex).getPosition())){
+									if(max < freeAgent.getPlayerStrength(freeAgent)){
+										max = freeAgent.getPlayerStrength(freeAgent);
+										selectedIndex = findex;
 									}
 								}
-								break;
 							}
+							
+							Player returnedPlayer = freeAgentsList.get(selectedIndex);
+							
+							
+							freeAgentsList.remove(returnedPlayer);
+							retiredPlayersList.add(playersByTeam.get(pIndex));
+							playersByTeam.remove(playersByTeam.get(pIndex));
+							playersByTeam.add(returnedPlayer);
+							
+							league.setFreeAgents(freeAgentsList);
+							league.getConferenceList().get(index).getDivisionList().get(dIndex).getTeamList().get(tIndex).setPlayerList(playersByTeam);
 						}
 					}
 				}
 			}
 		}
+		
 		//persist retired players list
 		return league;
 	}
-
-	public Player updateRetiredPlayers(Player player, List<Player> freeAgentsList) {
-		String playerPosition = player.getPosition();
-
-		List<Player> result = new ArrayList<Player>();
-
-		for (Player freeAgentPlayer : freeAgentsList) {
-			if (freeAgentPlayer.getPosition().equalsIgnoreCase(playerPosition)) {
-				result.add(freeAgentPlayer);
-			}
-		}
-
-		if (result.size() > 0) {
-
-			Collections.sort(result, new Comparator<Player>() {
-
-				@Override
-				public int compare(Player p1, Player p2) {
-					if (p1.getPlayerStrength(p1) > p2.getPlayerStrength(p2)) {
-						return -1;
-					} else if (p1.getPlayerStrength(p1) < p2.getPlayerStrength(p2)) {
-						return 1;
-					}
-					return 0;
-				}
-			});
-
-			return result.get(0);
-		}
-
-		return player;
-	}
-
+	
 }

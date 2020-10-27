@@ -29,11 +29,4 @@ public class RetirementManagementTest {
 	public void replaceRetiredPlayersTest() {
 		Assert.assertTrue(retirementManager.replaceRetiredPlayers(leagueData.getLeagueData()) instanceof League);
 	}
-	
-	@Test
-	public void updateRetiredPlayersTest() {
-		Player player = new Player("Player1", "Forward", false, 51, 1, 1, 1, 1, false, true, 0);
-		Player playerResult = retirementManager.updateRetiredPlayers(player, leagueData.getLeagueData().getFreeAgents());
-		Assert.assertTrue(playerResult instanceof Player);
-	}
 }

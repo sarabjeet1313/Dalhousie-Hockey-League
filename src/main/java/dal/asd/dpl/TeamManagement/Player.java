@@ -123,64 +123,6 @@ public class Player implements IPlayerInfo, IInjuryCalculator, IAgingCalculator 
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + age;
-		result = prime * result + (captain ? 1231 : 1237);
-		result = prime * result + checking;
-		result = prime * result + daysInjured;
-		result = prime * result + (isInjured ? 1231 : 1237);
-		result = prime * result + ((playerName == null) ? 0 : playerName.hashCode());
-		result = prime * result + ((position == null) ? 0 : position.hashCode());
-		result = prime * result + (retireStatus ? 1231 : 1237);
-		result = prime * result + saving;
-		result = prime * result + shooting;
-		result = prime * result + skating;
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Player other = (Player) obj;
-		if (age != other.age)
-			return false;
-		if (captain != other.captain)
-			return false;
-		if (checking != other.checking)
-			return false;
-		if (daysInjured != other.daysInjured)
-			return false;
-		if (isInjured != other.isInjured)
-			return false;
-		if (playerName == null) {
-			if (other.playerName != null)
-				return false;
-		} else if (!playerName.equals(other.playerName))
-			return false;
-		if (position == null) {
-			if (other.position != null)
-				return false;
-		} else if (!position.equals(other.position))
-			return false;
-		if (retireStatus != other.retireStatus)
-			return false;
-		if (saving != other.saving)
-			return false;
-		if (shooting != other.shooting)
-			return false;
-		if (skating != other.skating)
-			return false;
-		return true;
-	}
-
-	@Override
 	public double getPlayerStrength(Player player) {
 
 		double strength = 0.0;

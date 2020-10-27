@@ -20,7 +20,6 @@ public class CreateTeamState implements IState {
     private static Conference conferences;
     private static Division divisions;
     private static Team teams;
-    private Player player;
     private static String conferenceName = "";
     private static String divisionName = "";
     private static String teamName = "";
