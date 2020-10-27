@@ -18,10 +18,10 @@ import org.junit.Assert;
 
 public class LeagueTest {
 	
-	Player player1 = new Player("Player1", "Forward", false, 1, 1, 1, 1, 1, false);
-	Player player2 = new Player("Player2", "Forward", false, 1, 1, 1, 1, 1, false);
-	Player player3 = new Player("Player3", "defence", false, 1, 1, 1, 1, 1, false);
-	Player player4 = new Player("Player4", "Goalie", false, 1, 1, 1, 1, 1, false);
+	Player player1 = new Player("Player1", "Forward", false, 1, 1, 1, 1, 1, false, false, 0);
+	Player player2 = new Player("Player2", "Forward", false, 1, 1, 1, 1, 1, false, false, 0);
+	Player player3 = new Player("Player3", "defence", false, 1, 1, 1, 1, 1, false, false, 0);
+	Player player4 = new Player("Player4", "Goalie", false, 1, 1, 1, 1, 1, false, false, 0);
 	Coach coach1 = new Coach("Coach One", 0.1, 0.2, 0.1, 0.1);
 	Coach coach2 = new Coach("Coach Two", 0.1, 0.2, 0.1, 0.1);
 	Coach coach3 = new Coach("Coach Three", 0.1, 0.2, 0.1, 0.1);

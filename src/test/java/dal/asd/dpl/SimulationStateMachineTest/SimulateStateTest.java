@@ -20,7 +20,7 @@ public class SimulateStateTest {
     public void setUp() throws Exception {
         input = new CmdUserInput();
         output = new CmdUserOutput();
-        state = new SimulateState(input, output, "");
+        state = new SimulateState(input, output, "", null);
         context = new StateContext(input, output);
         context.setState(state);
     }

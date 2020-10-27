@@ -62,7 +62,7 @@ public class LeagueDataDB implements ILeague {
 					Training training = null;
 					Trading trading = null;
 					GameplayConfig config = null;
-					league = new League(result.getString("leagueName"), conferenceList, freeAgents, coachesList, managers, config);
+					league = new League(result.getString("leagueName"), conferenceList, freeAgents,  coachesList, managers, config);
 					tempLeagueName = result.getString("leagueName");
 					flag = false;
 				}

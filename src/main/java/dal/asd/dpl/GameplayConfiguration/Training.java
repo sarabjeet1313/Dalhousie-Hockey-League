@@ -23,39 +23,35 @@ public class Training {
 	public void setDaysUntilStatIncreaseCheck(int daysUntilStatIncreaseCheck) {
 		this.daysUntilStatIncreaseCheck = daysUntilStatIncreaseCheck;
 	}
-	
+
 	public double generateRandomValue() {
 		return Math.random();
 	}
-	
+
 	public void updateStats(Player player, Coach headCoach) {
 		double randomValue = generateRandomValue();
-		if(randomValue < headCoach.getSkating()) {
-			player.setSkating(player.getSkating()+1);
+		if (randomValue < headCoach.getSkating()) {
+			player.setSkating(player.getSkating() + 1);
+		} else {
+			// Call injury method
 		}
-		else {
-			//Call injury method
+		if (randomValue < headCoach.getShooting()) {
+			player.setShooting(player.getShooting() + 1);
+		} else {
+			// Call injury method
 		}
-		if(randomValue < headCoach.getShooting()) {
-			player.setShooting(player.getShooting()+1);
+		if (randomValue < headCoach.getChecking()) {
+			player.setChecking(player.getChecking() + 1);
+		} else {
+			// Call injury method
 		}
-		else {
-			//Call injury method			
-		}
-		if(randomValue < headCoach.getChecking()) {
-			player.setChecking(player.getChecking()+1);
-		}
-		else {
-			//Call injury method			
-		}
-		if(randomValue < headCoach.getSaving()) {
-			player.setShooting(player.getShooting()+1);
-		}
-		else {
-			//Call injury method			
+		if (randomValue < headCoach.getSaving()) {
+			player.setShooting(player.getShooting() + 1);
+		} else {
+			// Call injury method
 		}
 	}
-	
+
 	public League playerTraining(League league) {
 		League leagueObject = league;
 		Coach headCoach;
@@ -63,14 +59,14 @@ public class Training {
 		List<Team> teamList;
 		List<Division> divisionList;
 		List<Player> playerList = new ArrayList<Player>();
-		for(int cIndex = 0; cIndex < conferenceList.size(); cIndex++) {
+		for (int cIndex = 0; cIndex < conferenceList.size(); cIndex++) {
 			divisionList = conferenceList.get(cIndex).getDivisionList();
-			for(int dIndex = 0; dIndex < divisionList.size(); dIndex++) {
+			for (int dIndex = 0; dIndex < divisionList.size(); dIndex++) {
 				teamList = divisionList.get(dIndex).getTeamList();
-				for(int tIndex = 0; tIndex < teamList.size(); tIndex++) {
+				for (int tIndex = 0; tIndex < teamList.size(); tIndex++) {
 					headCoach = teamList.get(tIndex).getHeadCoach();
 					playerList = teamList.get(tIndex).getPlayerList();
-					for(int pIndex = 0; pIndex < playerList.size(); pIndex++) {
+					for (int pIndex = 0; pIndex < playerList.size(); pIndex++) {
 						updateStats(playerList.get(pIndex), headCoach);
 					}
 				}
