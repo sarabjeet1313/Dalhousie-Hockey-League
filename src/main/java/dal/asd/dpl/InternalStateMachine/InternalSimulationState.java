@@ -14,8 +14,6 @@ public class InternalSimulationState implements ISimulationState{
     private String nextStateName;
     private League leagueToSimulate;
     private InternalStateContext context;
-
-    //===========
     private ScheduleUtlity utility;
     private String currentDate;
     private ISchedule schedule;

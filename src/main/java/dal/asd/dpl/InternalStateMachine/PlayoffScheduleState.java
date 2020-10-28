@@ -86,6 +86,7 @@ public class PlayoffScheduleState implements ISchedule {
     }
 
     public void generateSchedule(League leagueToSimulate){
+//        incrementCurrentDay();
         setMatchesPerDay();
         populateInternalModel(leagueToSimulate);
 

@@ -2,7 +2,7 @@ package dal.asd.dpl.InternalStateMachineTest;
 import dal.asd.dpl.InternalStateMachine.InternalSimulationState;
 import dal.asd.dpl.InternalStateMachine.InternalStateContext;
 import dal.asd.dpl.InternalStateMachine.ScheduleUtlity;
-import dal.asd.dpl.TeamManagement.LeagueMockData;
+import dal.asd.dpl.TeamManagementTest.LeagueMockData;
 import dal.asd.dpl.UserInput.CmdUserInput;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.CmdUserOutput;

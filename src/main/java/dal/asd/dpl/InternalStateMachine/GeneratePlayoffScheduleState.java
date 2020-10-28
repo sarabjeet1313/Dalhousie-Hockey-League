@@ -1,5 +1,6 @@
 package dal.asd.dpl.InternalStateMachine;
 import dal.asd.dpl.TeamManagement.League;
+import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
 
 public class GeneratePlayoffScheduleState implements ISimulationState {

@@ -5,7 +5,6 @@ import org.junit.Test;
 
 import dal.asd.dpl.TeamManagement.Coach;
 import dal.asd.dpl.TeamManagement.Division;
-import dal.asd.dpl.TeamManagement.LeagueObjectTestData;
 import dal.asd.dpl.TeamManagement.Player;
 import dal.asd.dpl.TeamManagement.Team;
 import org.junit.Assert;
