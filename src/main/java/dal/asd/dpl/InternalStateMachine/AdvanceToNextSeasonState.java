@@ -28,21 +28,16 @@ public class AdvanceToNextSeasonState implements ISimulationState {
         this.utility = utility;
         this.currentDate = currentDate;
         this.output = output;
-
-     //   doProcessing();
     }
 
     public void nextState(InternalStateContext context) {
         this.nextStateName = "Persist";
-        context.setState(new PersistState(leagueToSimulate, schedule, context, utility, currentDate, output));
     }
 
     public void doProcessing() {
 
         int days = (int)daysLapsed();
         // TODO call methods to perform aging.
-
-     //   nextState(this.context);
     }
 
     private long daysLapsed() {

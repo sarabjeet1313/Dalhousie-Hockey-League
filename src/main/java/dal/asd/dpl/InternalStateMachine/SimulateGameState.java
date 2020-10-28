@@ -13,6 +13,7 @@ public class SimulateGameState implements ISimulationState {
     private static String stateName;
     private static String nextStateName;
     private Leagues leagueToSimulate;
+    private Standings standings;
     private ISchedule schedule;
     private InternalStateContext context;
     private ScheduleUtlity utility;
@@ -20,16 +21,16 @@ public class SimulateGameState implements ISimulationState {
     private IUserOutput output;
 
 
-    public SimulateGameState(Leagues leagueToSimulate, ISchedule schedule, InternalStateContext context, ScheduleUtlity utility, String currentDate, IUserOutput output) {
+    public SimulateGameState(Leagues leagueToSimulate, ISchedule schedule, Standings standings, InternalStateContext context, ScheduleUtlity utility, String currentDate, IUserOutput output) {
         this.stateName = "SimulatePlayoffGame";
         this.leagueToSimulate = leagueToSimulate;
+        this.standings = standings;
         this.schedule = schedule;
         this.context = context;
         this.utility = utility;
         this.currentDate = currentDate;
         this.output = output;
 
-      //  doProcessing();
     }
 
     public void nextState(InternalStateContext context) {
@@ -56,6 +57,9 @@ public class SimulateGameState implements ISimulationState {
                         output.sendOutput();
                         // TODO Satya's method call.
                         // TODO update dB with the result.
+
+                      //  standings.updateTeamWinMap(teamWon, 1);
+                        // standings.updateTeamLoseMap(teamLose, 1);
                     }
                     teamsCompetingList.remove(0);
                     currentSchedule.put(this.currentDate, teamsCompetingList);
@@ -83,6 +87,9 @@ public class SimulateGameState implements ISimulationState {
                             // TODO handle the individual wins
                             // TODO update dB with the result.
                         }
+
+                        // standings.updateTeamWinMap(firstTeam, team1Win);
+                        // standings.updateTeamLoseMap(secondTeam, team2Win);
 
                         if (team1Win > team2Win) {
                             List<String> teams = schedule.getTeamsToBeScheduled();

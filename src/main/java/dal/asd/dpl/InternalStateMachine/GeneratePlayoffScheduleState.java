@@ -15,17 +15,19 @@ public class GeneratePlayoffScheduleState implements ISimulationState {
     private Leagues leagueToSimulate;
     private IUserOutput output;
     private ScheduleUtlity utility;
+    private Standings standings;
     private InternalStateContext context;
     private ISchedule schedule;
 
-    public GeneratePlayoffScheduleState(Leagues leagueToSimulate, ScheduleUtlity utility, String currentDate, IUserOutput output, InternalStateContext context) {
+    public GeneratePlayoffScheduleState(Leagues leagueToSimulate, ScheduleUtlity utility, Standings standings, String currentDate, IUserOutput output, InternalStateContext context) {
         this.stateName = "GeneratePlayoffSchedule";
         this.nextStateName = "Training";
         this.output = output;
         this.utility = utility;
+        this.standings = standings;
         this.currentDate = currentDate;
         this.leagueToSimulate = leagueToSimulate;
-        this.schedule = new PlayoffScheduleState(output);
+        this.schedule = new PlayoffScheduleState(output, standings);
         this.context = context;
         this.startDate = this.utility.getPlayoffFirstDay();
         schedule.setFirstDay(startDate);
@@ -33,8 +35,6 @@ public class GeneratePlayoffScheduleState implements ISimulationState {
         this.endDate = this.utility.getPlayoffLastDay();
         schedule.setLastDay(endDate);
         utility.setLastSeasonDay(this.endDate);
-
-       // doProcessing();
     }
 
     public void nextState(InternalStateContext context) {
@@ -58,7 +58,6 @@ public class GeneratePlayoffScheduleState implements ISimulationState {
         output.sendOutput();
 
         schedule.setCurrentDay(this.startDate);
-      //  nextState(this.context);
     }
 
     public String getStateName() {

@@ -9,33 +9,32 @@ public class PersistState implements ISimulationState {
     private String nextStateName;
     private Leagues leagueToSimulate;
     private ISchedule schedule;
+    private Standings standings;
     private InternalStateContext context;
     private ScheduleUtlity utility;
     private String currentDate;
     private String lastDate;
     private IUserOutput output;
 
-    public PersistState (Leagues leagueToSimulate, ISchedule schedule, InternalStateContext context, ScheduleUtlity utility, String currentDate, IUserOutput output) {
+    public PersistState (Leagues leagueToSimulate, ISchedule schedule, Standings standings, InternalStateContext context, ScheduleUtlity utility, String currentDate, IUserOutput output) {
         this.stateName = "Persist";
         this.leagueToSimulate = leagueToSimulate;
         this.schedule = schedule;
+        this.standings = standings;
         this.context = context;
         this.utility = utility;
         this.currentDate = currentDate;
         this.lastDate = utility.getRegularSeasonLastDay();
         this.output = output;
-
-      //  doProcessing();
     }
 
     public void nextState(InternalStateContext context) {
-        if(/*utility.getSeasonOverStatus()*/ false) {
+        if(utility.getSeasonOverStatus()) {
             this.nextStateName = "GenerateRegularSeasonSchedule";
             return;
         }
         else {
             this.nextStateName = "AdvanceTime";
-            context.setState(new AdvanceTimeState(this.schedule, this.leagueToSimulate, this.currentDate, this.lastDate, this.utility, this.output, context));
         }
     }
 
@@ -44,7 +43,12 @@ public class PersistState implements ISimulationState {
         output.setOutput("Inside persist state");
         output.sendOutput();
         //TODO persist data to db
-     //   nextState(this.context);
+
+        // Persist calls from Object model classes
+
+//        standings.initializeStandings();
+//        standings.updateStandings();
+
     }
 
     public String getStateName() {

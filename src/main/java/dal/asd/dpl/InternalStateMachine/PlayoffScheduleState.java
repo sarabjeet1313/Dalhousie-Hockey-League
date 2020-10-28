@@ -13,6 +13,7 @@ public class PlayoffScheduleState implements ISchedule {
 
     private Calendar calendar;
     private IUserOutput output;
+    private Standings standings;
     private String currentDay;
     private String firstDay;
     private String lastDay;
@@ -25,9 +26,10 @@ public class PlayoffScheduleState implements ISchedule {
     private List<String> teamsToBeScheduled;
     private List<String> teamsScheduled;
 
-    PlayoffScheduleState(IUserOutput output){
+    PlayoffScheduleState(IUserOutput output, Standings standings){
         this.calendar = Calendar.getInstance();
         this.output = output;
+        this.standings = standings;
         this.seasonType = 1 /*Playoff Season*/;
         conferenceTeamList = new HashMap<>();
         finalSchedule = new HashMap<>();
@@ -84,7 +86,6 @@ public class PlayoffScheduleState implements ISchedule {
     }
 
     public void generateSchedule(Leagues leagueToSimulate){
-//        incrementCurrentDay();
         setMatchesPerDay();
         populateInternalModel(leagueToSimulate);
 
@@ -107,10 +108,13 @@ public class PlayoffScheduleState implements ISchedule {
             List<String> divisions = new ArrayList<String>();
             for (int dIndex = 0; dIndex < divisionList.size(); dIndex++) {
 
-                // TODO replace below line with stored procedure call to get top 4 teams for this division.
+                List<String> teams = new ArrayList<String>();
+//                String divisionName = divisionList.get(dIndex).getDivisionName();
+//                teams = standings.getTopDivisionTeams(divisionName);
+
                 List<Teams> teamList = divisionList.get(dIndex).getTeamList();
 
-                List<String> teams = new ArrayList<String>();
+
                 for(int tIndex = 0; tIndex < teamList.size(); tIndex++) {
                     String teamName = teamList.get(tIndex).getTeamName();
                     teams.add(teamName);

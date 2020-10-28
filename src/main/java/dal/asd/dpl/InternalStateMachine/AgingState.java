@@ -22,26 +22,22 @@ public class AgingState implements ISimulationState {
         this.utility = utility;
         this.currentDate = currentDate;
         this.output = output;
-
-   //     doProcessing();
     }
 
     public void nextState(InternalStateContext context) {
-        if(/*utility.getSeasonOverStatus()*/ false) {
+        if(utility.getSeasonOverStatus()) {
             this.nextStateName = "NextSeason";
-            context.setState(new AdvanceToNextSeasonState(leagueToSimulate, schedule, context, utility, currentDate, output));
         }
         else {
             this.nextStateName = "Persist";
-            context.setState(new PersistState(leagueToSimulate, schedule, context, utility, currentDate, output));
         }
     }
 
     public void doProcessing() {
+
+        //TODO age process
         output.setOutput("Inside Aging state");
         output.sendOutput();
-
-     //   nextState(this.context);
     }
 
     public String getStateName() {
