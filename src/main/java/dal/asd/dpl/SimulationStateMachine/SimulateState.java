@@ -1,9 +1,8 @@
 package dal.asd.dpl.SimulationStateMachine;
 import dal.asd.dpl.InternalStateMachine.InternalEndState;
-import dal.asd.dpl.InternalStateMachine.InternalSimulationState;
 import dal.asd.dpl.InternalStateMachine.InternalStartState;
 import dal.asd.dpl.InternalStateMachine.InternalStateContext;
-import dal.asd.dpl.TeamManagement.Leagues;
+import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
 
@@ -14,9 +13,9 @@ public class SimulateState implements IState {
     private static String teamName;
     private static String stateName;
     private static String nextStateName;
-    private static Leagues leagueToSimulate;
+    private static League leagueToSimulate;
 
-    public SimulateState(IUserInput input, IUserOutput output, String teamName, Leagues leagueToSimulate) {
+    public SimulateState(IUserInput input, IUserOutput output, String teamName, League leagueToSimulate) {
         this.input = input;
         this.output = output;
         this.teamName = teamName;

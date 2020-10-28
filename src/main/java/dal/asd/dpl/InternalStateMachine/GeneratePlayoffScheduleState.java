@@ -1,9 +1,6 @@
 package dal.asd.dpl.InternalStateMachine;
-import dal.asd.dpl.TeamManagement.Leagues;
-import dal.asd.dpl.UserInput.IUserInput;
+import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.UserOutput.IUserOutput;
-
-import java.util.Calendar;
 
 public class GeneratePlayoffScheduleState implements ISimulationState {
 
@@ -12,14 +9,14 @@ public class GeneratePlayoffScheduleState implements ISimulationState {
     private String startDate;
     private String endDate;
     private String currentDate;
-    private Leagues leagueToSimulate;
+    private League leagueToSimulate;
     private IUserOutput output;
     private ScheduleUtlity utility;
-    private Standings standings;
+    private StandingInfo standings;
     private InternalStateContext context;
     private ISchedule schedule;
 
-    public GeneratePlayoffScheduleState(Leagues leagueToSimulate, ScheduleUtlity utility, Standings standings, String currentDate, IUserOutput output, InternalStateContext context) {
+    public GeneratePlayoffScheduleState(League leagueToSimulate, ScheduleUtlity utility, StandingInfo standings, String currentDate, IUserOutput output, InternalStateContext context) {
         this.stateName = "GeneratePlayoffSchedule";
         this.nextStateName = "Training";
         this.output = output;

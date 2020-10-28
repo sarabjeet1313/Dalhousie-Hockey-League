@@ -1,12 +1,11 @@
 package dal.asd.dpl.InternalStateMachine;
 
 import dal.asd.dpl.Database.InvokeStoredProcedure;
-import dal.asd.dpl.TeamManagement.Conferences;
-import dal.asd.dpl.TeamManagement.Divisions;
-import dal.asd.dpl.TeamManagement.Leagues;
-import dal.asd.dpl.TeamManagement.Teams;
+import dal.asd.dpl.TeamManagement.Conference;
+import dal.asd.dpl.TeamManagement.Division;
+import dal.asd.dpl.TeamManagement.League;
+import dal.asd.dpl.TeamManagement.Team;
 
-import javax.xml.transform.Result;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,15 +13,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Standings {
+public class StandingInfo {
 
-    private Leagues leagueToSimulate;
+    private League leagueToSimulate;
     private int season;
     private InvokeStoredProcedure isp;
     private Map<String, Integer> teamWinMap;
     private Map<String, Integer> teamLoseMap;
 
-    public Standings(Leagues leagueToSimulate, int season) {
+    public StandingInfo(League leagueToSimulate, int season) {
         this.leagueToSimulate = leagueToSimulate;
         teamWinMap = new HashMap<>();
         teamLoseMap = new HashMap<>();
@@ -41,17 +40,17 @@ public class Standings {
 
         boolean result = false;
         String leagueName = leagueToSimulate.getLeagueName();
-        List<Conferences> conferenceList =  leagueToSimulate.getConferenceList();
+        List<Conference> conferenceList =  leagueToSimulate.getConferenceList();
 
-        for (Conferences conferences : conferenceList) {
-            List<Divisions> divisionList = conferences.getDivisionList();
+        for (Conference conferences : conferenceList) {
+            List<Division> divisionList = conferences.getDivisionList();
             String conferenceName = conferences.getConferenceName();
 
-            for (Divisions divisions : divisionList) {
-                List<Teams> teamList = divisions.getTeamList();
+            for (Division divisions : divisionList) {
+                List<Team> teamList = divisions.getTeamList();
                 String divisionName = divisions.getDivisionName();
 
-                for (Teams teams : teamList) {
+                for (Team teams : teamList) {
                     String teamName = teams.getTeamName();
                     result = insertToStandings(leagueName, conferenceName, divisionName, teamName);
                     if (result) {

@@ -1,20 +1,20 @@
 package dal.asd.dpl.InternalStateMachine;
 
-import dal.asd.dpl.TeamManagement.Leagues;
+import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.UserOutput.IUserOutput;
 
 public class AgingState implements ISimulationState {
 
     private static String stateName;
     private static String nextStateName;
-    private Leagues leagueToSimulate;
+    private League leagueToSimulate;
     private ISchedule schedule;
     private InternalStateContext context;
     private String currentDate;
     private ScheduleUtlity utility;
     private IUserOutput output;
 
-    public AgingState (Leagues leagueToSimulate, ISchedule schedule, InternalStateContext context, ScheduleUtlity utility, String currentDate, IUserOutput output) {
+    public AgingState (League leagueToSimulate, ISchedule schedule, InternalStateContext context, ScheduleUtlity utility, String currentDate, IUserOutput output) {
         this.stateName = "Aging";
         this.leagueToSimulate = leagueToSimulate;
         this.schedule = schedule;
@@ -36,6 +36,7 @@ public class AgingState implements ISimulationState {
     public void doProcessing() {
 
         //TODO age process
+        // advance age so that injury days will be reduced.
         output.setOutput("Inside Aging state");
         output.sendOutput();
     }

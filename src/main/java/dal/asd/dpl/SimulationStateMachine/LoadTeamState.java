@@ -1,9 +1,9 @@
 package dal.asd.dpl.SimulationStateMachine;
 
 import dal.asd.dpl.TeamManagement.Coach;
-import dal.asd.dpl.TeamManagement.Conferences;
+import dal.asd.dpl.TeamManagement.Conference;
 import dal.asd.dpl.TeamManagement.ILeague;
-import dal.asd.dpl.TeamManagement.Leagues;
+import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagement.Player;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
@@ -38,13 +38,13 @@ public class LoadTeamState implements IState {
         output.sendOutput();
         input.setInput();
         teamName = input.getInput();
-        List<Conferences> conferencesList = null;
+        List<Conference> conferenceList = null;
         List<Player> freeAgents = null;
         List<Coach> coaches = null;
         List<String> managers = new ArrayList<String>(); 
         boolean result = false;
         String finalLeagueName = "";
-        Leagues league = new Leagues("test", conferencesList, freeAgents, coaches, managers);
+        League league = new League("test", conferenceList, freeAgents, coaches, managers);
         List<String> leagues = league.getLeagueNames(teamName, leagueDb);
 
         if(leagues.size() == 1) {

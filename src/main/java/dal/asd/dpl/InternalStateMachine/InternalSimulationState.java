@@ -1,5 +1,5 @@
 package dal.asd.dpl.InternalStateMachine;
-import dal.asd.dpl.TeamManagement.Leagues;
+import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
 
@@ -12,14 +12,14 @@ public class InternalSimulationState implements ISimulationState{
     private String teamName;
     private String stateName;
     private String nextStateName;
-    private Leagues leagueToSimulate;
+    private League leagueToSimulate;
     private InternalStateContext context;
 
     //===========
     private ScheduleUtlity utility;
     private String currentDate;
     private ISchedule schedule;
-    private Standings standings;
+    private StandingInfo standings;
     private TrainingState trainingState;
     private GeneratePlayoffScheduleState playoffScheduleState;
     private AdvanceTimeState advanceTimeState;
@@ -30,7 +30,7 @@ public class InternalSimulationState implements ISimulationState{
     private AdvanceToNextSeasonState advanceToNextSeason;
     private PersistState persistState;
 
-    public InternalSimulationState(IUserInput input, IUserOutput output, int seasons, String teamName, Leagues leagueToSimulate, InternalStateContext context){
+    public InternalSimulationState(IUserInput input, IUserOutput output, int seasons, String teamName, League leagueToSimulate, InternalStateContext context){
         this.input = input;
         this.output = output;
         this.totalSeasons = seasons;
@@ -54,7 +54,7 @@ public class InternalSimulationState implements ISimulationState{
             output.setOutput("Season " + i + " is simulating.");
             output.sendOutput();
 
-            standings = new Standings(leagueToSimulate, season);
+            standings = new StandingInfo(leagueToSimulate, season);
             GenerateRegularSeasonScheduleState initialState = new GenerateRegularSeasonScheduleState(leagueToSimulate, this.input, this.output, this.season, this.context);
             initialState.doProcessing();
 

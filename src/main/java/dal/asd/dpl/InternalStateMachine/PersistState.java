@@ -1,22 +1,22 @@
 package dal.asd.dpl.InternalStateMachine;
 
-import dal.asd.dpl.TeamManagement.Leagues;
+import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.UserOutput.IUserOutput;
 
 public class PersistState implements ISimulationState {
 
     private String stateName;
     private String nextStateName;
-    private Leagues leagueToSimulate;
+    private League leagueToSimulate;
     private ISchedule schedule;
-    private Standings standings;
+    private StandingInfo standings;
     private InternalStateContext context;
     private ScheduleUtlity utility;
     private String currentDate;
     private String lastDate;
     private IUserOutput output;
 
-    public PersistState (Leagues leagueToSimulate, ISchedule schedule, Standings standings, InternalStateContext context, ScheduleUtlity utility, String currentDate, IUserOutput output) {
+    public PersistState (League leagueToSimulate, ISchedule schedule, StandingInfo standings, InternalStateContext context, ScheduleUtlity utility, String currentDate, IUserOutput output) {
         this.stateName = "Persist";
         this.leagueToSimulate = leagueToSimulate;
         this.schedule = schedule;

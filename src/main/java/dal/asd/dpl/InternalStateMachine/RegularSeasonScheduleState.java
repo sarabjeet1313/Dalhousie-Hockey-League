@@ -1,8 +1,8 @@
 package dal.asd.dpl.InternalStateMachine;
-import dal.asd.dpl.TeamManagement.Conferences;
-import dal.asd.dpl.TeamManagement.Divisions;
-import dal.asd.dpl.TeamManagement.Leagues;
-import dal.asd.dpl.TeamManagement.Teams;
+import dal.asd.dpl.TeamManagement.Conference;
+import dal.asd.dpl.TeamManagement.Division;
+import dal.asd.dpl.TeamManagement.League;
+import dal.asd.dpl.TeamManagement.Team;
 import dal.asd.dpl.UserOutput.IUserOutput;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -81,23 +81,23 @@ public class RegularSeasonScheduleState implements ISchedule {
         this.lastDay = lastDay;
     }
 
-    public void generateSchedule(Leagues leagueToSimulate){
+    public void generateSchedule(League leagueToSimulate){
         incrementCurrentDay();
         populateInternalModel(leagueToSimulate);
         setMatchesPerDay();
         generate();
     }
 
-    private void populateInternalModel(Leagues leagueToSimulate) {
+    private void populateInternalModel(League leagueToSimulate) {
 
         if(leagueToSimulate == null) {
             return;
         }
 
-        List<Conferences> conferenceList =  leagueToSimulate.getConferenceList();
+        List<Conference> conferenceList =  leagueToSimulate.getConferenceList();
 
         for(int index = 0; index < conferenceList.size(); index++) {
-            List<Divisions> divisionList = conferenceList.get(index).getDivisionList();
+            List<Division> divisionList = conferenceList.get(index).getDivisionList();
             String conferenceName = conferenceList.get(index).getConferenceName();
 
             this.listOfConferences.add(conferenceName);
@@ -105,7 +105,7 @@ public class RegularSeasonScheduleState implements ISchedule {
 
             List<String> divisions = new ArrayList<String>();
             for (int dIndex = 0; dIndex < divisionList.size(); dIndex++) {
-                List<Teams> teamList = divisionList.get(dIndex).getTeamList();
+                List<Team> teamList = divisionList.get(dIndex).getTeamList();
                 String divisionName = divisionList.get(dIndex).getDivisionName();
                 divisions.add(divisionName);
                 this.totalTeams += teamList.size();

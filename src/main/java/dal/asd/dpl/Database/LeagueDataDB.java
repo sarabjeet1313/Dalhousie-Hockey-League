@@ -5,24 +5,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dal.asd.dpl.TeamManagement.Coach;
-import dal.asd.dpl.TeamManagement.Conferences;
-import dal.asd.dpl.TeamManagement.Divisions;
+import dal.asd.dpl.TeamManagement.Conference;
+import dal.asd.dpl.TeamManagement.Division;
 import dal.asd.dpl.TeamManagement.ILeague;
-import dal.asd.dpl.TeamManagement.Leagues;
+import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagement.Player;
-import dal.asd.dpl.TeamManagement.Teams;
+import dal.asd.dpl.TeamManagement.Team;
 
 public class LeagueDataDB implements ILeague {
 	
 	InvokeStoredProcedure isp = null;
 	@Override
-	public List<Leagues> getLeagueData(String teamName) {
-		Leagues league = null;
-		List<Leagues> leagueList = new ArrayList<Leagues>(); 
+	public List<League> getLeagueData(String teamName) {
+		League league = null;
+		List<League> leagueList = new ArrayList<League>();
 		ArrayList<Player> playerList = new ArrayList<Player>();
-		ArrayList<Teams> teamList = new ArrayList<Teams>();
-		ArrayList<Divisions> divisionList = new ArrayList<Divisions>();
-		ArrayList<Conferences> conferenceList = new ArrayList<Conferences>();
+		ArrayList<Team> teamList = new ArrayList<Team>();
+		ArrayList<Division> divisionList = new ArrayList<Division>();
+		ArrayList<Conference> conferenceList = new ArrayList<Conference>();
 		String tempLeagueName = "";
 		ResultSet result;
 		boolean flag = true;
@@ -40,16 +40,16 @@ public class LeagueDataDB implements ILeague {
 				}
 				if(flag) {
 					Coach headCoach = new Coach(result.getString("name"), result.getDouble("skating"), result.getDouble("shooting"), result.getDouble("checking"), result.getDouble("saving"));
-					Teams team = new Teams(result.getString("teamName"), result.getString("generalManager"), headCoach, playerList);
+					Team team = new Team(result.getString("teamName"), result.getString("generalManager"), headCoach, playerList);
 					teamList.add(team);
-					Divisions division = new Divisions(result.getString("divisionName"),teamList);
+					Division division = new Division(result.getString("divisionName"),teamList);
 					divisionList.add(division);
-					Conferences conference = new Conferences(result.getString("conferenceName"),divisionList);
+					Conference conference = new Conference(result.getString("conferenceName"),divisionList);
 					conferenceList.add(conference);
 					List<Player> freeAgents = new ArrayList<Player>();
 					List<String> managers = new ArrayList<String>(); 	
 					List<Coach> coachesList = new ArrayList<Coach>();
-					league = new Leagues(result.getString("leagueName"), conferenceList, freeAgents, coachesList, managers);
+					league = new League(result.getString("leagueName"), conferenceList, freeAgents, coachesList, managers);
 					tempLeagueName = result.getString("leagueName");
 					flag = false;
 				}

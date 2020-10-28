@@ -1,6 +1,6 @@
 package dal.asd.dpl.InternalStateMachine;
 
-import dal.asd.dpl.TeamManagement.Leagues;
+import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.UserOutput.IUserOutput;
 
 import java.text.ParseException;
@@ -13,14 +13,14 @@ public class AdvanceToNextSeasonState implements ISimulationState {
     private String stateName;
     private String nextStateName;
     private boolean cupWinnerDeclared;
-    private Leagues leagueToSimulate;
+    private League leagueToSimulate;
     private ISchedule schedule;
     private InternalStateContext context;
     private ScheduleUtlity utility;
     private String currentDate;
     private IUserOutput output;
 
-    public AdvanceToNextSeasonState (Leagues leagueToSimulate, ISchedule schedule, InternalStateContext context, ScheduleUtlity utility, String currentDate, IUserOutput output) {
+    public AdvanceToNextSeasonState (League leagueToSimulate, ISchedule schedule, InternalStateContext context, ScheduleUtlity utility, String currentDate, IUserOutput output) {
         this.stateName = "NextSeason";
         this.leagueToSimulate = leagueToSimulate;
         this.schedule = schedule;
@@ -36,6 +36,7 @@ public class AdvanceToNextSeasonState implements ISimulationState {
 
     public void doProcessing() {
 
+        // no of days between the very first day of next season and the day when cup winner declared.
         int days = (int)daysLapsed();
         // TODO call methods to perform aging.
     }

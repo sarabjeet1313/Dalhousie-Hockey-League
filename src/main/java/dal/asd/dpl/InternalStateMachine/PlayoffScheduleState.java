@@ -1,8 +1,8 @@
 package dal.asd.dpl.InternalStateMachine;
-import dal.asd.dpl.TeamManagement.Conferences;
-import dal.asd.dpl.TeamManagement.Divisions;
-import dal.asd.dpl.TeamManagement.Leagues;
-import dal.asd.dpl.TeamManagement.Teams;
+import dal.asd.dpl.TeamManagement.Conference;
+import dal.asd.dpl.TeamManagement.Division;
+import dal.asd.dpl.TeamManagement.League;
+import dal.asd.dpl.TeamManagement.Team;
 import dal.asd.dpl.UserOutput.IUserOutput;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,7 +13,7 @@ public class PlayoffScheduleState implements ISchedule {
 
     private Calendar calendar;
     private IUserOutput output;
-    private Standings standings;
+    private StandingInfo standings;
     private String currentDay;
     private String firstDay;
     private String lastDay;
@@ -26,7 +26,7 @@ public class PlayoffScheduleState implements ISchedule {
     private List<String> teamsToBeScheduled;
     private List<String> teamsScheduled;
 
-    PlayoffScheduleState(IUserOutput output, Standings standings){
+    PlayoffScheduleState(IUserOutput output, StandingInfo standings){
         this.calendar = Calendar.getInstance();
         this.output = output;
         this.standings = standings;
@@ -85,7 +85,7 @@ public class PlayoffScheduleState implements ISchedule {
         return this.teamsScheduled;
     }
 
-    public void generateSchedule(Leagues leagueToSimulate){
+    public void generateSchedule(League leagueToSimulate){
         setMatchesPerDay();
         populateInternalModel(leagueToSimulate);
 
@@ -95,15 +95,15 @@ public class PlayoffScheduleState implements ISchedule {
         }
     }
 
-    private void populateInternalModel(Leagues leagueToSimulate){
+    private void populateInternalModel(League leagueToSimulate){
         if(leagueToSimulate == null) {
             return;
         }
 
-        List<Conferences> conferenceList =  leagueToSimulate.getConferenceList();
+        List<Conference> conferenceList =  leagueToSimulate.getConferenceList();
 
         for(int index = 0; index < conferenceList.size(); index++) {
-            List<Divisions> divisionList = conferenceList.get(index).getDivisionList();
+            List<Division> divisionList = conferenceList.get(index).getDivisionList();
             String conferenceName = conferenceList.get(index).getConferenceName();
             List<String> divisions = new ArrayList<String>();
             for (int dIndex = 0; dIndex < divisionList.size(); dIndex++) {
@@ -112,7 +112,7 @@ public class PlayoffScheduleState implements ISchedule {
 //                String divisionName = divisionList.get(dIndex).getDivisionName();
 //                teams = standings.getTopDivisionTeams(divisionName);
 
-                List<Teams> teamList = divisionList.get(dIndex).getTeamList();
+                List<Team> teamList = divisionList.get(dIndex).getTeamList();
 
 
                 for(int tIndex = 0; tIndex < teamList.size(); tIndex++) {

@@ -1,7 +1,6 @@
 package dal.asd.dpl.InternalStateMachineTest;
 
 import dal.asd.dpl.InternalStateMachine.*;
-import dal.asd.dpl.TeamManagement.Leagues;
 import dal.asd.dpl.UserInput.CmdUserInput;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.CmdUserOutput;

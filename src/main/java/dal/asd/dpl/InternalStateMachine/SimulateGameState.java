@@ -1,9 +1,8 @@
 package dal.asd.dpl.InternalStateMachine;
 
-import dal.asd.dpl.TeamManagement.Leagues;
+import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.UserOutput.IUserOutput;
 
-import java.time.chrono.IsoChronology;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -12,8 +11,8 @@ public class SimulateGameState implements ISimulationState {
 
     private static String stateName;
     private static String nextStateName;
-    private Leagues leagueToSimulate;
-    private Standings standings;
+    private League leagueToSimulate;
+    private StandingInfo standings;
     private ISchedule schedule;
     private InternalStateContext context;
     private ScheduleUtlity utility;
@@ -21,7 +20,7 @@ public class SimulateGameState implements ISimulationState {
     private IUserOutput output;
 
 
-    public SimulateGameState(Leagues leagueToSimulate, ISchedule schedule, Standings standings, InternalStateContext context, ScheduleUtlity utility, String currentDate, IUserOutput output) {
+    public SimulateGameState(League leagueToSimulate, ISchedule schedule, StandingInfo standings, InternalStateContext context, ScheduleUtlity utility, String currentDate, IUserOutput output) {
         this.stateName = "SimulatePlayoffGame";
         this.leagueToSimulate = leagueToSimulate;
         this.standings = standings;
@@ -56,7 +55,10 @@ public class SimulateGameState implements ISimulationState {
                         output.setOutput("Match is going on between " + firstTeam + " vs " + secondTeam);
                         output.sendOutput();
                         // TODO Satya's method call.
+                //        double strength = satyaMethod(leagueToSimulate, firstTeam);
+                //        double strength = satyaMethod(leagueToSimulate, firstTeam);
                         // TODO update dB with the result.
+
 
                       //  standings.updateTeamWinMap(teamWon, 1);
                         // standings.updateTeamLoseMap(teamLose, 1);

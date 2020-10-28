@@ -1,11 +1,7 @@
 package dal.asd.dpl.InternalStateMachine;
-import dal.asd.dpl.TeamManagement.Leagues;
-import dal.asd.dpl.UserInput.IUserInput;
+import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.UserOutput.IUserOutput;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -14,14 +10,14 @@ public class TrainingState implements ISimulationState {
     private String stateName;
     private String nextStateName;
     private boolean finalDay;
-    private Leagues leagueToSimulate;
+    private League leagueToSimulate;
     private String currentDate;
     private IUserOutput output;
     private InternalStateContext context;
     private ISchedule schedule;
     private ScheduleUtlity utility;
 
-    public TrainingState (Leagues leagueToSimulate, ISchedule schedule, ScheduleUtlity utility, String currentDate, IUserOutput output, InternalStateContext context) {
+    public TrainingState (League leagueToSimulate, ISchedule schedule, ScheduleUtlity utility, String currentDate, IUserOutput output, InternalStateContext context) {
         this.leagueToSimulate = leagueToSimulate;
         this.output = output;
         this.context = context;

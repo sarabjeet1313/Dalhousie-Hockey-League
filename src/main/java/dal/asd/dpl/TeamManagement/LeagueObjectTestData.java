@@ -21,7 +21,7 @@ public class LeagueObjectTestData {
 	List<String> managerList = new ArrayList<String>();
 	
 	
-	public Leagues getLeagueData() {
+	public League getLeagueData() {
 		playerList.add(player1);
 		playerList.add(player2);
 		playerList.add(player3);
@@ -34,16 +34,16 @@ public class LeagueObjectTestData {
 		managerList.add("Karen Potam");
 		managerList.add("Joseph Squidly");
 		managerList.add("Tom Spaghetti");
-		Teams team = new Teams("Boston", "Mister Fred", headCoach, playerList);
-		ArrayList<Teams> teamList = new ArrayList<Teams>();
+		Team team = new Team("Boston", "Mister Fred", headCoach, playerList);
+		ArrayList<Team> teamList = new ArrayList<Team>();
 		teamList.add(team);
-		Divisions division = new Divisions("Atlantic", teamList);
-		ArrayList<Divisions> divisionList = new ArrayList<Divisions>();
+		Division division = new Division("Atlantic", teamList);
+		ArrayList<Division> divisionList = new ArrayList<Division>();
 		divisionList.add(division);
-		Conferences conference = new Conferences("Eastern Conference", divisionList);
-		ArrayList<Conferences> conferenceList = new ArrayList<Conferences>();
+		Conference conference = new Conference("Eastern Conference", divisionList);
+		ArrayList<Conference> conferenceList = new ArrayList<Conference>();
 		conferenceList.add(conference);
-		Leagues league = new Leagues("Dalhousie Hockey League", conferenceList, freePlayerList, coachList, managerList);
+		League league = new League("Dalhousie Hockey League", conferenceList, freePlayerList, coachList, managerList);
 		return league;
 	}
 	

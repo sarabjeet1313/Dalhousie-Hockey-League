@@ -4,12 +4,12 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dal.asd.dpl.Parser.CmdParseJSON;
 import dal.asd.dpl.TeamManagement.Coach;
-import dal.asd.dpl.TeamManagement.Conferences;
-import dal.asd.dpl.TeamManagement.Divisions;
+import dal.asd.dpl.TeamManagement.Conference;
+import dal.asd.dpl.TeamManagement.Division;
 import dal.asd.dpl.TeamManagement.ILeague;
-import dal.asd.dpl.TeamManagement.Leagues;
+import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagement.Player;
-import dal.asd.dpl.TeamManagement.Teams;
+import dal.asd.dpl.TeamManagement.Team;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
 import java.util.ArrayList;
@@ -21,8 +21,8 @@ public class InitializeLeagues implements IInitializeLeagues {
     private static String filePath;
     private static ILeague leagueDb;
     private static IUserOutput output;
-    private List<Conferences> conferenceList;
-    private Leagues league;
+    private List<Conference> conferenceList;
+    private League league;
     private List<Player> freeAgents;
     private List<Coach> coaches;
     private List<String> managers;
@@ -47,9 +47,9 @@ public class InitializeLeagues implements IInitializeLeagues {
         return inputString.replace("\"", "");
     }
 
-    public Leagues parseAndInitializeModels() {
+    public League parseAndInitializeModels() {
         parser = new CmdParseJSON(InitializeLeagues.filePath);
-        conferenceList = new ArrayList<Conferences>();
+        conferenceList = new ArrayList<Conference>();
         freeAgents = new ArrayList<Player>();
         coaches = new ArrayList<Coach>();
         managers = new ArrayList<String>();
@@ -66,7 +66,7 @@ public class InitializeLeagues implements IInitializeLeagues {
         }
 
         leagueName = truncateString(leagueName);
-        league = new Leagues(leagueName, conferenceList, freeAgents, coaches, managers);
+        league = new League(leagueName, conferenceList, freeAgents, coaches, managers);
         boolean check = league.isValidLeagueName(leagueName, leagueDb);
 
         if(!check) {
@@ -81,7 +81,7 @@ public class InitializeLeagues implements IInitializeLeagues {
         while(conferenceListElement.hasNext()) {
             JsonObject conference = conferenceListElement.next().getAsJsonObject();
             String conferenceName = conference.get("conferenceName").toString();
-            List<Divisions> bufferDivisionList = new ArrayList<Divisions>();
+            List<Division> bufferDivisionList = new ArrayList<Division>();
 
             conferenceName = truncateString(conferenceName);
 
@@ -91,7 +91,7 @@ public class InitializeLeagues implements IInitializeLeagues {
                 return null;
             }
 
-            Conferences conferenceObject = new Conferences(conferenceName, bufferDivisionList);
+            Conference conferenceObject = new Conference(conferenceName, bufferDivisionList);
             conferenceList.add(conferenceObject);
             JsonArray divisions = conference.get("divisions").getAsJsonArray();
             Iterator<JsonElement> divisionListElement = divisions.iterator();
@@ -99,7 +99,7 @@ public class InitializeLeagues implements IInitializeLeagues {
             while(divisionListElement.hasNext()) {
                 JsonObject division =  divisionListElement.next().getAsJsonObject();
                 String divisionName = division.get("divisionName").toString();
-                List<Teams> bufferTeamList = new ArrayList<Teams>();
+                List<Team> bufferTeamList = new ArrayList<Team>();
                 divisionName = truncateString(divisionName);
 
                 if(isEmptyString(divisionName)){
@@ -108,7 +108,7 @@ public class InitializeLeagues implements IInitializeLeagues {
                     return null;
                 }
 
-                Divisions divisionObject = new Divisions(divisionName, bufferTeamList);
+                Division divisionObject = new Division(divisionName, bufferTeamList);
                 bufferDivisionList.add(divisionObject);
                 conferenceObject.setDivisionList(bufferDivisionList);
                 JsonArray teams = division.get("teams").getAsJsonArray();
@@ -174,7 +174,7 @@ public class InitializeLeagues implements IInitializeLeagues {
                     
                     Coach headCoachObj = new Coach(headCoachName, coachSkating, coachShooting, coachChecking, coachSaving);
 
-                    Teams teamObject = new Teams(teamName, genManager, headCoachObj, bufferPlayerList);
+                    Team teamObject = new Team(teamName, genManager, headCoachObj, bufferPlayerList);
                     bufferTeamList.add(teamObject);
                     divisionObject.setTeamList(bufferTeamList);
                     JsonArray players = team.get("players").getAsJsonArray();

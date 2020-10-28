@@ -48,7 +48,7 @@ public class LeagueMockData implements ILeague {
 	List<Coach> coachList = new ArrayList<Coach>();
 	List<String> managerList = new ArrayList<String>();
 	
-	public Leagues getTestData() {
+	public League getTestData() {
 		playerList.add(player1);
 		playerList.add(player2);
 		playerList.add(player3);
@@ -62,28 +62,28 @@ public class LeagueMockData implements ILeague {
 		managerList.add("Karen Potam");
 		managerList.add("Joseph Squidly");
 		managerList.add("Tom Spaghetti");
-		Teams team1 = new Teams("Boston", "Mister Fred", headCoach, playerList);
-		Teams team2 = new Teams("Halifax", "Mister Fred", headCoach, playerList);
-		ArrayList<Teams> teamList = new ArrayList<Teams>();
+		Team team1 = new Team("Boston", "Mister Fred", headCoach, playerList);
+		Team team2 = new Team("Halifax", "Mister Fred", headCoach, playerList);
+		ArrayList<Team> teamList = new ArrayList<Team>();
 		teamList.add(team1);
 		teamList.add(team2);
-		Divisions division = new Divisions("Atlantic", teamList);
-		ArrayList<Divisions> divisionList = new ArrayList<Divisions>();
+		Division division = new Division("Atlantic", teamList);
+		ArrayList<Division> divisionList = new ArrayList<Division>();
 		divisionList.add(division);
-		Conferences conference = new Conferences("Eastern Conference", divisionList);
-		ArrayList<Conferences> conferenceList = new ArrayList<Conferences>();
+		Conference conference = new Conference("Eastern Conference", divisionList);
+		ArrayList<Conference> conferenceList = new ArrayList<Conference>();
 		conferenceList.add(conference);
-		Leagues league = new Leagues("Dalhousie Hockey League", conferenceList, freePlayerList, coachList, managerList);
+		League league = new League("Dalhousie Hockey League", conferenceList, freePlayerList, coachList, managerList);
 		return league;
 	} 
 	
 	@Override
-	public List<Leagues> getLeagueData(String teamName) {
-		List<Leagues> leagueList = new ArrayList<Leagues>();
-		Leagues league = getTestData();
-		List<Conferences> conferenceList = league.getConferenceList();
-		List<Divisions> divisionList = conferenceList.get(0).getDivisionList();
-		List<Teams> teamList = divisionList.get(0).getTeamList();
+	public List<League> getLeagueData(String teamName) {
+		List<League> leagueList = new ArrayList<League>();
+		League league = getTestData();
+		List<Conference> conferenceList = league.getConferenceList();
+		List<Division> divisionList = conferenceList.get(0).getDivisionList();
+		List<Team> teamList = divisionList.get(0).getTeamList();
 		for(int index = 0; index < teamList.size(); index++) {
 			if(teamList.get(index).getTeamName().equals(teamName)) {
 				leagueList.add(league);
@@ -98,7 +98,7 @@ public class LeagueMockData implements ILeague {
 	
 	@Override
 	public int checkLeagueName(String leagueName) {
-		Leagues league = getTestData();
+		League league = getTestData();
 		int rowCount = 0;
 		if(league.getLeagueName().equals(leagueName)) {
 			rowCount = 1;
@@ -120,7 +120,7 @@ public class LeagueMockData implements ILeague {
 	@Override
 	public boolean persisitCoaches(Coach coach, String teamName, String leagueName) {
 		boolean isValid = false;
-		Leagues league = getTestData();
+		League league = getTestData();
 		for(int index = 0; index < league.getCoaches().size(); index++) {
 			if(coach.getCoachName().equals(league.getCoaches().get(index).getCoachName())) {
 				isValid = true;

@@ -2,7 +2,7 @@ package dal.asd.dpl.SimulationStateMachineTest;
 import dal.asd.dpl.SimulationStateMachine.ParsingState;
 import dal.asd.dpl.SimulationStateMachine.StateContext;
 import dal.asd.dpl.TeamManagement.LeagueMockData;
-import dal.asd.dpl.TeamManagement.Leagues;
+import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.UserInput.CmdUserInput;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.CmdUserOutput;
@@ -47,7 +47,7 @@ public class ParsingStateTest {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
         context.doProcessing();
-        Leagues initializedLeague = leagueDb.getTestData();
+        League initializedLeague = leagueDb.getTestData();
         String expected  = "Welcome to the Parsing State. It's time to parse the JSON and initialize your league.";
         String gotOutput = out.toString().replaceAll("\n", "");
         gotOutput = gotOutput.replaceAll("\r", "");

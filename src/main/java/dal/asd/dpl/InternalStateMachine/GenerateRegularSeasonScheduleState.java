@@ -1,5 +1,5 @@
 package dal.asd.dpl.InternalStateMachine;
-import dal.asd.dpl.TeamManagement.Leagues;
+import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
 import java.util.Calendar;
@@ -12,8 +12,8 @@ public class GenerateRegularSeasonScheduleState implements ISimulationState {
     private String endDate;
     private String year;
     private Calendar seasonCalendar;
-    private Leagues leagueToSimulate;
-    private Standings standings;
+    private League leagueToSimulate;
+    private StandingInfo standings;
     private int currentYear;
     private IUserInput input;
     private IUserOutput output;
@@ -21,10 +21,10 @@ public class GenerateRegularSeasonScheduleState implements ISimulationState {
     private ISchedule schedule;
     private ScheduleUtlity utility;
 
-    public GenerateRegularSeasonScheduleState(Leagues leagueToSimulate, IUserInput input, IUserOutput output, int season, InternalStateContext context) {
+    public GenerateRegularSeasonScheduleState(League leagueToSimulate, IUserInput input, IUserOutput output, int season, InternalStateContext context) {
         this.stateName = "GenerateRegularSeasonSchedule";
         this.leagueToSimulate = leagueToSimulate;
-        this.standings = new Standings(leagueToSimulate, season);
+        this.standings = new StandingInfo(leagueToSimulate, season);
         this.seasonCalendar = Calendar.getInstance();
         this.schedule = new RegularSeasonScheduleState(seasonCalendar, output);
         this.utility = new ScheduleUtlity(season);

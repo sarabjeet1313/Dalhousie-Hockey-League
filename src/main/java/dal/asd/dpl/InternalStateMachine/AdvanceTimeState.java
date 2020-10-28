@@ -1,5 +1,5 @@
 package dal.asd.dpl.InternalStateMachine;
-import dal.asd.dpl.TeamManagement.Leagues;
+import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.UserOutput.IUserOutput;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -17,10 +17,10 @@ public class AdvanceTimeState implements ISimulationState{
     private Calendar calendar;
     private boolean isALastDay;
     private ISchedule matchSchedule;
-    private Leagues leagueToSimulate;
+    private League leagueToSimulate;
     private ScheduleUtlity utility;
 
-    public AdvanceTimeState(ISchedule schedule, Leagues leagueToSimulate, String startDate, String endDate, ScheduleUtlity utlity, IUserOutput output, InternalStateContext context) {
+    public AdvanceTimeState(ISchedule schedule, League leagueToSimulate, String startDate, String endDate, ScheduleUtlity utlity, IUserOutput output, InternalStateContext context) {
         this.stateName = "AdvanceTime";
         this.currentDate = startDate;
         this.endDate = endDate;
