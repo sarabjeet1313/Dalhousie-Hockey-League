@@ -27,9 +27,7 @@ public class AdvanceTimeStateTest {
         seasonCalendar = Calendar.getInstance();
         utility = new ScheduleUtlity(0);
         context = new InternalStateContext(input, output);
-        //TODO to be replaced with mock schedule
-        ISchedule schedule = new RegularSeasonScheduleState(seasonCalendar, output);
-        state = new AdvanceTimeState(schedule,null, "02-04-2021", "03-04-2021", utility, output, context);
+        state = new AdvanceTimeState(null,null, "02-04-2021", "03-04-2021", utility, output, context);
     }
 
     @Test
@@ -37,17 +35,38 @@ public class AdvanceTimeStateTest {
         context.setState(state);
         context.nextState();
         assertEquals("Training", state.getNextStateName());
+        assertNotEquals("Generate Playoff", state.getNextStateName());
     }
 
     @Test
     public void doProcessingTest() {
         state.doProcessing();
         assertEquals("03-04-2021", state.getCurrentDate());
+        assertNotEquals("02-04-2021", state.getCurrentDate());
     }
 
     @Test
-    public void getStateNameTest() {
-        assertEquals("AdvanceTime", state.getStateName());
+    public void incrementCurrentDayTest() {
+        state.incrementCurrentDay();
+        assertEquals("03-04-2021", state.getCurrentDate());
+        assertNotEquals("02-04-2021", state.getCurrentDate());
+    }
+
+    @Test
+    public void isALastDayTest() {
+        state.incrementCurrentDay();
+        assertTrue(state.isALastDay());
+
+        state.setCurrentDate("01-02-2017");
+        state.incrementCurrentDay();
+        assertFalse(state.isALastDay());
+    }
+
+    @Test
+    public void setCurrentDateTest() {
+        state.setCurrentDate("01-02-2027");
+        assertEquals("01-02-2027", state.getCurrentDate());
+        assertNotEquals("03-02-2098", state.getCurrentDate());
     }
 
     @Test
@@ -56,8 +75,15 @@ public class AdvanceTimeStateTest {
     }
 
     @Test
+    public void getStateNameTest() {
+        assertEquals("AdvanceTime", state.getStateName());
+        assertNotEquals("Training", state.getStateName());
+    }
+
+    @Test
     public void getNextStateNameTest() {
         state.nextState(context);
         assertEquals("Training", state.getNextStateName());
+        assertNotEquals("AdvanceTime", state.getNextStateName());
     }
 }

@@ -1,11 +1,7 @@
 package dal.asd.dpl.InternalStateMachine;
 import dal.asd.dpl.TeamManagement.League;
-import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -36,16 +32,13 @@ public class TrainingState implements ISimulationState {
     public void nextState(InternalStateContext context) {
         if(anyUnplayedGames()) {
             this.nextStateName = "SimulateGame";
-            context.setState(new SimulateGameState(leagueToSimulate, schedule, context, utility, currentDate, output));
         }
         else {
             if (utility.isTradeDeadlinePending(this.currentDate)) {
                 this.nextStateName = "Trading";
-                context.setState(new TradingState(leagueToSimulate, schedule, context, utility, currentDate, output));
             }
             else {
                 this.nextStateName = "Aging";
-                context.setState(new AgingState(leagueToSimulate, schedule, context, utility, currentDate, output));
             }
         }
     }
@@ -53,10 +46,8 @@ public class TrainingState implements ISimulationState {
     public void doProcessing() {
 
         // TODO training logic to be implemented.
-
         output.setOutput("Inside Training state");
         output.sendOutput();
-    //    nextState(this.context);
     }
 
     public boolean anyUnplayedGames() {

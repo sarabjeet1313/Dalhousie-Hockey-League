@@ -1,6 +1,5 @@
 package dal.asd.dpl.SimulationStateMachine;
 import dal.asd.dpl.InternalStateMachine.InternalEndState;
-import dal.asd.dpl.InternalStateMachine.InternalSimulationState;
 import dal.asd.dpl.InternalStateMachine.InternalStartState;
 import dal.asd.dpl.InternalStateMachine.InternalStateContext;
 import dal.asd.dpl.TeamManagement.League;

@@ -17,7 +17,7 @@ public class InjuryCheckState implements ISimulationState {
     private String currentDate;
     private IUserOutput output;
 
-    public InjuryCheckState (League leagueToSimulate, ISchedule schedule, InternalStateContext context, ScheduleUtlity utility, String currentDate,  IUserOutput output) {
+    public InjuryCheckState (League leagueToSimulate, ISchedule schedule, InternalStateContext context, ScheduleUtlity utility, String currentDate, IUserOutput output) {
         this.leagueToSimulate = leagueToSimulate;
         this.schedule = schedule;
         this.context = context;
@@ -31,16 +31,13 @@ public class InjuryCheckState implements ISimulationState {
     public void nextState(InternalStateContext context) {
         if(anyUnplayedGames()) {
             this.nextStateName = "SimulateGame";
-            context.setState(new SimulateGameState(leagueToSimulate, schedule, context, utility, currentDate, output));
         }
         else {
             if (utility.isTradeDeadlinePending(this.currentDate)) {
                 this.nextStateName = "Trading";
-                context.setState(new TradingState(leagueToSimulate, schedule, context, utility, currentDate, output));
             }
             else {
                 this.nextStateName = "Aging";
-                context.setState(new AgingState(leagueToSimulate, schedule, context, utility, currentDate, output));
             }
         }
     }
@@ -49,7 +46,6 @@ public class InjuryCheckState implements ISimulationState {
 
         output.setOutput("Inside Injury Check state");
         output.sendOutput();
-    //    nextState(this.context);
     }
 
     private boolean anyUnplayedGames() {
