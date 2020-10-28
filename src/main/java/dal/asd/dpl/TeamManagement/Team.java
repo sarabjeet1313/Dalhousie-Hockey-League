@@ -142,6 +142,10 @@ public class Team implements ITeamPlayersInfo, ITeamInfo, IInjuryStatus {
 								player.setDaysInjured(returnedPlayer.getDaysInjured());
 							}
 						}
+
+						league.getConferenceList().get(index).getDivisionList().get(dIndex).getTeamList()
+								.get(tIndex).setPlayerList(playersByTeam);
+
 						break;
 					}
 				}

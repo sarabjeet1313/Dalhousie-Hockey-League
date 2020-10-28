@@ -36,23 +36,20 @@ public class AdvanceTimeState implements ISimulationState{
     public void nextState(InternalStateContext context) {
         if(isALastDay){
             this.nextStateName = "GeneratePlayoffSchedule";
-            context.setState(new GeneratePlayoffScheduleState(leagueToSimulate, utility, currentDate, output, context));
         }
         else {
             this.nextStateName = "Training";
-            context.setState(new TrainingState(leagueToSimulate, matchSchedule, utility,  currentDate, output, context));
         }
     }
 
     public void doProcessing() {
         output.setOutput("Advanced the date by one day");
         output.sendOutput();
-
         incrementCurrentDay();
     }
 
     public void incrementCurrentDay(){
-
+        this.isALastDay = false;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         this.currentDate = LocalDate.parse(this.currentDate, formatter).plusDays(1).format(formatter).toString();
 
@@ -61,7 +58,13 @@ public class AdvanceTimeState implements ISimulationState{
         }
     }
 
-    public String getCurrentDate() {return this.currentDate;}
+    public void setCurrentDate(String date) {
+        this.currentDate = date;
+    }
+
+    public String getCurrentDate() {
+        return this.currentDate;
+    }
 
     public String getStateName() {
         return this.stateName;

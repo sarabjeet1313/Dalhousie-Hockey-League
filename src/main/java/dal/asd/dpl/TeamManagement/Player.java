@@ -178,6 +178,7 @@ public class Player implements IPlayerInfo, IInjuryCalculator, IAgingCalculator 
 	public League increaseAge(int days, League league) {
 		List<Conference> conferenceList = league.getConferenceList();
 		int maximumRetirementAge = league.getGameConfig().getAging().getMaximumAge();
+		List<Player> freeAgentsList = league.getFreeAgents();
 
 		for (int index = 0; index < conferenceList.size(); index++) {
 			List<Division> divisionList = conferenceList.get(index).getDivisionList();
@@ -193,10 +194,21 @@ public class Player implements IPlayerInfo, IInjuryCalculator, IAgingCalculator 
 							player.setRetireStatus(true);
 						}
 					}
+					league.getConferenceList().get(index).getDivisionList().get(dIndex).getTeamList().get(tIndex).setPlayerList(playersByTeam);
 				}
 			}
 		}
+		
+		for (Player freeplayer : freeAgentsList) {
+			int years = freeplayer.getAge();
+			freeplayer.setAge(years + (int) (days / 365));
 
+			if (freeplayer.getAge() > maximumRetirementAge) {
+				freeplayer.setRetireStatus(true);
+			}
+		}
+		
+		league.setFreeAgents(freeAgentsList);
 		IRetirementManager retirementManager = new RetirementManagement();
 		return retirementManager.replaceRetiredPlayers(league);
 	}

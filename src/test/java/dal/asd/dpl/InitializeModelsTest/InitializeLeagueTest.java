@@ -13,7 +13,7 @@ import org.junit.Before;
 import java.net.URL;
 import static org.junit.Assert.*;
 
-public class InitializeLeaguesTest {
+public class InitializeLeagueTest {
 
     private static InitializeLeagues league;
 
