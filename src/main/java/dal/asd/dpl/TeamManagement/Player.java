@@ -169,7 +169,7 @@ public class Player implements IPlayerInfo, IInjuryCalculator, IAgingCalculator 
 			int injuryDays = random.nextInt(injuryDaysHigh - injuryDaysLow) + injuryDaysLow;
 			player.setDaysInjured(injuryDays);
 		}
-		injurypublisher.notify(player);
+		injurypublisher.notify(player.getPlayerName(), player.getDaysInjured());
 		return player;
 
 	}

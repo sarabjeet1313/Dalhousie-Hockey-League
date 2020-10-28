@@ -29,8 +29,7 @@ public class InjuryTest {
 	
 	@Test
 	public void outputJsonTest() {
-		Player player = new Player("Player1", "Defense", false, 1, 1, 2, 1, 1, true, false, 0);
-		publisher.notify(player);
-		//assertEquals(OutputConstants.INJURY, console.toString().trim());
+		publisher.notify("Wayne Gretzky", 20);
+		assertEquals(OutputConstants.INJURY, console.toString().trim());
 	}
 }

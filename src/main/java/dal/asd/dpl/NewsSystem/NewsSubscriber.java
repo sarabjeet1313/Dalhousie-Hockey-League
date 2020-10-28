@@ -35,7 +35,6 @@ public class NewsSubscriber implements ITradeInfo, IGamesPlayedInfo, IInjuryInfo
         Map<String, Map<String, Object>> trades = new LinkedHashMap<String, Map<String, Object>>(2);
         trades.put(FROM, createTrade(fromTeam, playersTraded[0]));
         trades.put(TO, createTrade(toTeam, playersTraded[1]));
-
         System.out.println(convertToJsonString(trades));
     }
 
@@ -45,16 +44,14 @@ public class NewsSubscriber implements ITradeInfo, IGamesPlayedInfo, IInjuryInfo
         gamePlayed.put(WINNER, winner);
         gamePlayed.put(LOSER, loser);
         gamePlayed.put(DATE, datePlayed);
-
         System.out.println(convertToJsonString(gamePlayed));
     }
 
     @Override
-    public void updateInjuries(Player player) {
+    public void updateInjuries(String player, int daysInjured) {
         Map<String, Object> injury = new LinkedHashMap<String, Object>(2);
-        injury.put(PLAYER, player.getPlayerName());
-        injury.put(DAYS_INJURED, player.getDaysInjured());
-
+        injury.put(PLAYER, player);
+        injury.put(DAYS_INJURED, daysInjured);
         System.out.println(convertToJsonString(injury));
     }
 
@@ -70,7 +67,6 @@ public class NewsSubscriber implements ITradeInfo, IGamesPlayedInfo, IInjuryInfo
         Map<String, Object> retirement = new LinkedHashMap<String, Object>(2);
         retirement.put(PLAYER, player);
         retirement.put(AGE, age);
-
         System.out.println(convertToJsonString(retirement));
 
     }
@@ -85,7 +81,6 @@ public class NewsSubscriber implements ITradeInfo, IGamesPlayedInfo, IInjuryInfo
     private String convertToJsonString(Object object) {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         String tradesJson = gson.toJson(object);
-
         return tradesJson;
     }
 

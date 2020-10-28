@@ -21,9 +21,9 @@ public class InjuryPublisher {
 		this.subscribers.remove(subscriber);
 	}
 
-	public void notify(Player player) {
+	public void notify(String player, int daysInjured) {
 		for(IInjuryInfo subscriber : this.subscribers) {
-			subscriber.updateInjuries(player);
+			subscriber.updateInjuries(player, daysInjured);
 		}
 	}
 }
