@@ -1,0 +1,138 @@
+{
+	"leagueName": "Dal Hockey League",
+	"gameplayConfig": {
+		"aging": {
+			"averageRetirementAge": 35,
+			"maximumAge": 50
+		},
+		"gameResolver": {
+			"randomWinChance": 0.1
+		},
+		"injuries": {
+			"randomInjuryChance": 0.05,
+			"injuryDaysLow": 1,
+			"injuryDaysHigh": 260
+		},
+		"training": {
+			"daysUntilStatIncreaseCheck": 100
+		},
+		"trading": {
+			"lossPoint": 8,
+			"randomTradeOfferChance": 0.05,
+			"maxPlayersPerTrade": 2,
+			"randomAcceptanceChance": 0.05
+		}
+	},
+	"conferences": [
+		{
+			"conferenceName": "Eastern Conference",
+			"divisions": [
+				{
+					"divisionName": "Atlantic",
+					"teams": [
+						{
+							"teamName": "Boston",
+							"generalManager": "Mister Fred",
+							"headCoach": {
+								"name": "Mary Smith",
+								"skating": 0.5,
+								"shooting": 0.8,
+								"checking": 0.3,
+								"saving": 0.5
+							},
+							"players": [
+								{
+									"playerName": "Player One",
+									"position": "forward",
+									"captain": true,
+									"age": 27,
+									"skating": 15,
+									"shooting": 18,
+									"checking": 12,
+									"saving": 0
+								},
+								{
+									"playerName": "Player Two",
+									"position": "defense",
+									"captain": false,
+									"age": 20,
+									"skating": 10,
+									"shooting": 10,
+									"checking": 10,
+									"saving": 0
+								},
+								{
+									"playerName": "Player Three",
+									"position": "goalie",
+									"captain": false,
+									"age": 33,
+									"skating": 10,
+									"shooting": 4,
+									"checking": 9,
+									"saving": 18
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"freeAgents": [
+		{
+			"playerName": "Agent One",
+			"position": "forward",
+			"age": 25,
+			"skating": 10,
+			"shooting": 10,
+			"checking": 10,
+			"saving": 0
+		},
+		{
+			"playerName": "Agent Two",
+			"position": "defense",
+			"age": 25,
+			"skating": 10,
+			"shooting": 10,
+			"checking": 10,
+			"saving": 0
+		},
+		{
+			"playerName": "Agent Three",
+			"position": "goalie",
+			"age": 25,
+			"skating": 10,
+			"shooting": 5,
+			"checking": 5,
+			"saving": 10
+		}
+	],
+	"coaches": [
+		{
+			"name": "Joe Smith",
+			"skating": 0.5,
+			"shooting": 0.8,
+			"checking": 0.3,
+			"saving": 1.0
+		},
+		{
+			"name": "Frank Smith",
+			"skating": 0.5,
+			"shooting": 0.8,
+			"checking": 0.3,
+			"saving": 0.5
+		},
+		{
+			"name": "Samantha Smith",
+			"skating": 1.0,
+			"shooting": 0.5,
+			"checking": 0.5,
+			"saving": 0.0
+		}
+	],
+	"generalManagers": [
+		"Karen Potam",
+		"Joseph Squidly",
+		"Tom Spaghetti"
+	]
+}

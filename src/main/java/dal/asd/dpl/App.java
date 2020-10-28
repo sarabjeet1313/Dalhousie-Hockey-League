@@ -16,6 +16,7 @@ public class App {
         ILeague leagueDb = new LeagueDataDB();
         StateContext context = new StateContext(input, output);
         context.setState(new InitialState(input, output));
+        
 
         context.doProcessing();
 
