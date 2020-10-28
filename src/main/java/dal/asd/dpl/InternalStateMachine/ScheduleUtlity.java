@@ -54,6 +54,11 @@ public class ScheduleUtlity {
         return lastDay;
     }
 
+    public String getNextRegularSeasonStartDay() {
+        String nextSeasonStartDay = "30-09-" + this.playoffYear;
+        return nextSeasonStartDay;
+    }
+
     public String getSeasonWinner() {
         return seasonWinner;
     }

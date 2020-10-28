@@ -28,12 +28,24 @@ public class StandingInfo {
         this.season = season;
     }
 
-    public void updateTeamWinMap(String teamName, int wins){
-        teamWinMap.put(teamName, wins);
+    public void updateTeamWinMap(String teamName){
+        if(teamWinMap.containsKey(teamName)){
+            int wins = teamWinMap.get(teamName);
+            teamWinMap.put(teamName, wins+1);
+        }
+        else {
+            teamWinMap.put(teamName, 1);
+        }
     }
 
-    public void updateTeamLoseMap(String teamName, int losses){
-        teamLoseMap.put(teamName, losses);
+    public void updateTeamLoseMap(String teamName){
+        if(teamLoseMap.containsKey(teamName)){
+            int loses = teamLoseMap.get(teamName);
+            teamLoseMap.put(teamName, loses+1);
+        }
+        else {
+            teamLoseMap.put(teamName, 1);
+        }
     }
 
     public boolean initializeStandings() {
@@ -72,7 +84,9 @@ public class StandingInfo {
             for(int i=0; i < noOfMatchesWon; i++){
                 updateStandingsWin(teamWon);
             }
+            teamWinMap.put(teamWon, 0);
         }
+
         for (Map.Entry<String, Integer> entry : this.teamLoseMap.entrySet()) {
             String teamLose = entry.getKey();
             int noOfMatchesLose = entry.getValue();
@@ -80,6 +94,7 @@ public class StandingInfo {
             for(int i=0; i < noOfMatchesLose; i++){
                 updateStandingsLosses(teamLose);
             }
+            teamLoseMap.put(teamLose, 0);
         }
     }
 
