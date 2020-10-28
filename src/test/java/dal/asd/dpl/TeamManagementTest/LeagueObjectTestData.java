@@ -81,9 +81,11 @@ public class LeagueObjectTestData {
 		managerList.add("Karen Potam");
 		managerList.add("Joseph Squidly");
 		managerList.add("Tom Spaghetti");
-		Team team = new Team("Boston", "Mister Fred", headCoach, playerList);
+		Team team1 = new Team("Boston", "Mister Fred", headCoach, playerList);
+		Team team2 = new Team("Halifax", "Mister Fred", headCoach, playerList);
 		ArrayList<Team> teamList = new ArrayList<Team>();
-		teamList.add(team);
+		teamList.add(team1);
+		teamList.add(team2);
 		Division division = new Division("Atlantic", teamList);
 		ArrayList<Division> divisionList = new ArrayList<Division>();
 		divisionList.add(division);

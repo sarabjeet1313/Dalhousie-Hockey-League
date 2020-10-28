@@ -118,7 +118,6 @@ public class League {
 		}
 		return isValid;
 	}
-
 	public boolean createTeam(League league, ILeague object) {
 		boolean isCreated = false, captain = false;
 		String leagueName = league.getLeagueName();
@@ -168,7 +167,6 @@ public class League {
 
 		return isCreated;
 	}
-
 	public boolean saveCoaches(League league, ILeague object) {
 		List<Coach> coachList = league.getCoaches();
 		String leagueName = league.getLeagueName();
