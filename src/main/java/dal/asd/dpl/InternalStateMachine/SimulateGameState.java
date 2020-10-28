@@ -1,6 +1,10 @@
 package dal.asd.dpl.InternalStateMachine;
 
+import dal.asd.dpl.NewsSystem.GamePlayedPublisher;
+import dal.asd.dpl.NewsSystem.NewsSubscriber;
+import dal.asd.dpl.TeamManagement.ITeamInfo;
 import dal.asd.dpl.TeamManagement.League;
+import dal.asd.dpl.TeamManagement.Team;
 import dal.asd.dpl.UserOutput.IUserOutput;
 
 import java.util.ArrayList;
@@ -18,6 +22,9 @@ public class SimulateGameState implements ISimulationState {
     private ScheduleUtlity utility;
     private String currentDate;
     private IUserOutput output;
+    private GamePlayedPublisher gamePublisher;
+    private ITeamInfo teamInfo;
+    private double randomWinChance;
 
 
     public SimulateGameState(League leagueToSimulate, ISchedule schedule, StandingInfo standings, InternalStateContext context, ScheduleUtlity utility, String currentDate, IUserOutput output) {
@@ -28,8 +35,11 @@ public class SimulateGameState implements ISimulationState {
         this.context = context;
         this.utility = utility;
         this.currentDate = currentDate;
+        this.randomWinChance = leagueToSimulate.getGameConfig().getGameResolver().getRandomWinChance();
         this.output = output;
-
+        this.teamInfo = new Team();
+        this.gamePublisher = new GamePlayedPublisher();
+        this.gamePublisher.subscribe(NewsSubscriber.getInstance());
     }
 
     public void nextState(InternalStateContext context) {
@@ -52,16 +62,39 @@ public class SimulateGameState implements ISimulationState {
                     for (Map.Entry<String, String> entry : teamsCompeting.entrySet()) {
                         String firstTeam = entry.getKey();
                         String secondTeam = entry.getValue();
+
                         output.setOutput("Match is going on between " + firstTeam + " vs " + secondTeam);
                         output.sendOutput();
-                        // TODO Satya's method call.
-                //        double strength = satyaMethod(leagueToSimulate, firstTeam);
-                //        double strength = satyaMethod(leagueToSimulate, firstTeam);
-                        // TODO update dB with the result.
 
+                        String winningTeam = "";
+                        String losingTeam = "";
+                        double team1Strength = teamInfo.getTeamStrength(firstTeam, leagueToSimulate);
+                        double team2Strength = teamInfo.getTeamStrength(secondTeam, leagueToSimulate);
 
-                      //  standings.updateTeamWinMap(teamWon, 1);
-                        // standings.updateTeamLoseMap(teamLose, 1);
+                        if(teamInfo.shouldReverseResult(randomWinChance)){
+                            if(team1Strength <= team2Strength){
+                                winningTeam = firstTeam;
+                                losingTeam = secondTeam;
+                            }
+                            else {
+                                winningTeam = secondTeam;
+                                losingTeam = firstTeam;
+                            }
+                        }
+                        else {
+                            if(team1Strength >= team2Strength){
+                                winningTeam = firstTeam;
+                                losingTeam = secondTeam;
+                            }
+                            else {
+                                winningTeam = secondTeam;
+                                losingTeam = firstTeam;
+                            }
+                        }
+
+                        gamePublisher.notify(winningTeam, losingTeam, currentDate);
+                        standings.updateTeamWinMap(winningTeam);
+                        standings.updateTeamLoseMap(losingTeam);
                     }
                     teamsCompetingList.remove(0);
                     currentSchedule.put(this.currentDate, teamsCompetingList);
@@ -83,15 +116,44 @@ public class SimulateGameState implements ISimulationState {
                         int team2Win = 0;
                         // best of seven series
                         for (int i = 0; i < 7; i++) {
+                            if(team1Win >= 4 || team2Win >=4) {
+                                break;
+                            }
                             output.setOutput("Match is going on between " + firstTeam + " vs " + secondTeam);
                             output.sendOutput();
-                            // TODO Satya's method call.
-                            // TODO handle the individual wins
-                            // TODO update dB with the result.
-                        }
 
-                        // standings.updateTeamWinMap(firstTeam, team1Win);
-                        // standings.updateTeamLoseMap(secondTeam, team2Win);
+                            String winningTeam = "";
+                            String losingTeam = "";
+                            double team1Strength = teamInfo.getTeamStrength(firstTeam, leagueToSimulate);
+                            double team2Strength = teamInfo.getTeamStrength(secondTeam, leagueToSimulate);
+                            if(teamInfo.shouldReverseResult(randomWinChance)){
+                                if(team1Strength <= team2Strength){
+                                    winningTeam = firstTeam;
+                                    losingTeam = secondTeam;
+                                    team1Win++;
+                                }
+                                else {
+                                    winningTeam = secondTeam;
+                                    losingTeam = firstTeam;
+                                    team2Win++;
+                                }
+                            }
+                            else {
+                                if(team1Strength >= team2Strength){
+                                    winningTeam = firstTeam;
+                                    losingTeam = secondTeam;
+                                    team1Win++;
+                                }
+                                else {
+                                    winningTeam = secondTeam;
+                                    losingTeam = firstTeam;
+                                    team2Win++;
+                                }
+                            }
+                            gamePublisher.notify(winningTeam, losingTeam, currentDate);
+                            standings.updateTeamWinMap(winningTeam);
+                            standings.updateTeamLoseMap(losingTeam);
+                        }
 
                         if (team1Win > team2Win) {
                             List<String> teams = schedule.getTeamsToBeScheduled();
@@ -148,13 +210,10 @@ public class SimulateGameState implements ISimulationState {
                         }
                     }
                     currentSchedule.remove(this.currentDate);
-//                teamsCompetingList.remove(0);
-//                currentSchedule.put(this.currentDate, teamsCompetingList);
                     schedule.setFinalSchedule(currentSchedule);
                 }
             }
         }
-     //   nextState(this.context);
     }
 
     public String getStateName() {
