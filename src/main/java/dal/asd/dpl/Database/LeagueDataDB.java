@@ -40,14 +40,16 @@ public class LeagueDataDB implements ILeague {
 			while (result.next()) {
 				if (!flag && !tempLeagueName.equals(result.getString("leagueName"))) {
 					flag = true;
-					league.getConferenceList().get(0).getDivisionList().get(0).getTeamList().get(0).setPlayerList(playerList);
+					league.getConferenceList().get(0).getDivisionList().get(0).getTeamList().get(0)
+							.setPlayerList(playerList);
 					leagueList.add(league);
 					playerList.clear();
 				}
 				if (flag) {
 					Coach headCoach = new Coach(result.getString("name"), result.getDouble("skating"),
 							result.getDouble("shooting"), result.getDouble("checking"), result.getDouble("saving"));
-					Team team = new Team(result.getString("teamName"), result.getString("generalManager"), headCoach, playerList);
+					Team team = new Team(result.getString("teamName"), result.getString("generalManager"), headCoach,
+							playerList);
 					teamList.add(team);
 					Division division = new Division(result.getString("divisionName"), teamList);
 					divisionList.add(division);
@@ -62,7 +64,8 @@ public class LeagueDataDB implements ILeague {
 					Training training = null;
 					Trading trading = null;
 					GameplayConfig config = null;
-					league = new League(result.getString("leagueName"), conferenceList, freeAgents,  coachesList, managers, config);
+					league = new League(result.getString("leagueName"), conferenceList, freeAgents, coachesList,
+							managers, config);
 					tempLeagueName = result.getString("leagueName");
 					flag = false;
 				}
@@ -173,7 +176,7 @@ public class LeagueDataDB implements ILeague {
 		}
 		return isPersisted;
 	}
-	
+
 	@Override
 	public boolean persisitRetiredPlayers(Player player, String teamName, League league) {
 		boolean isPersisted = false;
