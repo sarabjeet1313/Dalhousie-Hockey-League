@@ -67,6 +67,7 @@ public class LeagueMockData implements ILeague, ITeamPlayersInfo {
 	Injury injury = new Injury(0.05, 1, 260);
 	Training training = new Training(100);
 	Trading trading = new Trading(8, 0.05, 2, 0.05);
+	League league = getTestData();
 	
 	public League getTestData() {
 		playerList.add(player1);
@@ -109,10 +110,6 @@ public class LeagueMockData implements ILeague, ITeamPlayersInfo {
 		for(int index = 0; index < teamList.size(); index++) {
 			if(teamList.get(index).getTeamName().equals(teamName)) {
 				leagueList.add(league);
-				return leagueList;
-			}
-			else {
-				return null;
 			}
 		}
 		return leagueList;
@@ -142,7 +139,6 @@ public class LeagueMockData implements ILeague, ITeamPlayersInfo {
 	@Override
 	public boolean persisitCoaches(Coach coach, String teamName, String leagueName) {
 		boolean isValid = false;
-		League league = getTestData();
 		for(int index = 0; index < league.getCoaches().size(); index++) {
 			if(coach.getCoachName().equals(league.getCoaches().get(index).getCoachName())) {
 				isValid = true;
@@ -160,6 +156,17 @@ public class LeagueMockData implements ILeague, ITeamPlayersInfo {
 		playerList.add(this.player3);
 
 		return playerList;
+	}
+
+	@Override
+	public boolean persisitRetiredPlayers(Player player, String teamName, League league) {
+		boolean isValid = false;
+		for(int index = 0; index < league.getFreeAgents().size(); index++) {
+			if(player.getPlayerName().equals(league.getFreeAgents().get(index).getPlayerName())) {
+				isValid = true;
+			}
+		}
+		return isValid;
 	}
 	
 }

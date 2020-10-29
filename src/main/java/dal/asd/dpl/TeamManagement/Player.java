@@ -18,6 +18,10 @@ public class Player implements IPlayerInfo, IInjuryCalculator, IAgingCalculator 
 	private boolean retireStatus;
 	private int daysInjured;
 
+	public Player() {
+		super();
+	}
+
 	public Player(String playerName, String position, boolean captain, int age, int skating, int shooting, int checking,
 			int saving, boolean isInjured, boolean retireStatus, int daysInjured) {
 		super();
@@ -186,11 +190,12 @@ public class Player implements IPlayerInfo, IInjuryCalculator, IAgingCalculator 
 							player.setRetireStatus(true);
 						}
 					}
-					league.getConferenceList().get(index).getDivisionList().get(dIndex).getTeamList().get(tIndex).setPlayerList(playersByTeam);
+					league.getConferenceList().get(index).getDivisionList().get(dIndex).getTeamList().get(tIndex)
+							.setPlayerList(playersByTeam);
 				}
 			}
 		}
-		
+
 		for (Player freeplayer : freeAgentsList) {
 			int years = freeplayer.getAge();
 			freeplayer.setAge(years + (int) (days / 365));
@@ -199,7 +204,7 @@ public class Player implements IPlayerInfo, IInjuryCalculator, IAgingCalculator 
 				freeplayer.setRetireStatus(true);
 			}
 		}
-		
+
 		league.setFreeAgents(freeAgentsList);
 		IRetirementManager retirementManager = new RetirementManagement();
 		return retirementManager.replaceRetiredPlayers(league);

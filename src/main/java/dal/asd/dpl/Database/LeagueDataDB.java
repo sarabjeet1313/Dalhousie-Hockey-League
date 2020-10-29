@@ -173,5 +173,30 @@ public class LeagueDataDB implements ILeague {
 		}
 		return isPersisted;
 	}
+	
+	@Override
+	public boolean persisitRetiredPlayers(Player player, String teamName, League league) {
+		boolean isPersisted = false;
+		ResultSet result;
+		try {
+			isp = new InvokeStoredProcedure("spRetiredPlayer(?,?,?)");
+			isp.setParameter(1, league.getLeagueName());
+			isp.setParameter(2, teamName);
+			isp.setParameter(3, player.getPlayerName());
+			result = isp.executeQueryWithResults();
+			while (result.next()) {
+				isPersisted = result.getBoolean("success");
+			}
+		} catch (Exception e) {
+			System.out.println("Database Error:" + e.getMessage());
+		} finally {
+			try {
+				isp.closeConnection();
+			} catch (SQLException e) {
+				System.out.println("Database Error:" + e.getMessage());
+			}
+		}
+		return isPersisted;
+	}
 
 }
