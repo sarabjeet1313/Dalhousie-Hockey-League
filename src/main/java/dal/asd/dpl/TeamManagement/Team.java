@@ -10,6 +10,9 @@ public class Team implements ITeamPlayersInfo, ITeamInfo, IInjuryStatus {
 	private Coach headCoach;
 	private List<Player> playerList;
 
+	public Team() {
+
+	}
 	public Team(String teamName, String generalManager, Coach headCoach, List<Player> playerList) {
 		this.teamName = teamName;
 		this.generalManager = generalManager;
@@ -142,15 +145,27 @@ public class Team implements ITeamPlayersInfo, ITeamInfo, IInjuryStatus {
 								player.setDaysInjured(returnedPlayer.getDaysInjured());
 							}
 						}
-						
+
 						league.getConferenceList().get(index).getDivisionList().get(dIndex).getTeamList()
 								.get(tIndex).setPlayerList(playersByTeam);
-						
+
 						break;
 					}
 				}
 			}
 		}
 		return league;
+	}
+
+	@Override
+	public boolean shouldReverseResult(double randomChance){
+		double result = Math.random();
+
+		if(result < randomChance) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 }

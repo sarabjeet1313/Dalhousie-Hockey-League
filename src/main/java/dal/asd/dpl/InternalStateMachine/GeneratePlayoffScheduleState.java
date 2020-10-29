@@ -3,8 +3,6 @@ import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
 
-import java.util.Calendar;
-
 public class GeneratePlayoffScheduleState implements ISimulationState {
 
     private String stateName;
@@ -15,17 +13,19 @@ public class GeneratePlayoffScheduleState implements ISimulationState {
     private League leagueToSimulate;
     private IUserOutput output;
     private ScheduleUtlity utility;
+    private StandingInfo standings;
     private InternalStateContext context;
     private ISchedule schedule;
 
-    public GeneratePlayoffScheduleState(League leagueToSimulate, ScheduleUtlity utility, String currentDate, IUserOutput output, InternalStateContext context) {
+    public GeneratePlayoffScheduleState(League leagueToSimulate, ScheduleUtlity utility, StandingInfo standings, String currentDate, IUserOutput output, InternalStateContext context) {
         this.stateName = "GeneratePlayoffSchedule";
         this.nextStateName = "Training";
         this.output = output;
         this.utility = utility;
+        this.standings = standings;
         this.currentDate = currentDate;
         this.leagueToSimulate = leagueToSimulate;
-        this.schedule = new PlayoffScheduleState(output);
+        this.schedule = new PlayoffScheduleState(output, standings);
         this.context = context;
         this.startDate = this.utility.getPlayoffFirstDay();
         schedule.setFirstDay(startDate);
@@ -33,8 +33,6 @@ public class GeneratePlayoffScheduleState implements ISimulationState {
         this.endDate = this.utility.getPlayoffLastDay();
         schedule.setLastDay(endDate);
         utility.setLastSeasonDay(this.endDate);
-
-       // doProcessing();
     }
 
     public void nextState(InternalStateContext context) {
@@ -58,7 +56,6 @@ public class GeneratePlayoffScheduleState implements ISimulationState {
         output.sendOutput();
 
         schedule.setCurrentDay(this.startDate);
-      //  nextState(this.context);
     }
 
     public String getStateName() {

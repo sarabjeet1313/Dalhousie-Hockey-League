@@ -37,8 +37,8 @@ public class TradingState implements ISimulationState {
         output.sendOutput();
 
         //TODO call Breej's method to do trade
+        // leagueToSimulate = Trade.method(leagueToSimulate);
 
-      //  nextState(this.context);
     }
 
     public String getStateName() {
