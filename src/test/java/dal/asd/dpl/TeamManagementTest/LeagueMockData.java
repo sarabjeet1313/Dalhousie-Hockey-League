@@ -20,7 +20,7 @@ import dal.asd.dpl.TeamManagement.Player;
 import dal.asd.dpl.TeamManagement.Team;
 
 public class LeagueMockData implements ILeague, ITeamPlayersInfo {
-	
+
 	private Player player1 = new Player("Player One", "forward", true, 49, 1, 1, 1, 1, false, false, 0);
 	private Player player2 = new Player("Player Two", "defense", false, 51, 1, 1, 1, 1, false, true, 0);
 	private Player player3 = new Player("Player Three", "goalie", false, 1, 1, 1, 1, 1, false, false, 0);
@@ -67,14 +67,15 @@ public class LeagueMockData implements ILeague, ITeamPlayersInfo {
 	Injury injury = new Injury(0.05, 1, 260);
 	Training training = new Training(100);
 	Trading trading = new Trading(8, 0.05, 2, 0.05);
-	
+	League league = getTestData();
+
 	public League getTestData() {
 		playerList.add(player1);
 		playerList.add(player2);
 		playerList.add(player3);
 		List<Player> agentList = Arrays.asList(player4, player5, player6, agent1, agent2, agent3, agent4, agent5,
-				agent6, agent7, agent8, agent9, agent10, agent11, agent12, agent13, agent14, agent15, agent16, 
-				agent17, agent18, agent19, agent20, agent21, agent22, agent23, agent24, agent25, agent26, agent27);
+				agent6, agent7, agent8, agent9, agent10, agent11, agent12, agent13, agent14, agent15, agent16, agent17,
+				agent18, agent19, agent20, agent21, agent22, agent23, agent24, agent25, agent26, agent27);
 		freePlayerList.addAll(agentList);
 		coachList.add(coach1);
 		coachList.add(coach2);
@@ -95,10 +96,11 @@ public class LeagueMockData implements ILeague, ITeamPlayersInfo {
 		ArrayList<Conference> conferenceList = new ArrayList<Conference>();
 		conferenceList.add(conference);
 		GameplayConfig config = new GameplayConfig(aging, gameResolver, injury, training, trading);
-		League league = new League("Dalhousie Hockey League", conferenceList, freePlayerList, coachList, managerList, config);
+		League league = new League("Dalhousie Hockey League", conferenceList, freePlayerList, coachList, managerList,
+				config);
 		return league;
-	} 
-	
+	}
+
 	@Override
 	public List<League> getLeagueData(String teamName) {
 		List<League> leagueList = new ArrayList<League>();
@@ -106,45 +108,40 @@ public class LeagueMockData implements ILeague, ITeamPlayersInfo {
 		List<Conference> conferenceList = league.getConferenceList();
 		List<Division> divisionList = conferenceList.get(0).getDivisionList();
 		List<Team> teamList = divisionList.get(0).getTeamList();
-		for(int index = 0; index < teamList.size(); index++) {
-			if(teamList.get(index).getTeamName().equals(teamName)) {
+		for (int index = 0; index < teamList.size(); index++) {
+			if (teamList.get(index).getTeamName().equals(teamName)) {
 				leagueList.add(league);
-				return leagueList;
-			}
-			else {
-				return null;
 			}
 		}
 		return leagueList;
 	}
-	
+
 	@Override
 	public int checkLeagueName(String leagueName) {
 		League league = getTestData();
 		int rowCount = 0;
-		if(league.getLeagueName().equals(leagueName)) {
+		if (league.getLeagueName().equals(leagueName)) {
 			rowCount = 1;
 		}
 		return rowCount;
 	}
-	
+
 	@Override
 	public boolean persisitLeagueData(String leagueName, String conferenceName, String divisionName, String teamName,
 			String generalManager, String headCoach, Player player) {
-		if(teamName.equals("Empty")) {
-			List<Player> playerList = new ArrayList<Player>() ;
+		if (teamName.equals("Empty")) {
+			List<Player> playerList = new ArrayList<Player>();
 			playerList.add(player1);
 		}
-		
+
 		return true;
 	}
 
 	@Override
 	public boolean persisitCoaches(Coach coach, String teamName, String leagueName) {
 		boolean isValid = false;
-		League league = getTestData();
-		for(int index = 0; index < league.getCoaches().size(); index++) {
-			if(coach.getCoachName().equals(league.getCoaches().get(index).getCoachName())) {
+		for (int index = 0; index < league.getCoaches().size(); index++) {
+			if (coach.getCoachName().equals(league.getCoaches().get(index).getCoachName())) {
 				isValid = true;
 			}
 		}
@@ -153,13 +150,24 @@ public class LeagueMockData implements ILeague, ITeamPlayersInfo {
 
 	@Override
 	public List<Player> getPlayersByTeam(String teamName, League league) {
-		
-		List<Player> playerList=new ArrayList<Player>();
+
+		List<Player> playerList = new ArrayList<Player>();
 		playerList.add(this.player1);
 		playerList.add(this.player2);
 		playerList.add(this.player3);
 
 		return playerList;
 	}
-	
+
+	@Override
+	public boolean persisitRetiredPlayers(Player player, String teamName, League league) {
+		boolean isValid = false;
+		for (int index = 0; index < league.getFreeAgents().size(); index++) {
+			if (player.getPlayerName().equals(league.getFreeAgents().get(index).getPlayerName())) {
+				isValid = true;
+			}
+		}
+		return isValid;
+	}
+
 }

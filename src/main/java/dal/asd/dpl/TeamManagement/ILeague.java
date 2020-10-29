@@ -13,4 +13,6 @@ public interface ILeague {
 	
 	public boolean persisitCoaches(Coach coach, String teamName, String leagueName);
 	
+	public boolean persisitRetiredPlayers(Player player, String teamName, League league);
+	
 }
