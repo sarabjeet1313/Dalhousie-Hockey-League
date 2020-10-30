@@ -25,8 +25,6 @@ public class TrainingState implements ISimulationState {
         this.currentDate = currentDate;
         this.utility = utility;
         this.stateName = "Training";
-
-       // doProcessing();
     }
 
     public void nextState(InternalStateContext context) {

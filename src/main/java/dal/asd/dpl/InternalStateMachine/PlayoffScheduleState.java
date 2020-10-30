@@ -26,7 +26,7 @@ public class PlayoffScheduleState implements ISchedule {
     private List<String> teamsToBeScheduled;
     private List<String> teamsScheduled;
 
-    PlayoffScheduleState(IUserOutput output, StandingInfo standings){
+    public PlayoffScheduleState(IUserOutput output, StandingInfo standings){
         this.calendar = Calendar.getInstance();
         this.output = output;
         this.standings = standings;
@@ -86,7 +86,6 @@ public class PlayoffScheduleState implements ISchedule {
     }
 
     public void generateSchedule(League leagueToSimulate){
-//        incrementCurrentDay();
         setMatchesPerDay();
         populateInternalModel(leagueToSimulate);
 

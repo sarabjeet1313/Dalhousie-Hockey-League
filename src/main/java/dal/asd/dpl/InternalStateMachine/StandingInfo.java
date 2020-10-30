@@ -168,7 +168,6 @@ public class StandingInfo {
             }
         }
         return isInserted;
-
     }
 
     public List<String> getTopDivisionTeams(String divisionName) {
