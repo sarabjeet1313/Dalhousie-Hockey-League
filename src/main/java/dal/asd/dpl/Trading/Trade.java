@@ -1,5 +1,6 @@
 package dal.asd.dpl.Trading;
 
+import dal.asd.dpl.NewsSystem.TradePublisher;
 import dal.asd.dpl.TeamManagement.*;
 
 import java.util.ArrayList;
@@ -19,7 +20,9 @@ public class Trade implements ITrade {
     private List<Player> playerListOfferTeam;
     private List<Player> playerListRequestedTeam;
 
-    public Trade(){}
+    public Trade(){
+
+    }
 
     public Trade(String tradeOfferTeam, List<Player> playerListOfferTeam, String tradeRequestedTeam, List<Player> playerListRequestedTeam){
         this.tradeOfferTeam= tradeOfferTeam;
@@ -314,6 +317,7 @@ public class Trade implements ITrade {
                         conferenceL.get(f).setDivisionList(divisionL);
                     }
                     // call notify
+
                     leagueObject.setConferenceList(conferenceL);
                 }
             }
