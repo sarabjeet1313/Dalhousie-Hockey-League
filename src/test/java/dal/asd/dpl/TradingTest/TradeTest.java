@@ -10,10 +10,10 @@ import java.util.List;
 
 public class TradeTest {
 
-    Player player1Offer = new Player("Player1", "Forward", false, 1, 1, 1, 1, 1,false, 0);
-    Player player2Offer = new Player("Player2", "Forward", false, 1, 1, 1, 1, 1, false, 0);
-    Player player1Request = new Player("Player3", "Forward", false, 1, 19, 12, 1, 1, false,0);
-    Player player2Request = new Player("Player4", "Forward", false, 1, 17, 14, 1, 1, false, 0);
+    Player player1Offer = new Player("Player1", "Forward", false,20, 1, 1, 1, 1, true,false, 0);
+    Player player2Offer = new Player("Player2", "Forward", false, 25 ,1, 1, 1, 1, false, false, 0);
+    Player player1Request = new Player("Player3", "Forward", false, 26, 1, 19, 12, 1, false, false,0);
+    Player player2Request = new Player("Player4", "Forward", false,33 , 1, 17, 14, 1, false, false, 0);
     ArrayList<Player> playerList1 = new ArrayList<Player>();
     ArrayList<Player> playerList2 = new ArrayList<Player>();
     Trade t = new Trade("Boston",playerList1,"Chicago",playerList2);
