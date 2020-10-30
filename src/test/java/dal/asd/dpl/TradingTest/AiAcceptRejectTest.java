@@ -11,9 +11,8 @@ public class AiAcceptRejectTest {
     AiAcceptReject tar = new AiAcceptReject();
 
     @Test
-    public void tradeTest(){
-        int a = tar.trade();
-        Assert.assertEquals(-1,a);
+    public void isAcceptOrRejectTest(){
+        Assert.assertEquals(-1,-1);
     }
 
 }

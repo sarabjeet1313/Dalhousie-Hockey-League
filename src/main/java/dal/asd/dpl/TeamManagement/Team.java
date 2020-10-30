@@ -10,6 +10,9 @@ public class Team implements ITeamPlayersInfo, ITeamInfo, IInjuryStatus {
 	private Coach headCoach;
 	private List<Player> playerList;
 
+	public Team(){
+
+	}
 	public Team(String teamName, String generalManager, Coach headCoach, List<Player> playerList) {
 		this.teamName = teamName;
 		this.generalManager = generalManager;

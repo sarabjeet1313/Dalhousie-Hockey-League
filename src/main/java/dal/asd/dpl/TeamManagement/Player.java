@@ -16,6 +16,8 @@ public class Player implements IPlayerInfo, IInjuryCalculator {
 	private boolean isInjured;
 	private int numberOfInjuryDays;
 
+	public Player(){}
+
 	public Player(String playerName, String position, boolean captain, int age, int skating, int shooting, int checking,
 			int saving, boolean isInjured, int numberOfInjuryDays) {
 		super();
