@@ -25,8 +25,8 @@ public class InternalStateContextTest {
     public void setUp() throws Exception {
         input = new CmdUserInput();
         output = new CmdUserOutput();
-        state = new InternalStartState(input, output, "");
         context = new InternalStateContext(input, output);
+        state = new InternalStartState(input, output, "", null, context);
         context.setState(state);
     }
 
@@ -44,12 +44,12 @@ public class InternalStateContextTest {
     }
 
     @Test
-    public void doProcessing() {
+    public void doProcessingTest() {
         context.setState(new InternalEndState(input, output));
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
         context.doProcessing();
-        String expected  = "Thanks for using the Dynasty mode. Please come back soon.";
+        String expected  = "Thanks for using the DHL's Dynasty mode. Please come back soon.";
         String gotOutput = out.toString().replaceAll("\n", "");
         gotOutput = gotOutput.replaceAll("\r", "");
         assertEquals(expected, gotOutput);

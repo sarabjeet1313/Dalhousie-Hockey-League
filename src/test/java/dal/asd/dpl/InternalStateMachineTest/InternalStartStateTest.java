@@ -24,8 +24,8 @@ public class InternalStartStateTest {
     public void setUp() throws Exception {
         input = new CmdUserInput();
         output = new CmdUserOutput();
-        state = new InternalStartState(input, output, "");
         context = new InternalStateContext(input, output);
+        state = new InternalStartState(input, output, "", null, context);
     }
 
     @Test
@@ -46,7 +46,7 @@ public class InternalStartStateTest {
     }
 
     @Test
-    public void doProcessing() {
+    public void doProcessingTest() {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
         String input = "0";
