@@ -3,14 +3,10 @@ package dal.asd.dpl.NewsSystem;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import dal.asd.dpl.TeamManagement.Player;
 
 public class NewsSubscriber implements ITradeInfo, IGamesPlayedInfo, IInjuryInfo, IFreeAgencyInfo, IRetirementInfo {
-
-    private static final NewsSubscriber INSTANCE = new NewsSubscriber();
 
     private static final String WINNER = "winner";
     private static final String LOSER = "loser";
@@ -22,13 +18,6 @@ public class NewsSubscriber implements ITradeInfo, IGamesPlayedInfo, IInjuryInfo
     private static final String TEAM = "team";
     private static final String FROM = "from";
     private static final String TO = "to";
-
-    private NewsSubscriber(){
-        //no-ops
-    }
-    public static NewsSubscriber getInstance(){
-        return INSTANCE;
-    }
 
     @Override
     public void updateTrade(String fromTeam, String toTeam, String[][] playersTraded) {

@@ -4,11 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TradePublisher {
-
     private List<ITradeInfo> subscribers;
+    private static TradePublisher instance;
 
-    public TradePublisher(){
+    private TradePublisher(){
         subscribers = new ArrayList<ITradeInfo>();
+    }
+
+    public static TradePublisher getInstance(){
+        if(instance == null){
+            instance = new TradePublisher();
+        }
+        return instance;
     }
 
     public void subscribe(ITradeInfo subscriber) {

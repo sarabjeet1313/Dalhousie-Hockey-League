@@ -1,18 +1,22 @@
 package dal.asd.dpl.NewsSystem;
 
-import dal.asd.dpl.TeamManagement.Player;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class InjuryPublisher {
+	private final List<IInjuryInfo> subscribers;
+	private static InjuryPublisher instance;
 
-	private List<IInjuryInfo> subscribers;
-
-	public InjuryPublisher(){
-		subscribers = new ArrayList<IInjuryInfo>();
+	private InjuryPublisher(){
+		subscribers = new ArrayList<>();
 	}
 
+	public static InjuryPublisher getInstance(){
+		if(instance == null){
+			instance = new InjuryPublisher();
+		}
+		return instance;
+	}
 	public void subscribe(IInjuryInfo subscriber) {
 		this.subscribers.add(subscriber);
 	}
