@@ -54,6 +54,11 @@ public class ScheduleUtlity {
         return lastDay;
     }
 
+    public String getNextRegularSeasonStartDay() {
+        String nextSeasonStartDay = "30-09-" + this.playoffYear;
+        return nextSeasonStartDay;
+    }
+
     public String getSeasonWinner() {
         return seasonWinner;
     }
@@ -123,9 +128,12 @@ public class ScheduleUtlity {
             Date start = new SimpleDateFormat("dd-MM-yyyy").parse(currentDate);
             Date end = new SimpleDateFormat("dd-MM-yyyy").parse(getPlayoffLastDay());
             if (start.compareTo(end) > 0) {
+                return false;
+            }
+            if (start.compareTo(end) == 0) {
                 return true;
             }
-            if (start.compareTo(end) <= 0) {
+            if (start.compareTo(end) < 0) {
                 return false;
             }
         } catch (Exception e) {

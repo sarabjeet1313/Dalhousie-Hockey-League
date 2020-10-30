@@ -52,17 +52,13 @@ public class InternalSimulationStateTest {
     }
 
     @Test
-    public void doProcessing() {
+    public void doProcessingTest() {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
         String expected = "Season 1 winner is : Boston";
-
         state.doProcessing();
-
         String gotOutput = out.toString().replaceAll("\n", "");
         gotOutput = gotOutput.replaceAll("\r", "");
-
-
         assertEquals(expected, gotOutput.substring(gotOutput.length()-27, gotOutput.length()));
     }
 }

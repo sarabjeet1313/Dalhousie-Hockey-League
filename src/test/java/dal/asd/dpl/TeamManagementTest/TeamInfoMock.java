@@ -25,4 +25,16 @@ public class TeamInfoMock implements ITeamInfo {
 		return teamStrength;
 	}
 
+	@Override
+	public boolean shouldReverseResult(double randomChance){
+		double result = Math.random();
+
+		if(result < randomChance) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
 }

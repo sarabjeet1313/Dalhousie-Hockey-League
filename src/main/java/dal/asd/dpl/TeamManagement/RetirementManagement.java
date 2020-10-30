@@ -1,8 +1,9 @@
 package dal.asd.dpl.TeamManagement;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import dal.asd.dpl.Database.LeagueDataDB;
 
 public class RetirementManagement implements IRetirementManager {
 
@@ -20,6 +21,7 @@ public class RetirementManagement implements IRetirementManager {
 		}
 
 		return likelihoodOfRetirement;
+
 	}
 
 	@Override
@@ -39,15 +41,15 @@ public class RetirementManagement implements IRetirementManager {
 	public League replaceRetiredPlayers(League league) {
 		List<Conference> conferenceList = league.getConferenceList();
 		List<Player> freeAgentsList = league.getFreeAgents();
-		List<Player> retiredPlayersList = new ArrayList<Player>();
+		ILeague ileagueObject = new LeagueDataDB();
 		int maximumRetirementAge = league.getGameConfig().getAging().getMaximumAge();
 
 		for (Player freeplayer : freeAgentsList) {
 			int years = freeplayer.getAge();
 
 			if (years > maximumRetirementAge) {
+				ileagueObject.persisitRetiredPlayers(freeplayer, null, league);
 				freeAgentsList.remove(freeplayer);
-				retiredPlayersList.add(freeplayer);
 			}
 		}
 
@@ -77,8 +79,9 @@ public class RetirementManagement implements IRetirementManager {
 								Player returnedPlayer = freeAgentsList.get(selectedIndex);
 
 								freeAgentsList.remove(returnedPlayer);
-								retiredPlayersList.add(playersByTeam.get(pIndex));
 								playersByTeam.remove(playersByTeam.get(pIndex));
+								ileagueObject.persisitRetiredPlayers(playersByTeam.get(pIndex),
+										teamList.get(tIndex).getTeamName(), league);
 								playersByTeam.add(returnedPlayer);
 
 								league.setFreeAgents(freeAgentsList);
@@ -90,8 +93,6 @@ public class RetirementManagement implements IRetirementManager {
 				}
 			}
 		}
-
-		// persist retired players list
 		return league;
 	}
 

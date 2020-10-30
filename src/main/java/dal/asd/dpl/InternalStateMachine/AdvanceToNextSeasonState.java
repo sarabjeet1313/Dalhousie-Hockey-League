@@ -43,8 +43,8 @@ public class AdvanceToNextSeasonState implements ISimulationState {
 
     private long daysLapsed() {
         SimpleDateFormat myFormat = new SimpleDateFormat("dd-MM-yyyy");
-        String startDate = utility.getRegularSeasonStartDay();
-        String endDate = utility.getLastSeasonDay();
+        String startDate = utility.getLastSeasonDay();
+        String endDate = utility.getNextRegularSeasonStartDay();
         try {
             Date date1 = myFormat.parse(startDate);
             Date date2 = myFormat.parse(endDate);
