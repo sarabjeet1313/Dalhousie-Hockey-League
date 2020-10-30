@@ -4,10 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FreeAgencyPublisher {
-	private List<IFreeAgencyInfo> subscribers;
+	private final List<IFreeAgencyInfo> subscribers;
+	private static FreeAgencyPublisher instance;
 
-	public FreeAgencyPublisher(){
-		subscribers = new ArrayList<IFreeAgencyInfo>();
+	private FreeAgencyPublisher(){
+		subscribers = new ArrayList<>();
+	}
+
+	public static FreeAgencyPublisher getInstance(){
+		if(instance == null){
+			instance = new FreeAgencyPublisher();
+		}
+		return instance;
 	}
 
 	public void subscribe(IFreeAgencyInfo subscriber) {

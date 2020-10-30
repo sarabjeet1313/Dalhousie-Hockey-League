@@ -4,10 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GamePlayedPublisher {
-	private List<IGamesPlayedInfo> subscribers;
+	private final List<IGamesPlayedInfo> subscribers;
+	private static GamePlayedPublisher instance;
 
-	public GamePlayedPublisher(){
-		subscribers = new ArrayList<IGamesPlayedInfo>();
+	private GamePlayedPublisher(){
+		subscribers = new ArrayList<>();
+	}
+
+	public static GamePlayedPublisher getInstance(){
+		if(instance == null){
+			instance = new GamePlayedPublisher();
+		}
+		return instance;
 	}
 
 	public void subscribe(IGamesPlayedInfo subscriber) {

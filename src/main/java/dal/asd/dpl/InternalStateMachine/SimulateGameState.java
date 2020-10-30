@@ -38,8 +38,7 @@ public class SimulateGameState implements ISimulationState {
         this.randomWinChance = leagueToSimulate.getGameConfig().getGameResolver().getRandomWinChance();
         this.output = output;
         this.teamInfo = new Team();
-        this.gamePublisher = new GamePlayedPublisher();
-        this.gamePublisher.subscribe(NewsSubscriber.getInstance());
+        GamePlayedPublisher.getInstance().subscribe(new NewsSubscriber());
     }
 
     public void nextState(InternalStateContext context) {
@@ -91,7 +90,7 @@ public class SimulateGameState implements ISimulationState {
                             }
                         }
 
-                        gamePublisher.notify(winningTeam, losingTeam, currentDate);
+                        GamePlayedPublisher.getInstance().notify(winningTeam, losingTeam, currentDate);
                         standings.updateTeamWinMap(winningTeam);
                         standings.updateTeamLoseMap(losingTeam);
                     }
@@ -149,7 +148,7 @@ public class SimulateGameState implements ISimulationState {
                                     team2Win++;
                                 }
                             }
-                            gamePublisher.notify(winningTeam, losingTeam, currentDate);
+                            GamePlayedPublisher.getInstance().notify(winningTeam, losingTeam, currentDate);
                             standings.updateTeamWinMap(winningTeam);
                             standings.updateTeamLoseMap(losingTeam);
                         }
