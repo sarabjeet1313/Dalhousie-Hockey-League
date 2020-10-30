@@ -3,6 +3,7 @@ package dal.asd.dpl.TeamManagementTest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import dal.asd.dpl.GameplayConfiguration.Aging;
 import dal.asd.dpl.GameplayConfiguration.GameResolver;
@@ -14,9 +15,11 @@ import dal.asd.dpl.TeamManagement.Coach;
 import dal.asd.dpl.TeamManagement.Conference;
 import dal.asd.dpl.TeamManagement.Division;
 import dal.asd.dpl.TeamManagement.ILeague;
+import dal.asd.dpl.TeamManagement.IRetirementManager;
 import dal.asd.dpl.TeamManagement.ITeamPlayersInfo;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagement.Player;
+import dal.asd.dpl.TeamManagement.RetirementManagement;
 import dal.asd.dpl.TeamManagement.Team;
 
 public class LeagueMockData implements ILeague, ITeamPlayersInfo {
@@ -68,6 +71,7 @@ public class LeagueMockData implements ILeague, ITeamPlayersInfo {
 	Training training = new Training(100);
 	Trading trading = new Trading(8, 0.05, 2, 0.05);
 	League league = getTestData();
+	IRetirementManager retireManager = new RetirementManagement();
 
 	public League getTestData() {
 		playerList.add(player1);
@@ -128,7 +132,7 @@ public class LeagueMockData implements ILeague, ITeamPlayersInfo {
 
 	@Override
 	public boolean persisitLeagueData(String leagueName, String conferenceName, String divisionName, String teamName,
-			String generalManager, String headCoach, Player player) {
+									  String generalManager, String headCoach, Player player) {
 		if (teamName.equals("Empty")) {
 			List<Player> playerList = new ArrayList<Player>();
 			playerList.add(player1);
@@ -168,6 +172,73 @@ public class LeagueMockData implements ILeague, ITeamPlayersInfo {
 			}
 		}
 		return isValid;
+	}
+
+	public boolean shouldPlayerRetire(League league, Player player) {
+		int maximumAge = league.getGameConfig().getAging().getMaximumAge();
+		int likelihoodOfRetirement = retireManager.getLikelihoodOfRetirement(league, player);
+		Random rand = new Random();
+
+		if (rand.nextInt(likelihoodOfRetirement) == 0 || player.getAge() > maximumAge) {
+			this.replaceRetiredPlayers(league);
+			return Boolean.TRUE;
+		} else {
+			return Boolean.FALSE;
+		}
+	}
+
+	public League replaceRetiredPlayers(League league) {
+		List<Conference> conferenceList = league.getConferenceList();
+		List<Player> freeAgentsList = league.getFreeAgents();
+		int maximumRetirementAge = league.getGameConfig().getAging().getMaximumAge();
+
+		for (Player freeplayer : freeAgentsList) {
+			int years = freeplayer.getAge();
+
+			if (years > maximumRetirementAge) {
+				freeAgentsList.remove(freeplayer);
+			}
+		}
+
+		for (int index = 0; index < conferenceList.size(); index++) {
+			List<Division> divisionList = conferenceList.get(index).getDivisionList();
+			for (int dIndex = 0; dIndex < divisionList.size(); dIndex++) {
+				List<Team> teamList = divisionList.get(dIndex).getTeamList();
+				for (int tIndex = 0; tIndex < teamList.size(); tIndex++) {
+					List<Player> playersByTeam = teamList.get(tIndex).getPlayerList();
+					for (int pIndex = 0; pIndex < playersByTeam.size(); pIndex++) {
+						if (playersByTeam.get(pIndex).isRetireStatus()) {
+							int selectedIndex = 0;
+							double max = 0;
+
+							if (freeAgentsList.size() > 0) {
+
+								for (int findex = 0; findex < freeAgentsList.size(); findex++) {
+									Player freeAgent = freeAgentsList.get(findex);
+									if (freeAgent.getPosition().equals(playersByTeam.get(pIndex).getPosition())) {
+										if (max < freeAgent.getPlayerStrength(freeAgent)) {
+											max = freeAgent.getPlayerStrength(freeAgent);
+											selectedIndex = findex;
+										}
+									}
+								}
+
+								Player returnedPlayer = freeAgentsList.get(selectedIndex);
+
+								freeAgentsList.remove(returnedPlayer);
+								playersByTeam.remove(playersByTeam.get(pIndex));
+								playersByTeam.add(returnedPlayer);
+
+								league.setFreeAgents(freeAgentsList);
+								league.getConferenceList().get(index).getDivisionList().get(dIndex).getTeamList()
+										.get(tIndex).setPlayerList(playersByTeam);
+							}
+						}
+					}
+				}
+			}
+		}
+		return league;
 	}
 
 }

@@ -1,5 +1,8 @@
 package dal.asd.dpl.SimulationStateMachine;
 
+import dal.asd.dpl.NewsSystem.FreeAgencyPublisher;
+import dal.asd.dpl.NewsSystem.NewsSubscriber;
+import dal.asd.dpl.NewsSystem.TradePublisher;
 import dal.asd.dpl.TeamManagement.Coach;
 import dal.asd.dpl.TeamManagement.Conference;
 import dal.asd.dpl.TeamManagement.Division;
@@ -43,6 +46,7 @@ public class CreateTeamState implements IState {
 		CreateTeamState.divisions = new Division("", null);
 		CreateTeamState.teams = new Team("", "", headCoach, null);
 		CreateTeamState.stateName = "Create Team";
+		FreeAgencyPublisher.getInstance().subscribe(new NewsSubscriber());
 	}
 
 	public void nextState(StateContext context) {
@@ -173,6 +177,7 @@ public class CreateTeamState implements IState {
 				playersList.add(pList.get(temp));
 				tempList1.add(pList.get(temp));
 				indexList.add(temp + 1);
+				FreeAgencyPublisher.getInstance().notify(pList.get(temp).getPlayerName(), "hired");
 			}
 		}
 	}
@@ -222,8 +227,10 @@ public class CreateTeamState implements IState {
 				playersList.add(fdList.get(temp));
 				tempList2.add(fdList.get(temp));
 				indexList.add(temp + 1);
+				FreeAgencyPublisher.getInstance().notify(fdList.get(temp).getPlayerName(), "hired");
 			}
 		}
+
 	}
 
 	private void displayCaptain() {

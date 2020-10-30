@@ -5,10 +5,19 @@ import java.util.List;
 
 public class RetirementPublisher {
 	private List<IRetirementInfo> subscribers;
+	private static RetirementPublisher instance;
 
-	public RetirementPublisher(){
+	private RetirementPublisher(){
 		subscribers = new ArrayList<IRetirementInfo>();
 	}
+
+	public static RetirementPublisher getInstance(){
+		if(instance == null){
+			instance = new RetirementPublisher();
+		}
+		return instance;
+	}
+
 
 	public void subscribe(IRetirementInfo subscriber) {
 		this.subscribers.add(subscriber);
