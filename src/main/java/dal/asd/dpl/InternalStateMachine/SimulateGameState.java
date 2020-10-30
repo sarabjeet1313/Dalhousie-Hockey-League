@@ -28,7 +28,7 @@ public class SimulateGameState implements ISimulationState {
 
 
     public SimulateGameState(League leagueToSimulate, ISchedule schedule, StandingInfo standings, InternalStateContext context, ScheduleUtlity utility, String currentDate, IUserOutput output) {
-        this.stateName = "SimulatePlayoffGame";
+        this.stateName = "SimulateGame";
         this.leagueToSimulate = leagueToSimulate;
         this.standings = standings;
         this.schedule = schedule;
@@ -44,7 +44,6 @@ public class SimulateGameState implements ISimulationState {
 
     public void nextState(InternalStateContext context) {
         this.nextStateName = "InjuryCheck";
-        context.setState(new InjuryCheckState(leagueToSimulate, schedule, context, utility, currentDate, output));
     }
 
     public void doProcessing() {

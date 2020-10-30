@@ -46,7 +46,7 @@ public class InternalStartStateTest {
     }
 
     @Test
-    public void doProcessing() {
+    public void doProcessingTest() {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
         String input = "0";

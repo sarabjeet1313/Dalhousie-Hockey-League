@@ -24,8 +24,7 @@ public class InjuryCheckState implements ISimulationState {
         this.utility = utility;
         this.currentDate = currentDate;
         this.output = output;
-
-    //    doProcessing();
+        this.stateName = "Injury";
     }
 
     public void nextState(InternalStateContext context) {
@@ -43,7 +42,7 @@ public class InjuryCheckState implements ISimulationState {
     }
 
     public void doProcessing() {
-
+        // TODO injury check ...
         output.setOutput("Inside Injury Check state");
         output.sendOutput();
     }

@@ -37,7 +37,6 @@ public class GeneratePlayoffScheduleState implements ISimulationState {
 
     public void nextState(InternalStateContext context) {
         this.nextStateName = "Training";
-        context.setState(new TrainingState(leagueToSimulate, schedule, utility, currentDate, output, context));
     }
 
     public void doProcessing() {

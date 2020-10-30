@@ -22,8 +22,6 @@ public class TradingState implements ISimulationState {
         this.utility = utility;
         this.currentDate = currentDate;
         this.output = output;
-
-       // doProcessing();
     }
 
     public void nextState(InternalStateContext context) {

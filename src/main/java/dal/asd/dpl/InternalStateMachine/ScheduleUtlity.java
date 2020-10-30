@@ -128,9 +128,12 @@ public class ScheduleUtlity {
             Date start = new SimpleDateFormat("dd-MM-yyyy").parse(currentDate);
             Date end = new SimpleDateFormat("dd-MM-yyyy").parse(getPlayoffLastDay());
             if (start.compareTo(end) > 0) {
+                return false;
+            }
+            if (start.compareTo(end) == 0) {
                 return true;
             }
-            if (start.compareTo(end) <= 0) {
+            if (start.compareTo(end) < 0) {
                 return false;
             }
         } catch (Exception e) {
