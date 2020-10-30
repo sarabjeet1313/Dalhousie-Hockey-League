@@ -4,8 +4,15 @@ import java.util.List;
 import java.util.Random;
 
 import dal.asd.dpl.Database.LeagueDataDB;
+import dal.asd.dpl.NewsSystem.NewsSubscriber;
+import dal.asd.dpl.NewsSystem.RetirementPublisher;
 
 public class RetirementManagement implements IRetirementManager {
+
+	public RetirementManagement(){
+
+		RetirementPublisher.getInstance().subscribe(new NewsSubscriber());
+	}
 
 	@Override
 	public int getLikelihoodOfRetirement(League league, Player player) {
@@ -31,6 +38,8 @@ public class RetirementManagement implements IRetirementManager {
 		Random rand = new Random();
 
 		if (rand.nextInt(likelihoodOfRetirement) == 0 || player.getAge() > maximumAge) {
+			this.replaceRetiredPlayers(league);
+			RetirementPublisher.getInstance().notify(player.getPlayerName(), player.getAge());
 			return Boolean.TRUE;
 		} else {
 			return Boolean.FALSE;

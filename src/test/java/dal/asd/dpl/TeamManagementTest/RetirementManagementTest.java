@@ -10,6 +10,7 @@ import dal.asd.dpl.TeamManagement.RetirementManagement;
 
 public class RetirementManagementTest {
 	LeagueObjectTestData leagueData = new LeagueObjectTestData();
+	LeagueMockData leagueMockData = new LeagueMockData();
 	IRetirementManager retirementManager = new RetirementManagement();
 
 	@Test
@@ -18,15 +19,15 @@ public class RetirementManagementTest {
 		int likelihood = retirementManager.getLikelihoodOfRetirement(leagueData.getLeagueData(), player);
 		Assert.assertNotEquals(likelihood, 0);
 	}
-	
+
 	@Test
 	public void shouldPlayerRetireTest() {
 		Player player = new Player("Player1", "Forward", false, 51, 1, 1, 1, 1, false, true, 0);
-		Assert.assertTrue(retirementManager.shouldPlayerRetire(leagueData.getLeagueData(), player));
+		Assert.assertTrue(leagueMockData.shouldPlayerRetire(leagueData.getLeagueData(), player));
 	}
-	
+
 	@Test
 	public void replaceRetiredPlayersTest() {
-		Assert.assertTrue(retirementManager.replaceRetiredPlayers(leagueData.getLeagueData()) instanceof League);
+		Assert.assertTrue(leagueMockData.replaceRetiredPlayers(leagueData.getLeagueData()) instanceof League);
 	}
 }
