@@ -6,14 +6,14 @@ import java.util.List;
 public class Team implements ITeamPlayersInfo, ITeamInfo, IInjuryStatus {
 
 	private String teamName;
-	private String generalManager;
+	private Manager generalManager;
 	private Coach headCoach;
 	private List<Player> playerList;
 
 	public Team() {
 
 	}
-	public Team(String teamName, String generalManager, Coach headCoach, List<Player> playerList) {
+	public Team(String teamName, Manager generalManager, Coach headCoach, List<Player> playerList) {
 		this.teamName = teamName;
 		this.generalManager = generalManager;
 		this.headCoach = headCoach;
@@ -28,11 +28,11 @@ public class Team implements ITeamPlayersInfo, ITeamInfo, IInjuryStatus {
 		this.teamName = teamName;
 	}
 
-	public String getGeneralManager() {
+	public Manager getGeneralManager() {
 		return generalManager;
 	}
 
-	public void setGeneralManager(String generalManager) {
+	public void setGeneralManager(Manager generalManager) {
 		this.generalManager = generalManager;
 	}
 
@@ -64,7 +64,7 @@ public class Team implements ITeamPlayersInfo, ITeamInfo, IInjuryStatus {
 						List<Team> teamList = divisionList.get(dIndex).getTeamList();
 
 						for (int tIndex = 0; tIndex < teamList.size(); tIndex++) {
-							if (teamList.get(dIndex).teamName.equals(teamName)) {
+							if (teamList.get(dIndex).getTeamName().equals(teamName)) {
 								isValid = true;
 								break;
 							}

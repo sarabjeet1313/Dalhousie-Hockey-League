@@ -13,13 +13,14 @@ import dal.asd.dpl.GameplayConfiguration.Training;
 import dal.asd.dpl.TeamManagement.Coach;
 import dal.asd.dpl.TeamManagement.Conference;
 import dal.asd.dpl.TeamManagement.Division;
-import dal.asd.dpl.TeamManagement.ILeague;
+import dal.asd.dpl.TeamManagement.ILeaguePersistance;
 import dal.asd.dpl.TeamManagement.ITeamPlayersInfo;
 import dal.asd.dpl.TeamManagement.League;
+import dal.asd.dpl.TeamManagement.Manager;
 import dal.asd.dpl.TeamManagement.Player;
 import dal.asd.dpl.TeamManagement.Team;
 
-public class LeagueMockData implements ILeague, ITeamPlayersInfo {
+public class LeagueMockData implements ILeaguePersistance, ITeamPlayersInfo {
 	
 	private Player player1 = new Player("Player One", "forward", true, 49, 1, 1, 1, 1, false, false, 0);
 	private Player player2 = new Player("Player Two", "defense", false, 51, 1, 1, 1, 1, false, true, 0);
@@ -58,15 +59,20 @@ public class LeagueMockData implements ILeague, ITeamPlayersInfo {
 	Coach coach2 = new Coach("Coach Two", 0.1, 0.2, 0.1, 0.1);
 	Coach coach3 = new Coach("Coach Three", 0.1, 0.2, 0.1, 0.1);
 	Coach headCoach = new Coach("Mary Smith", 0.2, 0.3, 0.1, 0.4);
+	Manager manager1 = new Manager("Karen Potam");
+	Manager manager2 = new Manager("Joseph Squidly");
+	Manager manager3 = new Manager("Tom Spaghetti");
 	List<Player> playerList = new ArrayList<Player>();
 	List<Player> freePlayerList = new ArrayList<Player>();
 	List<Coach> coachList = new ArrayList<Coach>();
-	List<String> managerList = new ArrayList<String>();
+	List<Manager> managerList = new ArrayList<Manager>();
 	Aging aging = new Aging(35, 50);
 	GameResolver gameResolver = new GameResolver(0.1);
 	Injury injury = new Injury(0.05, 1, 260);
 	Training training = new Training(100);
 	Trading trading = new Trading(8, 0.05, 2, 0.05);
+	
+	
 	
 	public League getTestData() {
 		playerList.add(player1);
@@ -79,12 +85,9 @@ public class LeagueMockData implements ILeague, ITeamPlayersInfo {
 		coachList.add(coach1);
 		coachList.add(coach2);
 		coachList.add(coach3);
-		managerList.add("Karen Potam");
-		managerList.add("Joseph Squidly");
-		managerList.add("Tom Spaghetti");
-
-		Team team1 = new Team("Boston", "Mister Fred", headCoach, playerList);
-		Team team2 = new Team("Halifax", "Mister Fred", headCoach, playerList);
+		managerList.add(manager3);
+		Team team1 = new Team("Boston", manager1, headCoach, playerList);
+		Team team2 = new Team("Halifax", manager2, headCoach, playerList);
 		ArrayList<Team> teamList = new ArrayList<Team>();
 		teamList.add(team1);
 		teamList.add(team2);
@@ -100,22 +103,9 @@ public class LeagueMockData implements ILeague, ITeamPlayersInfo {
 	} 
 	
 	@Override
-	public List<League> getLeagueData(String teamName) {
-		List<League> leagueList = new ArrayList<League>();
+	public League loadLeagueData(String teamName) {
 		League league = getTestData();
-		List<Conference> conferenceList = league.getConferenceList();
-		List<Division> divisionList = conferenceList.get(0).getDivisionList();
-		List<Team> teamList = divisionList.get(0).getTeamList();
-		for(int index = 0; index < teamList.size(); index++) {
-			if(teamList.get(index).getTeamName().equals(teamName)) {
-				leagueList.add(league);
-				return leagueList;
-			}
-			else {
-				return null;
-			}
-		}
-		return leagueList;
+		return league;
 	}
 	
 	@Override
@@ -139,17 +129,7 @@ public class LeagueMockData implements ILeague, ITeamPlayersInfo {
 		return true;
 	}
 
-	@Override
-	public boolean persisitCoaches(Coach coach, String teamName, String leagueName) {
-		boolean isValid = false;
-		League league = getTestData();
-		for(int index = 0; index < league.getCoaches().size(); index++) {
-			if(coach.getCoachName().equals(league.getCoaches().get(index).getCoachName())) {
-				isValid = true;
-			}
-		}
-		return isValid;
-	}
+	
 
 	@Override
 	public List<Player> getPlayersByTeam(String teamName, League league) {

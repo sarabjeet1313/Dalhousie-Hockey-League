@@ -28,18 +28,18 @@ public class SerializeLeague implements ISerialize{
 		return isSerialized;
 	}
 	
-	@Override
-	public League deSerializeLeagueModel(String filename) {
-		League league = null;
-		Gson gson = new Gson();
-		try {
-			URL url = getClass().getClassLoader().getResource(filename);
-			FileReader reader = new FileReader(url.getFile());
-			JsonParser jParsor = new JsonParser();
-			league = gson.fromJson(jParsor.parse(reader).toString(), League.class);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}		
-		return league;
-	}
+//	@Override
+//	public League deSerializeLeagueModel(String filename) {
+//		League league = null;
+//		Gson gson = new Gson();
+//		try {
+//			URL url = getClass().getClassLoader().getResource(filename);
+//			FileReader reader = new FileReader(url.getFile());
+//			JsonParser jParsor = new JsonParser();
+//			league = gson.fromJson(jParsor.parse(reader).toString(), League.class);
+//		} catch (Exception e) {
+//			System.out.println(e.getMessage());
+//		}		
+//		return league;
+//	}
 }

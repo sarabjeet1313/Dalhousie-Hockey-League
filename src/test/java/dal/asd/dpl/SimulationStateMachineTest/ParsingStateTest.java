@@ -1,8 +1,11 @@
 package dal.asd.dpl.SimulationStateMachineTest;
+import dal.asd.dpl.Database.GameConfigDB;
 import dal.asd.dpl.SimulationStateMachine.ParsingState;
 import dal.asd.dpl.SimulationStateMachine.StateContext;
 import dal.asd.dpl.TeamManagement.League;
+import dal.asd.dpl.TeamManagementTest.CoachMockData;
 import dal.asd.dpl.TeamManagementTest.LeagueMockData;
+import dal.asd.dpl.TeamManagementTest.ManagerMockData;
 import dal.asd.dpl.UserInput.CmdUserInput;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.CmdUserOutput;
@@ -16,12 +19,15 @@ import static org.junit.Assert.*;
 
 public class ParsingStateTest {
 	
-    private static ParsingState state;
-    private static IUserInput input;
-    private static IUserOutput output;
-    private static StateContext context;
-    private static LeagueMockData leagueDb;
-    private static String filePath;
+    private ParsingState state;
+    private IUserInput input;
+    private IUserOutput output;
+    private StateContext context;
+    private LeagueMockData leagueDb;
+    private String filePath;
+    private CoachMockData coachMock;
+    private GameConfigDB configMock;
+    private ManagerMockData managerMock;
 
     @Before
     public void setUp() throws Exception {
@@ -30,7 +36,7 @@ public class ParsingStateTest {
         input = new CmdUserInput();
         output = new CmdUserOutput();
         leagueDb = new LeagueMockData();
-        state = new ParsingState(input, output, filePath, leagueDb);
+        state = new ParsingState(input, output, filePath, leagueDb, coachMock, configMock, managerMock);
         context = new StateContext(input, output);
         context.setState(state);
     }
