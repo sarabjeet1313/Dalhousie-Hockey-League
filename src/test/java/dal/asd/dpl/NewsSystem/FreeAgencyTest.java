@@ -17,6 +17,7 @@ public class FreeAgencyTest {
 	@Before
 	public void before() {
 		System.setOut(new PrintStream(console));
+		FreeAgencyPublisher.getInstance().getSubscribers().clear();
 		FreeAgencyPublisher.getInstance().subscribe(subscriber);
 	}
 	
@@ -29,12 +30,12 @@ public class FreeAgencyTest {
 	@Test
 	public void outputJsonHiredTest() {
 		FreeAgencyPublisher.getInstance().notify("Wayne Gretzky", "hired");
-		//assertEquals(OutputConstants.HIRED, console.toString().trim());
+		assertEquals(OutputConstants.HIRED, console.toString().trim());
 	}
 	
 	@Test
 	public void outputJsonReleasedTest() {
 		FreeAgencyPublisher.getInstance().notify("Wayne Gretzky", "released");
-		//assertEquals(OutputConstants.RELEASED, console.toString().trim());
+		assertEquals(OutputConstants.RELEASED, console.toString().trim());
 	}
 }

@@ -16,6 +16,7 @@ public class InjuryTest {
 	@Before
 	public void before() {
 		System.setOut(new PrintStream(console));
+		InjuryPublisher.getInstance().getSubscribers().clear();
 		InjuryPublisher.getInstance().subscribe(subscriber);
 	}
 	
@@ -28,6 +29,6 @@ public class InjuryTest {
 	@Test
 	public void outputJsonTest() {
 		InjuryPublisher.getInstance().notify("Wayne Gretzky", 20);
-		//assertEquals(OutputConstants.INJURY, console.toString().trim());
+		assertEquals(OutputConstants.INJURY, console.toString().trim());
 	}
 }
