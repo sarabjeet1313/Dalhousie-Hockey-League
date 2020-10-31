@@ -34,6 +34,7 @@ public class CreateTeamStateTest {
 	private ICoachPersistance coachMock = new CoachMockData();
 	private IGameplayConfigPersistance configMock = new GamaplayConfigMockData();
 	private IManagerPersistance managerMock = new ManagerMockData();
+	
 
     @Before
     public void setUp() throws Exception {
@@ -44,18 +45,6 @@ public class CreateTeamStateTest {
         context = new StateContext(input, output);
         context.setState(state);
     }
-    
-    //To test input for create team
-//    @Test
-//    public void doProcessingTest() {
-//    	context.doProcessing();
-//    	Coach headCoach = new Coach("Mary Smith", 0.2, 0.3, 0.1, 0.4);
-//    	LeagueObjectTestData data = new LeagueObjectTestData();
-//    	League league = data.getLeagueData();
-//    	List<Player> pList = league.getFreeAgents();
-//        boolean success = state.createTeamInLeague("Eastern Conference", "Atlantic", "testTeam", "testGM", headCoach, pList, mockData.getTestData());
-//        assertTrue(success);
-//    }
 
     @Test
     public void nextStateTest() {

@@ -1,4 +1,4 @@
-package dal.asd.dpl.InternalStateMachine;
+package dal.asd.dpl.Schedule;
 import dal.asd.dpl.TeamManagement.League;
 import java.util.List;
 import java.util.Map;
@@ -22,5 +22,6 @@ public interface ISchedule {
     public void setTeamsScheduled(List<String> teamsScheduled);
     public List<String> getTeamsScheduled();
     public void generateScheduleOnTheFly(List<String> teamsToCompete, String currentDay);
+    public boolean anyUnplayedGame(String date);
 
 }

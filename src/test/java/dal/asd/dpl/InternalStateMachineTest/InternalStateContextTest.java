@@ -33,7 +33,7 @@ public class InternalStateContextTest {
     @Test
     public void nextStateTest() {
         context.nextState();
-        assertEquals("Simulate", context.currentStateName);
+        assertEquals("InternalSimulation", context.currentStateName);
         context.setState(state);
     }
 
@@ -44,7 +44,7 @@ public class InternalStateContextTest {
     }
 
     @Test
-    public void doProcessing() {
+    public void doProcessingTest() {
         context.setState(new InternalEndState(input, output));
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));

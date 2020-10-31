@@ -1,104 +1,22 @@
-package dal.asd.dpl.InternalStateMachine;
+package dal.asd.dpl.Standings;
 
 import dal.asd.dpl.Database.InvokeStoredProcedure;
-import dal.asd.dpl.TeamManagement.Conference;
-import dal.asd.dpl.TeamManagement.Division;
-import dal.asd.dpl.TeamManagement.League;
-import dal.asd.dpl.TeamManagement.Team;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class StandingInfo {
+public class StandingsDataDb implements IStandingsDb {
 
-    private League leagueToSimulate;
-    private int season;
     private InvokeStoredProcedure isp;
-    private Map<String, Integer> teamWinMap;
-    private Map<String, Integer> teamLoseMap;
+    private int season;
 
-    public StandingInfo(League leagueToSimulate, int season) {
-        this.leagueToSimulate = leagueToSimulate;
-        teamWinMap = new HashMap<>();
-        teamLoseMap = new HashMap<>();
+    public StandingsDataDb(int season) {
         this.season = season;
     }
 
-    public void updateTeamWinMap(String teamName){
-        if(teamWinMap.containsKey(teamName)){
-            int wins = teamWinMap.get(teamName);
-            teamWinMap.put(teamName, wins+1);
-        }
-        else {
-            teamWinMap.put(teamName, 1);
-        }
-    }
-
-    public void updateTeamLoseMap(String teamName){
-        if(teamLoseMap.containsKey(teamName)){
-            int loses = teamLoseMap.get(teamName);
-            teamLoseMap.put(teamName, loses+1);
-        }
-        else {
-            teamLoseMap.put(teamName, 1);
-        }
-    }
-
-    public boolean initializeStandings() {
-
-        boolean result = false;
-        String leagueName = leagueToSimulate.getLeagueName();
-        List<Conference> conferenceList =  leagueToSimulate.getConferenceList();
-
-        for (Conference conferences : conferenceList) {
-            List<Division> divisionList = conferences.getDivisionList();
-            String conferenceName = conferences.getConferenceName();
-
-            for (Division divisions : divisionList) {
-                List<Team> teamList = divisions.getTeamList();
-                String divisionName = divisions.getDivisionName();
-
-                for (Team teams : teamList) {
-                    String teamName = teams.getTeamName();
-                    result = insertToStandings(leagueName, conferenceName, divisionName, teamName);
-                    if (result) {
-                        continue;
-                    } else {
-                        return result;
-                    }
-                }
-            }
-        }
-        return result;
-    }
-
-    public void updateStandings() {
-        for (Map.Entry<String, Integer> entry : this.teamWinMap.entrySet()) {
-            String teamWon = entry.getKey();
-            int noOfMatchesWon = entry.getValue();
-
-            for(int i=0; i < noOfMatchesWon; i++){
-                updateStandingsWin(teamWon);
-            }
-            teamWinMap.put(teamWon, 0);
-        }
-
-        for (Map.Entry<String, Integer> entry : this.teamLoseMap.entrySet()) {
-            String teamLose = entry.getKey();
-            int noOfMatchesLose = entry.getValue();
-
-            for(int i=0; i < noOfMatchesLose; i++){
-                updateStandingsLosses(teamLose);
-            }
-            teamLoseMap.put(teamLose, 0);
-        }
-    }
-
-    private void updateStandingsWin(String teamName) {
+    public void updateStandingsWin(String teamName) {
         try {
             isp = new InvokeStoredProcedure("spUpdateStandingsWin(?, ?, ?)");
             isp.setParameter(1, this.season);
@@ -117,7 +35,7 @@ public class StandingInfo {
         }
     }
 
-    private void updateStandingsLosses(String teamName) {
+    public void updateStandingsLosses(String teamName) {
         try {
             isp = new InvokeStoredProcedure("spUpdateStandingsLose(?, ?, ?)");
             isp.setParameter(1, this.season);
@@ -136,7 +54,7 @@ public class StandingInfo {
         }
     }
 
-    private boolean insertToStandings(String leagueName, String conferenceName, String divisionName, String teamName) {
+    public boolean insertToStandings(String leagueName, String conferenceName, String divisionName, String teamName) {
 
         ResultSet result;
         boolean isInserted = false;
@@ -168,10 +86,9 @@ public class StandingInfo {
             }
         }
         return isInserted;
-
     }
 
-    public List<String> getTopDivisionTeams(String divisionName) {
+    public List<String> getTop4TeamsFromStandings(String divisionName) {
         ResultSet result;
         List<Integer> teamIds = getTopSeededTeamIds(divisionName);
         List<String> teamList = new ArrayList<>();

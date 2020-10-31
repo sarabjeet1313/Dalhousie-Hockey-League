@@ -8,4 +8,6 @@ public interface ILeaguePersistance {
 	
 	public League loadLeagueData(String teamName);
 	
+	public boolean persisitRetiredPlayers(Player player, String teamName, League league);
+	
 }

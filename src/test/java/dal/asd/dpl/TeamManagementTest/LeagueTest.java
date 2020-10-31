@@ -19,7 +19,7 @@ import org.junit.Assert;
 
 public class LeagueTest {
 	
-	League leagueData = new LeagueMockData().getTestData();
+	League leagueData = new LeagueObjectTestData().getLeagueData();
 	Player player1 = new Player("Player1", "Forward", false, 1, 1, 1, 1, 1, false, false, 0);
 	Player player2 = new Player("Player2", "Forward", false, 1, 1, 1, 1, 1, false, false, 0);
 	Player player3 = new Player("Player3", "defence", false, 1, 1, 1, 1, 1, false, false, 0);

@@ -1,4 +1,4 @@
-package dal.asd.dpl.InternalStateMachine;
+package dal.asd.dpl.Schedule;
 import dal.asd.dpl.TeamManagement.Conference;
 import dal.asd.dpl.TeamManagement.Division;
 import dal.asd.dpl.TeamManagement.League;
@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-public class RegularSeasonScheduleState implements ISchedule {
+public class RegularSeasonSchedule implements ISchedule {
 
     private String currentDay;
     private String firstDay;
@@ -27,13 +27,15 @@ public class RegularSeasonScheduleState implements ISchedule {
     private Map<String, Integer> matchScheduledForTeam;
     private Map<String, Integer> matchesOnADay;
     private List<String> listOfConferences;
+    private List<String> teamsToBeScheduled;
+    private List<String> teamsScheduled;
+    private List<String> teamsCompeting;
 
-
-    public RegularSeasonScheduleState(Calendar calendar, IUserOutput output) {
+    public RegularSeasonSchedule(Calendar calendar, IUserOutput output) {
 
         this.totalDivisions = 0;
         this.totalTeams = 0;
-        this.seasonType = 0 /*Regular Season*/;
+        this.seasonType = ScheduleConstants.REGULAR_SEASON;
         this.calendar = calendar;
         this.output = output;
         listOfConferences = new ArrayList<String>();
@@ -44,7 +46,9 @@ public class RegularSeasonScheduleState implements ISchedule {
         matchScheduledForTeam = new HashMap<String, Integer>();
         finalSchedule = new HashMap<String, List<Map<String, String>>>();
         matchesOnADay = new HashMap<String, Integer>();
-
+        teamsScheduled = new ArrayList<>();
+        teamsToBeScheduled = new ArrayList<>();
+        teamsCompeting = new ArrayList<>();
     }
 
     public int getSeasonType(){
@@ -455,25 +459,25 @@ public class RegularSeasonScheduleState implements ISchedule {
     }
 
     public void setTeamsToBeScheduled(List<String> teamsToBeScheduled) {
-        // Do nothing, just a place holder
+        this.teamsToBeScheduled = teamsToBeScheduled;
     }
 
     public List<String> getTeamsToBeScheduled() {
-        // Do nothing, just a place holder
-        return new ArrayList<String>();
+        return this.teamsToBeScheduled;
     }
 
     public void setTeamsScheduled(List<String> teamsScheduled) {
-        // Do nothing, just a place holder
+        this.teamsScheduled = teamsScheduled;
     }
 
     public List<String> getTeamsScheduled() {
-        // Do nothing, just a place holder
-        return new ArrayList<String>();
+        return this.teamsScheduled;
     }
 
     public void generateScheduleOnTheFly(List<String> teamsToCompete, String currentDay){
-        // Do nothing, just a place holder
+        for (String team : teamsToCompete) {
+            this.teamsCompeting.add(team);
+        }
     }
 
     public Map< String, List<Map<String, String>>> getFinalSchedule(){
@@ -484,4 +488,14 @@ public class RegularSeasonScheduleState implements ISchedule {
         this.finalSchedule = schedule;
     }
 
+    public boolean anyUnplayedGame(String date) {
+        if(finalSchedule.containsKey(date)) {
+            if (finalSchedule.get(date).size() > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
+    }
 }

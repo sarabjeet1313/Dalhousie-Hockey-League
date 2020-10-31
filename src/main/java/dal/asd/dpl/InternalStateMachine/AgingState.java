@@ -1,5 +1,6 @@
 package dal.asd.dpl.InternalStateMachine;
-
+import dal.asd.dpl.Schedule.ISchedule;
+import dal.asd.dpl.Schedule.SeasonCalendar;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.UserOutput.IUserOutput;
 
@@ -8,28 +9,26 @@ public class AgingState implements ISimulationState {
     private static String stateName;
     private static String nextStateName;
     private League leagueToSimulate;
-    private ISchedule schedule;
     private InternalStateContext context;
     private String currentDate;
-    private ScheduleUtlity utility;
+    private SeasonCalendar seasonCalendar;
     private IUserOutput output;
 
-    public AgingState (League leagueToSimulate, ISchedule schedule, InternalStateContext context, ScheduleUtlity utility, String currentDate, IUserOutput output) {
-        this.stateName = "Aging";
+    public AgingState (League leagueToSimulate, InternalStateContext context, SeasonCalendar seasonCalendar, String currentDate, IUserOutput output) {
+        this.stateName = StateConstants.AGING_STATE;
         this.leagueToSimulate = leagueToSimulate;
-        this.schedule = schedule;
         this.context = context;
-        this.utility = utility;
+        this.seasonCalendar = seasonCalendar;
         this.currentDate = currentDate;
         this.output = output;
     }
 
     public void nextState(InternalStateContext context) {
-        if(utility.getSeasonOverStatus()) {
-            this.nextStateName = "NextSeason";
+        if(seasonCalendar.getSeasonOverStatus()) {
+            this.nextStateName = StateConstants.NEXT_SEASON_STATE;
         }
         else {
-            this.nextStateName = "Persist";
+            this.nextStateName = StateConstants.PERSIST_STATE;
         }
     }
 

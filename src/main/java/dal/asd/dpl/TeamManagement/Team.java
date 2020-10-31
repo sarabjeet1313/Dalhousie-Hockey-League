@@ -3,7 +3,9 @@ package dal.asd.dpl.TeamManagement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Team implements ITeamPlayersInfo, ITeamInfo, IInjuryStatus {
+import dal.asd.dpl.util.ConstantsUtil;
+
+public class Team implements ITeamInfo {
 
 	private String teamName;
 	private Manager generalManager;
@@ -11,7 +13,7 @@ public class Team implements ITeamPlayersInfo, ITeamInfo, IInjuryStatus {
 	private List<Player> playerList;
 
 	public Team() {
-
+		super();
 	}
 	public Team(String teamName, Manager generalManager, Coach headCoach, List<Player> playerList) {
 		this.teamName = teamName;
@@ -83,9 +85,9 @@ public class Team implements ITeamPlayersInfo, ITeamInfo, IInjuryStatus {
 		List<Player> forwordList = new ArrayList<Player>();
 		List<Player> defenceList = new ArrayList<Player>();
 		for (int index = 0; index < playerList.size(); index++) {
-			if (playerList.get(index).getPosition().equals("goalie")) {
+			if (playerList.get(index).getPosition().equals(ConstantsUtil.GOALIE.toString())) {
 				golieList.add(playerList.get(index));
-			} else if (playerList.get(index).getPosition().equals("forward")) {
+			} else if (playerList.get(index).getPosition().equals(ConstantsUtil.FORWARD.toString())) {
 				forwordList.add(playerList.get(index));
 			} else {
 				defenceList.add(playerList.get(index));
@@ -106,7 +108,7 @@ public class Team implements ITeamPlayersInfo, ITeamInfo, IInjuryStatus {
 			for (int dIndex = 0; dIndex < divisionList.size(); dIndex++) {
 				List<Team> teamList = divisionList.get(dIndex).getTeamList();
 				for (int tIndex = 0; tIndex < teamList.size(); tIndex++) {
-					if (teamList.get(dIndex).teamName.equals(teamName)) {
+					if (teamList.get(dIndex).getTeamName().equals(teamName)) {
 						playersByTeam = teamList.get(tIndex).getPlayerList();
 						break;
 					}
@@ -129,43 +131,13 @@ public class Team implements ITeamPlayersInfo, ITeamInfo, IInjuryStatus {
 	}
 
 	@Override
-	public League getInjuryStatusByTeam(String teamName, League league) {
-		List<Conference> conferenceList = league.getConferenceList();
-		for (int index = 0; index < conferenceList.size(); index++) {
-			List<Division> divisionList = conferenceList.get(index).getDivisionList();
-			for (int dIndex = 0; dIndex < divisionList.size(); dIndex++) {
-				List<Team> teamList = divisionList.get(dIndex).getTeamList();
-				for (int tIndex = 0; tIndex < teamList.size(); tIndex++) {
-					if (teamList.get(dIndex).teamName.equals(teamName)) {
-						List<Player> playersByTeam = teamList.get(tIndex).getPlayerList();
-						for (Player player : playersByTeam) {
-							Player returnedPlayer = player.getPlayerInjuryDays(player, league);
-							if (returnedPlayer.getDaysInjured() > 0) {
-								player.setInjured(true);
-								player.setDaysInjured(returnedPlayer.getDaysInjured());
-							}
-						}
-
-						league.getConferenceList().get(index).getDivisionList().get(dIndex).getTeamList()
-								.get(tIndex).setPlayerList(playersByTeam);
-
-						break;
-					}
-				}
-			}
-		}
-		return league;
-	}
-
-	@Override
-	public boolean shouldReverseResult(double randomChance){
+	public boolean shouldReverseResult(double randomChance) {
 		double result = Math.random();
 
-		if(result < randomChance) {
-			return true;
-		}
-		else {
-			return false;
+		if (result < randomChance) {
+			return Boolean.TRUE;
+		} else {
+			return Boolean.FALSE;
 		}
 	}
 }

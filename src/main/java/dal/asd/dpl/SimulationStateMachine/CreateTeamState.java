@@ -1,6 +1,9 @@
 package dal.asd.dpl.SimulationStateMachine;
 
 import dal.asd.dpl.GameplayConfiguration.IGameplayConfigPersistance;
+import dal.asd.dpl.NewsSystem.FreeAgencyPublisher;
+import dal.asd.dpl.NewsSystem.NewsSubscriber;
+import dal.asd.dpl.NewsSystem.TradePublisher;
 import dal.asd.dpl.TeamManagement.Coach;
 import dal.asd.dpl.TeamManagement.Conference;
 import dal.asd.dpl.TeamManagement.Division;
@@ -55,7 +58,9 @@ public class CreateTeamState implements IState {
 		this.teams = new Team("", genManager, headCoach, null);
 		this.stateName = "Create Team";
 	}
-
+	static{
+		FreeAgencyPublisher.getInstance().subscribe(new NewsSubscriber());
+	}
 	public void nextState(StateContext context) {
 		this.nextStateName = "Simulate";
 		context.setState(new SimulateState(input, output, teamName, initializedLeague));
@@ -195,6 +200,7 @@ public class CreateTeamState implements IState {
 				playersList.add(pList.get(temp));
 				tempList1.add(pList.get(temp));
 				indexList.add(temp + 1);
+				FreeAgencyPublisher.getInstance().notify(pList.get(temp).getPlayerName(), "hired");
 			}
 		}
 	}
@@ -244,8 +250,10 @@ public class CreateTeamState implements IState {
 				playersList.add(fdList.get(temp));
 				tempList2.add(fdList.get(temp));
 				indexList.add(temp + 1);
+				FreeAgencyPublisher.getInstance().notify(fdList.get(temp).getPlayerName(), "hired");
 			}
 		}
+
 	}
 
 	private void displayCaptain() {
@@ -349,8 +357,6 @@ public class CreateTeamState implements IState {
 		fdList.addAll(pList);
 		displayCaptain();
 		initializedLeague.setFreeAgents(fdList);
-//		genManager.saveManagerList(initializedLeague);
-//		headCoach.saveLeagueCoaches(initializedLeague);
 		createTeamInLeague(conferenceName, divisionName, teamName, genManager, headCoach, playersList,
 				initializedLeague);
 	}

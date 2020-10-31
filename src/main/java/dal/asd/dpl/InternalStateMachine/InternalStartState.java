@@ -17,14 +17,14 @@ public class InternalStartState implements ISimulationState {
         this.input = input;
         this.output = output;
         this.teamName = teamName;
-        this.stateName = "Start";
+        this.stateName = StateConstants.START_STATE;
         this.leagueToSimulate = leagueToSimulate;
         this.context = context;
         this.numOfSeasons = 0;
     }
 
     public void nextState(InternalStateContext context){
-        this.nextStateName = "Simulate";
+        this.nextStateName = StateConstants.INTERNAL_SIMULATION_STATE;
         context.setState(new InternalSimulationState(input, output, numOfSeasons, teamName, leagueToSimulate, context));
     }
 
