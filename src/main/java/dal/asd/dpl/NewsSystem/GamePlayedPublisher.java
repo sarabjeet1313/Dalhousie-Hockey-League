@@ -11,6 +11,10 @@ public class GamePlayedPublisher {
 		subscribers = new ArrayList<>();
 	}
 
+	public List<IGamesPlayedInfo> getSubscribers(){
+		return subscribers;
+	}
+
 	public static GamePlayedPublisher getInstance(){
 		if(instance == null){
 			instance = new GamePlayedPublisher();

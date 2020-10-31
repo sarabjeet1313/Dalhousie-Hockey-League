@@ -16,6 +16,7 @@ public class RetirementTest {
 	@Before
 	public void before() {
 		System.setOut(new PrintStream(console));
+		RetirementPublisher.getInstance().getSubscribers().clear();
 		RetirementPublisher.getInstance().subscribe(subscriber);
 	}
 	
@@ -28,6 +29,6 @@ public class RetirementTest {
 	@Test
 	public void outputJsonTest() {
 		RetirementPublisher.getInstance().notify("Wayne Gretzky", 38);
-		//assertEquals(OutputConstants.RETIRED, console.toString().trim());
+		assertEquals(OutputConstants.RETIRED, console.toString().trim());
 	}
 }
