@@ -11,6 +11,10 @@ public class InjuryPublisher {
 		subscribers = new ArrayList<>();
 	}
 
+	public List<IInjuryInfo> getSubscribers(){
+		return subscribers;
+	}
+
 	public static InjuryPublisher getInstance(){
 		if(instance == null){
 			instance = new InjuryPublisher();
