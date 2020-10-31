@@ -1,5 +1,6 @@
 package dal.asd.dpl.Trading;
 
+import dal.asd.dpl.NewsSystem.NewsSubscriber;
 import dal.asd.dpl.NewsSystem.TradePublisher;
 import dal.asd.dpl.TeamManagement.*;
 
@@ -29,7 +30,7 @@ public class Trade implements ITrade {
         this.tradeRequestedTeam = tradeRequestedTeam;
         this.playerListOfferTeam = playerListOfferTeam;
         this.playerListRequestedTeam = playerListRequestedTeam;
-
+        TradePublisher.getInstance().subscribe(new NewsSubscriber());
     }
 
     public String getTradeOfferTeam(){
@@ -219,6 +220,25 @@ public class Trade implements ITrade {
         return returnStrongPlayerList;
     }
 
+    public String[][] prepareToNotify(Trade trade){
+        int totalPlayers;
+        totalPlayers   = trade.getPlayerListOfferTeam().size();
+        String [][] playersTraded = new String[totalPlayers][2];
+        for(int i=0; i< playersTraded.length; i++ ){
+            for (int j=0; j< playersTraded[i].length;j++){
+                if(i==0){
+                    for (Player p: trade.getPlayerListOfferTeam()){
+                        playersTraded[i][j] = p.getPlayerName();
+                    }
+                }else{
+                    for (Player p: trade.getPlayerListRequestedTeam()){
+                        playersTraded[i][j] = p.getPlayerName();
+                    }
+                }
+            }
+        }
+        return playersTraded;
+    }
 
     @Override
     public League startTrade(League leagueObject) {
@@ -317,7 +337,7 @@ public class Trade implements ITrade {
                         conferenceL.get(f).setDivisionList(divisionL);
                     }
                     // call notify
-
+                    TradePublisher.getInstance().notify(trade.getTradeOfferTeam(), trade.getTradeRequestedTeam(),prepareToNotify(trade));
                     leagueObject.setConferenceList(conferenceL);
                 }
             }
