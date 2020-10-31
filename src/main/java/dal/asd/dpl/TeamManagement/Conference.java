@@ -31,10 +31,10 @@ public class Conference {
 	
 	public boolean isValidConferenceName(String conferenceName, League league) {
 		List<Conference> conferenceList =  league.getConferenceList();
-		boolean isValid = false;
+		boolean isValid = Boolean.FALSE;
 		for(int index = 0; index < conferenceList.size(); index++) {
-			if(conferenceList.get(index).conferenceName.equals(conferenceName)) {
-				isValid = true;
+			if(conferenceList.get(index).getConferenceName().equals(conferenceName)) {
+				isValid = Boolean.TRUE;
 				break;
 			}
 		}

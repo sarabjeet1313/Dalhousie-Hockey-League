@@ -3,7 +3,7 @@ package dal.asd.dpl.TeamManagementTest;
 import org.junit.Assert;
 import org.junit.Test;
 
-import dal.asd.dpl.TeamManagement.IRetirementManager;
+import dal.asd.dpl.TeamManagement.IRetirementManagement;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagement.Player;
 import dal.asd.dpl.TeamManagement.RetirementManagement;
@@ -11,7 +11,7 @@ import dal.asd.dpl.TeamManagement.RetirementManagement;
 public class RetirementManagementTest {
 	LeagueObjectTestData leagueData = new LeagueObjectTestData();
 	LeagueMockData leagueMockData = new LeagueMockData();
-	IRetirementManager retirementManager = new RetirementManagement();
+	IRetirementManagement retirementManager = new RetirementManagement();
 
 	@Test
 	public void getLikelihoodOfRetirementTest() {
@@ -29,5 +29,11 @@ public class RetirementManagementTest {
 	@Test
 	public void replaceRetiredPlayersTest() {
 		Assert.assertTrue(leagueMockData.replaceRetiredPlayers(leagueData.getLeagueData()) instanceof League);
+	}
+	
+	@Test
+	public void increaseAgeTest() {
+		LeagueObjectTestData leagueData = new LeagueObjectTestData();
+		Assert.assertTrue(leagueMockData.increaseAge(365, leagueData.getLeagueData()) instanceof League);
 	}
 }

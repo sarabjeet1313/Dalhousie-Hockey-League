@@ -11,19 +11,19 @@ import dal.asd.dpl.GameplayConfiguration.GameplayConfig;
 import dal.asd.dpl.GameplayConfiguration.Injury;
 import dal.asd.dpl.GameplayConfiguration.Trading;
 import dal.asd.dpl.GameplayConfiguration.Training;
+import dal.asd.dpl.NewsSystem.NewsSubscriber;
 import dal.asd.dpl.NewsSystem.RetirementPublisher;
 import dal.asd.dpl.TeamManagement.Coach;
 import dal.asd.dpl.TeamManagement.Conference;
 import dal.asd.dpl.TeamManagement.Division;
 import dal.asd.dpl.TeamManagement.ILeague;
-import dal.asd.dpl.TeamManagement.IRetirementManager;
-import dal.asd.dpl.TeamManagement.ITeamPlayersInfo;
+import dal.asd.dpl.TeamManagement.IRetirementManagement;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagement.Player;
 import dal.asd.dpl.TeamManagement.RetirementManagement;
 import dal.asd.dpl.TeamManagement.Team;
 
-public class LeagueMockData implements ILeague, ITeamPlayersInfo {
+public class LeagueMockData implements ILeague {
 
 	private Player player1 = new Player("Player One", "forward", true, 49, 1, 1, 1, 1, false, false, 0);
 	private Player player2 = new Player("Player Two", "defense", false, 51, 1, 1, 1, 1, false, true, 0);
@@ -72,8 +72,8 @@ public class LeagueMockData implements ILeague, ITeamPlayersInfo {
 	Training training = new Training(100);
 	Trading trading = new Trading(8, 0.05, 2, 0.05);
 	League league = getTestData();
-	IRetirementManager retireManager = new RetirementManagement();
-
+	IRetirementManagement retireManager = new RetirementManagement();
+	
 	public League getTestData() {
 		playerList.add(player1);
 		playerList.add(player2);
@@ -142,7 +142,7 @@ public class LeagueMockData implements ILeague, ITeamPlayersInfo {
 
 	@Override
 	public boolean persisitLeagueData(String leagueName, String conferenceName, String divisionName, String teamName,
-									  String generalManager, String headCoach, Player player) {
+			String generalManager, String headCoach, Player player) {
 		if (teamName.equals("Empty")) {
 			List<Player> playerList = new ArrayList<Player>();
 			playerList.add(player1);
@@ -163,17 +163,6 @@ public class LeagueMockData implements ILeague, ITeamPlayersInfo {
 	}
 
 	@Override
-	public List<Player> getPlayersByTeam(String teamName, League league) {
-
-		List<Player> playerList = new ArrayList<Player>();
-		playerList.add(this.player1);
-		playerList.add(this.player2);
-		playerList.add(this.player3);
-
-		return playerList;
-	}
-
-	@Override
 	public boolean persisitRetiredPlayers(Player player, String teamName, League league) {
 		boolean isValid = false;
 		for (int index = 0; index < league.getFreeAgents().size(); index++) {
@@ -190,8 +179,7 @@ public class LeagueMockData implements ILeague, ITeamPlayersInfo {
 		Random rand = new Random();
 
 		if (rand.nextInt(likelihoodOfRetirement) == 0 || player.getAge() > maximumAge) {
-			this.replaceRetiredPlayers(league);
-			RetirementPublisher.getInstance().notify(player.getPlayerName(), player.getAge());
+			replaceRetiredPlayers(league);
 			return Boolean.TRUE;
 		} else {
 			return Boolean.FALSE;
@@ -250,6 +238,44 @@ public class LeagueMockData implements ILeague, ITeamPlayersInfo {
 			}
 		}
 		return league;
+	}
+	
+	public League increaseAge(int days, League league) {
+		List<Conference> conferenceList = league.getConferenceList();
+		int maximumRetirementAge = league.getGameConfig().getAging().getMaximumAge();
+		List<Player> freeAgentsList = league.getFreeAgents();
+
+		for (int index = 0; index < conferenceList.size(); index++) {
+			List<Division> divisionList = conferenceList.get(index).getDivisionList();
+			for (int dIndex = 0; dIndex < divisionList.size(); dIndex++) {
+				List<Team> teamList = divisionList.get(dIndex).getTeamList();
+				for (int tIndex = 0; tIndex < teamList.size(); tIndex++) {
+					List<Player> playersByTeam = teamList.get(tIndex).getPlayerList();
+					for (Player player : playersByTeam) {
+						int years = player.getAge();
+						player.setAge(years + (int) (days / 365));
+
+						if (player.getAge() > maximumRetirementAge) {
+							player.setRetireStatus(true);
+						}
+					}
+					league.getConferenceList().get(index).getDivisionList().get(dIndex).getTeamList().get(tIndex)
+							.setPlayerList(playersByTeam);
+				}
+			}
+		}
+
+		for (Player freeplayer : freeAgentsList) {
+			int years = freeplayer.getAge();
+			freeplayer.setAge(years + (int) (days / 365));
+
+			if (freeplayer.getAge() > maximumRetirementAge) {
+				freeplayer.setRetireStatus(true);
+			}
+		}
+
+		league.setFreeAgents(freeAgentsList);
+		return replaceRetiredPlayers(league);
 	}
 
 }

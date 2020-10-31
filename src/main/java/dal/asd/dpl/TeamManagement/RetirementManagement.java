@@ -7,10 +7,9 @@ import dal.asd.dpl.Database.LeagueDataDB;
 import dal.asd.dpl.NewsSystem.NewsSubscriber;
 import dal.asd.dpl.NewsSystem.RetirementPublisher;
 
-public class RetirementManagement implements IRetirementManager {
+public class RetirementManagement implements IRetirementManagement {
 
-	static
-	{
+	static {
 		RetirementPublisher.getInstance().subscribe(new NewsSubscriber());
 	}
 
@@ -105,4 +104,42 @@ public class RetirementManagement implements IRetirementManager {
 		return league;
 	}
 
+	@Override
+	public League increaseAge(int days, League league) {
+		List<Conference> conferenceList = league.getConferenceList();
+		int maximumRetirementAge = league.getGameConfig().getAging().getMaximumAge();
+		List<Player> freeAgentsList = league.getFreeAgents();
+
+		for (int index = 0; index < conferenceList.size(); index++) {
+			List<Division> divisionList = conferenceList.get(index).getDivisionList();
+			for (int dIndex = 0; dIndex < divisionList.size(); dIndex++) {
+				List<Team> teamList = divisionList.get(dIndex).getTeamList();
+				for (int tIndex = 0; tIndex < teamList.size(); tIndex++) {
+					List<Player> playersByTeam = teamList.get(tIndex).getPlayerList();
+					for (Player player : playersByTeam) {
+						int years = player.getAge();
+						player.setAge(years + (int) (days / 365));
+
+						if (player.getAge() > maximumRetirementAge) {
+							player.setRetireStatus(true);
+						}
+					}
+					league.getConferenceList().get(index).getDivisionList().get(dIndex).getTeamList().get(tIndex)
+							.setPlayerList(playersByTeam);
+				}
+			}
+		}
+
+		for (Player freeplayer : freeAgentsList) {
+			int years = freeplayer.getAge();
+			freeplayer.setAge(years + (int) (days / 365));
+
+			if (freeplayer.getAge() > maximumRetirementAge) {
+				freeplayer.setRetireStatus(true);
+			}
+		}
+
+		league.setFreeAgents(freeAgentsList);
+		return replaceRetiredPlayers(league);
+	}
 }
