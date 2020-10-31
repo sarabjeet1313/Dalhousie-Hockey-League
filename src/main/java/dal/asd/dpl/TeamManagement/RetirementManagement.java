@@ -9,8 +9,8 @@ import dal.asd.dpl.NewsSystem.RetirementPublisher;
 
 public class RetirementManagement implements IRetirementManager {
 
-	public RetirementManagement(){
-
+	static
+	{
 		RetirementPublisher.getInstance().subscribe(new NewsSubscriber());
 	}
 

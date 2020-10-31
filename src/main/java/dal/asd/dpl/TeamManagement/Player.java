@@ -24,6 +24,10 @@ public class Player implements IPlayerInfo, IInjuryCalculator, IAgingCalculator 
 		super();
 	}
 
+	static
+	{
+		InjuryPublisher.getInstance().subscribe(new NewsSubscriber());
+	}
 
 	public Player(String playerName, String position, boolean captain, int age, int skating, int shooting, int checking,
 			int saving, boolean isInjured, boolean retireStatus, int daysInjured) {
@@ -39,7 +43,7 @@ public class Player implements IPlayerInfo, IInjuryCalculator, IAgingCalculator 
 		this.isInjured = isInjured;
 		this.retireStatus = retireStatus;
 		this.daysInjured = daysInjured;
-		InjuryPublisher.getInstance().subscribe(new NewsSubscriber());
+
 
 	}
 

@@ -11,19 +11,18 @@ import org.junit.Test;
 
 public class InjuryTest {
 	private final ByteArrayOutputStream console = new ByteArrayOutputStream();
-	private final IInjuryInfo subscriber = new NewsSubscriber();
+	//private final IInjuryInfo subscriber = new NewsSubscriber();
 	
 	@Before
 	public void before() {
 		System.setOut(new PrintStream(console));
-		InjuryPublisher.getInstance().getSubscribers().clear();
-		InjuryPublisher.getInstance().subscribe(subscriber);
+		//InjuryPublisher.getInstance().subscribe(subscriber);
 	}
 	
 	@After
 	public void after() {
 		System.setOut(null);
-		InjuryPublisher.getInstance().unsubscribe(subscriber);
+		//InjuryPublisher.getInstance().unsubscribe(subscriber);
 	}
 	
 	@Test

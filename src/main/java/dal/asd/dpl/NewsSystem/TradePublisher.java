@@ -10,9 +10,6 @@ public class TradePublisher {
     private TradePublisher(){
         subscribers = new ArrayList<>();
     }
-    public List<ITradeInfo> getSubscribers(){
-        return subscribers;
-    }
     public static TradePublisher getInstance(){
         if(instance == null){
             instance = new TradePublisher();

@@ -11,19 +11,18 @@ import org.junit.Test;
 
 public class RetirementTest {
 	private final ByteArrayOutputStream console = new ByteArrayOutputStream();
-	private final IRetirementInfo subscriber = new NewsSubscriber();
+	//private final IRetirementInfo subscriber = new NewsSubscriber();
 	
 	@Before
 	public void before() {
 		System.setOut(new PrintStream(console));
-		RetirementPublisher.getInstance().getSubscribers().clear();
-		RetirementPublisher.getInstance().subscribe(subscriber);
+		//RetirementPublisher.getInstance().subscribe(subscriber);
 	}
 	
 	@After
 	public void after() {
 		System.setOut(null);
-		RetirementPublisher.getInstance().unsubscribe(subscriber);
+		//RetirementPublisher.getInstance().unsubscribe(subscriber);
 	}
 	
 	@Test
