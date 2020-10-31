@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-public class RegularSeasonScheduleState implements ISchedule {
+public class RegularSeasonSchedule implements ISchedule {
 
     private String currentDay;
     private String firstDay;
@@ -31,7 +31,7 @@ public class RegularSeasonScheduleState implements ISchedule {
     private List<String> teamsScheduled;
     private List<String> teamsCompeting;
 
-    public RegularSeasonScheduleState(Calendar calendar, IUserOutput output) {
+    public RegularSeasonSchedule(Calendar calendar, IUserOutput output) {
 
         this.totalDivisions = 0;
         this.totalTeams = 0;

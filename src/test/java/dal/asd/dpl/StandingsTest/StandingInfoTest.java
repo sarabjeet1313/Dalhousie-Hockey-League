@@ -1,4 +1,4 @@
-package dal.asd.dpl.InternalStateMachineTest;
+package dal.asd.dpl.StandingsTest;
 
 import dal.asd.dpl.Standings.StandingInfo;
 import dal.asd.dpl.TeamManagement.League;
@@ -52,9 +52,9 @@ public class StandingInfoTest {
 
     @Test
     public void initializeStandingsTest() {
-        assertNotEquals(4, standingsDb.getStandings().size());
+        assertNotEquals(10, standingsDb.getStandings().size());
         standings.initializeStandings();
-        assertEquals(4, standingsDb.getStandings().size());
+        assertEquals(10, standingsDb.getStandings().size());
     }
 
     @Test

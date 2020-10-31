@@ -1,6 +1,6 @@
 package dal.asd.dpl.InternalStateMachine;
 import dal.asd.dpl.Schedule.ISchedule;
-import dal.asd.dpl.Schedule.RegularSeasonScheduleState;
+import dal.asd.dpl.Schedule.RegularSeasonSchedule;
 import dal.asd.dpl.Schedule.SeasonCalendar;
 import dal.asd.dpl.Standings.IStandingsDb;
 import dal.asd.dpl.Standings.StandingInfo;
@@ -31,7 +31,7 @@ public class GenerateRegularSeasonScheduleState implements ISimulationState {
         this.leagueToSimulate = leagueToSimulate;
         this.standings = new StandingInfo(leagueToSimulate, season, standingsDb);
         this.seasonCalendar = Calendar.getInstance();
-        this.schedule = new RegularSeasonScheduleState(seasonCalendar, output);
+        this.schedule = new RegularSeasonSchedule(seasonCalendar, output);
         this.utility = new SeasonCalendar(season, output);
         this.input = input;
         this.output = output;

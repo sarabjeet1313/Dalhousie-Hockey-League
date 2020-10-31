@@ -10,7 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-public class PlayoffScheduleState implements ISchedule {
+public class PlayoffSchedule implements ISchedule {
 
     private Calendar calendar;
     private IUserOutput output;
@@ -28,7 +28,7 @@ public class PlayoffScheduleState implements ISchedule {
     private List<String> teamsScheduled;
     private IStandingsDb standingsDb;
 
-    public PlayoffScheduleState(IUserOutput output, IStandingsDb standings, int season){
+    public PlayoffSchedule(IUserOutput output, IStandingsDb standings, int season){
         this.calendar = Calendar.getInstance();
         this.output = output;
         this.standingsDb = standings;

@@ -2,7 +2,7 @@ package dal.asd.dpl.InternalStateMachineTest;
 
 import dal.asd.dpl.InternalStateMachine.*;
 import dal.asd.dpl.Schedule.ISchedule;
-import dal.asd.dpl.Schedule.RegularSeasonScheduleState;
+import dal.asd.dpl.Schedule.RegularSeasonSchedule;
 import dal.asd.dpl.Schedule.SeasonCalendar;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.UserInput.CmdUserInput;
@@ -31,7 +31,7 @@ public class InjuryCheckStateTest {
         input = new CmdUserInput();
         output = new CmdUserOutput();
         calendar = Calendar.getInstance();
-        schedule = new RegularSeasonScheduleState(calendar, output);
+        schedule = new RegularSeasonSchedule(calendar, output);
         context = new InternalStateContext(input, output);
         utility = new SeasonCalendar(0, output);
         state = new InjuryCheckState(leagueToSimulate, schedule, context, utility, "13-11-2020", output);

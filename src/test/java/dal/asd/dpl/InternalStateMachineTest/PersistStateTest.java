@@ -2,10 +2,11 @@ package dal.asd.dpl.InternalStateMachineTest;
 
 import dal.asd.dpl.InternalStateMachine.*;
 import dal.asd.dpl.Schedule.ISchedule;
-import dal.asd.dpl.Schedule.RegularSeasonScheduleState;
+import dal.asd.dpl.Schedule.RegularSeasonSchedule;
 import dal.asd.dpl.Schedule.SeasonCalendar;
 import dal.asd.dpl.Standings.IStandingsDb;
 import dal.asd.dpl.Standings.StandingInfo;
+import dal.asd.dpl.StandingsTest.StandingsMockDb;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagementTest.LeagueMockData;
 import dal.asd.dpl.UserInput.CmdUserInput;
@@ -39,7 +40,7 @@ public class PersistStateTest {
         output = new CmdUserOutput();
         calendar = Calendar.getInstance();
         standingsDb = new StandingsMockDb(0);
-        schedule = new RegularSeasonScheduleState(calendar, output);
+        schedule = new RegularSeasonSchedule(calendar, output);
         standings = new StandingInfo(leagueToSimulate, 0, standingsDb);
         context = new InternalStateContext(input, output);
         utility = new SeasonCalendar(0, output);

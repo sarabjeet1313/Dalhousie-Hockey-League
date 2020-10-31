@@ -2,10 +2,12 @@ package dal.asd.dpl.InternalStateMachineTest;
 
 import dal.asd.dpl.InternalStateMachine.*;
 import dal.asd.dpl.Schedule.ISchedule;
-import dal.asd.dpl.Schedule.RegularSeasonScheduleState;
+import dal.asd.dpl.Schedule.RegularSeasonSchedule;
 import dal.asd.dpl.Schedule.SeasonCalendar;
+import dal.asd.dpl.ScheduleTest.MockSchedule;
 import dal.asd.dpl.Standings.IStandingsDb;
 import dal.asd.dpl.Standings.StandingInfo;
+import dal.asd.dpl.StandingsTest.StandingsMockDb;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagementTest.LeagueMockData;
 import dal.asd.dpl.UserInput.IUserInput;
@@ -36,7 +38,7 @@ public class SimulateGameStateTest {
     public void setUp() throws Exception {
         leagueToSimulate = new LeagueMockData().getTestData();
         calendar = Calendar.getInstance();
-        schedule = new RegularSeasonScheduleState(calendar, output);
+        schedule = new RegularSeasonSchedule(calendar, output);
         mockSchedule = new MockSchedule();
         schedule.setFinalSchedule(mockSchedule.getMockSchedule());
         standingsDb = new StandingsMockDb(0);

@@ -1,9 +1,10 @@
 package dal.asd.dpl.InternalStateMachineTest;
 import dal.asd.dpl.InternalStateMachine.*;
 import dal.asd.dpl.Schedule.ISchedule;
-import dal.asd.dpl.Schedule.RegularSeasonScheduleState;
+import dal.asd.dpl.Schedule.RegularSeasonSchedule;
 import dal.asd.dpl.Schedule.SeasonCalendar;
 import dal.asd.dpl.Standings.IStandingsDb;
+import dal.asd.dpl.StandingsTest.StandingsMockDb;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagementTest.LeagueMockData;
 import dal.asd.dpl.UserInput.CmdUserInput;
@@ -32,7 +33,7 @@ public class GenerateRegularSeasonScheduleStateTest {
         leagueToSimulate = new LeagueMockData().getTestData();
         utility = new SeasonCalendar(0, output);
         context = new InternalStateContext(input, output);
-        schedule = new RegularSeasonScheduleState(null, output);
+        schedule = new RegularSeasonSchedule(null, output);
         standingsDb = new StandingsMockDb(0);
         state = new GenerateRegularSeasonScheduleState(leagueToSimulate, input, output, 0, context, standingsDb);
     }

@@ -1,4 +1,4 @@
-package dal.asd.dpl.InternalStateMachineTest;
+package dal.asd.dpl.StandingsTest;
 import dal.asd.dpl.Standings.IStandingsDb;
 
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ public class StandingsMockDb implements IStandingsDb {
     private Map<String, Integer> standingsTeamLoss;
     private List<StandingsMock> standings;
 
-    StandingsMockDb(int season) {
+    public StandingsMockDb(int season) {
         this.season = season;
         this.standingsTeamWin = new HashMap<>();
         this.standingsTeamLoss = new HashMap<>();

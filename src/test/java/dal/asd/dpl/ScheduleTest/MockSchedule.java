@@ -1,4 +1,4 @@
-package dal.asd.dpl.InternalStateMachineTest;
+package dal.asd.dpl.ScheduleTest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +12,7 @@ public class MockSchedule {
     private List<String> teamsScheduled;
     private List<String> teamsToBeScheduled;
 
-    MockSchedule() {
+    public MockSchedule() {
         schedule = new HashMap<>();
         teamsList = new ArrayList<>();
         Map<String, String> teamsCompeting1 = new HashMap<>();

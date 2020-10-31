@@ -1,7 +1,8 @@
-package dal.asd.dpl.InternalStateMachineTest;
+package dal.asd.dpl.ScheduleTest;
 
+import dal.asd.dpl.StandingsTest.StandingsMockDb;
 import dal.asd.dpl.Standings.IStandingsDb;
-import dal.asd.dpl.Schedule.PlayoffScheduleState;
+import dal.asd.dpl.Schedule.RegularSeasonSchedule;
 import dal.asd.dpl.Standings.StandingInfo;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagementTest.LeagueMockData;
@@ -10,29 +11,36 @@ import dal.asd.dpl.UserOutput.IUserOutput;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.Calendar;
+
 import static org.junit.Assert.*;
 
-public class PlayoffScheduleStateTest {
+public class RegularSeasonScheduleTest {
 
-    private PlayoffScheduleState state;
+    private RegularSeasonSchedule state;
     private IUserOutput output;
     private StandingInfo standings;
     private League leagueToSimulate;
     private MockSchedule mockSchedule;
+    private Calendar calendar;
     private IStandingsDb standingsDb;
 
     @Before
     public void setUp() throws Exception {
         output = new CmdUserOutput();
-        standingsDb = new StandingsMockDb(0);
         leagueToSimulate = new LeagueMockData().getTestData();
-        state = new PlayoffScheduleState(output, standingsDb, 0);
+        standingsDb = new StandingsMockDb(0);
+        standings = new StandingInfo(leagueToSimulate, 0, standingsDb);
+        calendar = Calendar.getInstance();
+        state = new RegularSeasonSchedule(calendar, output);
         mockSchedule = new MockSchedule();
     }
 
     @Test
     public void getSeasonTypeTest() {
-        assertEquals(1, state.getSeasonType());
+        assertEquals(0, state.getSeasonType());
         state.setSeasonType(2);
         assertNotEquals(1,state.getSeasonType());
         assertEquals(2, state.getSeasonType());
@@ -40,7 +48,7 @@ public class PlayoffScheduleStateTest {
 
     @Test
     public void setSeasonTypeTest() {
-        assertEquals(1, state.getSeasonType());
+        assertEquals(0, state.getSeasonType());
         state.setSeasonType(2);
         assertNotEquals(1,state.getSeasonType());
         assertEquals(2, state.getSeasonType());
@@ -89,6 +97,24 @@ public class PlayoffScheduleStateTest {
     }
 
     @Test
+    public void generateScheduleTest() {
+        state.setCurrentDay("13-11-2020");
+        state.setFirstDay("14-11-2020");
+        state.setLastDay("20-11-2020");
+        state.generateSchedule(leagueToSimulate);
+        assertEquals("Halifax", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
+        assertNotEquals("Toronto", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
+    }
+
+    @Test
+    public void incrementCurrentDayTest() {
+        state.setCurrentDay("13-11-2020");
+        assertNotEquals("14-11-2020", state.getCurrentDay());
+        state.incrementCurrentDay();
+        assertEquals("14-11-2020", state.getCurrentDay());
+    }
+
+    @Test
     public void setTeamsToBeScheduledTest() {
         assertNotEquals(1, state.getTeamsToBeScheduled().size());
         state.setTeamsToBeScheduled(mockSchedule.getMockToBeScheduledTeams());
@@ -121,39 +147,12 @@ public class PlayoffScheduleStateTest {
     }
 
     @Test
-    public void generateScheduleTest() {
-        state.setCurrentDay("13-11-2020");
-        state.setFirstDay("13-11-2020");
-        state.setLastDay("20-11-2020");
-        state.generateSchedule(leagueToSimulate);
-        assertEquals("Halifax", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
-        assertNotEquals("Toronto", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
-    }
-
-    @Test
-    public void generateScheduleOnTheFlyTest() {
-        state.setFirstDay("13-11-2020");
-        state.setLastDay("20-11-2020");
-        state.generateScheduleOnTheFly(mockSchedule.getMockScheduledTeams(), "13-11-2020");
-        assertEquals("Halifax", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
-        assertNotEquals("Toronto", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
-    }
-
-    @Test
-    public void incrementCurrentDayTest() {
-        state.setCurrentDay("13-11-2020");
-        assertNotEquals("14-11-2020", state.getCurrentDay());
-        state.incrementCurrentDay();
-        assertEquals("14-11-2020", state.getCurrentDay());
-    }
-
-    @Test
     public void getFinalScheduleTest() {
-        state.setFirstDay("13-11-2020");
-        state.setLastDay("20-11-2020");
-        state.generateScheduleOnTheFly(mockSchedule.getMockScheduledTeams(), "13-11-2020");
+        state.setFinalSchedule(mockSchedule.getMockSchedule());
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(out));
         assertEquals("Halifax", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
-        assertNotEquals("Toronto", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
+        assertNotEquals("Calgary", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
     }
 
     @Test

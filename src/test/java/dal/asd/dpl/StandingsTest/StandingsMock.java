@@ -1,4 +1,4 @@
-package dal.asd.dpl.InternalStateMachineTest;
+package dal.asd.dpl.StandingsTest;
 
 public class StandingsMock {
 
