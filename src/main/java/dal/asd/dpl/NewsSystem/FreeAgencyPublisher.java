@@ -10,9 +10,9 @@ public class FreeAgencyPublisher {
 	private FreeAgencyPublisher(){
 		subscribers = new ArrayList<>();
 	}
-	public List<IFreeAgencyInfo> getSubscribers(){
-		return subscribers;
-	}
+	/*public List<IFreeAgencyInfo> getSubscribers(){
+		return new ArrayList<>(subscribers);
+	}*/
 
 	public static FreeAgencyPublisher getInstance(){
 		if(instance == null){

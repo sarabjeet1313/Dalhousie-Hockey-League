@@ -37,6 +37,12 @@ public class CreateTeamState implements IState {
 	private List<Player> playersList = new ArrayList<Player>();
 	List<Player> tempList2 = new ArrayList<Player>();
 
+
+static{
+	FreeAgencyPublisher.getInstance().subscribe(new NewsSubscriber());
+}
+
+
 	public CreateTeamState(IUserInput input, IUserOutput output, League league, ILeague leagueDb) {
 		CreateTeamState.input = input;
 		CreateTeamState.output = output;
@@ -46,7 +52,7 @@ public class CreateTeamState implements IState {
 		CreateTeamState.divisions = new Division("", null);
 		CreateTeamState.teams = new Team("", "", headCoach, null);
 		CreateTeamState.stateName = "Create Team";
-		FreeAgencyPublisher.getInstance().subscribe(new NewsSubscriber());
+
 	}
 
 	public void nextState(StateContext context) {

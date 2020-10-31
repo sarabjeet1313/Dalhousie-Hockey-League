@@ -1,6 +1,8 @@
 package dal.asd.dpl.NewsSystem;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class GamePlayedPublisher {
@@ -11,9 +13,9 @@ public class GamePlayedPublisher {
 		subscribers = new ArrayList<>();
 	}
 
-	public List<IGamesPlayedInfo> getSubscribers(){
-		return subscribers;
-	}
+/*	public List<IGamesPlayedInfo> getSubscribers(){
+		return new ArrayList<>(subscribers);
+	}*/
 
 	public static GamePlayedPublisher getInstance(){
 		if(instance == null){

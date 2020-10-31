@@ -11,6 +11,7 @@ import dal.asd.dpl.GameplayConfiguration.GameplayConfig;
 import dal.asd.dpl.GameplayConfiguration.Injury;
 import dal.asd.dpl.GameplayConfiguration.Trading;
 import dal.asd.dpl.GameplayConfiguration.Training;
+import dal.asd.dpl.NewsSystem.RetirementPublisher;
 import dal.asd.dpl.TeamManagement.Coach;
 import dal.asd.dpl.TeamManagement.Conference;
 import dal.asd.dpl.TeamManagement.Division;
@@ -190,6 +191,7 @@ public class LeagueMockData implements ILeague, ITeamPlayersInfo {
 
 		if (rand.nextInt(likelihoodOfRetirement) == 0 || player.getAge() > maximumAge) {
 			this.replaceRetiredPlayers(league);
+			RetirementPublisher.getInstance().notify(player.getPlayerName(), player.getAge());
 			return Boolean.TRUE;
 		} else {
 			return Boolean.FALSE;

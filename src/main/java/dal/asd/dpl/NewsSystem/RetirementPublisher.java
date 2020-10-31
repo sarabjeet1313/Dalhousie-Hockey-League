@@ -10,9 +10,7 @@ public class RetirementPublisher {
 	private RetirementPublisher(){
 		subscribers = new ArrayList<IRetirementInfo>();
 	}
-	public List<IRetirementInfo> getSubscribers(){
-		return subscribers;
-	}
+
 	public static RetirementPublisher getInstance(){
 		if(instance == null){
 			instance = new RetirementPublisher();
