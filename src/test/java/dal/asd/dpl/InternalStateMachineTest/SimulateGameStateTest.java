@@ -53,7 +53,7 @@ public class SimulateGameStateTest {
     public void nextStateTest() {
         context.setState(state);
         context.nextState();
-        assertEquals("InjuryCheck", state.getNextStateName());
+        assertEquals("Injury", state.getNextStateName());
         assertNotEquals("Negative", state.getNextStateName());
     }
 
@@ -74,6 +74,6 @@ public class SimulateGameStateTest {
     public void getNextStateNameTest() {
         assertNotEquals("Negative", state.getNextStateName());
         state.nextState(context);
-        assertEquals("InjuryCheck", state.getNextStateName());
+        assertEquals("Injury", state.getNextStateName());
     }
 }

@@ -15,32 +15,24 @@ public class AdvanceTimeState implements ISimulationState{
     private IUserOutput output;
     private InternalStateContext context;
     private String endDate;
-    private int year;
     private Calendar calendar;
     private boolean isALastDay;
-    private ISchedule matchSchedule;
-    private League leagueToSimulate;
-    private SeasonCalendar utility;
-
-    public AdvanceTimeState(ISchedule schedule, League leagueToSimulate, String startDate, String endDate, SeasonCalendar utlity, IUserOutput output, InternalStateContext context) {
-        this.stateName = "AdvanceTime";
+    public AdvanceTimeState(String startDate, String endDate, IUserOutput output, InternalStateContext context) {
+        this.stateName = StateConstants.ADVANCE_TIME_STATE;
         this.currentDate = startDate;
         this.endDate = endDate;
         this.output = output;
-        this.utility = utlity;
         this.context = context;
         this.isALastDay = false;
-        this.matchSchedule = schedule;
         this.calendar = Calendar.getInstance();
-        this.leagueToSimulate = leagueToSimulate;
     }
 
     public void nextState(InternalStateContext context) {
         if(isALastDay){
-            this.nextStateName = "GeneratePlayoffSchedule";
+            this.nextStateName = StateConstants.GENERATE_PLAYOFF_SCHEDULE_STATE;
         }
         else {
-            this.nextStateName = "Training";
+            this.nextStateName = StateConstants.TRAINING_STATE;
         }
     }
 

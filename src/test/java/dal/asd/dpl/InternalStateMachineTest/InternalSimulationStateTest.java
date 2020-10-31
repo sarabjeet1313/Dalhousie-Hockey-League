@@ -42,7 +42,7 @@ public class InternalSimulationStateTest {
 
     @Test
     public void getStateNameTest() {
-        assertEquals("Simulate", state.getStateName());
+        assertEquals("InternalSimulation", state.getStateName());
     }
 
     @Test

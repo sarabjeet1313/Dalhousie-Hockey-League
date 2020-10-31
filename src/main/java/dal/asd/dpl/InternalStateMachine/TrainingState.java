@@ -30,15 +30,15 @@ public class TrainingState implements ISimulationState {
     }
 
     public void nextState(InternalStateContext context) {
-        if(anyUnplayedGames()) {
-            this.nextStateName = "SimulateGame";
+        if(schedule.anyUnplayedGame(currentDate)) {
+            this.nextStateName = StateConstants.SIMULATE_GAME_STATE;
         }
         else {
             if (utility.isTradeDeadlinePending(this.currentDate)) {
-                this.nextStateName = "Trading";
+                this.nextStateName = StateConstants.TRADING_STATE;
             }
             else {
-                this.nextStateName = "Aging";
+                this.nextStateName = StateConstants.AGING_STATE;
             }
         }
     }
@@ -48,18 +48,6 @@ public class TrainingState implements ISimulationState {
         // TODO training logic to be implemented.
         output.setOutput("Inside Training state");
         output.sendOutput();
-    }
-
-    public boolean anyUnplayedGames() {
-        Map< String, List<Map<String, String>>> finalSchedule = schedule.getFinalSchedule();
-        if(finalSchedule.containsKey(this.currentDate)) {
-            if (finalSchedule.get(this.currentDate).size() > 0) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-        return false;
     }
 
     public String getStateName() {

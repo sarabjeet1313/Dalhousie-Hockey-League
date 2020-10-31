@@ -8,6 +8,8 @@ import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
 
+import javax.swing.plaf.nimbus.State;
+
 public class InternalSimulationState implements ISimulationState{
 
     private IUserInput input;
@@ -40,7 +42,7 @@ public class InternalSimulationState implements ISimulationState{
         this.totalSeasons = seasons;
         this.teamName = teamName;
         this.leagueToSimulate = leagueToSimulate;
-        this.stateName = "Simulate";
+        this.stateName = StateConstants.INTERNAL_SIMULATION_STATE;
         this.season = 0;
         this.context = context;
         this.currentDate = "";
@@ -73,7 +75,7 @@ public class InternalSimulationState implements ISimulationState{
             do {
                 utility = new SeasonCalendar(season, output);
 
-                advanceTimeState = new AdvanceTimeState(schedule, leagueToSimulate, currentDate, endDate, utility, output, context);
+                advanceTimeState = new AdvanceTimeState(currentDate, endDate, output, context);
                 advanceTimeState.doProcessing();
                 this.currentDate = advanceTimeState.getCurrentDate();
 
@@ -89,7 +91,7 @@ public class InternalSimulationState implements ISimulationState{
                 }
 
                 trainingState.doProcessing();
-                boolean anyUnplayedGames = trainingState.anyUnplayedGames();
+                boolean anyUnplayedGames = schedule.anyUnplayedGame(currentDate);
 
                 while (anyUnplayedGames) {
                     simulateGame = new SimulateGameState(leagueToSimulate, schedule, standings, context, utility, currentDate, output);
@@ -97,7 +99,7 @@ public class InternalSimulationState implements ISimulationState{
 
                     injuryCheck = new InjuryCheckState(leagueToSimulate, schedule, context, utility, currentDate, output);
                     injuryCheck.doProcessing();
-                    anyUnplayedGames = trainingState.anyUnplayedGames();
+                    anyUnplayedGames = schedule.anyUnplayedGame(currentDate);
                 }
 
                 if (utility.isTradeDeadlinePending(this.currentDate)) {
@@ -105,11 +107,11 @@ public class InternalSimulationState implements ISimulationState{
                     tradingState.doProcessing();
                 }
 
-                agingState = new AgingState(leagueToSimulate, schedule, context, utility, currentDate, output);
+                agingState = new AgingState(leagueToSimulate, context, utility, currentDate, output);
                 agingState.doProcessing();
 
                 if (utility.getSeasonOverStatus() | utility.isLastDayOfSeason(currentDate))  {
-                    advanceToNextSeason = new AdvanceToNextSeasonState(leagueToSimulate, schedule, context, utility, currentDate, output);
+                    advanceToNextSeason = new AdvanceToNextSeasonState(leagueToSimulate, context, utility, currentDate, output);
                     advanceToNextSeason.doProcessing();
                     seasonPending = false;
                 }

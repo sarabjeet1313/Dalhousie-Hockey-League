@@ -9,36 +9,35 @@ import java.util.List;
 import java.util.Map;
 
 public class InjuryCheckState implements ISimulationState {
-
     private String stateName;
     private String nextStateName;
     private League leagueToSimulate;
     private ISchedule schedule;
     private InternalStateContext context;
-    private SeasonCalendar utility;
+    private SeasonCalendar seasonCalendar;
     private String currentDate;
     private IUserOutput output;
 
-    public InjuryCheckState (League leagueToSimulate, ISchedule schedule, InternalStateContext context, SeasonCalendar utility, String currentDate, IUserOutput output) {
+    public InjuryCheckState (League leagueToSimulate, ISchedule schedule, InternalStateContext context, SeasonCalendar seasonCalendar, String currentDate, IUserOutput output) {
         this.leagueToSimulate = leagueToSimulate;
         this.schedule = schedule;
         this.context = context;
-        this.utility = utility;
+        this.seasonCalendar = seasonCalendar;
         this.currentDate = currentDate;
         this.output = output;
-        this.stateName = "Injury";
+        this.stateName = StateConstants.INJURY_STATE;
     }
 
     public void nextState(InternalStateContext context) {
-        if(anyUnplayedGames()) {
-            this.nextStateName = "SimulateGame";
+        if(schedule.anyUnplayedGame(this.currentDate)) {
+            this.nextStateName = StateConstants.SIMULATE_GAME_STATE;
         }
         else {
-            if (utility.isTradeDeadlinePending(this.currentDate)) {
-                this.nextStateName = "Trading";
+            if (seasonCalendar.isTradeDeadlinePending(this.currentDate)) {
+                this.nextStateName = StateConstants.TRADING_STATE;
             }
             else {
-                this.nextStateName = "Aging";
+                this.nextStateName = StateConstants.AGING_STATE;
             }
         }
     }
@@ -47,18 +46,6 @@ public class InjuryCheckState implements ISimulationState {
         // TODO injury check ...
         output.setOutput("Inside Injury Check state");
         output.sendOutput();
-    }
-
-    private boolean anyUnplayedGames() {
-        Map< String, List<Map<String, String>>> finalSchedule = schedule.getFinalSchedule();
-        if(finalSchedule.containsKey(this.currentDate)) {
-            if (finalSchedule.get(this.currentDate).size() > 0) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-        return false;
     }
 
     public String getStateName() {

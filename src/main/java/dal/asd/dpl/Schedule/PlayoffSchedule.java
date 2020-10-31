@@ -32,7 +32,7 @@ public class PlayoffSchedule implements ISchedule {
         this.calendar = Calendar.getInstance();
         this.output = output;
         this.standingsDb = standings;
-        this.seasonType = 1 /*Playoff Season*/;
+        this.seasonType = ScheduleConstants.PLAYOFF_SEASON /*Playoff Season*/;
         conferenceTeamList = new HashMap<>();
         finalSchedule = new HashMap<>();
         teamsToBeScheduled = new ArrayList<>();
@@ -102,7 +102,6 @@ public class PlayoffSchedule implements ISchedule {
         if(leagueToSimulate == null) {
             return;
         }
-
         List<Conference> conferenceList =  leagueToSimulate.getConferenceList();
 
         for(int index = 0; index < conferenceList.size(); index++) {
@@ -214,5 +213,15 @@ public class PlayoffSchedule implements ISchedule {
         this.finalSchedule = schedule;
     }
 
+    public boolean anyUnplayedGame(String date) {
+        if(finalSchedule.containsKey(date)) {
+            if (finalSchedule.get(date).size() > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
+    }
 }
 

@@ -16,32 +16,31 @@ public class GeneratePlayoffScheduleState implements ISimulationState {
     private int season;
     private League leagueToSimulate;
     private IUserOutput output;
-    private SeasonCalendar utility;
+    private SeasonCalendar seasonCalendar;
     private IStandingsDb standingsDb;
     private InternalStateContext context;
     private ISchedule schedule;
 
-    public GeneratePlayoffScheduleState(League leagueToSimulate, SeasonCalendar utility, IStandingsDb standings, String currentDate, IUserOutput output, InternalStateContext context, int season) {
-        this.stateName = "GeneratePlayoffSchedule";
-        this.nextStateName = "Training";
+    public GeneratePlayoffScheduleState(League leagueToSimulate, SeasonCalendar seasonCalendar, IStandingsDb standings, String currentDate, IUserOutput output, InternalStateContext context, int season) {
+        this.stateName = StateConstants.GENERATE_PLAYOFF_SCHEDULE_STATE;
         this.season = season;
         this.output = output;
-        this.utility = utility;
+        this.seasonCalendar = seasonCalendar;
         this.currentDate = currentDate;
         this.standingsDb = standings;
         this.leagueToSimulate = leagueToSimulate;
         this.schedule = new PlayoffSchedule(output, standings, season);
         this.context = context;
-        this.startDate = this.utility.getPlayoffFirstDay();
+        this.startDate = this.seasonCalendar.getPlayoffFirstDay();
         schedule.setFirstDay(startDate);
         schedule.setCurrentDay(startDate);
-        this.endDate = this.utility.getPlayoffLastDay();
+        this.endDate = this.seasonCalendar.getPlayoffLastDay();
         schedule.setLastDay(endDate);
-        utility.setLastSeasonDay(this.endDate);
+        seasonCalendar.setLastSeasonDay(this.endDate);
     }
 
     public void nextState(InternalStateContext context) {
-        this.nextStateName = "Training";
+        this.nextStateName = StateConstants.TRAINING_STATE;
     }
 
     public void doProcessing() {
@@ -58,7 +57,6 @@ public class GeneratePlayoffScheduleState implements ISimulationState {
         schedule.generateSchedule(leagueToSimulate);
         output.setOutput("Playoff season has been scheduled successfully.");
         output.sendOutput();
-
         schedule.setCurrentDay(this.startDate);
     }
 

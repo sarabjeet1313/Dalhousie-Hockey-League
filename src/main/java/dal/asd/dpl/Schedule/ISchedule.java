@@ -22,5 +22,6 @@ public interface ISchedule {
     public void setTeamsScheduled(List<String> teamsScheduled);
     public List<String> getTeamsScheduled();
     public void generateScheduleOnTheFly(List<String> teamsToCompete, String currentDay);
+    public boolean anyUnplayedGame(String date);
 
 }

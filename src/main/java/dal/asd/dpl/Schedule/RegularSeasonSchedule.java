@@ -35,7 +35,7 @@ public class RegularSeasonSchedule implements ISchedule {
 
         this.totalDivisions = 0;
         this.totalTeams = 0;
-        this.seasonType = 0 /*Regular Season*/;
+        this.seasonType = ScheduleConstants.REGULAR_SEASON;
         this.calendar = calendar;
         this.output = output;
         listOfConferences = new ArrayList<String>();
@@ -488,4 +488,14 @@ public class RegularSeasonSchedule implements ISchedule {
         this.finalSchedule = schedule;
     }
 
+    public boolean anyUnplayedGame(String date) {
+        if(finalSchedule.containsKey(date)) {
+            if (finalSchedule.get(date).size() > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
+    }
 }

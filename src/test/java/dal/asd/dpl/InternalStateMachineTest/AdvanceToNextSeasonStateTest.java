@@ -25,7 +25,7 @@ public class AdvanceToNextSeasonStateTest {
         output = new CmdUserOutput();
         utility = new SeasonCalendar(0, output);
         context = new InternalStateContext(input, output);
-        state = new AdvanceToNextSeasonState(null, null, context, utility, "13-11-2020", output);
+        state = new AdvanceToNextSeasonState(null, context, utility, "13-11-2020", output);
     }
 
     @Test

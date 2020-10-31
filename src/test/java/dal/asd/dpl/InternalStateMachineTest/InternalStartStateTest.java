@@ -31,7 +31,7 @@ public class InternalStartStateTest {
     @Test
     public void nextStateTest() {
         state.nextState(context);
-        assertEquals("Simulate", context.currentStateName);
+        assertEquals("InternalSimulation", context.currentStateName);
     }
 
     @Test
@@ -42,7 +42,7 @@ public class InternalStartStateTest {
     @Test
     public void getNextStateNameTest() {
         state.nextState(context);
-        assertEquals("Simulate", state.getNextStateName());
+        assertEquals("InternalSimulation", state.getNextStateName());
     }
 
     @Test

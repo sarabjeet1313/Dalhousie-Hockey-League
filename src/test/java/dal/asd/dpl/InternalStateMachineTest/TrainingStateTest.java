@@ -60,14 +60,6 @@ public class TrainingStateTest {
     }
 
     @Test
-    public void anyUnplayedGamesTest() {
-        assertTrue(state.anyUnplayedGames());
-        // changing the current date to 13th.
-        state = new TrainingState(leagueToSimulate, schedule, utility, "13-11-2020", output, context);
-        assertFalse(state.anyUnplayedGames());
-    }
-
-    @Test
     public void getStateNameTest() {
         assertEquals("Training", state.getStateName());
         assertNotEquals("Negative", state.getStateName());

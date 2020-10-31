@@ -1,5 +1,4 @@
 package dal.asd.dpl.InternalStateMachine;
-
 import dal.asd.dpl.Schedule.ISchedule;
 import dal.asd.dpl.Schedule.SeasonCalendar;
 import dal.asd.dpl.TeamManagement.League;
@@ -17,7 +16,7 @@ public class TradingState implements ISimulationState {
     private IUserOutput output;
 
     public TradingState (League leagueToSimulate, ISchedule schedule, InternalStateContext context, SeasonCalendar utility, String currentDate, IUserOutput output) {
-        this.stateName = "Trading";
+        this.stateName = StateConstants.TRADING_STATE;
         this.leagueToSimulate = leagueToSimulate;
         this.schedule = schedule;
         this.context = context;
@@ -27,8 +26,7 @@ public class TradingState implements ISimulationState {
     }
 
     public void nextState(InternalStateContext context) {
-        this.nextStateName = "Aging";
-        context.setState(new AgingState(leagueToSimulate, schedule, context, utility, currentDate, output));
+        this.nextStateName = StateConstants.AGING_STATE;
     }
 
     public void doProcessing() {
