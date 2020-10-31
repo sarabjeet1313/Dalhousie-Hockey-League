@@ -37,7 +37,7 @@ public class Division {
 				List<Division> divisionList = conferenceList.get(index).getDivisionList();
 				
 				for(int dIndex = 0 ; dIndex < divisionList.size(); dIndex++) {
-					if(divisionList.get(dIndex).divisionName.equals(divisionName)) {
+					if(divisionList.get(dIndex).getDivisionName().equals(divisionName)) {
 						isValid = true;
 						break;
 					}
