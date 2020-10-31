@@ -129,7 +129,6 @@ public class TradeDB implements ITradeDB{
 
     @Override
     public String getUserteamName() {
-        // nope;
         return null;
     }
 }
