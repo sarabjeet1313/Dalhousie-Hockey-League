@@ -2,19 +2,23 @@ package dal.asd.dpl.TeamManagementTest;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.junit.Assert;
 import org.junit.Test;
+
 import dal.asd.dpl.TeamManagement.Coach;
+import dal.asd.dpl.TeamManagement.Manager;
 import dal.asd.dpl.TeamManagement.Player;
 import dal.asd.dpl.TeamManagement.Team;
-import org.junit.Assert;
 
 public class TeamTest {
 
-	ArrayList<Player> playerList = new ArrayList<Player>();
+	List<Player> playerList = new ArrayList<Player>();
 	Coach headCoach = new Coach("Mary Smith", 0.2, 0.3, 0.1, 0.4);
-	Team team = new Team("Boston", "Mister Fred", headCoach, playerList);
-	Player player1 = new Player("Player1", "Forward", false, 1, 1, 1, 1, 1, false, false, 0);
-	Player player2 = new Player("Player2", "Forward", false, 1, 1, 1, 1, 1, false, false, 0);
+	Manager manager1 = new Manager("Karen Potam");
+	Team team = new Team("Boston", manager1, headCoach, playerList);
+	Player player1 = new Player("Player1", "Forword", false, 1, 1, 1, 1, 1, false, false, 0);
+	Player player2 = new Player("Player2", "Forword", false, 1, 1, 1, 1, 1, false, false, 0);
 	Player player3 = new Player("Player3", "Goalie", false, 1, 1, 1, 1, 1, false, false, 0);
 	Player player4 = new Player("Player4", "Defender", false, 1, 1, 1, 1, 1, false, false, 0);
 	LeagueMockData league = new LeagueMockData();
@@ -26,7 +30,7 @@ public class TeamTest {
 		playerList.add(player1);
 		team.setPlayerList(playerList);
 		Assert.assertEquals("Boston", team.getTeamName());
-		Assert.assertEquals("Mister Fred", team.getGeneralManager());
+		Assert.assertEquals(manager1.getManagerName(), team.getGeneralManager().getManagerName());
 		Assert.assertEquals("Mary Smith", team.getHeadCoach().getCoachName());
 		Assert.assertEquals(1, team.getPlayerList().size());
 	}
@@ -44,13 +48,13 @@ public class TeamTest {
 
 	@Test
 	public void getGeneralManagerTest() {
-		Assert.assertEquals("Mister Fred", team.getGeneralManager());
+		Assert.assertEquals(manager1.getManagerName(), team.getGeneralManager().getManagerName());
 	}
 
 	@Test
 	public void setGeneralManagerTest() {
-		team.setGeneralManager("John");
-		Assert.assertEquals("John", team.getGeneralManager());
+		team.setGeneralManager(manager1);
+		Assert.assertEquals(manager1, team.getGeneralManager());
 	}
 
 	@Test
@@ -76,7 +80,7 @@ public class TeamTest {
 	public void setPlayersTest() {
 		playerList.add(player1);
 		playerList.add(player2);
-		Team team1 = new Team("Boston", "Mister Fred", headCoach, playerList);
+		Team team1 = new Team("Boston", manager1, headCoach, playerList);
 		playerList.add(player3);
 		playerList.add(player4);
 		team1.setPlayerList(playerList);

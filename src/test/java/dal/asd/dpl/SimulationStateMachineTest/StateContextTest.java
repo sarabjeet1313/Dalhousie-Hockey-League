@@ -3,7 +3,7 @@ import dal.asd.dpl.SimulationStateMachine.IState;
 import dal.asd.dpl.SimulationStateMachine.InitialState;
 import dal.asd.dpl.SimulationStateMachine.LoadTeamState;
 import dal.asd.dpl.SimulationStateMachine.StateContext;
-import dal.asd.dpl.TeamManagement.ILeague;
+import dal.asd.dpl.TeamManagement.ILeaguePersistance;
 import dal.asd.dpl.TeamManagementTest.LeagueMockData;
 import dal.asd.dpl.UserInput.CmdUserInput;
 import dal.asd.dpl.UserInput.IUserInput;
@@ -21,7 +21,7 @@ public class StateContextTest {
     private static IUserInput input;
     private static IUserOutput output;
     private static StateContext context;
-    private static ILeague mockLeague;
+    private static ILeaguePersistance mockLeague;
 
     @Before
     public void setUp() throws Exception {

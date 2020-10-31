@@ -1,13 +1,17 @@
 package dal.asd.dpl.SimulationStateMachine;
 
+import dal.asd.dpl.GameplayConfiguration.IGameplayConfigPersistance;
 import dal.asd.dpl.NewsSystem.FreeAgencyPublisher;
 import dal.asd.dpl.NewsSystem.NewsSubscriber;
 import dal.asd.dpl.NewsSystem.TradePublisher;
 import dal.asd.dpl.TeamManagement.Coach;
 import dal.asd.dpl.TeamManagement.Conference;
 import dal.asd.dpl.TeamManagement.Division;
-import dal.asd.dpl.TeamManagement.ILeague;
+import dal.asd.dpl.TeamManagement.ICoachPersistance;
+import dal.asd.dpl.TeamManagement.ILeaguePersistance;
+import dal.asd.dpl.TeamManagement.IManagerPersistance;
 import dal.asd.dpl.TeamManagement.League;
+import dal.asd.dpl.TeamManagement.Manager;
 import dal.asd.dpl.TeamManagement.Player;
 import dal.asd.dpl.TeamManagement.Team;
 import dal.asd.dpl.UserInput.IUserInput;
@@ -17,61 +21,64 @@ import java.util.List;
 
 public class CreateTeamState implements IState {
 
-	private static IUserInput input;
-	private static IUserOutput output;
-	private static League initializedLeague;
-	private static ILeague leagueDb;
-	private static Conference conferences;
-	private static Division divisions;
-	private static Team teams;
-	private static String conferenceName = "";
-	private static String divisionName = "";
-	private static String teamName = "";
-	private static String genManager = "";
-	private static Coach headCoach;
-	private static String stateName;
-	private static String nextStateName;
+	private IUserInput input;
+	private IUserOutput output;
+	private League initializedLeague;
+	private ILeaguePersistance leagueDb;
+	private IGameplayConfigPersistance configDb;
+	private ICoachPersistance coachDb;
+	private IManagerPersistance managerDb;
+	private Conference conferences;
+	private Division divisions;
+	private Team teams;
+	private String conferenceName = "";
+	private String divisionName = "";
+	private String teamName = "";
+	private Manager genManager;
+	private Coach headCoach;
+	private String stateName;
+	private String nextStateName;
 	private List<List<Player>> list;
 	private List<Player> tempList1 = new ArrayList<Player>();
 	private List<Integer> indexList = new ArrayList<Integer>();
 	private List<Player> playersList = new ArrayList<Player>();
 	List<Player> tempList2 = new ArrayList<Player>();
 
-
-static{
-	FreeAgencyPublisher.getInstance().subscribe(new NewsSubscriber());
-}
-
-
-	public CreateTeamState(IUserInput input, IUserOutput output, League league, ILeague leagueDb) {
-		CreateTeamState.input = input;
-		CreateTeamState.output = output;
-		CreateTeamState.leagueDb = leagueDb;
-		CreateTeamState.initializedLeague = league;
-		CreateTeamState.conferences = new Conference("", null);
-		CreateTeamState.divisions = new Division("", null);
-		CreateTeamState.teams = new Team("", "", headCoach, null);
-		CreateTeamState.stateName = "Create Team";
-
+	public CreateTeamState(IUserInput input, IUserOutput output, League league, ILeaguePersistance leagueDb,
+			ICoachPersistance coachDb, IGameplayConfigPersistance configDb, IManagerPersistance managerDb) {
+		this.input = input;
+		this.output = output;
+		this.leagueDb = leagueDb;
+		this.coachDb = coachDb;
+		this.configDb = configDb;
+		this.managerDb = managerDb;
+		this.initializedLeague = league;
+		this.conferences = new Conference("", null);
+		this.divisions = new Division("", null);
+		this.teams = new Team("", genManager, headCoach, null);
+		this.stateName = "Create Team";
 	}
-
+	static{
+		FreeAgencyPublisher.getInstance().subscribe(new NewsSubscriber());
+	}
 	public void nextState(StateContext context) {
-		CreateTeamState.nextStateName = "Simulate";
+		this.nextStateName = "Simulate";
 		context.setState(new SimulateState(input, output, teamName, initializedLeague));
 	}
 
 	private void displayManagerList() {
 		boolean validManager = false;
 		String inputValue = "";
+		List<Manager> tempManagerList = new ArrayList<Manager>();
 		int managerId = 0;
 		do {
 			output.setOutput("Please select the General manager for " + teamName);
 			output.sendOutput();
 			output.setOutput("ManagerID | MANAGER NAME");
 			output.sendOutput();
-			List<String> gmList = initializedLeague.getGeneralManager();
+			List<Manager> gmList = initializedLeague.getManagerList();
 			for (int index = 0; index < gmList.size(); index++) {
-				output.setOutput(index + 1 + "	| " + gmList.get(index));
+				output.setOutput(index + 1 + "	| " + gmList.get(index).getManagerName());
 				output.sendOutput();
 			}
 			output.setOutput("Please enter the selected Manager ID");
@@ -90,9 +97,13 @@ static{
 				output.setOutput("Please enter a valid Manager ID");
 				output.sendOutput();
 			} else {
-				genManager = gmList.get(managerId);
+				genManager = new Manager(gmList.get(managerId).getManagerName(), managerDb);
 				gmList.remove(managerId);
-				initializedLeague.setGeneralManager(gmList);
+				for (int index = 0; index < gmList.size(); index++) {
+					Manager manager = new Manager(gmList.get(index).getManagerName(), managerDb);
+					tempManagerList.add(manager);
+				}
+				initializedLeague.setManagerList(tempManagerList);
 				validManager = true;
 			}
 		} while (validManager == false);
@@ -101,6 +112,7 @@ static{
 	private void displayCoachesList() {
 		boolean validCoach = false;
 		String inputValue = "";
+		List<Coach> tempCoachList = new ArrayList<Coach>();
 		int headCoachNumber = 0;
 		do {
 			output.setOutput("Please select the Head Coach for " + teamName);
@@ -109,7 +121,7 @@ static{
 			output.setOutput("Coach ID |	COACH NAME     	| SKATING | SHOOTING | CHECKING | SAVING");
 			output.sendOutput();
 			for (int index = 0; index < cList.size(); index++) {
-				output.setOutput(index + 1 + "  | " + cList.get(index).getCoachName() + "    	| "
+				output.setOutput(index + 1 + "  	| " + cList.get(index).getCoachName() + "    	| "
 						+ cList.get(index).getSkating() + " |  " + cList.get(index).getShooting() + " |  "
 						+ cList.get(index).getChecking() + " |  " + cList.get(index).getSaving());
 				output.sendOutput();
@@ -133,6 +145,11 @@ static{
 			} else {
 				headCoach = cList.get(headCoachNumber);
 				cList.remove(headCoachNumber);
+				for (int index = 0; index < cList.size(); index++) {
+					Coach coach = new Coach(cList.get(index).getCoachName(), cList.get(index).getSkating(),
+							cList.get(index).getShooting(), cList.get(index).getChecking(),
+							cList.get(index).getSaving(), coachDb);
+				}
 				initializedLeague.setCoaches(cList);
 				validCoach = true;
 			}
@@ -344,7 +361,7 @@ static{
 				initializedLeague);
 	}
 
-	public boolean createTeamInLeague(String conferenceName, String divisionName, String teamName, String genManager,
+	public boolean createTeamInLeague(String conferenceName, String divisionName, String teamName, Manager genManager,
 			Coach headCoach, List<Player> playerList, League initializedLeague) {
 		List<Conference> conferenceList = initializedLeague.getConferenceList();
 		for (int index = 0; index < conferenceList.size(); index++) {
@@ -362,14 +379,14 @@ static{
 				}
 			}
 		}
-		return initializedLeague.createTeam(initializedLeague, leagueDb);
+		return initializedLeague.createTeam(initializedLeague);
 	}
 
 	public String getStateName() {
-		return CreateTeamState.stateName;
+		return this.stateName;
 	}
 
 	public String getNextStateName() {
-		return CreateTeamState.nextStateName;
+		return this.nextStateName;
 	}
 }

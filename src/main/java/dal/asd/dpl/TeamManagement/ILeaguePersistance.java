@@ -1,17 +1,12 @@
 package dal.asd.dpl.TeamManagement;
 
-import java.util.List;
-
-public interface ILeague {
-	
-	public List<League> getLeagueData(String teamName);
-	
-	public int checkLeagueName(String leagueName);
-	
+public interface ILeaguePersistance {
 	public boolean persisitLeagueData(String leagueName, String conferenceName, String divisionName, String teamName, 
 			String generalManager, String headCoach, Player player);
 	
-	public boolean persisitCoaches(Coach coach, String teamName, String leagueName);
+	public int checkLeagueName(String leagueName);
+	
+	public League loadLeagueData(String teamName);
 	
 	public boolean persisitRetiredPlayers(Player player, String teamName, League league);
 	

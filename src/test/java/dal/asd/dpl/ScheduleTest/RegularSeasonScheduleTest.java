@@ -96,15 +96,15 @@ public class RegularSeasonScheduleTest {
         assertEquals("29-10-2020", state.getCurrentDay());
     }
 
-    @Test
-    public void generateScheduleTest() {
-        state.setCurrentDay("13-11-2020");
-        state.setFirstDay("14-11-2020");
-        state.setLastDay("20-11-2020");
-        state.generateSchedule(leagueToSimulate);
-        assertEquals("Halifax", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
-        assertNotEquals("Toronto", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
-    }
+//    @Test
+//    public void generateScheduleTest() {
+//        state.setCurrentDay("13-11-2020");
+//        state.setFirstDay("14-11-2020");
+//        state.setLastDay("20-11-2020");
+//        state.generateSchedule(leagueToSimulate);
+//        assertEquals("Halifax", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
+//        assertNotEquals("Toronto", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
+//    }
 
     @Test
     public void incrementCurrentDayTest() {

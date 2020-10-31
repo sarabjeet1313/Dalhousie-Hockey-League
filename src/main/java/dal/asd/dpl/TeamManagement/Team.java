@@ -8,15 +8,14 @@ import dal.asd.dpl.util.ConstantsUtil;
 public class Team implements ITeamInfo {
 
 	private String teamName;
-	private String generalManager;
+	private Manager generalManager;
 	private Coach headCoach;
 	private List<Player> playerList;
 
 	public Team() {
 		super();
 	}
-
-	public Team(String teamName, String generalManager, Coach headCoach, List<Player> playerList) {
+	public Team(String teamName, Manager generalManager, Coach headCoach, List<Player> playerList) {
 		this.teamName = teamName;
 		this.generalManager = generalManager;
 		this.headCoach = headCoach;
@@ -31,11 +30,11 @@ public class Team implements ITeamInfo {
 		this.teamName = teamName;
 	}
 
-	public String getGeneralManager() {
+	public Manager getGeneralManager() {
 		return generalManager;
 	}
 
-	public void setGeneralManager(String generalManager) {
+	public void setGeneralManager(Manager generalManager) {
 		this.generalManager = generalManager;
 	}
 

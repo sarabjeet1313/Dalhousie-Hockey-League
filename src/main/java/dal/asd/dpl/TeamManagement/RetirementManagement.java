@@ -49,7 +49,7 @@ public class RetirementManagement implements IRetirementManagement {
 	public League replaceRetiredPlayers(League league) {
 		List<Conference> conferenceList = league.getConferenceList();
 		List<Player> freeAgentsList = league.getFreeAgents();
-		ILeague ileagueObject = new LeagueDataDB();
+		ILeaguePersistance ileagueObject = new LeagueDataDB();
 		int maximumRetirementAge = league.getGameConfig().getAging().getMaximumAge();
 
 		for (Player freeplayer : freeAgentsList) {
