@@ -1,8 +1,9 @@
 package dal.asd.dpl.InternalStateMachine;
-
+import dal.asd.dpl.Schedule.ISchedule;
+import dal.asd.dpl.Schedule.ScheduleConstants;
+import dal.asd.dpl.Schedule.SeasonCalendar;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.UserOutput.IUserOutput;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,11 +17,11 @@ public class AdvanceToNextSeasonState implements ISimulationState {
     private League leagueToSimulate;
     private ISchedule schedule;
     private InternalStateContext context;
-    private ScheduleUtlity utility;
+    private SeasonCalendar utility;
     private String currentDate;
     private IUserOutput output;
 
-    public AdvanceToNextSeasonState (League leagueToSimulate, ISchedule schedule, InternalStateContext context, ScheduleUtlity utility, String currentDate, IUserOutput output) {
+    public AdvanceToNextSeasonState (League leagueToSimulate, ISchedule schedule, InternalStateContext context, SeasonCalendar utility, String currentDate, IUserOutput output) {
         this.stateName = "NextSeason";
         this.leagueToSimulate = leagueToSimulate;
         this.schedule = schedule;
@@ -42,7 +43,7 @@ public class AdvanceToNextSeasonState implements ISimulationState {
     }
 
     private long daysLapsed() {
-        SimpleDateFormat myFormat = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat myFormat = new SimpleDateFormat(ScheduleConstants.DATE_FORMAT);
         String startDate = utility.getLastSeasonDay();
         String endDate = utility.getNextRegularSeasonStartDay();
         try {

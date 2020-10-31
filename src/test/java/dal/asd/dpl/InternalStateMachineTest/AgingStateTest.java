@@ -1,6 +1,7 @@
 package dal.asd.dpl.InternalStateMachineTest;
 
 import dal.asd.dpl.InternalStateMachine.*;
+import dal.asd.dpl.Schedule.SeasonCalendar;
 import dal.asd.dpl.UserInput.CmdUserInput;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.CmdUserOutput;
@@ -13,7 +14,7 @@ import static org.junit.Assert.*;
 public class AgingStateTest {
 
     private InternalStateContext context;
-    private ScheduleUtlity utility;
+    private SeasonCalendar utility;
     private IUserOutput output;
     private IUserInput input;
     private AgingState state;
@@ -22,7 +23,7 @@ public class AgingStateTest {
     public void setUp() throws Exception {
         input = new CmdUserInput();
         output = new CmdUserOutput();
-        utility = new ScheduleUtlity(0);
+        utility = new SeasonCalendar(0, output);
         context = new InternalStateContext(input, output);
         state = new AgingState(null, null, context, utility, "13-11-2020", output);
     }

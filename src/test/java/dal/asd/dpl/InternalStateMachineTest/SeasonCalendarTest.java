@@ -1,18 +1,22 @@
 package dal.asd.dpl.InternalStateMachineTest;
 
-import dal.asd.dpl.InternalStateMachine.ScheduleUtlity;
+import dal.asd.dpl.Schedule.SeasonCalendar;
+import dal.asd.dpl.UserOutput.CmdUserOutput;
+import dal.asd.dpl.UserOutput.IUserOutput;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class ScheduleUtlityTest {
+public class SeasonCalendarTest {
 
-    private ScheduleUtlity state;
+    private SeasonCalendar state;
+    private IUserOutput output;
 
     @Before
     public void setUp() throws Exception {
-        state = new ScheduleUtlity(0);
+        output = new CmdUserOutput();
+        state = new SeasonCalendar(0,output);
     }
 
     @Test

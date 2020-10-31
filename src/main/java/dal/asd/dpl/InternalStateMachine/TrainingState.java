@@ -1,4 +1,6 @@
 package dal.asd.dpl.InternalStateMachine;
+import dal.asd.dpl.Schedule.ISchedule;
+import dal.asd.dpl.Schedule.SeasonCalendar;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.UserOutput.IUserOutput;
 
@@ -15,9 +17,9 @@ public class TrainingState implements ISimulationState {
     private IUserOutput output;
     private InternalStateContext context;
     private ISchedule schedule;
-    private ScheduleUtlity utility;
+    private SeasonCalendar utility;
 
-    public TrainingState (League leagueToSimulate, ISchedule schedule, ScheduleUtlity utility, String currentDate, IUserOutput output, InternalStateContext context) {
+    public TrainingState (League leagueToSimulate, ISchedule schedule, SeasonCalendar utility, String currentDate, IUserOutput output, InternalStateContext context) {
         this.leagueToSimulate = leagueToSimulate;
         this.output = output;
         this.context = context;

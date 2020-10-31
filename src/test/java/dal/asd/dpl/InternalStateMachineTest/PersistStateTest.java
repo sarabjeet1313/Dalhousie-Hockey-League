@@ -1,6 +1,11 @@
 package dal.asd.dpl.InternalStateMachineTest;
 
 import dal.asd.dpl.InternalStateMachine.*;
+import dal.asd.dpl.Schedule.ISchedule;
+import dal.asd.dpl.Schedule.RegularSeasonScheduleState;
+import dal.asd.dpl.Schedule.SeasonCalendar;
+import dal.asd.dpl.Standings.IStandingsDb;
+import dal.asd.dpl.Standings.StandingInfo;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagementTest.LeagueMockData;
 import dal.asd.dpl.UserInput.CmdUserInput;
@@ -10,7 +15,6 @@ import dal.asd.dpl.UserOutput.IUserOutput;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.nio.file.LinkPermission;
 import java.util.Calendar;
 
 import static org.junit.Assert.*;
@@ -25,7 +29,8 @@ public class PersistStateTest {
     private Calendar calendar;
     private StandingInfo standings;
     private InternalStateContext context;
-    private ScheduleUtlity utility;
+    private SeasonCalendar utility;
+    private IStandingsDb standingsDb;
 
     @Before
     public void setUp() throws Exception {
@@ -33,10 +38,11 @@ public class PersistStateTest {
         input = new CmdUserInput();
         output = new CmdUserOutput();
         calendar = Calendar.getInstance();
+        standingsDb = new StandingsMockDb(0);
         schedule = new RegularSeasonScheduleState(calendar, output);
-        standings = new StandingInfo(leagueToSimulate, 0);
+        standings = new StandingInfo(leagueToSimulate, 0, standingsDb);
         context = new InternalStateContext(input, output);
-        utility = new ScheduleUtlity(0);
+        utility = new SeasonCalendar(0, output);
         state = new PersistState(leagueToSimulate, schedule, standings, context, utility, "13-11-2020", output);
     }
 

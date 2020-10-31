@@ -1,16 +1,14 @@
 package dal.asd.dpl.InternalStateMachineTest;
 
-import dal.asd.dpl.InternalStateMachine.PlayoffScheduleState;
-import dal.asd.dpl.InternalStateMachine.StandingInfo;
+import dal.asd.dpl.Standings.IStandingsDb;
+import dal.asd.dpl.Schedule.PlayoffScheduleState;
+import dal.asd.dpl.Standings.StandingInfo;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagementTest.LeagueMockData;
 import dal.asd.dpl.UserOutput.CmdUserOutput;
 import dal.asd.dpl.UserOutput.IUserOutput;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -21,13 +19,14 @@ public class PlayoffScheduleStateTest {
     private StandingInfo standings;
     private League leagueToSimulate;
     private MockSchedule mockSchedule;
+    private IStandingsDb standingsDb;
 
     @Before
     public void setUp() throws Exception {
         output = new CmdUserOutput();
+        standingsDb = new StandingsMockDb(0);
         leagueToSimulate = new LeagueMockData().getTestData();
-        standings = new StandingInfo(leagueToSimulate, 0);
-        state = new PlayoffScheduleState(output, standings);
+        state = new PlayoffScheduleState(output, standingsDb, 0);
         mockSchedule = new MockSchedule();
     }
 

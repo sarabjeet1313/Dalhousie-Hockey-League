@@ -1,4 +1,4 @@
-package dal.asd.dpl.InternalStateMachine;
+package dal.asd.dpl.Schedule;
 import dal.asd.dpl.TeamManagement.League;
 import java.util.List;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package dal.asd.dpl.InternalStateMachine;
+package dal.asd.dpl.Schedule;
 import dal.asd.dpl.TeamManagement.Conference;
 import dal.asd.dpl.TeamManagement.Division;
 import dal.asd.dpl.TeamManagement.League;

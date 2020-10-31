@@ -1,4 +1,9 @@
 package dal.asd.dpl.InternalStateMachine;
+import dal.asd.dpl.Schedule.ISchedule;
+import dal.asd.dpl.Schedule.RegularSeasonScheduleState;
+import dal.asd.dpl.Schedule.SeasonCalendar;
+import dal.asd.dpl.Standings.IStandingsDb;
+import dal.asd.dpl.Standings.StandingInfo;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
@@ -19,15 +24,15 @@ public class GenerateRegularSeasonScheduleState implements ISimulationState {
     private IUserOutput output;
     private InternalStateContext context;
     private ISchedule schedule;
-    private ScheduleUtlity utility;
+    private SeasonCalendar utility;
 
-    public GenerateRegularSeasonScheduleState(League leagueToSimulate, IUserInput input, IUserOutput output, int season, InternalStateContext context) {
+    public GenerateRegularSeasonScheduleState(League leagueToSimulate, IUserInput input, IUserOutput output, int season, InternalStateContext context, IStandingsDb standingsDb) {
         this.stateName = "GenerateRegularSeasonSchedule";
         this.leagueToSimulate = leagueToSimulate;
-        this.standings = new StandingInfo(leagueToSimulate, season);
+        this.standings = new StandingInfo(leagueToSimulate, season, standingsDb);
         this.seasonCalendar = Calendar.getInstance();
         this.schedule = new RegularSeasonScheduleState(seasonCalendar, output);
-        this.utility = new ScheduleUtlity(season);
+        this.utility = new SeasonCalendar(season, output);
         this.input = input;
         this.output = output;
         this.context = context;

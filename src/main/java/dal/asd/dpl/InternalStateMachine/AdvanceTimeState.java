@@ -1,4 +1,7 @@
 package dal.asd.dpl.InternalStateMachine;
+import dal.asd.dpl.Schedule.ISchedule;
+import dal.asd.dpl.Schedule.ScheduleConstants;
+import dal.asd.dpl.Schedule.SeasonCalendar;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.UserOutput.IUserOutput;
 import java.time.LocalDate;
@@ -6,7 +9,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
 public class AdvanceTimeState implements ISimulationState{
-
     private String stateName;
     private String nextStateName;
     private String currentDate;
@@ -18,9 +20,9 @@ public class AdvanceTimeState implements ISimulationState{
     private boolean isALastDay;
     private ISchedule matchSchedule;
     private League leagueToSimulate;
-    private ScheduleUtlity utility;
+    private SeasonCalendar utility;
 
-    public AdvanceTimeState(ISchedule schedule, League leagueToSimulate, String startDate, String endDate, ScheduleUtlity utlity, IUserOutput output, InternalStateContext context) {
+    public AdvanceTimeState(ISchedule schedule, League leagueToSimulate, String startDate, String endDate, SeasonCalendar utlity, IUserOutput output, InternalStateContext context) {
         this.stateName = "AdvanceTime";
         this.currentDate = startDate;
         this.endDate = endDate;
@@ -50,9 +52,8 @@ public class AdvanceTimeState implements ISimulationState{
 
     public void incrementCurrentDay(){
         this.isALastDay = false;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(ScheduleConstants.DATE_FORMAT);
         this.currentDate = LocalDate.parse(this.currentDate, formatter).plusDays(1).format(formatter).toString();
-
         if(this.currentDate.equals(this.endDate)) {
             this.isALastDay = true;
         }
@@ -77,5 +78,4 @@ public class AdvanceTimeState implements ISimulationState{
     public boolean isALastDay() {
         return isALastDay;
     }
-
 }

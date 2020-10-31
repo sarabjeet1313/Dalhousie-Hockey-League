@@ -1,8 +1,8 @@
 package dal.asd.dpl.InternalStateMachineTest;
 
-import dal.asd.dpl.InternalStateMachine.PlayoffScheduleState;
-import dal.asd.dpl.InternalStateMachine.RegularSeasonScheduleState;
-import dal.asd.dpl.InternalStateMachine.StandingInfo;
+import dal.asd.dpl.Standings.IStandingsDb;
+import dal.asd.dpl.Schedule.RegularSeasonScheduleState;
+import dal.asd.dpl.Standings.StandingInfo;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagementTest.LeagueMockData;
 import dal.asd.dpl.UserOutput.CmdUserOutput;
@@ -22,12 +22,14 @@ public class RegularSeasonScheduleStateTest {
     private League leagueToSimulate;
     private MockSchedule mockSchedule;
     private Calendar calendar;
+    private IStandingsDb standingsDb;
 
     @Before
     public void setUp() throws Exception {
         output = new CmdUserOutput();
         leagueToSimulate = new LeagueMockData().getTestData();
-        standings = new StandingInfo(leagueToSimulate, 0);
+        standingsDb = new StandingsMockDb(0);
+        standings = new StandingInfo(leagueToSimulate, 0, standingsDb);
         calendar = Calendar.getInstance();
         state = new RegularSeasonScheduleState(calendar, output);
         mockSchedule = new MockSchedule();

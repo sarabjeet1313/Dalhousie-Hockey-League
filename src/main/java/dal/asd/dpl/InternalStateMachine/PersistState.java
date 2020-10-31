@@ -1,5 +1,8 @@
 package dal.asd.dpl.InternalStateMachine;
 
+import dal.asd.dpl.Schedule.ISchedule;
+import dal.asd.dpl.Schedule.SeasonCalendar;
+import dal.asd.dpl.Standings.StandingInfo;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.UserOutput.IUserOutput;
 
@@ -11,12 +14,12 @@ public class PersistState implements ISimulationState {
     private ISchedule schedule;
     private StandingInfo standings;
     private InternalStateContext context;
-    private ScheduleUtlity utility;
+    private SeasonCalendar utility;
     private String currentDate;
     private String lastDate;
     private IUserOutput output;
 
-    public PersistState (League leagueToSimulate, ISchedule schedule, StandingInfo standings, InternalStateContext context, ScheduleUtlity utility, String currentDate, IUserOutput output) {
+    public PersistState (League leagueToSimulate, ISchedule schedule, StandingInfo standings, InternalStateContext context, SeasonCalendar utility, String currentDate, IUserOutput output) {
         this.stateName = "Persist";
         this.leagueToSimulate = leagueToSimulate;
         this.schedule = schedule;

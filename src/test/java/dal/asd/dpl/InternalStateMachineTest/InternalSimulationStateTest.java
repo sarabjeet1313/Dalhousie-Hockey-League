@@ -1,7 +1,7 @@
 package dal.asd.dpl.InternalStateMachineTest;
 import dal.asd.dpl.InternalStateMachine.InternalSimulationState;
 import dal.asd.dpl.InternalStateMachine.InternalStateContext;
-import dal.asd.dpl.InternalStateMachine.ScheduleUtlity;
+import dal.asd.dpl.Schedule.SeasonCalendar;
 import dal.asd.dpl.TeamManagementTest.LeagueMockData;
 import dal.asd.dpl.UserInput.CmdUserInput;
 import dal.asd.dpl.UserInput.IUserInput;
@@ -21,14 +21,14 @@ public class InternalSimulationStateTest {
     private IUserOutput output;
     private InternalStateContext context;
     private LeagueMockData leagueMock;
-    private ScheduleUtlity utlity;
+    private SeasonCalendar utlity;
 
     @Before
     public void setUp() throws Exception {
         input = new CmdUserInput();
         output = new CmdUserOutput();
         leagueMock = new LeagueMockData();
-        utlity = new ScheduleUtlity(1);
+        utlity = new SeasonCalendar(1, output);
         context = new InternalStateContext(input, output);
         state = new InternalSimulationState(input, output,1,"testTeam", leagueMock.getTestData(), context);
     }

@@ -1,4 +1,9 @@
 package dal.asd.dpl.InternalStateMachine;
+import dal.asd.dpl.Schedule.ISchedule;
+import dal.asd.dpl.Schedule.SeasonCalendar;
+import dal.asd.dpl.Standings.IStandingsDb;
+import dal.asd.dpl.Standings.StandingInfo;
+import dal.asd.dpl.Standings.StandingsDataDb;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
@@ -14,10 +19,11 @@ public class InternalSimulationState implements ISimulationState{
     private String nextStateName;
     private League leagueToSimulate;
     private InternalStateContext context;
-    private ScheduleUtlity utility;
+    private SeasonCalendar utility;
     private String currentDate;
     private ISchedule schedule;
     private StandingInfo standings;
+    private IStandingsDb standingsDb;
     private TrainingState trainingState;
     private GeneratePlayoffScheduleState playoffScheduleState;
     private AdvanceTimeState advanceTimeState;
@@ -52,8 +58,9 @@ public class InternalSimulationState implements ISimulationState{
             output.setOutput("Season " + i + " is simulating.");
             output.sendOutput();
 
-            standings = new StandingInfo(leagueToSimulate, season);
-            GenerateRegularSeasonScheduleState initialState = new GenerateRegularSeasonScheduleState(leagueToSimulate, this.input, this.output, this.season, this.context);
+            standingsDb = new StandingsDataDb(season);
+            standings = new StandingInfo(leagueToSimulate, season, standingsDb);
+            GenerateRegularSeasonScheduleState initialState = new GenerateRegularSeasonScheduleState(leagueToSimulate, this.input, this.output, this.season, this.context, standingsDb);
             initialState.doProcessing();
 
             this.schedule = initialState.getSchedule();
@@ -64,7 +71,7 @@ public class InternalSimulationState implements ISimulationState{
 
             boolean seasonPending = true;
             do {
-                utility = new ScheduleUtlity(season);
+                utility = new SeasonCalendar(season, output);
 
                 advanceTimeState = new AdvanceTimeState(schedule, leagueToSimulate, currentDate, endDate, utility, output, context);
                 advanceTimeState.doProcessing();
@@ -73,7 +80,7 @@ public class InternalSimulationState implements ISimulationState{
                 boolean isLastDayForSeason = advanceTimeState.isALastDay();
 
                 if (isLastDayForSeason) {
-                    playoffScheduleState = new GeneratePlayoffScheduleState(leagueToSimulate, utility, standings, currentDate, output, context);
+                    playoffScheduleState = new GeneratePlayoffScheduleState(leagueToSimulate, utility, standingsDb, currentDate, output, context, season);
                     playoffScheduleState.doProcessing();
                     schedule = playoffScheduleState.getSchedule();
                     trainingState = new TrainingState(leagueToSimulate, schedule, utility, currentDate, output, context);

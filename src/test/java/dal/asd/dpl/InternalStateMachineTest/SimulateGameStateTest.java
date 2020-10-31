@@ -1,6 +1,11 @@
 package dal.asd.dpl.InternalStateMachineTest;
 
 import dal.asd.dpl.InternalStateMachine.*;
+import dal.asd.dpl.Schedule.ISchedule;
+import dal.asd.dpl.Schedule.RegularSeasonScheduleState;
+import dal.asd.dpl.Schedule.SeasonCalendar;
+import dal.asd.dpl.Standings.IStandingsDb;
+import dal.asd.dpl.Standings.StandingInfo;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagementTest.LeagueMockData;
 import dal.asd.dpl.UserInput.IUserInput;
@@ -21,10 +26,11 @@ public class SimulateGameStateTest {
     private MockSchedule mockSchedule;
     private StandingInfo standings;
     private InternalStateContext context;
-    private ScheduleUtlity utility;
+    private SeasonCalendar utility;
     private IUserInput input;
     private IUserOutput output;
     private Calendar calendar;
+    private IStandingsDb standingsDb;
 
     @Before
     public void setUp() throws Exception {
@@ -33,9 +39,10 @@ public class SimulateGameStateTest {
         schedule = new RegularSeasonScheduleState(calendar, output);
         mockSchedule = new MockSchedule();
         schedule.setFinalSchedule(mockSchedule.getMockSchedule());
-        standings = new StandingInfo(leagueToSimulate, 0);
+        standingsDb = new StandingsMockDb(0);
+        standings = new StandingInfo(leagueToSimulate, 0, standingsDb);
         context = new InternalStateContext(input, output);
-        utility = new ScheduleUtlity(0);
+        utility = new SeasonCalendar(0, output);
         output = new CmdUserOutput();
         state = new SimulateGameState(leagueToSimulate, schedule, standings, context, utility, "14-11-2020", output);
     }

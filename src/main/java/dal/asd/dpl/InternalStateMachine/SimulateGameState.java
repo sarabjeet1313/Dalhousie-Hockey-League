@@ -2,6 +2,9 @@ package dal.asd.dpl.InternalStateMachine;
 
 import dal.asd.dpl.NewsSystem.GamePlayedPublisher;
 import dal.asd.dpl.NewsSystem.NewsSubscriber;
+import dal.asd.dpl.Schedule.ISchedule;
+import dal.asd.dpl.Schedule.SeasonCalendar;
+import dal.asd.dpl.Standings.StandingInfo;
 import dal.asd.dpl.TeamManagement.ITeamInfo;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagement.Team;
@@ -19,7 +22,7 @@ public class SimulateGameState implements ISimulationState {
     private StandingInfo standings;
     private ISchedule schedule;
     private InternalStateContext context;
-    private ScheduleUtlity utility;
+    private SeasonCalendar utility;
     private String currentDate;
     private IUserOutput output;
     private GamePlayedPublisher gamePublisher;
@@ -27,7 +30,7 @@ public class SimulateGameState implements ISimulationState {
     private double randomWinChance;
 
 
-    public SimulateGameState(League leagueToSimulate, ISchedule schedule, StandingInfo standings, InternalStateContext context, ScheduleUtlity utility, String currentDate, IUserOutput output) {
+    public SimulateGameState(League leagueToSimulate, ISchedule schedule, StandingInfo standings, InternalStateContext context, SeasonCalendar utility, String currentDate, IUserOutput output) {
         this.stateName = "SimulateGame";
         this.leagueToSimulate = leagueToSimulate;
         this.standings = standings;
