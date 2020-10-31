@@ -90,15 +90,24 @@ public class LeagueMockData implements ILeague, ITeamPlayersInfo {
 
 		Team team1 = new Team("Boston", "Mister Fred", headCoach, playerList);
 		Team team2 = new Team("Halifax", "Mister Fred", headCoach, playerList);
-		ArrayList<Team> teamList = new ArrayList<Team>();
-		teamList.add(team1);
-		teamList.add(team2);
-		Division division = new Division("Atlantic", teamList);
+		Team team3 = new Team("Toronto", "Mister Fred", headCoach, playerList);
+		Team team4 = new Team("Brampton", "Mister Fred", headCoach, playerList);
+		ArrayList<Team> teamList1 = new ArrayList<Team>();
+		ArrayList<Team> teamList2 = new ArrayList<Team>();
+		teamList1.add(team1);
+		teamList1.add(team2);
+		teamList2.add(team3);
+		teamList2.add(team4);
+		Division division1 = new Division("Atlantic", teamList1);
+		Division division2 = new Division("Pacific", teamList2);
 		ArrayList<Division> divisionList = new ArrayList<Division>();
-		divisionList.add(division);
-		Conference conference = new Conference("Eastern Conference", divisionList);
+		divisionList.add(division1);
+		divisionList.add(division2);
+		Conference conference1 = new Conference("Eastern Conference", divisionList);
+		Conference conference2 = new Conference("Western Conference", divisionList);
 		ArrayList<Conference> conferenceList = new ArrayList<Conference>();
-		conferenceList.add(conference);
+		conferenceList.add(conference1);
+		conferenceList.add(conference2);
 		GameplayConfig config = new GameplayConfig(aging, gameResolver, injury, training, trading);
 		League league = new League("Dalhousie Hockey League", conferenceList, freePlayerList, coachList, managerList,
 				config);

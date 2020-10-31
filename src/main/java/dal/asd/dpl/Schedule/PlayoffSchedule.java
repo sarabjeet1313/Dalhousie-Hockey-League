@@ -1,15 +1,16 @@
-package dal.asd.dpl.InternalStateMachine;
+package dal.asd.dpl.Schedule;
+import dal.asd.dpl.Standings.IStandingsDb;
+import dal.asd.dpl.Standings.StandingInfo;
 import dal.asd.dpl.TeamManagement.Conference;
 import dal.asd.dpl.TeamManagement.Division;
 import dal.asd.dpl.TeamManagement.League;
-import dal.asd.dpl.TeamManagement.Team;
 import dal.asd.dpl.UserOutput.IUserOutput;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-public class PlayoffScheduleState implements ISchedule {
+public class PlayoffSchedule implements ISchedule {
 
     private Calendar calendar;
     private IUserOutput output;
@@ -25,16 +26,18 @@ public class PlayoffScheduleState implements ISchedule {
    // public Map<Integer/*rounds in playoffs*/, List<String> /*Teams Competing*/> teamsToBeScheduled;
     private List<String> teamsToBeScheduled;
     private List<String> teamsScheduled;
+    private IStandingsDb standingsDb;
 
-    public PlayoffScheduleState(IUserOutput output, StandingInfo standings){
+    public PlayoffSchedule(IUserOutput output, IStandingsDb standings, int season){
         this.calendar = Calendar.getInstance();
         this.output = output;
-        this.standings = standings;
-        this.seasonType = 1 /*Playoff Season*/;
+        this.standingsDb = standings;
+        this.seasonType = ScheduleConstants.PLAYOFF_SEASON /*Playoff Season*/;
         conferenceTeamList = new HashMap<>();
         finalSchedule = new HashMap<>();
         teamsToBeScheduled = new ArrayList<>();
         teamsScheduled = new ArrayList<>();
+
     }
 
     public int getSeasonType(){
@@ -99,7 +102,6 @@ public class PlayoffScheduleState implements ISchedule {
         if(leagueToSimulate == null) {
             return;
         }
-
         List<Conference> conferenceList =  leagueToSimulate.getConferenceList();
 
         for(int index = 0; index < conferenceList.size(); index++) {
@@ -109,16 +111,16 @@ public class PlayoffScheduleState implements ISchedule {
             for (int dIndex = 0; dIndex < divisionList.size(); dIndex++) {
 
                 List<String> teams = new ArrayList<String>();
-//                String divisionName = divisionList.get(dIndex).getDivisionName();
-//                teams = standings.getTopDivisionTeams(divisionName);
+                String divisionName = divisionList.get(dIndex).getDivisionName();
+                teams = standingsDb.getTop4TeamsFromStandings(divisionName);
 
-                List<Team> teamList = divisionList.get(dIndex).getTeamList();
-
-
-                for(int tIndex = 0; tIndex < teamList.size(); tIndex++) {
-                    String teamName = teamList.get(tIndex).getTeamName();
-                    teams.add(teamName);
-                }
+//                List<Team> teamList = divisionList.get(dIndex).getTeamList();
+//
+//
+//                for(int tIndex = 0; tIndex < teamList.size(); tIndex++) {
+//                    String teamName = teamList.get(tIndex).getTeamName();
+//                    teams.add(teamName);
+//                }
 
                 if(conferenceTeamList.containsKey(conferenceName)) {
                     List<String> alreadyAddedTeams = conferenceTeamList.get(conferenceName);
@@ -211,5 +213,15 @@ public class PlayoffScheduleState implements ISchedule {
         this.finalSchedule = schedule;
     }
 
+    public boolean anyUnplayedGame(String date) {
+        if(finalSchedule.containsKey(date)) {
+            if (finalSchedule.get(date).size() > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
+    }
 }
 

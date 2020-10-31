@@ -1,4 +1,4 @@
-package dal.asd.dpl.InternalStateMachine;
+package dal.asd.dpl.Schedule;
 import dal.asd.dpl.TeamManagement.Conference;
 import dal.asd.dpl.TeamManagement.Division;
 import dal.asd.dpl.TeamManagement.League;
@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
-public class RegularSeasonScheduleState implements ISchedule {
+public class RegularSeasonSchedule implements ISchedule {
 
     private String currentDay;
     private String firstDay;
@@ -31,11 +31,11 @@ public class RegularSeasonScheduleState implements ISchedule {
     private List<String> teamsScheduled;
     private List<String> teamsCompeting;
 
-    public RegularSeasonScheduleState(Calendar calendar, IUserOutput output) {
+    public RegularSeasonSchedule(Calendar calendar, IUserOutput output) {
 
         this.totalDivisions = 0;
         this.totalTeams = 0;
-        this.seasonType = 0 /*Regular Season*/;
+        this.seasonType = ScheduleConstants.REGULAR_SEASON;
         this.calendar = calendar;
         this.output = output;
         listOfConferences = new ArrayList<String>();
@@ -488,4 +488,14 @@ public class RegularSeasonScheduleState implements ISchedule {
         this.finalSchedule = schedule;
     }
 
+    public boolean anyUnplayedGame(String date) {
+        if(finalSchedule.containsKey(date)) {
+            if (finalSchedule.get(date).size() > 0) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
+    }
 }

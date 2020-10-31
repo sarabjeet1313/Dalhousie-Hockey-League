@@ -1,6 +1,7 @@
 package dal.asd.dpl.InternalStateMachineTest;
 
 import dal.asd.dpl.InternalStateMachine.*;
+import dal.asd.dpl.Schedule.SeasonCalendar;
 import dal.asd.dpl.UserInput.CmdUserInput;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.CmdUserOutput;
@@ -18,16 +19,16 @@ public class AdvanceTimeStateTest {
     private IUserOutput output;
     private InternalStateContext context;
     private Calendar seasonCalendar;
-    private ScheduleUtlity utility;
+    private SeasonCalendar utility;
 
     @Before
     public void setUp() throws Exception {
         input = new CmdUserInput();
         output = new CmdUserOutput();
         seasonCalendar = Calendar.getInstance();
-        utility = new ScheduleUtlity(0);
+        utility = new SeasonCalendar(0, output);
         context = new InternalStateContext(input, output);
-        state = new AdvanceTimeState(null,null, "02-04-2021", "03-04-2021", utility, output, context);
+        state = new AdvanceTimeState("02-04-2021", "03-04-2021", output, context);
     }
 
     @Test

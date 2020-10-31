@@ -7,14 +7,13 @@ public class InternalEndState implements ISimulationState{
     private static String stateName;
     private static String nextStateName;
 
-
     public InternalEndState(IUserInput input, IUserOutput output){
         this.output = output;
-        this.stateName = "End";
+        this.stateName = StateConstants.END_STATE;
     }
 
     public void nextState(InternalStateContext context){
-        this.nextStateName = "None";
+        this.nextStateName = StateConstants.NO_STATE;
         return;
     }
 

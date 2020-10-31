@@ -1,8 +1,9 @@
-package dal.asd.dpl.InternalStateMachineTest;
+package dal.asd.dpl.ScheduleTest;
 
-import dal.asd.dpl.InternalStateMachine.PlayoffScheduleState;
-import dal.asd.dpl.InternalStateMachine.RegularSeasonScheduleState;
-import dal.asd.dpl.InternalStateMachine.StandingInfo;
+import dal.asd.dpl.StandingsTest.StandingsMockDb;
+import dal.asd.dpl.Standings.IStandingsDb;
+import dal.asd.dpl.Schedule.RegularSeasonSchedule;
+import dal.asd.dpl.Standings.StandingInfo;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagementTest.LeagueMockData;
 import dal.asd.dpl.UserOutput.CmdUserOutput;
@@ -10,26 +11,30 @@ import dal.asd.dpl.UserOutput.IUserOutput;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.Calendar;
 
 import static org.junit.Assert.*;
 
-public class RegularSeasonScheduleStateTest {
+public class RegularSeasonScheduleTest {
 
-    private RegularSeasonScheduleState state;
+    private RegularSeasonSchedule state;
     private IUserOutput output;
     private StandingInfo standings;
     private League leagueToSimulate;
     private MockSchedule mockSchedule;
     private Calendar calendar;
+    private IStandingsDb standingsDb;
 
     @Before
     public void setUp() throws Exception {
         output = new CmdUserOutput();
         leagueToSimulate = new LeagueMockData().getTestData();
-        standings = new StandingInfo(leagueToSimulate, 0);
+        standingsDb = new StandingsMockDb(0);
+        standings = new StandingInfo(leagueToSimulate, 0, standingsDb);
         calendar = Calendar.getInstance();
-        state = new RegularSeasonScheduleState(calendar, output);
+        state = new RegularSeasonSchedule(calendar, output);
         mockSchedule = new MockSchedule();
     }
 
@@ -144,6 +149,8 @@ public class RegularSeasonScheduleStateTest {
     @Test
     public void getFinalScheduleTest() {
         state.setFinalSchedule(mockSchedule.getMockSchedule());
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(out));
         assertEquals("Halifax", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
         assertNotEquals("Calgary", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
     }

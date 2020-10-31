@@ -1,5 +1,10 @@
 package dal.asd.dpl.InternalStateMachineTest;
 import dal.asd.dpl.InternalStateMachine.*;
+import dal.asd.dpl.Schedule.ISchedule;
+import dal.asd.dpl.Schedule.RegularSeasonSchedule;
+import dal.asd.dpl.Schedule.SeasonCalendar;
+import dal.asd.dpl.Standings.IStandingsDb;
+import dal.asd.dpl.StandingsTest.StandingsMockDb;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagementTest.LeagueMockData;
 import dal.asd.dpl.UserInput.CmdUserInput;
@@ -15,20 +20,22 @@ public class GenerateRegularSeasonScheduleStateTest {
     private GenerateRegularSeasonScheduleState state;
     private IUserInput input;
     private IUserOutput output;
-    private ScheduleUtlity utility;
+    private SeasonCalendar utility;
     private ISchedule schedule;
     private League leagueToSimulate;
     private InternalStateContext context;
+    private IStandingsDb standingsDb;
 
     @Before
     public void setUp() throws Exception {
         input = new CmdUserInput();
         output = new CmdUserOutput();
         leagueToSimulate = new LeagueMockData().getTestData();
-        utility = new ScheduleUtlity(0);
+        utility = new SeasonCalendar(0, output);
         context = new InternalStateContext(input, output);
-        schedule = new RegularSeasonScheduleState(null, output);
-        state = new GenerateRegularSeasonScheduleState(leagueToSimulate, input, output, 0, context);
+        schedule = new RegularSeasonSchedule(null, output);
+        standingsDb = new StandingsMockDb(0);
+        state = new GenerateRegularSeasonScheduleState(leagueToSimulate, input, output, 0, context, standingsDb);
     }
 
     @Test
