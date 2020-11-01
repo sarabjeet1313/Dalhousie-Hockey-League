@@ -10,12 +10,12 @@ import org.junit.Test;
 
 public class TradeTest {
     private final ByteArrayOutputStream console = new ByteArrayOutputStream();
-   // private final ITradeInfo subscriber = new NewsSubscriber();
+    //private final ITradeInfo subscriber = new NewsSubscriber();
 
     @Before
     public void before() {
         System.setOut(new PrintStream(console));
-       // TradePublisher.getInstance().subscribe(subscriber);
+        //TradePublisher.getInstance().subscribe(subscriber);
     }
 
     @After

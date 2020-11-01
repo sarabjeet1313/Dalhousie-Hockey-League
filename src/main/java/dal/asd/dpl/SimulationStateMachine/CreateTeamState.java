@@ -59,8 +59,22 @@ public class CreateTeamState implements IState {
 		this.stateName = "Create Team";
 	}
 
-	static {
-		FreeAgencyPublisher.getInstance().subscribe(new NewsSubscriber());
+    static
+	{
+	FreeAgencyPublisher.getInstance().subscribe(new NewsSubscriber());
+    }
+
+
+	public CreateTeamState(IUserInput input, IUserOutput output, League league, ILeague leagueDb) {
+		CreateTeamState.input = input;
+		CreateTeamState.output = output;
+		CreateTeamState.leagueDb = leagueDb;
+		CreateTeamState.initializedLeague = league;
+		CreateTeamState.conferences = new Conference("", null);
+		CreateTeamState.divisions = new Division("", null);
+		CreateTeamState.teams = new Team("", "", headCoach, null);
+		CreateTeamState.stateName = "Create Team";
+
 	}
 
 	public void nextState(StateContext context) {
