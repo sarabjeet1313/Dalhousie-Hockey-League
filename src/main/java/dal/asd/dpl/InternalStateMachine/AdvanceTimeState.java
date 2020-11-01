@@ -1,5 +1,5 @@
 package dal.asd.dpl.InternalStateMachine;
-import dal.asd.dpl.util.ScheduleConstants;
+import dal.asd.dpl.Util.ScheduleConstants;
 import dal.asd.dpl.UserOutput.IUserOutput;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

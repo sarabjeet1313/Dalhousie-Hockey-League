@@ -4,7 +4,7 @@ import dal.asd.dpl.TeamManagement.Division;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagement.Team;
 import dal.asd.dpl.UserOutput.IUserOutput;
-import dal.asd.dpl.util.ScheduleConstants;
+import dal.asd.dpl.Util.ScheduleConstants;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

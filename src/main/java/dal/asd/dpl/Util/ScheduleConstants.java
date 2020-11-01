@@ -1,4 +1,4 @@
-package dal.asd.dpl.util;
+package dal.asd.dpl.Util;
 
 public class ScheduleConstants {
     public static final String DATE_FORMAT = "dd-MM-yyyy";
