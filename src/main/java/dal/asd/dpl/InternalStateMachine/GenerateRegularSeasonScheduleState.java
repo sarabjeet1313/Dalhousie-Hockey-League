@@ -2,7 +2,7 @@ package dal.asd.dpl.InternalStateMachine;
 import dal.asd.dpl.Schedule.ISchedule;
 import dal.asd.dpl.Schedule.RegularSeasonSchedule;
 import dal.asd.dpl.Schedule.SeasonCalendar;
-import dal.asd.dpl.Standings.IStandingsDb;
+import dal.asd.dpl.Standings.IStandingsPersistance;
 import dal.asd.dpl.Standings.StandingInfo;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.UserInput.IUserInput;
@@ -26,7 +26,7 @@ public class GenerateRegularSeasonScheduleState implements ISimulationState {
     private ISchedule schedule;
     private SeasonCalendar seasonCalendar;
 
-    public GenerateRegularSeasonScheduleState(League leagueToSimulate, IUserInput input, IUserOutput output, int season, InternalStateContext context, IStandingsDb standingsDb) {
+    public GenerateRegularSeasonScheduleState(League leagueToSimulate, IUserInput input, IUserOutput output, int season, InternalStateContext context, IStandingsPersistance standingsDb) {
         this.stateName = StateConstants.GENERATE_REGULAR_SEASON_SCHEDULE_STATE;
         this.leagueToSimulate = leagueToSimulate;
         this.standings = new StandingInfo(leagueToSimulate, season, standingsDb);

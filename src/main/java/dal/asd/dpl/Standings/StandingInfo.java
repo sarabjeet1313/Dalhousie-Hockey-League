@@ -16,9 +16,9 @@ public class StandingInfo {
     private InvokeStoredProcedure isp;
     private Map<String, Integer> teamWinMap;
     private Map<String, Integer> teamLoseMap;
-    private IStandingsDb standingsDb;
+    private IStandingsPersistance standingsDb;
 
-    public StandingInfo(League leagueToSimulate, int season, IStandingsDb standingsDb) {
+    public StandingInfo(League leagueToSimulate, int season, IStandingsPersistance standingsDb) {
         this.leagueToSimulate = leagueToSimulate;
         this.standingsDb = standingsDb;
         teamWinMap = new HashMap<>();

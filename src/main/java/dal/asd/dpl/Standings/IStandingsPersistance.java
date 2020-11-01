@@ -1,8 +1,7 @@
 package dal.asd.dpl.Standings;
-
 import java.util.List;
 
-public interface IStandingsDb {
+public interface IStandingsPersistance {
 
     boolean insertToStandings(String leagueName, String conferenceName, String divisionName, String teamName);
     void updateStandingsLosses(String teamName);
