@@ -30,7 +30,7 @@ public class App {
         context.doProcessing();
 
         if(args == null || args.length == 0) {
-            context.setState(new LoadTeamState(input, output, leagueDb));
+            context.setState(new LoadTeamState(input, output, leagueDb, configDb));
             context.doProcessing();
             context.nextState(); // Simulate state
             context.doProcessing();

@@ -10,6 +10,10 @@ public class GameplayConfig {
 	private Trading trading;
 	private IGameplayConfigPersistance configDb;
 
+	public GameplayConfig(IGameplayConfigPersistance configDb) {
+		this.configDb = configDb;
+	}
+	
 	public GameplayConfig(Aging aging, GameResolver gameResolver, Injury injury, Training training, Trading trading, IGameplayConfigPersistance configDb) {
 		this.aging = aging;
 		this.gameResolver = gameResolver;

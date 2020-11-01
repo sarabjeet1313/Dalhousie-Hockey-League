@@ -43,6 +43,7 @@ public class CreateTeamState implements IState {
 	private List<Integer> indexList = new ArrayList<Integer>();
 	private List<Player> playersList = new ArrayList<Player>();
 	List<Player> tempList2 = new ArrayList<Player>();
+	CustomValidation validate = new CustomValidation();
 
 	public CreateTeamState(IUserInput input, IUserOutput output, League league, ILeaguePersistance leagueDb,
 			ICoachPersistance coachDb, IGameplayConfigPersistance configDb, IManagerPersistance managerDb) {
@@ -64,19 +65,6 @@ public class CreateTeamState implements IState {
 	FreeAgencyPublisher.getInstance().subscribe(new NewsSubscriber());
     }
 
-
-	public CreateTeamState(IUserInput input, IUserOutput output, League league, ILeague leagueDb) {
-		CreateTeamState.input = input;
-		CreateTeamState.output = output;
-		CreateTeamState.leagueDb = leagueDb;
-		CreateTeamState.initializedLeague = league;
-		CreateTeamState.conferences = new Conference("", null);
-		CreateTeamState.divisions = new Division("", null);
-		CreateTeamState.teams = new Team("", "", headCoach, null);
-		CreateTeamState.stateName = "Create Team";
-
-	}
-
 	public void nextState(StateContext context) {
 		this.nextStateName = "Simulate";
 		context.setState(new SimulateState(input, output, teamName, initializedLeague));
@@ -86,7 +74,7 @@ public class CreateTeamState implements IState {
 		boolean validManager = false;
 		String inputValue = "";
 		List<Manager> tempManagerList = new ArrayList<Manager>();
-		int managerId = 0;
+		int managerId = -1;
 		do {
 			output.setOutput("Please select the General manager for " + teamName);
 			output.sendOutput();
@@ -101,9 +89,9 @@ public class CreateTeamState implements IState {
 			output.sendOutput();
 			input.setInput();
 			inputValue = input.getInput();
-			if (inputValue == null) {
+			if (validate.isNumber(inputValue) == Boolean.FALSE) {
 				validManager = false;
-				output.setOutput("Manager ID cannot be null");
+				output.setOutput("Manager ID cannot be string");
 				output.sendOutput();
 			} else {
 				managerId = Integer.parseInt(inputValue) - 1;
@@ -129,7 +117,7 @@ public class CreateTeamState implements IState {
 		boolean validCoach = false;
 		String inputValue = "";
 		List<Coach> tempCoachList = new ArrayList<Coach>();
-		int headCoachNumber = 0;
+		int headCoachNumber = -1;
 		do {
 			output.setOutput("Please select the Head Coach for " + teamName);
 			output.sendOutput();
@@ -146,7 +134,7 @@ public class CreateTeamState implements IState {
 			output.sendOutput();
 			input.setInput();
 			inputValue = input.getInput();
-			if (inputValue == null) {
+			if (validate.isNumber(inputValue) == Boolean.FALSE) {
 				validCoach = false;
 				output.setOutput("Coach ID cannot be null");
 				output.sendOutput();
@@ -174,7 +162,7 @@ public class CreateTeamState implements IState {
 
 	private void diaplayGoalieList(List<Player> pList) {
 		String inputValue = "";
-		int temp = 0;
+		int temp = -1;
 		output.setOutput("PlayerID | PLAYER NAME    | AGE  | SKATING | SHOOTING | CHECKING | SAVING");
 		output.sendOutput();
 		for (int index = 0; index < pList.size(); index++) {
@@ -189,7 +177,7 @@ public class CreateTeamState implements IState {
 			output.sendOutput();
 			input.setInput();
 			inputValue = input.getInput();
-			if (inputValue == null) {
+			if (validate.isNumber(inputValue) == Boolean.FALSE) {
 				output.setOutput("Goalie ID cannot be null");
 				output.sendOutput();
 				temp = -1;
@@ -232,14 +220,14 @@ public class CreateTeamState implements IState {
 	}
 
 	private void displaySelectedPlayers(List<Player> fdList) {
-		int temp = 0;
+		int temp = -1;
 		String inputValue = "";
 		for (int index = 0; index < 18; index++) {
 			output.setOutput("Please enter selected Player ID (Number of players selected: " + (index) + ")");
 			output.sendOutput();
 			input.setInput();
 			inputValue = input.getInput();
-			if (inputValue == null) {
+			if (validate.isNumber(inputValue) == Boolean.FALSE) {
 				output.setOutput("Goalie ID cannot be null");
 				output.sendOutput();
 				temp = -1;
@@ -274,7 +262,7 @@ public class CreateTeamState implements IState {
 
 	private void displayCaptain() {
 		boolean validId = true;
-		int temp = 0;
+		int temp = -1;
 		String inputValue = "";
 		output.setOutput("Please select captain for the team");
 		output.sendOutput();
@@ -290,7 +278,7 @@ public class CreateTeamState implements IState {
 			output.sendOutput();
 			input.setInput();
 			inputValue = input.getInput();
-			if (inputValue == null) {
+			if (validate.isNumber(inputValue) == Boolean.FALSE) {
 				output.setOutput("Player ID cannot be null");
 				output.sendOutput();
 				temp = -1;
