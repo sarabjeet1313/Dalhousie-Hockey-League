@@ -1,7 +1,8 @@
 package dal.asd.dpl.SimulationStateMachineTest;
+import dal.asd.dpl.GameplayConfiguration.IGameplayConfigPersistance;
 import dal.asd.dpl.SimulationStateMachine.LoadTeamState;
 import dal.asd.dpl.SimulationStateMachine.StateContext;
-import dal.asd.dpl.TeamManagement.ILeague;
+import dal.asd.dpl.TeamManagement.ILeaguePersistance;
 import dal.asd.dpl.TeamManagementTest.LeagueMockData;
 import dal.asd.dpl.UserInput.CmdUserInput;
 import dal.asd.dpl.UserInput.IUserInput;
@@ -13,18 +14,19 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class LoadTeamStateTest {
-    private static LoadTeamState state;
-    private static IUserInput input;
-    private static IUserOutput output;
-    private static StateContext context;
-    private static ILeague leagueMock;
+    private LoadTeamState state;
+    private IUserInput input;
+    private IUserOutput output;
+    private StateContext context;
+    private ILeaguePersistance leagueMock;
+    private IGameplayConfigPersistance configMock;
 
     @Before
     public void setUp() throws Exception {
         input = new CmdUserInput();
         output = new CmdUserOutput();
         leagueMock = new LeagueMockData();
-        state = new LoadTeamState(input, output, leagueMock);
+        state = new LoadTeamState(input, output, leagueMock, configMock);
         context = new StateContext(input, output);
         context.setState(state);
     }

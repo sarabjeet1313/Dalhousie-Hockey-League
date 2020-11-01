@@ -1,50 +1,56 @@
 package dal.asd.dpl.InternalStateMachine;
-
+import dal.asd.dpl.util.ScheduleConstants;
+import dal.asd.dpl.Schedule.SeasonCalendar;
+import dal.asd.dpl.TeamManagement.InjuryManagement;
 import dal.asd.dpl.TeamManagement.League;
+import dal.asd.dpl.TeamManagement.RetirementManagement;
 import dal.asd.dpl.UserOutput.IUserOutput;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class AdvanceToNextSeasonState implements ISimulationState {
-
     private String stateName;
     private String nextStateName;
-    private boolean cupWinnerDeclared;
     private League leagueToSimulate;
-    private ISchedule schedule;
+    private InjuryManagement injury;
+    private RetirementManagement retirement;
     private InternalStateContext context;
-    private ScheduleUtlity utility;
+    private SeasonCalendar seasonCalendar;
     private String currentDate;
     private IUserOutput output;
 
-    public AdvanceToNextSeasonState (League leagueToSimulate, ISchedule schedule, InternalStateContext context, ScheduleUtlity utility, String currentDate, IUserOutput output) {
-        this.stateName = "NextSeason";
+    public AdvanceToNextSeasonState (League leagueToSimulate, InjuryManagement injury, RetirementManagement retirement, InternalStateContext context, SeasonCalendar seasonCalendar, String currentDate, IUserOutput output) {
+        this.stateName = StateConstants.NEXT_SEASON_STATE;
         this.leagueToSimulate = leagueToSimulate;
-        this.schedule = schedule;
+        this.injury = injury;
+        this.retirement = retirement;
         this.context = context;
-        this.utility = utility;
+        this.seasonCalendar = seasonCalendar;
         this.currentDate = currentDate;
         this.output = output;
     }
 
     public void nextState(InternalStateContext context) {
-        this.nextStateName = "Persist";
+        this.nextStateName = StateConstants.PERSIST_STATE;
     }
 
     public void doProcessing() {
-
         // no of days between the very first day of next season and the day when cup winner declared.
         int days = (int)daysLapsed();
-        // TODO call methods to perform aging.
+        leagueToSimulate = retirement.increaseAge(days, leagueToSimulate);
+        leagueToSimulate = injury.updatePlayerInjuryStatus(days, leagueToSimulate);
+    }
+
+    public League getUpdatedLeague() {
+        return leagueToSimulate;
     }
 
     private long daysLapsed() {
-        SimpleDateFormat myFormat = new SimpleDateFormat("dd-MM-yyyy");
-        String startDate = utility.getLastSeasonDay();
-        String endDate = utility.getNextRegularSeasonStartDay();
+        SimpleDateFormat myFormat = new SimpleDateFormat(ScheduleConstants.DATE_FORMAT);
+        String startDate = seasonCalendar.getLastSeasonDay();
+        String endDate = seasonCalendar.getNextRegularSeasonStartDay();
         try {
             Date date1 = myFormat.parse(startDate);
             Date date2 = myFormat.parse(endDate);
@@ -52,7 +58,8 @@ public class AdvanceToNextSeasonState implements ISimulationState {
             long days = TimeUnit.DAYS.convert(difference, TimeUnit.MILLISECONDS);
             return days;
         } catch (ParseException e) {
-            e.printStackTrace();
+            output.setOutput("Exception finding days lapsed during advancing to next season");
+            output.sendOutput();
         }
         return 0;
     }

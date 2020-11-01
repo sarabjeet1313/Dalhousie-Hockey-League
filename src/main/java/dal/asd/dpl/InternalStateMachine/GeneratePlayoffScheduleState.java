@@ -1,6 +1,9 @@
 package dal.asd.dpl.InternalStateMachine;
+import dal.asd.dpl.Schedule.ISchedule;
+import dal.asd.dpl.Schedule.PlayoffSchedule;
+import dal.asd.dpl.Schedule.SeasonCalendar;
+import dal.asd.dpl.Standings.IStandingsPersistance;
 import dal.asd.dpl.TeamManagement.League;
-import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
 
 public class GeneratePlayoffScheduleState implements ISimulationState {
@@ -10,33 +13,34 @@ public class GeneratePlayoffScheduleState implements ISimulationState {
     private String startDate;
     private String endDate;
     private String currentDate;
+    private int season;
     private League leagueToSimulate;
     private IUserOutput output;
-    private ScheduleUtlity utility;
-    private StandingInfo standings;
+    private SeasonCalendar seasonCalendar;
+    private IStandingsPersistance standingsDb;
     private InternalStateContext context;
     private ISchedule schedule;
 
-    public GeneratePlayoffScheduleState(League leagueToSimulate, ScheduleUtlity utility, StandingInfo standings, String currentDate, IUserOutput output, InternalStateContext context) {
-        this.stateName = "GeneratePlayoffSchedule";
-        this.nextStateName = "Training";
+    public GeneratePlayoffScheduleState(League leagueToSimulate, SeasonCalendar seasonCalendar, IStandingsPersistance standings, String currentDate, IUserOutput output, InternalStateContext context, int season) {
+        this.stateName = StateConstants.GENERATE_PLAYOFF_SCHEDULE_STATE;
+        this.season = season;
         this.output = output;
-        this.utility = utility;
-        this.standings = standings;
+        this.seasonCalendar = seasonCalendar;
         this.currentDate = currentDate;
+        this.standingsDb = standings;
         this.leagueToSimulate = leagueToSimulate;
-        this.schedule = new PlayoffScheduleState(output, standings);
+        this.schedule = new PlayoffSchedule(output, standings, season);
         this.context = context;
-        this.startDate = this.utility.getPlayoffFirstDay();
+        this.startDate = this.seasonCalendar.getPlayoffFirstDay();
         schedule.setFirstDay(startDate);
         schedule.setCurrentDay(startDate);
-        this.endDate = this.utility.getPlayoffLastDay();
+        this.endDate = this.seasonCalendar.getPlayoffLastDay();
         schedule.setLastDay(endDate);
-        utility.setLastSeasonDay(this.endDate);
+        seasonCalendar.setLastSeasonDay(this.endDate);
     }
 
     public void nextState(InternalStateContext context) {
-        this.nextStateName = "Training";
+        this.nextStateName = StateConstants.TRAINING_STATE;
     }
 
     public void doProcessing() {
@@ -53,7 +57,6 @@ public class GeneratePlayoffScheduleState implements ISimulationState {
         schedule.generateSchedule(leagueToSimulate);
         output.setOutput("Playoff season has been scheduled successfully.");
         output.sendOutput();
-
         schedule.setCurrentDay(this.startDate);
     }
 

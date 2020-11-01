@@ -33,7 +33,7 @@ public class InternalStateContextTest {
     @Test
     public void nextStateTest() {
         context.nextState();
-        assertEquals("Simulate", context.currentStateName);
+        assertEquals("InternalSimulation", context.currentStateName);
         context.setState(state);
     }
 

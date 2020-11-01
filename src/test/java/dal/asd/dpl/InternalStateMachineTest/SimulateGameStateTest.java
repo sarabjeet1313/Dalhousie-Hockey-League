@@ -1,6 +1,13 @@
 package dal.asd.dpl.InternalStateMachineTest;
 
 import dal.asd.dpl.InternalStateMachine.*;
+import dal.asd.dpl.Schedule.ISchedule;
+import dal.asd.dpl.Schedule.RegularSeasonSchedule;
+import dal.asd.dpl.Schedule.SeasonCalendar;
+import dal.asd.dpl.ScheduleTest.MockSchedule;
+import dal.asd.dpl.Standings.IStandingsPersistance;
+import dal.asd.dpl.Standings.StandingInfo;
+import dal.asd.dpl.StandingsTest.StandingsMockDb;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagementTest.LeagueMockData;
 import dal.asd.dpl.UserInput.IUserInput;
@@ -21,21 +28,23 @@ public class SimulateGameStateTest {
     private MockSchedule mockSchedule;
     private StandingInfo standings;
     private InternalStateContext context;
-    private ScheduleUtlity utility;
+    private SeasonCalendar utility;
     private IUserInput input;
     private IUserOutput output;
     private Calendar calendar;
+    private IStandingsPersistance standingsDb;
 
     @Before
     public void setUp() throws Exception {
         leagueToSimulate = new LeagueMockData().getTestData();
         calendar = Calendar.getInstance();
-        schedule = new RegularSeasonScheduleState(calendar, output);
+        schedule = new RegularSeasonSchedule(calendar, output);
         mockSchedule = new MockSchedule();
         schedule.setFinalSchedule(mockSchedule.getMockSchedule());
-        standings = new StandingInfo(leagueToSimulate, 0);
+        standingsDb = new StandingsMockDb(0);
+        standings = new StandingInfo(leagueToSimulate, 0, standingsDb);
         context = new InternalStateContext(input, output);
-        utility = new ScheduleUtlity(0);
+        utility = new SeasonCalendar(0, output);
         output = new CmdUserOutput();
         state = new SimulateGameState(leagueToSimulate, schedule, standings, context, utility, "14-11-2020", output);
     }
@@ -44,7 +53,7 @@ public class SimulateGameStateTest {
     public void nextStateTest() {
         context.setState(state);
         context.nextState();
-        assertEquals("InjuryCheck", state.getNextStateName());
+        assertEquals("Injury", state.getNextStateName());
         assertNotEquals("Negative", state.getNextStateName());
     }
 
@@ -65,6 +74,6 @@ public class SimulateGameStateTest {
     public void getNextStateNameTest() {
         assertNotEquals("Negative", state.getNextStateName());
         state.nextState(context);
-        assertEquals("InjuryCheck", state.getNextStateName());
+        assertEquals("Injury", state.getNextStateName());
     }
 }

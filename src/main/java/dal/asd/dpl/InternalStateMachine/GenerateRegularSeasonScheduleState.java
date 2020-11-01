@@ -1,4 +1,9 @@
 package dal.asd.dpl.InternalStateMachine;
+import dal.asd.dpl.Schedule.ISchedule;
+import dal.asd.dpl.Schedule.RegularSeasonSchedule;
+import dal.asd.dpl.Schedule.SeasonCalendar;
+import dal.asd.dpl.Standings.IStandingsPersistance;
+import dal.asd.dpl.Standings.StandingInfo;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
@@ -11,7 +16,7 @@ public class GenerateRegularSeasonScheduleState implements ISimulationState {
     private String startDate;
     private String endDate;
     private String year;
-    private Calendar seasonCalendar;
+    private Calendar calendar;
     private League leagueToSimulate;
     private StandingInfo standings;
     private int currentYear;
@@ -19,32 +24,29 @@ public class GenerateRegularSeasonScheduleState implements ISimulationState {
     private IUserOutput output;
     private InternalStateContext context;
     private ISchedule schedule;
-    private ScheduleUtlity utility;
+    private SeasonCalendar seasonCalendar;
 
-    public GenerateRegularSeasonScheduleState(League leagueToSimulate, IUserInput input, IUserOutput output, int season, InternalStateContext context) {
-        this.stateName = "GenerateRegularSeasonSchedule";
+    public GenerateRegularSeasonScheduleState(League leagueToSimulate, IUserInput input, IUserOutput output, int season, InternalStateContext context, IStandingsPersistance standingsDb) {
+        this.stateName = StateConstants.GENERATE_REGULAR_SEASON_SCHEDULE_STATE;
         this.leagueToSimulate = leagueToSimulate;
-        this.standings = new StandingInfo(leagueToSimulate, season);
-        this.seasonCalendar = Calendar.getInstance();
-        this.schedule = new RegularSeasonScheduleState(seasonCalendar, output);
-        this.utility = new ScheduleUtlity(season);
+        this.standings = new StandingInfo(leagueToSimulate, season, standingsDb);
+        this.calendar = Calendar.getInstance();
+        this.schedule = new RegularSeasonSchedule(calendar, output);
+        this.seasonCalendar = new SeasonCalendar(season, output);
         this.input = input;
         this.output = output;
         this.context = context;
-
-        this.startDate = utility.getRegularSeasonStartDay();
+        this.startDate = seasonCalendar.getRegularSeasonStartDay();
         schedule.setCurrentDay(this.startDate);
-
-        schedule.setFirstDay(utility.getRegularSeasonFirstDay());
-
-        this.endDate = utility.getRegularSeasonLastDay();
+        schedule.setFirstDay(seasonCalendar.getRegularSeasonFirstDay());
+        this.endDate = seasonCalendar.getRegularSeasonLastDay();
         schedule.setLastDay(this.endDate);
-        utility.setLastSeasonDay(this.endDate);
+        seasonCalendar.setLastSeasonDay(this.endDate);
     }
 
 
     public void nextState(InternalStateContext context) {
-        this.nextStateName = "AdvanceTime";
+        this.nextStateName = StateConstants.ADVANCE_TIME_STATE;
     }
 
     public void doProcessing() {
@@ -62,8 +64,7 @@ public class GenerateRegularSeasonScheduleState implements ISimulationState {
         output.setOutput("Regular season has been scheduled successfully.");
         output.sendOutput();
 
-        schedule.setCurrentDay(utility.getRegularSeasonStartDay());
-       // nextState(this.context);
+        schedule.setCurrentDay(seasonCalendar.getRegularSeasonStartDay());
     }
 
     public String getRegularSeasonEndDate() {
@@ -85,8 +86,4 @@ public class GenerateRegularSeasonScheduleState implements ISimulationState {
     public ISchedule getSchedule() {
         return schedule;
     }
-
-
-
-
 }

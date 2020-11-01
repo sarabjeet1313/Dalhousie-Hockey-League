@@ -2,16 +2,17 @@ package dal.asd.dpl.Database;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.Properties;
 
-import dal.asd.dpl.util.ConstantsUtil;
+import dal.asd.dpl.Util.ConstantsUtil;
 
 public class DatabaseConnection implements IDatabaseConnection {
 
 	Connection connect = null;
 	private Properties properties;
-	
+
 	private static DatabaseConnection databaseConnection = null;
 
 	private DatabaseConnection() {
@@ -35,17 +36,14 @@ public class DatabaseConnection implements IDatabaseConnection {
 		}
 		try {
 			Class.forName(ConstantsUtil.DRIVER_NAME.toString());
-			
 			String dbURL = properties.getProperty(ConstantsUtil.DB_URL.toString());
 			String dbUserName = properties.getProperty(ConstantsUtil.DB_USER_NAME.toString());
 			String dbPassword = properties.getProperty(ConstantsUtil.DB_PASSWORD.toString());
-			
 			connect = DriverManager.getConnection(dbURL, dbUserName, dbPassword);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return connect;
-
 	}
 
 	public void disconnect() {

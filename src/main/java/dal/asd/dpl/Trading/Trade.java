@@ -14,15 +14,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.DoubleStream;
 
-
 public class Trade implements ITrade {
     private String tradeOfferTeam;
     private String tradeRequestedTeam;
     private List<Player> playerListOfferTeam;
     private List<Player> playerListRequestedTeam;
+    private ITradeDB tradeDB;
 
     public Trade(){
 
+    }
+    public Trade(ITradeDB tradeDB){
+        this.tradeDB = tradeDB;
     }
 
     public Trade(String tradeOfferTeam, List<Player> playerListOfferTeam, String tradeRequestedTeam, List<Player> playerListRequestedTeam){
@@ -127,7 +130,7 @@ public class Trade implements ITrade {
     }
 
     public List<Player> getWeakestPlayers(int maxPlayers, String teamName, League league,
-                                          ITeamPlayersInfo iTPInfoObject, IPlayerInfo iPInfoObject){
+                                          ITeamInfo iTPInfoObject, IPlayerInfo iPInfoObject){
         List<Player> p = iTPInfoObject.getPlayersByTeam(teamName,league);
         List<Player> returnWeakestPlayerList = new ArrayList<Player>();
         double playerStrength;
@@ -169,7 +172,7 @@ public class Trade implements ITrade {
     }
 
     public List<Player> getStrongestPlayers(Trade t, List<String> allTeamNameList ,League league,
-                                            ITeamPlayersInfo iTPInfoObject, IPlayerInfo iPInfoObject ){
+                                            ITeamInfo iTPInfoObject, IPlayerInfo iPInfoObject ){
         List<Player> offeredPlayerList = t.getPlayerListOfferTeam();
         List<Player> currentTeamPlayers;
 
@@ -180,43 +183,45 @@ public class Trade implements ITrade {
         List<Player> returnStrongPlayerList = new ArrayList<Player>();
         HashMap<Integer, Double> hmPlayerStrength = new HashMap<Integer, Double>();
 
-        String requiredPlayerType = offeredPlayerList.get(1).getPosition();
+        String requiredPlayerType = offeredPlayerList.get(0).getPosition();
         for(int i = 0; i < totalPlayersNeeded; i++){
             maxPlayerStrengthsArray[i] = iPInfoObject.getPlayerStrength(offeredPlayerList.get(i));
         }
         double offeredPlayersStrength = DoubleStream.of(maxPlayerStrengthsArray).sum();
         double requestedPlayerStrength;
-        for (int j = 0; j< allTeamNameList.size(); j++){
-            if (sameTeam(this.tradeOfferTeam, allTeamNameList.get(j)) == false){
+        boolean isSame;
+        for (int j = 0; j< allTeamNameList.size(); j++) {
+            isSame = sameTeam(t.getTradeOfferTeam(), allTeamNameList.get(j));
+            if (isSame == false) {
                 // Here
                 t.setTradeRequestedTeam(allTeamNameList.get(j));
-            }
-            currentTeamPlayers = getPlayersOfSpecificType(requiredPlayerType, iTPInfoObject.getPlayersByTeam(allTeamNameList.get(j),league));
 
-            for (int i= 0 ; i< currentTeamPlayers.size(); i++){
-                hmPlayerStrength.put(i,iPInfoObject.getPlayerStrength(currentTeamPlayers.get(i)));
-            }
-            Map<Integer,Double> sortedDesHm = sortByStrength(hmPlayerStrength, true);
-            int g =0;
-            for (Map.Entry<Integer, Double> k : sortedDesHm.entrySet()) {
-                currentPlayerMaxStrength[g] = k.getValue();
-                currentPlayerIndexArray[g] = k.getKey();
-                g=g+1;
-                if(g == totalPlayersNeeded){
-                    break;
+                currentTeamPlayers = getPlayersOfSpecificType(requiredPlayerType, iTPInfoObject.getPlayersByTeam(t.getTradeRequestedTeam(), league));
+
+                for (int i = 0; i < currentTeamPlayers.size(); i++) {
+                    hmPlayerStrength.put(i, iPInfoObject.getPlayerStrength(currentTeamPlayers.get(i)));
                 }
-            }
-
-             requestedPlayerStrength = DoubleStream.of(currentPlayerMaxStrength).sum();
-            if(requestedPlayerStrength > offeredPlayersStrength){
-                offeredPlayersStrength = requestedPlayerStrength;
-                for(int h=0; h < currentPlayerIndexArray.length; h++){
-                    returnStrongPlayerList.add(currentTeamPlayers.get(currentPlayerIndexArray[h]));
+                Map<Integer, Double> sortedDesHm = sortByStrength(hmPlayerStrength, true);
+                int g = 0;
+                for (Map.Entry<Integer, Double> k : sortedDesHm.entrySet()) {
+                    currentPlayerMaxStrength[g] = k.getValue();
+                    currentPlayerIndexArray[g] = k.getKey();
+                    g = g + 1;
+                    if (g == totalPlayersNeeded) {
+                        break;
+                    }
                 }
-            }
 
+                requestedPlayerStrength = DoubleStream.of(currentPlayerMaxStrength).sum();
+                if (requestedPlayerStrength > offeredPlayersStrength) {
+                    offeredPlayersStrength = requestedPlayerStrength;
+                    for (int h = 0; h < currentPlayerIndexArray.length; h++) {
+                        returnStrongPlayerList.add(currentTeamPlayers.get(currentPlayerIndexArray[h]));
+                    }
+                }
+
+            }
         }
-
         return returnStrongPlayerList;
     }
 
@@ -242,7 +247,7 @@ public class Trade implements ITrade {
 
     @Override
     public League startTrade(League leagueObject) {
-        TradeDB tradeDB = new TradeDB();
+//        TradeDB tradeDB = new TradeDB();
         Trade trade = new Trade();
         List<String> eligibleTeamNameList = new ArrayList<String>();
         int maxPlayersPerTrade = tradeDB.getMaxPlayersPerTrade();
@@ -275,7 +280,7 @@ public class Trade implements ITrade {
             }
         }
         // rename to some logical
-        ITeamPlayersInfo ty = new Team();
+        ITeamInfo ty = new Team();
         IPlayerInfo py = new Player();
         ITeamInfo ti = new Team();
         AiAcceptReject ar = new AiAcceptReject();

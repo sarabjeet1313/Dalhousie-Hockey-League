@@ -1,4 +1,7 @@
 package dal.asd.dpl.InternalStateMachine;
+import dal.asd.dpl.GameplayConfiguration.Training;
+import dal.asd.dpl.Schedule.ISchedule;
+import dal.asd.dpl.Schedule.SeasonCalendar;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.UserOutput.IUserOutput;
 
@@ -15,9 +18,10 @@ public class TrainingState implements ISimulationState {
     private IUserOutput output;
     private InternalStateContext context;
     private ISchedule schedule;
-    private ScheduleUtlity utility;
+    private SeasonCalendar utility;
+    private Training training;
 
-    public TrainingState (League leagueToSimulate, ISchedule schedule, ScheduleUtlity utility, String currentDate, IUserOutput output, InternalStateContext context) {
+    public TrainingState (League leagueToSimulate, Training training, ISchedule schedule, SeasonCalendar utility, String currentDate, IUserOutput output, InternalStateContext context) {
         this.leagueToSimulate = leagueToSimulate;
         this.output = output;
         this.context = context;
@@ -25,39 +29,31 @@ public class TrainingState implements ISimulationState {
         this.currentDate = currentDate;
         this.utility = utility;
         this.stateName = "Training";
+        this.training = training;
     }
 
     public void nextState(InternalStateContext context) {
-        if(anyUnplayedGames()) {
-            this.nextStateName = "SimulateGame";
+        if(schedule.anyUnplayedGame(currentDate)) {
+            this.nextStateName = StateConstants.SIMULATE_GAME_STATE;
         }
         else {
             if (utility.isTradeDeadlinePending(this.currentDate)) {
-                this.nextStateName = "Trading";
+                this.nextStateName = StateConstants.TRADING_STATE;
             }
             else {
-                this.nextStateName = "Aging";
+                this.nextStateName = StateConstants.AGING_STATE;
             }
         }
     }
 
     public void doProcessing() {
-
-        // TODO training logic to be implemented.
         output.setOutput("Inside Training state");
         output.sendOutput();
+        leagueToSimulate = training.trackDaysForTraining(leagueToSimulate);
     }
 
-    public boolean anyUnplayedGames() {
-        Map< String, List<Map<String, String>>> finalSchedule = schedule.getFinalSchedule();
-        if(finalSchedule.containsKey(this.currentDate)) {
-            if (finalSchedule.get(this.currentDate).size() > 0) {
-                return true;
-            } else {
-                return false;
-            }
-        }
-        return false;
+    public League getUpdatedLeague() {
+        return leagueToSimulate;
     }
 
     public String getStateName() {

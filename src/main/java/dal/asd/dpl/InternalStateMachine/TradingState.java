@@ -1,6 +1,8 @@
 package dal.asd.dpl.InternalStateMachine;
-
+import dal.asd.dpl.Schedule.ISchedule;
+import dal.asd.dpl.Schedule.SeasonCalendar;
 import dal.asd.dpl.TeamManagement.League;
+import dal.asd.dpl.Trading.Trade;
 import dal.asd.dpl.UserOutput.IUserOutput;
 
 public class TradingState implements ISimulationState {
@@ -11,12 +13,14 @@ public class TradingState implements ISimulationState {
     private ISchedule schedule;
     private InternalStateContext context;
     private String currentDate;
-    private ScheduleUtlity utility;
+    private SeasonCalendar utility;
+    private Trade trade;
     private IUserOutput output;
 
-    public TradingState (League leagueToSimulate, ISchedule schedule, InternalStateContext context, ScheduleUtlity utility, String currentDate, IUserOutput output) {
-        this.stateName = "Trading";
+    public TradingState (League leagueToSimulate, Trade trade, ISchedule schedule, InternalStateContext context, SeasonCalendar utility, String currentDate, IUserOutput output) {
+        this.stateName = StateConstants.TRADING_STATE;
         this.leagueToSimulate = leagueToSimulate;
+        this.trade = trade;
         this.schedule = schedule;
         this.context = context;
         this.utility = utility;
@@ -25,18 +29,17 @@ public class TradingState implements ISimulationState {
     }
 
     public void nextState(InternalStateContext context) {
-        this.nextStateName = "Aging";
-        context.setState(new AgingState(leagueToSimulate, schedule, context, utility, currentDate, output));
+        this.nextStateName = StateConstants.AGING_STATE;
     }
 
     public void doProcessing() {
-
         output.setOutput("Inside Trading state");
         output.sendOutput();
+        leagueToSimulate = trade.startTrade(leagueToSimulate);
+    }
 
-        //TODO call Breej's method to do trade
-        // leagueToSimulate = Trade.method(leagueToSimulate);
-
+    public League getUpdatedLeague() {
+        return leagueToSimulate;
     }
 
     public String getStateName() {

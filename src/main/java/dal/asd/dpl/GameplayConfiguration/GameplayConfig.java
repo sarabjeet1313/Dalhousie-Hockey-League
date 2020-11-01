@@ -1,14 +1,29 @@
 package dal.asd.dpl.GameplayConfiguration;
 
+import dal.asd.dpl.TeamManagement.League;
+
 public class GameplayConfig {
 	private Aging aging;
 	private GameResolver gameResolver;
 	private Injury injury;
 	private Training training;
 	private Trading trading;
+	private IGameplayConfigPersistance configDb;
 
+	public GameplayConfig(IGameplayConfigPersistance configDb) {
+		this.configDb = configDb;
+	}
+	
+	public GameplayConfig(Aging aging, GameResolver gameResolver, Injury injury, Training training, Trading trading, IGameplayConfigPersistance configDb) {
+		this.aging = aging;
+		this.gameResolver = gameResolver;
+		this.injury = injury;
+		this.training = training;
+		this.trading = trading;
+		this.configDb = configDb;
+	}
+	
 	public GameplayConfig(Aging aging, GameResolver gameResolver, Injury injury, Training training, Trading trading) {
-		super();
 		this.aging = aging;
 		this.gameResolver = gameResolver;
 		this.injury = injury;
@@ -55,5 +70,15 @@ public class GameplayConfig {
 	public void setTrading(Trading trading) {
 		this.trading = trading;
 	}
-
+	
+	public boolean saveGameplayConfig(League league) {
+		boolean isValid = false;
+		isValid = configDb.persistGameConfig(league.getGameConfig(), league.getLeagueName());
+		return isValid;
+	}
+	
+	public GameplayConfig loadGameplayConfig(League league) {
+		GameplayConfig config = configDb.loadGameplayConfigData(league.getLeagueName());
+		return config;
+	}
 }

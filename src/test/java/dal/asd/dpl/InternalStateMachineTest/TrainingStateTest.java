@@ -2,6 +2,10 @@ package dal.asd.dpl.InternalStateMachineTest;
 
 import dal.asd.dpl.GameplayConfiguration.Training;
 import dal.asd.dpl.InternalStateMachine.*;
+import dal.asd.dpl.Schedule.ISchedule;
+import dal.asd.dpl.Schedule.RegularSeasonSchedule;
+import dal.asd.dpl.Schedule.SeasonCalendar;
+import dal.asd.dpl.ScheduleTest.MockSchedule;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagementTest.LeagueMockData;
 import dal.asd.dpl.UserInput.CmdUserInput;
@@ -23,10 +27,11 @@ public class TrainingStateTest {
     private ISchedule schedule;
     private MockSchedule mockSchedule;
     private InternalStateContext context;
-    private ScheduleUtlity utility;
+    private SeasonCalendar utility;
     private IUserOutput output;
     private IUserInput input;
     private Calendar calendar;
+    private Training training;
 
     @Before
     public void setUp() throws Exception {
@@ -35,12 +40,13 @@ public class TrainingStateTest {
         output = new CmdUserOutput();
         leagueToSimulate = mockLeague.getTestData();
         calendar = Calendar.getInstance();
-        schedule = new RegularSeasonScheduleState(calendar, output);
+        schedule = new RegularSeasonSchedule(calendar, output);
         mockSchedule = new MockSchedule();
         schedule.setFinalSchedule(mockSchedule.getMockSchedule());
         context = new InternalStateContext(input, output);
-        utility = new ScheduleUtlity(0);
-        state = new TrainingState(leagueToSimulate, schedule, utility, "14-11-2020", output, context);
+        utility = new SeasonCalendar(0, output);
+        training = new Training(100, 100);
+        state = new TrainingState(leagueToSimulate, training, schedule, utility, "14-11-2020", output, context);
     }
 
     @Test
@@ -53,15 +59,16 @@ public class TrainingStateTest {
 
     @Test
     public void doProcessingTest() {
-        // TODO
+        state.doProcessing();
+        assertFalse(null == state.getUpdatedLeague());
+        assertTrue(state.getUpdatedLeague() instanceof League);
     }
 
     @Test
-    public void anyUnplayedGamesTest() {
-        assertTrue(state.anyUnplayedGames());
-        // changing the current date to 13th.
-        state = new TrainingState(leagueToSimulate, schedule, utility, "13-11-2020", output, context);
-        assertFalse(state.anyUnplayedGames());
+    public void getUpdatedLeagueTest() {
+        state.doProcessing();
+        assertFalse(null == state.getUpdatedLeague());
+        assertTrue(state.getUpdatedLeague() instanceof League);
     }
 
     @Test
