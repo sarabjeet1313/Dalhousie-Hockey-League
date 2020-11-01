@@ -71,7 +71,7 @@ public class LeagueMockData implements ILeaguePersistance {
 	Aging aging = new Aging(35, 50);
 	GameResolver gameResolver = new GameResolver(0.1);
 	Injury injury = new Injury(0.05, 1, 260);
-	Training training = new Training(100);
+	Training training = new Training(100, 100);
 	Trading trading = new Trading(8, 0.05, 2, 0.05);
 	League league = getTestData();
 	IRetirementManagement retireManager = new RetirementManagement();

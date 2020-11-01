@@ -64,7 +64,7 @@ public class LeagueObjectTestData {
 	Aging aging = new Aging(35, 50);
 	GameResolver gameResolver = new GameResolver(0.1);
 	Injury injury = new Injury(0.05, 1, 260);
-	Training training = new Training(100);
+	Training training = new Training(100, 100);
 	private ILeaguePersistance leagueMock = new LeagueMockData();
 	private ICoachPersistance coachMock = new CoachMockData();
 	private IGameplayConfigPersistance configMock = new GamaplayConfigMockData();

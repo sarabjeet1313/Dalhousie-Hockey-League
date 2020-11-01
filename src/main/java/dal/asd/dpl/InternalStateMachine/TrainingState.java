@@ -1,4 +1,5 @@
 package dal.asd.dpl.InternalStateMachine;
+import dal.asd.dpl.GameplayConfiguration.Training;
 import dal.asd.dpl.Schedule.ISchedule;
 import dal.asd.dpl.Schedule.SeasonCalendar;
 import dal.asd.dpl.TeamManagement.League;
@@ -18,6 +19,7 @@ public class TrainingState implements ISimulationState {
     private InternalStateContext context;
     private ISchedule schedule;
     private SeasonCalendar utility;
+    private Training training;
 
     public TrainingState (League leagueToSimulate, ISchedule schedule, SeasonCalendar utility, String currentDate, IUserOutput output, InternalStateContext context) {
         this.leagueToSimulate = leagueToSimulate;
@@ -27,6 +29,7 @@ public class TrainingState implements ISimulationState {
         this.currentDate = currentDate;
         this.utility = utility;
         this.stateName = "Training";
+        this.training = new Training(); 
     }
 
     public void nextState(InternalStateContext context) {
@@ -48,6 +51,7 @@ public class TrainingState implements ISimulationState {
         // TODO training logic to be implemented.
         output.setOutput("Inside Training state");
         output.sendOutput();
+        leagueToSimulate = training.trackDaysForTraining(leagueToSimulate);
     }
 
     public String getStateName() {

@@ -1,9 +1,12 @@
 package dal.asd.dpl.Database;
 
+import java.awt.image.DataBufferUShort;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import dal.asd.dpl.TeamManagement.IManagerPersistance;
+import dal.asd.dpl.Util.DatabaseUtil;
+import dal.asd.dpl.Util.StoredProcedureUtil;
 
 public class ManagerDataDB implements IManagerPersistance{
 	InvokeStoredProcedure invoke = null;
@@ -13,7 +16,7 @@ public class ManagerDataDB implements IManagerPersistance{
 		boolean isPersisted = false;
 		ResultSet result;
 		try {
-			invoke = new InvokeStoredProcedure("spPersistManager(?,?,?,?)");
+			invoke = new InvokeStoredProcedure(StoredProcedureUtil.PERSIST_MANAGER.getSpString());
 			invoke.setParameter(1, managerName);
 			invoke.setParameter(2, teamName);
 			invoke.setParameter(3, leagueName);

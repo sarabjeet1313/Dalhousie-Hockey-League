@@ -98,11 +98,11 @@ public class InitializeLeagues implements IInitializeLeagues {
 			return null;
 		}
 
-		if(loadConferencesInfo() == null) {
+		if (loadConferencesInfo() == null) {
 			return null;
 		}
 
-		if(loadFreeAgentsInfo() == null) {
+		if (loadFreeAgentsInfo() == null) {
 			return null;
 		}
 
@@ -125,7 +125,7 @@ public class InitializeLeagues implements IInitializeLeagues {
 		league.setManagerList(managerList);
 		return league;
 	}
-	
+
 	private List<Conference> loadConferencesInfo() {
 		JsonArray conferences = parser.parseList("conferences");
 		Iterator<JsonElement> conferenceListElement = conferences.iterator();
@@ -185,8 +185,8 @@ public class InitializeLeagues implements IInitializeLeagues {
 						output.sendOutput();
 						return null;
 					}
-					Manager managerobj = new Manager(genManager, managerDb); 
-					
+					Manager managerobj = new Manager(genManager, managerDb);
+
 					JsonObject headCoach = team.get("headCoach").getAsJsonObject();
 					String headCoachName = headCoach.get("name").toString();
 					headCoachName = truncateString(headCoachName);
@@ -276,7 +276,7 @@ public class InitializeLeagues implements IInitializeLeagues {
 							output.sendOutput();
 							return null;
 						}
-						
+
 						int skating = player.get("skating").getAsInt();
 						int shooting = player.get("shooting").getAsInt();
 						int checking = player.get("checking").getAsInt();
@@ -316,7 +316,7 @@ public class InitializeLeagues implements IInitializeLeagues {
 		}
 		return "";
 	}
-	
+
 	public String isValidCoach(double skating, double shooting, double checking, double saving) {
 		if (skating < 0 || skating > 1) {
 			return " skating value should be between 0 and 1.";
@@ -332,7 +332,7 @@ public class InitializeLeagues implements IInitializeLeagues {
 		}
 		return "";
 	}
-	
+
 	private List<Player> loadFreeAgentsInfo() {
 		JsonArray freeAgentsArray = parser.parseList("freeAgents");
 		Iterator<JsonElement> freeAgentElement = freeAgentsArray.iterator();
@@ -396,7 +396,7 @@ public class InitializeLeagues implements IInitializeLeagues {
 			freeAgents.add(new Player(agentName, position, captain, age, skating, shooting, checking, saving, false,
 					false, 0));
 		}
-		
+
 		return freeAgents;
 	}
 
@@ -540,7 +540,8 @@ public class InitializeLeagues implements IInitializeLeagues {
 			output.sendOutput();
 			return null;
 		}
-		training = new Training(daysUntilStatIncreaseCheck);
+		int trachDays = daysUntilStatIncreaseCheck;
+		training = new Training(daysUntilStatIncreaseCheck, trachDays);
 		return training;
 	}
 
