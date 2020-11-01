@@ -52,20 +52,29 @@ public class Training {
 		} else {
 			player = injury.getPlayerInjuryDays(player, league);
 		}
+		randomValue = generateRandomValue();
 		if (randomValue < headCoach.getShooting() && player.isInjured() == Boolean.FALSE) {
 			player.setShooting(player.getShooting() + 1);
 		} else {
-			player = injury.getPlayerInjuryDays(player, league);
+			if(player.isInjured() == Boolean.FALSE) {
+				player = injury.getPlayerInjuryDays(player, league);
+			}
 		}
+		randomValue = generateRandomValue();
 		if (randomValue < headCoach.getChecking() && player.isInjured() == Boolean.FALSE) {
 			player.setChecking(player.getChecking() + 1);
 		} else {
-			player = injury.getPlayerInjuryDays(player, league);
+			if(player.isInjured() == Boolean.FALSE) {
+				player = injury.getPlayerInjuryDays(player, league);
+			}
 		}
+		randomValue = generateRandomValue();
 		if (randomValue < headCoach.getSaving() && player.isInjured() == Boolean.FALSE) {
 			player.setShooting(player.getShooting() + 1);
 		} else {
-			player = injury.getPlayerInjuryDays(player, league);
+			if(player.isInjured() == Boolean.FALSE) {
+				player = injury.getPlayerInjuryDays(player, league);
+			}
 		}
 	}
 

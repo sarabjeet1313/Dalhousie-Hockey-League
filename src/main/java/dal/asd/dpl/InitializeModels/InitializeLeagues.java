@@ -533,8 +533,8 @@ public class InitializeLeagues implements IInitializeLeagues {
 			output.sendOutput();
 			return null;
 		}
-		int injuryDaysHigh = injuriesObj.get(GameConfigUtil.INJURY_DAYS_LOW.toString()).getAsInt();
-		if (injuryDaysHigh < 0 || injuryDaysHigh < injuryDaysLow) {
+		int injuryDaysHigh = injuriesObj.get(GameConfigUtil.INJURY_DAYS_HIGH.toString()).getAsInt();
+		if (injuryDaysHigh < 0 || injuryDaysHigh <= injuryDaysLow) {
 			output.setOutput(GameConfigUtil.INVALID_RANDOM_INJURY.toString());
 			output.sendOutput();
 			return null;
