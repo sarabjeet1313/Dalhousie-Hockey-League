@@ -11,15 +11,18 @@ public class Team implements ITeamInfo {
 	private Manager generalManager;
 	private Coach headCoach;
 	private List<Player> playerList;
+	private boolean isNewTeam;
 
 	public Team() {
 		super();
 	}
-	public Team(String teamName, Manager generalManager, Coach headCoach, List<Player> playerList) {
+
+	public Team(String teamName, Manager generalManager, Coach headCoach, List<Player> playerList, boolean isNewTeam) {
 		this.teamName = teamName;
 		this.generalManager = generalManager;
 		this.headCoach = headCoach;
 		this.playerList = playerList;
+		this.isNewTeam = isNewTeam;
 	}
 
 	public String getTeamName() {
@@ -54,9 +57,17 @@ public class Team implements ITeamInfo {
 		this.playerList = playerList;
 	}
 
+	public boolean isNewTeam() {
+		return isNewTeam;
+	}
+
+	public void setNewTeam(boolean isNewTeam) {
+		this.isNewTeam = isNewTeam;
+	}
+
 	public boolean isValidTeamName(String conferenceName, String divisionName, String teamName, League league) {
 		List<Conference> conferenceList = league.getConferenceList();
-		boolean isValid = false;
+		boolean isValid = Boolean.FALSE;
 		for (int index = 0; index < conferenceList.size(); index++) {
 			if (conferenceList.get(index).getConferenceName().equals(conferenceName)) {
 				List<Division> divisionList = conferenceList.get(index).getDivisionList();
@@ -67,7 +78,7 @@ public class Team implements ITeamInfo {
 
 						for (int tIndex = 0; tIndex < teamList.size(); tIndex++) {
 							if (teamList.get(dIndex).getTeamName().equals(teamName)) {
-								isValid = true;
+								isValid = Boolean.TRUE;
 								break;
 							}
 						}

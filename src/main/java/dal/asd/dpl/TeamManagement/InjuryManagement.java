@@ -47,7 +47,7 @@ public class InjuryManagement implements IInjuryManagement {
 		InjuryPublisher.getInstance().notify(player.getPlayerName(), player.getDaysInjured());
 		return player;
 	}
-	
+
 	@Override
 	public League getInjuryStatusByTeam(String teamName, League league) {
 		List<Conference> conferenceList = league.getConferenceList();

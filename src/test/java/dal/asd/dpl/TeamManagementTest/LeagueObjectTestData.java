@@ -90,8 +90,8 @@ public class LeagueObjectTestData {
 		coachList.add(coach2);
 		coachList.add(coach3);
 		managerList.add(manager3);
-		Team team1 = new Team("Boston", manager1, coach1, playerList);
-		Team team2 = new Team("Halifax", manager2, coach2, playerList);
+		Team team1 = new Team("Boston", manager1, coach1, playerList, Boolean.FALSE);
+		Team team2 = new Team("Halifax", manager2, coach2, playerList, Boolean.FALSE);
 		ArrayList<Team> teamList = new ArrayList<Team>();
 		teamList.add(team1);
 		teamList.add(team2);

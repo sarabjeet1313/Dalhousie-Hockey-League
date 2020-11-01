@@ -55,7 +55,7 @@ public class CreateTeamState implements IState {
 		this.initializedLeague = league;
 		this.conferences = new Conference("", null);
 		this.divisions = new Division("", null);
-		this.teams = new Team("", genManager, headCoach, null);
+		this.teams = new Team("", genManager, headCoach, null, Boolean.FALSE);
 		this.stateName = "Create Team";
 	}
 	static{
@@ -370,7 +370,7 @@ public class CreateTeamState implements IState {
 				for (int dIndex = 0; dIndex < divisionList.size(); dIndex++) {
 					if (divisionList.get(dIndex).getDivisionName().equals(divisionName)) {
 						List<Team> teamList = divisionList.get(dIndex).getTeamList();
-						Team newTeam = new Team(teamName, genManager, headCoach, playerList);
+						Team newTeam = new Team(teamName, genManager, headCoach, playerList, Boolean.TRUE);
 						teamList.add(newTeam);
 						initializedLeague.getConferenceList().get(index).getDivisionList().get(dIndex)
 								.setTeamList(teamList);
