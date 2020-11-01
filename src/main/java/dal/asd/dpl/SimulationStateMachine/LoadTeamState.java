@@ -3,8 +3,9 @@ package dal.asd.dpl.SimulationStateMachine;
 import dal.asd.dpl.GameplayConfiguration.GameplayConfig;
 import dal.asd.dpl.TeamManagement.Coach;
 import dal.asd.dpl.TeamManagement.Conference;
-import dal.asd.dpl.TeamManagement.ILeague;
+import dal.asd.dpl.TeamManagement.ILeaguePersistance;
 import dal.asd.dpl.TeamManagement.League;
+import dal.asd.dpl.TeamManagement.Manager;
 import dal.asd.dpl.TeamManagement.Player;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
@@ -13,22 +14,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LoadTeamState implements IState {
-    private static IUserInput input;
-    private static IUserOutput output;
-    private static String teamName;
-    private static ILeague leagueDb;
-    private static String stateName;
-    private static String nextStateName;
+    private IUserInput input;
+    private IUserOutput output;
+    private String teamName;
+    private ILeaguePersistance leagueDb;
+    private String stateName;
+    private String nextStateName;
 
-    public LoadTeamState(IUserInput input, IUserOutput output, ILeague leagueDb) {
-        LoadTeamState.input = input;
-        LoadTeamState.output = output;
-        LoadTeamState.leagueDb = leagueDb;
-        LoadTeamState.stateName = "Load Team";
+    public LoadTeamState(IUserInput input, IUserOutput output, ILeaguePersistance leagueDb) {
+        this.input = input;
+        this.output = output;
+        this.leagueDb = leagueDb;
+        this.stateName = "Load Team";
     }
 
     public void nextState(StateContext context){
-        LoadTeamState.nextStateName = "Simulate";
+    	this.nextStateName = "Simulate";
         context.setState(new SimulateState(input, output, teamName, null));
     }
 
@@ -42,51 +43,24 @@ public class LoadTeamState implements IState {
         List<Conference> conferencesList = null;
         List<Player> freeAgents = null;
         List<Coach> coaches = null;
-        List<String> managers = new ArrayList<String>(); 
+        List<Manager> managers = new ArrayList<Manager>(); 
         GameplayConfig config = null;
         boolean result = false;
         String finalLeagueName = "";
-        League league = new League("test", conferencesList, freeAgents, coaches, managers, config);
-        List<String> leagues = league.getLeagueNames(teamName, leagueDb);
+        League league = new League("test", conferencesList, freeAgents, coaches, managers, config, leagueDb);
+        league = league.loadLeague(teamName);
 
-        if(leagues.size() == 1) {
-            result = league.loadLeagueData(leagues.get(0));
-        }
-
-        else if(leagues.size() > 1) {
-            output.setOutput("We have found multiple leagues for the given team. Which one do you like to load?");
-            output.sendOutput();
-
-            for(int i=0; i < leagues.size(); i++){
-                output.setOutput(i+1 + ": " + leagues.get(i));
-                output.sendOutput();
-            }
-
-            input.setInput();
-            finalLeagueName = input.getInput();
-
-            if(!finalLeagueName.isEmpty()) {
-                result = league.loadLeagueData(finalLeagueName);
-            }
-        }
-
-        else {
-            output.setOutput("No League found for the team.");
-            output.sendOutput();
-            doProcessing();
-        }
-
-        if(result){
+        if(!league.getLeagueName().equals("test")){
             output.setOutput("League has been initialized for the team: "+ teamName);
             output.sendOutput();
         }
     }
 
     public String getStateName(){
-        return LoadTeamState.stateName;
+        return this.stateName;
     }
 
     public String getNextStateName(){
-        return LoadTeamState.nextStateName;
+        return this.nextStateName;
     }
 }

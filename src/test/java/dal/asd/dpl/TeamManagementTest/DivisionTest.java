@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import dal.asd.dpl.TeamManagement.Coach;
 import dal.asd.dpl.TeamManagement.Division;
+import dal.asd.dpl.TeamManagement.Manager;
 import dal.asd.dpl.TeamManagement.Player;
 import dal.asd.dpl.TeamManagement.Team;
 import org.junit.Assert;
@@ -15,8 +16,10 @@ public class DivisionTest {
 	ArrayList<Player> playerList1 = new ArrayList<Player>();
 	Coach headCoach1 = new Coach("Mary Smith", 0.2, 0.3, 0.1, 0.4);
 	Coach headCoach2 = new Coach("Robert", 0.2, 0.3, 0.1, 0.4);
-	Team team = new Team("Boston", "Mister Fred", headCoach1, playerList);
-	Team team1 = new Team("Florida", "Ashely", headCoach2, playerList1);
+	Manager manager1 = new Manager("Karen Potam");
+	Manager manager2 = new Manager("Joseph Squidly");
+	Team team = new Team("Boston", manager1, headCoach1, playerList, Boolean.FALSE);
+	Team team1 = new Team("Florida", manager2, headCoach2, playerList1, Boolean.FALSE);
 	ArrayList<Team> teamList = new ArrayList<Team>();
 	Division division = new Division("Atlantic", teamList);
 	

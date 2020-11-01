@@ -11,4 +11,7 @@ public class ScheduleConstants {
     public static final int REGULAR_SEASON_LAST_WEEK = 1;
     public static final int REGULAR_SEASON = 0;
     public static final int PLAYOFF_SEASON = 1;
+    public static final int PLAYOFF_MAX_MATCHES = 105;
+    public static final int REGULAR_MATCH_PER_TEAM = 84;
+    public static final int REGULAR_SEASON_MAX_MATCH_PER_DAY = 28;
 }

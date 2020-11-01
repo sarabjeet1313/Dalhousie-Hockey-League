@@ -1,0 +1,2460 @@
+{
+   "gameplayConfig": {
+      "aging": {
+         "averageRetirementAge": 40,
+         "maximumAge": 46
+      },
+      "training": {
+         "daysUntilStatIncreaseCheck": 145
+      },
+      "trading": {
+         "randomTradeOfferChance": 0.1,
+         "lossPoint": 7,
+         "randomAcceptanceChance": 0.02,
+         "maxPlayersPerTrade": 2
+      },
+      "gameResolver": {
+         "randomWinChance": 0.5
+      },
+      "injuries": {
+         "randomInjuryChance": 0.15,
+         "injuryDaysLow": 1,
+         "injuryDaysHigh": 200
+      }
+   },
+   "conferences": [
+      {
+         "conferenceName": "Eastern Conference",
+         "divisions": [
+            {
+               "divisionName": "Pacific",
+               "teams": [
+                  {
+                     "players": [
+                        {
+                           "skating": 6,
+                           "captain": false,
+                           "saving": 4,
+                           "playerName": "Mike Marley",
+                           "age": 33,
+                           "checking": 19,
+                           "position": "forward",
+                           "shooting": 18
+                        },
+                        {
+                           "skating": 11,
+                           "captain": true,
+                           "saving": 5,
+                           "playerName": "Rob Patel",
+                           "age": 19,
+                           "checking": 19,
+                           "position": "forward",
+                           "shooting": 14
+                        },
+                        {
+                           "skating": 14,
+                           "captain": false,
+                           "saving": 9,
+                           "playerName": "Rob Khatri",
+                           "age": 19,
+                           "checking": 20,
+                           "position": "forward",
+                           "shooting": 17
+                        },
+                        {
+                           "skating": 13,
+                           "captain": false,
+                           "saving": 8,
+                           "playerName": "Rashita Cherry",
+                           "age": 32,
+                           "checking": 17,
+                           "position": "forward",
+                           "shooting": 1
+                        },
+                        {
+                           "skating": 19,
+                           "captain": false,
+                           "saving": 8,
+                           "playerName": "Wen Greenbaum",
+                           "age": 22,
+                           "checking": 9,
+                           "position": "forward",
+                           "shooting": 2
+                        },
+                        {
+                           "skating": 10,
+                           "captain": false,
+                           "saving": 16,
+                           "playerName": "Fred Greenbaum",
+                           "age": 31,
+                           "checking": 13,
+                           "position": "forward",
+                           "shooting": 3
+                        },
+                        {
+                           "skating": 5,
+                           "captain": false,
+                           "saving": 1,
+                           "playerName": "Zongming Khatri",
+                           "age": 22,
+                           "checking": 2,
+                           "position": "forward",
+                           "shooting": 7
+                        },
+                        {
+                           "skating": 6,
+                           "captain": false,
+                           "saving": 4,
+                           "playerName": "Mohammed Thomson",
+                           "age": 28,
+                           "checking": 16,
+                           "position": "forward",
+                           "shooting": 6
+                        },
+                        {
+                           "skating": 4,
+                           "captain": false,
+                           "saving": 8,
+                           "playerName": "Fred Halen",
+                           "age": 26,
+                           "checking": 14,
+                           "position": "forward",
+                           "shooting": 17
+                        },
+                        {
+                           "skating": 18,
+                           "captain": false,
+                           "saving": 15,
+                           "playerName": "Roger Patel",
+                           "age": 32,
+                           "checking": 12,
+                           "position": "defense",
+                           "shooting": 6
+                        },
+                        {
+                           "skating": 18,
+                           "captain": false,
+                           "saving": 6,
+                           "playerName": "Mary Bishop",
+                           "age": 18,
+                           "checking": 17,
+                           "position": "defense",
+                           "shooting": 3
+                        },
+                        {
+                           "skating": 19,
+                           "captain": false,
+                           "saving": 14,
+                           "playerName": "Chris Halen",
+                           "age": 18,
+                           "checking": 17,
+                           "position": "defense",
+                           "shooting": 13
+                        },
+                        {
+                           "skating": 17,
+                           "captain": false,
+                           "saving": 9,
+                           "playerName": "Pat Morrison",
+                           "age": 25,
+                           "checking": 10,
+                           "position": "defense",
+                           "shooting": 10
+                        },
+                        {
+                           "skating": 17,
+                           "captain": false,
+                           "saving": 8,
+                           "playerName": "Rob Wu",
+                           "age": 30,
+                           "checking": 13,
+                           "position": "defense",
+                           "shooting": 12
+                        },
+                        {
+                           "skating": 12,
+                           "captain": false,
+                           "saving": 1,
+                           "playerName": "Mohammed Wu",
+                           "age": 32,
+                           "checking": 11,
+                           "position": "defense",
+                           "shooting": 13
+                        },
+                        {
+                           "skating": 16,
+                           "captain": false,
+                           "saving": 7,
+                           "playerName": "Tami Bishop",
+                           "age": 21,
+                           "checking": 18,
+                           "position": "defense",
+                           "shooting": 17
+                        },
+                        {
+                           "skating": 1,
+                           "captain": false,
+                           "saving": 9,
+                           "playerName": "Hardik Marley",
+                           "age": 23,
+                           "checking": 1,
+                           "position": "defense",
+                           "shooting": 9
+                        },
+                        {
+                           "skating": 5,
+                           "captain": false,
+                           "saving": 13,
+                           "playerName": "Mohammed Samson",
+                           "age": 26,
+                           "checking": 15,
+                           "position": "forward",
+                           "shooting": 16
+                        },
+                        {
+                           "skating": 3,
+                           "captain": false,
+                           "saving": 14,
+                           "playerName": "Mike Smith",
+                           "age": 25,
+                           "checking": 20,
+                           "position": "goalie",
+                           "shooting": 1
+                        },
+                        {
+                           "skating": 12,
+                           "captain": false,
+                           "saving": 8,
+                           "playerName": "Sammy Wu",
+                           "age": 20,
+                           "checking": 9,
+                           "position": "forward",
+                           "shooting": 13
+                        }
+                     ],
+                     "generalManager": "Tami Cherry",
+                     "headCoach": {
+                        "skating": 0.51,
+                        "checking": 0.94,
+                        "shooting": 0.61,
+                        "saving": 0.17,
+                        "name": "Raghav Nelson"
+                     },
+                     "teamName": "Chicago Blues"
+                  },
+                  {
+                     "players": [
+                        {
+                           "skating": 6,
+                           "captain": false,
+                           "saving": 5,
+                           "playerName": "Wen Fei",
+                           "age": 20,
+                           "checking": 8,
+                           "position": "forward",
+                           "shooting": 13
+                        },
+                        {
+                           "skating": 1,
+                           "captain": false,
+                           "saving": 2,
+                           "playerName": "Wen Hawkins",
+                           "age": 29,
+                           "checking": 12,
+                           "position": "forward",
+                           "shooting": 5
+                        },
+                        {
+                           "skating": 14,
+                           "captain": false,
+                           "saving": 1,
+                           "playerName": "Raghav Hawkey",
+                           "age": 22,
+                           "checking": 15,
+                           "position": "forward",
+                           "shooting": 8
+                        },
+                        {
+                           "skating": 20,
+                           "captain": false,
+                           "saving": 1,
+                           "playerName": "Hardik Samson",
+                           "age": 21,
+                           "checking": 17,
+                           "position": "forward",
+                           "shooting": 12
+                        },
+                        {
+                           "skating": 12,
+                           "captain": false,
+                           "saving": 3,
+                           "playerName": "Pat Singh",
+                           "age": 22,
+                           "checking": 10,
+                           "position": "forward",
+                           "shooting": 3
+                        },
+                        {
+                           "skating": 18,
+                           "captain": false,
+                           "saving": 6,
+                           "playerName": "Chris Nelson",
+                           "age": 25,
+                           "checking": 16,
+                           "position": "forward",
+                           "shooting": 8
+                        },
+                        {
+                           "skating": 6,
+                           "captain": false,
+                           "saving": 1,
+                           "playerName": "Walter Greenbaum",
+                           "age": 31,
+                           "checking": 2,
+                           "position": "forward",
+                           "shooting": 6
+                        },
+                        {
+                           "skating": 6,
+                           "captain": false,
+                           "saving": 3,
+                           "playerName": "Hardik Chang",
+                           "age": 26,
+                           "checking": 2,
+                           "position": "forward",
+                           "shooting": 5
+                        },
+                        {
+                           "skating": 12,
+                           "captain": false,
+                           "saving": 20,
+                           "playerName": "Tina Thomson",
+                           "age": 19,
+                           "checking": 1,
+                           "position": "forward",
+                           "shooting": 20
+                        },
+                        {
+                           "skating": 18,
+                           "captain": false,
+                           "saving": 20,
+                           "playerName": "Prashant Morrison",
+                           "age": 27,
+                           "checking": 11,
+                           "position": "defense",
+                           "shooting": 12
+                        },
+                        {
+                           "skating": 8,
+                           "captain": false,
+                           "saving": 13,
+                           "playerName": "Abraham Singh",
+                           "age": 32,
+                           "checking": 10,
+                           "position": "defense",
+                           "shooting": 12
+                        },
+                        {
+                           "skating": 17,
+                           "captain": true,
+                           "saving": 6,
+                           "playerName": "Abraham Patel",
+                           "age": 28,
+                           "checking": 3,
+                           "position": "defense",
+                           "shooting": 7
+                        },
+                        {
+                           "skating": 16,
+                           "captain": false,
+                           "saving": 9,
+                           "playerName": "Rashita Wu",
+                           "age": 27,
+                           "checking": 4,
+                           "position": "defense",
+                           "shooting": 16
+                        },
+                        {
+                           "skating": 4,
+                           "captain": false,
+                           "saving": 5,
+                           "playerName": "Roger Smith",
+                           "age": 32,
+                           "checking": 9,
+                           "position": "defense",
+                           "shooting": 6
+                        },
+                        {
+                           "skating": 2,
+                           "captain": false,
+                           "saving": 14,
+                           "playerName": "Rob Khatri",
+                           "age": 34,
+                           "checking": 6,
+                           "position": "defense",
+                           "shooting": 8
+                        },
+                        {
+                           "skating": 13,
+                           "captain": false,
+                           "saving": 15,
+                           "playerName": "Rashita Bishop",
+                           "age": 33,
+                           "checking": 13,
+                           "position": "defense",
+                           "shooting": 10
+                        },
+                        {
+                           "skating": 12,
+                           "captain": false,
+                           "saving": 4,
+                           "playerName": "Raghav Morrison",
+                           "age": 30,
+                           "checking": 8,
+                           "position": "defense",
+                           "shooting": 2
+                        },
+                        {
+                           "skating": 3,
+                           "captain": false,
+                           "saving": 4,
+                           "playerName": "Chris Halen",
+                           "age": 24,
+                           "checking": 15,
+                           "position": "forward",
+                           "shooting": 4
+                        },
+                        {
+                           "skating": 7,
+                           "captain": false,
+                           "saving": 10,
+                           "playerName": "Wen Cherry",
+                           "age": 21,
+                           "checking": 3,
+                           "position": "goalie",
+                           "shooting": 5
+                        },
+                        {
+                           "skating": 14,
+                           "captain": false,
+                           "saving": 19,
+                           "playerName": "Zongming Khatri",
+                           "age": 32,
+                           "checking": 7,
+                           "position": "forward",
+                           "shooting": 5
+                        }
+                     ],
+                     "generalManager": "Chris Burbchuk",
+                     "headCoach": {
+                        "skating": 0.07,
+                        "checking": 0.47,
+                        "shooting": 0.63,
+                        "saving": 0.42,
+                        "name": "Rob Samson"
+                     },
+                     "teamName": "Regina Wild Cats"
+                  }
+                 ]
+            },
+            {
+               "divisionName": "Central",
+               "teams": [
+                  {
+                     "players": [
+                        {
+                           "skating": 1,
+                           "captain": false,
+                           "saving": 5,
+                           "playerName": "Mary Wu",
+                           "age": 32,
+                           "checking": 11,
+                           "position": "forward",
+                           "shooting": 14
+                        },
+                        {
+                           "skating": 2,
+                           "captain": false,
+                           "saving": 11,
+                           "playerName": "Prashant Chang",
+                           "age": 27,
+                           "checking": 3,
+                           "position": "forward",
+                           "shooting": 11
+                        },
+                        {
+                           "skating": 7,
+                           "captain": false,
+                           "saving": 17,
+                           "playerName": "John Chang",
+                           "age": 20,
+                           "checking": 7,
+                           "position": "forward",
+                           "shooting": 12
+                        },
+                        {
+                           "skating": 11,
+                           "captain": true,
+                           "saving": 19,
+                           "playerName": "Hardik Hawkins",
+                           "age": 19,
+                           "checking": 4,
+                           "position": "forward",
+                           "shooting": 2
+                        },
+                        {
+                           "skating": 19,
+                           "captain": false,
+                           "saving": 10,
+                           "playerName": "Nancy Wu",
+                           "age": 25,
+                           "checking": 18,
+                           "position": "forward",
+                           "shooting": 18
+                        },
+                        {
+                           "skating": 14,
+                           "captain": false,
+                           "saving": 9,
+                           "playerName": "Bonnie Marley",
+                           "age": 26,
+                           "checking": 14,
+                           "position": "forward",
+                           "shooting": 10
+                        },
+                        {
+                           "skating": 19,
+                           "captain": false,
+                           "saving": 6,
+                           "playerName": "Fred Patel",
+                           "age": 24,
+                           "checking": 13,
+                           "position": "forward",
+                           "shooting": 17
+                        },
+                        {
+                           "skating": 4,
+                           "captain": false,
+                           "saving": 19,
+                           "playerName": "Bonnie Halen",
+                           "age": 32,
+                           "checking": 20,
+                           "position": "forward",
+                           "shooting": 19
+                        },
+                        {
+                           "skating": 15,
+                           "captain": false,
+                           "saving": 16,
+                           "playerName": "Rob Chang",
+                           "age": 23,
+                           "checking": 1,
+                           "position": "forward",
+                           "shooting": 2
+                        },
+                        {
+                           "skating": 12,
+                           "captain": false,
+                           "saving": 4,
+                           "playerName": "Tami Hawkey",
+                           "age": 28,
+                           "checking": 5,
+                           "position": "defense",
+                           "shooting": 10
+                        },
+                        {
+                           "skating": 13,
+                           "captain": false,
+                           "saving": 20,
+                           "playerName": "Pat Khatri",
+                           "age": 25,
+                           "checking": 5,
+                           "position": "defense",
+                           "shooting": 15
+                        },
+                        {
+                           "skating": 3,
+                           "captain": false,
+                           "saving": 6,
+                           "playerName": "John Samson",
+                           "age": 30,
+                           "checking": 20,
+                           "position": "defense",
+                           "shooting": 12
+                        },
+                        {
+                           "skating": 8,
+                           "captain": false,
+                           "saving": 17,
+                           "playerName": "Abraham Hawkins",
+                           "age": 34,
+                           "checking": 1,
+                           "position": "defense",
+                           "shooting": 8
+                        },
+                        {
+                           "skating": 2,
+                           "captain": false,
+                           "saving": 11,
+                           "playerName": "Abraham Fei",
+                           "age": 31,
+                           "checking": 14,
+                           "position": "defense",
+                           "shooting": 19
+                        },
+                        {
+                           "skating": 5,
+                           "captain": false,
+                           "saving": 14,
+                           "playerName": "Walter Greenbaum",
+                           "age": 18,
+                           "checking": 17,
+                           "position": "defense",
+                           "shooting": 13
+                        },
+                        {
+                           "skating": 17,
+                           "captain": false,
+                           "saving": 4,
+                           "playerName": "Mary Singh",
+                           "age": 23,
+                           "checking": 20,
+                           "position": "defense",
+                           "shooting": 15
+                        },
+                        {
+                           "skating": 19,
+                           "captain": false,
+                           "saving": 15,
+                           "playerName": "Mary Chang",
+                           "age": 32,
+                           "checking": 8,
+                           "position": "defense",
+                           "shooting": 18
+                        },
+                        {
+                           "skating": 9,
+                           "captain": false,
+                           "saving": 9,
+                           "playerName": "Abraham Halen",
+                           "age": 33,
+                           "checking": 11,
+                           "position": "forward",
+                           "shooting": 18
+                        },
+                        {
+                           "skating": 11,
+                           "captain": false,
+                           "saving": 8,
+                           "playerName": "Hardik Cherry",
+                           "age": 23,
+                           "checking": 20,
+                           "position": "goalie",
+                           "shooting": 15
+                        },
+                        {
+                           "skating": 20,
+                           "captain": false,
+                           "saving": 8,
+                           "playerName": "Bonnie Smith",
+                           "age": 19,
+                           "checking": 6,
+                           "position": "forward",
+                           "shooting": 14
+                        }
+                     ],
+                     "generalManager": "Abraham Khatri",
+                     "headCoach": {
+                        "skating": 0.26,
+                        "checking": 0.28,
+                        "shooting": 0.76,
+                        "saving": 0.06,
+                        "name": "Rob Thomson"
+                     },
+                     "teamName": "Jakarta Blues"
+                  }
+				]
+            }
+         ]
+      },
+      {
+         "conferenceName": "Western Conference",
+         "divisions": [
+            {
+               "divisionName": "Atlantic",
+               "teams": [
+                  {
+                     "players": [
+                        {
+                           "skating": 19,
+                           "captain": false,
+                           "saving": 4,
+                           "playerName": "Zongming Marley",
+                           "age": 20,
+                           "checking": 16,
+                           "position": "forward",
+                           "shooting": 3
+                        },
+                        {
+                           "skating": 2,
+                           "captain": false,
+                           "saving": 18,
+                           "playerName": "Wen Williamson",
+                           "age": 31,
+                           "checking": 16,
+                           "position": "forward",
+                           "shooting": 11
+                        },
+                        {
+                           "skating": 15,
+                           "captain": false,
+                           "saving": 7,
+                           "playerName": "Roger Halen",
+                           "age": 21,
+                           "checking": 20,
+                           "position": "forward",
+                           "shooting": 3
+                        },
+                        {
+                           "skating": 13,
+                           "captain": false,
+                           "saving": 11,
+                           "playerName": "Tami Liu",
+                           "age": 22,
+                           "checking": 8,
+                           "position": "forward",
+                           "shooting": 7
+                        },
+                        {
+                           "skating": 8,
+                           "captain": false,
+                           "saving": 2,
+                           "playerName": "Tina Liu",
+                           "age": 30,
+                           "checking": 4,
+                           "position": "forward",
+                           "shooting": 13
+                        },
+                        {
+                           "skating": 17,
+                           "captain": true,
+                           "saving": 6,
+                           "playerName": "Mary Samson",
+                           "age": 27,
+                           "checking": 20,
+                           "position": "forward",
+                           "shooting": 15
+                        },
+                        {
+                           "skating": 17,
+                           "captain": false,
+                           "saving": 9,
+                           "playerName": "Pat Samson",
+                           "age": 34,
+                           "checking": 6,
+                           "position": "forward",
+                           "shooting": 2
+                        },
+                        {
+                           "skating": 14,
+                           "captain": false,
+                           "saving": 3,
+                           "playerName": "Fred Wu",
+                           "age": 24,
+                           "checking": 18,
+                           "position": "forward",
+                           "shooting": 4
+                        },
+                        {
+                           "skating": 9,
+                           "captain": false,
+                           "saving": 5,
+                           "playerName": "John Fei",
+                           "age": 28,
+                           "checking": 16,
+                           "position": "forward",
+                           "shooting": 14
+                        },
+                        {
+                           "skating": 2,
+                           "captain": false,
+                           "saving": 17,
+                           "playerName": "Zongming Patel",
+                           "age": 29,
+                           "checking": 19,
+                           "position": "defense",
+                           "shooting": 8
+                        },
+                        {
+                           "skating": 1,
+                           "captain": false,
+                           "saving": 3,
+                           "playerName": "Mary Morrison",
+                           "age": 20,
+                           "checking": 8,
+                           "position": "defense",
+                           "shooting": 10
+                        },
+                        {
+                           "skating": 16,
+                           "captain": false,
+                           "saving": 5,
+                           "playerName": "John Williamson",
+                           "age": 18,
+                           "checking": 5,
+                           "position": "defense",
+                           "shooting": 7
+                        },
+                        {
+                           "skating": 3,
+                           "captain": false,
+                           "saving": 5,
+                           "playerName": "Roger Hawkins",
+                           "age": 20,
+                           "checking": 6,
+                           "position": "defense",
+                           "shooting": 3
+                        },
+                        {
+                           "skating": 1,
+                           "captain": false,
+                           "saving": 19,
+                           "playerName": "Raghav Chang",
+                           "age": 29,
+                           "checking": 1,
+                           "position": "defense",
+                           "shooting": 7
+                        },
+                        {
+                           "skating": 20,
+                           "captain": false,
+                           "saving": 8,
+                           "playerName": "Chris Fei",
+                           "age": 34,
+                           "checking": 20,
+                           "position": "defense",
+                           "shooting": 11
+                        },
+                        {
+                           "skating": 1,
+                           "captain": false,
+                           "saving": 8,
+                           "playerName": "Walter Wu",
+                           "age": 22,
+                           "checking": 1,
+                           "position": "defense",
+                           "shooting": 1
+                        },
+                        {
+                           "skating": 15,
+                           "captain": false,
+                           "saving": 8,
+                           "playerName": "Fred Hawkey",
+                           "age": 29,
+                           "checking": 10,
+                           "position": "defense",
+                           "shooting": 6
+                        },
+                        {
+                           "skating": 5,
+                           "captain": false,
+                           "saving": 19,
+                           "playerName": "Chris Williamson",
+                           "age": 27,
+                           "checking": 6,
+                           "position": "forward",
+                           "shooting": 16
+                        },
+                        {
+                           "skating": 15,
+                           "captain": false,
+                           "saving": 20,
+                           "playerName": "Nancy Khatri",
+                           "age": 33,
+                           "checking": 12,
+                           "position": "goalie",
+                           "shooting": 13
+                        },
+                        {
+                           "skating": 1,
+                           "captain": false,
+                           "saving": 18,
+                           "playerName": "Fred Williamson",
+                           "age": 30,
+                           "checking": 14,
+                           "position": "forward",
+                           "shooting": 12
+                        }
+                     ],
+                     "generalManager": "Tami Wu",
+                     "headCoach": {
+                        "skating": 1.0,
+                        "checking": 0.98,
+                        "shooting": 0.95,
+                        "saving": 0.14,
+                        "name": "Zongming Singh"
+                     },
+                     "teamName": "Montreal Sleepy Goats"
+                  },
+                  {
+                     "players": [
+                        {
+                           "skating": 12,
+                           "captain": false,
+                           "saving": 3,
+                           "playerName": "Tami Patel",
+                           "age": 34,
+                           "checking": 19,
+                           "position": "forward",
+                           "shooting": 16
+                        },
+                        {
+                           "skating": 11,
+                           "captain": false,
+                           "saving": 16,
+                           "playerName": "Zongming Smith",
+                           "age": 19,
+                           "checking": 7,
+                           "position": "forward",
+                           "shooting": 19
+                        },
+                        {
+                           "skating": 8,
+                           "captain": false,
+                           "saving": 10,
+                           "playerName": "Nancy Singh",
+                           "age": 31,
+                           "checking": 2,
+                           "position": "forward",
+                           "shooting": 10
+                        },
+                        {
+                           "skating": 1,
+                           "captain": false,
+                           "saving": 15,
+                           "playerName": "Mohammed Liu",
+                           "age": 21,
+                           "checking": 20,
+                           "position": "forward",
+                           "shooting": 4
+                        },
+                        {
+                           "skating": 20,
+                           "captain": false,
+                           "saving": 1,
+                           "playerName": "Nancy Williamson",
+                           "age": 20,
+                           "checking": 13,
+                           "position": "forward",
+                           "shooting": 3
+                        },
+                        {
+                           "skating": 7,
+                           "captain": false,
+                           "saving": 3,
+                           "playerName": "Rashita Marley",
+                           "age": 20,
+                           "checking": 7,
+                           "position": "forward",
+                           "shooting": 20
+                        },
+                        {
+                           "skating": 15,
+                           "captain": false,
+                           "saving": 7,
+                           "playerName": "Bonnie Halen",
+                           "age": 18,
+                           "checking": 3,
+                           "position": "forward",
+                           "shooting": 19
+                        },
+                        {
+                           "skating": 9,
+                           "captain": false,
+                           "saving": 5,
+                           "playerName": "Tina Bishop",
+                           "age": 27,
+                           "checking": 5,
+                           "position": "forward",
+                           "shooting": 2
+                        },
+                        {
+                           "skating": 8,
+                           "captain": false,
+                           "saving": 9,
+                           "playerName": "Don Wu",
+                           "age": 25,
+                           "checking": 16,
+                           "position": "forward",
+                           "shooting": 16
+                        },
+                        {
+                           "skating": 17,
+                           "captain": false,
+                           "saving": 2,
+                           "playerName": "John Samson",
+                           "age": 34,
+                           "checking": 5,
+                           "position": "defense",
+                           "shooting": 7
+                        },
+                        {
+                           "skating": 18,
+                           "captain": false,
+                           "saving": 9,
+                           "playerName": "Tina Nelson",
+                           "age": 30,
+                           "checking": 17,
+                           "position": "defense",
+                           "shooting": 4
+                        },
+                        {
+                           "skating": 15,
+                           "captain": false,
+                           "saving": 16,
+                           "playerName": "Prashant Samson",
+                           "age": 22,
+                           "checking": 11,
+                           "position": "defense",
+                           "shooting": 2
+                        },
+                        {
+                           "skating": 10,
+                           "captain": false,
+                           "saving": 20,
+                           "playerName": "Rashita Chang",
+                           "age": 27,
+                           "checking": 12,
+                           "position": "defense",
+                           "shooting": 14
+                        },
+                        {
+                           "skating": 2,
+                           "captain": false,
+                           "saving": 11,
+                           "playerName": "Pat Greenbaum",
+                           "age": 19,
+                           "checking": 11,
+                           "position": "defense",
+                           "shooting": 3
+                        },
+                        {
+                           "skating": 17,
+                           "captain": false,
+                           "saving": 7,
+                           "playerName": "Rashita Hawkins",
+                           "age": 27,
+                           "checking": 5,
+                           "position": "defense",
+                           "shooting": 14
+                        },
+                        {
+                           "skating": 12,
+                           "captain": false,
+                           "saving": 16,
+                           "playerName": "Abraham Hawkins",
+                           "age": 32,
+                           "checking": 9,
+                           "position": "defense",
+                           "shooting": 17
+                        },
+                        {
+                           "skating": 13,
+                           "captain": true,
+                           "saving": 2,
+                           "playerName": "Sammy Smith",
+                           "age": 24,
+                           "checking": 18,
+                           "position": "defense",
+                           "shooting": 2
+                        },
+                        {
+                           "skating": 5,
+                           "captain": false,
+                           "saving": 13,
+                           "playerName": "Mary Smith",
+                           "age": 27,
+                           "checking": 5,
+                           "position": "forward",
+                           "shooting": 13
+                        },
+                        {
+                           "skating": 17,
+                           "captain": false,
+                           "saving": 14,
+                           "playerName": "Zongming Burbchuk",
+                           "age": 26,
+                           "checking": 8,
+                           "position": "goalie",
+                           "shooting": 2
+                        },
+                        {
+                           "skating": 15,
+                           "captain": false,
+                           "saving": 18,
+                           "playerName": "Chris Cherry",
+                           "age": 32,
+                           "checking": 20,
+                           "position": "forward",
+                           "shooting": 18
+                        }
+                     ],
+                     "generalManager": "Rob Burbchuk",
+                     "headCoach": {
+                        "skating": 0.49,
+                        "checking": 0.27,
+                        "shooting": 0.74,
+                        "saving": 0.56,
+                        "name": "John Burbchuk"
+                     },
+                     "teamName": "Vancouver High Rollers"
+                  }
+                ]
+            },
+            {
+               "divisionName": "Metropolitan",
+               "teams": [
+                  {
+                     "players": [
+                        {
+                           "skating": 6,
+                           "captain": false,
+                           "saving": 18,
+                           "playerName": "Mike Morrison",
+                           "age": 28,
+                           "checking": 1,
+                           "position": "forward",
+                           "shooting": 12
+                        },
+                        {
+                           "skating": 3,
+                           "captain": false,
+                           "saving": 10,
+                           "playerName": "Abraham Smith",
+                           "age": 35,
+                           "checking": 2,
+                           "position": "forward",
+                           "shooting": 2
+                        },
+                        {
+                           "skating": 10,
+                           "captain": false,
+                           "saving": 19,
+                           "playerName": "Wen Wu",
+                           "age": 32,
+                           "checking": 16,
+                           "position": "forward",
+                           "shooting": 11
+                        },
+                        {
+                           "skating": 6,
+                           "captain": false,
+                           "saving": 17,
+                           "playerName": "Rashita Samson",
+                           "age": 33,
+                           "checking": 11,
+                           "position": "forward",
+                           "shooting": 7
+                        },
+                        {
+                           "skating": 14,
+                           "captain": false,
+                           "saving": 7,
+                           "playerName": "Roger Wu",
+                           "age": 35,
+                           "checking": 11,
+                           "position": "forward",
+                           "shooting": 16
+                        },
+                        {
+                           "skating": 8,
+                           "captain": false,
+                           "saving": 15,
+                           "playerName": "Mike Wu",
+                           "age": 27,
+                           "checking": 3,
+                           "position": "forward",
+                           "shooting": 5
+                        },
+                        {
+                           "skating": 3,
+                           "captain": false,
+                           "saving": 5,
+                           "playerName": "Chris Cherry",
+                           "age": 33,
+                           "checking": 11,
+                           "position": "forward",
+                           "shooting": 15
+                        },
+                        {
+                           "skating": 5,
+                           "captain": false,
+                           "saving": 11,
+                           "playerName": "Rob Morrison",
+                           "age": 33,
+                           "checking": 6,
+                           "position": "forward",
+                           "shooting": 12
+                        },
+                        {
+                           "skating": 9,
+                           "captain": false,
+                           "saving": 7,
+                           "playerName": "Tina Nelson",
+                           "age": 24,
+                           "checking": 14,
+                           "position": "forward",
+                           "shooting": 8
+                        },
+                        {
+                           "skating": 12,
+                           "captain": false,
+                           "saving": 6,
+                           "playerName": "Tina Liu",
+                           "age": 22,
+                           "checking": 12,
+                           "position": "defense",
+                           "shooting": 7
+                        },
+                        {
+                           "skating": 11,
+                           "captain": false,
+                           "saving": 20,
+                           "playerName": "Fred Chang",
+                           "age": 30,
+                           "checking": 15,
+                           "position": "defense",
+                           "shooting": 16
+                        },
+                        {
+                           "skating": 9,
+                           "captain": false,
+                           "saving": 13,
+                           "playerName": "Chris Bishop",
+                           "age": 31,
+                           "checking": 20,
+                           "position": "defense",
+                           "shooting": 20
+                        },
+                        {
+                           "skating": 18,
+                           "captain": false,
+                           "saving": 9,
+                           "playerName": "Mike Khatri",
+                           "age": 29,
+                           "checking": 16,
+                           "position": "defense",
+                           "shooting": 20
+                        },
+                        {
+                           "skating": 16,
+                           "captain": false,
+                           "saving": 19,
+                           "playerName": "Rashita Hawkins",
+                           "age": 30,
+                           "checking": 9,
+                           "position": "defense",
+                           "shooting": 6
+                        },
+                        {
+                           "skating": 13,
+                           "captain": false,
+                           "saving": 11,
+                           "playerName": "Raghav Hawkins",
+                           "age": 18,
+                           "checking": 15,
+                           "position": "defense",
+                           "shooting": 3
+                        },
+                        {
+                           "skating": 1,
+                           "captain": true,
+                           "saving": 13,
+                           "playerName": "Chris Fei",
+                           "age": 20,
+                           "checking": 9,
+                           "position": "defense",
+                           "shooting": 8
+                        },
+                        {
+                           "skating": 2,
+                           "captain": false,
+                           "saving": 9,
+                           "playerName": "Rob Thomson",
+                           "age": 20,
+                           "checking": 7,
+                           "position": "defense",
+                           "shooting": 18
+                        },
+                        {
+                           "skating": 11,
+                           "captain": false,
+                           "saving": 8,
+                           "playerName": "Prashant Hawkey",
+                           "age": 20,
+                           "checking": 20,
+                           "position": "forward",
+                           "shooting": 1
+                        },
+                        {
+                           "skating": 2,
+                           "captain": false,
+                           "saving": 1,
+                           "playerName": "Mike Smith",
+                           "age": 22,
+                           "checking": 19,
+                           "position": "goalie",
+                           "shooting": 19
+                        },
+                        {
+                           "skating": 8,
+                           "captain": false,
+                           "saving": 9,
+                           "playerName": "Prashant Singh",
+                           "age": 21,
+                           "checking": 3,
+                           "position": "forward",
+                           "shooting": 3
+                        }
+                     ],
+                     "generalManager": "Roger Singh",
+                     "headCoach": {
+                        "skating": 0.36,
+                        "checking": 0.78,
+                        "shooting": 0.99,
+                        "saving": 0.36,
+                        "name": "Walter Hawkins"
+                     },
+                     "teamName": "Regina Hound Dogs"
+                  },
+                  {
+                     "players": [
+                        {
+                           "skating": 7,
+                           "captain": false,
+                           "saving": 1,
+                           "playerName": "Pat Smith",
+                           "age": 18,
+                           "checking": 6,
+                           "position": "forward",
+                           "shooting": 4
+                        },
+                        {
+                           "skating": 2,
+                           "captain": false,
+                           "saving": 16,
+                           "playerName": "Pat Bishop",
+                           "age": 33,
+                           "checking": 9,
+                           "position": "forward",
+                           "shooting": 9
+                        },
+                        {
+                           "skating": 17,
+                           "captain": false,
+                           "saving": 9,
+                           "playerName": "Bonnie Cherry",
+                           "age": 22,
+                           "checking": 8,
+                           "position": "forward",
+                           "shooting": 14
+                        },
+                        {
+                           "skating": 12,
+                           "captain": false,
+                           "saving": 8,
+                           "playerName": "Bonnie Cherry",
+                           "age": 19,
+                           "checking": 4,
+                           "position": "forward",
+                           "shooting": 17
+                        },
+                        {
+                           "skating": 12,
+                           "captain": false,
+                           "saving": 4,
+                           "playerName": "John Fei",
+                           "age": 23,
+                           "checking": 12,
+                           "position": "forward",
+                           "shooting": 11
+                        },
+                        {
+                           "skating": 4,
+                           "captain": false,
+                           "saving": 14,
+                           "playerName": "Rashita Samson",
+                           "age": 32,
+                           "checking": 11,
+                           "position": "forward",
+                           "shooting": 16
+                        },
+                        {
+                           "skating": 1,
+                           "captain": false,
+                           "saving": 12,
+                           "playerName": "Sammy Chang",
+                           "age": 22,
+                           "checking": 14,
+                           "position": "forward",
+                           "shooting": 19
+                        },
+                        {
+                           "skating": 19,
+                           "captain": false,
+                           "saving": 5,
+                           "playerName": "Fred Singh",
+                           "age": 33,
+                           "checking": 9,
+                           "position": "forward",
+                           "shooting": 9
+                        },
+                        {
+                           "skating": 19,
+                           "captain": false,
+                           "saving": 8,
+                           "playerName": "Fred Marley",
+                           "age": 28,
+                           "checking": 20,
+                           "position": "forward",
+                           "shooting": 9
+                        },
+                        {
+                           "skating": 9,
+                           "captain": false,
+                           "saving": 2,
+                           "playerName": "Nancy Burbchuk",
+                           "age": 21,
+                           "checking": 1,
+                           "position": "defense",
+                           "shooting": 3
+                        },
+                        {
+                           "skating": 14,
+                           "captain": false,
+                           "saving": 18,
+                           "playerName": "Don Hawkins",
+                           "age": 26,
+                           "checking": 18,
+                           "position": "defense",
+                           "shooting": 1
+                        },
+                        {
+                           "skating": 5,
+                           "captain": false,
+                           "saving": 15,
+                           "playerName": "Roger Samson",
+                           "age": 32,
+                           "checking": 7,
+                           "position": "defense",
+                           "shooting": 2
+                        },
+                        {
+                           "skating": 9,
+                           "captain": false,
+                           "saving": 13,
+                           "playerName": "Tina Wu",
+                           "age": 19,
+                           "checking": 16,
+                           "position": "defense",
+                           "shooting": 11
+                        },
+                        {
+                           "skating": 16,
+                           "captain": false,
+                           "saving": 12,
+                           "playerName": "Raghav Greenbaum",
+                           "age": 32,
+                           "checking": 6,
+                           "position": "defense",
+                           "shooting": 3
+                        },
+                        {
+                           "skating": 10,
+                           "captain": false,
+                           "saving": 1,
+                           "playerName": "Abraham Chang",
+                           "age": 24,
+                           "checking": 15,
+                           "position": "defense",
+                           "shooting": 15
+                        },
+                        {
+                           "skating": 20,
+                           "captain": false,
+                           "saving": 1,
+                           "playerName": "Bonnie Thomson",
+                           "age": 20,
+                           "checking": 1,
+                           "position": "defense",
+                           "shooting": 19
+                        },
+                        {
+                           "skating": 5,
+                           "captain": true,
+                           "saving": 10,
+                           "playerName": "Fred Morrison",
+                           "age": 25,
+                           "checking": 1,
+                           "position": "defense",
+                           "shooting": 1
+                        },
+                        {
+                           "skating": 6,
+                           "captain": false,
+                           "saving": 15,
+                           "playerName": "Chris Morrison",
+                           "age": 28,
+                           "checking": 15,
+                           "position": "forward",
+                           "shooting": 16
+                        },
+                        {
+                           "skating": 13,
+                           "captain": false,
+                           "saving": 12,
+                           "playerName": "Bonnie Fei",
+                           "age": 30,
+                           "checking": 17,
+                           "position": "goalie",
+                           "shooting": 8
+                        },
+                        {
+                           "skating": 6,
+                           "captain": false,
+                           "saving": 14,
+                           "playerName": "Roger Smith",
+                           "age": 26,
+                           "checking": 19,
+                           "position": "forward",
+                           "shooting": 19
+                        }
+                     ],
+                     "generalManager": "Mary Chang",
+                     "headCoach": {
+                        "skating": 0.67,
+                        "checking": 0.49,
+                        "shooting": 0.4,
+                        "saving": 0.99,
+                        "name": "Tami Morrison"
+                     },
+                     "teamName": "Montreal Wild Horses"
+                  }
+				]
+            }
+         ]
+      }
+   ],
+   "coaches": [
+      {
+         "skating": 0.84,
+         "checking": 1.0,
+         "shooting": 0.87,
+         "saving": 0.08,
+         "name": "Wen Burbchuk"
+      },
+      {
+         "skating": 0.56,
+         "checking": 0.92,
+         "shooting": 0.18,
+         "saving": 0.8,
+         "name": "Chris Hawkins"
+      },
+      {
+         "skating": 0.57,
+         "checking": 0.03,
+         "shooting": 0.12,
+         "saving": 0.66,
+         "name": "Walter Morrison"
+      },
+      {
+         "skating": 0.9,
+         "checking": 0.88,
+         "shooting": 0.49,
+         "saving": 0.1,
+         "name": "Nancy Halen"
+      },
+      {
+         "skating": 0.06,
+         "checking": 0.72,
+         "shooting": 0.55,
+         "saving": 0.85,
+         "name": "Tina Marley"
+      }
+
+   ],
+   "freeAgents": [
+      {
+         "skating": 11,
+         "saving": 1,
+         "playerName": "Chris Patel",
+         "age": 21,
+         "checking": 12,
+         "position": "defense",
+         "shooting": 13
+      },
+      {
+         "skating": 7,
+         "saving": 16,
+         "playerName": "Nancy Marley",
+         "age": 19,
+         "checking": 17,
+         "position": "defense",
+         "shooting": 12
+      },
+      {
+         "skating": 15,
+         "saving": 7,
+         "playerName": "Roger Greenbaum",
+         "age": 30,
+         "checking": 5,
+         "position": "defense",
+         "shooting": 18
+      },
+      {
+         "skating": 15,
+         "saving": 18,
+         "playerName": "Tami Fei",
+         "age": 22,
+         "checking": 4,
+         "position": "forward",
+         "shooting": 13
+      },
+      {
+         "skating": 3,
+         "saving": 2,
+         "playerName": "Wen Chang",
+         "age": 35,
+         "checking": 1,
+         "position": "goalie",
+         "shooting": 3
+      },
+      {
+         "skating": 14,
+         "saving": 12,
+         "playerName": "Fred Halen",
+         "age": 31,
+         "checking": 4,
+         "position": "defense",
+         "shooting": 17
+      },
+      {
+         "skating": 15,
+         "saving": 13,
+         "playerName": "Tami Thomson",
+         "age": 27,
+         "checking": 1,
+         "position": "defense",
+         "shooting": 11
+      },
+      {
+         "skating": 16,
+         "saving": 12,
+         "playerName": "Mike Hawkey",
+         "age": 22,
+         "checking": 17,
+         "position": "forward",
+         "shooting": 11
+      },
+      {
+         "skating": 9,
+         "saving": 2,
+         "playerName": "Prashant Smith",
+         "age": 32,
+         "checking": 17,
+         "position": "defense",
+         "shooting": 11
+      },
+      {
+         "skating": 7,
+         "saving": 6,
+         "playerName": "Mary Bishop",
+         "age": 20,
+         "checking": 4,
+         "position": "forward",
+         "shooting": 4
+      },
+      {
+         "skating": 9,
+         "saving": 11,
+         "playerName": "Raghav Hawkins",
+         "age": 29,
+         "checking": 20,
+         "position": "goalie",
+         "shooting": 6
+      },
+      {
+         "skating": 13,
+         "saving": 7,
+         "playerName": "Bonnie Burbchuk",
+         "age": 26,
+         "checking": 3,
+         "position": "goalie",
+         "shooting": 15
+      },
+      {
+         "skating": 8,
+         "saving": 16,
+         "playerName": "Chris Cherry",
+         "age": 22,
+         "checking": 1,
+         "position": "goalie",
+         "shooting": 5
+      },
+      {
+         "skating": 16,
+         "saving": 20,
+         "playerName": "Rashita Burbchuk",
+         "age": 30,
+         "checking": 5,
+         "position": "forward",
+         "shooting": 8
+      },
+      {
+         "skating": 13,
+         "saving": 17,
+         "playerName": "Chris Hawkey",
+         "age": 21,
+         "checking": 12,
+         "position": "forward",
+         "shooting": 10
+      },
+      {
+         "skating": 9,
+         "saving": 8,
+         "playerName": "Mike Cherry",
+         "age": 19,
+         "checking": 14,
+         "position": "forward",
+         "shooting": 1
+      },
+      {
+         "skating": 20,
+         "saving": 13,
+         "playerName": "Tami Liu",
+         "age": 27,
+         "checking": 20,
+         "position": "defense",
+         "shooting": 5
+      },
+      {
+         "skating": 4,
+         "saving": 15,
+         "playerName": "Fred Fei",
+         "age": 27,
+         "checking": 7,
+         "position": "defense",
+         "shooting": 11
+      },
+      {
+         "skating": 7,
+         "saving": 11,
+         "playerName": "Nancy Williamson",
+         "age": 29,
+         "checking": 4,
+         "position": "defense",
+         "shooting": 18
+      },
+      {
+         "skating": 1,
+         "saving": 20,
+         "playerName": "Tami Samson",
+         "age": 34,
+         "checking": 19,
+         "position": "defense",
+         "shooting": 18
+      },
+      {
+         "skating": 2,
+         "saving": 17,
+         "playerName": "Mohammed Halen",
+         "age": 24,
+         "checking": 13,
+         "position": "defense",
+         "shooting": 3
+      },
+      {
+         "skating": 3,
+         "saving": 18,
+         "playerName": "Fred Hawkey",
+         "age": 23,
+         "checking": 12,
+         "position": "forward",
+         "shooting": 7
+      },
+      {
+         "skating": 2,
+         "saving": 7,
+         "playerName": "Sammy Khatri",
+         "age": 31,
+         "checking": 2,
+         "position": "defense",
+         "shooting": 18
+      },
+      {
+         "skating": 20,
+         "saving": 2,
+         "playerName": "Tina Hawkey",
+         "age": 21,
+         "checking": 17,
+         "position": "defense",
+         "shooting": 2
+      },
+      {
+         "skating": 18,
+         "saving": 5,
+         "playerName": "Mike Marley",
+         "age": 21,
+         "checking": 20,
+         "position": "forward",
+         "shooting": 1
+      },
+      {
+         "skating": 5,
+         "saving": 2,
+         "playerName": "Nancy Halen",
+         "age": 27,
+         "checking": 14,
+         "position": "goalie",
+         "shooting": 6
+      },
+      {
+         "skating": 12,
+         "saving": 14,
+         "playerName": "Pat Thomson",
+         "age": 32,
+         "checking": 1,
+         "position": "forward",
+         "shooting": 3
+      },
+      {
+         "skating": 2,
+         "saving": 1,
+         "playerName": "Bonnie Hawkins",
+         "age": 34,
+         "checking": 8,
+         "position": "defense",
+         "shooting": 12
+      },
+      {
+         "skating": 2,
+         "saving": 19,
+         "playerName": "Rob Marley",
+         "age": 26,
+         "checking": 14,
+         "position": "defense",
+         "shooting": 17
+      },
+      {
+         "skating": 20,
+         "saving": 10,
+         "playerName": "Tina Hawkins",
+         "age": 34,
+         "checking": 12,
+         "position": "defense",
+         "shooting": 17
+      },
+      {
+         "skating": 18,
+         "saving": 13,
+         "playerName": "Mike Singh",
+         "age": 33,
+         "checking": 19,
+         "position": "goalie",
+         "shooting": 4
+      },
+      {
+         "skating": 12,
+         "saving": 15,
+         "playerName": "Zongming Samson",
+         "age": 34,
+         "checking": 17,
+         "position": "goalie",
+         "shooting": 8
+      },
+      {
+         "skating": 15,
+         "saving": 15,
+         "playerName": "Don Nelson",
+         "age": 32,
+         "checking": 11,
+         "position": "goalie",
+         "shooting": 15
+      },
+      {
+         "skating": 4,
+         "saving": 5,
+         "playerName": "Rob Singh",
+         "age": 18,
+         "checking": 5,
+         "position": "goalie",
+         "shooting": 7
+      },
+      {
+         "skating": 4,
+         "saving": 17,
+         "playerName": "Mary Hawkey",
+         "age": 19,
+         "checking": 14,
+         "position": "forward",
+         "shooting": 4
+      },
+      {
+         "skating": 19,
+         "saving": 11,
+         "playerName": "Nancy Chang",
+         "age": 32,
+         "checking": 17,
+         "position": "goalie",
+         "shooting": 20
+      },
+      {
+         "skating": 6,
+         "saving": 17,
+         "playerName": "Nancy Wu",
+         "age": 33,
+         "checking": 8,
+         "position": "defense",
+         "shooting": 12
+      },
+      {
+         "skating": 19,
+         "saving": 6,
+         "playerName": "Chris Singh",
+         "age": 34,
+         "checking": 17,
+         "position": "goalie",
+         "shooting": 5
+      },
+      {
+         "skating": 20,
+         "saving": 11,
+         "playerName": "Fred Halen",
+         "age": 32,
+         "checking": 3,
+         "position": "goalie",
+         "shooting": 9
+      },
+      {
+         "skating": 15,
+         "saving": 20,
+         "playerName": "Tina Bishop",
+         "age": 30,
+         "checking": 20,
+         "position": "forward",
+         "shooting": 14
+      },
+      {
+         "skating": 3,
+         "saving": 4,
+         "playerName": "Prashant Greenbaum",
+         "age": 33,
+         "checking": 15,
+         "position": "defense",
+         "shooting": 9
+      },
+      {
+         "skating": 16,
+         "saving": 9,
+         "playerName": "Roger Greenbaum",
+         "age": 30,
+         "checking": 20,
+         "position": "forward",
+         "shooting": 14
+      },
+      {
+         "skating": 4,
+         "saving": 13,
+         "playerName": "Hardik Chang",
+         "age": 32,
+         "checking": 19,
+         "position": "defense",
+         "shooting": 17
+      },
+      {
+         "skating": 15,
+         "saving": 18,
+         "playerName": "Walter Smith",
+         "age": 24,
+         "checking": 7,
+         "position": "defense",
+         "shooting": 20
+      },
+      {
+         "skating": 19,
+         "saving": 1,
+         "playerName": "Sammy Samson",
+         "age": 29,
+         "checking": 19,
+         "position": "defense",
+         "shooting": 14
+      },
+      {
+         "skating": 11,
+         "saving": 4,
+         "playerName": "John Thomson",
+         "age": 30,
+         "checking": 6,
+         "position": "forward",
+         "shooting": 11
+      },
+      {
+         "skating": 18,
+         "saving": 6,
+         "playerName": "Prashant Wu",
+         "age": 27,
+         "checking": 7,
+         "position": "goalie",
+         "shooting": 14
+      },
+      {
+         "skating": 5,
+         "saving": 4,
+         "playerName": "Mary Nelson",
+         "age": 35,
+         "checking": 2,
+         "position": "defense",
+         "shooting": 6
+      },
+      {
+         "skating": 17,
+         "saving": 14,
+         "playerName": "Mike Chang",
+         "age": 23,
+         "checking": 4,
+         "position": "forward",
+         "shooting": 8
+      },
+      {
+         "skating": 20,
+         "saving": 19,
+         "playerName": "Chris Hawkins",
+         "age": 23,
+         "checking": 3,
+         "position": "forward",
+         "shooting": 14
+      },
+      {
+         "skating": 18,
+         "saving": 18,
+         "playerName": "Tami Smith",
+         "age": 35,
+         "checking": 9,
+         "position": "forward",
+         "shooting": 10
+      },
+      {
+         "skating": 20,
+         "saving": 17,
+         "playerName": "Rashita Marley",
+         "age": 27,
+         "checking": 15,
+         "position": "defense",
+         "shooting": 16
+      },
+      {
+         "skating": 17,
+         "saving": 12,
+         "playerName": "Sammy Hawkey",
+         "age": 24,
+         "checking": 5,
+         "position": "goalie",
+         "shooting": 17
+      },
+      {
+         "skating": 1,
+         "saving": 11,
+         "playerName": "Tina Burbchuk",
+         "age": 18,
+         "checking": 6,
+         "position": "goalie",
+         "shooting": 5
+      },
+      {
+         "skating": 7,
+         "saving": 3,
+         "playerName": "Hardik Bishop",
+         "age": 33,
+         "checking": 18,
+         "position": "goalie",
+         "shooting": 11
+      },
+      {
+         "skating": 19,
+         "saving": 10,
+         "playerName": "Tina Nelson",
+         "age": 31,
+         "checking": 7,
+         "position": "forward",
+         "shooting": 15
+      },
+      {
+         "skating": 16,
+         "saving": 19,
+         "playerName": "Mohammed Samson",
+         "age": 30,
+         "checking": 3,
+         "position": "defense",
+         "shooting": 4
+      },
+      {
+         "skating": 8,
+         "saving": 10,
+         "playerName": "Chris Singh",
+         "age": 30,
+         "checking": 16,
+         "position": "forward",
+         "shooting": 14
+      },
+      {
+         "skating": 12,
+         "saving": 3,
+         "playerName": "Pat Smith",
+         "age": 23,
+         "checking": 11,
+         "position": "forward",
+         "shooting": 13
+      },
+      {
+         "skating": 14,
+         "saving": 3,
+         "playerName": "Roger Williamson",
+         "age": 28,
+         "checking": 8,
+         "position": "goalie",
+         "shooting": 7
+      },
+      {
+         "skating": 17,
+         "saving": 3,
+         "playerName": "Walter Burbchuk",
+         "age": 23,
+         "checking": 19,
+         "position": "forward",
+         "shooting": 6
+      },
+      {
+         "skating": 6,
+         "saving": 12,
+         "playerName": "John Smith",
+         "age": 32,
+         "checking": 7,
+         "position": "forward",
+         "shooting": 4
+      },
+      {
+         "skating": 14,
+         "saving": 8,
+         "playerName": "Don Hawkins",
+         "age": 31,
+         "checking": 7,
+         "position": "goalie",
+         "shooting": 16
+      },
+      {
+         "skating": 6,
+         "saving": 14,
+         "playerName": "Rob Chang",
+         "age": 18,
+         "checking": 10,
+         "position": "forward",
+         "shooting": 9
+      },
+      {
+         "skating": 14,
+         "saving": 1,
+         "playerName": "Mohammed Singh",
+         "age": 22,
+         "checking": 4,
+         "position": "goalie",
+         "shooting": 9
+      },
+      {
+         "skating": 11,
+         "saving": 6,
+         "playerName": "Rob Williamson",
+         "age": 25,
+         "checking": 14,
+         "position": "goalie",
+         "shooting": 14
+      },
+      {
+         "skating": 4,
+         "saving": 9,
+         "playerName": "Rob Cherry",
+         "age": 20,
+         "checking": 19,
+         "position": "goalie",
+         "shooting": 10
+      },
+      {
+         "skating": 1,
+         "saving": 4,
+         "playerName": "Walter Marley",
+         "age": 19,
+         "checking": 2,
+         "position": "defense",
+         "shooting": 18
+      },
+      {
+         "skating": 17,
+         "saving": 9,
+         "playerName": "Bonnie Marley",
+         "age": 27,
+         "checking": 12,
+         "position": "goalie",
+         "shooting": 2
+      },
+      {
+         "skating": 2,
+         "saving": 1,
+         "playerName": "Sammy Morrison",
+         "age": 32,
+         "checking": 8,
+         "position": "defense",
+         "shooting": 12
+      },
+      {
+         "skating": 5,
+         "saving": 4,
+         "playerName": "Nancy Cherry",
+         "age": 21,
+         "checking": 20,
+         "position": "forward",
+         "shooting": 13
+      },
+      {
+         "skating": 20,
+         "saving": 3,
+         "playerName": "Chris Liu",
+         "age": 34,
+         "checking": 11,
+         "position": "goalie",
+         "shooting": 3
+      },
+      {
+         "skating": 15,
+         "saving": 14,
+         "playerName": "Bonnie Bishop",
+         "age": 33,
+         "checking": 17,
+         "position": "goalie",
+         "shooting": 15
+      },
+      {
+         "skating": 1,
+         "saving": 4,
+         "playerName": "Hardik Smith",
+         "age": 23,
+         "checking": 6,
+         "position": "goalie",
+         "shooting": 18
+      },
+      {
+         "skating": 10,
+         "saving": 15,
+         "playerName": "Tami Wu",
+         "age": 19,
+         "checking": 12,
+         "position": "forward",
+         "shooting": 11
+      },
+      {
+         "skating": 14,
+         "saving": 16,
+         "playerName": "Wen Thomson",
+         "age": 24,
+         "checking": 4,
+         "position": "forward",
+         "shooting": 1
+      },
+      {
+         "skating": 12,
+         "saving": 18,
+         "playerName": "Sammy Singh",
+         "age": 18,
+         "checking": 9,
+         "position": "goalie",
+         "shooting": 15
+      },
+      {
+         "skating": 16,
+         "saving": 19,
+         "playerName": "Mohammed Greenbaum",
+         "age": 19,
+         "checking": 11,
+         "position": "defense",
+         "shooting": 18
+      },
+      {
+         "skating": 13,
+         "saving": 6,
+         "playerName": "Roger Chang",
+         "age": 24,
+         "checking": 11,
+         "position": "goalie",
+         "shooting": 18
+      },
+      {
+         "skating": 4,
+         "saving": 6,
+         "playerName": "Abraham Chang",
+         "age": 32,
+         "checking": 17,
+         "position": "defense",
+         "shooting": 18
+      },
+      {
+         "skating": 10,
+         "saving": 4,
+         "playerName": "John Patel",
+         "age": 31,
+         "checking": 14,
+         "position": "forward",
+         "shooting": 20
+      },
+      {
+         "skating": 14,
+         "saving": 17,
+         "playerName": "Walter Halen",
+         "age": 20,
+         "checking": 15,
+         "position": "goalie",
+         "shooting": 16
+      },
+      {
+         "skating": 6,
+         "saving": 6,
+         "playerName": "Rashita Nelson",
+         "age": 26,
+         "checking": 16,
+         "position": "goalie",
+         "shooting": 17
+      },
+      {
+         "skating": 17,
+         "saving": 10,
+         "playerName": "Prashant Marley",
+         "age": 22,
+         "checking": 14,
+         "position": "goalie",
+         "shooting": 12
+      },
+      {
+         "skating": 6,
+         "saving": 11,
+         "playerName": "John Marley",
+         "age": 30,
+         "checking": 11,
+         "position": "defense",
+         "shooting": 16
+      },
+      {
+         "skating": 2,
+         "saving": 8,
+         "playerName": "Hardik Hawkey",
+         "age": 18,
+         "checking": 14,
+         "position": "forward",
+         "shooting": 14
+      },
+      {
+         "skating": 3,
+         "saving": 12,
+         "playerName": "Prashant Chang",
+         "age": 35,
+         "checking": 10,
+         "position": "forward",
+         "shooting": 10
+      },
+      {
+         "skating": 13,
+         "saving": 16,
+         "playerName": "Tina Khatri",
+         "age": 22,
+         "checking": 11,
+         "position": "forward",
+         "shooting": 20
+      },
+      {
+         "skating": 7,
+         "saving": 4,
+         "playerName": "Chris Khatri",
+         "age": 28,
+         "checking": 20,
+         "position": "goalie",
+         "shooting": 15
+      },
+      {
+         "skating": 14,
+         "saving": 8,
+         "playerName": "Rob Wu",
+         "age": 25,
+         "checking": 10,
+         "position": "forward",
+         "shooting": 10
+      },
+      {
+         "skating": 6,
+         "saving": 9,
+         "playerName": "Roger Marley",
+         "age": 26,
+         "checking": 7,
+         "position": "goalie",
+         "shooting": 11
+      },
+      {
+         "skating": 15,
+         "saving": 18,
+         "playerName": "Wen Hawkins",
+         "age": 30,
+         "checking": 17,
+         "position": "forward",
+         "shooting": 2
+      },
+      {
+         "skating": 2,
+         "saving": 6,
+         "playerName": "Rob Fei",
+         "age": 21,
+         "checking": 18,
+         "position": "goalie",
+         "shooting": 15
+      },
+      {
+         "skating": 18,
+         "saving": 7,
+         "playerName": "Tami Nelson",
+         "age": 33,
+         "checking": 8,
+         "position": "defense",
+         "shooting": 17
+      },
+      {
+         "skating": 19,
+         "saving": 2,
+         "playerName": "John Burbchuk",
+         "age": 28,
+         "checking": 14,
+         "position": "goalie",
+         "shooting": 8
+      },
+      {
+         "skating": 19,
+         "saving": 11,
+         "playerName": "John Bishop",
+         "age": 19,
+         "checking": 16,
+         "position": "defense",
+         "shooting": 8
+      }
+   ],
+   "leagueName": "Dal Hockey League",
+   "generalManagers": [
+      "Zongming Thomson",
+      "Rashita Samson",
+      "Tami Marley",
+      "Roger Liu",
+      "Hardik Greenbaum"
+   ]
+}

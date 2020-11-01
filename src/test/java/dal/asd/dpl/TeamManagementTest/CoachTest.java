@@ -62,4 +62,10 @@ public class CoachTest {
 		coach.setSaving(0.1);
 		Assert.assertEquals(0.1, coach.getSaving(), DELTA);
 	}
+	
+	@Test
+	public void setSavingTwoTest() {
+		coach.setSaving(0.1);
+		Assert.assertNotEquals(0.2, coach.getSaving(), DELTA);
+	}
 }

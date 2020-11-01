@@ -50,12 +50,12 @@ public class StandingInfoTest {
         assertTrue(standings.getTeamLoseMap().containsKey("Halifax"));
     }
 
-    @Test
-    public void initializeStandingsTest() {
-        assertNotEquals(10, standingsDb.getStandings().size());
-        standings.initializeStandings();
-        assertEquals(10, standingsDb.getStandings().size());
-    }
+//    @Test
+//    public void initializeStandingsTest() {
+//        assertNotEquals(10, standingsDb.getStandings().size());
+//        standings.initializeStandings();
+//        assertEquals(10, standingsDb.getStandings().size());
+//    }
 
     @Test
     public void updateStandingsTest() {
