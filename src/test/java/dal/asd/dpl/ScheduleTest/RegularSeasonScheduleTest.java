@@ -1,7 +1,7 @@
 package dal.asd.dpl.ScheduleTest;
 
 import dal.asd.dpl.StandingsTest.StandingsMockDb;
-import dal.asd.dpl.Standings.IStandingsDb;
+import dal.asd.dpl.Standings.IStandingsPersistance;
 import dal.asd.dpl.Schedule.RegularSeasonSchedule;
 import dal.asd.dpl.Standings.StandingInfo;
 import dal.asd.dpl.TeamManagement.League;
@@ -25,7 +25,7 @@ public class RegularSeasonScheduleTest {
     private League leagueToSimulate;
     private MockSchedule mockSchedule;
     private Calendar calendar;
-    private IStandingsDb standingsDb;
+    private IStandingsPersistance standingsDb;
 
     @Before
     public void setUp() throws Exception {

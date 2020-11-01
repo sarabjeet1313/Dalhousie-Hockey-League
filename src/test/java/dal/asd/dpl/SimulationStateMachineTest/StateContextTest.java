@@ -1,4 +1,5 @@
 package dal.asd.dpl.SimulationStateMachineTest;
+import dal.asd.dpl.GameplayConfiguration.IGameplayConfigPersistance;
 import dal.asd.dpl.SimulationStateMachine.IState;
 import dal.asd.dpl.SimulationStateMachine.InitialState;
 import dal.asd.dpl.SimulationStateMachine.LoadTeamState;
@@ -22,6 +23,7 @@ public class StateContextTest {
     private static IUserOutput output;
     private static StateContext context;
     private static ILeaguePersistance mockLeague;
+    private IGameplayConfigPersistance configMock;
 
     @Before
     public void setUp() throws Exception {
@@ -35,7 +37,7 @@ public class StateContextTest {
 
     @Test
     public void nextStateTest() {
-        context.setState(new LoadTeamState(input, output, mockLeague));
+        context.setState(new LoadTeamState(input, output, mockLeague, configMock));
         context.nextState();
         assertEquals("Simulate", context.currentStateName);
         context.setState(state);

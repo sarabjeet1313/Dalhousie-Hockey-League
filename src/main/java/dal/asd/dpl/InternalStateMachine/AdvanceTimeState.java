@@ -1,8 +1,5 @@
 package dal.asd.dpl.InternalStateMachine;
-import dal.asd.dpl.Schedule.ISchedule;
-import dal.asd.dpl.Schedule.ScheduleConstants;
-import dal.asd.dpl.Schedule.SeasonCalendar;
-import dal.asd.dpl.TeamManagement.League;
+import dal.asd.dpl.util.ScheduleConstants;
 import dal.asd.dpl.UserOutput.IUserOutput;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

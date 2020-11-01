@@ -1,19 +1,16 @@
 package dal.asd.dpl.InternalStateMachine;
-import dal.asd.dpl.GameplayConfiguration.Trading;
 import dal.asd.dpl.GameplayConfiguration.Training;
 import dal.asd.dpl.Schedule.ISchedule;
 import dal.asd.dpl.Schedule.SeasonCalendar;
-import dal.asd.dpl.Standings.IStandingsDb;
+import dal.asd.dpl.Standings.IStandingsPersistance;
 import dal.asd.dpl.Standings.StandingInfo;
-import dal.asd.dpl.Standings.StandingsDataDb;
+import dal.asd.dpl.Database.StandingsDataDb;
 import dal.asd.dpl.TeamManagement.InjuryManagement;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagement.RetirementManagement;
 import dal.asd.dpl.Trading.Trade;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
-
-import javax.swing.plaf.nimbus.State;
 
 public class InternalSimulationState implements ISimulationState{
 
@@ -34,7 +31,7 @@ public class InternalSimulationState implements ISimulationState{
     private Trade trade;
     private ISchedule schedule;
     private StandingInfo standings;
-    private IStandingsDb standingsDb;
+    private IStandingsPersistance standingsDb;
     private TrainingState trainingState;
     private GeneratePlayoffScheduleState playoffScheduleState;
     private AdvanceTimeState advanceTimeState;

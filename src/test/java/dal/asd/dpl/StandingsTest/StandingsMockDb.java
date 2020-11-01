@@ -1,12 +1,12 @@
 package dal.asd.dpl.StandingsTest;
-import dal.asd.dpl.Standings.IStandingsDb;
+import dal.asd.dpl.Standings.IStandingsPersistance;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class StandingsMockDb implements IStandingsDb {
+public class StandingsMockDb implements IStandingsPersistance {
     private int season;
     private Map<String, Integer> standingsTeamWin;
     private Map<String, Integer> standingsTeamLoss;

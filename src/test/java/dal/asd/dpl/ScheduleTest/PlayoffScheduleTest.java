@@ -1,7 +1,7 @@
 package dal.asd.dpl.ScheduleTest;
 
 import dal.asd.dpl.StandingsTest.StandingsMockDb;
-import dal.asd.dpl.Standings.IStandingsDb;
+import dal.asd.dpl.Standings.IStandingsPersistance;
 import dal.asd.dpl.Schedule.PlayoffSchedule;
 import dal.asd.dpl.Standings.StandingInfo;
 import dal.asd.dpl.TeamManagement.League;
@@ -20,7 +20,7 @@ public class PlayoffScheduleTest {
     private StandingInfo standings;
     private League leagueToSimulate;
     private MockSchedule mockSchedule;
-    private IStandingsDb standingsDb;
+    private IStandingsPersistance standingsDb;
 
     @Before
     public void setUp() throws Exception {

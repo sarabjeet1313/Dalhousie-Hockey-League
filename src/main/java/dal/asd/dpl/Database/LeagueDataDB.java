@@ -34,18 +34,19 @@ public class LeagueDataDB implements ILeaguePersistance {
 	private Manager manager = null;
 	IUserOutput output = new CmdUserOutput();
 
-	private boolean loadCommonLeagueData(String league, String conference, String division, String team) {
+	public boolean loadCommonLeagueData(String league, String conference, String division, String team) {
 		boolean isStored = Boolean.FALSE;
 		leagueName = league;
 		rteamName = team;
 		divisionName = division;
 		conferenceName = conference;
+		isStored = Boolean.TRUE;
 		return isStored;
 	}
 
 	@Override
 	public League loadLeagueData(String teamName) {
-		League league = null;
+		League league = new League();
 		List<Player> playerList = new ArrayList<Player>();
 		List<Player> freeAgentList = new ArrayList<Player>();
 		ResultSet result;
@@ -65,11 +66,13 @@ public class LeagueDataDB implements ILeaguePersistance {
 						result.getBoolean(PlayerUtil.IS_INJURED.toString()),
 						result.getBoolean(PlayerUtil.RETIRED_STATUS.toString()),
 						result.getInt(PlayerUtil.DAYS_INJURED.toString()));
-				if (result.getString(TeamUtil.TEAM_NAME.toString()) == null) {
+				String tempResult = result.getString(TeamUtil.TEAM_NAME.toString());
+				if (result.wasNull()) {
 					freeAgentList.add(player);
-				} else {
+				} 
+				else {
 					if (result.isLast()
-							&& result.getString(TeamUtil.TEAM_NAME.toString()).equals(rteamName) == Boolean.FALSE) {
+							&& tempResult.equals(rteamName) == Boolean.FALSE) {
 						flag = Boolean.FALSE;
 					}
 					if (flag == Boolean.FALSE) {
@@ -85,7 +88,7 @@ public class LeagueDataDB implements ILeaguePersistance {
 								result.getString(TeamUtil.TEAM_NAME.toString()));
 					}
 
-					if (result.getString(TeamUtil.TEAM_NAME.toString()).equals(rteamName) && flag == true) {
+					if (tempResult.equals(rteamName) && flag == true) {
 						playerList.add(player);
 					} else {
 						Team team = new Team(rteamName, manager, headCoach, playerList, Boolean.FALSE);
@@ -116,6 +119,7 @@ public class LeagueDataDB implements ILeaguePersistance {
 				output.sendOutput();
 			}
 		}
+		league.setLeagueName(leagueName);
 		league.setFreeAgents(freeAgentList);
 		return league;
 	}
