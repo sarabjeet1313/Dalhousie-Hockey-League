@@ -1,17 +1,22 @@
 package dal.asd.dpl.NewsSystem;
 
+import dal.asd.dpl.UserOutput.IUserOutput;
+import dal.asd.dpl.Util.NewsSystemUtil;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class TradePublisher {
     private final List<ITradeInfo> subscribers;
     private static TradePublisher instance;
+    private IUserOutput output;
 
-    private TradePublisher(){
+    private TradePublisher() {
         subscribers = new ArrayList<>();
     }
-    public static TradePublisher getInstance(){
-        if(instance == null){
+
+    public static TradePublisher getInstance() {
+        if (instance == null) {
             instance = new TradePublisher();
         }
         return instance;
@@ -26,8 +31,16 @@ public class TradePublisher {
     }
 
     public void notify(String fromTeam, String toTeam, String[][] playersTraded) {
-        for(ITradeInfo subscriber : this.subscribers) {
-            subscriber.updateTrade(fromTeam, toTeam, playersTraded);
+        try {
+            if (null == fromTeam || null == toTeam || null == playersTraded) {
+                throw new IllegalArgumentException();
+            }
+            for (ITradeInfo subscriber : this.subscribers) {
+                subscriber.updateTrade(fromTeam, toTeam, playersTraded);
+            }
+        } catch (IllegalArgumentException e) {
+            output.setOutput(e + NewsSystemUtil.ARGUMENT_MESSAGE.toString());
+            output.sendOutput();
         }
     }
 }
