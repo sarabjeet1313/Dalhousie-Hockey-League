@@ -20,6 +20,10 @@ public class League {
 	private ILeaguePersistance leagueDb;
 	IUserOutput output = new CmdUserOutput();
 
+	public League() {
+		
+	}
+	
 	public League(String leagueName, List<Conference> conferenceList, List<Player> freeAgents, List<Coach> coaches,
 			List<Manager> managerList, GameplayConfig gameConfig, ILeaguePersistance leagueDb) {
 		this.leagueName = leagueName;
@@ -30,6 +34,7 @@ public class League {
 		this.gameConfig = gameConfig;
 		this.leagueDb = leagueDb;
 	}
+	
 
 	public League(String leagueName, List<Conference> conferenceList, List<Player> freeAgents, List<Coach> coaches,
 			List<Manager> managerList, GameplayConfig gameConfig) {
@@ -182,19 +187,25 @@ public class League {
 			League league) {
 		int conferenceIndex = -1;
 		int divisionIndex = -1;
+		boolean flag = Boolean.FALSE;
 		List<Conference> conferenceList = league.getConferenceList();
-		List<Team> teamList = new ArrayList<Team>();
-		List<Division> divisionList = new ArrayList<Division>();
-		if (conferenceList.size() == 0) {
+		List<Team> teamList = null;
+		List<Division> divisionList = null;
+		if (conferenceList == null) {
+			conferenceList = new ArrayList<Conference>();
+			divisionList = new ArrayList<Division>();
+			teamList = new ArrayList<Team>();
 			teamList.add(team);
 			Division division = new Division(divisionName, teamList);
 			divisionList.add(division);
 			Conference conference = new Conference(conferenceName, divisionList);
 			conferenceList.add(conference);
+			flag = Boolean.TRUE;
 		}
 		for (int cIndex = 0; cIndex < conferenceList.size(); cIndex++) {
 			if (conferenceList.get(cIndex).getConferenceName().equals(conferenceName)) {
 				conferenceIndex = cIndex;
+				break;
 			}
 		}
 		if (conferenceIndex == -1) {
@@ -203,22 +214,34 @@ public class League {
 			conferenceIndex = conferenceList.size() - 1;
 		}
 		divisionList = conferenceList.get(conferenceIndex).getDivisionList();
-		if (divisionList.size() == 0) {
+		if (divisionList == null) {
+			teamList = new ArrayList<Team>();
 			teamList.add(team);
 			Division division = new Division(divisionName, teamList);
+			divisionList = new ArrayList<Division>(); 
 			divisionList.add(division);
+			conferenceList.get(conferenceIndex).setDivisionList(divisionList);
+			flag = Boolean.TRUE;
 		}
 		for (int dIndex = 0; dIndex < divisionList.size(); dIndex++) {
 			if (divisionList.get(dIndex).getDivisionName().equals(divisionName)) {
+				if(flag == Boolean.FALSE) {
+					divisionList.get(dIndex).getTeamList().add(team);
+					conferenceList.get(conferenceIndex).setDivisionList(divisionList);
+				}
 				divisionIndex = dIndex;
+				break;
 			}
 		}
 		if (divisionIndex == -1) {
+			teamList = new ArrayList<Team>();
 			teamList.add(team);
 			Division division = new Division(divisionName, teamList);
+//			divisionList = new ArrayList<Division>();
 			divisionList.add(division);
+			conferenceList.get(conferenceIndex).setDivisionList(divisionList);
 		}
-		conferenceList.get(conferenceIndex).setDivisionList(divisionList);
+		
 		league.setConferenceList(conferenceList);
 		return league;
 	}

@@ -2,7 +2,7 @@ package dal.asd.dpl.Util;
 
 public enum TeamUtil {
 
-	TEAM_NAME("success");
+	TEAM_NAME("teamName");
 
 	private final String teamString;
 
