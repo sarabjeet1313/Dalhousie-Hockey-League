@@ -2,7 +2,10 @@ package dal.asd.dpl.TeamManagement;
 
 import java.util.List;
 
+import dal.asd.dpl.Util.TeamManagementUtil;
+
 public class Manager {
+	
 	private String managerName;
 	private IManagerPersistance managerDb;
 
@@ -24,14 +27,14 @@ public class Manager {
 	}
 
 	public boolean saveTeamGeneralManager(String managerName, String teamName, String leagueName) {
-		boolean isSaved = false;
+		boolean isSaved = Boolean.FALSE;
 		isSaved = managerDb.persisitManagerInfo(managerName, teamName, leagueName);
 		return isSaved;
 	}
 
 	public boolean saveManagerList(League league) {
-		boolean isSaved = false;
-		String teamName = "Empty";
+		boolean isSaved = Boolean.FALSE;
+		String teamName = TeamManagementUtil.EMPTY.toString();
 		List<Manager> list = league.getManagerList();
 		for (int index = 0; index < list.size(); index++) {
 			Manager manager = new Manager(list.get(index).getManagerName(), managerDb);

@@ -88,8 +88,8 @@ public class LeagueMockData implements ILeaguePersistance {
 		coachList.add(coach2);
 		coachList.add(coach3);
 		managerList.add(manager3);
-		Team team1 = new Team("Boston", manager1, headCoach, playerList);
-		Team team2 = new Team("Halifax", manager2, headCoach, playerList);
+		Team team1 = new Team("Boston", manager1, headCoach, playerList, Boolean.FALSE);
+		Team team2 = new Team("Halifax", manager2, headCoach, playerList, Boolean.FALSE);
 		ArrayList<Team> teamList = new ArrayList<Team>();
 		teamList.add(team1);
 		teamList.add(team2);

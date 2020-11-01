@@ -22,8 +22,7 @@ public class Player implements IPlayerInfo {
 		super();
 	}
 
-	static
-	{
+	static {
 		InjuryPublisher.getInstance().subscribe(new NewsSubscriber());
 	}
 
@@ -41,8 +40,6 @@ public class Player implements IPlayerInfo {
 		this.isInjured = isInjured;
 		this.retireStatus = retireStatus;
 		this.daysInjured = daysInjured;
-
-
 	}
 
 	public String getPlayerName() {

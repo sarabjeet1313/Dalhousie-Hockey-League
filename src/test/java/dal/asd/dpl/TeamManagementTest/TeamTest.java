@@ -16,7 +16,7 @@ public class TeamTest {
 	List<Player> playerList = new ArrayList<Player>();
 	Coach headCoach = new Coach("Mary Smith", 0.2, 0.3, 0.1, 0.4);
 	Manager manager1 = new Manager("Karen Potam");
-	Team team = new Team("Boston", manager1, headCoach, playerList);
+	Team team = new Team("Boston", manager1, headCoach, playerList, Boolean.FALSE);
 	Player player1 = new Player("Player1", "Forword", false, 1, 1, 1, 1, 1, false, false, 0);
 	Player player2 = new Player("Player2", "Forword", false, 1, 1, 1, 1, 1, false, false, 0);
 	Player player3 = new Player("Player3", "Goalie", false, 1, 1, 1, 1, 1, false, false, 0);
@@ -80,7 +80,7 @@ public class TeamTest {
 	public void setPlayersTest() {
 		playerList.add(player1);
 		playerList.add(player2);
-		Team team1 = new Team("Boston", manager1, headCoach, playerList);
+		Team team1 = new Team("Boston", manager1, headCoach, playerList, Boolean.FALSE);
 		playerList.add(player3);
 		playerList.add(player4);
 		team1.setPlayerList(playerList);

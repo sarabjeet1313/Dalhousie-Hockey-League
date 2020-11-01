@@ -18,8 +18,8 @@ public class DivisionTest {
 	Coach headCoach2 = new Coach("Robert", 0.2, 0.3, 0.1, 0.4);
 	Manager manager1 = new Manager("Karen Potam");
 	Manager manager2 = new Manager("Joseph Squidly");
-	Team team = new Team("Boston", manager1, headCoach1, playerList);
-	Team team1 = new Team("Florida", manager2, headCoach2, playerList1);
+	Team team = new Team("Boston", manager1, headCoach1, playerList, Boolean.FALSE);
+	Team team1 = new Team("Florida", manager2, headCoach2, playerList1, Boolean.FALSE);
 	ArrayList<Team> teamList = new ArrayList<Team>();
 	Division division = new Division("Atlantic", teamList);
 	

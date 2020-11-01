@@ -2,7 +2,11 @@ package dal.asd.dpl.TeamManagement;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import dal.asd.dpl.GameplayConfiguration.GameplayConfig;
+import dal.asd.dpl.UserOutput.CmdUserOutput;
+import dal.asd.dpl.UserOutput.IUserOutput;
+import dal.asd.dpl.Util.TeamManagementUtil;
 
 public class League {
 
@@ -14,6 +18,7 @@ public class League {
 	private static List<League> leagueList;
 	private GameplayConfig gameConfig;
 	private ILeaguePersistance leagueDb;
+	IUserOutput output = new CmdUserOutput();
 
 	public League(String leagueName, List<Conference> conferenceList, List<Player> freeAgents, List<Coach> coaches,
 			List<Manager> managerList, GameplayConfig gameConfig, ILeaguePersistance leagueDb) {
@@ -25,7 +30,7 @@ public class League {
 		this.gameConfig = gameConfig;
 		this.leagueDb = leagueDb;
 	}
-	
+
 	public League(String leagueName, List<Conference> conferenceList, List<Player> freeAgents, List<Coach> coaches,
 			List<Manager> managerList, GameplayConfig gameConfig) {
 		this.leagueName = leagueName;
@@ -35,7 +40,7 @@ public class League {
 		this.managerList = managerList;
 		this.gameConfig = gameConfig;
 	}
-	
+
 	public String getLeagueName() {
 		return leagueName;
 	}
@@ -97,31 +102,31 @@ public class League {
 		try {
 			league = leagueDb.loadLeagueData(teamName);
 		} catch (Exception e) {
-			System.out.println("error " + e.getMessage());
+			output.setOutput(e.getMessage());
+			output.sendOutput();
 		}
 		return league;
 	}
 
 	public boolean isValidLeagueName(String leagueName, ILeaguePersistance object) {
 		int rowCount = 0;
-		boolean isValid = true;
+		boolean isValid = Boolean.TRUE;
 		try {
 			rowCount = object.checkLeagueName(leagueName);
 		} catch (Exception e) {
-			System.out.println("error " + e.getMessage());
+			output.setOutput(e.getMessage());
+			output.sendOutput();
 		}
 		if (rowCount > 0) {
-			isValid = false;
+			isValid = Boolean.FALSE;
 		}
 		return isValid;
 	}
-	
+
 	public boolean createTeam(League league) {
-		boolean isCreated = false, captain = false;
+		boolean isCreated = Boolean.FALSE;
 		String leagueName = league.getLeagueName();
-		String conferenceName = "Empty", divisionName = "Empty", teamName = "Empty", 
-				layerName = "Empty", position = "Empty", coachName = "Empty", managerName = "Empty";
-		int age = 0, skating = 0, shooting = 0, checking = 0, saving = 0;
+		String conferenceName, divisionName, teamName, coachName, managerName = TeamManagementUtil.EMPTY.toString();
 		Coach headCoach = null;
 		Manager generalManager = null;
 		List<Conference> conferenceList = league.getConferenceList();
@@ -148,11 +153,12 @@ public class League {
 									generalManager.getManagerName(), headCoach.getCoachName(), playerList.get(pIndex));
 						}
 						isCreated = headCoach.saveTeamCoaches(headCoach, teamName, leagueName);
-						isCreated = generalManager.saveTeamGeneralManager(generalManager.getManagerName(), teamName, leagueName);
+						isCreated = generalManager.saveTeamGeneralManager(generalManager.getManagerName(), teamName,
+								leagueName);
 					}
 				}
 			}
-			conferenceName = divisionName = teamName = coachName = "Empty";
+			conferenceName = divisionName = teamName = coachName = TeamManagementUtil.EMPTY.toString();
 			playerList.clear();
 			playerList = league.getFreeAgents();
 			if (!playerList.isEmpty()) {
@@ -165,19 +171,21 @@ public class League {
 			headCoach.saveLeagueCoaches(league);
 			generalManager.saveManagerList(league);
 		} catch (Exception e) {
-			System.out.println("error " + e.getMessage());
+			output.setOutput(e.getMessage());
+			output.sendOutput();
 		}
 
 		return isCreated;
 	}
-	
-	public League loadLeagueObject(String leagueName, String conferenceName, String divisionName, Team team, League league) {
+
+	public League loadLeagueObject(String leagueName, String conferenceName, String divisionName, Team team,
+			League league) {
 		int conferenceIndex = -1;
 		int divisionIndex = -1;
 		List<Conference> conferenceList = league.getConferenceList();
-		List<Team> teamList = null;
-		List<Division> divisionList = null;
-		if(conferenceList.size() == 0) {
+		List<Team> teamList = new ArrayList<Team>();
+		List<Division> divisionList = new ArrayList<Division>();
+		if (conferenceList.size() == 0) {
 			teamList.add(team);
 			Division division = new Division(divisionName, teamList);
 			divisionList.add(division);
@@ -185,33 +193,33 @@ public class League {
 			conferenceList.add(conference);
 		}
 		for (int cIndex = 0; cIndex < conferenceList.size(); cIndex++) {
-			if(conferenceList.get(cIndex).getConferenceName().equals(conferenceName)) {
+			if (conferenceList.get(cIndex).getConferenceName().equals(conferenceName)) {
 				conferenceIndex = cIndex;
 			}
 		}
-		if(conferenceIndex == -1) {
+		if (conferenceIndex == -1) {
 			Conference conference = new Conference(conferenceName, null);
 			conferenceList.add(conference);
-			conferenceIndex = conferenceList.size()-1;
+			conferenceIndex = conferenceList.size() - 1;
 		}
 		divisionList = conferenceList.get(conferenceIndex).getDivisionList();
-		if(divisionList.size() == 0) {
+		if (divisionList.size() == 0) {
 			teamList.add(team);
 			Division division = new Division(divisionName, teamList);
 			divisionList.add(division);
 		}
 		for (int dIndex = 0; dIndex < divisionList.size(); dIndex++) {
-			if(divisionList.get(dIndex).getDivisionName().equals(divisionName)) {
+			if (divisionList.get(dIndex).getDivisionName().equals(divisionName)) {
 				divisionIndex = dIndex;
 			}
 		}
-		if(divisionIndex == -1) {
+		if (divisionIndex == -1) {
 			teamList.add(team);
 			Division division = new Division(divisionName, teamList);
 			divisionList.add(division);
 		}
 		conferenceList.get(conferenceIndex).setDivisionList(divisionList);
-		league.setConferenceList(conferenceList);		
+		league.setConferenceList(conferenceList);
 		return league;
 	}
 }
