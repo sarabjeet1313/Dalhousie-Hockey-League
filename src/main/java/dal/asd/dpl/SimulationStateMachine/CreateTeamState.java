@@ -38,9 +38,10 @@ public class CreateTeamState implements IState {
 	List<Player> tempList2 = new ArrayList<Player>();
 
 
-static{
+    static
+	{
 	FreeAgencyPublisher.getInstance().subscribe(new NewsSubscriber());
-}
+    }
 
 
 	public CreateTeamState(IUserInput input, IUserOutput output, League league, ILeague leagueDb) {
