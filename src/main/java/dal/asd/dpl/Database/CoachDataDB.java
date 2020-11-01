@@ -5,16 +5,22 @@ import java.sql.SQLException;
 
 import dal.asd.dpl.TeamManagement.Coach;
 import dal.asd.dpl.TeamManagement.ICoachPersistance;
+import dal.asd.dpl.UserOutput.CmdUserOutput;
+import dal.asd.dpl.UserOutput.IUserOutput;
+import dal.asd.dpl.Util.CoachUtil;
+import dal.asd.dpl.Util.StoredProcedureUtil;
 
 public class CoachDataDB implements ICoachPersistance {
+	
 	InvokeStoredProcedure invoke = null;
-
+	IUserOutput output = new CmdUserOutput();
+	
 	@Override
 	public boolean persisitCoaches(Coach coach, String teamName, String leagueName) {
-		boolean isPersisted = false;
+		boolean isPersisted = Boolean.FALSE;
 		ResultSet result;
 		try {
-			invoke = new InvokeStoredProcedure("spPersistCoach(?, ?, ?, ?, ?, ?, ?, ?)");
+			invoke = new InvokeStoredProcedure(StoredProcedureUtil.PERSIST_COACH.getSpString());
 			invoke.setParameter(1, coach.getCoachName());
 			invoke.setParameter(2, coach.getSkating());
 			invoke.setParameter(3, coach.getShooting());
@@ -24,15 +30,17 @@ public class CoachDataDB implements ICoachPersistance {
 			invoke.setParameter(7, leagueName);
 			result = invoke.executeQueryWithResults();
 			while (result.next()) {
-				isPersisted = result.getBoolean("success");
+				isPersisted = result.getBoolean(CoachUtil.SUCCESS.toString());
 			}
-		} catch (Exception e) {
-			System.out.println("Database Error:" + e.getMessage());
+		} catch (SQLException e) {
+			output.setOutput(e.getMessage());
+			output.sendOutput();
 		} finally {
 			try {
 				invoke.closeConnection();
 			} catch (SQLException e) {
-				System.out.println("Database Error:" + e.getMessage());
+				output.setOutput(e.getMessage());
+				output.sendOutput();
 			}
 		}
 		return isPersisted;

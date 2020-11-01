@@ -13,7 +13,7 @@ import static org.junit.Assert.assertTrue;
 public class TrainingTest {
 	
 	League mockData = new LeagueObjectTestData().getLeagueData();
-	Training training = new Training(100);
+	Training training = new Training(100, 100);
 	Player player = new Player("Player One", "forward", true, 1, 1, 1, 1, 1, false, false, 0);
 	Coach coach = new Coach("Coach One", 0.5, 0.5, 0.5, 0.5);
 	
@@ -36,7 +36,7 @@ public class TrainingTest {
 	@Test
 	public void updateStatsTest() {
 		double beforeStatUpdate = player.getShooting() + player.getSkating() + player.getChecking() + player.getSaving();
-		training.updateStats(player, coach);
+		training.updateStats(player, coach, mockData);
 		double afterStatUpdate = player.getShooting() + player.getSkating() + player.getChecking() + player.getSaving();
 		assertTrue(afterStatUpdate >= beforeStatUpdate);
 	}

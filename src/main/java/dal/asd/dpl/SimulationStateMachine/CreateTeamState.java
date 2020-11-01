@@ -58,9 +58,11 @@ public class CreateTeamState implements IState {
 		this.teams = new Team("", genManager, headCoach, null, Boolean.FALSE);
 		this.stateName = "Create Team";
 	}
-	static{
+
+	static {
 		FreeAgencyPublisher.getInstance().subscribe(new NewsSubscriber());
 	}
+
 	public void nextState(StateContext context) {
 		this.nextStateName = "Simulate";
 		context.setState(new SimulateState(input, output, teamName, initializedLeague));

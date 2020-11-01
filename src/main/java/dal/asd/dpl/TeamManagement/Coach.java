@@ -2,7 +2,7 @@ package dal.asd.dpl.TeamManagement;
 
 import java.util.List;
 
-import dal.asd.dpl.util.TeamManagementUtil;
+import dal.asd.dpl.Util.TeamManagementUtil;
 
 public class Coach {
 

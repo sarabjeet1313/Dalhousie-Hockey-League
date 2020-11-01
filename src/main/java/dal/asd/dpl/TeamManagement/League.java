@@ -6,7 +6,7 @@ import java.util.List;
 import dal.asd.dpl.GameplayConfiguration.GameplayConfig;
 import dal.asd.dpl.UserOutput.CmdUserOutput;
 import dal.asd.dpl.UserOutput.IUserOutput;
-import dal.asd.dpl.util.TeamManagementUtil;
+import dal.asd.dpl.Util.TeamManagementUtil;
 
 public class League {
 

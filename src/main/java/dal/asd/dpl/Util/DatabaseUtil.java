@@ -1,9 +1,7 @@
-package dal.asd.dpl.util;
+package dal.asd.dpl.Util;
 
-public enum ConstantsUtil {
+public enum DatabaseUtil {
 	
-	DRIVER_NAME("com.mysql.cj.jdbc.Driver"), 
-	DB_URL("db_url"),
 	DB_USER_NAME("db_user_name"),
 	DB_PASSWORD("db_password"),
 	PROP_FILE("app.properties"),
@@ -13,7 +11,7 @@ public enum ConstantsUtil {
 
 	private final String constantString;
 
-	private ConstantsUtil(String constantString) {
+	private DatabaseUtil(String constantString) {
 		this.constantString = constantString;
 	}
 

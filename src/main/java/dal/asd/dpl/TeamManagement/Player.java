@@ -2,7 +2,7 @@ package dal.asd.dpl.TeamManagement;
 
 import dal.asd.dpl.NewsSystem.InjuryPublisher;
 import dal.asd.dpl.NewsSystem.NewsSubscriber;
-import dal.asd.dpl.util.ConstantsUtil;
+import dal.asd.dpl.Util.ConstantsUtil;
 
 public class Player implements IPlayerInfo {
 

@@ -9,7 +9,7 @@ import com.google.gson.GsonBuilder;
 
 import dal.asd.dpl.UserOutput.CmdUserOutput;
 import dal.asd.dpl.UserOutput.IUserOutput;
-import dal.asd.dpl.util.TeamManagementUtil;
+import dal.asd.dpl.Util.TeamManagementUtil;
 
 public class SerializeLeague implements ISerialize {
 	

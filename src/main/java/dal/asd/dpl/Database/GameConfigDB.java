@@ -10,10 +10,16 @@ import dal.asd.dpl.GameplayConfiguration.IGameplayConfigPersistance;
 import dal.asd.dpl.GameplayConfiguration.Injury;
 import dal.asd.dpl.GameplayConfiguration.Trading;
 import dal.asd.dpl.GameplayConfiguration.Training;
+import dal.asd.dpl.UserOutput.CmdUserOutput;
+import dal.asd.dpl.UserOutput.IUserOutput;
+import dal.asd.dpl.Util.GameConfigUtil;
+import dal.asd.dpl.Util.StoredProcedureUtil;
 
-public class GameConfigDB implements IGameplayConfigPersistance{
+public class GameConfigDB implements IGameplayConfigPersistance {
+
 	InvokeStoredProcedure invoke = null;
-	
+	IUserOutput output = new CmdUserOutput();
+
 	@Override
 	public GameplayConfig loadGameplayConfigData(String leagueName) {
 		GameplayConfig config = null;
@@ -21,38 +27,47 @@ public class GameConfigDB implements IGameplayConfigPersistance{
 		GameResolver gameResolver = null;
 		Injury injury = null;
 		Training training = null;
-		Trading trading = null; 
+		Trading trading = null;
 		ResultSet result;
 		try {
-			invoke = new InvokeStoredProcedure("spLoadGameConfig(?)");
+			invoke = new InvokeStoredProcedure(StoredProcedureUtil.LOAD_GAMECONFIG.getSpString());
 			invoke.setParameter(1, leagueName);
 			result = invoke.executeQueryWithResults();
 			while (result.next()) {
-				aging = new Aging(result.getInt("avgRetirementAge"), result.getInt("maxRetirementAge"));
-				gameResolver = new GameResolver(result.getDouble("randomWinChance"));
-				injury = new Injury(result.getDouble("randomInjuryChance"), result.getInt("injuryDaysLow"), result.getInt("injuryDaysHigh"));
-				training = new Training(result.getInt("daysUntilStatIncreaseCheck"));
-				trading = new Trading(result.getInt("lossPoint"), result.getDouble("randomTradeOfferChance"), result.getInt("maxPlayersPerTrade"), result.getDouble("randomAcceptanceChance"));
+				aging = new Aging(result.getInt(GameConfigUtil.AVG_RETIREMENT_AGE.toString()),
+						result.getInt(GameConfigUtil.MAX_RETIREMENT_AGE.toString()));
+				gameResolver = new GameResolver(result.getDouble(GameConfigUtil.RANDOM_WIN_CHANCE.toString()));
+				injury = new Injury(result.getDouble(GameConfigUtil.RANDOM_INGURY_CHANCE.toString()),
+						result.getInt(GameConfigUtil.INJURY_DAYS_LOW.toString()),
+						result.getInt(GameConfigUtil.INJURY_DAYS_HIGH.toString()));
+				training = new Training(result.getInt(GameConfigUtil.STAT_INCREASE_CHECK.toString()),
+						result.getInt(GameConfigUtil.STAT_INCREASE_CHECK.toString()));
+				trading = new Trading(result.getInt(GameConfigUtil.LOSS_POINT.toString()),
+						result.getDouble(GameConfigUtil.RANDOM_TRADE_OFFER_CHANCE.toString()),
+						result.getInt(GameConfigUtil.MAX_PLAYERS_PER_TRADE.toString()),
+						result.getDouble(GameConfigUtil.RANDOM_ACCEPTANCE_CHANCE.toString()));
 			}
 			config = new GameplayConfig(aging, gameResolver, injury, training, trading);
-		} catch (Exception e) {
-			System.out.println("Database Error:" + e.getMessage());
+		} catch (SQLException e) {
+			output.setOutput(e.getMessage());
+			output.sendOutput();
 		} finally {
 			try {
-				invoke.closeConnection();	
+				invoke.closeConnection();
 			} catch (SQLException e) {
-				System.out.println("Database Error:" + e.getMessage());
+				output.setOutput(e.getMessage());
+				output.sendOutput();
 			}
 		}
 		return config;
 	}
-	
+
 	@Override
 	public boolean persistGameConfig(GameplayConfig config, String leagueName) {
-		boolean isPersisted = false;
+		boolean isPersisted = Boolean.FALSE;
 		ResultSet result;
 		try {
-			invoke = new InvokeStoredProcedure("spPersistGameplayConfig(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			invoke = new InvokeStoredProcedure(StoredProcedureUtil.PERSIST_GAMECONFIG.getSpString());
 			invoke.setParameter(1, leagueName);
 			invoke.setParameter(2, config.getAging().getAverageRetirementAge());
 			invoke.setParameter(3, config.getAging().getMaximumAge());
@@ -67,19 +82,19 @@ public class GameConfigDB implements IGameplayConfigPersistance{
 			invoke.setParameter(12, config.getTrading().getRandomAcceptanceChance());
 			result = invoke.executeQueryWithResults();
 			while (result.next()) {
-				isPersisted = result.getBoolean("success");
+				isPersisted = result.getBoolean(GameConfigUtil.SUCCESS.toString());
 			}
 		} catch (Exception e) {
-			System.out.println("Database Error:" + e.getMessage());
+			output.setOutput(e.getMessage());
+			output.sendOutput();
 		} finally {
 			try {
 				invoke.closeConnection();
 			} catch (SQLException e) {
-				System.out.println("Database Error:" + e.getMessage());
+				output.setOutput(e.getMessage());
+				output.sendOutput();
 			}
 		}
 		return isPersisted;
 	}
 }
-	
-

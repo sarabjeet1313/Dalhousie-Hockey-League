@@ -3,7 +3,7 @@ package dal.asd.dpl.TeamManagement;
 import java.util.ArrayList;
 import java.util.List;
 
-import dal.asd.dpl.util.ConstantsUtil;
+import dal.asd.dpl.Util.ConstantsUtil;
 
 public class Team implements ITeamInfo {
 
