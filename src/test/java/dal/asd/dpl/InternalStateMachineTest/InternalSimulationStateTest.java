@@ -55,6 +55,7 @@ public class InternalSimulationStateTest {
     // TODO need to check with Rob and team members.
 //    @Test
 //    public void doProcessingTest() {
+//        state.doProcessing();
 //        ByteArrayOutputStream out = new ByteArrayOutputStream();
 //        System.setOut(new PrintStream(out));
 //        String expected = "Season 1 winner is : Boston";

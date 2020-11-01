@@ -3,13 +3,23 @@ package dal.asd.dpl.InitializeModels;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+
+import dal.asd.dpl.GameplayConfiguration.Aging;
+import dal.asd.dpl.GameplayConfiguration.GameResolver;
 import dal.asd.dpl.GameplayConfiguration.GameplayConfig;
+import dal.asd.dpl.GameplayConfiguration.IGameplayConfigPersistance;
+import dal.asd.dpl.GameplayConfiguration.Injury;
+import dal.asd.dpl.GameplayConfiguration.Trading;
+import dal.asd.dpl.GameplayConfiguration.Training;
 import dal.asd.dpl.Parser.CmdParseJSON;
 import dal.asd.dpl.TeamManagement.Coach;
 import dal.asd.dpl.TeamManagement.Conference;
 import dal.asd.dpl.TeamManagement.Division;
-import dal.asd.dpl.TeamManagement.ILeague;
+import dal.asd.dpl.TeamManagement.ICoachPersistance;
+import dal.asd.dpl.TeamManagement.ILeaguePersistance;
+import dal.asd.dpl.TeamManagement.IManagerPersistance;
 import dal.asd.dpl.TeamManagement.League;
+import dal.asd.dpl.TeamManagement.Manager;
 import dal.asd.dpl.TeamManagement.Player;
 import dal.asd.dpl.TeamManagement.Team;
 import dal.asd.dpl.UserInput.IUserInput;
@@ -21,19 +31,31 @@ import java.util.List;
 public class InitializeLeagues implements IInitializeLeagues {
 	private CmdParseJSON parser;
 	private String filePath;
-	private ILeague leagueDb;
+	private ILeaguePersistance leagueDb;
+	private ICoachPersistance coachDb;
 	private IUserOutput output;
 	private List<Conference> conferenceList;
 	private League league;
 	private List<Player> freeAgents;
 	private List<Coach> coaches;
-	private List<String> managers;
-	private GameplayConfig config;
+	private List<Manager> managerList;
+	private GameplayConfig gameConfig;
+	private Aging aging;
+	private GameResolver resolver;
+	private Injury injury;
+	private Training training;
+	private Trading trading;
+	private IGameplayConfigPersistance configDb;
+	private IManagerPersistance managerDb;
 
-	public InitializeLeagues(String filePath, ILeague leagueDb, IUserOutput output, IUserInput input) {
+	public InitializeLeagues(String filePath, ILeaguePersistance leagueDb, IUserOutput output, IUserInput input,
+			ICoachPersistance coachDb, IGameplayConfigPersistance configDb, IManagerPersistance managerDb) {
 		this.filePath = filePath;
 		this.leagueDb = leagueDb;
 		this.output = output;
+		this.coachDb = coachDb;
+		this.configDb = configDb;
+		this.managerDb = managerDb;
 	}
 
 	public boolean isEmptyString(String valueToCheck) {
@@ -52,8 +74,8 @@ public class InitializeLeagues implements IInitializeLeagues {
 		conferenceList = new ArrayList<Conference>();
 		freeAgents = new ArrayList<Player>();
 		coaches = new ArrayList<Coach>();
-		managers = new ArrayList<String>();
-		config = null;
+		managerList = new ArrayList<Manager>();
+		gameConfig = null;
 		String leagueName = parser.parse("leagueName");
 
 		if (isEmptyString(leagueName)) {
@@ -67,7 +89,7 @@ public class InitializeLeagues implements IInitializeLeagues {
 		}
 
 		leagueName = truncateString(leagueName);
-		league = new League(leagueName, conferenceList, freeAgents, coaches, managers, config);
+		league = new League(leagueName, conferenceList, freeAgents, coaches, managerList, gameConfig, leagueDb);
 		boolean check = league.isValidLeagueName(leagueName, leagueDb);
 
 		if (!check) {
@@ -76,6 +98,35 @@ public class InitializeLeagues implements IInitializeLeagues {
 			return null;
 		}
 
+		if (loadConferencesInfo() == null) {
+			return null;
+		}
+
+		if (loadFreeAgentsInfo() == null) {
+			return null;
+		}
+
+		if (loadCoachesInfo() == null) {
+			return null;
+		}
+
+		if (loadManagerInfo() == null) {
+			return null;
+		}
+
+		if (loadGameplayConfig() == null) {
+			return null;
+		}
+		league.setGameConfig(gameConfig);
+//		gameConfig.saveGameplayConfig(league);
+		league.setConferenceList(conferenceList);
+		league.setFreeAgents(freeAgents);
+		league.setCoaches(coaches);
+		league.setManagerList(managerList);
+		return league;
+	}
+
+	private List<Conference> loadConferencesInfo() {
 		JsonArray conferences = parser.parseList("conferences");
 		Iterator<JsonElement> conferenceListElement = conferences.iterator();
 
@@ -134,6 +185,7 @@ public class InitializeLeagues implements IInitializeLeagues {
 						output.sendOutput();
 						return null;
 					}
+					Manager managerobj = new Manager(genManager, managerDb);
 
 					JsonObject headCoach = team.get("headCoach").getAsJsonObject();
 					String headCoachName = headCoach.get("name").toString();
@@ -146,37 +198,22 @@ public class InitializeLeagues implements IInitializeLeagues {
 					}
 
 					double coachSkating = headCoach.get("skating").getAsDouble();
-					if (coachSkating < 0 || coachSkating > 1) {
-						output.setOutput("HeadCoach:" + headCoachName + " skating value should be between 0 and 1.");
-						output.sendOutput();
-						return null;
-					}
-
 					double coachShooting = headCoach.get("shooting").getAsDouble();
-					if (coachShooting < 0 || coachShooting > 1) {
-						output.setOutput("HeadCoach:" + headCoachName + " shooting value should be between 0 and 1.");
-						output.sendOutput();
-						return null;
-					}
-
 					double coachChecking = headCoach.get("checking").getAsDouble();
-					if (coachChecking < 0 || coachChecking > 1) {
-						output.setOutput("HeadCoach:" + headCoachName + " checking value should be between 0 and 1.");
-						output.sendOutput();
-						return null;
-					}
-
 					double coachSaving = headCoach.get("saving").getAsDouble();
-					if (coachSaving < 0 || coachSaving > 1) {
-						output.setOutput("HeadCoach:" + headCoachName + " saving value should be between 0 and 1.");
+
+					String headCoachValue = isValidCoach(coachSkating, coachShooting, coachChecking, coachSaving);
+
+					if (headCoachValue.length() > 0) {
+						output.setOutput("Head Coach:" + headCoachValue);
 						output.sendOutput();
 						return null;
 					}
 
 					Coach headCoachObj = new Coach(headCoachName, coachSkating, coachShooting, coachChecking,
-							coachSaving);
+							coachSaving, coachDb);
 
-					Team teamObject = new Team(teamName, genManager, headCoachObj, bufferPlayerList);
+					Team teamObject = new Team(teamName, managerobj, headCoachObj, bufferPlayerList, false);
 					bufferTeamList.add(teamObject);
 					divisionObject.setTeamList(bufferTeamList);
 					JsonArray players = team.get("players").getAsJsonArray();
@@ -241,29 +278,14 @@ public class InitializeLeagues implements IInitializeLeagues {
 						}
 
 						int skating = player.get("skating").getAsInt();
-						if (skating < 0 || skating > 20) {
-							output.setOutput("Player:" + count + " skating value should be between 0 and 20.");
-							output.sendOutput();
-							return null;
-						}
-
 						int shooting = player.get("shooting").getAsInt();
-						if (shooting < 0 || shooting > 20) {
-							output.setOutput("Player:" + count + " shooting value should be between 0 and 20.");
-							output.sendOutput();
-							return null;
-						}
-
 						int checking = player.get("checking").getAsInt();
-						if (checking < 0 || checking > 20) {
-							output.setOutput("Player:" + count + " checking value should be between 0 and 20.");
-							output.sendOutput();
-							return null;
-						}
-
 						int saving = player.get("saving").getAsInt();
-						if (saving < 0 || saving > 20) {
-							output.setOutput("Player:" + count + " saving value should be between 0 and 20.");
+
+						String returnedValue = isValidPlayer(skating, shooting, checking, saving);
+
+						if (returnedValue.length() > 0) {
+							output.setOutput("Player:" + count + returnedValue);
 							output.sendOutput();
 							return null;
 						}
@@ -276,7 +298,42 @@ public class InitializeLeagues implements IInitializeLeagues {
 				}
 			}
 		}
+		return conferenceList;
+	}
 
+	public String isValidPlayer(int skating, int shooting, int checking, int saving) {
+		if (skating < 0 || skating > 20) {
+			return " skating value should be between 0 and 20.";
+		}
+		if (shooting < 0 || shooting > 20) {
+			return " shooting value should be between 0 and 20.";
+		}
+		if (checking < 0 || checking > 20) {
+			return " checking value should be between 0 and 20.";
+		}
+		if (saving < 0 || saving > 20) {
+			return " saving value should be between 0 and 20.";
+		}
+		return "";
+	}
+
+	public String isValidCoach(double skating, double shooting, double checking, double saving) {
+		if (skating < 0 || skating > 1) {
+			return " skating value should be between 0 and 1.";
+		}
+		if (shooting < 0 || shooting > 1) {
+			return " shooting value should be between 0 and 1.";
+		}
+		if (checking < 0 || checking > 1) {
+			return " checking value should be between 0 and 1.";
+		}
+		if (saving < 0 || saving > 1) {
+			return " saving value should be between 0 and 1.";
+		}
+		return "";
+	}
+
+	private List<Player> loadFreeAgentsInfo() {
 		JsonArray freeAgentsArray = parser.parseList("freeAgents");
 		Iterator<JsonElement> freeAgentElement = freeAgentsArray.iterator();
 		int count = 0;
@@ -324,36 +381,26 @@ public class InitializeLeagues implements IInitializeLeagues {
 			}
 
 			int skating = freeAgentObj.get("skating").getAsInt();
-			if (skating < 0 || skating > 20) {
-				output.setOutput("Player:" + count + " skating value should be between 0 and 20.");
-				output.sendOutput();
-				return null;
-			}
-
 			int shooting = freeAgentObj.get("shooting").getAsInt();
-			if (shooting < 0 || shooting > 20) {
-				output.setOutput("Player:" + count + " shooting value should be between 0 and 20.");
-				output.sendOutput();
-				return null;
-			}
-
 			int checking = freeAgentObj.get("checking").getAsInt();
-			if (checking < 0 || checking > 20) {
-				output.setOutput("Player:" + count + " checking value should be between 0 and 20.");
-				output.sendOutput();
-				return null;
-			}
-
 			int saving = freeAgentObj.get("saving").getAsInt();
-			if (saving < 0 || saving > 20) {
-				output.setOutput("Player:" + count + " saving value should be between 0 and 20.");
+
+			String freeAgentReturnedValue = isValidPlayer(skating, shooting, checking, saving);
+
+			if (freeAgentReturnedValue.length() > 0) {
+				output.setOutput("Player:" + count + freeAgentReturnedValue);
 				output.sendOutput();
 				return null;
 			}
 
-			freeAgents.add(new Player(agentName, position, captain, age, skating, shooting, checking, saving, false, false, 0));
+			freeAgents.add(new Player(agentName, position, captain, age, skating, shooting, checking, saving, false,
+					false, 0));
 		}
 
+		return freeAgents;
+	}
+
+	private List<Coach> loadCoachesInfo() {
 		JsonArray coachesList = parser.parseList("coaches");
 		Iterator<JsonElement> coachElement = coachesList.iterator();
 		int coachCount = 0;
@@ -398,15 +445,15 @@ public class InitializeLeagues implements IInitializeLeagues {
 				return null;
 			}
 
-			coaches.add(new Coach(coachName, coachSkating, coachShooting, coachChecking, coachSaving));
+			coaches.add(new Coach(coachName, coachSkating, coachShooting, coachChecking, coachSaving, coachDb));
 		}
+		return coaches;
+	}
 
-		JsonArray managerList = parser.parseList("generalManagers");
-		Iterator<JsonElement> managerElement = managerList.iterator();
-		int managerCount = 0;
-
+	private List<Manager> loadManagerInfo() {
+		JsonArray managerParseList = parser.parseList("generalManagers");
+		Iterator<JsonElement> managerElement = managerParseList.iterator();
 		while (managerElement.hasNext()) {
-			managerCount++;
 			String managerName = managerElement.next().getAsString();
 			managerName = truncateString(managerName);
 			if (isEmptyString(managerName)) {
@@ -414,12 +461,117 @@ public class InitializeLeagues implements IInitializeLeagues {
 				output.sendOutput();
 				return null;
 			}
-			managers.add(managerName);
+			Manager manager = new Manager(managerName, managerDb);
+			managerList.add(manager);
 		}
-		league.setConferenceList(conferenceList);
-		league.setFreeAgents(freeAgents);
-		league.setCoaches(coaches);
-		league.setGeneralManager(managers);
-		return league;
+		return managerList;
+	}
+
+	private GameplayConfig loadGameplayConfig() {
+		JsonObject config = parser.parseConfig("gameplayConfig");
+		if (loadAgingInfo(config) == null || loadGameResolverInfo(config) == null || loadInjuriesInfo(config) == null
+				|| loadTrainingInfo(config) == null || loadTradingInfo(config) == null) {
+			return null;
+		}
+		gameConfig = new GameplayConfig(aging, resolver, injury, training, trading, configDb);
+		return gameConfig;
+	}
+
+	private Aging loadAgingInfo(JsonObject config) {
+
+		JsonObject agingObj = config.get("aging").getAsJsonObject();
+		int avgAge = agingObj.get("averageRetirementAge").getAsInt();
+		int maxAge = agingObj.get("maximumAge").getAsInt();
+		if (avgAge < 1) {
+			output.setOutput("Invalid Average Retirement Age");
+			output.sendOutput();
+			return null;
+		}
+		if (maxAge < avgAge || maxAge < 1) {
+			output.setOutput("Invalid Max Retirement Age");
+			output.sendOutput();
+			return null;
+		}
+		aging = new Aging(avgAge, maxAge);
+		return aging;
+	}
+
+	private GameResolver loadGameResolverInfo(JsonObject config) {
+		JsonObject gameResolverObj = config.get("gameResolver").getAsJsonObject();
+		double randomWinChance = gameResolverObj.get("randomWinChance").getAsDouble();
+		if (randomWinChance < 0 || randomWinChance > 1) {
+			output.setOutput("Invalid random Win Chance value");
+			output.sendOutput();
+			return null;
+		}
+		resolver = new GameResolver(randomWinChance);
+		return resolver;
+	}
+
+	private Injury loadInjuriesInfo(JsonObject config) {
+		JsonObject injuriesObj = config.get("injuries").getAsJsonObject();
+		double randomInjuryChance = injuriesObj.get("randomInjuryChance").getAsDouble();
+		if (randomInjuryChance < 0 || randomInjuryChance > 1) {
+			output.setOutput("Invalid random Injury Chance value");
+			output.sendOutput();
+			return null;
+		}
+		int injuryDaysLow = injuriesObj.get("injuryDaysLow").getAsInt();
+		if (injuryDaysLow < 0) {
+			output.setOutput("Invalid Injury lower limit value");
+			output.sendOutput();
+			return null;
+		}
+		int injuryDaysHigh = injuriesObj.get("injuryDaysLow").getAsInt();
+		if (injuryDaysHigh < 0 || injuryDaysHigh < injuryDaysLow) {
+			output.setOutput("Invalid random Injury Chance value");
+			output.sendOutput();
+			return null;
+		}
+		injury = new Injury(randomInjuryChance, injuryDaysLow, injuryDaysHigh);
+		return injury;
+	}
+
+	private Training loadTrainingInfo(JsonObject config) {
+		JsonObject trainingObj = config.get("training").getAsJsonObject();
+		int daysUntilStatIncreaseCheck = trainingObj.get("daysUntilStatIncreaseCheck").getAsInt();
+		if (daysUntilStatIncreaseCheck < 0) {
+			output.setOutput("Invalid number of days value");
+			output.sendOutput();
+			return null;
+		}
+		int trachDays = daysUntilStatIncreaseCheck;
+		training = new Training(daysUntilStatIncreaseCheck, trachDays);
+		return training;
+	}
+
+	private Trading loadTradingInfo(JsonObject config) {
+		JsonObject tradingObj = config.get("trading").getAsJsonObject();
+		int lossPoint = tradingObj.get("lossPoint").getAsInt();
+		if (lossPoint < 0) {
+			output.setOutput("Invalid loss point value");
+			output.sendOutput();
+			return null;
+		}
+		double randomTradeOfferChance = tradingObj.get("randomTradeOfferChance").getAsDouble();
+		if (randomTradeOfferChance < 0 || randomTradeOfferChance > 1) {
+			output.setOutput("Invalid random Trade Offer Chance value");
+			output.sendOutput();
+			return null;
+		}
+		int maxPlayersPerTrade = tradingObj.get("maxPlayersPerTrade").getAsInt();
+		if (maxPlayersPerTrade < 0) {
+			output.setOutput("Invalid max Players Per Trade value");
+			output.sendOutput();
+			return null;
+		}
+		double randomAcceptanceChance = tradingObj.get("randomAcceptanceChance").getAsDouble();
+		if (randomTradeOfferChance < 0 || randomTradeOfferChance > 1) {
+			output.setOutput("Invalid random Acceptance Chance value");
+			output.sendOutput();
+			return null;
+		}
+		trading = new Trading(lossPoint, randomTradeOfferChance, maxPlayersPerTrade, randomAcceptanceChance);
+		return trading;
 	}
 }

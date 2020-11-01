@@ -1,7 +1,7 @@
 package dal.asd.dpl.NewsSystem;
 
 public class OutputConstants {
-	public static final String GAMEPLAYED  = "{\n" + 
+	public static final String GAMEPLAY = "{\n" +
 											 "  \"winner\": \"Montreal Canadiens\",\n" + 
 											 "  \"loser\": \"Toronto Maple Leafs\",\n" + 
 											 "  \"date\": \"25-10-2020\"\n" + 

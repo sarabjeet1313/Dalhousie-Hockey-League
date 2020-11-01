@@ -2,7 +2,7 @@ package dal.asd.dpl.TeamManagementTest;
 
 import dal.asd.dpl.TeamManagement.IPlayerInfo;
 import dal.asd.dpl.TeamManagement.Player;
-import dal.asd.dpl.util.ConstantsUtil;
+import dal.asd.dpl.Util.ConstantsUtil;
 
 public class PlayerInfoMock implements IPlayerInfo {
 

@@ -5,6 +5,7 @@ import dal.asd.dpl.Schedule.ISchedule;
 import dal.asd.dpl.Schedule.RegularSeasonSchedule;
 import dal.asd.dpl.Schedule.SeasonCalendar;
 import dal.asd.dpl.ScheduleTest.MockSchedule;
+import dal.asd.dpl.TeamManagement.InjuryManagement;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagementTest.LeagueMockData;
 import dal.asd.dpl.UserInput.CmdUserInput;
@@ -24,6 +25,7 @@ public class InjuryCheckStateTest {
     private League leagueToSimulate;
     private ISchedule schedule;
     private MockSchedule mockSchedule;
+    private InjuryManagement injury;
     private InternalStateContext context;
     private SeasonCalendar utility;
     private InjuryCheckState state;
@@ -35,11 +37,12 @@ public class InjuryCheckStateTest {
         output = new CmdUserOutput();
         calendar = Calendar.getInstance();
         schedule = new RegularSeasonSchedule(calendar, output);
+        injury = new InjuryManagement();
         mockSchedule = new MockSchedule();
         leagueToSimulate = new LeagueMockData().getTestData();
         context = new InternalStateContext(input, output);
         utility = new SeasonCalendar(0, output);
-        state = new InjuryCheckState(leagueToSimulate, schedule, context, utility, "14-11-2020", output);
+        state = new InjuryCheckState(leagueToSimulate, injury, schedule, context, utility, "14-11-2020", output);
         schedule.setFinalSchedule(mockSchedule.getMockSchedule());
     }
 

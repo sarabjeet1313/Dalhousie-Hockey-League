@@ -1,6 +1,8 @@
 package dal.asd.dpl.InternalStateMachine;
+import dal.asd.dpl.GameplayConfiguration.Injury;
 import dal.asd.dpl.Schedule.ISchedule;
 import dal.asd.dpl.Schedule.SeasonCalendar;
+import dal.asd.dpl.TeamManagement.InjuryManagement;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.UserOutput.IUserOutput;
 
@@ -9,14 +11,16 @@ public class AgingState implements ISimulationState {
     private static String stateName;
     private static String nextStateName;
     private League leagueToSimulate;
+    private InjuryManagement injury;
     private InternalStateContext context;
     private String currentDate;
     private SeasonCalendar seasonCalendar;
     private IUserOutput output;
 
-    public AgingState (League leagueToSimulate, InternalStateContext context, SeasonCalendar seasonCalendar, String currentDate, IUserOutput output) {
+    public AgingState (League leagueToSimulate, InjuryManagement injury, InternalStateContext context, SeasonCalendar seasonCalendar, String currentDate, IUserOutput output) {
         this.stateName = StateConstants.AGING_STATE;
         this.leagueToSimulate = leagueToSimulate;
+        this.injury = injury;
         this.context = context;
         this.seasonCalendar = seasonCalendar;
         this.currentDate = currentDate;
@@ -33,12 +37,13 @@ public class AgingState implements ISimulationState {
     }
 
     public void doProcessing() {
-
-        //TODO age process
-        // advance age so that injury days will be reduced.
-
+        leagueToSimulate = injury.updatePlayerInjuryStatus(leagueToSimulate);
         output.setOutput("Inside Aging state");
         output.sendOutput();
+    }
+
+    public League getUpdatedLeague() {
+        return leagueToSimulate;
     }
 
     public String getStateName() {

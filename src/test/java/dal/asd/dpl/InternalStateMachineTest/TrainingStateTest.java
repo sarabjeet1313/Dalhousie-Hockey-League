@@ -1,5 +1,6 @@
 package dal.asd.dpl.InternalStateMachineTest;
 
+import dal.asd.dpl.GameplayConfiguration.Training;
 import dal.asd.dpl.InternalStateMachine.*;
 import dal.asd.dpl.Schedule.ISchedule;
 import dal.asd.dpl.Schedule.RegularSeasonSchedule;
@@ -30,6 +31,7 @@ public class TrainingStateTest {
     private IUserOutput output;
     private IUserInput input;
     private Calendar calendar;
+    private Training training;
 
     @Before
     public void setUp() throws Exception {
@@ -43,7 +45,8 @@ public class TrainingStateTest {
         schedule.setFinalSchedule(mockSchedule.getMockSchedule());
         context = new InternalStateContext(input, output);
         utility = new SeasonCalendar(0, output);
-        state = new TrainingState(leagueToSimulate, schedule, utility, "14-11-2020", output, context);
+        training = new Training(100, 100);
+        state = new TrainingState(leagueToSimulate, training, schedule, utility, "14-11-2020", output, context);
     }
 
     @Test
@@ -56,7 +59,16 @@ public class TrainingStateTest {
 
     @Test
     public void doProcessingTest() {
-        // TODO
+        state.doProcessing();
+        assertFalse(null == state.getUpdatedLeague());
+        assertTrue(state.getUpdatedLeague() instanceof League);
+    }
+
+    @Test
+    public void getUpdatedLeagueTest() {
+        state.doProcessing();
+        assertFalse(null == state.getUpdatedLeague());
+        assertTrue(state.getUpdatedLeague() instanceof League);
     }
 
     @Test

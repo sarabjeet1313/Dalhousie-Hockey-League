@@ -1,10 +1,18 @@
 package dal.asd.dpl.TeamManagement;
 
-import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-public class RetirementManagement implements IRetirementManager {
+import dal.asd.dpl.Database.LeagueDataDB;
+import dal.asd.dpl.NewsSystem.NewsSubscriber;
+import dal.asd.dpl.NewsSystem.RetirementPublisher;
+
+public class RetirementManagement implements IRetirementManagement {
+
+	static {
+		RetirementPublisher.getInstance().subscribe(new NewsSubscriber());
+	}
 
 	@Override
 	public int getLikelihoodOfRetirement(League league, Player player) {
@@ -20,6 +28,7 @@ public class RetirementManagement implements IRetirementManager {
 		}
 
 		return likelihoodOfRetirement;
+
 	}
 
 	@Override
@@ -29,6 +38,8 @@ public class RetirementManagement implements IRetirementManager {
 		Random rand = new Random();
 
 		if (rand.nextInt(likelihoodOfRetirement) == 0 || player.getAge() > maximumAge) {
+			this.replaceRetiredPlayers(league);
+			RetirementPublisher.getInstance().notify(player.getPlayerName(), player.getAge());
 			return Boolean.TRUE;
 		} else {
 			return Boolean.FALSE;
@@ -39,17 +50,27 @@ public class RetirementManagement implements IRetirementManager {
 	public League replaceRetiredPlayers(League league) {
 		List<Conference> conferenceList = league.getConferenceList();
 		List<Player> freeAgentsList = league.getFreeAgents();
-		List<Player> retiredPlayersList = new ArrayList<Player>();
+		ILeaguePersistance ileagueObject = new LeagueDataDB();
 		int maximumRetirementAge = league.getGameConfig().getAging().getMaximumAge();
 
-		for (Player freeplayer : freeAgentsList) {
-			int years = freeplayer.getAge();
+		Iterator<Player> iter = freeAgentsList.iterator();
+		while (iter.hasNext()) {
+			int years = iter.next().getAge();
 
 			if (years > maximumRetirementAge) {
-				freeAgentsList.remove(freeplayer);
-				retiredPlayersList.add(freeplayer);
+				ileagueObject.persisitRetiredPlayers(iter.next(), null, league);
+				iter.remove();
 			}
 		}
+
+//		for (Player freeplayer : freeAgentsList) {
+//			int years = freeplayer.getAge();
+//
+//			if (years > maximumRetirementAge) {
+//				ileagueObject.persisitRetiredPlayers(freeplayer, null, league);
+//				freeAgentsList.remove(freeplayer);
+//			}
+//		}
 
 		for (int index = 0; index < conferenceList.size(); index++) {
 			List<Division> divisionList = conferenceList.get(index).getDivisionList();
@@ -77,8 +98,9 @@ public class RetirementManagement implements IRetirementManager {
 								Player returnedPlayer = freeAgentsList.get(selectedIndex);
 
 								freeAgentsList.remove(returnedPlayer);
-								retiredPlayersList.add(playersByTeam.get(pIndex));
 								playersByTeam.remove(playersByTeam.get(pIndex));
+								ileagueObject.persisitRetiredPlayers(playersByTeam.get(pIndex),
+										teamList.get(tIndex).getTeamName(), league);
 								playersByTeam.add(returnedPlayer);
 
 								league.setFreeAgents(freeAgentsList);
@@ -90,9 +112,45 @@ public class RetirementManagement implements IRetirementManager {
 				}
 			}
 		}
-
-		// persist retired players list
 		return league;
 	}
 
+	@Override
+	public League increaseAge(int days, League league) {
+		List<Conference> conferenceList = league.getConferenceList();
+		int maximumRetirementAge = league.getGameConfig().getAging().getMaximumAge();
+		List<Player> freeAgentsList = league.getFreeAgents();
+
+		for (int index = 0; index < conferenceList.size(); index++) {
+			List<Division> divisionList = conferenceList.get(index).getDivisionList();
+			for (int dIndex = 0; dIndex < divisionList.size(); dIndex++) {
+				List<Team> teamList = divisionList.get(dIndex).getTeamList();
+				for (int tIndex = 0; tIndex < teamList.size(); tIndex++) {
+					List<Player> playersByTeam = teamList.get(tIndex).getPlayerList();
+					for (Player player : playersByTeam) {
+						int years = player.getAge();
+						player.setAge(years + (int) (days / 365));
+
+						if (player.getAge() > maximumRetirementAge) {
+							player.setRetireStatus(true);
+						}
+					}
+					league.getConferenceList().get(index).getDivisionList().get(dIndex).getTeamList().get(tIndex)
+							.setPlayerList(playersByTeam);
+				}
+			}
+		}
+
+		for (Player freeplayer : freeAgentsList) {
+			int years = freeplayer.getAge();
+			freeplayer.setAge(years + (int) (days / 365));
+
+			if (freeplayer.getAge() > maximumRetirementAge) {
+				freeplayer.setRetireStatus(true);
+			}
+		}
+
+		league.setFreeAgents(freeAgentsList);
+		return replaceRetiredPlayers(league);
+	}
 }

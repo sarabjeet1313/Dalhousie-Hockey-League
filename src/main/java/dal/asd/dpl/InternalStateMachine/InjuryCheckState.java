@@ -2,6 +2,7 @@ package dal.asd.dpl.InternalStateMachine;
 
 import dal.asd.dpl.Schedule.ISchedule;
 import dal.asd.dpl.Schedule.SeasonCalendar;
+import dal.asd.dpl.TeamManagement.InjuryManagement;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.UserOutput.IUserOutput;
 
@@ -12,14 +13,16 @@ public class InjuryCheckState implements ISimulationState {
     private String stateName;
     private String nextStateName;
     private League leagueToSimulate;
+    private InjuryManagement injury;
     private ISchedule schedule;
     private InternalStateContext context;
     private SeasonCalendar seasonCalendar;
     private String currentDate;
     private IUserOutput output;
 
-    public InjuryCheckState (League leagueToSimulate, ISchedule schedule, InternalStateContext context, SeasonCalendar seasonCalendar, String currentDate, IUserOutput output) {
+    public InjuryCheckState (League leagueToSimulate, InjuryManagement injury, ISchedule schedule, InternalStateContext context, SeasonCalendar seasonCalendar, String currentDate, IUserOutput output) {
         this.leagueToSimulate = leagueToSimulate;
+        this.injury = injury;
         this.schedule = schedule;
         this.context = context;
         this.seasonCalendar = seasonCalendar;
@@ -46,11 +49,10 @@ public class InjuryCheckState implements ISimulationState {
         List<Map<String, String>> competingList = schedule.getFinalSchedule().get(currentDate);
         for(Map<String, String> teams : competingList) {
             for(Map.Entry<String,String> entry : teams.entrySet()){
-                // leagueToSimulate = method(entry.getKey(), leagueToSimulate);
-                // leagueToSimulate = method(entry.getValue(), leagueToSimulate);
+                 leagueToSimulate = injury.getInjuryStatusByTeam(entry.getKey(), leagueToSimulate);
+                 leagueToSimulate = injury.getInjuryStatusByTeam(entry.getValue(), leagueToSimulate);
             }
         }
-        // TODO injury check ...
         output.setOutput("Inside Injury Check state");
         output.sendOutput();
     }

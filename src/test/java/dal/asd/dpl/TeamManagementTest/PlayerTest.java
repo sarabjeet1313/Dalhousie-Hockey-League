@@ -2,7 +2,6 @@ package dal.asd.dpl.TeamManagementTest;
 
 import org.junit.Test;
 import dal.asd.dpl.TeamManagement.IPlayerInfo;
-import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagement.Player;
 import org.junit.Assert;
 
@@ -150,19 +149,12 @@ public class PlayerTest {
 		double strength = playerInfo.getPlayerStrength(player);
 		Assert.assertEquals(1.5, strength, DELTA);
 	}
-	
+
 	@Test
-	public void getPlayerInjuryDaysTest() {
-		LeagueObjectTestData leagueData = new LeagueObjectTestData();
-		Player returnedplayer = player.getPlayerInjuryDays(player, leagueData.getLeagueData());
-		Assert.assertTrue(returnedplayer instanceof Player);
-	}
-	
-	@Test
-	public void increaseAgeTest() {
-		LeagueObjectTestData leagueData = new LeagueObjectTestData();
-		League league = player.increaseAge(365, leagueData.getLeagueData());
-		Assert.assertTrue(league instanceof League);
+	public void getPlayerStrengthFiveTest() {
+		Player player = new Player("Player1", "Forward", false, 1, 2, 1, 1, 1, false, false, 0);
+		double strength = playerInfo.getPlayerStrength(player);
+		Assert.assertNotEquals(4.5, strength, DELTA);
 	}
 
 }
