@@ -213,7 +213,7 @@ public class InitializeLeagues implements IInitializeLeagues {
 					Coach headCoachObj = new Coach(headCoachName, coachSkating, coachShooting, coachChecking,
 							coachSaving, coachDb);
 
-					Team teamObject = new Team(teamName, managerobj, headCoachObj, bufferPlayerList);
+					Team teamObject = new Team(teamName, managerobj, headCoachObj, bufferPlayerList, false);
 					bufferTeamList.add(teamObject);
 					divisionObject.setTeamList(bufferTeamList);
 					JsonArray players = team.get("players").getAsJsonArray();

@@ -1,33 +1,38 @@
 package dal.asd.dpl.TeamManagement;
 
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.Writer;
 import java.net.URL;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonParser;
 
+import dal.asd.dpl.UserOutput.CmdUserOutput;
+import dal.asd.dpl.UserOutput.IUserOutput;
+import dal.asd.dpl.util.TeamManagementUtil;
 
-public class SerializeLeague implements ISerialize{
+public class SerializeLeague implements ISerialize {
 	
+	IUserOutput output = new CmdUserOutput();
+
 	@Override
 	public boolean serializeLeagueModel(League league) {
-		boolean isSerialized = false;
+		boolean isSerialized = Boolean.FALSE;
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		try {
-			URL url = getClass().getClassLoader().getResource("test.json");
-			Writer fileWriter =  new FileWriter(url.getFile());
+			URL url = getClass().getClassLoader().getResource(TeamManagementUtil.TEST_JSON.toString());
+			Writer fileWriter = new FileWriter(url.getFile());
 			gson.toJson(league, fileWriter);
 			fileWriter.close();
-			isSerialized = true;
+			isSerialized = Boolean.TRUE;
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			isSerialized = false;
+			output.setOutput(e.getMessage());
+			output.sendOutput();
+			isSerialized = Boolean.FALSE;
 		}
 		return isSerialized;
 	}
-	
+
 //	@Override
 //	public League deSerializeLeagueModel(String filename) {
 //		League league = null;
@@ -38,7 +43,8 @@ public class SerializeLeague implements ISerialize{
 //			JsonParser jParsor = new JsonParser();
 //			league = gson.fromJson(jParsor.parse(reader).toString(), League.class);
 //		} catch (Exception e) {
-//			System.out.println(e.getMessage());
+//			output.setOutput(e.getMessage());
+//			output.sendOutput();
 //		}		
 //		return league;
 //	}

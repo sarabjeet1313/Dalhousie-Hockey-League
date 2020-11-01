@@ -66,7 +66,7 @@ public class LeagueDataDB implements ILeaguePersistance {
 						playerList.add(player);
 					}
 					else {
-						Team team = new Team(rteamName, manager, headCoach, playerList);
+						Team team = new Team(rteamName, manager, headCoach, playerList, false);
 						league =league.loadLeagueObject(leagueName, conferenceName, divisionName, team, league); 
 						manager = new Manager(result.getString("generalManagerName"));
 						flag = loadCommonLeagueData(result.getString("leagueName"), result.getString("conferenceName"), 
