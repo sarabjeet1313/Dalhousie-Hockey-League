@@ -1,7 +1,9 @@
 package dal.asd.dpl.InternalStateMachine;
 import dal.asd.dpl.Schedule.ScheduleConstants;
 import dal.asd.dpl.Schedule.SeasonCalendar;
+import dal.asd.dpl.TeamManagement.InjuryManagement;
 import dal.asd.dpl.TeamManagement.League;
+import dal.asd.dpl.TeamManagement.RetirementManagement;
 import dal.asd.dpl.UserOutput.IUserOutput;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,14 +14,18 @@ public class AdvanceToNextSeasonState implements ISimulationState {
     private String stateName;
     private String nextStateName;
     private League leagueToSimulate;
+    private InjuryManagement injury;
+    private RetirementManagement retirement;
     private InternalStateContext context;
     private SeasonCalendar seasonCalendar;
     private String currentDate;
     private IUserOutput output;
 
-    public AdvanceToNextSeasonState (League leagueToSimulate, InternalStateContext context, SeasonCalendar seasonCalendar, String currentDate, IUserOutput output) {
+    public AdvanceToNextSeasonState (League leagueToSimulate, InjuryManagement injury, RetirementManagement retirement, InternalStateContext context, SeasonCalendar seasonCalendar, String currentDate, IUserOutput output) {
         this.stateName = StateConstants.NEXT_SEASON_STATE;
         this.leagueToSimulate = leagueToSimulate;
+        this.injury = injury;
+        this.retirement = retirement;
         this.context = context;
         this.seasonCalendar = seasonCalendar;
         this.currentDate = currentDate;
@@ -31,11 +37,14 @@ public class AdvanceToNextSeasonState implements ISimulationState {
     }
 
     public void doProcessing() {
-
         // no of days between the very first day of next season and the day when cup winner declared.
         int days = (int)daysLapsed();
-        
-        // TODO call methods to perform aging.
+        leagueToSimulate = retirement.increaseAge(days, leagueToSimulate);
+        leagueToSimulate = injury.updatePlayerInjuryStatus(leagueToSimulate);
+    }
+
+    public League getUpdatedLeague() {
+        return leagueToSimulate;
     }
 
     private long daysLapsed() {

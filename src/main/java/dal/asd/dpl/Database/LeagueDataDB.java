@@ -205,7 +205,7 @@ public class LeagueDataDB implements ILeaguePersistance {
 			output.sendOutput();
 		} finally {
 			try {
-				invoke.closeConnection();
+				isp.closeConnection();
 			} catch (SQLException e) {
 				output.setOutput(e.getMessage());
 				output.sendOutput();

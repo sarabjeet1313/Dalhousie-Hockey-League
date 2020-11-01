@@ -6,6 +6,7 @@ import dal.asd.dpl.Schedule.RegularSeasonSchedule;
 import dal.asd.dpl.Schedule.SeasonCalendar;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagementTest.LeagueMockData;
+import dal.asd.dpl.Trading.Trade;
 import dal.asd.dpl.UserInput.CmdUserInput;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.CmdUserOutput;
@@ -27,6 +28,7 @@ public class TradingStateTest {
     private SeasonCalendar utility;
     private IUserOutput output;
     private IUserInput input;
+    private Trade trade;
     private Calendar calendar;
 
     @Before
@@ -39,7 +41,8 @@ public class TradingStateTest {
         schedule = new RegularSeasonSchedule(calendar, output);
         context = new InternalStateContext(input, output);
         utility = new SeasonCalendar(0, output);
-        state = new TradingState(leagueToSimulate, schedule, context, utility, "13-11-2020", output);
+        trade = new Trade();
+        state = new TradingState(leagueToSimulate, trade, schedule, context, utility, "13-11-2020", output);
     }
 
     @Test
@@ -51,9 +54,17 @@ public class TradingStateTest {
     }
 
     @Test
-    public void doProcessing() {
+    public void doProcessingTest() {
+        state.doProcessing();
+        assertFalse(null == state.getUpdatedLeague());
+        assertTrue( state.getUpdatedLeague() instanceof League);
+    }
 
-        // TODO
+    @Test
+    public void getUpdatedLeagueTest() {
+        state.doProcessing();
+        assertFalse(null == state.getUpdatedLeague());
+        assertTrue( state.getUpdatedLeague() instanceof League);
     }
 
     @Test
