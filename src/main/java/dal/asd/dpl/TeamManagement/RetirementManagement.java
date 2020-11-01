@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import dal.asd.dpl.Database.LeagueDataDB;
+import dal.asd.dpl.Database.RetiredPlayersDataDB;
 import dal.asd.dpl.NewsSystem.NewsSubscriber;
 import dal.asd.dpl.NewsSystem.RetirementPublisher;
 
@@ -50,7 +50,7 @@ public class RetirementManagement implements IRetirementManagement {
 	public League replaceRetiredPlayers(League league) {
 		List<Conference> conferenceList = league.getConferenceList();
 		List<Player> freeAgentsList = league.getFreeAgents();
-		ILeaguePersistance ileagueObject = new LeagueDataDB();
+		IRetiredPlayerPersistance iretiredPlayersObject = new RetiredPlayersDataDB();
 		int maximumRetirementAge = league.getGameConfig().getAging().getMaximumAge();
 
 		Iterator<Player> iter = freeAgentsList.iterator();
@@ -58,19 +58,10 @@ public class RetirementManagement implements IRetirementManagement {
 			int years = iter.next().getAge();
 
 			if (years > maximumRetirementAge) {
-				ileagueObject.persisitRetiredPlayers(iter.next(), null, league);
+				iretiredPlayersObject.persisitRetiredPlayers(iter.next(), null, league);
 				iter.remove();
 			}
 		}
-
-//		for (Player freeplayer : freeAgentsList) {
-//			int years = freeplayer.getAge();
-//
-//			if (years > maximumRetirementAge) {
-//				ileagueObject.persisitRetiredPlayers(freeplayer, null, league);
-//				freeAgentsList.remove(freeplayer);
-//			}
-//		}
 
 		for (int index = 0; index < conferenceList.size(); index++) {
 			List<Division> divisionList = conferenceList.get(index).getDivisionList();
@@ -99,7 +90,7 @@ public class RetirementManagement implements IRetirementManagement {
 
 								freeAgentsList.remove(returnedPlayer);
 								playersByTeam.remove(playersByTeam.get(pIndex));
-								ileagueObject.persisitRetiredPlayers(playersByTeam.get(pIndex),
+								iretiredPlayersObject.persisitRetiredPlayers(playersByTeam.get(pIndex),
 										teamList.get(tIndex).getTeamName(), league);
 								playersByTeam.add(returnedPlayer);
 
@@ -129,7 +120,7 @@ public class RetirementManagement implements IRetirementManagement {
 					List<Player> playersByTeam = teamList.get(tIndex).getPlayerList();
 					for (Player player : playersByTeam) {
 						int years = player.getAge();
-						player.setAge(years + (int) (days / 365));
+						player.setAge(years + 1);
 
 						if (player.getAge() > maximumRetirementAge) {
 							player.setRetireStatus(true);
@@ -143,7 +134,7 @@ public class RetirementManagement implements IRetirementManagement {
 
 		for (Player freeplayer : freeAgentsList) {
 			int years = freeplayer.getAge();
-			freeplayer.setAge(years + (int) (days / 365));
+			freeplayer.setAge(years + 1);
 
 			if (freeplayer.getAge() > maximumRetirementAge) {
 				freeplayer.setRetireStatus(true);

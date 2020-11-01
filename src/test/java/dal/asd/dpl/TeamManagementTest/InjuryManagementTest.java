@@ -22,7 +22,7 @@ public class InjuryManagementTest {
 	@Test
 	public void updatePlayerInjuryStatusTest() {
 		LeagueObjectTestData leagueData = new LeagueObjectTestData();
-		Assert.assertTrue(playerManagement.updatePlayerInjuryStatus(leagueData.getLeagueData()) instanceof League);
+		Assert.assertTrue(playerManagement.updatePlayerInjuryStatus(365, leagueData.getLeagueData()) instanceof League);
 	}
 	
 	@Test

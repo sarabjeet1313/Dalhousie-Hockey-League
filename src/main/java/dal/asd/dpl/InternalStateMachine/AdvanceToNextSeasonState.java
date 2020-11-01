@@ -40,7 +40,7 @@ public class AdvanceToNextSeasonState implements ISimulationState {
         // no of days between the very first day of next season and the day when cup winner declared.
         int days = (int)daysLapsed();
         leagueToSimulate = retirement.increaseAge(days, leagueToSimulate);
-        leagueToSimulate = injury.updatePlayerInjuryStatus(leagueToSimulate);
+        leagueToSimulate = injury.updatePlayerInjuryStatus(days, leagueToSimulate);
     }
 
     public League getUpdatedLeague() {

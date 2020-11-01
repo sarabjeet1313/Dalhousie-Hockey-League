@@ -2,7 +2,8 @@ package dal.asd.dpl.Util;
 
 public enum ConferenceUtil {
 
-	CONFERENCE_NAME("conferenceName");
+	CONFERENCE_NAME("conferenceName"),
+	CONFERENCE_ERROR("Please enter Conference name. Null values are not accepted.");
 
 	private final String conferenceString;
 

@@ -134,17 +134,6 @@ public class LeagueMockData implements ILeaguePersistance {
 		return true;
 	}
 
-	@Override
-	public boolean persisitRetiredPlayers(Player player, String teamName, League league) {
-		boolean isValid = false;
-		for (int index = 0; index < league.getFreeAgents().size(); index++) {
-			if (player.getPlayerName().equals(league.getFreeAgents().get(index).getPlayerName())) {
-				isValid = true;
-			}
-		}
-		return isValid;
-	}
-
 	public boolean shouldPlayerRetire(League league, Player player) {
 		int maximumAge = league.getGameConfig().getAging().getMaximumAge();
 		int likelihoodOfRetirement = retireManager.getLikelihoodOfRetirement(league, player);
