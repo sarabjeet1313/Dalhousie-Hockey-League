@@ -35,7 +35,7 @@ public class LeagueDataDB implements ILeaguePersistance {
 	IUserOutput output = new CmdUserOutput();
 
 	private boolean loadCommonLeagueData(String league, String conference, String division, String team) {
-		boolean isStored = false;
+		boolean isStored = Boolean.FALSE;
 		leagueName = league;
 		rteamName = team;
 		divisionName = division;
@@ -54,7 +54,7 @@ public class LeagueDataDB implements ILeaguePersistance {
 			invoke.setParameter(1, teamName);
 			result = invoke.executeQueryWithResults();
 
-			boolean flag = false;
+			boolean flag = Boolean.FALSE;
 			while (result.next()) {
 				Player player = new Player(result.getString(PlayerUtil.PLAYER_NAME.toString()),
 						result.getString(PlayerUtil.PLAYER_POSITION.toString()),
@@ -68,10 +68,11 @@ public class LeagueDataDB implements ILeaguePersistance {
 				if (result.getString(TeamUtil.TEAM_NAME.toString()) == null) {
 					freeAgentList.add(player);
 				} else {
-					if (result.isLast() && result.getString(TeamUtil.TEAM_NAME.toString()).equals(rteamName) == false) {
-						flag = false;
+					if (result.isLast()
+							&& result.getString(TeamUtil.TEAM_NAME.toString()).equals(rteamName) == Boolean.FALSE) {
+						flag = Boolean.FALSE;
 					}
-					if (flag == false) {
+					if (flag == Boolean.FALSE) {
 						headCoach = new Coach(result.getString(CoachUtil.COACH_NAME.toString()),
 								result.getInt(CoachUtil.COACH_SKATING.toString()),
 								result.getInt(CoachUtil.COACH_SHOOTING.toString()),
@@ -148,7 +149,7 @@ public class LeagueDataDB implements ILeaguePersistance {
 	public boolean persisitLeagueData(String leagueName, String conferenceName, String divisionName, String teamName,
 			String generalManager, String headCoach, Player player) {
 		ResultSet result;
-		boolean isPersisted = false;
+		boolean isPersisted = Boolean.FALSE;
 		try {
 			invoke = new InvokeStoredProcedure(StoredProcedureUtil.PERSIST_LEAGUE.getSpString());
 			invoke.setParameter(1, leagueName);
@@ -188,7 +189,7 @@ public class LeagueDataDB implements ILeaguePersistance {
 
 	@Override
 	public boolean persisitRetiredPlayers(Player player, String teamName, League league) {
-		boolean isPersisted = false;
+		boolean isPersisted = Boolean.FALSE;
 		ResultSet result;
 		try {
 			isp = new InvokeStoredProcedure(StoredProcedureUtil.UPDATE_RETIRED_PLAYERS_IN_LEAGUE.getSpString());

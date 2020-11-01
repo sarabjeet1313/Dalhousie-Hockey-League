@@ -1,19 +1,22 @@
 package dal.asd.dpl.Database;
 
-import java.awt.image.DataBufferUShort;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import dal.asd.dpl.TeamManagement.IManagerPersistance;
-import dal.asd.dpl.Util.DatabaseUtil;
+import dal.asd.dpl.UserOutput.CmdUserOutput;
+import dal.asd.dpl.UserOutput.IUserOutput;
+import dal.asd.dpl.Util.ManagerUtil;
 import dal.asd.dpl.Util.StoredProcedureUtil;
 
-public class ManagerDataDB implements IManagerPersistance{
-	InvokeStoredProcedure invoke = null;
+public class ManagerDataDB implements IManagerPersistance {
 	
+	InvokeStoredProcedure invoke = null;
+	IUserOutput output = new CmdUserOutput();
+
 	@Override
 	public boolean persisitManagerInfo(String managerName, String teamName, String leagueName) {
-		boolean isPersisted = false;
+		boolean isPersisted = Boolean.FALSE;
 		ResultSet result;
 		try {
 			invoke = new InvokeStoredProcedure(StoredProcedureUtil.PERSIST_MANAGER.getSpString());
@@ -22,15 +25,17 @@ public class ManagerDataDB implements IManagerPersistance{
 			invoke.setParameter(3, leagueName);
 			result = invoke.executeQueryWithResults();
 			while (result.next()) {
-				isPersisted = result.getBoolean("success");
+				isPersisted = result.getBoolean(ManagerUtil.SUCCESS.toString());
 			}
 		} catch (Exception e) {
-			System.out.println("Database Error:" + e.getMessage());
+			output.setOutput(e.getMessage());
+			output.sendOutput();
 		} finally {
 			try {
 				invoke.closeConnection();
 			} catch (SQLException e) {
-				System.out.println("Database Error:" + e.getMessage());
+				output.setOutput(e.getMessage());
+				output.sendOutput();
 			}
 		}
 		return isPersisted;

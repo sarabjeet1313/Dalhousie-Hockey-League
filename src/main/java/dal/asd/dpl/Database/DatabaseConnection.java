@@ -2,7 +2,8 @@ package dal.asd.dpl.Database;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.Properties;
 
 import dal.asd.dpl.Util.ConstantsUtil;
@@ -11,7 +12,7 @@ public class DatabaseConnection implements IDatabaseConnection {
 
 	Connection connect = null;
 	private Properties properties;
-	
+
 	private static DatabaseConnection databaseConnection = null;
 
 	private DatabaseConnection() {

@@ -17,7 +17,7 @@ public class CoachDataDB implements ICoachPersistance {
 	
 	@Override
 	public boolean persisitCoaches(Coach coach, String teamName, String leagueName) {
-		boolean isPersisted = false;
+		boolean isPersisted = Boolean.FALSE;
 		ResultSet result;
 		try {
 			invoke = new InvokeStoredProcedure(StoredProcedureUtil.PERSIST_COACH.getSpString());

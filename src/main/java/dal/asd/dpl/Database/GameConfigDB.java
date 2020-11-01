@@ -12,12 +12,11 @@ import dal.asd.dpl.GameplayConfiguration.Trading;
 import dal.asd.dpl.GameplayConfiguration.Training;
 import dal.asd.dpl.UserOutput.CmdUserOutput;
 import dal.asd.dpl.UserOutput.IUserOutput;
-import dal.asd.dpl.Util.DatabaseUtil;
 import dal.asd.dpl.Util.GameConfigUtil;
 import dal.asd.dpl.Util.StoredProcedureUtil;
 
 public class GameConfigDB implements IGameplayConfigPersistance {
-	
+
 	InvokeStoredProcedure invoke = null;
 	IUserOutput output = new CmdUserOutput();
 
@@ -35,14 +34,18 @@ public class GameConfigDB implements IGameplayConfigPersistance {
 			invoke.setParameter(1, leagueName);
 			result = invoke.executeQueryWithResults();
 			while (result.next()) {
-				aging = new Aging(result.getInt(GameConfigUtil.AVG_RETIREMENT_AGE.toString()), result.getInt(GameConfigUtil.MAX_RETIREMENT_AGE.toString()));
+				aging = new Aging(result.getInt(GameConfigUtil.AVG_RETIREMENT_AGE.toString()),
+						result.getInt(GameConfigUtil.MAX_RETIREMENT_AGE.toString()));
 				gameResolver = new GameResolver(result.getDouble(GameConfigUtil.RANDOM_WIN_CHANCE.toString()));
-				injury = new Injury(result.getDouble(GameConfigUtil.RANDOM_INGURY_CHANCE.toString()), result.getInt(GameConfigUtil.INJURY_DAYS_LOW.toString()),
+				injury = new Injury(result.getDouble(GameConfigUtil.RANDOM_INGURY_CHANCE.toString()),
+						result.getInt(GameConfigUtil.INJURY_DAYS_LOW.toString()),
 						result.getInt(GameConfigUtil.INJURY_DAYS_HIGH.toString()));
 				training = new Training(result.getInt(GameConfigUtil.STAT_INCREASE_CHECK.toString()),
 						result.getInt(GameConfigUtil.STAT_INCREASE_CHECK.toString()));
-				trading = new Trading(result.getInt(GameConfigUtil.LOSS_POINT.toString()), result.getDouble(GameConfigUtil.RANDOM_TRADE_OFFER_CHANCE.toString()),
-						result.getInt(GameConfigUtil.MAX_PLAYERS_PER_TRADE.toString()), result.getDouble(GameConfigUtil.RANDOM_ACCEPTANCE_CHANCE.toString()));
+				trading = new Trading(result.getInt(GameConfigUtil.LOSS_POINT.toString()),
+						result.getDouble(GameConfigUtil.RANDOM_TRADE_OFFER_CHANCE.toString()),
+						result.getInt(GameConfigUtil.MAX_PLAYERS_PER_TRADE.toString()),
+						result.getDouble(GameConfigUtil.RANDOM_ACCEPTANCE_CHANCE.toString()));
 			}
 			config = new GameplayConfig(aging, gameResolver, injury, training, trading);
 		} catch (SQLException e) {
@@ -61,7 +64,7 @@ public class GameConfigDB implements IGameplayConfigPersistance {
 
 	@Override
 	public boolean persistGameConfig(GameplayConfig config, String leagueName) {
-		boolean isPersisted = false;
+		boolean isPersisted = Boolean.FALSE;
 		ResultSet result;
 		try {
 			invoke = new InvokeStoredProcedure(StoredProcedureUtil.PERSIST_GAMECONFIG.getSpString());
