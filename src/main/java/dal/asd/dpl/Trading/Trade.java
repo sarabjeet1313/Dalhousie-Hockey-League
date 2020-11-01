@@ -260,6 +260,8 @@ public class Trade implements ITrade {
         List<Player> playerL;
         List<String> allTeamNameList = new ArrayList<String>();
 
+        //getTeam name write in Teams
+
         for(int i = 0; i < conferenceL.size(); i++){
             divisionL = conferenceL.get(i).getDivisionList();
 
@@ -272,6 +274,7 @@ public class Trade implements ITrade {
                 }
             }
         }
+        // rename to some logical
         ITeamPlayersInfo ty = new Team();
         IPlayerInfo py = new Player();
         ITeamInfo ti = new Team();
@@ -279,11 +282,13 @@ public class Trade implements ITrade {
 
         for(int i = 0; i<eligibleTeamNameList.size() ; i++ ){
             if (checkRandOfferChance(randOfferChance)){
-
+                // reset tradeLoss point for eli[i]
                 trade.setTradeOfferTeam(eligibleTeamNameList.get(i));
                 trade.setPlayerListOfferTeam(getWeakestPlayers(maxPlayersPerTrade, eligibleTeamNameList.get(i), leagueObject, ty, py));
                 trade.setPlayerListRequestedTeam(getStrongestPlayers(trade,allTeamNameList,leagueObject,ty,py));
 
+                // based on team name get is User team in Teams
+                //trade.getTradeRequestedTeam();
                 if(ar.isAcceptOrReject(trade,leagueObject,randAcceptChance,true, py,ti)){
                     //iterate to teamPlayer list and make Swap 100% easier if directly changed to database.
 
@@ -310,10 +315,12 @@ public class Trade implements ITrade {
                                     for(Player pRequested: trade.getPlayerListRequestedTeam()){
                                         playerL.add(pRequested);
                                     }
-                                   teamL.get(h).setPlayerList(playerL);
+                                    teamL.get(h).setPlayerList(playerL);
+//                                    conferenceL.get(f).getDivisionList().get(g).setTeamList(teamL);
+
 
                                 }
-                                else if(sameTeam(teamL.get(h).getTeamName(), getTradeRequestedTeam())){
+                                if(sameTeam(teamL.get(h).getTeamName(), getTradeRequestedTeam())){
 
                                     // remove offered player from team offering them
                                     for(Player p : playerL){

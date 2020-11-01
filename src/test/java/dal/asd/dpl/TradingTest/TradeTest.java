@@ -1,6 +1,8 @@
 package dal.asd.dpl.TradingTest;
 
+import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagement.Player;
+import dal.asd.dpl.TeamManagementTest.LeagueObjectTestData;
 import dal.asd.dpl.Trading.Trade;
 import org.junit.Assert;
 import org.junit.Test;
@@ -80,7 +82,7 @@ public class TradeTest {
 
     @Test
     public void startTrade(){
-
+        League l = new LeagueObjectTestData().getLeagueData();
     }
 
 
