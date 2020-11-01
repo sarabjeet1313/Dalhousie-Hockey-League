@@ -4,7 +4,7 @@ import dal.asd.dpl.InternalStateMachine.*;
 import dal.asd.dpl.Schedule.ISchedule;
 import dal.asd.dpl.Schedule.RegularSeasonSchedule;
 import dal.asd.dpl.Schedule.SeasonCalendar;
-import dal.asd.dpl.Standings.IStandingsDb;
+import dal.asd.dpl.Standings.IStandingsPersistance;
 import dal.asd.dpl.Standings.StandingInfo;
 import dal.asd.dpl.StandingsTest.StandingsMockDb;
 import dal.asd.dpl.TeamManagement.League;
@@ -31,7 +31,7 @@ public class PersistStateTest {
     private StandingInfo standings;
     private InternalStateContext context;
     private SeasonCalendar utility;
-    private IStandingsDb standingsDb;
+    private IStandingsPersistance standingsDb;
 
     @Before
     public void setUp() throws Exception {

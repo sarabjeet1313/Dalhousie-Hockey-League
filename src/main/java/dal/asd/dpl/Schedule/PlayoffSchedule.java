@@ -1,10 +1,12 @@
 package dal.asd.dpl.Schedule;
-import dal.asd.dpl.Standings.IStandingsDb;
+import dal.asd.dpl.Standings.IStandingsPersistance;
 import dal.asd.dpl.Standings.StandingInfo;
 import dal.asd.dpl.TeamManagement.Conference;
 import dal.asd.dpl.TeamManagement.Division;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.UserOutput.IUserOutput;
+import dal.asd.dpl.util.ScheduleConstants;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -25,9 +27,9 @@ public class PlayoffSchedule implements ISchedule {
     private Map< String, List<Map<String, String>>> finalSchedule;
     private List<String> teamsToBeScheduled;
     private List<String> teamsScheduled;
-    private IStandingsDb standingsDb;
+    private IStandingsPersistance standingsDb;
 
-    public PlayoffSchedule(IUserOutput output, IStandingsDb standings, int season){
+    public PlayoffSchedule(IUserOutput output, IStandingsPersistance standings, int season){
         this.calendar = Calendar.getInstance();
         this.output = output;
         this.standingsDb = standings;

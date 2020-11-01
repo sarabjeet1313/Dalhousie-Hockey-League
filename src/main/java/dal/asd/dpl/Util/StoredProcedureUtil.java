@@ -9,8 +9,12 @@ public enum StoredProcedureUtil {
 	LOAD_GAMECONFIG("spLoadGameConfig(?)"),
 	LOAD_LEAGUE("spLoadLeagueData(?)"),
 	CHECK_LEAGUE_NAME("spCheckLeagueName(?)"),
-	UPDATE_RETIRED_PLAYERS_IN_LEAGUE("spRetiredPlayer(?,?,?)");
-	
+	UPDATE_RETIRED_PLAYERS_IN_LEAGUE("spRetiredPlayer(?,?,?)"),
+	UPDATE_TEAM_WIN("spUpdateStandingsWin(?, ?, ?)"),
+	UPDATE_TEAM_LOSS("spUpdateStandingsLose(?, ?, ?)"),
+	INSERT_TO_STANDINGS("spInsertToStandings(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"),
+	GET_TEAM_NAME("spGetTeamName(?)"),
+	GET_TOP_TEAMS("spGetTopSeededTeams(?, ?)");
 	
 	private final String spString;
 

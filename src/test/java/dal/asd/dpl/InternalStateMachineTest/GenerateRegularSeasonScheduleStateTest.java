@@ -3,7 +3,7 @@ import dal.asd.dpl.InternalStateMachine.*;
 import dal.asd.dpl.Schedule.ISchedule;
 import dal.asd.dpl.Schedule.RegularSeasonSchedule;
 import dal.asd.dpl.Schedule.SeasonCalendar;
-import dal.asd.dpl.Standings.IStandingsDb;
+import dal.asd.dpl.Standings.IStandingsPersistance;
 import dal.asd.dpl.StandingsTest.StandingsMockDb;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagementTest.LeagueMockData;
@@ -24,7 +24,7 @@ public class GenerateRegularSeasonScheduleStateTest {
     private ISchedule schedule;
     private League leagueToSimulate;
     private InternalStateContext context;
-    private IStandingsDb standingsDb;
+    private IStandingsPersistance standingsDb;
 
     @Before
     public void setUp() throws Exception {

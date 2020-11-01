@@ -4,8 +4,7 @@ import dal.asd.dpl.InternalStateMachine.*;
 import dal.asd.dpl.Schedule.ISchedule;
 import dal.asd.dpl.Schedule.PlayoffSchedule;
 import dal.asd.dpl.Schedule.SeasonCalendar;
-import dal.asd.dpl.ScheduleTest.MockSchedule;
-import dal.asd.dpl.Standings.IStandingsDb;
+import dal.asd.dpl.Standings.IStandingsPersistance;
 import dal.asd.dpl.StandingsTest.StandingsMockDb;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagementTest.LeagueMockData;
@@ -24,7 +23,7 @@ public class GeneratePlayoffScheduleStateTest {
     private IUserOutput output;
     private IUserInput input;
     private ISchedule schedule;
-    private IStandingsDb standings;
+    private IStandingsPersistance standings;
     private SeasonCalendar utility;
     private InternalStateContext context;
     private GeneratePlayoffScheduleState state;

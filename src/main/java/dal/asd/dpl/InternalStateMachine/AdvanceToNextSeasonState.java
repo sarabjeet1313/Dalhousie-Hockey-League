@@ -1,5 +1,5 @@
 package dal.asd.dpl.InternalStateMachine;
-import dal.asd.dpl.Schedule.ScheduleConstants;
+import dal.asd.dpl.util.ScheduleConstants;
 import dal.asd.dpl.Schedule.SeasonCalendar;
 import dal.asd.dpl.TeamManagement.InjuryManagement;
 import dal.asd.dpl.TeamManagement.League;

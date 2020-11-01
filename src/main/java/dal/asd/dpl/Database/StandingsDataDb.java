@@ -1,13 +1,15 @@
-package dal.asd.dpl.Standings;
+package dal.asd.dpl.Database;
 
 import dal.asd.dpl.Database.InvokeStoredProcedure;
+import dal.asd.dpl.Standings.IStandingsPersistance;
+import dal.asd.dpl.Util.StoredProcedureUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StandingsDataDb implements IStandingsDb {
+public class StandingsDataDb implements IStandingsPersistance {
 
     private InvokeStoredProcedure isp;
     private int season;
@@ -18,7 +20,7 @@ public class StandingsDataDb implements IStandingsDb {
 
     public void updateStandingsWin(String teamName) {
         try {
-            isp = new InvokeStoredProcedure("spUpdateStandingsWin(?, ?, ?)");
+            isp = new InvokeStoredProcedure(StoredProcedureUtil.UPDATE_TEAM_WIN.toString());
             isp.setParameter(1, this.season);
             isp.setParameter(2, teamName);
             isp.executeQueryWithResults();
@@ -37,7 +39,7 @@ public class StandingsDataDb implements IStandingsDb {
 
     public void updateStandingsLosses(String teamName) {
         try {
-            isp = new InvokeStoredProcedure("spUpdateStandingsLose(?, ?, ?)");
+            isp = new InvokeStoredProcedure(StoredProcedureUtil.UPDATE_TEAM_LOSS.toString());
             isp.setParameter(1, this.season);
             isp.setParameter(2, teamName);
             isp.executeQueryWithResults();
@@ -59,7 +61,7 @@ public class StandingsDataDb implements IStandingsDb {
         ResultSet result;
         boolean isInserted = false;
         try {
-            isp = new InvokeStoredProcedure("spInsertToStandings(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            isp = new InvokeStoredProcedure(StoredProcedureUtil.INSERT_TO_STANDINGS.toString());
             isp.setParameter(1, this.season);
             isp.setParameter(2, leagueName);
             isp.setParameter(3, conferenceName);
@@ -95,7 +97,7 @@ public class StandingsDataDb implements IStandingsDb {
 
         for(int id : teamIds) {
             try {
-                isp = new InvokeStoredProcedure("spGetTeamName(?)");
+                isp = new InvokeStoredProcedure(StoredProcedureUtil.GET_TEAM_NAME.toString());
                 isp.setParameter(1, id);
                 result = isp.executeQueryWithResults();
                 while(result.next()) {
@@ -121,7 +123,7 @@ public class StandingsDataDb implements IStandingsDb {
         ResultSet result;
         List<Integer> teamIdList = new ArrayList<>();
         try {
-            isp = new InvokeStoredProcedure("spGetTopSeededTeams(?, ?)");
+            isp = new InvokeStoredProcedure(StoredProcedureUtil.GET_TOP_TEAMS.toString());
             isp.setParameter(1, this.season);
             isp.setParameter(2, divisionName);
             result = isp.executeQueryWithResults();
