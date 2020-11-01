@@ -60,9 +60,10 @@ public class CreateTeamState implements IState {
 		this.stateName = "Create Team";
 	}
 
-	static {
-		FreeAgencyPublisher.getInstance().subscribe(new NewsSubscriber());
-	}
+    static
+	{
+	FreeAgencyPublisher.getInstance().subscribe(new NewsSubscriber());
+    }
 
 	public void nextState(StateContext context) {
 		this.nextStateName = "Simulate";

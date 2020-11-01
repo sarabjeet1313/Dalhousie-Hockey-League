@@ -21,7 +21,7 @@ public class TrainingState implements ISimulationState {
     private SeasonCalendar utility;
     private Training training;
 
-    public TrainingState (League leagueToSimulate, ISchedule schedule, SeasonCalendar utility, String currentDate, IUserOutput output, InternalStateContext context) {
+    public TrainingState (League leagueToSimulate, Training training, ISchedule schedule, SeasonCalendar utility, String currentDate, IUserOutput output, InternalStateContext context) {
         this.leagueToSimulate = leagueToSimulate;
         this.output = output;
         this.context = context;
@@ -29,7 +29,7 @@ public class TrainingState implements ISimulationState {
         this.currentDate = currentDate;
         this.utility = utility;
         this.stateName = "Training";
-        this.training = new Training(); 
+        this.training = training;
     }
 
     public void nextState(InternalStateContext context) {
@@ -47,11 +47,13 @@ public class TrainingState implements ISimulationState {
     }
 
     public void doProcessing() {
-
-        // TODO training logic to be implemented.
         output.setOutput("Inside Training state");
         output.sendOutput();
         leagueToSimulate = training.trackDaysForTraining(leagueToSimulate);
+    }
+
+    public League getUpdatedLeague() {
+        return leagueToSimulate;
     }
 
     public String getStateName() {

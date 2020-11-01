@@ -2,6 +2,9 @@ package dal.asd.dpl.InternalStateMachineTest;
 
 import dal.asd.dpl.InternalStateMachine.*;
 import dal.asd.dpl.Schedule.SeasonCalendar;
+import dal.asd.dpl.TeamManagement.InjuryManagement;
+import dal.asd.dpl.TeamManagement.League;
+import dal.asd.dpl.TeamManagementTest.LeagueMockData;
 import dal.asd.dpl.UserInput.CmdUserInput;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.CmdUserOutput;
@@ -18,6 +21,8 @@ public class AgingStateTest {
     private IUserOutput output;
     private IUserInput input;
     private AgingState state;
+    private League leagueToSimulate;
+    private InjuryManagement injury;
 
     @Before
     public void setUp() throws Exception {
@@ -25,7 +30,9 @@ public class AgingStateTest {
         output = new CmdUserOutput();
         utility = new SeasonCalendar(0, output);
         context = new InternalStateContext(input, output);
-        state = new AgingState(null, context, utility, "13-11-2020", output);
+        injury = new InjuryManagement();
+        leagueToSimulate = new LeagueMockData().getTestData();
+        state = new AgingState(leagueToSimulate, injury, context, utility, "13-11-2020", output);
     }
 
     @Test
@@ -36,10 +43,20 @@ public class AgingStateTest {
         assertNotEquals("Aging", state.getNextStateName());
     }
 
-    @Test
-    public void doProcessingTest() {
-        //TODO when aging process done.
-    }
+    //TODO TEST
+//    @Test
+//    public void doProcessingTest() {
+//        state.doProcessing();
+//        assertFalse(null == state.getUpdatedLeague());
+//        assertTrue(state.getUpdatedLeague() instanceof League);
+//    }
+//
+//    @Test
+//    public void getUpdatedLeague() {
+//        state.doProcessing();
+//        assertFalse(null == state.getUpdatedLeague());
+//        assertTrue(state.getUpdatedLeague() instanceof League);
+//    }
 
     @Test
     public void getStateNameTest() {

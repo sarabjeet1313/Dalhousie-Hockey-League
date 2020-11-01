@@ -17,7 +17,6 @@ public class FreeAgencyTest {
 	@Before
 	public void before() {
 		System.setOut(new PrintStream(console));
-		//FreeAgencyPublisher.getInstance().getSubscribers().clear();
 		//FreeAgencyPublisher.getInstance().subscribe(subscriber);
 	}
 	

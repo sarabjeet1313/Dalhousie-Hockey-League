@@ -2,7 +2,9 @@ package dal.asd.dpl.Util;
 
 public enum DivisionUtil {
 
-	DIVISION_NAME("divisionName");
+	DIVISION_NAME("divisionName"),
+	DIVISIONS_MODEL("divisions"),
+	DIVISIONS_ERROR("Please enter Division name. Null values are not accepted.");
 
 	private final String divisionString;
 
