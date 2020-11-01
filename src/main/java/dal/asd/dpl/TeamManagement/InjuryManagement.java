@@ -7,7 +7,7 @@ import dal.asd.dpl.NewsSystem.InjuryPublisher;
 public class InjuryManagement implements IInjuryManagement {
 
 	@Override
-	public League updatePlayerInjuryStatus(League league) {
+	public League updatePlayerInjuryStatus(int days, League league) {
 		List<Conference> conferenceList = league.getConferenceList();
 		for (int index = 0; index < conferenceList.size(); index++) {
 			List<Division> divisionList = conferenceList.get(index).getDivisionList();
@@ -18,7 +18,7 @@ public class InjuryManagement implements IInjuryManagement {
 					for (int pIndex = 0; pIndex < playersList.size(); pIndex++) {
 						int numberOfInjuryDays = playersList.get(pIndex).getDaysInjured();
 						if (playersList.get(pIndex).getDaysInjured() > 0) {
-							playersList.get(pIndex).setDaysInjured(numberOfInjuryDays - 1);
+							playersList.get(pIndex).setDaysInjured(numberOfInjuryDays - days);
 						}
 						if (playersList.get(pIndex).getDaysInjured() == 0) {
 							playersList.get(pIndex).setInjured(Boolean.FALSE);
@@ -33,12 +33,10 @@ public class InjuryManagement implements IInjuryManagement {
 	@Override
 	public Player getPlayerInjuryDays(Player player, League league) {
 		Random random = new Random();
-
 		double randomInjuryChance = league.getGameConfig().getInjury().getRandomInjuryChance() * 100;
 		int injuryDaysLow = league.getGameConfig().getInjury().getInjuryDaysLow();
 		int injuryDaysHigh = league.getGameConfig().getInjury().getInjuryDaysHigh();
 		double randomValue = Math.random() * 100;
-
 		if ((randomValue <= randomInjuryChance) && (player.isInjured() == Boolean.FALSE)) {
 			player.setInjured(Boolean.TRUE);
 			int injuryDays = random.nextInt(injuryDaysHigh - injuryDaysLow) + injuryDaysLow;

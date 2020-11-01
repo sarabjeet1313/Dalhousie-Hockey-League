@@ -37,7 +37,7 @@ public class GameConfigDB implements IGameplayConfigPersistance {
 				aging = new Aging(result.getInt(GameConfigUtil.AVG_RETIREMENT_AGE.toString()),
 						result.getInt(GameConfigUtil.MAX_RETIREMENT_AGE.toString()));
 				gameResolver = new GameResolver(result.getDouble(GameConfigUtil.RANDOM_WIN_CHANCE.toString()));
-				injury = new Injury(result.getDouble(GameConfigUtil.RANDOM_INGURY_CHANCE.toString()),
+				injury = new Injury(result.getDouble(GameConfigUtil.RANDOM_INJURY_CHANCE.toString()),
 						result.getInt(GameConfigUtil.INJURY_DAYS_LOW.toString()),
 						result.getInt(GameConfigUtil.INJURY_DAYS_HIGH.toString()));
 				training = new Training(result.getInt(GameConfigUtil.STAT_INCREASE_CHECK.toString()),
