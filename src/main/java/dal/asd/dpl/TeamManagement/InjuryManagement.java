@@ -19,6 +19,10 @@ public class InjuryManagement implements IInjuryManagement {
 						int numberOfInjuryDays = playersList.get(pIndex).getDaysInjured();
 						if (playersList.get(pIndex).getDaysInjured() > 0) {
 							playersList.get(pIndex).setDaysInjured(numberOfInjuryDays - days);
+							
+							if (playersList.get(pIndex).getDaysInjured() < 0) {
+								playersList.get(pIndex).setDaysInjured(0);
+							}
 						}
 						if (playersList.get(pIndex).getDaysInjured() == 0) {
 							playersList.get(pIndex).setInjured(Boolean.FALSE);

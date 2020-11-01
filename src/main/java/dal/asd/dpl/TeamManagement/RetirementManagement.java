@@ -1,9 +1,9 @@
 package dal.asd.dpl.TeamManagement;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-import dal.asd.dpl.Database.LeagueDataDB;
 import dal.asd.dpl.Database.RetiredPlayersDataDB;
 import dal.asd.dpl.NewsSystem.NewsSubscriber;
 import dal.asd.dpl.NewsSystem.RetirementPublisher;
@@ -53,12 +53,13 @@ public class RetirementManagement implements IRetirementManagement {
 		IRetiredPlayerPersistance iretiredPlayersObject = new RetiredPlayersDataDB();
 		int maximumRetirementAge = league.getGameConfig().getAging().getMaximumAge();
 
-		for (Player freeplayer : freeAgentsList) {
-			int years = freeplayer.getAge();
+		Iterator<Player> iter = freeAgentsList.iterator();
+		while (iter.hasNext()) {
+			int years = iter.next().getAge();
 
 			if (years > maximumRetirementAge) {
-				iretiredPlayersObject.persisitRetiredPlayers(freeplayer, null, league);
-				freeAgentsList.remove(freeplayer);
+				iretiredPlayersObject.persisitRetiredPlayers(iter.next(), null, league);
+				iter.remove();
 			}
 		}
 
