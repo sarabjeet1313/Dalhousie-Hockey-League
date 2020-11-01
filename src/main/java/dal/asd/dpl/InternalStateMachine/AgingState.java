@@ -36,6 +36,7 @@ public class AgingState implements ISimulationState {
 
         //TODO age process
         // advance age so that injury days will be reduced.
+
         output.setOutput("Inside Aging state");
         output.sendOutput();
     }

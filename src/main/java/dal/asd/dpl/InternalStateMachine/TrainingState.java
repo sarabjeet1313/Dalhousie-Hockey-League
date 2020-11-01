@@ -1,4 +1,5 @@
 package dal.asd.dpl.InternalStateMachine;
+import dal.asd.dpl.GameplayConfiguration.Training;
 import dal.asd.dpl.Schedule.ISchedule;
 import dal.asd.dpl.Schedule.SeasonCalendar;
 import dal.asd.dpl.TeamManagement.League;

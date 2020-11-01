@@ -2,6 +2,8 @@ package dal.asd.dpl.InternalStateMachineTest;
 import dal.asd.dpl.InternalStateMachine.AdvanceToNextSeasonState;
 import dal.asd.dpl.InternalStateMachine.InternalStateContext;
 import dal.asd.dpl.Schedule.SeasonCalendar;
+import dal.asd.dpl.TeamManagement.League;
+import dal.asd.dpl.TeamManagementTest.LeagueMockData;
 import dal.asd.dpl.UserInput.CmdUserInput;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.CmdUserOutput;
@@ -18,14 +20,17 @@ public class AdvanceToNextSeasonStateTest {
     private SeasonCalendar utility;
     private InternalStateContext context;
     private AdvanceToNextSeasonState state;
+    private League leagueToSimulate;
 
     @Before
     public void setUp() throws Exception {
         input = new CmdUserInput();
         output = new CmdUserOutput();
+        leagueToSimulate = new LeagueMockData().getTestData();
         utility = new SeasonCalendar(0, output);
+        utility.setLastSeasonDay("20-11-2020");
         context = new InternalStateContext(input, output);
-        state = new AdvanceToNextSeasonState(null, context, utility, "13-11-2020", output);
+        state = new AdvanceToNextSeasonState(leagueToSimulate, context, utility, "13-11-2020", output);
     }
 
     @Test
@@ -37,7 +42,16 @@ public class AdvanceToNextSeasonStateTest {
 
     @Test
     public void doProcessingTest() {
-        // TODO after getting the logic for processing.
+        state.doProcessing();
+        assertFalse(null == state.getUpdatedLeague());
+        assertTrue( state.getUpdatedLeague() instanceof League);
+    }
+
+    @Test
+    public void getUpdatedLeagueTest() {
+        state.doProcessing();
+        assertFalse(null == state.getUpdatedLeague());
+        assertTrue( state.getUpdatedLeague() instanceof League);
     }
 
     @Test

@@ -43,9 +43,20 @@ public class InjuryCheckState implements ISimulationState {
     }
 
     public void doProcessing() {
+        List<Map<String, String>> competingList = schedule.getFinalSchedule().get(currentDate);
+        for(Map<String, String> teams : competingList) {
+            for(Map.Entry<String,String> entry : teams.entrySet()){
+                // leagueToSimulate = method(entry.getKey(), leagueToSimulate);
+                // leagueToSimulate = method(entry.getValue(), leagueToSimulate);
+            }
+        }
         // TODO injury check ...
         output.setOutput("Inside Injury Check state");
         output.sendOutput();
+    }
+
+    public League getUpdatedLeague() {
+        return leagueToSimulate;
     }
 
     public String getStateName() {

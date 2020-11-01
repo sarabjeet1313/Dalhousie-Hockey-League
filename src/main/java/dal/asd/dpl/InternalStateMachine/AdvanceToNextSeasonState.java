@@ -34,7 +34,14 @@ public class AdvanceToNextSeasonState implements ISimulationState {
 
         // no of days between the very first day of next season and the day when cup winner declared.
         int days = (int)daysLapsed();
+        //  leagueToSimulate = method(days, leagueToSimulate);
+        //  leagueToSimulate = updatePlayerInjuryStatus(leagueToSimulate);
+
         // TODO call methods to perform aging.
+    }
+
+    public League getUpdatedLeague() {
+        return leagueToSimulate;
     }
 
     private long daysLapsed() {

@@ -12,6 +12,7 @@ import dal.asd.dpl.TeamManagement.Team;
 public class Training {
 	private int daysUntilStatIncreaseCheck;
 
+	public Training() {};
 	public Training(int daysUntilStatIncreaseCheck) {
 		this.daysUntilStatIncreaseCheck = daysUntilStatIncreaseCheck;
 	}

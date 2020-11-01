@@ -19,11 +19,10 @@ public class PlayoffSchedule implements ISchedule {
     private String firstDay;
     private String lastDay;
     private int seasonType;
-    private int maxMatches = 105; // for NHL playoffs this is the upper limit of matches.
+    private int maxMatches = ScheduleConstants.PLAYOFF_MAX_MATCHES;
     private int matchesPerDay;
     private Map<String, List<String>> conferenceTeamList;
-    private Map< String /*Date*/, List<Map<String, String> /*Teams Competing*/>> finalSchedule;
-   // public Map<Integer/*rounds in playoffs*/, List<String> /*Teams Competing*/> teamsToBeScheduled;
+    private Map< String, List<Map<String, String>>> finalSchedule;
     private List<String> teamsToBeScheduled;
     private List<String> teamsScheduled;
     private IStandingsDb standingsDb;
@@ -32,7 +31,7 @@ public class PlayoffSchedule implements ISchedule {
         this.calendar = Calendar.getInstance();
         this.output = output;
         this.standingsDb = standings;
-        this.seasonType = ScheduleConstants.PLAYOFF_SEASON /*Playoff Season*/;
+        this.seasonType = ScheduleConstants.PLAYOFF_SEASON;
         conferenceTeamList = new HashMap<>();
         finalSchedule = new HashMap<>();
         teamsToBeScheduled = new ArrayList<>();
@@ -91,7 +90,6 @@ public class PlayoffSchedule implements ISchedule {
     public void generateSchedule(League leagueToSimulate){
         setMatchesPerDay();
         populateInternalModel(leagueToSimulate);
-
         for (Map.Entry<String, List<String>> entry : conferenceTeamList.entrySet()) {
             List<String> teamsToCompete = entry.getValue();
             generateScheduleOnTheFly(teamsToCompete, this.currentDay);
@@ -132,14 +130,6 @@ public class PlayoffSchedule implements ISchedule {
                 }
 
                 teamsScheduled.addAll(teams);
-//                if(teamsToBeScheduled.containsKey(1 /*round-1*/)) {
-//                    List<String> teamsParticipating = teamsToBeScheduled.get(1);
-//                    teamsParticipating.addAll(teams);
-//                    teamsToBeScheduled.put(1, teamsParticipating);
-//                }
-//                else {
-//                    teamsToBeScheduled.put(1, teams);
-//                }
             }
         }
     }
@@ -161,7 +151,7 @@ public class PlayoffSchedule implements ISchedule {
     }
 
     private void setMatchesPerDay(){
-        SimpleDateFormat myFormat = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat myFormat = new SimpleDateFormat(ScheduleConstants.DATE_FORMAT);
 
         try {
             Date date1 = myFormat.parse(firstDay);
@@ -183,22 +173,17 @@ public class PlayoffSchedule implements ISchedule {
     }
 
     public boolean incrementCurrentDay(){
-
         if(currentDay.equals(lastDay)) {
             return false;
         }
-
         else {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-
             try {
                 calendar.setTime(dateFormat.parse(currentDay));
             } catch (ParseException e) {
                 output.setOutput("Exception while getting current date in Playoff Schedule state");
                 output.sendOutput();
             }
-
-            // add a day to current date if it is not last date for the season
             calendar.add(Calendar.DAY_OF_MONTH, 1);
             currentDay = dateFormat.format(calendar.getTime());
             return true;
