@@ -7,7 +7,7 @@ import dal.asd.dpl.TeamManagement.ICoachPersistance;
 import dal.asd.dpl.TeamManagement.ILeaguePersistance;
 import dal.asd.dpl.TeamManagement.IManagerPersistance;
 import dal.asd.dpl.TeamManagement.League;
-import dal.asd.dpl.Trading.ITradePersistance;
+import dal.asd.dpl.Trading.ITradePersistence;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
 
@@ -23,11 +23,11 @@ public class ParsingState implements IState {
 	private ICoachPersistance coachDb;
 	private IManagerPersistance managerDb;
 	private IStandingsPersistance standingDb;
-	private ITradePersistance tradeDb;
+	private ITradePersistence tradeDb;
 
 	public ParsingState(IUserInput input, IUserOutput output, String filePath, ILeaguePersistance leagueDb,
-			ICoachPersistance coachDb, IGameplayConfigPersistance configDb, IManagerPersistance managerDb,
-			ITradePersistance tradeDb, IStandingsPersistance standingDb) {
+                        ICoachPersistance coachDb, IGameplayConfigPersistance configDb, IManagerPersistance managerDb,
+                        ITradePersistence tradeDb, IStandingsPersistance standingDb) {
 		this.input = input;
 		this.output = output;
 		this.filePath = filePath;

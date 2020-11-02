@@ -1,7 +1,7 @@
 package dal.asd.dpl.InternalStateMachine;
 import dal.asd.dpl.Standings.IStandingsPersistance;
 import dal.asd.dpl.TeamManagement.League;
-import dal.asd.dpl.Trading.ITradePersistance;
+import dal.asd.dpl.Trading.ITradePersistence;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
 import dal.asd.dpl.Util.StateConstants;
@@ -15,11 +15,11 @@ public class InternalStartState implements ISimulationState {
 	private String nextStateName;
 	private League leagueToSimulate;
 	private InternalStateContext context;
-	private ITradePersistance tradeDb;
+	private ITradePersistence tradeDb;
 	private IStandingsPersistance standingsDb;
 
 	public InternalStartState(IUserInput input, IUserOutput output, String teamName, League leagueToSimulate,
-			InternalStateContext context, ITradePersistance tradeDb, IStandingsPersistance standingsDb) {
+                              InternalStateContext context, ITradePersistence tradeDb, IStandingsPersistance standingsDb) {
 		this.input = input;
 		this.output = output;
 		this.teamName = teamName;

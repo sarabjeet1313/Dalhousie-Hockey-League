@@ -17,7 +17,7 @@ import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagement.Manager;
 import dal.asd.dpl.TeamManagement.Player;
 import dal.asd.dpl.TeamManagement.Team;
-import dal.asd.dpl.Trading.ITradePersistance;
+import dal.asd.dpl.Trading.ITradePersistence;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
 
@@ -31,7 +31,7 @@ public class CreateTeamState implements IState {
 	private ICoachPersistance coachDb;
 	private IManagerPersistance managerDb;
 	private IStandingsPersistance standingDb;
-	private ITradePersistance tradeDb;
+	private ITradePersistence tradeDb;
 	private Conference conferences;
 	private Division divisions;
 	private Team teams;
@@ -50,8 +50,8 @@ public class CreateTeamState implements IState {
 	CustomValidation validate = new CustomValidation();
 
 	public CreateTeamState(IUserInput input, IUserOutput output, League league, ILeaguePersistance leagueDb,
-			ICoachPersistance coachDb, IGameplayConfigPersistance configDb, IManagerPersistance managerDb,
-			ITradePersistance tradeDb, IStandingsPersistance standingDb) {
+                           ICoachPersistance coachDb, IGameplayConfigPersistance configDb, IManagerPersistance managerDb,
+                           ITradePersistence tradeDb, IStandingsPersistance standingDb) {
 		this.input = input;
 		this.output = output;
 		this.leagueDb = leagueDb;

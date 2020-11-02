@@ -9,6 +9,7 @@ import dal.asd.dpl.Standings.StandingInfo;
 import dal.asd.dpl.StandingsTest.StandingsMockDb;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagementTest.LeagueMockData;
+import dal.asd.dpl.Trading.TradeReset;
 import dal.asd.dpl.UserInput.CmdUserInput;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.CmdUserOutput;
@@ -46,7 +47,7 @@ public class PersistStateTest {
         standings = new StandingInfo(leagueToSimulate, 0, standingsDb);
         context = new InternalStateContext(input, output);
         utility = new SeasonCalendar(0, output);
-        state = new PersistState(leagueToSimulate, schedule, standings, context, utility, "13-11-2020", output);
+        state = new PersistState(leagueToSimulate, schedule, standings,null , context, utility, "13-11-2020", output);
     }
 
     @Test

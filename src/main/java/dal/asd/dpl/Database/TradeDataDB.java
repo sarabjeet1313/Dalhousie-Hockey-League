@@ -5,9 +5,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import dal.asd.dpl.Trading.ITradePersistance;
+import dal.asd.dpl.Trading.ITradePersistence;
 
-public class TradeDataDB implements ITradePersistance{
+public class TradeDataDB implements ITradePersistence {
 
     InvokeStoredProcedure isp = null;
 
@@ -22,7 +22,7 @@ public class TradeDataDB implements ITradePersistance{
             while (result.next()){
                 eligibleTeamName.add(result.getString("teamName"));
             }
-        result.close();
+            result.close();
         }catch (Exception e){
             System.out.println("Database Error:" + e.getMessage());
         } finally {
@@ -35,17 +35,15 @@ public class TradeDataDB implements ITradePersistance{
         return eligibleTeamName;
     }
 
+
     @Override
-    public int getLossPoint() {
-        int lossPoint = -1;
-        ResultSet result;
+    public boolean resetTradeLossPoint(String teamName) {
+        boolean isPersisted = Boolean.FALSE;
         try{
-            isp = new InvokeStoredProcedure("spGetLossPoint()");
-            result = isp.executeQueryWithResults();
-            while (result.next()){
-                lossPoint = result.getInt("lossPoint");
-            }
-            result.close();
+            isp = new InvokeStoredProcedure("spResetTradeLossPoint(?)");
+            isp.setParameter(1,teamName);
+            isp.executeQueryWithResults();
+            isPersisted= Boolean.TRUE;
         }catch (Exception e){
             System.out.println("Database Error:" + e.getMessage());
         } finally {
@@ -55,83 +53,7 @@ public class TradeDataDB implements ITradePersistance{
                 System.out.println("Database Error:" + e.getMessage());
             }
         }
-        return lossPoint;
+        return isPersisted;
     }
-
-    @Override
-    public int getMaxPlayersPerTrade() {
-        int maxPlayersPT = -1;
-        ResultSet result;
-        try{
-            isp = new InvokeStoredProcedure("spGetMaxPlayersPerTrade()");
-            result = isp.executeQueryWithResults();
-            while (result.next()){
-                maxPlayersPT = result.getInt("maxPlayersPerTrade");
-            }
-            result.close();
-        }catch (Exception e){
-            System.out.println("Database Error:" + e.getMessage());
-        } finally {
-            try {
-                isp.closeConnection();
-            } catch (SQLException e) {
-                System.out.println("Database Error:" + e.getMessage());
-            }
-        }
-        return maxPlayersPT;
-    }
-
-    @Override
-    public double getRandomTradeOfferChance() {
-        double randTradeOfferChance = -1;
-        ResultSet result;
-        try{
-            isp = new InvokeStoredProcedure("spGetRandomTradeOfferChance()");
-            result = isp.executeQueryWithResults();
-            while (result.next()){
-                randTradeOfferChance = result.getDouble("randomTradeOfferChance");
-            }
-            result.close();
-        }catch (Exception e){
-            System.out.println("Database Error:" + e.getMessage());
-        } finally {
-            try {
-                isp.closeConnection();
-            } catch (SQLException e) {
-                System.out.println("Database Error:" + e.getMessage());
-            }
-        }
-        return randTradeOfferChance;
-    }
-
-    @Override
-    public double getRandomTradeAcceptChance() {
-        double randTradeAcceptChance = -1;
-        ResultSet result;
-        try{
-            isp = new InvokeStoredProcedure("spGetRandomTradeAcceptChance()");
-            result = isp.executeQueryWithResults();
-            while (result.next()){
-                randTradeAcceptChance = result.getDouble("randomTradeAcceptChance");
-            }
-            result.close();
-        }catch (Exception e){
-            System.out.println("Database Error:" + e.getMessage());
-        } finally {
-            try {
-                isp.closeConnection();
-            } catch (SQLException e) {
-                System.out.println("Database Error:" + e.getMessage());
-            }
-        }
-        return randTradeAcceptChance;
-    }
-
-    @Override
-    public String getUserteamName() {
-        return null;
-    }
-
-
 
 }

@@ -1,19 +1,11 @@
 package dal.asd.dpl.TradingTest;
 
 import dal.asd.dpl.TeamManagement.*;
-import dal.asd.dpl.TeamManagementTest.LeagueObjectTestData;
-import dal.asd.dpl.Trading.ITrade;
-import dal.asd.dpl.Trading.ITradePersistance;
+import dal.asd.dpl.Trading.ITradePersistence;
 import dal.asd.dpl.Trading.Trade;
-import dal.asd.dpl.UserInput.CmdUserInput;
-import dal.asd.dpl.UserInput.IUserInput;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +13,7 @@ public class TradeTest {
 
     League leagueBefore = new TradeObjectTestMockData().getLeagueData();
     League leagueAfter = new TradeObjectTestMockData().getLeagueDataAfterTrade();
-    ITradePersistance tradeDB = new TradeObjectTestMockData();
+    ITradePersistence tradeDB = new TradeObjectTestMockData();
     ITeamInfo IteamInfo = new Team();
     IPlayerInfo IplayerInfo = new Player();
     Trade trade = new Trade(tradeDB);
@@ -100,20 +92,33 @@ public class TradeTest {
         List<Player> weaKPlayer2 = new ArrayList<Player>();
 
         weakPlayer.add(leagueBefore.getConferenceList().get(0).getDivisionList().get(0).getTeamList().get(0).getPlayerList().get(0));
-        weaKPlayer2= trade.getWeakestPlayers(tradeDB.getMaxPlayersPerTrade(),"Boston", leagueBefore, IteamInfo, IplayerInfo);
+        weakPlayer.add(leagueBefore.getConferenceList().get(0).getDivisionList().get(0).getTeamList().get(0).getPlayerList().get(3));
+        weaKPlayer2= trade.getWeakestPlayers(leagueBefore.getGameConfig().getTrading().getMaxPlayersPerTrade(),"Boston", leagueBefore, IteamInfo, IplayerInfo);
 
-        Assert.assertEquals(weakPlayer.size()+1, weaKPlayer2.size());
+        Assert.assertEquals(weakPlayer.size(), weaKPlayer2.size());
+    }
+
+    @Test
+    public void getStrongestPlayersTest(){
+        List<Player> weakPlayer= new ArrayList<Player>();
+        weakPlayer.add(leagueBefore.getConferenceList().get(0).getDivisionList().get(0).getTeamList().get(0).getPlayerList().get(0));
+        weakPlayer.add(leagueBefore.getConferenceList().get(0).getDivisionList().get(0).getTeamList().get(0).getPlayerList().get(3));
+        trade.setTradeOfferTeam("Boston");
+        trade.setPlayerListOfferTeam(weakPlayer);
+        List<Player> strongPlayer= new ArrayList<Player>();
+        List<Player> strongPlayer2 = new ArrayList<Player>();
+        List<String> allTeamNames = new TradeObjectTestMockData().getAllTeamNames();
+        strongPlayer.add(leagueBefore.getConferenceList().get(0).getDivisionList().get(0).getTeamList().get(0).getPlayerList().get(1));
+        strongPlayer.add(leagueBefore.getConferenceList().get(0).getDivisionList().get(0).getTeamList().get(0).getPlayerList().get(2));
+        strongPlayer2= trade.getStrongestPlayers( trade ,allTeamNames, leagueBefore, IteamInfo, IplayerInfo);
+
+        Assert.assertEquals(strongPlayer.size(), strongPlayer2.size());
     }
 
     @Test
     public void startTradeTest(){
         League league = trade.startTrade(leagueBefore);
-//        IUserInput input = new CmdUserInput();
-//        String inp = "y";
-//        InputStream in = new ByteArrayInputStream(inp.getBytes());
-//        System.setIn(in);
-//        input.setInput();
-        Assert.assertEquals(leagueAfter.getLeagueName() , trade.startTrade(leagueBefore).getLeagueName());
+        Assert.assertEquals(leagueAfter.getLeagueName() , league.getLeagueName());
 
     }
 

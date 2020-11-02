@@ -3,10 +3,9 @@ import dal.asd.dpl.InternalStateMachine.InternalSimulationState;
 import dal.asd.dpl.InternalStateMachine.InternalStateContext;
 import dal.asd.dpl.Schedule.SeasonCalendar;
 import dal.asd.dpl.Standings.IStandingsPersistance;
-import dal.asd.dpl.StandingsTest.StandingsMock;
 import dal.asd.dpl.StandingsTest.StandingsMockDb;
 import dal.asd.dpl.TeamManagementTest.LeagueMockData;
-import dal.asd.dpl.Trading.ITradePersistance;
+import dal.asd.dpl.Trading.ITradePersistence;
 import dal.asd.dpl.TradingTest.TradeObjectTestMockData;
 import dal.asd.dpl.UserInput.CmdUserInput;
 import dal.asd.dpl.UserInput.IUserInput;
@@ -28,7 +27,7 @@ public class InternalSimulationStateTest {
     private LeagueMockData leagueMock;
     private SeasonCalendar utlity;
     private IStandingsPersistance standingMock;
-    private ITradePersistance tradeMock;
+    private ITradePersistence tradeMock;
 
     @Before
     public void setUp() throws Exception {

@@ -6,8 +6,9 @@ import dal.asd.dpl.Schedule.SeasonCalendar;
 import dal.asd.dpl.Standings.IStandingsPersistance;
 import dal.asd.dpl.Standings.StandingInfo;
 import dal.asd.dpl.TeamManagement.*;
-import dal.asd.dpl.Trading.ITradePersistance;
+import dal.asd.dpl.Trading.ITradePersistence;
 import dal.asd.dpl.Trading.Trade;
+import dal.asd.dpl.Trading.TradeReset;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
 import dal.asd.dpl.Util.StateConstants;
@@ -41,15 +42,17 @@ public class InternalSimulationState implements ISimulationState {
 	private InjuryCheckState injuryCheck;
 	private AdvanceToNextSeasonState advanceToNextSeason;
 	private PersistState persistState;
-	private ITradePersistance tradeDb;
+	private ITradePersistence tradeDb;
+	private TradeReset tradeReset;
 
 	public InternalSimulationState(IUserInput input, IUserOutput output, int seasons, String teamName,
-			League leagueToSimulate, InternalStateContext context, ITradePersistance tradeDb,
+			League leagueToSimulate, InternalStateContext context, ITradePersistence tradeDb,
 			IStandingsPersistance standingsDb) {
 		this.training = new Training();
 		this.injury = new InjuryManagement();
 		this.retirement = new RetirementManagement();
 		this.trade = new Trade(tradeDb);
+		this.tradeReset = new TradeReset(tradeDb);
 		this.input = input;
 		this.output = output;
 		this.totalSeasons = seasons;
@@ -135,7 +138,7 @@ public class InternalSimulationState implements ISimulationState {
 					advanceToNextSeason.doProcessing();
 					seasonPending = false;
 				}
-				persistState = new PersistState(leagueToSimulate, schedule, standings, context, utility, currentDate,
+				persistState = new PersistState(leagueToSimulate, schedule, standings, tradeReset, context, utility, currentDate,
 						output);
 				persistState.doProcessing();
 

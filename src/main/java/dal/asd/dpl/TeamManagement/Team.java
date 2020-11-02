@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dal.asd.dpl.Util.ConstantsUtil;
+import dal.asd.dpl.Util.TeamManagementUtil;
 
 public class Team implements ITeamInfo {
 
@@ -106,6 +107,50 @@ public class Team implements ITeamInfo {
 			}
 		}
 		return playersByTeam;
+	}
+
+	@Override
+	public List<String> getAllTeamName(League league) {
+		List<Conference> conferenceL = league.getConferenceList();
+		List<Division> divisionL;
+		List<Team> teamL;
+		List<String> allTeamNameList = new ArrayList<String>();
+
+		for(int cIndex = 0; cIndex < conferenceL.size(); cIndex++){
+			divisionL = conferenceL.get(cIndex).getDivisionList();
+
+			for (int dIndex = 0; dIndex < divisionL.size(); dIndex++){
+				teamL = divisionL.get(dIndex).getTeamList();
+
+				for (int tIndex = 0; tIndex < teamL.size(); tIndex++){
+					allTeamNameList.add(teamL.get(tIndex).getTeamName());
+				}
+			}
+		}
+		return allTeamNameList;
+	}
+
+	@Override
+	public String getUserTeamName(League league) {
+		List<Conference> conferenceL = league.getConferenceList();
+		List<Division> divisionL;
+		List<Team> teamL;
+		String userTeamName = TeamManagementUtil.EMPTY.toString();
+
+		for(int cIndex = 0; cIndex < conferenceL.size(); cIndex++){
+			divisionL = conferenceL.get(cIndex).getDivisionList();
+
+			for (int dIndex = 0; dIndex < divisionL.size(); dIndex++){
+				teamL = divisionL.get(dIndex).getTeamList();
+
+				for (int tIndex = 0; tIndex < teamL.size(); tIndex++){
+					if(teamL.get(tIndex).isNewTeam() == Boolean.TRUE){
+                        userTeamName = teamL.get(tIndex).getTeamName();
+                    }
+				}
+			}
+		}
+		return userTeamName;
 	}
 
 	@Override

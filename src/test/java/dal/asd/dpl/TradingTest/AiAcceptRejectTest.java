@@ -12,6 +12,7 @@ public class AiAcceptRejectTest {
 
     @Test
     public void isAcceptOrRejectTest(){
+
         Assert.assertEquals(-1,-1);
     }
 
