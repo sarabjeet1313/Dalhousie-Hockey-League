@@ -50,8 +50,9 @@ public class PersistState implements ISimulationState {
         output.sendOutput();
         standings.updateStandings();
         leagueToSimulate.UpdateLeague(leagueToSimulate);
-        tradeReset.UpdateTrade();
-
+        if(tradeReset!=null){
+            tradeReset.UpdateTrade();
+        }
     }
 
     public String getStateName() {
