@@ -92,9 +92,27 @@ public class TradeTest {
         List<Player> weaKPlayer2 = new ArrayList<Player>();
 
         weakPlayer.add(leagueBefore.getConferenceList().get(0).getDivisionList().get(0).getTeamList().get(0).getPlayerList().get(0));
+        weakPlayer.add(leagueBefore.getConferenceList().get(0).getDivisionList().get(0).getTeamList().get(0).getPlayerList().get(3));
         weaKPlayer2= trade.getWeakestPlayers(leagueBefore.getGameConfig().getTrading().getMaxPlayersPerTrade(),"Boston", leagueBefore, IteamInfo, IplayerInfo);
 
-        Assert.assertEquals(weakPlayer.size()+1, weaKPlayer2.size());
+        Assert.assertEquals(weakPlayer.size(), weaKPlayer2.size());
+    }
+
+    @Test
+    public void getStrongestPlayersTest(){
+        List<Player> weakPlayer= new ArrayList<Player>();
+        weakPlayer.add(leagueBefore.getConferenceList().get(0).getDivisionList().get(0).getTeamList().get(0).getPlayerList().get(0));
+        weakPlayer.add(leagueBefore.getConferenceList().get(0).getDivisionList().get(0).getTeamList().get(0).getPlayerList().get(3));
+        trade.setTradeOfferTeam("Boston");
+        trade.setPlayerListOfferTeam(weakPlayer);
+        List<Player> strongPlayer= new ArrayList<Player>();
+        List<Player> strongPlayer2 = new ArrayList<Player>();
+        List<String> allTeamNames = new TradeObjectTestMockData().getAllTeamNames();
+        strongPlayer.add(leagueBefore.getConferenceList().get(0).getDivisionList().get(0).getTeamList().get(0).getPlayerList().get(1));
+        strongPlayer.add(leagueBefore.getConferenceList().get(0).getDivisionList().get(0).getTeamList().get(0).getPlayerList().get(2));
+        strongPlayer2= trade.getStrongestPlayers( trade ,allTeamNames, leagueBefore, IteamInfo, IplayerInfo);
+
+        Assert.assertEquals(strongPlayer.size(), strongPlayer2.size());
     }
 
     @Test

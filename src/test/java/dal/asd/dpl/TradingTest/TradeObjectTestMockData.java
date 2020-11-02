@@ -78,6 +78,13 @@ public class TradeObjectTestMockData implements ITradePersistence {
         return league;
     }
 
+    public List<String> getAllTeamNames(){
+        List<String> teamNames = new ArrayList<>();
+        teamNames.add("Boston");
+        teamNames.add("Halifax");
+        return teamNames;
+    }
+
     public League getLeagueDataAfterTrade() {
         playerList.clear();
         playerList.add(player4);
