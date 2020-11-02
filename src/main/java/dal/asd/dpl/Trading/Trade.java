@@ -163,10 +163,6 @@ public class Trade implements ITrade {
                 break;
             }
         }
-//        System.out.println("==========================================================");
-//        System.out.println("playerIndexArray length"+playerIndexArray.length);
-//        System.out.println("playerIndexArray[0]: 	"+playerIndexArray[0]);
-//        System.out.println("==========================================================");
         weakestPlayerPosition = p.get(playerIndexArray[0]).getPosition();
         for (int i = 0; i < playerIndexArray.length; i++){
 
@@ -357,7 +353,6 @@ public class Trade implements ITrade {
                     }
                 }
             }
-
         }
         return leagueObject;
     }
