@@ -23,6 +23,7 @@ public class LoadTeamState implements IState {
 	private IGameplayConfigPersistance configDb;
 	private String stateName;
 	private String nextStateName;
+	private League leagueToSimulate;
 
 	public LoadTeamState(IUserInput input, IUserOutput output, ILeaguePersistance leagueDb, IGameplayConfigPersistance configDb) {
 		this.input = input;
@@ -34,7 +35,7 @@ public class LoadTeamState implements IState {
 
 	public void nextState(StateContext context) {
 		this.nextStateName = "Simulate";
-		context.setState(new SimulateState(input, output, teamName, null));
+		context.setState(new SimulateState(input, output, teamName, leagueToSimulate));
 	}
 
 	public void doProcessing() {
@@ -51,10 +52,11 @@ public class LoadTeamState implements IState {
 		GameplayConfig config = new GameplayConfig(configDb);
 		boolean result = false;
 		String finalLeagueName = "";
-		League league = new League("test", conferencesList, freeAgents, coaches, managers, config, leagueDb);
-		league = league.loadLeague(teamName);
-		config = config.loadGameplayConfig(league);
-		if (!league.getLeagueName().equals("test")) {
+		leagueToSimulate = new League("test", conferencesList, freeAgents, coaches, managers, config, leagueDb);
+		leagueToSimulate = leagueToSimulate.loadLeague(teamName);
+		config = config.loadGameplayConfig(leagueToSimulate);
+		leagueToSimulate.setGameConfig(config);
+		if (!leagueToSimulate.getLeagueName().equals("test")) {
 			output.setOutput("League has been initialized for the team: " + teamName);
 			output.sendOutput();
 		}

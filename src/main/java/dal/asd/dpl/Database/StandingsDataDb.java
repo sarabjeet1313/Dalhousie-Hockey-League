@@ -20,7 +20,7 @@ public class StandingsDataDb implements IStandingsPersistance {
 
     public void updateStandingsWin(String teamName) {
         try {
-            isp = new InvokeStoredProcedure(StoredProcedureUtil.UPDATE_TEAM_WIN.toString());
+            isp = new InvokeStoredProcedure(StoredProcedureUtil.UPDATE_TEAM_WIN.getSpString());
             isp.setParameter(1, this.season);
             isp.setParameter(2, teamName);
             isp.executeQueryWithResults();
@@ -39,7 +39,7 @@ public class StandingsDataDb implements IStandingsPersistance {
 
     public void updateStandingsLosses(String teamName) {
         try {
-            isp = new InvokeStoredProcedure(StoredProcedureUtil.UPDATE_TEAM_LOSS.toString());
+            isp = new InvokeStoredProcedure(StoredProcedureUtil.UPDATE_TEAM_LOSS.getSpString());
             isp.setParameter(1, this.season);
             isp.setParameter(2, teamName);
             isp.executeQueryWithResults();
@@ -61,7 +61,7 @@ public class StandingsDataDb implements IStandingsPersistance {
         ResultSet result;
         boolean isInserted = false;
         try {
-            isp = new InvokeStoredProcedure(StoredProcedureUtil.INSERT_TO_STANDINGS.toString());
+            isp = new InvokeStoredProcedure(StoredProcedureUtil.INSERT_TO_STANDINGS.getSpString());
             isp.setParameter(1, this.season);
             isp.setParameter(2, leagueName);
             isp.setParameter(3, conferenceName);
@@ -97,7 +97,7 @@ public class StandingsDataDb implements IStandingsPersistance {
 
         for(int id : teamIds) {
             try {
-                isp = new InvokeStoredProcedure(StoredProcedureUtil.GET_TEAM_NAME.toString());
+                isp = new InvokeStoredProcedure(StoredProcedureUtil.GET_TEAM_NAME.getSpString());
                 isp.setParameter(1, id);
                 result = isp.executeQueryWithResults();
                 while(result.next()) {
@@ -123,7 +123,7 @@ public class StandingsDataDb implements IStandingsPersistance {
         ResultSet result;
         List<Integer> teamIdList = new ArrayList<>();
         try {
-            isp = new InvokeStoredProcedure(StoredProcedureUtil.GET_TOP_TEAMS.toString());
+            isp = new InvokeStoredProcedure(StoredProcedureUtil.GET_TOP_TEAMS.getSpString());
             isp.setParameter(1, this.season);
             isp.setParameter(2, divisionName);
             result = isp.executeQueryWithResults();
