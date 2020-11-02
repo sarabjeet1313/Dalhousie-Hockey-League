@@ -1,6 +1,6 @@
 package dal.asd.dpl.InternalStateMachine;
 import dal.asd.dpl.TeamManagement.*;
-import dal.asd.dpl.util.ScheduleConstants;
+import dal.asd.dpl.Util.ScheduleConstants;
 import dal.asd.dpl.Schedule.SeasonCalendar;
 import dal.asd.dpl.UserOutput.IUserOutput;
 import java.text.ParseException;
