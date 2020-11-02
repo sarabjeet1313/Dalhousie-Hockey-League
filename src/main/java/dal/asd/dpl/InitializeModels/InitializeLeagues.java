@@ -100,7 +100,7 @@ public class InitializeLeagues implements IInitializeLeagues {
 
 		leagueName = truncateString(leagueName);
 		league = new League(leagueName, conferenceList, freeAgents, coaches, managerList, gameConfig, leagueDb);
-		boolean check = league.isValidLeagueName(leagueName, leagueDb);
+		boolean check = league.isValidLeagueName(leagueName);
 
 		if (check == Boolean.FALSE) {
 			output.setOutput(InitializeLeaguesUtil.VALID_MSG.toString());

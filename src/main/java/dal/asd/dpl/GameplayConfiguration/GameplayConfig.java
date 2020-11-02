@@ -13,8 +13,9 @@ public class GameplayConfig {
 	public GameplayConfig(IGameplayConfigPersistance configDb) {
 		this.configDb = configDb;
 	}
-	
-	public GameplayConfig(Aging aging, GameResolver gameResolver, Injury injury, Training training, Trading trading, IGameplayConfigPersistance configDb) {
+
+	public GameplayConfig(Aging aging, GameResolver gameResolver, Injury injury, Training training, Trading trading,
+			IGameplayConfigPersistance configDb) {
 		this.aging = aging;
 		this.gameResolver = gameResolver;
 		this.injury = injury;
@@ -22,7 +23,7 @@ public class GameplayConfig {
 		this.trading = trading;
 		this.configDb = configDb;
 	}
-	
+
 	public GameplayConfig(Aging aging, GameResolver gameResolver, Injury injury, Training training, Trading trading) {
 		this.aging = aging;
 		this.gameResolver = gameResolver;
@@ -70,13 +71,13 @@ public class GameplayConfig {
 	public void setTrading(Trading trading) {
 		this.trading = trading;
 	}
-	
+
 	public boolean saveGameplayConfig(League league) {
 		boolean isValid = false;
 		isValid = configDb.persistGameConfig(league.getGameConfig(), league.getLeagueName());
 		return isValid;
 	}
-	
+
 	public GameplayConfig loadGameplayConfig(League league) {
 		GameplayConfig config = configDb.loadGameplayConfigData(league.getLeagueName());
 		return config;

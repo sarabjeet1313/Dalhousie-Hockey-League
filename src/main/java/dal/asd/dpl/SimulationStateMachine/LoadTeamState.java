@@ -3,7 +3,6 @@ package dal.asd.dpl.SimulationStateMachine;
 import java.util.ArrayList;
 import java.util.List;
 
-import dal.asd.dpl.GameplayConfiguration.Aging;
 import dal.asd.dpl.GameplayConfiguration.GameplayConfig;
 import dal.asd.dpl.GameplayConfiguration.IGameplayConfigPersistance;
 import dal.asd.dpl.Standings.IStandingsPersistance;
@@ -13,7 +12,6 @@ import dal.asd.dpl.TeamManagement.ILeaguePersistance;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagement.Manager;
 import dal.asd.dpl.TeamManagement.Player;
-import dal.asd.dpl.Trading.ITrade;
 import dal.asd.dpl.Trading.ITradePersistance;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
@@ -58,8 +56,6 @@ public class LoadTeamState implements IState {
 		List<Coach> coaches = null;
 		List<Manager> managers = new ArrayList<Manager>();
 		GameplayConfig config = new GameplayConfig(configDb);
-		boolean result = false;
-		String finalLeagueName = "";
 		leagueToSimulate = new League("test", conferencesList, freeAgents, coaches, managers, config, leagueDb);
 		leagueToSimulate = leagueToSimulate.loadLeague(teamName);
 		config = config.loadGameplayConfig(leagueToSimulate);

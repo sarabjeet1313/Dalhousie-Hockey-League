@@ -45,13 +45,12 @@ public class PersistState implements ISimulationState {
 
         output.setOutput("Inside persist state");
         output.sendOutput();
-        //TODO persist data to db
-
         if(schedule.getSeasonType() == ScheduleConstants.REGULAR_SEASON && currentDate.equals(schedule.getFirstDay())) {
             standings.initializeStandings();
         }
         else {
             standings.updateStandings();
+            leagueToSimulate.UpdateLeague(leagueToSimulate);
         }
     }
 

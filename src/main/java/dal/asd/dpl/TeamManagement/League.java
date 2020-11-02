@@ -6,9 +6,10 @@ import java.util.List;
 import dal.asd.dpl.GameplayConfiguration.GameplayConfig;
 import dal.asd.dpl.UserOutput.CmdUserOutput;
 import dal.asd.dpl.UserOutput.IUserOutput;
+import dal.asd.dpl.Util.ConstantsUtil;
 import dal.asd.dpl.Util.TeamManagementUtil;
 
-public class League {
+public class League implements ILeagueOperation {
 
 	private String leagueName;
 	private List<Conference> conferenceList;
@@ -35,7 +36,6 @@ public class League {
 		this.leagueDb = leagueDb;
 	}
 	
-
 	public League(String leagueName, List<Conference> conferenceList, List<Player> freeAgents, List<Coach> coaches,
 			List<Manager> managerList, GameplayConfig gameConfig) {
 		this.leagueName = leagueName;
@@ -102,6 +102,22 @@ public class League {
 		this.gameConfig = gameConfig;
 	}
 
+	public boolean isValidLeagueName(String leagueName) {
+		int rowCount = 0;
+		boolean isValid = Boolean.TRUE;
+		try {
+			rowCount = leagueDb.checkLeagueName(leagueName);
+		} catch (Exception e) {
+			output.setOutput(e.getMessage());
+			output.sendOutput();
+		}
+		if (rowCount > 0) {
+			isValid = Boolean.FALSE;
+		}
+		return isValid;
+	}
+	
+	@Override
 	public League loadLeague(String teamName) {
 		League league = null;
 		try {
@@ -113,21 +129,7 @@ public class League {
 		return league;
 	}
 
-	public boolean isValidLeagueName(String leagueName, ILeaguePersistance object) {
-		int rowCount = 0;
-		boolean isValid = Boolean.TRUE;
-		try {
-			rowCount = object.checkLeagueName(leagueName);
-		} catch (Exception e) {
-			output.setOutput(e.getMessage());
-			output.sendOutput();
-		}
-		if (rowCount > 0) {
-			isValid = Boolean.FALSE;
-		}
-		return isValid;
-	}
-
+	@Override
 	public boolean createTeam(League league) {
 		boolean isCreated = Boolean.FALSE;
 		String leagueName = league.getLeagueName();
@@ -175,14 +177,38 @@ public class League {
 			league.getGameConfig().saveGameplayConfig(league);
 			headCoach.saveLeagueCoaches(league);
 			generalManager.saveManagerList(league);
-		} catch (Exception e) {
+		} 
+		catch (Exception e) {
 			output.setOutput(e.getMessage());
 			output.sendOutput();
 		}
 
 		return isCreated;
 	}
+	
+	@Override
+	public List<List<Player>> getAvailableLeaguePlayers(League league) {
+		List<List<Player>> list = new ArrayList<List<Player>>();
+		List<Player> playerList = league.getFreeAgents();
+		List<Player> golieList = new ArrayList<Player>();
+		List<Player> forwordList = new ArrayList<Player>();
+		List<Player> defenceList = new ArrayList<Player>();
+		for (int index = 0; index < playerList.size(); index++) {
+			if (playerList.get(index).getPosition().equals(ConstantsUtil.GOALIE.toString())) {
+				golieList.add(playerList.get(index));
+			} else if (playerList.get(index).getPosition().equals(ConstantsUtil.FORWARD.toString())) {
+				forwordList.add(playerList.get(index));
+			} else {
+				defenceList.add(playerList.get(index));
+			}
+		}
+		list.add(golieList);
+		list.add(forwordList);
+		list.add(defenceList);
+		return list;
+	}
 
+	@Override
 	public League loadLeagueObject(String leagueName, String conferenceName, String divisionName, Team team,
 			League league) {
 		int conferenceIndex = -1;
@@ -237,12 +263,42 @@ public class League {
 			teamList = new ArrayList<Team>();
 			teamList.add(team);
 			Division division = new Division(divisionName, teamList);
-//			divisionList = new ArrayList<Division>();
 			divisionList.add(division);
 			conferenceList.get(conferenceIndex).setDivisionList(divisionList);
 		}
 		
 		league.setConferenceList(conferenceList);
 		return league;
+	}
+	
+	@Override
+	public boolean UpdateLeague(League league) {
+		boolean isUpdated = Boolean.FALSE;
+		String leagueName = league.getLeagueName();
+		String teamName = TeamManagementUtil.EMPTY.toString();
+		List<Conference> conferenceList = league.getConferenceList();
+		List<Team> teamList;
+		List<Division> divisionList;
+		List<Player> playerList = new ArrayList<Player>();
+		try {
+			for (int cIndex = 0; cIndex < conferenceList.size(); cIndex++) {
+				divisionList = conferenceList.get(cIndex).getDivisionList();
+				for (int dIndex = 0; dIndex < divisionList.size(); dIndex++) {
+					teamList = divisionList.get(dIndex).getTeamList();
+					for (int tIndex = 0; tIndex < teamList.size(); tIndex++) {
+						teamName = teamList.get(tIndex).getTeamName();
+						playerList = teamList.get(tIndex).getPlayerList();
+						for (int pIndex = 0; pIndex < playerList.size(); pIndex++) {
+							isUpdated = leagueDb.UpdateLeagueData(leagueName, teamName, playerList.get(pIndex));
+						}
+					}
+				}
+			}
+		} 
+		catch (Exception e) {
+			output.setOutput(e.getMessage());
+			output.sendOutput();
+		}
+		return isUpdated;
 	}
 }

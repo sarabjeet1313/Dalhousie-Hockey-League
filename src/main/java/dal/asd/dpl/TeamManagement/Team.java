@@ -89,27 +89,6 @@ public class Team implements ITeamInfo {
 		return isValid;
 	}
 
-	public List<List<Player>> getAvailablePlayersList(League league) {
-		List<List<Player>> list = new ArrayList<List<Player>>();
-		List<Player> playerList = league.getFreeAgents();
-		List<Player> golieList = new ArrayList<Player>();
-		List<Player> forwordList = new ArrayList<Player>();
-		List<Player> defenceList = new ArrayList<Player>();
-		for (int index = 0; index < playerList.size(); index++) {
-			if (playerList.get(index).getPosition().equals(ConstantsUtil.GOALIE.toString())) {
-				golieList.add(playerList.get(index));
-			} else if (playerList.get(index).getPosition().equals(ConstantsUtil.FORWARD.toString())) {
-				forwordList.add(playerList.get(index));
-			} else {
-				defenceList.add(playerList.get(index));
-			}
-		}
-		list.add(golieList);
-		list.add(forwordList);
-		list.add(defenceList);
-		return list;
-	}
-
 	@Override
 	public List<Player> getPlayersByTeam(String teamName, League league) {
 		List<Conference> conferenceList = league.getConferenceList();

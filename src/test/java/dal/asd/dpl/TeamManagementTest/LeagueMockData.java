@@ -234,9 +234,17 @@ public class LeagueMockData implements ILeaguePersistance {
 				freeplayer.setRetireStatus(true);
 			}
 		}
-
 		league.setFreeAgents(freeAgentsList);
 		return replaceRetiredPlayers(league);
 	}
 
+	@Override
+	public boolean UpdateLeagueData(String leagueName, String teamName, Player player) {
+		boolean isUpdated = Boolean.FALSE;
+		League league = getTestData();
+		if(league.getLeagueName().equals(leagueName)) {
+			isUpdated = Boolean.TRUE;
+		}
+		return isUpdated;
+	}
 }

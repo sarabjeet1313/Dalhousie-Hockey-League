@@ -14,7 +14,8 @@ public enum StoredProcedureUtil {
 	UPDATE_TEAM_LOSS("spUpdateStandingsLose(?, ?, ?)"),
 	INSERT_TO_STANDINGS("spInsertToStandings(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"),
 	GET_TEAM_NAME("spGetTeamName(?)"),
-	GET_TOP_TEAMS("spGetTopSeededTeams(?, ?)");
+	GET_TOP_TEAMS("spGetTopSeededTeams(?, ?)"),
+	UPDATE_LEAGUE("spUpdateLeaguePlayers(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 	
 	private final String spString;
 

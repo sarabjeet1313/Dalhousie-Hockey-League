@@ -1,9 +1,11 @@
 package dal.asd.dpl.SimulationStateMachine;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import dal.asd.dpl.GameplayConfiguration.IGameplayConfigPersistance;
 import dal.asd.dpl.NewsSystem.FreeAgencyPublisher;
 import dal.asd.dpl.NewsSystem.NewsSubscriber;
-import dal.asd.dpl.NewsSystem.TradePublisher;
 import dal.asd.dpl.Standings.IStandingsPersistance;
 import dal.asd.dpl.TeamManagement.Coach;
 import dal.asd.dpl.TeamManagement.Conference;
@@ -18,9 +20,6 @@ import dal.asd.dpl.TeamManagement.Team;
 import dal.asd.dpl.Trading.ITradePersistance;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class CreateTeamState implements IState {
 
@@ -347,7 +346,7 @@ public class CreateTeamState implements IState {
 		output.sendOutput();
 		output.setOutput("Please select 2 Golies");
 		output.sendOutput();
-		list = teams.getAvailablePlayersList(initializedLeague);
+		list = initializedLeague.getAvailableLeaguePlayers(initializedLeague);
 		pList = list.get(0);
 		diaplayGoalieList(pList);
 		indexList.clear();
