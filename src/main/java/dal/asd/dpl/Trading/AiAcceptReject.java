@@ -5,14 +5,16 @@ import dal.asd.dpl.TeamManagement.ITeamInfo;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagement.Player;
 import dal.asd.dpl.UserInput.CmdUserInput;
+import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.CmdUserOutput;
+import dal.asd.dpl.UserOutput.IUserOutput;
 
 public class AiAcceptReject {
 
     public boolean isAcceptOrReject(Trade trade, League league, double randomAcceptanceChance, boolean isUserTeam
                                     , IPlayerInfo iPInfoObject, ITeamInfo iTInfoObject){
-        CmdUserOutput output = new CmdUserOutput();
-        CmdUserInput Input = new CmdUserInput();
+        IUserOutput output = new CmdUserOutput();
+        IUserInput Input = new CmdUserInput();
         double playerOfferedStrength=0;
         double playerRequestedStrength=0;
         double totalTeamStrength=0;
@@ -44,11 +46,11 @@ public class AiAcceptReject {
             }
             output.setOutput("                               ");
             output.sendOutput();
-            output.setOutput("Do you Accept the trade offered? [Y/n]");
+            output.setOutput("Do you Accept the trade offered? [y/n]");
             output.sendOutput();
             Input.setInput();
-
-            return Input.getInput().equals("Y") || Input.getInput().equals("y");
+            String response = Input.getInput();
+            return response.equals("y");
         }
         else if(Math.random()< randomAcceptanceChance){
             return true;

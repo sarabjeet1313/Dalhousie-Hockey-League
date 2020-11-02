@@ -1,8 +1,7 @@
 package dal.asd.dpl.InternalStateMachine;
-
 import dal.asd.dpl.Schedule.ISchedule;
 import dal.asd.dpl.Schedule.SeasonCalendar;
-import dal.asd.dpl.TeamManagement.InjuryManagement;
+import dal.asd.dpl.TeamManagement.IInjuryManagement;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.UserOutput.IUserOutput;
 
@@ -13,14 +12,14 @@ public class InjuryCheckState implements ISimulationState {
     private String stateName;
     private String nextStateName;
     private League leagueToSimulate;
-    private InjuryManagement injury;
+    private IInjuryManagement injury;
     private ISchedule schedule;
     private InternalStateContext context;
     private SeasonCalendar seasonCalendar;
     private String currentDate;
     private IUserOutput output;
 
-    public InjuryCheckState (League leagueToSimulate, InjuryManagement injury, ISchedule schedule, InternalStateContext context, SeasonCalendar seasonCalendar, String currentDate, IUserOutput output) {
+    public InjuryCheckState (League leagueToSimulate, IInjuryManagement injury, ISchedule schedule, InternalStateContext context, SeasonCalendar seasonCalendar, String currentDate, IUserOutput output) {
         this.leagueToSimulate = leagueToSimulate;
         this.injury = injury;
         this.schedule = schedule;

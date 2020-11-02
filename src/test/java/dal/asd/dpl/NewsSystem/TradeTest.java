@@ -25,7 +25,7 @@ public class TradeTest {
     @Test
     public void outputJsonTest() {
         TradePublisher.getInstance().notify("Montreal Canadiens", "Winnipeg Jets", new String[][]{{"Mario Lemieux", "Patrick Roy"}, {"Wayne Gretzky"}});
-        //assertEquals(OutputConstants.TRADES, console.toString().trim());
+        assertEquals(OutputConstants.TRADES, console.toString().trim());
     }
 
 }

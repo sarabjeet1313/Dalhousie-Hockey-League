@@ -57,6 +57,7 @@ public class LeagueDataDB implements ILeaguePersistance {
 
 			boolean flag = Boolean.FALSE;
 			while (result.next()) {
+				boolean isUserTeam = Boolean.FALSE;
 				Player player = new Player(result.getString(PlayerUtil.PLAYER_NAME.toString()),
 						result.getString(PlayerUtil.PLAYER_POSITION.toString()),
 						result.getBoolean(PlayerUtil.PLAYER_CAPTAIN.toString()),
@@ -77,10 +78,10 @@ public class LeagueDataDB implements ILeaguePersistance {
 					}
 					if (flag == Boolean.FALSE) {
 						headCoach = new Coach(result.getString(CoachUtil.COACH_NAME.toString()),
-								result.getInt(CoachUtil.COACH_SKATING.toString()),
-								result.getInt(CoachUtil.COACH_SHOOTING.toString()),
-								result.getInt(CoachUtil.COACH_CHECKING.toString()),
-								result.getInt(CoachUtil.COACH_SAVING.toString()));
+								result.getDouble(CoachUtil.COACH_SKATING.toString()),
+								result.getDouble(CoachUtil.COACH_SHOOTING.toString()),
+								result.getDouble(CoachUtil.COACH_CHECKING.toString()),
+								result.getDouble(CoachUtil.COACH_SAVING.toString()));
 						manager = new Manager(result.getString(ManagerUtil.GENERAL_MANAGER_NAME.toString()));
 						flag = loadCommonLeagueData(result.getString(LeagueUtil.LEAGUE_NAME.toString()),
 								result.getString(ConferenceUtil.CONFERENCE_NAME.toString()),
@@ -91,7 +92,10 @@ public class LeagueDataDB implements ILeaguePersistance {
 					if (tempResult.equals(rteamName) && flag == true) {
 						playerList.add(player);
 					} else {
-						Team team = new Team(rteamName, manager, headCoach, playerList, Boolean.FALSE);
+						if(rteamName.equals(teamName)) {
+							isUserTeam = Boolean.TRUE;
+						}
+						Team team = new Team(rteamName, manager, headCoach, playerList, isUserTeam);
 						league = league.loadLeagueObject(leagueName, conferenceName, divisionName, team, league);
 						manager = new Manager(result.getString(ManagerUtil.GENERAL_MANAGER_NAME.toString()));
 						flag = loadCommonLeagueData(result.getString(LeagueUtil.LEAGUE_NAME.toString()),
@@ -99,10 +103,10 @@ public class LeagueDataDB implements ILeaguePersistance {
 								result.getString(DivisionUtil.DIVISION_NAME.toString()),
 								result.getString(TeamUtil.TEAM_NAME.toString()));
 						headCoach = new Coach(result.getString(CoachUtil.COACH_NAME.toString()),
-								result.getInt(CoachUtil.COACH_SKATING.toString()),
-								result.getInt(CoachUtil.COACH_SHOOTING.toString()),
-								result.getInt(CoachUtil.COACH_CHECKING.toString()),
-								result.getInt(CoachUtil.COACH_SAVING.toString()));
+								result.getDouble(CoachUtil.COACH_SKATING.toString()),
+								result.getDouble(CoachUtil.COACH_SHOOTING.toString()),
+								result.getDouble(CoachUtil.COACH_CHECKING.toString()),
+								result.getDouble(CoachUtil.COACH_SAVING.toString()));
 						playerList.clear();
 						playerList.add(player);
 					}

@@ -1,9 +1,7 @@
 package dal.asd.dpl.InternalStateMachine;
+import dal.asd.dpl.TeamManagement.*;
 import dal.asd.dpl.Util.ScheduleConstants;
 import dal.asd.dpl.Schedule.SeasonCalendar;
-import dal.asd.dpl.TeamManagement.InjuryManagement;
-import dal.asd.dpl.TeamManagement.League;
-import dal.asd.dpl.TeamManagement.RetirementManagement;
 import dal.asd.dpl.UserOutput.IUserOutput;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,14 +12,14 @@ public class AdvanceToNextSeasonState implements ISimulationState {
     private String stateName;
     private String nextStateName;
     private League leagueToSimulate;
-    private InjuryManagement injury;
-    private RetirementManagement retirement;
+    private IInjuryManagement injury;
+    private IRetirementManagement retirement;
     private InternalStateContext context;
     private SeasonCalendar seasonCalendar;
     private String currentDate;
     private IUserOutput output;
 
-    public AdvanceToNextSeasonState (League leagueToSimulate, InjuryManagement injury, RetirementManagement retirement, InternalStateContext context, SeasonCalendar seasonCalendar, String currentDate, IUserOutput output) {
+    public AdvanceToNextSeasonState (League leagueToSimulate, IInjuryManagement injury, IRetirementManagement retirement, InternalStateContext context, SeasonCalendar seasonCalendar, String currentDate, IUserOutput output) {
         this.stateName = StateConstants.NEXT_SEASON_STATE;
         this.leagueToSimulate = leagueToSimulate;
         this.injury = injury;
