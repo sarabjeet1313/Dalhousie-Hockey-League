@@ -2,7 +2,7 @@ package dal.asd.dpl.InternalStateMachine;
 import dal.asd.dpl.NewsSystem.GamePlayedPublisher;
 import dal.asd.dpl.NewsSystem.NewsSubscriber;
 import dal.asd.dpl.Schedule.ISchedule;
-import dal.asd.dpl.util.ScheduleConstants;
+import dal.asd.dpl.Util.ScheduleConstants;
 import dal.asd.dpl.Schedule.SeasonCalendar;
 import dal.asd.dpl.Standings.StandingInfo;
 import dal.asd.dpl.TeamManagement.ITeamInfo;
