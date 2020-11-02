@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>dal.asd</groupId>
+	<groupId>dpl</groupId>
 	<artifactId>dpl</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
@@ -63,7 +63,7 @@
 								<manifest>
 									<addClasspath>true</addClasspath>
 									<mainClass>
-										dal.asd.dpl.App
+										dpl.App
 									</mainClass>
 								</manifest>
 							</archive>
