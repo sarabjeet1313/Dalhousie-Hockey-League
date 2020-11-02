@@ -12,4 +12,7 @@ public interface ITeamInfo {
 	
 	public List<Player> getPlayersByTeam(String teamName, League league);
 
+	public List<String> getAllTeamName(League league);
+
+	public String getUserTeamName(League league);
 }

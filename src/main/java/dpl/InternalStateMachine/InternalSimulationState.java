@@ -9,6 +9,7 @@ import dpl.Standings.StandingInfo;
 import dpl.TeamManagement.*;
 import dpl.Trading.ITradePersistence;
 import dpl.Trading.Trade;
+import dpl.Trading.TradeReset;
 import dpl.UserInput.IUserInput;
 import dpl.UserOutput.IUserOutput;
 
@@ -42,6 +43,8 @@ public class InternalSimulationState implements ISimulationState {
 	private AdvanceToNextSeasonState advanceToNextSeason;
 	private PersistState persistState;
 	private ITradePersistence tradeDb;
+	private TradeReset tradeReset;
+
 
 	public InternalSimulationState(IUserInput input, IUserOutput output, int seasons, String teamName,
 			League leagueToSimulate, InternalStateContext context, ITradePersistence tradeDb,
@@ -50,6 +53,7 @@ public class InternalSimulationState implements ISimulationState {
 		this.injury = new InjuryManagement();
 		this.retirement = new RetirementManagement();
 		this.trade = new Trade(tradeDb);
+		this.tradeReset = new TradeReset(tradeDb);
 		this.input = input;
 		this.output = output;
 		this.totalSeasons = seasons;
@@ -135,7 +139,7 @@ public class InternalSimulationState implements ISimulationState {
 					advanceToNextSeason.doProcessing();
 					seasonPending = false;
 				}
-				persistState = new PersistState(leagueToSimulate, schedule, standings, context, utility, currentDate,
+				persistState = new PersistState(leagueToSimulate, schedule, standings, tradeReset, context, utility, currentDate,
 						output);
 				persistState.doProcessing();
 

@@ -78,6 +78,13 @@ public class TradeObjectTestMockData implements ITradePersistence {
         return league;
     }
 
+    public List<String> getAllTeamNames(){
+        List<String> teamNames = new ArrayList<>();
+        teamNames.add("Boston");
+        teamNames.add("Halifax");
+        return teamNames;
+    }
+
     public League getLeagueDataAfterTrade() {
         playerList.clear();
         playerList.add(player4);
@@ -120,29 +127,7 @@ public class TradeObjectTestMockData implements ITradePersistence {
     }
 
     @Override
-    public int getLossPoint() {
-        return 2;
+    public boolean resetTradeLossPoint(String teamName) {
+        return Boolean.FALSE;
     }
-
-    @Override
-    public int getMaxPlayersPerTrade() {
-        return 2;
-    }
-
-    @Override
-    public double getRandomTradeOfferChance() {
-        return 1;
-    }
-
-    @Override
-    public double getRandomTradeAcceptChance() {
-        return 1.5;
-    }
-
-    @Override
-    public String getUserteamName() {
-        return "H";
-    }
-
-
 }
