@@ -1,4 +1,5 @@
 package dpl.InternalStateMachine;
+
 import dpl.DplConstants.StateConstants;
 import dpl.Schedule.ISchedule;
 import dpl.Schedule.SeasonCalendar;
@@ -21,7 +22,7 @@ public class PersistState implements ISimulationState {
     private String lastDate;
     private IUserOutput output;
 
-    public PersistState (League leagueToSimulate, ISchedule schedule, StandingInfo standings, TradeReset tradeReset, InternalStateContext context, SeasonCalendar utility, String currentDate, IUserOutput output) {
+    public PersistState(League leagueToSimulate, ISchedule schedule, StandingInfo standings, TradeReset tradeReset, InternalStateContext context, SeasonCalendar utility, String currentDate, IUserOutput output) {
         this.stateName = StateConstants.PERSIST_STATE;
         this.leagueToSimulate = leagueToSimulate;
         this.schedule = schedule;
@@ -35,11 +36,10 @@ public class PersistState implements ISimulationState {
     }
 
     public void nextState(InternalStateContext context) {
-        if(utility.getSeasonOverStatus()) {
+        if (utility.getSeasonOverStatus()) {
             this.nextStateName = StateConstants.GENERATE_REGULAR_SEASON_SCHEDULE_STATE;
             return;
-        }
-        else {
+        } else {
             this.nextStateName = StateConstants.ADVANCE_TIME_STATE;
         }
     }
@@ -49,7 +49,7 @@ public class PersistState implements ISimulationState {
         output.sendOutput();
         standings.updateStandings();
         leagueToSimulate.UpdateLeague(leagueToSimulate);
-        if(tradeReset instanceof TradeReset){
+        if (tradeReset instanceof TradeReset) {
             tradeReset.UpdateTrade();
         }
     }

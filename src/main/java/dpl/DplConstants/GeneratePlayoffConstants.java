@@ -8,12 +8,11 @@ public enum GeneratePlayoffConstants {
 
 	private final String playoffString;
 
-	private GeneratePlayoffConstants(String playoffString) {
+	GeneratePlayoffConstants(String playoffString) {
 		this.playoffString = playoffString;
 	}
 
 	public String toString() {
 		return playoffString	;
 	}
-
 }

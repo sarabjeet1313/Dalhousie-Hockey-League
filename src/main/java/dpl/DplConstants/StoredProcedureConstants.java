@@ -27,7 +27,7 @@ public enum StoredProcedureConstants {
 	
 	private final String spString;
 
-	private StoredProcedureConstants(String spString) {
+	StoredProcedureConstants(String spString) {
 		this.spString = spString;
 	}
 

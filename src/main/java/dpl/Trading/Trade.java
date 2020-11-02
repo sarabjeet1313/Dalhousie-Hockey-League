@@ -187,9 +187,7 @@ public class Trade implements ITrade {
         for (int j = 0; j < allTeamNameList.size(); j++) {
             isSame = sameTeam(t.getTradeOfferTeam(), allTeamNameList.get(j));
             if (isSame == Boolean.FALSE) {
-                // Here
                 t.setTradeRequestedTeam(allTeamNameList.get(j));
-
                 currentTeamPlayers = getPlayersOfSpecificType(requiredPlayerType, iTPInfoObject.getPlayersByTeam(t.getTradeRequestedTeam(), league));
 
                 for (int i = 0; i < currentTeamPlayers.size(); i++) {
@@ -250,7 +248,7 @@ public class Trade implements ITrade {
         double randOfferChance = leagueObject.getGameConfig().getTrading().getRandomTradeOfferChance();
         double randAcceptChance = leagueObject.getGameConfig().getTrading().getRandomAcceptanceChance();
 
-        String [][] playersTraded ;
+        String[][] playersTraded;
         List<String> allTeamNameList;
         ITeamInfo iTeamInfo = new Team();
         IPlayerInfo iPlayerInfo = new Player();
@@ -270,66 +268,57 @@ public class Trade implements ITrade {
 
         for (int i = 0; i < eligibleTeamNameList.size(); i++) {
             if (checkRandOfferChance(randOfferChance)) {
-                // reset tradeLoss point for eli[i]
                 tradeReset.addToTeamNames(eligibleTeamNameList.get(i));
                 trade.setTradeOfferTeam(eligibleTeamNameList.get(i));
                 trade.setPlayerListOfferTeam(getWeakestPlayers(maxPlayersPerTrade, eligibleTeamNameList.get(i), leagueObject, iTeamInfo, iPlayerInfo));
-                trade.setPlayerListRequestedTeam(getStrongestPlayers(trade,allTeamNameList,leagueObject,iTeamInfo,iPlayerInfo));
+                trade.setPlayerListRequestedTeam(getStrongestPlayers(trade, allTeamNameList, leagueObject, iTeamInfo, iPlayerInfo));
 
-                // based on team name get is User team in Teams
-                //trade.getTradeRequestedTeam();
                 List<Player> tempPlayerListRequested = new ArrayList<Player>();
                 List<Player> tempPlayerListOffer = new ArrayList<Player>();
                 tempPlayerListRequested = trade.getPlayerListRequestedTeam();
                 tempPlayerListOffer = trade.getPlayerListOfferTeam();
 
-                if(userTeamName.equals(trade.getTradeRequestedTeam())){
+                if (userTeamName.equals(trade.getTradeRequestedTeam())) {
                     isUserTeam = true;
                 }
 
-                if(aiAcceptReject.isAcceptOrReject(trade,leagueObject, randAcceptChance, isUserTeam, iPlayerInfo,iTeamInfo)){
+                if (aiAcceptReject.isAcceptOrReject(trade, leagueObject, randAcceptChance, isUserTeam, iPlayerInfo, iTeamInfo)) {
 
-                    for(int cLIndex = 0; cLIndex < conferenceL.size(); cLIndex++){
+                    for (int cLIndex = 0; cLIndex < conferenceL.size(); cLIndex++) {
                         divisionL = conferenceL.get(cLIndex).getDivisionList();
 
-                        for (int dLIndex = 0; dLIndex < divisionL.size(); dLIndex++){
+                        for (int dLIndex = 0; dLIndex < divisionL.size(); dLIndex++) {
                             teamL = divisionL.get(dLIndex).getTeamList();
 
-                            for (int tLIndex = 0; tLIndex < teamL.size(); tLIndex++){
-                                playerL = teamL.get(tLIndex).getPlayersByTeam(teamL.get(tLIndex).getTeamName(),leagueObject);
+                            for (int tLIndex = 0; tLIndex < teamL.size(); tLIndex++) {
+                                playerL = teamL.get(tLIndex).getPlayersByTeam(teamL.get(tLIndex).getTeamName(), leagueObject);
 
-                                if(sameTeam(teamL.get(tLIndex).getTeamName(),trade.getTradeOfferTeam())){
-                                    // remove offered player from team offering them
-                                    if(playerL.containsAll(tempPlayerListOffer)){
+                                if (sameTeam(teamL.get(tLIndex).getTeamName(), trade.getTradeOfferTeam())) {
+                                    if (playerL.containsAll(tempPlayerListOffer)) {
                                         playerL.removeAll(tempPlayerListOffer);
                                     }
-                                    // add new requested players
 
                                     for (Player pRequested : tempPlayerListRequested) {
                                         playerL.add(pRequested);
                                     }
                                     teamL.get(tLIndex).setPlayerList(playerL);
                                 }
-                                if(sameTeam(teamL.get(tLIndex).getTeamName(), trade.getTradeRequestedTeam())){
+                                if (sameTeam(teamL.get(tLIndex).getTeamName(), trade.getTradeRequestedTeam())) {
 
-                                    // remove offered player from team offering them
                                     if (playerL.containsAll(tempPlayerListRequested)) {
                                         playerL.removeAll(tempPlayerListRequested);
                                     }
-                                    // add new requested players
                                     for (Player pOffer : trade.getPlayerListOfferTeam()) {
                                         playerL.add(pOffer);
                                     }
                                     teamL.get(tLIndex).setPlayerList(playerL);
                                 }
-
                             }
                             divisionL.get(dLIndex).setTeamList(teamL);
                         }
                         conferenceL.get(cLIndex).setDivisionList(divisionL);
                     }
-                    // call notify
-                    if(trade.getPlayerListOfferTeam().size()>1 && trade.getPlayerListRequestedTeam().size()>1 ){
+                    if (trade.getPlayerListOfferTeam().size() > 1 && trade.getPlayerListRequestedTeam().size() > 1) {
                         playersTraded = prepareToNotify(trade);
                         TradePublisher.getInstance().notify(trade.getTradeOfferTeam(), trade.getTradeRequestedTeam(), playersTraded);
                         leagueObject.setConferenceList(conferenceL);

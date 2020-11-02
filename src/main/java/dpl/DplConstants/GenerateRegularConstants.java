@@ -8,7 +8,7 @@ public enum GenerateRegularConstants {
 
 	private final String regularString;
 
-	private GenerateRegularConstants(String regularString) {
+	GenerateRegularConstants(String regularString) {
 		this.regularString = regularString;
 	}
 

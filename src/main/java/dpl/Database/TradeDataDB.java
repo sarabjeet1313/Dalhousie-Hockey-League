@@ -8,7 +8,6 @@ import java.util.List;
 import dpl.Trading.ITradePersistence;
 
 public class TradeDataDB implements ITradePersistence {
-
     InvokeStoredProcedure isp = null;
 
     @Override
@@ -34,7 +33,6 @@ public class TradeDataDB implements ITradePersistence {
         }
         return eligibleTeamName;
     }
-
 
     @Override
     public boolean resetTradeLossPoint(String teamName) {

@@ -1,4 +1,5 @@
 package dpl.Schedule;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -19,7 +20,7 @@ public class SeasonCalendar {
     private SimpleDateFormat dateFormat;
     private IUserOutput output;
 
-    public SeasonCalendar(int season, IUserOutput output){
+    public SeasonCalendar(int season, IUserOutput output) {
         this.currentSeason = season;
         this.output = output;
         this.dateFormat = new SimpleDateFormat(ScheduleConstants.DATE_FORMAT);
@@ -27,7 +28,7 @@ public class SeasonCalendar {
         setYears();
     }
 
-    private void setYears(){
+    private void setYears() {
         int startYear = this.seasonCalendar.get(Calendar.YEAR);
         startYear += this.currentSeason;
         this.regularSeasonYear = startYear;
@@ -108,7 +109,7 @@ public class SeasonCalendar {
         seasonCalendar.set(Calendar.DAY_OF_WEEK_IN_MONTH, 4);
         seasonCalendar.set(Calendar.MONTH, Calendar.FEBRUARY);
         seasonCalendar.set(Calendar.YEAR, playoffYear);
-        String tradeDeadline =  dateFormat.format(seasonCalendar.getTime());
+        String tradeDeadline = dateFormat.format(seasonCalendar.getTime());
         try {
             Date start = dateFormat.parse(currentDate);
             Date end = dateFormat.parse(tradeDeadline);

@@ -7,7 +7,7 @@ public enum TeamManagementConstants {
 	
 	private final String constantString;
 
-	private TeamManagementConstants(String constantString) {
+	TeamManagementConstants(String constantString) {
 		this.constantString = constantString;
 	}
 

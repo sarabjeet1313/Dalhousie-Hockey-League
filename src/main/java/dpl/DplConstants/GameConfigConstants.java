@@ -1,7 +1,7 @@
 package dpl.DplConstants;
 
 public enum GameConfigConstants {
-	
+
 	AVG_RETIREMENT_AGE("avgRetirementAge"),
 	MAX_RETIREMENT_AGE("maxRetirementAge"),
 	RANDOM_WIN_CHANCE("randomWinChance"),
@@ -31,11 +31,12 @@ public enum GameConfigConstants {
 	INVALID_RANDOM_WIN_CHANCE("Invalid random Win Chance value"),
 	TRADING("trading"),
 	TRAINING("training"),
-	INVALID_DAYS("Invalid number of days value");
+	INVALID_DAYS("Invalid number of days value"),
+	TRAINING_STATS("Stats Updated for : ");
 	
 	private final String comfigString;
 
-	private GameConfigConstants(String comfigString) {
+	GameConfigConstants(String comfigString) {
 		this.comfigString = comfigString;
 	}
 

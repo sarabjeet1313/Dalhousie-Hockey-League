@@ -3,7 +3,6 @@ package dpl.InitializeModels;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-
 import dpl.DplConstants.CoachConstants;
 import dpl.DplConstants.ConferenceConstants;
 import dpl.DplConstants.GeneralConstants;

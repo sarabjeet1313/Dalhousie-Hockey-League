@@ -9,7 +9,6 @@ import dpl.UserOutput.CmdUserOutput;
 import dpl.UserOutput.IUserOutput;
 
 public class InvokeStoredProcedure {
-
     private Connection connection;
     private DatabaseConnection db = DatabaseConnection.getSingleInstance();
     private String procedureName;
@@ -71,5 +70,4 @@ public class InvokeStoredProcedure {
             throw e;
         }
     }
-
 }

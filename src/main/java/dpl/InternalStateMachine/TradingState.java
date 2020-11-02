@@ -1,4 +1,5 @@
 package dpl.InternalStateMachine;
+
 import dpl.DplConstants.StateConstants;
 import dpl.Schedule.ISchedule;
 import dpl.Schedule.SeasonCalendar;
@@ -15,7 +16,7 @@ public class TradingState implements ISimulationState {
     private Trade trade;
     private IUserOutput output;
 
-    public TradingState (League leagueToSimulate, Trade trade, InternalStateContext context, IUserOutput output) {
+    public TradingState(League leagueToSimulate, Trade trade, InternalStateContext context, IUserOutput output) {
         this.stateName = StateConstants.TRADING_STATE;
         this.leagueToSimulate = leagueToSimulate;
         this.trade = trade;

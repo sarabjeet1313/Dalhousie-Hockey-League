@@ -12,26 +12,26 @@ import dpl.UserOutput.CmdUserOutput;
 import dpl.UserOutput.IUserOutput;
 
 public class SerializeLeague implements ISerialize {
-	
-	IUserOutput output = new CmdUserOutput();
 
-	@Override
-	public boolean serializeLeagueModel(League league) {
-		boolean isSerialized = Boolean.FALSE;
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		try {
-			URL url = getClass().getClassLoader().getResource(TeamManagementConstants.TEST_JSON.toString());
-			Writer fileWriter = new FileWriter(url.getFile());
-			gson.toJson(league, fileWriter);
-			fileWriter.close();
-			isSerialized = Boolean.TRUE;
-		} catch (Exception e) {
-			output.setOutput(e.getMessage());
-			output.sendOutput();
-			isSerialized = Boolean.FALSE;
-		}
-		return isSerialized;
-	}
+    IUserOutput output = new CmdUserOutput();
+
+    @Override
+    public boolean serializeLeagueModel(League league) {
+        boolean isSerialized = Boolean.FALSE;
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        try {
+            URL url = getClass().getClassLoader().getResource(TeamManagementConstants.TEST_JSON.toString());
+            Writer fileWriter = new FileWriter(url.getFile());
+            gson.toJson(league, fileWriter);
+            fileWriter.close();
+            isSerialized = Boolean.TRUE;
+        } catch (Exception e) {
+            output.setOutput(e.getMessage());
+            output.sendOutput();
+            isSerialized = Boolean.FALSE;
+        }
+        return isSerialized;
+    }
 
 //	@Override
 //	public League deSerializeLeagueModel(String filename) {

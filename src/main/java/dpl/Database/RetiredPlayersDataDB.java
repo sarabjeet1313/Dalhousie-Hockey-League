@@ -12,7 +12,6 @@ import dpl.UserOutput.CmdUserOutput;
 import dpl.UserOutput.IUserOutput;
 
 public class RetiredPlayersDataDB implements IRetiredPlayerPersistance {
-
     InvokeStoredProcedure invoke = null;
     IUserOutput output = new CmdUserOutput();
 

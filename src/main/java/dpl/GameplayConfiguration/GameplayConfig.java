@@ -1,5 +1,4 @@
 package dpl.GameplayConfiguration;
-
 import dpl.TeamManagement.League;
 
 public class GameplayConfig {
@@ -73,7 +72,7 @@ public class GameplayConfig {
     }
 
     public boolean saveGameplayConfig(League league) {
-        boolean isValid = false;
+        boolean isValid = Boolean.FALSE;
         isValid = configDb.persistGameConfig(league.getGameConfig(), league.getLeagueName());
         return isValid;
     }

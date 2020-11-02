@@ -7,9 +7,6 @@ public class TradeReset {
     private ITradePersistence tradeDB;
     private List<String> teamNames = new ArrayList<>();
 
-    public TradeReset(){
-
-    }
     public TradeReset(ITradePersistence tradeDB){
         this.tradeDB = tradeDB;
     }

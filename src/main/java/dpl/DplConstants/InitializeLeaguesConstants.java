@@ -10,12 +10,11 @@ public enum InitializeLeaguesConstants {
 	
 	private final String constantString;
 
-	private InitializeLeaguesConstants(String constantString) {
+	InitializeLeaguesConstants(String constantString) {
 		this.constantString = constantString;
 	}
 
 	public String toString() {
 		return constantString;
 	}
-
 }

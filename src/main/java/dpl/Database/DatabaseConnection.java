@@ -9,10 +9,8 @@ import java.util.Properties;
 import dpl.DplConstants.GeneralConstants;
 
 public class DatabaseConnection implements IDatabaseConnection {
-
     Connection connect = null;
     private Properties properties;
-
     private static DatabaseConnection databaseConnection = null;
 
     private DatabaseConnection() {

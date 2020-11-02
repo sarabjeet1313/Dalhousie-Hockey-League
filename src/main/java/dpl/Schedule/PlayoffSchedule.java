@@ -1,4 +1,5 @@
 package dpl.Schedule;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -24,12 +25,12 @@ public class PlayoffSchedule implements ISchedule {
     private int maxMatches = ScheduleConstants.PLAYOFF_MAX_MATCHES;
     private int matchesPerDay;
     private Map<String, List<String>> conferenceTeamList;
-    private Map< String, List<Map<String, String>>> finalSchedule;
+    private Map<String, List<Map<String, String>>> finalSchedule;
     private List<String> teamsToBeScheduled;
     private List<String> teamsScheduled;
     private IStandingsPersistance standingsDb;
 
-    public PlayoffSchedule(IUserOutput output, IStandingsPersistance standings, int season){
+    public PlayoffSchedule(IUserOutput output, IStandingsPersistance standings, int season) {
         this.calendar = Calendar.getInstance();
         this.output = output;
         this.standingsDb = standings;
@@ -41,7 +42,7 @@ public class PlayoffSchedule implements ISchedule {
 
     }
 
-    public int getSeasonType(){
+    public int getSeasonType() {
         return this.seasonType;
     }
 
@@ -49,11 +50,11 @@ public class PlayoffSchedule implements ISchedule {
         this.seasonType = seasonType;
     }
 
-    public String getFirstDay(){
+    public String getFirstDay() {
         return this.firstDay;
     }
 
-    public void setFirstDay(String firstDay){
+    public void setFirstDay(String firstDay) {
         this.firstDay = firstDay;
     }
 
@@ -65,11 +66,11 @@ public class PlayoffSchedule implements ISchedule {
         this.lastDay = lastDay;
     }
 
-    public String getCurrentDay(){
+    public String getCurrentDay() {
         return currentDay;
     }
 
-    public void setCurrentDay(String currentDay){
+    public void setCurrentDay(String currentDay) {
         this.currentDay = currentDay;
     }
 
@@ -89,7 +90,7 @@ public class PlayoffSchedule implements ISchedule {
         return this.teamsScheduled;
     }
 
-    public void generateSchedule(League leagueToSimulate){
+    public void generateSchedule(League leagueToSimulate) {
         setMatchesPerDay();
         populateInternalModel(leagueToSimulate);
         for (Map.Entry<String, List<String>> entry : conferenceTeamList.entrySet()) {
@@ -98,13 +99,13 @@ public class PlayoffSchedule implements ISchedule {
         }
     }
 
-    private void populateInternalModel(League leagueToSimulate){
-        if(leagueToSimulate == null) {
+    private void populateInternalModel(League leagueToSimulate) {
+        if (leagueToSimulate == null) {
             return;
         }
-        List<Conference> conferenceList =  leagueToSimulate.getConferenceList();
+        List<Conference> conferenceList = leagueToSimulate.getConferenceList();
 
-        for(int index = 0; index < conferenceList.size(); index++) {
+        for (int index = 0; index < conferenceList.size(); index++) {
             List<Division> divisionList = conferenceList.get(index).getDivisionList();
             String conferenceName = conferenceList.get(index).getConferenceName();
             List<String> divisions = new ArrayList<String>();
@@ -122,12 +123,11 @@ public class PlayoffSchedule implements ISchedule {
 //                    teams.add(teamName);
 //                }
 
-                if(conferenceTeamList.containsKey(conferenceName)) {
+                if (conferenceTeamList.containsKey(conferenceName)) {
                     List<String> alreadyAddedTeams = conferenceTeamList.get(conferenceName);
                     alreadyAddedTeams.addAll(teams);
                     conferenceTeamList.put(conferenceName, alreadyAddedTeams);
-                }
-                else {
+                } else {
                     conferenceTeamList.put(conferenceName, teams);
                 }
 
@@ -138,21 +138,21 @@ public class PlayoffSchedule implements ISchedule {
 
     public void generateScheduleOnTheFly(List<String> teamsToCompete, String currentDay) {
         this.currentDay = currentDay;
-         incrementCurrentDay();
+        incrementCurrentDay();
 
-         int totalTeams = teamsToCompete.size();
-         for(int i=0; i < totalTeams/2 ; i++) {
-             Map<String, String> teamsCompeting = new HashMap<String, String>();
-             teamsCompeting.put(teamsToCompete.get(i), teamsToCompete.get(totalTeams-1-i));
-             List<Map<String, String>> matchList = new ArrayList<>();
-             matchList.add(teamsCompeting);
-             this.finalSchedule.put(this.currentDay, matchList);
+        int totalTeams = teamsToCompete.size();
+        for (int i = 0; i < totalTeams / 2; i++) {
+            Map<String, String> teamsCompeting = new HashMap<String, String>();
+            teamsCompeting.put(teamsToCompete.get(i), teamsToCompete.get(totalTeams - 1 - i));
+            List<Map<String, String>> matchList = new ArrayList<>();
+            matchList.add(teamsCompeting);
+            this.finalSchedule.put(this.currentDay, matchList);
 
-             incrementCurrentDay();
-         }
+            incrementCurrentDay();
+        }
     }
 
-    private void setMatchesPerDay(){
+    private void setMatchesPerDay() {
         SimpleDateFormat myFormat = new SimpleDateFormat(ScheduleConstants.DATE_FORMAT);
 
         try {
@@ -161,11 +161,10 @@ public class PlayoffSchedule implements ISchedule {
             long diff = date2.getTime() - date1.getTime();
             int totalDays = (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
 
-            int matchCount = (this.maxMatches)/totalDays;
-            if(matchCount < 1){
+            int matchCount = (this.maxMatches) / totalDays;
+            if (matchCount < 1) {
                 matchesPerDay = 1;
-            }
-            else {
+            } else {
                 matchesPerDay = matchCount + 1;
             }
 
@@ -174,11 +173,10 @@ public class PlayoffSchedule implements ISchedule {
         }
     }
 
-    public boolean incrementCurrentDay(){
-        if(currentDay.equals(lastDay)) {
+    public boolean incrementCurrentDay() {
+        if (currentDay.equals(lastDay)) {
             return false;
-        }
-        else {
+        } else {
             SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
             try {
                 calendar.setTime(dateFormat.parse(currentDay));
@@ -192,16 +190,16 @@ public class PlayoffSchedule implements ISchedule {
         }
     }
 
-    public Map< String, List<Map<String, String>>> getFinalSchedule(){
+    public Map<String, List<Map<String, String>>> getFinalSchedule() {
         return this.finalSchedule;
     }
 
-    public void setFinalSchedule(Map< String, List<Map<String, String>>> schedule) {
+    public void setFinalSchedule(Map<String, List<Map<String, String>>> schedule) {
         this.finalSchedule = schedule;
     }
 
     public boolean anyUnplayedGame(String date) {
-        if(finalSchedule.containsKey(date)) {
+        if (finalSchedule.containsKey(date)) {
             if (finalSchedule.get(date).size() > 0) {
                 return true;
             } else {

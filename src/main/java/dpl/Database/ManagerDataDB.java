@@ -10,7 +10,6 @@ import dpl.UserOutput.CmdUserOutput;
 import dpl.UserOutput.IUserOutput;
 
 public class ManagerDataDB implements IManagerPersistance {
-
     InvokeStoredProcedure invoke = null;
     IUserOutput output = new CmdUserOutput();
 

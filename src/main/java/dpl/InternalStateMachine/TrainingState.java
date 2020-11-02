@@ -1,4 +1,5 @@
 package dpl.InternalStateMachine;
+
 import dpl.DplConstants.StateConstants;
 import dpl.GameplayConfiguration.Training;
 import dpl.Schedule.ISchedule;
@@ -18,7 +19,7 @@ public class TrainingState implements ISimulationState {
     private SeasonCalendar utility;
     private Training training;
 
-    public TrainingState (League leagueToSimulate, Training training, ISchedule schedule, SeasonCalendar utility, String currentDate, IUserOutput output, InternalStateContext context) {
+    public TrainingState(League leagueToSimulate, Training training, ISchedule schedule, SeasonCalendar utility, String currentDate, IUserOutput output, InternalStateContext context) {
         this.leagueToSimulate = leagueToSimulate;
         this.output = output;
         this.context = context;
@@ -30,14 +31,12 @@ public class TrainingState implements ISimulationState {
     }
 
     public void nextState(InternalStateContext context) {
-        if(schedule.anyUnplayedGame(currentDate)) {
+        if (schedule.anyUnplayedGame(currentDate)) {
             this.nextStateName = StateConstants.SIMULATE_GAME_STATE;
-        }
-        else {
+        } else {
             if (utility.isTradeDeadlinePending(this.currentDate)) {
                 this.nextStateName = StateConstants.TRADING_STATE;
-            }
-            else {
+            } else {
                 this.nextStateName = StateConstants.AGING_STATE;
             }
         }

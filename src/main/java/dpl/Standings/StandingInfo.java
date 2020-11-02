@@ -27,22 +27,20 @@ public class StandingInfo {
         this.season = season;
     }
 
-    public void updateTeamWinMap(String teamName){
-        if(teamWinMap.containsKey(teamName)){
+    public void updateTeamWinMap(String teamName) {
+        if (teamWinMap.containsKey(teamName)) {
             int wins = teamWinMap.get(teamName);
-            teamWinMap.put(teamName, wins+1);
-        }
-        else {
+            teamWinMap.put(teamName, wins + 1);
+        } else {
             teamWinMap.put(teamName, 1);
         }
     }
 
-    public void updateTeamLoseMap(String teamName){
-        if(teamLoseMap.containsKey(teamName)){
+    public void updateTeamLoseMap(String teamName) {
+        if (teamLoseMap.containsKey(teamName)) {
             int loses = teamLoseMap.get(teamName);
-            teamLoseMap.put(teamName, loses+1);
-        }
-        else {
+            teamLoseMap.put(teamName, loses + 1);
+        } else {
             teamLoseMap.put(teamName, 1);
         }
     }
@@ -59,7 +57,7 @@ public class StandingInfo {
 
         boolean result = false;
         String leagueName = leagueToSimulate.getLeagueName();
-        List<Conference> conferenceList =  leagueToSimulate.getConferenceList();
+        List<Conference> conferenceList = leagueToSimulate.getConferenceList();
 
         for (Conference conferences : conferenceList) {
             List<Division> divisionList = conferences.getDivisionList();
@@ -88,7 +86,7 @@ public class StandingInfo {
             String teamWon = entry.getKey();
             int noOfMatchesWon = entry.getValue();
 
-            for(int i=0; i < noOfMatchesWon; i++){
+            for (int i = 0; i < noOfMatchesWon; i++) {
                 standingsDb.updateStandingsWin(teamWon);
             }
             teamWinMap.put(teamWon, 0);
@@ -98,7 +96,7 @@ public class StandingInfo {
             String teamLose = entry.getKey();
             int noOfMatchesLose = entry.getValue();
 
-            for(int i=0; i < noOfMatchesLose; i++){
+            for (int i = 0; i < noOfMatchesLose; i++) {
                 standingsDb.updateStandingsLosses(teamLose);
             }
             teamLoseMap.put(teamLose, 0);

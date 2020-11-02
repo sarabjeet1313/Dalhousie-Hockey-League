@@ -11,12 +11,11 @@ public enum ManagerConstants {
 
 	private final String managerString;
 
-	private ManagerConstants(String managerString) {
+	ManagerConstants(String managerString) {
 		this.managerString = managerString;
 	}
 
 	public String toString() {
 		return managerString;
 	}
-
 }

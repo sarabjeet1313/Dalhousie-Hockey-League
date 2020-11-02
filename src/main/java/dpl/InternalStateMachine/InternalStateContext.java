@@ -1,4 +1,5 @@
 package dpl.InternalStateMachine;
+
 import dpl.UserInput.IUserInput;
 import dpl.UserOutput.IUserOutput;
 

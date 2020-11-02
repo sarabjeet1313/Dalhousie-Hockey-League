@@ -5,14 +5,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import dpl.Database.InvokeStoredProcedure;
 import dpl.DplConstants.StoredProcedureConstants;
 import dpl.Standings.IStandingsPersistance;
 import dpl.UserOutput.CmdUserOutput;
 import dpl.UserOutput.IUserOutput;
 
 public class StandingsDataDb implements IStandingsPersistance {
-
     InvokeStoredProcedure invoke = null;
     private int season;
     IUserOutput output = new CmdUserOutput();

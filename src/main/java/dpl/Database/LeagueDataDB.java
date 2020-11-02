@@ -23,7 +23,6 @@ import dpl.UserOutput.CmdUserOutput;
 import dpl.UserOutput.IUserOutput;
 
 public class LeagueDataDB implements ILeaguePersistance {
-
     InvokeStoredProcedure invoke = null;
     private String leagueName = "";
     private String rteamName = "";

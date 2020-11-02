@@ -16,7 +16,6 @@ import dpl.UserOutput.CmdUserOutput;
 import dpl.UserOutput.IUserOutput;
 
 public class GameConfigDB implements IGameplayConfigPersistance {
-
     InvokeStoredProcedure invoke = null;
     IUserOutput output = new CmdUserOutput();
 

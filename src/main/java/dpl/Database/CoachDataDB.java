@@ -11,7 +11,6 @@ import dpl.UserOutput.CmdUserOutput;
 import dpl.UserOutput.IUserOutput;
 
 public class CoachDataDB implements ICoachPersistance {
-
     InvokeStoredProcedure invoke = null;
     IUserOutput output = new CmdUserOutput();
 

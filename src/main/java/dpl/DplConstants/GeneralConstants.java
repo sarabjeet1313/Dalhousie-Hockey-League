@@ -13,12 +13,11 @@ public enum GeneralConstants {
 
 	private final String constantString;
 
-	private GeneralConstants(String constantString) {
+	GeneralConstants(String constantString) {
 		this.constantString = constantString;
 	}
 
 	public String toString() {
 		return constantString;
 	}
-
 }

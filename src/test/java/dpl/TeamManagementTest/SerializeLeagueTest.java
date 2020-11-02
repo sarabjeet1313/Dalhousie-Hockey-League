@@ -17,11 +17,5 @@ public class SerializeLeagueTest {
 	public void serializeLeagueModelTest() {
 		assertTrue(serializeLeague.serializeLeagueModel(league));
 	}
-	
-//	@Test
-//	public void deSerializeLeagueModelTest() {
-//		String filename = "test.json";
-//		League leagueTest = serializeLeague.deSerializeLeagueModel(filename);
-//		assertEquals(league.getLeagueName(),leagueTest.getLeagueName());
-//	}
+
 }

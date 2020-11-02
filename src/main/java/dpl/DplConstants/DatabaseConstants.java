@@ -11,7 +11,7 @@ public enum DatabaseConstants {
 
 	private final String constantString;
 
-	private DatabaseConstants(String constantString) {
+	DatabaseConstants(String constantString) {
 		this.constantString = constantString;
 	}
 
