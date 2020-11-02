@@ -4,7 +4,7 @@ import dal.asd.dpl.Schedule.SeasonCalendar;
 import dal.asd.dpl.Standings.StandingInfo;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.UserOutput.IUserOutput;
-import dal.asd.dpl.util.ScheduleConstants;
+import dal.asd.dpl.Util.ScheduleConstants;
 
 public class PersistState implements ISimulationState {
 
