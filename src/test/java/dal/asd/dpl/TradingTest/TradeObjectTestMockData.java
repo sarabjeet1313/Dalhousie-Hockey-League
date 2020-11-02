@@ -6,13 +6,13 @@ import dal.asd.dpl.TeamManagementTest.CoachMockData;
 import dal.asd.dpl.TeamManagementTest.GamaplayConfigMockData;
 import dal.asd.dpl.TeamManagementTest.LeagueMockData;
 import dal.asd.dpl.TeamManagementTest.ManagerMockData;
-import dal.asd.dpl.Trading.ITradePersistance;
+import dal.asd.dpl.Trading.ITradePersistence;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class TradeObjectTestMockData implements ITradePersistance {
+public class TradeObjectTestMockData implements ITradePersistence {
 
 
     private Player player1 = new Player("Player One", "forward", true, 1, 1, 1, 1, 1, false, false, 0);
@@ -120,29 +120,7 @@ public class TradeObjectTestMockData implements ITradePersistance {
     }
 
     @Override
-    public int getLossPoint() {
-        return 2;
+    public boolean resetTradeLossPoint(String teamName) {
+        return Boolean.FALSE;
     }
-
-    @Override
-    public int getMaxPlayersPerTrade() {
-        return 2;
-    }
-
-    @Override
-    public double getRandomTradeOfferChance() {
-        return 1;
-    }
-
-    @Override
-    public double getRandomTradeAcceptChance() {
-        return 1.5;
-    }
-
-    @Override
-    public String getUserteamName() {
-        return "H";
-    }
-
-
 }

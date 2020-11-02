@@ -12,7 +12,7 @@ import dal.asd.dpl.Standings.IStandingsPersistance;
 import dal.asd.dpl.TeamManagement.ICoachPersistance;
 import dal.asd.dpl.TeamManagement.ILeaguePersistance;
 import dal.asd.dpl.TeamManagement.IManagerPersistance;
-import dal.asd.dpl.Trading.ITradePersistance;
+import dal.asd.dpl.Trading.ITradePersistence;
 import dal.asd.dpl.UserInput.CmdUserInput;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.CmdUserOutput;
@@ -27,7 +27,7 @@ public class App {
         ICoachPersistance coachDb = new CoachDataDB();
         IGameplayConfigPersistance configDb = new GameConfigDB();
         IManagerPersistance managerDb = new ManagerDataDB();
-        ITradePersistance tradeDb = new TradeDataDB();
+        ITradePersistence tradeDb = new TradeDataDB();
         IStandingsPersistance standingDb = new StandingsDataDb();
         StateContext context = new StateContext(input, output);
         context.setState(new InitialState(input, output));

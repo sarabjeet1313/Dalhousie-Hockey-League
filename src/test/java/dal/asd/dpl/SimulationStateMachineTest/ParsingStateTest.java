@@ -8,7 +8,7 @@ import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagementTest.CoachMockData;
 import dal.asd.dpl.TeamManagementTest.LeagueMockData;
 import dal.asd.dpl.TeamManagementTest.ManagerMockData;
-import dal.asd.dpl.Trading.ITradePersistance;
+import dal.asd.dpl.Trading.ITradePersistence;
 import dal.asd.dpl.UserInput.CmdUserInput;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.CmdUserOutput;
@@ -32,7 +32,7 @@ public class ParsingStateTest {
     private GameConfigDB configMock;
     private ManagerMockData managerMock;
     private IStandingsPersistance standingMock;
-    private ITradePersistance tradeMock;
+    private ITradePersistence tradeMock;
 
     @Before
     public void setUp() throws Exception {

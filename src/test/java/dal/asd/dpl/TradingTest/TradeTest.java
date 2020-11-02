@@ -1,19 +1,11 @@
 package dal.asd.dpl.TradingTest;
 
 import dal.asd.dpl.TeamManagement.*;
-import dal.asd.dpl.TeamManagementTest.LeagueObjectTestData;
-import dal.asd.dpl.Trading.ITrade;
-import dal.asd.dpl.Trading.ITradePersistance;
+import dal.asd.dpl.Trading.ITradePersistence;
 import dal.asd.dpl.Trading.Trade;
-import dal.asd.dpl.UserInput.CmdUserInput;
-import dal.asd.dpl.UserInput.IUserInput;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +13,7 @@ public class TradeTest {
 
     League leagueBefore = new TradeObjectTestMockData().getLeagueData();
     League leagueAfter = new TradeObjectTestMockData().getLeagueDataAfterTrade();
-    ITradePersistance tradeDB = new TradeObjectTestMockData();
+    ITradePersistence tradeDB = new TradeObjectTestMockData();
     ITeamInfo IteamInfo = new Team();
     IPlayerInfo IplayerInfo = new Player();
     Trade trade = new Trade(tradeDB);
@@ -100,7 +92,7 @@ public class TradeTest {
         List<Player> weaKPlayer2 = new ArrayList<Player>();
 
         weakPlayer.add(leagueBefore.getConferenceList().get(0).getDivisionList().get(0).getTeamList().get(0).getPlayerList().get(0));
-        weaKPlayer2= trade.getWeakestPlayers(tradeDB.getMaxPlayersPerTrade(),"Boston", leagueBefore, IteamInfo, IplayerInfo);
+        weaKPlayer2= trade.getWeakestPlayers(leagueBefore.getGameConfig().getTrading().getMaxPlayersPerTrade(),"Boston", leagueBefore, IteamInfo, IplayerInfo);
 
         Assert.assertEquals(weakPlayer.size()+1, weaKPlayer2.size());
     }
@@ -108,12 +100,7 @@ public class TradeTest {
     @Test
     public void startTradeTest(){
         League league = trade.startTrade(leagueBefore);
-//        IUserInput input = new CmdUserInput();
-//        String inp = "y";
-//        InputStream in = new ByteArrayInputStream(inp.getBytes());
-//        System.setIn(in);
-//        input.setInput();
-        Assert.assertEquals(leagueAfter.getLeagueName() , trade.startTrade(leagueBefore).getLeagueName());
+        Assert.assertEquals(leagueAfter.getLeagueName() , league.getLeagueName());
 
     }
 
