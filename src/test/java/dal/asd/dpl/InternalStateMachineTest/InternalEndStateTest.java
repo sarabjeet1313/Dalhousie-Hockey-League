@@ -28,6 +28,7 @@ public class InternalEndStateTest {
 
     @Test
     public void nextStateTest() {
+        assertNotEquals("None", state.getNextStateName());
         context.setState(state);
         context.nextState();
         assertEquals("None", state.getNextStateName());
@@ -36,11 +37,13 @@ public class InternalEndStateTest {
     @Test
     public void getStateNameTest() {
         assertEquals("End", state.getStateName());
+        assertNotEquals("Negative", state.getStateName());
     }
 
     @Test
     public void getNextStateNameTest() {
-        state.nextState(context);
+        context.setState(state);
+        context.nextState();
         assertEquals("None", state.getNextStateName());
     }
 
@@ -48,12 +51,11 @@ public class InternalEndStateTest {
     public void doProcessingTest(){
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
-
         state.doProcessing();
-
         String expected  = "Thanks for using the DHL's Dynasty mode. Please come back soon.";
         String gotOutput = out.toString().replaceAll("\n", "");
         gotOutput = gotOutput.replaceAll("\r", "");
+        assertNotEquals("Negative", gotOutput);
         assertEquals(expected, gotOutput);
     }
 }

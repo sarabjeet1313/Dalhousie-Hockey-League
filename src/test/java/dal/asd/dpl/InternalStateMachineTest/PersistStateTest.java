@@ -16,6 +16,8 @@ import dal.asd.dpl.UserOutput.IUserOutput;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.Calendar;
 
 import static org.junit.Assert.*;
@@ -49,15 +51,21 @@ public class PersistStateTest {
 
     @Test
     public void nextStateTest() {
-        context.setState(state);
-        context.nextState();
+        state.nextState(context);
         assertEquals("AdvanceTime", state.getNextStateName());
         assertNotEquals("Negative", state.getNextStateName());
     }
 
     @Test
     public void doProcessingTest() {
-        // TODO pending for logic
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(out));
+        state.doProcessing();
+        String expected  = "Inside persist statenull";
+        String gotOutput = out.toString().replaceAll("\n", "");
+        gotOutput = gotOutput.replaceAll("\r", "");
+        assertNotEquals("Inside Negative State", gotOutput);
+        assertEquals(expected, gotOutput);
     }
 
     @Test
