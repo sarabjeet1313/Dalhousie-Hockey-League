@@ -35,17 +35,20 @@ public class InternalStartStateTest {
 
     @Test
     public void nextStateTest() {
+        assertNotEquals("InternalSimulation", context.currentStateName);
         state.nextState(context);
         assertEquals("InternalSimulation", context.currentStateName);
     }
 
     @Test
     public void getStateNameTest() {
+        assertNotEquals("Negative", state.getStateName());
         assertEquals("Start", state.getStateName());
     }
 
     @Test
     public void getNextStateNameTest() {
+        assertNotEquals("InternalSimulation", state.getNextStateName());
         state.nextState(context);
         assertEquals("InternalSimulation", state.getNextStateName());
     }
@@ -58,6 +61,7 @@ public class InternalStartStateTest {
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
         this.input.setInput();
+        assertNotEquals("1", String.valueOf(state.numOfSeasons));
         assertEquals("0", String.valueOf(state.numOfSeasons));
     }
 

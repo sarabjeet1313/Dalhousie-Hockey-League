@@ -13,25 +13,28 @@ public class Trade implements ITrade {
     private List<Player> playerListOfferTeam;
     private List<Player> playerListRequestedTeam;
     private ITradePersistence tradeDB;
+
     static {
         TradePublisher.getInstance().subscribe(new NewsSubscriber());
     }
-    public Trade(){
+
+    public Trade() {
 
     }
-    public Trade(ITradePersistence tradeDB){
+
+    public Trade(ITradePersistence tradeDB) {
         this.tradeDB = tradeDB;
     }
 
-    public Trade(String tradeOfferTeam, List<Player> playerListOfferTeam, String tradeRequestedTeam, List<Player> playerListRequestedTeam){
-        this.tradeOfferTeam= tradeOfferTeam;
+    public Trade(String tradeOfferTeam, List<Player> playerListOfferTeam, String tradeRequestedTeam, List<Player> playerListRequestedTeam) {
+        this.tradeOfferTeam = tradeOfferTeam;
         this.tradeRequestedTeam = tradeRequestedTeam;
         this.playerListOfferTeam = playerListOfferTeam;
         this.playerListRequestedTeam = playerListRequestedTeam;
 
     }
 
-    public String getTradeOfferTeam(){
+    public String getTradeOfferTeam() {
         return this.tradeOfferTeam;
     }
 
@@ -63,56 +66,54 @@ public class Trade implements ITrade {
         this.playerListRequestedTeam = playerListRequestedTeam;
     }
 
-    public boolean checkRandOfferChance(double randOfferChance){
-        if(Math.random() < randOfferChance ){
+    public boolean checkRandOfferChance(double randOfferChance) {
+        if (Math.random() < randOfferChance) {
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
 
-    public boolean matchPosition(String s1, String s2){
-        return s1.equals(s2);
-    }
-    public boolean matchString(String s1, String s2){
-        return s1.equals(s2);
-    }
-    public boolean sameTeam(String s1, String s2){
+    public boolean matchPosition(String s1, String s2) {
         return s1.equals(s2);
     }
 
-    public  HashMap<Integer,Double> sortByStrength(HashMap<Integer, Double> hm, boolean descending){
-        List<Map.Entry<Integer,Double> > list = new LinkedList<Map.Entry<Integer,Double> >(hm.entrySet());
+    public boolean matchString(String s1, String s2) {
+        return s1.equals(s2);
+    }
 
-        if (descending){
-            Collections.sort(list, new Comparator<Map.Entry<Integer,Double> >() {
-                public int compare(Map.Entry<Integer,Double> o1,
-                                   Map.Entry<Integer, Double> o2)
-                {
+    public boolean sameTeam(String s1, String s2) {
+        return s1.equals(s2);
+    }
+
+    public HashMap<Integer, Double> sortByStrength(HashMap<Integer, Double> hm, boolean descending) {
+        List<Map.Entry<Integer, Double>> list = new LinkedList<Map.Entry<Integer, Double>>(hm.entrySet());
+
+        if (descending) {
+            Collections.sort(list, new Comparator<Map.Entry<Integer, Double>>() {
+                public int compare(Map.Entry<Integer, Double> o1,
+                                   Map.Entry<Integer, Double> o2) {
                     return (o2.getValue()).compareTo(o1.getValue());
                 }
             });
-        }
-        else{
-            Collections.sort(list, new Comparator<Map.Entry<Integer,Double> >() {
-                public int compare(Map.Entry<Integer,Double> o1,
-                                   Map.Entry<Integer, Double> o2)
-                {
+        } else {
+            Collections.sort(list, new Comparator<Map.Entry<Integer, Double>>() {
+                public int compare(Map.Entry<Integer, Double> o1,
+                                   Map.Entry<Integer, Double> o2) {
                     return (o1.getValue()).compareTo(o2.getValue());
                 }
             });
         }
 
-        HashMap<Integer, Double> temp = new LinkedHashMap<Integer,Double>();
-        for (Map.Entry<Integer,Double> mapTemp : list) {
+        HashMap<Integer, Double> temp = new LinkedHashMap<Integer, Double>();
+        for (Map.Entry<Integer, Double> mapTemp : list) {
             temp.put(mapTemp.getKey(), mapTemp.getValue());
         }
         return temp;
 
     }
 
-    public List<Player> getPlayersOfSpecificType(String typeOfPlayer ,List<Player> playerList ){
+    public List<Player> getPlayersOfSpecificType(String typeOfPlayer, List<Player> playerList) {
         List<Player> p = new ArrayList<Player>();
 
         for (Player player : playerList) {
@@ -125,8 +126,8 @@ public class Trade implements ITrade {
     }
 
     public List<Player> getWeakestPlayers(int maxPlayers, String teamName, League league,
-                                          ITeamInfo iTPInfoObject, IPlayerInfo iPInfoObject){
-        List<Player> p = iTPInfoObject.getPlayersByTeam(teamName,league);
+                                          ITeamInfo iTPInfoObject, IPlayerInfo iPInfoObject) {
+        List<Player> p = iTPInfoObject.getPlayersByTeam(teamName, league);
         List<Player> returnWeakestPlayerList = new ArrayList<Player>();
         double playerStrength;
         String weakestPlayerPosition;
@@ -134,17 +135,17 @@ public class Trade implements ITrade {
         int[] playerIndexArray = new int[maxPlayers];
         HashMap<Integer, Double> hmPlayerStrength = new HashMap<Integer, Double>();
 
-        for (int i= 0 ; i< p.size(); i++){
+        for (int i = 0; i < p.size(); i++) {
             playerStrength = iPInfoObject.getPlayerStrength(p.get(i));
-            hmPlayerStrength.put(i,playerStrength);
+            hmPlayerStrength.put(i, playerStrength);
         }
-        int x =0;
-        Map<Integer,Double> sortedHm = sortByStrength(hmPlayerStrength,false);
+        int x = 0;
+        Map<Integer, Double> sortedHm = sortByStrength(hmPlayerStrength, false);
         for (Map.Entry<Integer, Double> k : sortedHm.entrySet()) {
             playerIndexArray[x] = k.getKey();
             minStrengthArray[x] = k.getValue();
-            x=x+1;
-            if(x == maxPlayers){
+            x = x + 1;
+            if (x == maxPlayers) {
                 break;
             }
         }
@@ -153,43 +154,41 @@ public class Trade implements ITrade {
 //        System.out.println("playerIndexArray[0]: 	"+playerIndexArray[0]);
 //        System.out.println("==========================================================");
         weakestPlayerPosition = p.get(playerIndexArray[0]).getPosition();
-        for (int i = 0; i < playerIndexArray.length; i++){
+        for (int i = 0; i < playerIndexArray.length; i++) {
 
-            if(matchPosition(weakestPlayerPosition, p.get(playerIndexArray[i]).getPosition())){
+            if (matchPosition(weakestPlayerPosition, p.get(playerIndexArray[i]).getPosition())) {
                 returnWeakestPlayerList.add(p.get(playerIndexArray[i]));
-            }
-            else if (i+1< minStrengthArray.length){
-                if(minStrengthArray[i+1] > minStrengthArray[i]){
+            } else if (i + 1 < minStrengthArray.length) {
+                if (minStrengthArray[i + 1] > minStrengthArray[i]) {
                     break;
                 }
-            }
-            else{
+            } else {
                 break;
             }
         }
         return returnWeakestPlayerList;
     }
 
-    public List<Player> getStrongestPlayers(Trade t, List<String> allTeamNameList ,League league,
-                                            ITeamInfo iTPInfoObject, IPlayerInfo iPInfoObject ){
+    public List<Player> getStrongestPlayers(Trade t, List<String> allTeamNameList, League league,
+                                            ITeamInfo iTPInfoObject, IPlayerInfo iPInfoObject) {
         List<Player> offeredPlayerList = t.getPlayerListOfferTeam();
         List<Player> currentTeamPlayers;
 
         int totalPlayersNeeded = offeredPlayerList.size();
-        double [] maxPlayerStrengthsArray = new double[totalPlayersNeeded];
-        int [] currentPlayerIndexArray = new int[totalPlayersNeeded];
+        double[] maxPlayerStrengthsArray = new double[totalPlayersNeeded];
+        int[] currentPlayerIndexArray = new int[totalPlayersNeeded];
         double[] currentPlayerMaxStrength = new double[totalPlayersNeeded];
         List<Player> returnStrongPlayerList = new ArrayList<Player>();
         HashMap<Integer, Double> hmPlayerStrength = new HashMap<Integer, Double>();
 
         String requiredPlayerType = offeredPlayerList.get(0).getPosition();
-        for(int i = 0; i < totalPlayersNeeded; i++){
+        for (int i = 0; i < totalPlayersNeeded; i++) {
             maxPlayerStrengthsArray[i] = iPInfoObject.getPlayerStrength(offeredPlayerList.get(i));
         }
         double offeredPlayersStrength = DoubleStream.of(maxPlayerStrengthsArray).sum();
         double requestedPlayerStrength;
         boolean isSame;
-        for (int j = 0; j< allTeamNameList.size(); j++) {
+        for (int j = 0; j < allTeamNameList.size(); j++) {
             isSame = sameTeam(t.getTradeOfferTeam(), allTeamNameList.get(j));
             if (isSame == false) {
                 // Here
@@ -224,20 +223,19 @@ public class Trade implements ITrade {
         return returnStrongPlayerList;
     }
 
-    public String[][] prepareToNotify(Trade trade){
+    public String[][] prepareToNotify(Trade trade) {
         int totalPlayers;
-        totalPlayers   = trade.getPlayerListOfferTeam().size();
-        String [][] playersTraded = new String[totalPlayers][2];
-        for(int i=0; i< playersTraded.length; i++ ) {
-            for (int j = 0; j < playersTraded[i].length; j++){
+        totalPlayers = trade.getPlayerListOfferTeam().size();
+        String[][] playersTraded = new String[totalPlayers][2];
+        for (int i = 0; i < playersTraded.length; i++) {
+            for (int j = 0; j < playersTraded[i].length; j++) {
 
                 if (i == 0) {
-                    if(trade.getPlayerListOfferTeam().size()>1){
+                    if (trade.getPlayerListOfferTeam().size() > 1) {
                         playersTraded[i][j] = trade.getPlayerListOfferTeam().get(j).getPlayerName();
                     }
-                }
-                else{
-                    if(trade.getPlayerListRequestedTeam().size()>1){
+                } else {
+                    if (trade.getPlayerListRequestedTeam().size() > 1) {
                         playersTraded[i][j] = trade.getPlayerListRequestedTeam().get(j).getPlayerName();
                     }
 
@@ -260,7 +258,7 @@ public class Trade implements ITrade {
 //        String userTeamName = tradeDB.getUserteamName();
         String userTeamName = "TestTeam";
         eligibleTeamNameList = tradeDB.getEligibleTeamName(minLossPoints);
-        String [][] playersTraded ;
+        String[][] playersTraded;
 
         eligibleTeamNameList.remove(userTeamName);
 
@@ -272,15 +270,15 @@ public class Trade implements ITrade {
 
         //getTeam name write in Teams
 
-        for(int i = 0; i < conferenceL.size(); i++){
+        for (int i = 0; i < conferenceL.size(); i++) {
             divisionL = conferenceL.get(i).getDivisionList();
 
-            for (int j = 0; j < divisionL.size(); j++){
+            for (int j = 0; j < divisionL.size(); j++) {
                 teamL = divisionL.get(j).getTeamList();
 
-                for (int k = 0; k < teamL.size(); k++){
-                    if(teamL.get(k).isNewTeam()){
-                        userTeamName = teamL.get(k).getTeamName(); 
+                for (int k = 0; k < teamL.size(); k++) {
+                    if (teamL.get(k).isNewTeam()) {
+                        userTeamName = teamL.get(k).getTeamName();
                     }
                     allTeamNameList.add(teamL.get(k).getTeamName());
 
@@ -294,12 +292,12 @@ public class Trade implements ITrade {
         AiAcceptReject ar = new AiAcceptReject();
         boolean isUserTeam = false;
 
-        for(int i = 0; i<eligibleTeamNameList.size() ; i++ ){
-            if (checkRandOfferChance(randOfferChance)){
+        for (int i = 0; i < eligibleTeamNameList.size(); i++) {
+            if (checkRandOfferChance(randOfferChance)) {
                 // reset tradeLoss point for eli[i]
                 trade.setTradeOfferTeam(eligibleTeamNameList.get(i));
                 trade.setPlayerListOfferTeam(getWeakestPlayers(maxPlayersPerTrade, eligibleTeamNameList.get(i), leagueObject, ty, py));
-                trade.setPlayerListRequestedTeam(getStrongestPlayers(trade,allTeamNameList,leagueObject,ty,py));
+                trade.setPlayerListRequestedTeam(getStrongestPlayers(trade, allTeamNameList, leagueObject, ty, py));
 
                 // based on team name get is User team in Teams
                 //trade.getTradeRequestedTeam();
@@ -307,27 +305,27 @@ public class Trade implements ITrade {
                 List<Player> tempPlayerListOffer = new ArrayList<Player>();
                 tempPlayerListRequested = trade.getPlayerListRequestedTeam();
                 tempPlayerListOffer = trade.getPlayerListOfferTeam();
-                
-                if(userTeamName == trade.getTradeRequestedTeam()){
+
+                if (userTeamName == trade.getTradeRequestedTeam()) {
                     isUserTeam = true;
                 }
 
-                if(ar.isAcceptOrReject(trade,leagueObject, randAcceptChance, isUserTeam, py,ti)){
+                if (ar.isAcceptOrReject(trade, leagueObject, randAcceptChance, isUserTeam, py, ti)) {
                     //iterate to teamPlayer list and make Swap 100% easier if directly changed to database.
-                    
-                    for(int f = 0; f < conferenceL.size(); f++){
+
+                    for (int f = 0; f < conferenceL.size(); f++) {
                         divisionL = conferenceL.get(f).getDivisionList();
 
-                        for (int g = 0; g < divisionL.size(); g++){
+                        for (int g = 0; g < divisionL.size(); g++) {
                             teamL = divisionL.get(g).getTeamList();
 
-                            for (int h = 0; h < teamL.size(); h++){
-                                playerL = teamL.get(h).getPlayersByTeam(teamL.get(h).getTeamName(),leagueObject);
+                            for (int h = 0; h < teamL.size(); h++) {
+                                playerL = teamL.get(h).getPlayersByTeam(teamL.get(h).getTeamName(), leagueObject);
 
-                                if(sameTeam(teamL.get(h).getTeamName(),trade.getTradeOfferTeam())){
+                                if (sameTeam(teamL.get(h).getTeamName(), trade.getTradeOfferTeam())) {
 
-                                   // remove offered player from team offering them
-                                    if(playerL.containsAll(tempPlayerListOffer)){
+                                    // remove offered player from team offering them
+                                    if (playerL.containsAll(tempPlayerListOffer)) {
                                         playerL.removeAll(tempPlayerListOffer);
                                     }
 //                                    for(Player p : playerL){
@@ -340,7 +338,7 @@ public class Trade implements ITrade {
 //                                    }
                                     // add new requested players
 
-                                    for(Player pRequested: tempPlayerListRequested){
+                                    for (Player pRequested : tempPlayerListRequested) {
                                         playerL.add(pRequested);
                                     }
                                     teamL.get(h).setPlayerList(playerL);
@@ -348,10 +346,10 @@ public class Trade implements ITrade {
 
 
                                 }
-                                if(sameTeam(teamL.get(h).getTeamName(), trade.getTradeRequestedTeam())){
+                                if (sameTeam(teamL.get(h).getTeamName(), trade.getTradeRequestedTeam())) {
 
                                     // remove offered player from team offering them
-                                    if(playerL.containsAll(tempPlayerListRequested)){
+                                    if (playerL.containsAll(tempPlayerListRequested)) {
                                         playerL.removeAll(tempPlayerListRequested);
                                     }
 //                                    for(Player p : playerL){
@@ -363,7 +361,7 @@ public class Trade implements ITrade {
 //                                        }
 //                                    }
                                     // add new requested players
-                                    for(Player pOffer: trade.getPlayerListOfferTeam()){
+                                    for (Player pOffer : trade.getPlayerListOfferTeam()) {
                                         playerL.add(pOffer);
                                     }
                                     teamL.get(h).setPlayerList(playerL);
@@ -375,9 +373,9 @@ public class Trade implements ITrade {
                         conferenceL.get(f).setDivisionList(divisionL);
                     }
                     // call notify
-                    if(trade.getPlayerListOfferTeam().size()>1){
+                    if (trade.getPlayerListOfferTeam().size() > 1) {
                         playersTraded = prepareToNotify(trade);
-                        TradePublisher.getInstance().notify(trade.getTradeOfferTeam(), trade.getTradeRequestedTeam(),playersTraded);
+                        TradePublisher.getInstance().notify(trade.getTradeOfferTeam(), trade.getTradeRequestedTeam(), playersTraded);
                         leagueObject.setConferenceList(conferenceL);
                     }
 //                    TradePublisher.getInstance().notify(trade.getTradeOfferTeam(), trade.getTradeRequestedTeam(),prepareToNotify(trade));

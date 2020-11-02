@@ -1,7 +1,9 @@
 package dpl.InternalStateMachineTest;
+
 import dpl.InternalStateMachine.AdvanceToNextSeasonState;
 import dpl.InternalStateMachine.InternalStateContext;
 import dpl.Schedule.SeasonCalendar;
+import dpl.TeamManagement.ILeaguePersistance;
 import dpl.TeamManagement.InjuryManagement;
 import dpl.TeamManagement.League;
 import dpl.TeamManagement.RetirementManagement;
@@ -26,15 +28,18 @@ public class AdvanceToNextSeasonStateTest {
     private League leagueToSimulate;
     private InjuryManagement injury;
     private RetirementManagement retirement;
+    private ILeaguePersistance leagueMock;
 
     @Before
     public void setUp() throws Exception {
+        leagueMock = new LeagueMockData();
         input = new CmdUserInput();
         output = new CmdUserOutput();
         injury = new InjuryManagement();
         retirement = new RetirementManagement();
         leagueToSimulate = new LeagueMockData().getTestData();
         utility = new SeasonCalendar(0, output);
+        leagueToSimulate.setLeagueDb(leagueMock);
         utility.setLastSeasonDay("20-11-2020");
         context = new InternalStateContext(input, output);
         state = new AdvanceToNextSeasonState(leagueToSimulate, injury, retirement, context, utility, "13-11-2020", output);
@@ -49,16 +54,18 @@ public class AdvanceToNextSeasonStateTest {
 
     @Test
     public void doProcessingTest() {
+        leagueToSimulate.setLeagueDb(leagueMock);
         state.doProcessing();
         assertFalse(null == state.getUpdatedLeague());
-        assertTrue( state.getUpdatedLeague() instanceof League);
+        assertTrue(state.getUpdatedLeague() instanceof League);
     }
 
     @Test
     public void getUpdatedLeagueTest() {
+        leagueToSimulate.setLeagueDb(leagueMock);
         state.doProcessing();
         assertFalse(null == state.getUpdatedLeague());
-        assertTrue( state.getUpdatedLeague() instanceof League);
+        assertTrue(state.getUpdatedLeague() instanceof League);
     }
 
     @Test

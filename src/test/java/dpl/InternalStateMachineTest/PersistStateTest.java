@@ -7,6 +7,7 @@ import dpl.Schedule.SeasonCalendar;
 import dpl.Standings.IStandingsPersistance;
 import dpl.Standings.StandingInfo;
 import dpl.StandingsTest.StandingsMockDb;
+import dpl.TeamManagement.ILeaguePersistance;
 import dpl.TeamManagement.League;
 import dpl.TeamManagementTest.LeagueMockData;
 import dpl.UserInput.CmdUserInput;
@@ -17,6 +18,8 @@ import dpl.UserOutput.IUserOutput;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.Calendar;
 
 import static org.junit.Assert.*;
@@ -33,9 +36,12 @@ public class PersistStateTest {
     private InternalStateContext context;
     private SeasonCalendar utility;
     private IStandingsPersistance standingsDb;
+    private ILeaguePersistance league;
+
 
     @Before
     public void setUp() throws Exception {
+        league = new LeagueMockData();
         leagueToSimulate = new LeagueMockData().getTestData();
         input = new CmdUserInput();
         output = new CmdUserOutput();
@@ -50,15 +56,22 @@ public class PersistStateTest {
 
     @Test
     public void nextStateTest() {
-        context.setState(state);
-        context.nextState();
+        state.nextState(context);
         assertEquals("AdvanceTime", state.getNextStateName());
         assertNotEquals("Negative", state.getNextStateName());
     }
 
     @Test
     public void doProcessingTest() {
-        // TODO pending for logic
+        leagueToSimulate.setLeagueDb(league);
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(out));
+        state.doProcessing();
+        String expected  = "Inside persist state";
+        String gotOutput = out.toString().replaceAll("\n", "");
+        gotOutput = gotOutput.replaceAll("\r", "");
+        assertNotEquals("Inside Negative State", gotOutput);
+        assertEquals(expected, gotOutput);
     }
 
     @Test

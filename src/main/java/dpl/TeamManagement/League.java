@@ -24,7 +24,7 @@ public class League implements ILeagueOperation {
 	public League() {
 		
 	}
-	
+
 	public League(String leagueName, List<Conference> conferenceList, List<Player> freeAgents, List<Coach> coaches,
 			List<Manager> managerList, GameplayConfig gameConfig, ILeaguePersistance leagueDb) {
 		this.leagueName = leagueName;
@@ -44,6 +44,14 @@ public class League implements ILeagueOperation {
 		this.coaches = coaches;
 		this.managerList = managerList;
 		this.gameConfig = gameConfig;
+	}
+
+	public ILeaguePersistance getLeagueDb() {
+		return leagueDb;
+	}
+
+	public void setLeagueDb(ILeaguePersistance leagueDb) {
+		this.leagueDb = leagueDb;
 	}
 
 	public String getLeagueName() {
