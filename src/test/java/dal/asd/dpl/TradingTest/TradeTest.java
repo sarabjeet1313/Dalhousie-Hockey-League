@@ -5,9 +5,15 @@ import dal.asd.dpl.TeamManagementTest.LeagueObjectTestData;
 import dal.asd.dpl.Trading.ITrade;
 import dal.asd.dpl.Trading.ITradeDB;
 import dal.asd.dpl.Trading.Trade;
+import dal.asd.dpl.UserInput.CmdUserInput;
+import dal.asd.dpl.UserInput.IUserInput;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -101,9 +107,13 @@ public class TradeTest {
 
     @Test
     public void startTradeTest(){
-//        League league = trade.startTrade(leagueBefore);
-//
-//        Assert.assertEquals(leagueAfter.getLeagueName() , trade.startTrade(leagueBefore).getLeagueName());
+        League league = trade.startTrade(leagueBefore);
+//        IUserInput input = new CmdUserInput();
+//        String inp = "y";
+//        InputStream in = new ByteArrayInputStream(inp.getBytes());
+//        System.setIn(in);
+//        input.setInput();
+        Assert.assertEquals(leagueAfter.getLeagueName() , trade.startTrade(leagueBefore).getLeagueName());
 
     }
 

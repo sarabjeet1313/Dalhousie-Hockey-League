@@ -131,4 +131,7 @@ public class TradeDB implements ITradeDB{
     public String getUserteamName() {
         return null;
     }
+
+
+
 }

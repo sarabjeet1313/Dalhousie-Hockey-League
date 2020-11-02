@@ -136,12 +136,12 @@ public class TradeObjectTestMockData implements ITradeDB {
 
     @Override
     public double getRandomTradeAcceptChance() {
-        return 0;
+        return 1.5;
     }
 
     @Override
     public String getUserteamName() {
-        return "Halifax";
+        return "H";
     }
 
 
