@@ -119,7 +119,7 @@ public class Team implements ITeamInfo {
 			for (int dIndex = 0; dIndex < divisionList.size(); dIndex++) {
 				List<Team> teamList = divisionList.get(dIndex).getTeamList();
 				for (int tIndex = 0; tIndex < teamList.size(); tIndex++) {
-					if (teamList.get(dIndex).getTeamName().equals(teamName)) {
+					if (teamList.get(tIndex).getTeamName().equals(teamName)) {
 						playersByTeam = teamList.get(tIndex).getPlayerList();
 						break;
 					}

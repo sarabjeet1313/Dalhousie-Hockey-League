@@ -1,4 +1,5 @@
 package dal.asd.dpl.SimulationStateMachineTest;
+
 import dal.asd.dpl.Database.GameConfigDB;
 import dal.asd.dpl.GameplayConfiguration.IGameplayConfigPersistance;
 import dal.asd.dpl.SimulationStateMachine.CreateTeamState;
@@ -20,7 +21,9 @@ import dal.asd.dpl.UserOutput.CmdUserOutput;
 import dal.asd.dpl.UserOutput.IUserOutput;
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
+
 import java.util.List;
 
 public class CreateTeamStateTest {
@@ -31,10 +34,10 @@ public class CreateTeamStateTest {
     private StateContext context;
     private LeagueMockData mockData;
     private LeagueObjectTestData data = new LeagueObjectTestData();
-	private ICoachPersistance coachMock = new CoachMockData();
-	private IGameplayConfigPersistance configMock = new GamaplayConfigMockData();
-	private IManagerPersistance managerMock = new ManagerMockData();
-	
+    private ICoachPersistance coachMock = new CoachMockData();
+    private IGameplayConfigPersistance configMock = new GamaplayConfigMockData();
+    private IManagerPersistance managerMock = new ManagerMockData();
+
 
     @Before
     public void setUp() throws Exception {
@@ -45,18 +48,6 @@ public class CreateTeamStateTest {
         context = new StateContext(input, output);
         context.setState(state);
     }
-    
-    //To test input for create team
-//    @Test
-//    public void doProcessingTest() {
-// 	//context.doProcessing();
-//    	Coach headCoach = new Coach("Mary Smith", 0.2, 0.3, 0.1, 0.4);
-//    	LeagueObjectTestData data = new LeagueObjectTestData();
-//    	League league = data.getLeagueData();
-//    	List<Player> pList = league.getFreeAgents();
-//        boolean success = state.createTeamInLeague("Eastern Conference", "Atlantic", "testTeam", "testGM", headCoach, pList, mockData.getTestData());
-//        assertTrue(success);
-//    }
 
     @Test
     public void nextStateTest() {
@@ -67,10 +58,10 @@ public class CreateTeamStateTest {
 
     @Test
     public void createTeamInLeagueTest() {
-    	Coach headCoach = new Coach("Mary Smith", 0.2, 0.3, 0.1, 0.4, coachMock);
-    	League league = new LeagueObjectTestData().getLeagueData();
-    	Manager manager1 = new Manager("Karen Potam", managerMock);
-    	List<Player> pList = league.getFreeAgents();
+        Coach headCoach = new Coach("Mary Smith", 0.2, 0.3, 0.1, 0.4, coachMock);
+        League league = new LeagueObjectTestData().getLeagueData();
+        Manager manager1 = new Manager("Karen Potam", managerMock);
+        List<Player> pList = league.getFreeAgents();
         boolean success = state.createTeamInLeague("Eastern Conference", "Atlantic", "testTeam", manager1, headCoach, pList, league);
         assertTrue(success);
     }
@@ -86,5 +77,5 @@ public class CreateTeamStateTest {
         assertEquals("Simulate", state.getNextStateName());
         context.setState(state);
     }
-    
+
 }
