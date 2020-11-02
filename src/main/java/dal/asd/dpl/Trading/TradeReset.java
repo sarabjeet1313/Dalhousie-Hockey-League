@@ -7,6 +7,9 @@ public class TradeReset {
     private ITradePersistence tradeDB;
     private List<String> teamNames = new ArrayList<>();
 
+    public TradeReset(){
+
+    }
     public TradeReset(ITradePersistence tradeDB){
         this.tradeDB = tradeDB;
     }
@@ -21,8 +24,10 @@ public class TradeReset {
 
     public void UpdateTrade(){
         boolean isPersisted = Boolean.FALSE;
-        for(String teamName: this.teamNames){
-            isPersisted = tradeDB.resetTradeLossPoint(teamName);
+        if(this.teamNames.size() > 1){
+            for(String teamName: this.teamNames){
+                isPersisted = tradeDB.resetTradeLossPoint(teamName);
+            }
         }
         if(isPersisted == Boolean.TRUE){
             this.clearList();
