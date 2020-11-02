@@ -3,6 +3,7 @@ import dal.asd.dpl.TeamManagement.*;
 import dal.asd.dpl.Util.ScheduleConstants;
 import dal.asd.dpl.Schedule.SeasonCalendar;
 import dal.asd.dpl.UserOutput.IUserOutput;
+import dal.asd.dpl.Util.StateConstants;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -35,7 +36,6 @@ public class AdvanceToNextSeasonState implements ISimulationState {
     }
 
     public void doProcessing() {
-        // no of days between the very first day of next season and the day when cup winner declared.
         int days = (int)daysLapsed();
         leagueToSimulate = retirement.increaseAge(days, leagueToSimulate);
         leagueToSimulate = injury.updatePlayerInjuryStatus(days, leagueToSimulate);

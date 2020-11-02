@@ -4,7 +4,7 @@ import dal.asd.dpl.Schedule.SeasonCalendar;
 import dal.asd.dpl.Standings.StandingInfo;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.UserOutput.IUserOutput;
-import dal.asd.dpl.Util.ScheduleConstants;
+import dal.asd.dpl.Util.StateConstants;
 
 public class PersistState implements ISimulationState {
 
@@ -42,16 +42,10 @@ public class PersistState implements ISimulationState {
     }
 
     public void doProcessing() {
-
         output.setOutput("Inside persist state");
         output.sendOutput();
-        if(schedule.getSeasonType() == ScheduleConstants.REGULAR_SEASON && currentDate.equals(schedule.getFirstDay())) {
-            standings.initializeStandings();
-        }
-        else {
-            standings.updateStandings();
-            leagueToSimulate.UpdateLeague(leagueToSimulate);
-        }
+        standings.updateStandings();
+        leagueToSimulate.UpdateLeague(leagueToSimulate);
     }
 
     public String getStateName() {

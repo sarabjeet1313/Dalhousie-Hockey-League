@@ -1,11 +1,11 @@
 package dal.asd.dpl.InternalStateMachine;
-
 import dal.asd.dpl.Schedule.ISchedule;
 import dal.asd.dpl.Schedule.SeasonCalendar;
 import dal.asd.dpl.TeamManagement.IInjuryManagement;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.UserOutput.IUserOutput;
-
+import dal.asd.dpl.Util.ScheduleConstants;
+import dal.asd.dpl.Util.StateConstants;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -48,15 +48,16 @@ public class InjuryCheckState implements ISimulationState {
 	public void doProcessing() {
 		List<Map<String, String>> competingList = new ArrayList<Map<String,String>>();
 		competingList = schedule.getFinalSchedule().get(currentDate);
-		System.out.println("==========================================================");
-        System.out.println("competingList 		"+competingList.size());
-//        System.out.println("competingList[0]: 	"+competingList.get(0));
-        System.out.println("==========================================================");		
 		for (Map<String, String> teams : competingList) {
 			for (Map.Entry<String, String> entry : teams.entrySet()) {
 				leagueToSimulate = injury.getInjuryStatusByTeam(entry.getKey(), leagueToSimulate);
 				leagueToSimulate = injury.getInjuryStatusByTeam(entry.getValue(), leagueToSimulate);
 			}
+		}
+		if(schedule.getSeasonType() == ScheduleConstants.PLAYOFF_SEASON){
+			Map<String, List<Map<String, String>>> currentSchedule = schedule.getFinalSchedule();
+			currentSchedule.remove(this.currentDate);
+			schedule.setFinalSchedule(currentSchedule);
 		}
 		output.setOutput("Inside Injury Check state");
 		output.sendOutput();

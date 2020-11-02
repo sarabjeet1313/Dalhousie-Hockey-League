@@ -14,9 +14,8 @@ public class StandingsDataDb implements IStandingsPersistance {
     private InvokeStoredProcedure isp;
     private int season;
 
-    
-    public StandingsDataDb(int season) {
-        this.season = season;
+    public void setSeason(int currentSeason) {
+        this.season = currentSeason;
     }
 
     public void updateStandingsWin(String teamName) {

@@ -28,7 +28,7 @@ public class App {
         IGameplayConfigPersistance configDb = new GameConfigDB();
         IManagerPersistance managerDb = new ManagerDataDB();
         ITradePersistance tradeDb = new TradeDataDB();
-        IStandingsPersistance standingDb = new StandingsDataDb(0);
+        IStandingsPersistance standingDb = new StandingsDataDb();
         StateContext context = new StateContext(input, output);
         context.setState(new InitialState(input, output));
          

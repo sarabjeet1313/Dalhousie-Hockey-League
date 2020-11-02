@@ -1,5 +1,4 @@
 package dal.asd.dpl.InternalStateMachine;
-
 import dal.asd.dpl.NewsSystem.GamePlayedPublisher;
 import dal.asd.dpl.NewsSystem.NewsSubscriber;
 import dal.asd.dpl.Schedule.ISchedule;
@@ -10,6 +9,7 @@ import dal.asd.dpl.TeamManagement.ITeamInfo;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagement.Team;
 import dal.asd.dpl.UserOutput.IUserOutput;
+import dal.asd.dpl.Util.StateConstants;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +24,6 @@ public class SimulateGameState implements ISimulationState {
 	private SeasonCalendar utility;
 	private String currentDate;
 	private IUserOutput output;
-	private GamePlayedPublisher gamePublisher;
 	private ITeamInfo teamInfo;
 	private double randomWinChance;
 	private Map<String, List<Map<String, String>>> currentSchedule;
@@ -115,17 +114,15 @@ public class SimulateGameState implements ISimulationState {
 	private void simulatePlayoffMatches() {
 		if (currentSchedule.containsKey(this.currentDate)) {
 			List<Map<String, String>> teamsCompetingList = currentSchedule.get(this.currentDate);
-
 			if (teamsCompetingList.size() > 0) {
 				Map<String, String> teamsCompeting = teamsCompetingList.get(0);
 				for (Map.Entry<String, String> entry : teamsCompeting.entrySet()) {
 					String firstTeam = entry.getKey();
 					String secondTeam = entry.getValue();
 
-					int team1Win = 1;
+					int team1Win = 0;
 					int team2Win = 0;
-					// best of seven series
-					for (int i = 0; i < 7; i++) {
+					for (int index = 0; index < 7; index++) {
 						if (team1Win >= 4 || team2Win >= 4) {
 							break;
 						}
@@ -170,7 +167,6 @@ public class SimulateGameState implements ISimulationState {
 						generateNextRoundSchedule(secondTeam, firstTeam);
 					}
 				}
-				//currentSchedule.remove(this.currentDate);
 				schedule.setFinalSchedule(currentSchedule);
 			}
 		}
@@ -190,8 +186,6 @@ public class SimulateGameState implements ISimulationState {
 			if (schedule.getTeamsToBeScheduled().size() < 2) {
 				utility.setSeasonOverStatus(true);
 				utility.setSeasonWinner(schedule.getTeamsToBeScheduled().get(0));
-				output.setOutput("Winner is : " + utility.getSeasonWinner());
-				output.sendOutput();
 				utility.setLastSeasonDay(this.currentDate);
 			} else {
 				schedule.generateScheduleOnTheFly(schedule.getTeamsToBeScheduled(), this.currentDate);

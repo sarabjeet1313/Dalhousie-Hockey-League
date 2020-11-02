@@ -5,8 +5,9 @@ import dal.asd.dpl.Schedule.SeasonCalendar;
 import dal.asd.dpl.Standings.IStandingsPersistance;
 import dal.asd.dpl.Standings.StandingInfo;
 import dal.asd.dpl.TeamManagement.League;
-import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
+import dal.asd.dpl.Util.StateConstants;
+
 import java.util.Calendar;
 
 public class GenerateRegularSeasonScheduleState implements ISimulationState {
@@ -15,25 +16,21 @@ public class GenerateRegularSeasonScheduleState implements ISimulationState {
     private String nextStateName;
     private String startDate;
     private String endDate;
-    private String year;
     private Calendar calendar;
     private League leagueToSimulate;
     private StandingInfo standings;
-    private int currentYear;
-    private IUserInput input;
     private IUserOutput output;
     private InternalStateContext context;
     private ISchedule schedule;
     private SeasonCalendar seasonCalendar;
 
-    public GenerateRegularSeasonScheduleState(League leagueToSimulate, IUserInput input, IUserOutput output, int season, InternalStateContext context, IStandingsPersistance standingsDb) {
+    public GenerateRegularSeasonScheduleState(League leagueToSimulate, IUserOutput output, int season, InternalStateContext context, IStandingsPersistance standingsDb) {
         this.stateName = StateConstants.GENERATE_REGULAR_SEASON_SCHEDULE_STATE;
         this.leagueToSimulate = leagueToSimulate;
         this.standings = new StandingInfo(leagueToSimulate, season, standingsDb);
         this.calendar = Calendar.getInstance();
         this.schedule = new RegularSeasonSchedule(calendar, output);
         this.seasonCalendar = new SeasonCalendar(season, output);
-        this.input = input;
         this.output = output;
         this.context = context;
         this.startDate = seasonCalendar.getRegularSeasonStartDay();
@@ -54,7 +51,7 @@ public class GenerateRegularSeasonScheduleState implements ISimulationState {
         output.sendOutput();
 
         standings.initializeStandings();
-        if(leagueToSimulate == null) {
+        if(null == leagueToSimulate) {
             output.setOutput("Error scheduling season, passed league object is null. Please check");
             output.sendOutput();
             return;
@@ -63,7 +60,6 @@ public class GenerateRegularSeasonScheduleState implements ISimulationState {
         schedule.generateSchedule(leagueToSimulate);
         output.setOutput("Regular season has been scheduled successfully.");
         output.sendOutput();
-
         schedule.setCurrentDay(seasonCalendar.getRegularSeasonStartDay());
     }
 

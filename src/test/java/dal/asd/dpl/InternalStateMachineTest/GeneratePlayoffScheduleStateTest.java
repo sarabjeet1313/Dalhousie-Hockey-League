@@ -37,7 +37,7 @@ public class GeneratePlayoffScheduleStateTest {
         schedule = new PlayoffSchedule(output, standings, 0);
         utility = new SeasonCalendar(0, output);
         context = new InternalStateContext(input, output);
-        state = new GeneratePlayoffScheduleState(leagueToSimulate, utility, standings, "13-11-2020", output, context, 1);
+        state = new GeneratePlayoffScheduleState(leagueToSimulate, utility, standings, output, context, 1);
     }
 
     @Test

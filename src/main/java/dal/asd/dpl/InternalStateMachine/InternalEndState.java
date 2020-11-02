@@ -1,13 +1,13 @@
 package dal.asd.dpl.InternalStateMachine;
-import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
+import dal.asd.dpl.Util.StateConstants;
 
 public class InternalEndState implements ISimulationState{
     private static IUserOutput output;
     private static String stateName;
     private static String nextStateName;
 
-    public InternalEndState(IUserInput input, IUserOutput output){
+    public InternalEndState(IUserOutput output){
         this.output = output;
         this.stateName = StateConstants.END_STATE;
     }

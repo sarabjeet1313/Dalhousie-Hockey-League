@@ -49,7 +49,7 @@ public class InternalStateContextTest {
 
     @Test
     public void doProcessingTest() {
-        context.setState(new InternalEndState(input, output));
+        context.setState(new InternalEndState(output));
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
         context.doProcessing();

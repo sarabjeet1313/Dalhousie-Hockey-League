@@ -1,10 +1,10 @@
 package dal.asd.dpl.InternalStateMachine;
-
 import dal.asd.dpl.Standings.IStandingsPersistance;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.Trading.ITradePersistance;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.IUserOutput;
+import dal.asd.dpl.Util.StateConstants;
 
 public class InternalStartState implements ISimulationState {
 	private IUserInput input;

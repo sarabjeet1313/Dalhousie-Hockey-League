@@ -42,7 +42,7 @@ public class TradingStateTest {
         context = new InternalStateContext(input, output);
         utility = new SeasonCalendar(0, output);
         trade = new Trade();
-        state = new TradingState(leagueToSimulate, trade, schedule, context, utility, "13-11-2020", output);
+        state = new TradingState(leagueToSimulate, trade, context, output);
     }
 
     @Test
