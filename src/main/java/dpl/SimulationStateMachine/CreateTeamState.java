@@ -296,6 +296,8 @@ public class CreateTeamState implements IState {
                 output.sendOutput();
             } else {
                 playersList.get(temp).setCaptain(true);
+                output.setOutput("Creating the Team ...");
+                output.sendOutput();
                 validId = false;
             }
         }
