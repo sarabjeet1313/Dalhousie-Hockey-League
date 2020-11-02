@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import dal.asd.dpl.TeamManagement.Coach;
+import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagement.Manager;
 import dal.asd.dpl.TeamManagement.Player;
 import dal.asd.dpl.TeamManagement.Team;
@@ -99,7 +100,8 @@ public class TeamTest {
 	@Test
 	public void getAvailablePlayersListTest() {
 		LeagueObjectTestData leagueData = new LeagueObjectTestData();
-		List<List<Player>> list = team.getAvailablePlayersList(leagueData.getLeagueData());
+		League league = new League();
+		List<List<Player>> list = league.getAvailableLeaguePlayers(leagueData.getLeagueData());
 		Assert.assertEquals(3, list.size());
 	}
 

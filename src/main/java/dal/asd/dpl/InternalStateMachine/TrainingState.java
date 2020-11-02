@@ -4,15 +4,12 @@ import dal.asd.dpl.Schedule.ISchedule;
 import dal.asd.dpl.Schedule.SeasonCalendar;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.UserOutput.IUserOutput;
-
-import java.util.List;
-import java.util.Map;
+import dal.asd.dpl.Util.StateConstants;
 
 public class TrainingState implements ISimulationState {
 
     private String stateName;
     private String nextStateName;
-    private boolean finalDay;
     private League leagueToSimulate;
     private String currentDate;
     private IUserOutput output;
@@ -47,8 +44,6 @@ public class TrainingState implements ISimulationState {
     }
 
     public void doProcessing() {
-        output.setOutput("Inside Training state");
-        output.sendOutput();
         leagueToSimulate = training.trackDaysForTraining(leagueToSimulate);
     }
 

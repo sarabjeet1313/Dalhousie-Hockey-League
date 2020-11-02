@@ -37,7 +37,7 @@ public class GeneratePlayoffScheduleStateTest {
         schedule = new PlayoffSchedule(output, standings, 0);
         utility = new SeasonCalendar(0, output);
         context = new InternalStateContext(input, output);
-        state = new GeneratePlayoffScheduleState(leagueToSimulate, utility, standings, "13-11-2020", output, context, 1);
+        state = new GeneratePlayoffScheduleState(leagueToSimulate, utility, standings, output, context, 1);
     }
 
     @Test
@@ -48,14 +48,13 @@ public class GeneratePlayoffScheduleStateTest {
         assertNotEquals("Negative", state.getNextStateName());
     }
 
-    //TODO TEST
-//    @Test
-//    public void doProcessingTest() {
-//        assertFalse(state.getSchedule().getFinalSchedule().containsKey("15-04-2021"));
-//        state.doProcessing();
-//        assertTrue(state.getSchedule().getFinalSchedule().containsKey("15-04-2021"));
-//        assertEquals("Halifax", state.getSchedule().getFinalSchedule().get("15-04-2021").get(0).get("Boston"));
-//    }
+    @Test
+    public void doProcessingTest() {
+        assertFalse(state.getSchedule().getFinalSchedule().containsKey("15-04-2021"));
+        state.doProcessing();
+        assertTrue(state.getSchedule().getFinalSchedule().containsKey("15-04-2021"));
+        assertEquals("Halifax", state.getSchedule().getFinalSchedule().get("15-04-2021").get(0).get("Boston"));
+    }
 
     @Test
     public void getStateNameTest() {

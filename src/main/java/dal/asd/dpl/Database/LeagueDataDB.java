@@ -194,5 +194,41 @@ public class LeagueDataDB implements ILeaguePersistance {
 		}
 		return isPersisted;
 	}
-
+	
+	@Override
+	public boolean UpdateLeagueData(String leagueName, String teamName, Player player) {
+		ResultSet result;
+		boolean isPersisted = Boolean.FALSE;
+		try {
+			invoke = new InvokeStoredProcedure(StoredProcedureUtil.UPDATE_LEAGUE.getSpString());
+			invoke.setParameter(1, leagueName);
+			invoke.setParameter(2, teamName);
+			invoke.setParameter(3, player.getPlayerName());
+			invoke.setParameter(4, player.getPosition());
+			invoke.setParameter(5, player.isCaptain());
+			invoke.setParameter(6, player.getAge());
+			invoke.setParameter(7, player.getSkating());
+			invoke.setParameter(8, player.getShooting());
+			invoke.setParameter(9, player.getChecking());
+			invoke.setParameter(10, player.getSaving());
+			invoke.setParameter(11, player.isInjured());
+			invoke.setParameter(12, player.getDaysInjured());
+			invoke.setParameter(13, player.isRetireStatus());
+			result = invoke.executeQueryWithResults();
+			while (result.next()) {
+				isPersisted = result.getBoolean(LeagueUtil.SUCCESS.toString());
+			}
+		} catch (SQLException e) {
+			output.setOutput(e.getMessage());
+			output.sendOutput();
+		} finally {
+			try {
+				invoke.closeConnection();
+			} catch (SQLException e) {
+				output.setOutput(e.getMessage());
+				output.sendOutput();
+			}
+		}
+		return isPersisted;
+	}
 }

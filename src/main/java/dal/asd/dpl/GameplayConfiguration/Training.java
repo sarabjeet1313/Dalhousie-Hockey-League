@@ -19,9 +19,9 @@ public class Training {
 		this.daysUntilStatIncreaseCheck = daysUntilStatIncreaseCheck;
 		this.trackDays = trackDays;
 	}
-	
+
 	public Training() {
-		
+
 	}
 
 	public int getDaysUntilStatIncreaseCheck() {
@@ -46,7 +46,7 @@ public class Training {
 
 	public void updateStats(Player player, Coach headCoach, League league) {
 		double randomValue = generateRandomValue();
-		IInjuryManagement injury = new InjuryManagement();  
+		IInjuryManagement injury = new InjuryManagement();
 		if (randomValue < headCoach.getSkating()) {
 			player.setSkating(player.getSkating() + 1);
 		} else {
@@ -56,7 +56,7 @@ public class Training {
 		if (randomValue < headCoach.getShooting() && player.isInjured() == Boolean.FALSE) {
 			player.setShooting(player.getShooting() + 1);
 		} else {
-			if(player.isInjured() == Boolean.FALSE) {
+			if (player.isInjured() == Boolean.FALSE) {
 				player = injury.getPlayerInjuryDays(player, league);
 			}
 		}
@@ -64,7 +64,7 @@ public class Training {
 		if (randomValue < headCoach.getChecking() && player.isInjured() == Boolean.FALSE) {
 			player.setChecking(player.getChecking() + 1);
 		} else {
-			if(player.isInjured() == Boolean.FALSE) {
+			if (player.isInjured() == Boolean.FALSE) {
 				player = injury.getPlayerInjuryDays(player, league);
 			}
 		}
@@ -72,7 +72,7 @@ public class Training {
 		if (randomValue < headCoach.getSaving() && player.isInjured() == Boolean.FALSE) {
 			player.setShooting(player.getShooting() + 1);
 		} else {
-			if(player.isInjured() == Boolean.FALSE) {
+			if (player.isInjured() == Boolean.FALSE) {
 				player = injury.getPlayerInjuryDays(player, league);
 			}
 		}
@@ -102,9 +102,10 @@ public class Training {
 	}
 
 	public League trackDaysForTraining(League league) {
-		int days = league.getGameConfig().getTraining().getTrackDays()-1;
-		if(days == 0) {
-			league.getGameConfig().getTraining().setTrackDays(league.getGameConfig().getTraining().getDaysUntilStatIncreaseCheck());
+		int days = league.getGameConfig().getTraining().getTrackDays() - 1;
+		if (days == 0) {
+			league.getGameConfig().getTraining()
+					.setTrackDays(league.getGameConfig().getTraining().getDaysUntilStatIncreaseCheck());
 			league = playerTraining(league);
 		}
 		league.getGameConfig().getTraining().setTrackDays(days);

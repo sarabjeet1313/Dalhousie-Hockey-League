@@ -6,13 +6,13 @@ import dal.asd.dpl.TeamManagementTest.CoachMockData;
 import dal.asd.dpl.TeamManagementTest.GamaplayConfigMockData;
 import dal.asd.dpl.TeamManagementTest.LeagueMockData;
 import dal.asd.dpl.TeamManagementTest.ManagerMockData;
-import dal.asd.dpl.Trading.ITradeDB;
+import dal.asd.dpl.Trading.ITradePersistance;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class TradeObjectTestMockData implements ITradeDB {
+public class TradeObjectTestMockData implements ITradePersistance {
 
 
     private Player player1 = new Player("Player One", "forward", true, 1, 1, 1, 1, 1, false, false, 0);

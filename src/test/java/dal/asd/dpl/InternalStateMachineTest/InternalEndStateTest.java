@@ -22,7 +22,7 @@ public class InternalEndStateTest {
     public void setUp() throws Exception {
         input = new CmdUserInput();
         output = new CmdUserOutput();
-        state = new InternalEndState(input, output);
+        state = new InternalEndState(output);
         context = new InternalStateContext(input, output);
     }
 

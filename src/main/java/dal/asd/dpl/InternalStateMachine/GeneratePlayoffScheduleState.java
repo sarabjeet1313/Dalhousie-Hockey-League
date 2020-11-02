@@ -5,6 +5,7 @@ import dal.asd.dpl.Schedule.SeasonCalendar;
 import dal.asd.dpl.Standings.IStandingsPersistance;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.UserOutput.IUserOutput;
+import dal.asd.dpl.Util.StateConstants;
 
 public class GeneratePlayoffScheduleState implements ISimulationState {
 
@@ -12,7 +13,6 @@ public class GeneratePlayoffScheduleState implements ISimulationState {
     private String nextStateName;
     private String startDate;
     private String endDate;
-    private String currentDate;
     private int season;
     private League leagueToSimulate;
     private IUserOutput output;
@@ -21,15 +21,14 @@ public class GeneratePlayoffScheduleState implements ISimulationState {
     private InternalStateContext context;
     private ISchedule schedule;
 
-    public GeneratePlayoffScheduleState(League leagueToSimulate, SeasonCalendar seasonCalendar, IStandingsPersistance standings, String currentDate, IUserOutput output, InternalStateContext context, int season) {
+    public GeneratePlayoffScheduleState(League leagueToSimulate, SeasonCalendar seasonCalendar, IStandingsPersistance standings, IUserOutput output, InternalStateContext context, int season) {
         this.stateName = StateConstants.GENERATE_PLAYOFF_SCHEDULE_STATE;
         this.season = season;
         this.output = output;
         this.seasonCalendar = seasonCalendar;
-        this.currentDate = currentDate;
         this.standingsDb = standings;
         this.leagueToSimulate = leagueToSimulate;
-        this.schedule = new PlayoffSchedule(output, standings, season);
+        this.schedule = new PlayoffSchedule(this.output, this.standingsDb, this.season);
         this.context = context;
         this.startDate = this.seasonCalendar.getPlayoffFirstDay();
         schedule.setFirstDay(startDate);
@@ -48,7 +47,7 @@ public class GeneratePlayoffScheduleState implements ISimulationState {
         output.setOutput("Scheduling the playoff season round-1 for simulation.");
         output.sendOutput();
 
-        if(leagueToSimulate == null) {
+        if(null == leagueToSimulate) {
             output.setOutput("Error scheduling season, passed league object is null. Please check");
             output.sendOutput();
             return;

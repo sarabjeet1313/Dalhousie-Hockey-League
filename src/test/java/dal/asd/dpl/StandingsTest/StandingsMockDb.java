@@ -29,6 +29,10 @@ public class StandingsMockDb implements IStandingsPersistance {
         standings.add(standing2);
     }
 
+    public void setSeason(int season) {
+        this.season = season;
+    }
+
 
     public void updateStandingsWin(String teamName) {
         if(standingsTeamWin.containsKey(teamName)){

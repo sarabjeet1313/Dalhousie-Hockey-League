@@ -42,7 +42,7 @@ public class TradingStateTest {
         context = new InternalStateContext(input, output);
         utility = new SeasonCalendar(0, output);
         trade = new Trade();
-        state = new TradingState(leagueToSimulate, trade, schedule, context, utility, "13-11-2020", output);
+        state = new TradingState(leagueToSimulate, trade, context, output);
     }
 
     @Test
@@ -53,15 +53,15 @@ public class TradingStateTest {
         assertNotEquals("Negative", state.getNextStateName());
     }
 
-    //TODO TEST
+    //TODO TEST - need to pass trade mock object - In @Before it shouls be trade = new Trade(tradeMockobj)
 //    @Test
 //    public void doProcessingTest() {
 //        state.doProcessing();
-//        assertFalse(null == state.getUpdatedLeague());
+//        assertTrue(null == state.getUpdatedLeague());
 //        assertTrue( state.getUpdatedLeague() instanceof League);
 //    }
-
-    //TODO TEST
+//
+//    //TODO TEST
 //    @Test
 //    public void getUpdatedLeagueTest() {
 //        state.doProcessing();

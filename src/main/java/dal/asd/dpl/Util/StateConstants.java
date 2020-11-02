@@ -1,4 +1,4 @@
-package dal.asd.dpl.InternalStateMachine;
+package dal.asd.dpl.Util;
 
 public class StateConstants {
 

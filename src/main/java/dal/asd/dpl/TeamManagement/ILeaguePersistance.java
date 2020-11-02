@@ -8,5 +8,7 @@ public interface ILeaguePersistance {
 	public int checkLeagueName(String leagueName);
 
 	public League loadLeagueData(String teamName);
+	
+	public boolean UpdateLeagueData(String leagueName, String teamName, Player player);
 
 }

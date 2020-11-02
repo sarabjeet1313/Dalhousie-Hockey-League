@@ -2,6 +2,8 @@ package dal.asd.dpl.SimulationStateMachineTest;
 import dal.asd.dpl.GameplayConfiguration.IGameplayConfigPersistance;
 import dal.asd.dpl.SimulationStateMachine.LoadTeamState;
 import dal.asd.dpl.SimulationStateMachine.StateContext;
+import dal.asd.dpl.Standings.IStandingsPersistance;
+import dal.asd.dpl.StandingsTest.StandingsMockDb;
 import dal.asd.dpl.TeamManagement.ILeaguePersistance;
 import dal.asd.dpl.TeamManagementTest.LeagueMockData;
 import dal.asd.dpl.UserInput.CmdUserInput;
@@ -20,13 +22,15 @@ public class LoadTeamStateTest {
     private StateContext context;
     private ILeaguePersistance leagueMock;
     private IGameplayConfigPersistance configMock;
+    private IStandingsPersistance standingMock;
 
     @Before
     public void setUp() throws Exception {
         input = new CmdUserInput();
         output = new CmdUserOutput();
         leagueMock = new LeagueMockData();
-        state = new LoadTeamState(input, output, leagueMock, configMock);
+        standingMock = new StandingsMockDb(0);
+        state = new LoadTeamState(input, output, leagueMock, configMock, null, standingMock);
         context = new StateContext(input, output);
         context.setState(state);
     }

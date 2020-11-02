@@ -3,6 +3,8 @@ import dal.asd.dpl.InternalStateMachine.ISimulationState;
 import dal.asd.dpl.InternalStateMachine.InternalEndState;
 import dal.asd.dpl.InternalStateMachine.InternalStartState;
 import dal.asd.dpl.InternalStateMachine.InternalStateContext;
+import dal.asd.dpl.Standings.IStandingsPersistance;
+import dal.asd.dpl.StandingsTest.StandingsMockDb;
 import dal.asd.dpl.UserInput.CmdUserInput;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.CmdUserOutput;
@@ -20,13 +22,15 @@ public class InternalStateContextTest {
     private static IUserInput input;
     private static IUserOutput output;
     private static InternalStateContext context;
+    private IStandingsPersistance standingMock;
 
     @Before
     public void setUp() throws Exception {
         input = new CmdUserInput();
         output = new CmdUserOutput();
         context = new InternalStateContext(input, output);
-        state = new InternalStartState(input, output, "", null, context);
+        standingMock = new StandingsMockDb(0);
+        state = new InternalStartState(input, output, "", null, context, null, standingMock);
         context.setState(state);
     }
 
@@ -45,7 +49,7 @@ public class InternalStateContextTest {
 
     @Test
     public void doProcessingTest() {
-        context.setState(new InternalEndState(input, output));
+        context.setState(new InternalEndState(output));
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
         context.doProcessing();

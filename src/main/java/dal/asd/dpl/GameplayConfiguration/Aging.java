@@ -1,6 +1,7 @@
 package dal.asd.dpl.GameplayConfiguration;
 
 public class Aging {
+	
 	int averageRetirementAge;
 	int maximumAge;
 

@@ -35,7 +35,7 @@ public class GenerateRegularSeasonScheduleStateTest {
         context = new InternalStateContext(input, output);
         schedule = new RegularSeasonSchedule(null, output);
         standingsDb = new StandingsMockDb(0);
-        state = new GenerateRegularSeasonScheduleState(leagueToSimulate, input, output, 0, context, standingsDb);
+        state = new GenerateRegularSeasonScheduleState(leagueToSimulate, output, 0, context, standingsDb);
     }
 
     @Test

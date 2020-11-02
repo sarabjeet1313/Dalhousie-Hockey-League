@@ -1,13 +1,13 @@
-package dal.asd.dpl.Trading;
-
-import dal.asd.dpl.Database.InvokeStoredProcedure;
+package dal.asd.dpl.Database;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TradeDB implements ITradeDB{
+import dal.asd.dpl.Trading.ITradePersistance;
+
+public class TradeDataDB implements ITradePersistance{
 
     InvokeStoredProcedure isp = null;
 

@@ -2,10 +2,13 @@ package dal.asd.dpl.SimulationStateMachineTest;
 import dal.asd.dpl.Database.GameConfigDB;
 import dal.asd.dpl.SimulationStateMachine.ParsingState;
 import dal.asd.dpl.SimulationStateMachine.StateContext;
+import dal.asd.dpl.Standings.IStandingsPersistance;
+import dal.asd.dpl.StandingsTest.StandingsMockDb;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagementTest.CoachMockData;
 import dal.asd.dpl.TeamManagementTest.LeagueMockData;
 import dal.asd.dpl.TeamManagementTest.ManagerMockData;
+import dal.asd.dpl.Trading.ITradePersistance;
 import dal.asd.dpl.UserInput.CmdUserInput;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.CmdUserOutput;
@@ -28,6 +31,8 @@ public class ParsingStateTest {
     private CoachMockData coachMock;
     private GameConfigDB configMock;
     private ManagerMockData managerMock;
+    private IStandingsPersistance standingMock;
+    private ITradePersistance tradeMock;
 
     @Before
     public void setUp() throws Exception {
@@ -36,7 +41,8 @@ public class ParsingStateTest {
         input = new CmdUserInput();
         output = new CmdUserOutput();
         leagueDb = new LeagueMockData();
-        state = new ParsingState(input, output, filePath, leagueDb, coachMock, configMock, managerMock);
+        standingMock = new StandingsMockDb(0);
+        state = new ParsingState(input, output, filePath, leagueDb, coachMock, configMock, managerMock, tradeMock, standingMock);
         context = new StateContext(input, output);
         context.setState(state);
     }
