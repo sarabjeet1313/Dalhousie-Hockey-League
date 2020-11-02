@@ -7,6 +7,7 @@ import dal.asd.dpl.Schedule.SeasonCalendar;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagementTest.LeagueMockData;
 import dal.asd.dpl.Trading.Trade;
+import dal.asd.dpl.TradingTest.TradeObjectTestMockData;
 import dal.asd.dpl.UserInput.CmdUserInput;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.CmdUserOutput;
@@ -30,6 +31,7 @@ public class TradingStateTest {
     private IUserInput input;
     private Trade trade;
     private Calendar calendar;
+    private TradeObjectTestMockData tradeMock;
 
     @Before
     public void setUp() throws Exception {
@@ -41,7 +43,8 @@ public class TradingStateTest {
         schedule = new RegularSeasonSchedule(calendar, output);
         context = new InternalStateContext(input, output);
         utility = new SeasonCalendar(0, output);
-        trade = new Trade();
+        tradeMock = new TradeObjectTestMockData();
+        trade = new Trade(tradeMock);
         state = new TradingState(leagueToSimulate, trade, context, output);
     }
 
@@ -53,21 +56,19 @@ public class TradingStateTest {
         assertNotEquals("Negative", state.getNextStateName());
     }
 
-    //TODO TEST - need to pass trade mock object - In @Before it shouls be trade = new Trade(tradeMockobj)
-//    @Test
-//    public void doProcessingTest() {
-//        state.doProcessing();
-//        assertTrue(null == state.getUpdatedLeague());
-//        assertTrue( state.getUpdatedLeague() instanceof League);
-//    }
-//
-//    //TODO TEST
-//    @Test
-//    public void getUpdatedLeagueTest() {
-//        state.doProcessing();
-//        assertFalse(null == state.getUpdatedLeague());
-//        assertTrue( state.getUpdatedLeague() instanceof League);
-//    }
+    @Test
+    public void doProcessingTest() {
+        state.doProcessing();
+        assertFalse(null == state.getUpdatedLeague());
+        assertTrue( state.getUpdatedLeague() instanceof League);
+    }
+
+    @Test
+    public void getUpdatedLeagueTest() {
+        state.doProcessing();
+        assertFalse(null == state.getUpdatedLeague());
+        assertTrue( state.getUpdatedLeague() instanceof League);
+    }
 
     @Test
     public void getStateNameTest() {

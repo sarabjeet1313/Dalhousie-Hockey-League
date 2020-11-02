@@ -6,6 +6,8 @@ import dal.asd.dpl.Standings.IStandingsPersistance;
 import dal.asd.dpl.StandingsTest.StandingsMock;
 import dal.asd.dpl.StandingsTest.StandingsMockDb;
 import dal.asd.dpl.TeamManagementTest.LeagueMockData;
+import dal.asd.dpl.Trading.ITradePersistance;
+import dal.asd.dpl.TradingTest.TradeObjectTestMockData;
 import dal.asd.dpl.UserInput.CmdUserInput;
 import dal.asd.dpl.UserInput.IUserInput;
 import dal.asd.dpl.UserOutput.CmdUserOutput;
@@ -26,20 +28,23 @@ public class InternalSimulationStateTest {
     private LeagueMockData leagueMock;
     private SeasonCalendar utlity;
     private IStandingsPersistance standingMock;
+    private ITradePersistance tradeMock;
 
     @Before
     public void setUp() throws Exception {
         input = new CmdUserInput();
         output = new CmdUserOutput();
         leagueMock = new LeagueMockData();
-        utlity = new SeasonCalendar(1, output);
+        utlity = new SeasonCalendar(0, output);
         context = new InternalStateContext(input, output);
         standingMock = new StandingsMockDb(0);
-        state = new InternalSimulationState(input, output,1,"testTeam", leagueMock.getTestData(), context, null, standingMock);
+        tradeMock = new TradeObjectTestMockData();
+        state = new InternalSimulationState(input, output,1,"testTeam", leagueMock.getTestData(), context, tradeMock, standingMock);
     }
 
     @Test
     public void nextStateTest() {
+        assertNotEquals("End", context.currentStateName);
         context.setState(state);
         context.nextState();
         assertEquals("End", context.currentStateName);
@@ -48,24 +53,14 @@ public class InternalSimulationStateTest {
     @Test
     public void getStateNameTest() {
         assertEquals("InternalSimulation", state.getStateName());
+        assertNotEquals("End", state.getStateName());
     }
 
     @Test
     public void getNextStateNameTest() {
+        assertNotEquals("InternalEndState", state.getNextStateName());
         state.nextState(context);
         assertEquals("InternalEndState", state.getNextStateName());
     }
 
-    // TODO disabling the test for now, it is passing at my end but failing in GitLab pipeline.
-    // TODO need to check with Rob and team members.
-//    @Test
-//    public void doProcessingTest() {
-//        state.doProcessing();
-//        ByteArrayOutputStream out = new ByteArrayOutputStream();
-//        System.setOut(new PrintStream(out));
-//        String expected = "Season 1 winner is : Boston";
-//        String gotOutput = out.toString().replaceAll("\n", "");
-//        gotOutput = gotOutput.replaceAll("\r", "");
-//        assertEquals(expected, gotOutput.substring(gotOutput.length()-27, gotOutput.length()));
-//    }
 }
