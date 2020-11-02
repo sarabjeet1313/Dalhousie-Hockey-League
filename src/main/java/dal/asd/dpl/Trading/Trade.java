@@ -12,14 +12,14 @@ public class Trade implements ITrade {
     private String tradeRequestedTeam;
     private List<Player> playerListOfferTeam;
     private List<Player> playerListRequestedTeam;
-    private ITradeDB tradeDB;
+    private ITradePersistance tradeDB;
     static {
         TradePublisher.getInstance().subscribe(new NewsSubscriber());
     }
     public Trade(){
 
     }
-    public Trade(ITradeDB tradeDB){
+    public Trade(ITradePersistance tradeDB){
         this.tradeDB = tradeDB;
     }
 
@@ -148,6 +148,10 @@ public class Trade implements ITrade {
                 break;
             }
         }
+//        System.out.println("==========================================================");
+//        System.out.println("playerIndexArray length"+playerIndexArray.length);
+//        System.out.println("playerIndexArray[0]: 	"+playerIndexArray[0]);
+//        System.out.println("==========================================================");
         weakestPlayerPosition = p.get(playerIndexArray[0]).getPosition();
         for (int i = 0; i < playerIndexArray.length; i++){
 
@@ -249,11 +253,12 @@ public class Trade implements ITrade {
 //        TradeDB tradeDB = new TradeDB();
         Trade trade = new Trade();
         List<String> eligibleTeamNameList = new ArrayList<String>();
-        int maxPlayersPerTrade = tradeDB.getMaxPlayersPerTrade();
-        int minLossPoints = tradeDB.getLossPoint();
-        double randOfferChance = tradeDB.getRandomTradeOfferChance();
-        double randAcceptChance = tradeDB.getRandomTradeAcceptChance();
-        String userTeamName = tradeDB.getUserteamName();
+        int maxPlayersPerTrade = leagueObject.getGameConfig().getTrading().getMaxPlayersPerTrade();
+        int minLossPoints = leagueObject.getGameConfig().getTrading().getLossPoint();
+        double randOfferChance = leagueObject.getGameConfig().getTrading().getRandomTradeOfferChance();
+        double randAcceptChance = leagueObject.getGameConfig().getTrading().getRandomAcceptanceChance();
+//        String userTeamName = tradeDB.getUserteamName();
+        String userTeamName = "TestTeam";
         eligibleTeamNameList = tradeDB.getEligibleTeamName(minLossPoints);
         String [][] playersTraded ;
 

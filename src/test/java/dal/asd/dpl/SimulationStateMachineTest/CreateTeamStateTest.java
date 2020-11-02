@@ -1,9 +1,12 @@
 package dal.asd.dpl.SimulationStateMachineTest;
 
 import dal.asd.dpl.Database.GameConfigDB;
+import dal.asd.dpl.Database.StandingsDataDb;
 import dal.asd.dpl.GameplayConfiguration.IGameplayConfigPersistance;
 import dal.asd.dpl.SimulationStateMachine.CreateTeamState;
 import dal.asd.dpl.SimulationStateMachine.StateContext;
+import dal.asd.dpl.Standings.IStandingsPersistance;
+import dal.asd.dpl.StandingsTest.StandingsMockDb;
 import dal.asd.dpl.TeamManagement.Coach;
 import dal.asd.dpl.TeamManagement.ICoachPersistance;
 import dal.asd.dpl.TeamManagement.IManagerPersistance;
@@ -12,6 +15,7 @@ import dal.asd.dpl.TeamManagementTest.GamaplayConfigMockData;
 import dal.asd.dpl.TeamManagementTest.LeagueMockData;
 import dal.asd.dpl.TeamManagementTest.LeagueObjectTestData;
 import dal.asd.dpl.TeamManagementTest.ManagerMockData;
+import dal.asd.dpl.Trading.ITradePersistance;
 import dal.asd.dpl.TeamManagement.League;
 import dal.asd.dpl.TeamManagement.Manager;
 import dal.asd.dpl.TeamManagement.Player;
@@ -33,18 +37,24 @@ public class CreateTeamStateTest {
     private IUserOutput output;
     private StateContext context;
     private LeagueMockData mockData;
-    private LeagueObjectTestData data = new LeagueObjectTestData();
-    private ICoachPersistance coachMock = new CoachMockData();
-    private IGameplayConfigPersistance configMock = new GamaplayConfigMockData();
-    private IManagerPersistance managerMock = new ManagerMockData();
-
+    private LeagueObjectTestData data;
+    private ICoachPersistance coachMock;
+    private IGameplayConfigPersistance configMock;
+    private IManagerPersistance managerMock;
+    private IStandingsPersistance standingMock;
+    private ITradePersistance tradeMock;
 
     @Before
     public void setUp() throws Exception {
         input = new CmdUserInput();
         output = new CmdUserOutput();
         mockData = new LeagueMockData();
-        state = new CreateTeamState(input, output, data.getLeagueData(), mockData, coachMock, configMock, managerMock);
+        data = new LeagueObjectTestData();
+        coachMock = new CoachMockData();
+        configMock = new GamaplayConfigMockData();
+        managerMock = new ManagerMockData();
+        standingMock = new StandingsMockDb(0);
+        state = new CreateTeamState(input, output, data.getLeagueData(), mockData, coachMock, configMock, managerMock, tradeMock, standingMock);
         context = new StateContext(input, output);
         context.setState(state);
     }

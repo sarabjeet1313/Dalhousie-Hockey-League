@@ -57,6 +57,7 @@ public class TrainingStateTest {
         assertNotEquals("Negative", state.getNextStateName());
     }
 
+    //TODO
     @Test
     public void doProcessingTest() {
         state.doProcessing();

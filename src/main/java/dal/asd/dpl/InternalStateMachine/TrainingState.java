@@ -47,8 +47,8 @@ public class TrainingState implements ISimulationState {
     }
 
     public void doProcessing() {
-        output.setOutput("Inside Training state");
-        output.sendOutput();
+//        output.setOutput("Inside Training state");
+//        output.sendOutput();
         leagueToSimulate = training.trackDaysForTraining(leagueToSimulate);
     }
 

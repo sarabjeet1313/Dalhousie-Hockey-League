@@ -2,7 +2,7 @@ package dal.asd.dpl.Trading;
 
 import java.util.List;
 
-public interface ITradeDB {
+public interface ITradePersistance {
 
     public List<String> getEligibleTeamName(int lossPoints);
     public int getLossPoint();
