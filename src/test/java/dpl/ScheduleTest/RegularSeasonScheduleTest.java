@@ -1,13 +1,13 @@
 package dpl.ScheduleTest;
 
-import dpl.Schedule.RegularSeasonSchedule;
-import dpl.Standings.IStandingsPersistance;
-import dpl.Standings.StandingInfo;
+import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.RegularSeasonSchedule;
+import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.StandingsTest.StandingsMockDb;
-import dpl.TeamManagement.League;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.TeamManagementTest.LeagueMockData;
-import dpl.UserOutput.CmdUserOutput;
-import dpl.UserOutput.IUserOutput;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
 import org.junit.Before;
 import org.junit.Test;

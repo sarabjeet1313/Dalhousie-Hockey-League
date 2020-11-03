@@ -1,10 +1,10 @@
 package dpl.TradingTest;
 
-import dpl.TeamManagement.*;
-import dpl.Trading.ITradePersistence;
-import dpl.Trading.Trade;
-import dpl.UserOutput.CmdUserOutput;
-import dpl.UserOutput.IUserOutput;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.*;
+import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradePersistence;
+import dpl.LeagueSimulationManagement.LeagueManagement.Trading.Trade;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
 import org.junit.Assert;
 import org.junit.Test;

@@ -3,9 +3,9 @@ package dpl.InternalStateMachineTest;
 import org.junit.Before;
 import org.junit.Test;
 
-import dpl.Schedule.SeasonCalendar;
-import dpl.UserOutput.CmdUserOutput;
-import dpl.UserOutput.IUserOutput;
+import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
 import static org.junit.Assert.*;
 

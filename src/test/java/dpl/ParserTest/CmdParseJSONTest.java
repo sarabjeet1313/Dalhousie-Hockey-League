@@ -2,7 +2,7 @@ package dpl.ParserTest;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import dpl.Parser.CmdParseJSON;
+import dpl.LeagueSimulationManagement.UserInputOutput.Parser.CmdParseJSON;
 
 import org.junit.Test;
 import org.junit.Before;

@@ -3,9 +3,9 @@ package dpl.TeamManagementTest;
 import java.util.ArrayList;
 import org.junit.Test;
 
-import dpl.TeamManagement.Conference;
-import dpl.TeamManagement.Division;
-import dpl.TeamManagement.Team;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Conference;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Division;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
 
 import org.junit.Assert;
 

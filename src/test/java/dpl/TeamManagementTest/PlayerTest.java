@@ -2,8 +2,8 @@ package dpl.TeamManagementTest;
 
 import org.junit.Test;
 
-import dpl.TeamManagement.IPlayerInfo;
-import dpl.TeamManagement.Player;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IPlayerInfo;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
 
 import org.junit.Assert;
 

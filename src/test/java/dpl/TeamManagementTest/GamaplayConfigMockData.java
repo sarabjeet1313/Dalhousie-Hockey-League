@@ -1,8 +1,8 @@
 package dpl.TeamManagementTest;
 
-import dpl.GameplayConfiguration.GameplayConfig;
-import dpl.GameplayConfiguration.IGameplayConfigPersistance;
-import dpl.TeamManagement.League;
+import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.GameplayConfig;
+import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.IGameplayConfigPersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 
 public class GamaplayConfigMockData implements IGameplayConfigPersistance{
 	

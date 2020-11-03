@@ -1,8 +1,8 @@
 package dpl.TeamManagementTest;
 
 import dpl.DplConstants.GeneralConstants;
-import dpl.TeamManagement.IPlayerInfo;
-import dpl.TeamManagement.Player;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IPlayerInfo;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
 
 public class PlayerInfoMock implements IPlayerInfo {
 

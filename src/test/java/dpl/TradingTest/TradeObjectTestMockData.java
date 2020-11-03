@@ -1,12 +1,12 @@
 package dpl.TradingTest;
 
-import dpl.GameplayConfiguration.*;
-import dpl.TeamManagement.*;
+import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.*;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.*;
 import dpl.TeamManagementTest.CoachMockData;
 import dpl.TeamManagementTest.GamaplayConfigMockData;
 import dpl.TeamManagementTest.LeagueMockData;
 import dpl.TeamManagementTest.ManagerMockData;
-import dpl.Trading.ITradePersistence;
+import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradePersistence;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -9,7 +9,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import dpl.NewsSystem.TradePublisher;
+import dpl.LeagueSimulationManagement.NewsSystem.TradePublisher;
 
 public class TradeTest {
     private final ByteArrayOutputStream console = new ByteArrayOutputStream();

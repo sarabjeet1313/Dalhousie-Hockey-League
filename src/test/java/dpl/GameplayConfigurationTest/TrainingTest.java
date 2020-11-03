@@ -5,10 +5,10 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import dpl.GameplayConfiguration.Training;
-import dpl.TeamManagement.Coach;
-import dpl.TeamManagement.League;
-import dpl.TeamManagement.Player;
+import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Training;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Coach;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
 import dpl.TeamManagementTest.LeagueObjectTestData;
 
 public class TrainingTest {

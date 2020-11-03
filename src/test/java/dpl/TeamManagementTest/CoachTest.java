@@ -3,7 +3,7 @@ package dpl.TeamManagementTest;
 import org.junit.Assert;
 import org.junit.Test;
 
-import dpl.TeamManagement.Coach;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Coach;
 
 public class CoachTest {
 	
