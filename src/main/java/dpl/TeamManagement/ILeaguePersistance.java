@@ -1,14 +1,16 @@
 package dpl.TeamManagement;
 
+import java.sql.SQLException;
+
 public interface ILeaguePersistance {
 
-	public boolean persisitLeagueData(String leagueName, String conferenceName, String divisionName, String teamName,
-			String generalManager, String headCoach, Player player);
+    public boolean persisitLeagueData(String leagueName, String conferenceName, String divisionName, String teamName,
+                                      String generalManager, String headCoach, Player player) throws SQLException;
 
-	public int checkLeagueName(String leagueName);
+    public int checkLeagueName(String leagueName) throws SQLException;
 
-	public League loadLeagueData(String teamName);
-	
-	public boolean UpdateLeagueData(String leagueName, String teamName, Player player);
+    public League loadLeagueData(String teamName) throws SQLException;
+
+    public boolean UpdateLeagueData(String leagueName, String teamName, Player player) throws SQLException;
 
 }

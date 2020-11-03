@@ -19,8 +19,8 @@ import dpl.UserOutput.CmdUserOutput;
 import dpl.UserOutput.IUserOutput;
 
 public class App {
-	
-    public static void main( String[] args ) {
+
+    public static void main(String[] args) {
         IUserInput input = new CmdUserInput();
         IUserOutput output = new CmdUserOutput();
         ILeaguePersistance leagueDb = new LeagueDataDB();
@@ -31,24 +31,22 @@ public class App {
         IStandingsPersistance standingDb = new StandingsDataDb();
         StateContext context = new StateContext(input, output);
         context.setState(new InitialState(input, output));
-         
-        
+
 
         context.doProcessing();
 
-        if(args == null || args.length == 0) {
+        if (args == null || args.length == 0) {
             context.setState(new LoadTeamState(input, output, leagueDb, configDb, tradeDb, standingDb));
             context.doProcessing();
-            context.nextState(); // Simulate state
+            context.nextState();
             context.doProcessing();
-        }
-        else {
+        } else {
             String filePath = args[0];
             context.setState(new ParsingState(input, output, filePath, leagueDb, coachDb, configDb, managerDb, tradeDb, standingDb));
             context.doProcessing();
-            context.nextState(); // Create Team State
+            context.nextState();
             context.doProcessing();
-            context.nextState(); // Simulate state
+            context.nextState();
             context.doProcessing();
         }
     }

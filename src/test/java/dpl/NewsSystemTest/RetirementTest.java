@@ -12,21 +12,21 @@ import org.junit.Test;
 import dpl.NewsSystem.RetirementPublisher;
 
 public class RetirementTest {
-    private final ByteArrayOutputStream console = new ByteArrayOutputStream();
+	private final ByteArrayOutputStream console = new ByteArrayOutputStream();
 
-    @Before
-    public void before() {
-        System.setOut(new PrintStream(console));
-    }
+	@Before
+	public void before() {
+		System.setOut(new PrintStream(console));
+	}
 
-    @After
-    public void after() {
-        System.setOut(null);
-    }
+	@After
+	public void after() {
+		System.setOut(null);
+	}
 
-    @Test
-    public void outputJsonTest() {
-        RetirementPublisher.getInstance().notify("Wayne Gretzky", 38);
-        assertEquals(OutputConstants.RETIRED, console.toString().trim());
-    }
+	@Test
+	public void outputJsonTest() {
+		RetirementPublisher.getInstance().notify("Wayne Gretzky", 38);
+		assertEquals(OutputConstants.RETIRED, console.toString().trim());
+	}
 }

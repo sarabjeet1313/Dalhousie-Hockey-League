@@ -1,6 +1,6 @@
 package dpl.UserOutput;
 
-public class CmdUserOutput implements IUserOutput{
+public class CmdUserOutput implements IUserOutput {
     private String outputResponse;
 
     public CmdUserOutput() {

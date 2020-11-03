@@ -1,11 +1,12 @@
 package dpl.TeamManagement;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import dpl.DplConstants.TeamManagementConstants;
 
 public class Manager {
-	
+
 	private String managerName;
 	private IManagerPersistance managerDb;
 
@@ -26,19 +27,27 @@ public class Manager {
 		this.managerName = managerName;
 	}
 
-	public boolean saveTeamGeneralManager(String managerName, String teamName, String leagueName) {
+	public boolean saveTeamGeneralManager(String managerName, String teamName, String leagueName) throws SQLException {
 		boolean isSaved = Boolean.FALSE;
-		isSaved = managerDb.persistManagerInfo(managerName, teamName, leagueName);
+		try {
+			isSaved = managerDb.persistManagerInfo(managerName, teamName, leagueName);
+		} catch (SQLException e) {
+			throw e;
+		}
 		return isSaved;
 	}
 
-	public boolean saveManagerList(League league) {
+	public boolean saveManagerList(League league) throws SQLException {
 		boolean isSaved = Boolean.FALSE;
 		String teamName = TeamManagementConstants.EMPTY.toString();
-		List<Manager> list = league.getManagerList();
-		for (int index = 0; index < list.size(); index++) {
-			Manager manager = new Manager(list.get(index).getManagerName(), managerDb);
-			isSaved = managerDb.persistManagerInfo(manager.getManagerName(), teamName, league.getLeagueName());
+		try {
+			List<Manager> list = league.getManagerList();
+			for (int index = 0; index < list.size(); index++) {
+				Manager manager = new Manager(list.get(index).getManagerName(), managerDb);
+				isSaved = managerDb.persistManagerInfo(manager.getManagerName(), teamName, league.getLeagueName());
+			}
+		} catch (SQLException e) {
+			throw e;
 		}
 		return isSaved;
 	}

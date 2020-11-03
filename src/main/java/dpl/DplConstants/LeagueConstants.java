@@ -8,12 +8,11 @@ public enum LeagueConstants {
 
 	private final String leagueString;
 
-	private LeagueConstants(String leagueString) {
+	LeagueConstants(String leagueString) {
 		this.leagueString = leagueString;
 	}
 
 	public String toString() {
 		return leagueString;
-	}	
-
+	}
 }

@@ -1,7 +1,9 @@
 package dpl.TeamManagement;
 
+import java.sql.SQLException;
+
 public interface ICoachPersistance {
 
-	public boolean persistCoaches(Coach coach, String teamName, String leagueName);
+    public boolean persistCoaches(Coach coach, String teamName, String leagueName) throws SQLException;
 
 }

@@ -1,8 +1,8 @@
 package dpl.GameplayConfiguration;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import dpl.DplConstants.GameConfigConstants;
 import dpl.TeamManagement.Coach;
 import dpl.TeamManagement.Conference;
 import dpl.TeamManagement.Division;
@@ -11,18 +11,20 @@ import dpl.TeamManagement.InjuryManagement;
 import dpl.TeamManagement.League;
 import dpl.TeamManagement.Player;
 import dpl.TeamManagement.Team;
+import dpl.UserOutput.IUserOutput;
 
 public class Training {
     private int daysUntilStatIncreaseCheck;
     private int trackDays;
+    private IUserOutput output;
 
     public Training(int daysUntilStatIncreaseCheck, int trackDays) {
         this.daysUntilStatIncreaseCheck = daysUntilStatIncreaseCheck;
         this.trackDays = trackDays;
     }
 
-    public Training() {
-
+    public Training(IUserOutput output) {
+        this.output = output;
     }
 
     public int getDaysUntilStatIncreaseCheck() {
@@ -47,15 +49,18 @@ public class Training {
 
     public void updateStats(Player player, Coach headCoach, League league) {
         double randomValue = generateRandomValue();
+        boolean statsUpdated = Boolean.FALSE;
         IInjuryManagement injury = new InjuryManagement();
         if (randomValue < headCoach.getSkating()) {
             player.setSkating(player.getSkating() + 1);
+            statsUpdated = Boolean.TRUE;
         } else {
             player = injury.getPlayerInjuryDays(player, league);
         }
         randomValue = generateRandomValue();
         if (randomValue < headCoach.getShooting() && player.isInjured() == Boolean.FALSE) {
             player.setShooting(player.getShooting() + 1);
+            statsUpdated = Boolean.TRUE;
         } else {
             if (player.isInjured() == Boolean.FALSE) {
                 player = injury.getPlayerInjuryDays(player, league);
@@ -63,6 +68,7 @@ public class Training {
         }
         randomValue = generateRandomValue();
         if (randomValue < headCoach.getChecking() && player.isInjured() == Boolean.FALSE) {
+            statsUpdated = Boolean.TRUE;
             player.setChecking(player.getChecking() + 1);
         } else {
             if (player.isInjured() == Boolean.FALSE) {
@@ -72,11 +78,17 @@ public class Training {
         randomValue = generateRandomValue();
         if (randomValue < headCoach.getSaving() && player.isInjured() == Boolean.FALSE) {
             player.setShooting(player.getShooting() + 1);
+            statsUpdated = Boolean.TRUE;
         } else {
             if (player.isInjured() == Boolean.FALSE) {
                 player = injury.getPlayerInjuryDays(player, league);
             }
         }
+        if(statsUpdated == Boolean.TRUE) {
+            output.setOutput(GameConfigConstants.TRAINING_STATS.toString() + player.getPlayerName());
+            output.sendOutput();
+        }
+
     }
 
     private League playerTraining(League league) {

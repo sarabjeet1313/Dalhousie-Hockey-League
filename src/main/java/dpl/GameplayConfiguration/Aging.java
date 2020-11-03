@@ -1,7 +1,6 @@
 package dpl.GameplayConfiguration;
 
 public class Aging {
-
     int averageRetirementAge;
     int maximumAge;
 

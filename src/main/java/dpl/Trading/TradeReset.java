@@ -1,5 +1,6 @@
 package dpl.Trading;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,9 +8,6 @@ public class TradeReset {
     private ITradePersistence tradeDB;
     private List<String> teamNames = new ArrayList<>();
 
-    public TradeReset(){
-
-    }
     public TradeReset(ITradePersistence tradeDB){
         this.tradeDB = tradeDB;
     }
@@ -22,8 +20,9 @@ public class TradeReset {
         this.teamNames.clear();
     }
 
-    public void UpdateTrade(){
+    public void UpdateTrade() throws SQLException{
         boolean isPersisted = Boolean.FALSE;
+        try {
         if(this.teamNames.size() > 1){
             for(String teamName: this.teamNames){
                 isPersisted = tradeDB.resetTradeLossPoint(teamName);
@@ -32,5 +31,8 @@ public class TradeReset {
         if(isPersisted == Boolean.TRUE){
             this.clearList();
         }
+        }catch (SQLException e) {
+			throw e;
+		}
     }
 }

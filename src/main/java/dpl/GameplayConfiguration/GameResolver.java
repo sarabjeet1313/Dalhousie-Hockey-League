@@ -11,9 +11,4 @@ public class GameResolver {
     public double getRandomWinChance() {
         return randomWinChance;
     }
-
-    public void setRandomWinChance(double randomWinChance) {
-        this.randomWinChance = randomWinChance;
-    }
-
 }

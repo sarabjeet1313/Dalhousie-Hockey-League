@@ -10,12 +10,11 @@ public enum TeamConstants {
 
 	private final String teamString;
 
-	private TeamConstants(String teamString) {
+	TeamConstants(String teamString) {
 		this.teamString = teamString;
 	}
 
 	public String toString() {
 		return teamString;
 	}
-
 }

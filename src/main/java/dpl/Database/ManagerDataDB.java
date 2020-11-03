@@ -6,16 +6,12 @@ import java.sql.SQLException;
 import dpl.DplConstants.ManagerConstants;
 import dpl.DplConstants.StoredProcedureConstants;
 import dpl.TeamManagement.IManagerPersistance;
-import dpl.UserOutput.CmdUserOutput;
-import dpl.UserOutput.IUserOutput;
 
 public class ManagerDataDB implements IManagerPersistance {
-
     InvokeStoredProcedure invoke = null;
-    IUserOutput output = new CmdUserOutput();
 
     @Override
-    public boolean persistManagerInfo(String managerName, String teamName, String leagueName) {
+    public boolean persistManagerInfo(String managerName, String teamName, String leagueName) throws SQLException {
         boolean isPersisted = Boolean.FALSE;
         ResultSet result;
         try {
@@ -27,17 +23,11 @@ public class ManagerDataDB implements IManagerPersistance {
             while (result.next()) {
                 isPersisted = result.getBoolean(ManagerConstants.SUCCESS.toString());
             }
-        } catch (Exception e) {
-            output.setOutput(e.getMessage());
-            output.sendOutput();
-        } finally {
-            try {
-                invoke.closeConnection();
-            } catch (SQLException e) {
-                output.setOutput(e.getMessage());
-                output.sendOutput();
-            }
-        }
+        } catch (SQLException e) {
+			throw e;
+		} finally {
+			invoke.closeConnection();
+		}
         return isPersisted;
     }
 }

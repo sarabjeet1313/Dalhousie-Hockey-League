@@ -1,8 +1,10 @@
 package dpl.SimulationStateMachine;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import dpl.DplConstants.InitializeLeaguesConstants;
 import dpl.GameplayConfiguration.GameplayConfig;
 import dpl.GameplayConfiguration.IGameplayConfigPersistance;
 import dpl.Standings.IStandingsPersistance;
@@ -29,7 +31,7 @@ public class LoadTeamState implements IState {
 	private League leagueToSimulate;
 
 	public LoadTeamState(IUserInput input, IUserOutput output, ILeaguePersistance leagueDb,
-                         IGameplayConfigPersistance configDb, ITradePersistence tradeDb, IStandingsPersistance standingsDb) {
+			IGameplayConfigPersistance configDb, ITradePersistence tradeDb, IStandingsPersistance standingsDb) {
 		this.input = input;
 		this.output = output;
 		this.leagueDb = leagueDb;
@@ -56,14 +58,22 @@ public class LoadTeamState implements IState {
 		List<Coach> coaches = null;
 		List<Manager> managers = new ArrayList<Manager>();
 		GameplayConfig config = new GameplayConfig(configDb);
-		leagueToSimulate = new League("test", conferencesList, freeAgents, coaches, managers, config, leagueDb);
-		leagueToSimulate = leagueToSimulate.loadLeague(teamName);
-		config = config.loadGameplayConfig(leagueToSimulate);
-		leagueToSimulate.setGameConfig(config);
-		if (!leagueToSimulate.getLeagueName().equals("test")) {
-			output.setOutput("League has been initialized for the team: " + teamName);
+		leagueToSimulate = new League(InitializeLeaguesConstants.TEST_LEAGUE.toString(), conferencesList, freeAgents,
+				coaches, managers, config, leagueDb);
+		try {
+			leagueToSimulate = leagueToSimulate.loadLeague(teamName);
+			config = config.loadGameplayConfig(leagueToSimulate);
+			leagueToSimulate.setGameConfig(config);
+			if (leagueToSimulate.getLeagueName()
+					.equals(InitializeLeaguesConstants.TEST_LEAGUE.toString()) == Boolean.FALSE) {
+				output.setOutput("League has been initialized for the team: " + teamName);
+				output.sendOutput();
+			}
+		} catch (SQLException e) {
+			output.setOutput(e.getMessage());
 			output.sendOutput();
 		}
+
 	}
 
 	public String getStateName() {

@@ -1,7 +1,8 @@
 package dpl.UserInput;
+
 import java.util.Scanner;
 
-public class CmdUserInput implements IUserInput{
+public class CmdUserInput implements IUserInput {
     private String inputResponse;
 
     public CmdUserInput() {

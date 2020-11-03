@@ -1,4 +1,7 @@
 package dpl.InternalStateMachine;
+
+import java.sql.SQLException;
+
 import dpl.DplConstants.StateConstants;
 import dpl.Schedule.ISchedule;
 import dpl.Schedule.SeasonCalendar;
@@ -15,7 +18,7 @@ public class TradingState implements ISimulationState {
     private Trade trade;
     private IUserOutput output;
 
-    public TradingState (League leagueToSimulate, Trade trade, InternalStateContext context, IUserOutput output) {
+    public TradingState(League leagueToSimulate, Trade trade, InternalStateContext context, IUserOutput output) {
         this.stateName = StateConstants.TRADING_STATE;
         this.leagueToSimulate = leagueToSimulate;
         this.trade = trade;
@@ -30,7 +33,12 @@ public class TradingState implements ISimulationState {
     public void doProcessing() {
         output.setOutput("Inside Trading state");
         output.sendOutput();
+        try {
         leagueToSimulate = trade.startTrade(leagueToSimulate);
+        }catch (SQLException e) {
+        	output.setOutput(e.getMessage());
+            output.sendOutput();
+		}
     }
 
     public League getUpdatedLeague() {

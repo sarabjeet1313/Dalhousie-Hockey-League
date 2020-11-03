@@ -1,5 +1,4 @@
 package dpl.InitializeModels;
-
 import dpl.TeamManagement.League;
 
 public interface IInitializeLeagues {

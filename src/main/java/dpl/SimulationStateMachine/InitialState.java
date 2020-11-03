@@ -1,4 +1,5 @@
 package dpl.SimulationStateMachine;
+
 import dpl.UserInput.IUserInput;
 import dpl.UserOutput.IUserOutput;
 
@@ -14,20 +15,20 @@ public class InitialState implements IState {
         this.stateName = "Initial";
     }
 
-    public void nextState(StateContext context){
+    public void nextState(StateContext context) {
         this.nextStateName = "None";
     }
 
-    public void doProcessing(){
+    public void doProcessing() {
         output.setOutput("Welcome to the Dynasty Mode. It's time to conquer the hockey arena.");
         output.sendOutput();
     }
 
-    public String getStateName(){
+    public String getStateName() {
         return this.stateName;
     }
 
-    public String getNextStateName(){
+    public String getNextStateName() {
         return this.nextStateName;
     }
 }

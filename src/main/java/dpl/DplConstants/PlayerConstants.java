@@ -32,12 +32,11 @@ public enum PlayerConstants {
 
 	private final String playerString;
 
-	private PlayerConstants(String playerString) {
+	PlayerConstants(String playerString) {
 		this.playerString = playerString;
 	}
 
 	public String toString() {
 		return playerString	;
 	}
-
 }

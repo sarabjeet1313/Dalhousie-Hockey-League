@@ -1,5 +1,6 @@
 package dpl.TeamManagement;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import dpl.DplConstants.TeamManagementConstants;
@@ -71,23 +72,33 @@ public class Coach {
 		this.saving = saving;
 	}
 
-	public boolean saveTeamCoaches(Coach coach, String teamName, String leagueName) {
+	public boolean saveTeamCoaches(Coach coach, String teamName, String leagueName) throws SQLException {
 		boolean isValid = Boolean.FALSE;
-		isValid = coachDb.persistCoaches(coach, teamName, leagueName);
+		try {
+			isValid = coachDb.persistCoaches(coach, teamName, leagueName);
+		} catch (SQLException e) {
+			throw e;
+		}
+
 		return isValid;
 	}
 
-	public boolean saveLeagueCoaches(League league) {
-		List<Coach> coachList = league.getCoaches();
-		String leagueName = league.getLeagueName();
-		boolean isValid = Boolean.FALSE, flag = Boolean.FALSE;
-		String teamName = TeamManagementConstants.EMPTY.toString();
-		for (int index = 0; index < coachList.size(); index++) {
-			Coach coach = coachList.get(index);
-			isValid = coachDb.persistCoaches(coach, teamName, leagueName);
-			if (isValid == Boolean.FALSE) {
-				flag = Boolean.FALSE;
+	public boolean saveLeagueCoaches(League league) throws SQLException {
+		boolean isValid = Boolean.FALSE;
+		boolean flag = Boolean.FALSE;
+		try {
+			List<Coach> coachList = league.getCoaches();
+			String leagueName = league.getLeagueName();
+			String teamName = TeamManagementConstants.EMPTY.toString();
+			for (int index = 0; index < coachList.size(); index++) {
+				Coach coach = coachList.get(index);
+				isValid = coachDb.persistCoaches(coach, teamName, leagueName);
+				if (isValid == Boolean.FALSE) {
+					flag = Boolean.FALSE;
+				}
 			}
+		} catch (SQLException e) {
+			throw e;
 		}
 		return (isValid && flag);
 	}

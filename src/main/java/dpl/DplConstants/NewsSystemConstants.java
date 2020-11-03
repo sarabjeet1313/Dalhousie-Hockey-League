@@ -1,7 +1,6 @@
 package dpl.DplConstants;
 
 public enum NewsSystemConstants {
-
     ARGUMENT_MESSAGE("Argument passed contains null value"),
     WINNER("winner"),
     LOSER("loser"),
@@ -23,5 +22,4 @@ public enum NewsSystemConstants {
     public String toString() {
         return NewsSystemString;
     }
-
 }
