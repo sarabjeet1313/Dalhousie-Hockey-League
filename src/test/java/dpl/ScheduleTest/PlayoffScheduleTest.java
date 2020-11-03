@@ -1,0 +1,174 @@
+package dpl.ScheduleTest;
+
+import dpl.Schedule.PlayoffSchedule;
+import dpl.Standings.IStandingsPersistance;
+import dpl.Standings.StandingInfo;
+import dpl.StandingsTest.StandingsMockDb;
+import dpl.TeamManagement.League;
+import dpl.TeamManagementTest.LeagueMockData;
+import dpl.UserOutput.CmdUserOutput;
+import dpl.UserOutput.IUserOutput;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.*;
+
+import java.sql.SQLException;
+
+public class PlayoffScheduleTest {
+
+    private PlayoffSchedule state;
+    private IUserOutput output;
+    private StandingInfo standings;
+    private League leagueToSimulate;
+    private MockSchedule mockSchedule;
+    private IStandingsPersistance standingsDb;
+
+    @Before
+    public void setUp() throws Exception {
+        output = new CmdUserOutput();
+        standingsDb = new StandingsMockDb(0);
+        leagueToSimulate = new LeagueMockData().getTestData();
+        state = new PlayoffSchedule(output, standingsDb, 0);
+        mockSchedule = new MockSchedule();
+    }
+
+    @Test
+    public void getSeasonTypeTest() {
+        assertEquals(1, state.getSeasonType());
+        state.setSeasonType(2);
+        assertNotEquals(1,state.getSeasonType());
+        assertEquals(2, state.getSeasonType());
+    }
+
+    @Test
+    public void setSeasonTypeTest() {
+        assertEquals(1, state.getSeasonType());
+        state.setSeasonType(2);
+        assertNotEquals(1,state.getSeasonType());
+        assertEquals(2, state.getSeasonType());
+    }
+
+    @Test
+    public void getFirstDayTest() {
+        assertNotEquals("13-11-2020", state.getFirstDay());
+        state.setFirstDay("13-11-2020");
+        assertEquals("13-11-2020", state.getFirstDay());
+    }
+
+    @Test
+    public void setFirstDayTest() {
+        assertNotEquals("13-11-2020", state.getFirstDay());
+        state.setFirstDay("13-11-2020");
+        assertEquals("13-11-2020", state.getFirstDay());
+    }
+
+    @Test
+    public void getLastDayTest() {
+        assertNotEquals("31-12-2022", state.getLastDay());
+        state.setLastDay("31-12-2022");
+        assertEquals("31-12-2022", state.getLastDay());
+    }
+
+    @Test
+    public void setLastDayTest() {
+        assertNotEquals("31-12-2022", state.getLastDay());
+        state.setLastDay("31-12-2022");
+        assertEquals("31-12-2022", state.getLastDay());
+    }
+
+    @Test
+    public void getCurrentDayTest() {
+        assertNotEquals("29-10-2020", state.getCurrentDay());
+        state.setCurrentDay("29-10-2020");
+        assertEquals("29-10-2020", state.getCurrentDay());
+    }
+
+    @Test
+    public void setCurrentDayTest() {
+        assertNotEquals("29-10-2020", state.getCurrentDay());
+        state.setCurrentDay("29-10-2020");
+        assertEquals("29-10-2020", state.getCurrentDay());
+    }
+
+    @Test
+    public void setTeamsToBeScheduledTest() {
+        assertNotEquals(1, state.getTeamsToBeScheduled().size());
+        state.setTeamsToBeScheduled(mockSchedule.getMockToBeScheduledTeams());
+        assertEquals(1, state.getTeamsToBeScheduled().size());
+        assertTrue(state.getTeamsToBeScheduled().contains("Brampton"));
+    }
+
+    @Test
+    public void getTeamsToBeScheduledTest() {
+        assertNotEquals(1, state.getTeamsToBeScheduled().size());
+        state.setTeamsToBeScheduled(mockSchedule.getMockToBeScheduledTeams());
+        assertEquals(1, state.getTeamsToBeScheduled().size());
+        assertTrue(state.getTeamsToBeScheduled().contains("Brampton"));
+    }
+
+    @Test
+    public void setTeamsScheduledTest() {
+        assertNotEquals(2, state.getTeamsScheduled().size());
+        state.setTeamsScheduled(mockSchedule.getMockScheduledTeams());
+        assertEquals(2, state.getTeamsScheduled().size());
+        assertTrue(state.getTeamsScheduled().contains("Halifax"));
+    }
+
+    @Test
+    public void getTeamsScheduledTest() {
+        assertNotEquals(2, state.getTeamsScheduled().size());
+        state.setTeamsScheduled(mockSchedule.getMockScheduledTeams());
+        assertEquals(2, state.getTeamsScheduled().size());
+        assertTrue(state.getTeamsScheduled().contains("Halifax"));
+    }
+
+    @Test
+    public void generateScheduleTest() {
+    	try {
+        state.setCurrentDay("13-11-2020");
+        state.setFirstDay("13-11-2020");
+        state.setLastDay("20-11-2020");
+        state.generateSchedule(leagueToSimulate);
+        assertEquals("Halifax", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
+        assertNotEquals("Toronto", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
+    	} catch (SQLException e) {
+    		output.setOutput(e.getMessage());
+    		output.sendOutput();
+		}
+    }
+
+    @Test
+    public void generateScheduleOnTheFlyTest() {
+        state.setFirstDay("13-11-2020");
+        state.setLastDay("20-11-2020");
+        state.generateScheduleOnTheFly(mockSchedule.getMockScheduledTeams(), "13-11-2020");
+        assertEquals("Halifax", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
+        assertNotEquals("Toronto", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
+    }
+
+    @Test
+    public void incrementCurrentDayTest() {
+        state.setCurrentDay("13-11-2020");
+        assertNotEquals("14-11-2020", state.getCurrentDay());
+        state.incrementCurrentDay();
+        assertEquals("14-11-2020", state.getCurrentDay());
+    }
+
+    @Test
+    public void getFinalScheduleTest() {
+        state.setFirstDay("13-11-2020");
+        state.setLastDay("20-11-2020");
+        state.generateScheduleOnTheFly(mockSchedule.getMockScheduledTeams(), "13-11-2020");
+        assertEquals("Halifax", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
+        assertNotEquals("Toronto", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
+    }
+
+    @Test
+    public void setFinalScheduleTest() {
+        state.setFinalSchedule(mockSchedule.getMockSchedule());
+        assertEquals("Halifax", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
+        assertNotEquals("Calgary", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
+    }
+}
