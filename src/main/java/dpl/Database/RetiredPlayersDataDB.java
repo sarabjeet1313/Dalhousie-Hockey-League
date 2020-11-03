@@ -5,9 +5,9 @@ import java.sql.SQLException;
 
 import dpl.DplConstants.LeagueConstants;
 import dpl.DplConstants.StoredProcedureConstants;
-import dpl.TeamManagement.IRetiredPlayerPersistance;
-import dpl.TeamManagement.League;
-import dpl.TeamManagement.Player;
+import dpl.LeagueSimulationManagementTest.LeagueManagementTest.TeamManagement.IRetiredPlayerPersistance;
+import dpl.LeagueSimulationManagementTest.LeagueManagementTest.TeamManagement.League;
+import dpl.LeagueSimulationManagementTest.LeagueManagementTest.TeamManagement.Player;
 
 public class RetiredPlayersDataDB implements IRetiredPlayerPersistance {
 	InvokeStoredProcedure invoke = null;

@@ -5,15 +5,13 @@ import java.sql.SQLException;
 
 import dpl.DplConstants.GameConfigConstants;
 import dpl.DplConstants.StoredProcedureConstants;
-import dpl.GameplayConfiguration.Aging;
-import dpl.GameplayConfiguration.GameResolver;
-import dpl.GameplayConfiguration.GameplayConfig;
-import dpl.GameplayConfiguration.IGameplayConfigPersistance;
-import dpl.GameplayConfiguration.Injury;
-import dpl.GameplayConfiguration.Trading;
-import dpl.GameplayConfiguration.Training;
-import dpl.UserOutput.CmdUserOutput;
-import dpl.UserOutput.IUserOutput;
+import dpl.LeagueSimulationManagementTest.LeagueManagementTest.GameplayConfiguration.Aging;
+import dpl.LeagueSimulationManagementTest.LeagueManagementTest.GameplayConfiguration.GameResolver;
+import dpl.LeagueSimulationManagementTest.LeagueManagementTest.GameplayConfiguration.GameplayConfig;
+import dpl.LeagueSimulationManagementTest.LeagueManagementTest.GameplayConfiguration.IGameplayConfigPersistance;
+import dpl.LeagueSimulationManagementTest.LeagueManagementTest.GameplayConfiguration.Injury;
+import dpl.LeagueSimulationManagementTest.LeagueManagementTest.GameplayConfiguration.Trading;
+import dpl.LeagueSimulationManagementTest.LeagueManagementTest.GameplayConfiguration.Training;
 
 public class GameConfigDB implements IGameplayConfigPersistance {
     InvokeStoredProcedure invoke = null;
