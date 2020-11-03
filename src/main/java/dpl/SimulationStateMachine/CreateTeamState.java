@@ -1,5 +1,6 @@
 package dpl.SimulationStateMachine;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -375,23 +376,30 @@ public class CreateTeamState implements IState {
 
     public boolean createTeamInLeague(String conferenceName, String divisionName, String teamName, Manager genManager,
                                       Coach headCoach, List<Player> playerList, League initializedLeague) {
-        List<Conference> conferenceList = initializedLeague.getConferenceList();
-        for (int index = 0; index < conferenceList.size(); index++) {
-            if (conferenceList.get(index).getConferenceName().equals(conferenceName)) {
-                List<Division> divisionList = conferenceList.get(index).getDivisionList();
-                for (int dIndex = 0; dIndex < divisionList.size(); dIndex++) {
-                    if (divisionList.get(dIndex).getDivisionName().equals(divisionName)) {
-                        List<Team> teamList = divisionList.get(dIndex).getTeamList();
-                        Team newTeam = new Team(teamName, genManager, headCoach, playerList, Boolean.TRUE);
-                        teamList.add(newTeam);
-                        initializedLeague.getConferenceList().get(index).getDivisionList().get(dIndex)
-                                .setTeamList(teamList);
-                        break;
+    	boolean isCreated = Boolean.FALSE;
+    	try {
+    		List<Conference> conferenceList = initializedLeague.getConferenceList();
+            for (int index = 0; index < conferenceList.size(); index++) {
+                if (conferenceList.get(index).getConferenceName().equals(conferenceName)) {
+                    List<Division> divisionList = conferenceList.get(index).getDivisionList();
+                    for (int dIndex = 0; dIndex < divisionList.size(); dIndex++) {
+                        if (divisionList.get(dIndex).getDivisionName().equals(divisionName)) {
+                            List<Team> teamList = divisionList.get(dIndex).getTeamList();
+                            Team newTeam = new Team(teamName, genManager, headCoach, playerList, Boolean.TRUE);
+                            teamList.add(newTeam);
+                            initializedLeague.getConferenceList().get(index).getDivisionList().get(dIndex)
+                                    .setTeamList(teamList);
+                            break;
+                        }
                     }
                 }
             }
-        }
-        return initializedLeague.createTeam(initializedLeague);
+            isCreated = initializedLeague.createTeam(initializedLeague);
+		} catch (SQLException e) {
+			output.setOutput(e.getMessage());
+	        output.sendOutput();
+		}
+        return isCreated;
     }
 
     public String getStateName() {

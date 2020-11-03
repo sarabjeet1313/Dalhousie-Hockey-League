@@ -35,14 +35,6 @@ public class TrainingTest {
 	}
 
 	@Test
-	public void updateStatsTest() {
-//		double beforeStatUpdate = player.getShooting() + player.getSkating() + player.getChecking() + player.getSaving();
-//		training.updateStats(player, coach, mockData);
-//		double afterStatUpdate = player.getShooting() + player.getSkating() + player.getChecking() + player.getSaving();
-//		assertFalse(afterStatUpdate >= beforeStatUpdate);
-	}
-
-	@Test
 	public void playerTrainingTest() {
 
 	}

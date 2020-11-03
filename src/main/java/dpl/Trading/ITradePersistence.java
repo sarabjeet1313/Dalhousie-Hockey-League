@@ -1,10 +1,11 @@
 package dpl.Trading;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface ITradePersistence {
 
-    public List<String> getEligibleTeamName(int lossPoints);
+    public List<String> getEligibleTeamName(int lossPoints) throws SQLException;
 
-    public boolean resetTradeLossPoint(String teamName);
+    public boolean resetTradeLossPoint(String teamName) throws SQLException;
 }

@@ -1,5 +1,7 @@
 package dpl.InternalStateMachine;
 
+import java.sql.SQLException;
+
 import dpl.DplConstants.StateConstants;
 import dpl.Schedule.ISchedule;
 import dpl.Schedule.SeasonCalendar;
@@ -47,11 +49,17 @@ public class PersistState implements ISimulationState {
     public void doProcessing() {
         output.setOutput("Inside persist state");
         output.sendOutput();
-        standings.updateStandings();
-        leagueToSimulate.UpdateLeague(leagueToSimulate);
-        if (tradeReset instanceof TradeReset) {
-            tradeReset.UpdateTrade();
-        }
+        try {
+        	standings.updateStandings();
+            leagueToSimulate.UpdateLeague(leagueToSimulate);
+            if (tradeReset instanceof TradeReset) {
+                tradeReset.UpdateTrade();
+            }
+		} catch (SQLException e) {
+			output.setOutput(e.getMessage());
+	        output.sendOutput();
+		}
+        
     }
 
     public String getStateName() {

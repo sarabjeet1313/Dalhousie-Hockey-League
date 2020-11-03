@@ -17,10 +17,9 @@ import dpl.UserOutput.IUserOutput;
 
 public class GameConfigDB implements IGameplayConfigPersistance {
     InvokeStoredProcedure invoke = null;
-    IUserOutput output = new CmdUserOutput();
 
     @Override
-    public GameplayConfig loadGameplayConfigData(String leagueName) {
+    public GameplayConfig loadGameplayConfigData(String leagueName) throws SQLException {
         GameplayConfig config = null;
         Aging aging = null;
         GameResolver gameResolver = null;
@@ -48,21 +47,15 @@ public class GameConfigDB implements IGameplayConfigPersistance {
             }
             config = new GameplayConfig(aging, gameResolver, injury, training, trading);
         } catch (SQLException e) {
-            output.setOutput(e.getMessage());
-            output.sendOutput();
-        } finally {
-            try {
-                invoke.closeConnection();
-            } catch (SQLException e) {
-                output.setOutput(e.getMessage());
-                output.sendOutput();
-            }
-        }
+			throw e;
+		} finally {
+			invoke.closeConnection();
+		}
         return config;
     }
 
     @Override
-    public boolean persistGameConfig(GameplayConfig config, String leagueName) {
+    public boolean persistGameConfig(GameplayConfig config, String leagueName) throws SQLException {
         boolean isPersisted = Boolean.FALSE;
         ResultSet result;
         try {
@@ -83,17 +76,11 @@ public class GameConfigDB implements IGameplayConfigPersistance {
             while (result.next()) {
                 isPersisted = result.getBoolean(GameConfigConstants.SUCCESS.toString());
             }
-        } catch (Exception e) {
-            output.setOutput(e.getMessage());
-            output.sendOutput();
-        } finally {
-            try {
-                invoke.closeConnection();
-            } catch (SQLException e) {
-                output.setOutput(e.getMessage());
-                output.sendOutput();
-            }
-        }
+        } catch (SQLException e) {
+			throw e;
+		} finally {
+			invoke.closeConnection();
+		}
         return isPersisted;
     }
 }

@@ -1,5 +1,6 @@
 package dpl.TeamManagement;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,14 +111,14 @@ public class League implements ILeagueOperation {
         this.gameConfig = gameConfig;
     }
 
-    public boolean isValidLeagueName(String leagueName) {
+    public boolean isValidLeagueName(String leagueName) throws SQLException{
         int rowCount = 0;
         boolean isValid = Boolean.TRUE;
         try {
             rowCount = leagueDb.checkLeagueName(leagueName);
-        } catch (Exception e) {
-            output.setOutput(e.getMessage());
-            output.sendOutput();
+        } 
+        catch (SQLException e) {
+            throw e;
         }
         if (rowCount > 0) {
             isValid = Boolean.FALSE;
@@ -126,19 +127,19 @@ public class League implements ILeagueOperation {
     }
 
     @Override
-    public League loadLeague(String teamName) {
+    public League loadLeague(String teamName) throws SQLException{
         League league = null;
         try {
             league = leagueDb.loadLeagueData(teamName);
-        } catch (Exception e) {
-            output.setOutput(e.getMessage());
-            output.sendOutput();
+        } 
+        catch (SQLException e) {
+        	throw e;
         }
         return league;
     }
 
     @Override
-    public boolean createTeam(League league) {
+    public boolean createTeam(League league) throws SQLException{
         boolean isCreated = Boolean.FALSE;
         String leagueName = league.getLeagueName();
         String conferenceName, divisionName, teamName, coachName, managerName = TeamManagementConstants.EMPTY.toString();
@@ -185,9 +186,8 @@ public class League implements ILeagueOperation {
             league.getGameConfig().saveGameplayConfig(league);
             headCoach.saveLeagueCoaches(league);
             generalManager.saveManagerList(league);
-        } catch (Exception e) {
-            output.setOutput(e.getMessage());
-            output.sendOutput();
+        } catch (SQLException e) {
+            throw e;
         }
 
         return isCreated;
@@ -217,69 +217,73 @@ public class League implements ILeagueOperation {
 
     @Override
     public League loadLeagueObject(String leagueName, String conferenceName, String divisionName, Team team,
-                                   League league) {
+                                   League league) throws NullPointerException{
         int conferenceIndex = -1;
         int divisionIndex = -1;
         boolean flag = Boolean.FALSE;
         List<Conference> conferenceList = league.getConferenceList();
         List<Team> teamList = null;
         List<Division> divisionList = null;
-        if (conferenceList == null) {
-            conferenceList = new ArrayList<Conference>();
-            divisionList = new ArrayList<Division>();
-            teamList = new ArrayList<Team>();
-            teamList.add(team);
-            Division division = new Division(divisionName, teamList);
-            divisionList.add(division);
-            Conference conference = new Conference(conferenceName, divisionList);
-            conferenceList.add(conference);
-            flag = Boolean.TRUE;
-        }
-        for (int cIndex = 0; cIndex < conferenceList.size(); cIndex++) {
-            if (conferenceList.get(cIndex).getConferenceName().equals(conferenceName)) {
-                conferenceIndex = cIndex;
-                break;
+        try {
+        	if (conferenceList == null) {
+                conferenceList = new ArrayList<Conference>();
+                divisionList = new ArrayList<Division>();
+                teamList = new ArrayList<Team>();
+                teamList.add(team);
+                Division division = new Division(divisionName, teamList);
+                divisionList.add(division);
+                Conference conference = new Conference(conferenceName, divisionList);
+                conferenceList.add(conference);
+                flag = Boolean.TRUE;
             }
-        }
-        if (conferenceIndex == -1) {
-            Conference conference = new Conference(conferenceName, null);
-            conferenceList.add(conference);
-            conferenceIndex = conferenceList.size() - 1;
-        }
-        divisionList = conferenceList.get(conferenceIndex).getDivisionList();
-        if (divisionList == null) {
-            teamList = new ArrayList<Team>();
-            teamList.add(team);
-            Division division = new Division(divisionName, teamList);
-            divisionList = new ArrayList<Division>();
-            divisionList.add(division);
-            conferenceList.get(conferenceIndex).setDivisionList(divisionList);
-            flag = Boolean.TRUE;
-        }
-        for (int dIndex = 0; dIndex < divisionList.size(); dIndex++) {
-            if (divisionList.get(dIndex).getDivisionName().equals(divisionName)) {
-                if (flag == Boolean.FALSE) {
-                    divisionList.get(dIndex).getTeamList().add(team);
-                    conferenceList.get(conferenceIndex).setDivisionList(divisionList);
+            for (int cIndex = 0; cIndex < conferenceList.size(); cIndex++) {
+                if (conferenceList.get(cIndex).getConferenceName().equals(conferenceName)) {
+                    conferenceIndex = cIndex;
+                    break;
                 }
-                divisionIndex = dIndex;
-                break;
             }
-        }
-        if (divisionIndex == -1) {
-            teamList = new ArrayList<Team>();
-            teamList.add(team);
-            Division division = new Division(divisionName, teamList);
-            divisionList.add(division);
-            conferenceList.get(conferenceIndex).setDivisionList(divisionList);
-        }
+            if (conferenceIndex == -1) {
+                Conference conference = new Conference(conferenceName, null);
+                conferenceList.add(conference);
+                conferenceIndex = conferenceList.size() - 1;
+            }
+            divisionList = conferenceList.get(conferenceIndex).getDivisionList();
+            if (divisionList == null) {
+                teamList = new ArrayList<Team>();
+                teamList.add(team);
+                Division division = new Division(divisionName, teamList);
+                divisionList = new ArrayList<Division>();
+                divisionList.add(division);
+                conferenceList.get(conferenceIndex).setDivisionList(divisionList);
+                flag = Boolean.TRUE;
+            }
+            for (int dIndex = 0; dIndex < divisionList.size(); dIndex++) {
+                if (divisionList.get(dIndex).getDivisionName().equals(divisionName)) {
+                    if (flag == Boolean.FALSE) {
+                        divisionList.get(dIndex).getTeamList().add(team);
+                        conferenceList.get(conferenceIndex).setDivisionList(divisionList);
+                    }
+                    divisionIndex = dIndex;
+                    break;
+                }
+            }
+            if (divisionIndex == -1) {
+                teamList = new ArrayList<Team>();
+                teamList.add(team);
+                Division division = new Division(divisionName, teamList);
+                divisionList.add(division);
+                conferenceList.get(conferenceIndex).setDivisionList(divisionList);
+            }
 
-        league.setConferenceList(conferenceList);
+            league.setConferenceList(conferenceList);
+		} catch (NullPointerException e) {
+			throw e;
+		}
         return league;
     }
 
     @Override
-    public boolean UpdateLeague(League league) {
+    public boolean UpdateLeague(League league) throws SQLException{
         boolean isUpdated = Boolean.FALSE;
         String leagueName = league.getLeagueName();
         String teamName = TeamManagementConstants.EMPTY.toString();
@@ -301,9 +305,8 @@ public class League implements ILeagueOperation {
                     }
                 }
             }
-        } catch (Exception e) {
-            output.setOutput(e.getMessage());
-            output.sendOutput();
+        } catch (SQLException e) {
+            throw e;
         }
         return isUpdated;
     }

@@ -1,8 +1,10 @@
 package dpl.GameplayConfiguration;
 
+import java.sql.SQLException;
+
 public interface IGameplayConfigPersistance {
 
-    GameplayConfig loadGameplayConfigData(String leagueName);
+    GameplayConfig loadGameplayConfigData(String leagueName) throws SQLException ;
 
-    boolean persistGameConfig(GameplayConfig config, String leagueName);
+    boolean persistGameConfig(GameplayConfig config, String leagueName)throws SQLException ;
 }

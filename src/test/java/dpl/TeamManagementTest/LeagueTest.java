@@ -1,5 +1,6 @@
 package dpl.TeamManagementTest;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
@@ -15,6 +16,8 @@ import dpl.TeamManagement.Player;
 import dpl.TeamManagement.Team;
 import dpl.TeamManagementTest.LeagueMockData;
 import dpl.TeamManagementTest.LeagueObjectTestData;
+import dpl.UserOutput.CmdUserOutput;
+import dpl.UserOutput.IUserOutput;
 
 import org.junit.Assert;
 
@@ -44,6 +47,7 @@ public class LeagueTest {
 			leagueMock);
 	ILeaguePersistance object = new LeagueMockData();
 	List<League> leagueList = new ArrayList<League>();
+	private IUserOutput output = new CmdUserOutput();
 
 	@Test
 	public void parameterizedConstructorTest() {
@@ -105,8 +109,13 @@ public class LeagueTest {
 
 	@Test
 	public void loadLeagueTest() {
-		League fetchedleague = league.loadLeague("Boston");
-		Assert.assertEquals(fetchedleague.getLeagueName(), league.getLeagueName());
+		try {
+			League fetchedleague = league.loadLeague("Boston");
+			Assert.assertEquals(fetchedleague.getLeagueName(), league.getLeagueName());
+		} catch (SQLException e) {
+			output.setOutput(e.getMessage());
+			output.sendOutput();
+		}
 	}
 
 	@Test
@@ -126,14 +135,24 @@ public class LeagueTest {
 
 	@Test
 	public void isValidLeagueNameTest() {
-		Assert.assertTrue(league.isValidLeagueName("Test"));
-		Assert.assertFalse(league.isValidLeagueName("Dalhousie Hockey League"));
+		try {
+			Assert.assertTrue(league.isValidLeagueName("Test"));
+			Assert.assertFalse(league.isValidLeagueName("Dalhousie Hockey League"));
+		} catch (SQLException e) {
+			output.setOutput(e.getMessage());
+			output.sendOutput();
+		}
 	}
 
 	@Test
 	public void createTeamTest() {
-		LeagueObjectTestData leagueData = new LeagueObjectTestData();
-		Assert.assertTrue(league.createTeam(leagueData.getLeagueData()));
+		try {
+			LeagueObjectTestData leagueData = new LeagueObjectTestData();
+			Assert.assertTrue(league.createTeam(leagueData.getLeagueData()));
+		} catch (SQLException e) {
+			output.setOutput(e.getMessage());
+			output.sendOutput();
+		}
 	}
 
 	@Test
@@ -145,12 +164,17 @@ public class LeagueTest {
 		int sizeBefore = league.getConferenceList().get(0).getDivisionList().get(0).getTeamList().size();
 		League outputLeague = league.loadLeagueObject(leagueName, conferenceName, divisionName, team, league);
 		int sizeAfter = outputLeague.getConferenceList().get(0).getDivisionList().get(0).getTeamList().size();
-		Assert.assertEquals(sizeBefore+1, sizeAfter);
+		Assert.assertEquals(sizeBefore + 1, sizeAfter);
 	}
-	
+
 	@Test
 	public void UpdateLeagueTest() {
-		Assert.assertTrue(league.UpdateLeague(league));
+		try {
+			Assert.assertTrue(league.UpdateLeague(league));
+		} catch (SQLException e) {
+			output.setOutput(e.getMessage());
+			output.sendOutput();
+		}
 	}
-	
+
 }

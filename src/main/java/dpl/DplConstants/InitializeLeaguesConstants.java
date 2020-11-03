@@ -6,7 +6,8 @@ public enum InitializeLeaguesConstants {
 	NULL_ERROR("Please enter League name. Null values are not accepted."),
 	ERROR("Error"),
 	VALID_MSG("Please enter valid League name."),
-	CONFERENCES("conferences");
+	CONFERENCES("conferences"),
+	TEST_LEAGUE("Test");
 	
 	private final String constantString;
 

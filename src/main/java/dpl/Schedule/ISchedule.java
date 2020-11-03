@@ -1,5 +1,6 @@
 package dpl.Schedule;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -23,7 +24,7 @@ public interface ISchedule {
 
     void setLastDay(String lastDay);
 
-    void generateSchedule(League league);
+    void generateSchedule(League league)throws SQLException;
 
     boolean incrementCurrentDay();
 
