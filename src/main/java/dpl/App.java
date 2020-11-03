@@ -6,17 +6,17 @@ import dpl.Database.LeagueDataDB;
 import dpl.Database.ManagerDataDB;
 import dpl.Database.StandingsDataDb;
 import dpl.Database.TradeDataDB;
-import dpl.GameplayConfiguration.IGameplayConfigPersistance;
-import dpl.SimulationStateMachine.*;
-import dpl.Standings.IStandingsPersistance;
-import dpl.TeamManagement.ICoachPersistance;
-import dpl.TeamManagement.ILeaguePersistance;
-import dpl.TeamManagement.IManagerPersistance;
-import dpl.Trading.ITradePersistence;
-import dpl.UserInput.CmdUserInput;
-import dpl.UserInput.IUserInput;
-import dpl.UserOutput.CmdUserOutput;
-import dpl.UserOutput.IUserOutput;
+import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.IGameplayConfigPersistance;
+import dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine.*;
+import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ICoachPersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ILeaguePersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IManagerPersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradePersistence;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
 public class App {
 

@@ -2,7 +2,7 @@ package dpl.UserInputTest;
 import org.junit.Before;
 import org.junit.Test;
 
-import dpl.UserInput.CmdUserInput;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;

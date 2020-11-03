@@ -1,8 +1,8 @@
 package dpl.TeamManagementTest;
 
-import dpl.TeamManagement.Coach;
-import dpl.TeamManagement.ICoachPersistance;
-import dpl.TeamManagement.League;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Coach;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ICoachPersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 
 public class CoachMockData implements ICoachPersistance {
 	

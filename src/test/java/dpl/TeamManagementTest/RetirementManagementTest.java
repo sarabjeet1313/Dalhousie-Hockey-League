@@ -3,10 +3,10 @@ package dpl.TeamManagementTest;
 import org.junit.Assert;
 import org.junit.Test;
 
-import dpl.TeamManagement.IRetirementManagement;
-import dpl.TeamManagement.League;
-import dpl.TeamManagement.Player;
-import dpl.TeamManagement.RetirementManagement;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IRetirementManagement;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.RetirementManagement;
 
 public class RetirementManagementTest {
 	LeagueObjectTestData leagueData = new LeagueObjectTestData();

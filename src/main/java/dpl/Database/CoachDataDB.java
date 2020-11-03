@@ -5,8 +5,8 @@ import java.sql.SQLException;
 
 import dpl.DplConstants.CoachConstants;
 import dpl.DplConstants.StoredProcedureConstants;
-import dpl.TeamManagement.Coach;
-import dpl.TeamManagement.ICoachPersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Coach;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ICoachPersistance;
 
 public class CoachDataDB implements ICoachPersistance {
 	InvokeStoredProcedure invoke = null;

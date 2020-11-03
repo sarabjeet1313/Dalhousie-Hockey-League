@@ -3,14 +3,13 @@ package dpl.TeamManagementTest;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import org.junit.Test;
 
-import dpl.TeamManagement.League;
-import dpl.TeamManagement.SerializeLeague;
-import dpl.UserOutput.CmdUserOutput;
-import dpl.UserOutput.IUserOutput;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.SerializeLeague;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
 public class SerializeLeagueTest {
 

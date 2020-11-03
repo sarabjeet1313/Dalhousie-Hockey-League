@@ -2,12 +2,12 @@ package dpl.InternalStateMachineTest;
 import org.junit.Before;
 import org.junit.Test;
 
-import dpl.InternalStateMachine.InternalEndState;
-import dpl.InternalStateMachine.InternalStateContext;
-import dpl.UserInput.CmdUserInput;
-import dpl.UserInput.IUserInput;
-import dpl.UserOutput.CmdUserOutput;
-import dpl.UserOutput.IUserOutput;
+import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalEndState;
+import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStateContext;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;

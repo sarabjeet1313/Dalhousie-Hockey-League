@@ -1,7 +1,7 @@
 package dpl.TeamManagementTest;
 
-import dpl.TeamManagement.IManagerPersistance;
-import dpl.TeamManagement.League;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IManagerPersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 
 public class ManagerMockData implements IManagerPersistance{
 	

@@ -5,22 +5,22 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-import dpl.GameplayConfiguration.Aging;
-import dpl.GameplayConfiguration.GameResolver;
-import dpl.GameplayConfiguration.GameplayConfig;
-import dpl.GameplayConfiguration.Injury;
-import dpl.GameplayConfiguration.Trading;
-import dpl.GameplayConfiguration.Training;
-import dpl.TeamManagement.Coach;
-import dpl.TeamManagement.Conference;
-import dpl.TeamManagement.Division;
-import dpl.TeamManagement.ILeaguePersistance;
-import dpl.TeamManagement.IRetirementManagement;
-import dpl.TeamManagement.League;
-import dpl.TeamManagement.Manager;
-import dpl.TeamManagement.Player;
-import dpl.TeamManagement.RetirementManagement;
-import dpl.TeamManagement.Team;
+import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Aging;
+import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.GameResolver;
+import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.GameplayConfig;
+import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Injury;
+import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Trading;
+import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Training;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Coach;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Conference;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Division;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ILeaguePersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IRetirementManagement;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Manager;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.RetirementManagement;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
 
 public class LeagueMockData implements ILeaguePersistance {
 

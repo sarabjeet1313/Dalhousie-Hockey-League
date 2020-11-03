@@ -3,11 +3,11 @@ package dpl.TeamManagementTest;
 import java.util.ArrayList;
 import org.junit.Test;
 
-import dpl.TeamManagement.Coach;
-import dpl.TeamManagement.Division;
-import dpl.TeamManagement.Manager;
-import dpl.TeamManagement.Player;
-import dpl.TeamManagement.Team;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Coach;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Division;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Manager;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
 
 import org.junit.Assert;
 

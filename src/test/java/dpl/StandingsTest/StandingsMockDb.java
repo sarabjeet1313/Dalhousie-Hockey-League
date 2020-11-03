@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import dpl.Standings.IStandingsPersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 
 public class StandingsMockDb implements IStandingsPersistance {
     private int season;

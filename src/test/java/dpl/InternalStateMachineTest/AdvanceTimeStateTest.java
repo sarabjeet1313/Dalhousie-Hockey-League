@@ -3,12 +3,12 @@ package dpl.InternalStateMachineTest;
 import org.junit.Before;
 import org.junit.Test;
 
-import dpl.InternalStateMachine.*;
-import dpl.Schedule.SeasonCalendar;
-import dpl.UserInput.CmdUserInput;
-import dpl.UserInput.IUserInput;
-import dpl.UserOutput.CmdUserOutput;
-import dpl.UserOutput.IUserOutput;
+import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.*;
+import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
 import java.util.Calendar;
 

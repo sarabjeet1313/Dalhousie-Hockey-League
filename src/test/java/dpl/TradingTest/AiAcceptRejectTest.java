@@ -3,7 +3,7 @@ package dpl.TradingTest;
 import org.junit.Assert;
 import org.junit.Test;
 
-import dpl.Trading.AiAcceptReject;
+import dpl.LeagueSimulationManagement.LeagueManagement.Trading.AiAcceptReject;
 
 
 public class AiAcceptRejectTest {

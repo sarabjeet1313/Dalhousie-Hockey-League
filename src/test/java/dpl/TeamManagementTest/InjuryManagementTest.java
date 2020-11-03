@@ -3,10 +3,10 @@ package dpl.TeamManagementTest;
 import org.junit.Assert;
 import org.junit.Test;
 
-import dpl.TeamManagement.IInjuryManagement;
-import dpl.TeamManagement.InjuryManagement;
-import dpl.TeamManagement.League;
-import dpl.TeamManagement.Player;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IInjuryManagement;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.InjuryManagement;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
 
 public class InjuryManagementTest {
 	

@@ -9,7 +9,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import dpl.NewsSystem.RetirementPublisher;
+import dpl.LeagueSimulationManagement.NewsSystem.RetirementPublisher;
 
 public class RetirementTest {
 	private final ByteArrayOutputStream console = new ByteArrayOutputStream();
