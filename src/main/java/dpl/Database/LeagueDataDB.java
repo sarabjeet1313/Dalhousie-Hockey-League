@@ -13,12 +13,12 @@ import dpl.DplConstants.ManagerConstants;
 import dpl.DplConstants.PlayerConstants;
 import dpl.DplConstants.StoredProcedureConstants;
 import dpl.DplConstants.TeamConstants;
-import dpl.LeagueSimulationManagementTest.LeagueManagementTest.TeamManagement.Coach;
-import dpl.LeagueSimulationManagementTest.LeagueManagementTest.TeamManagement.ILeaguePersistance;
-import dpl.LeagueSimulationManagementTest.LeagueManagementTest.TeamManagement.League;
-import dpl.LeagueSimulationManagementTest.LeagueManagementTest.TeamManagement.Manager;
-import dpl.LeagueSimulationManagementTest.LeagueManagementTest.TeamManagement.Player;
-import dpl.LeagueSimulationManagementTest.LeagueManagementTest.TeamManagement.Team;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Coach;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ILeaguePersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Manager;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
 
 public class LeagueDataDB implements ILeaguePersistance {
 	InvokeStoredProcedure invoke = null;

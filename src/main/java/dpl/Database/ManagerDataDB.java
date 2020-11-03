@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 import dpl.DplConstants.ManagerConstants;
 import dpl.DplConstants.StoredProcedureConstants;
-import dpl.LeagueSimulationManagementTest.LeagueManagementTest.TeamManagement.IManagerPersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IManagerPersistance;
 
 public class ManagerDataDB implements IManagerPersistance {
     InvokeStoredProcedure invoke = null;

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dpl.DplConstants.StoredProcedureConstants;
-import dpl.LeagueSimulationManagementTest.LeagueManagementTest.Standings.IStandingsPersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 
 public class StandingsDataDb implements IStandingsPersistance {
 	InvokeStoredProcedure invoke = null;

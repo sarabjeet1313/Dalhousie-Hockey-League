@@ -6,17 +6,17 @@ import dpl.Database.LeagueDataDB;
 import dpl.Database.ManagerDataDB;
 import dpl.Database.StandingsDataDb;
 import dpl.Database.TradeDataDB;
-import dpl.LeagueSimulationManagementTest.LeagueManagementTest.GameplayConfiguration.IGameplayConfigPersistance;
-import dpl.LeagueSimulationManagementTest.SimulationManagementTest.SimulationStateMachine.*;
-import dpl.LeagueSimulationManagementTest.LeagueManagementTest.Standings.IStandingsPersistance;
-import dpl.LeagueSimulationManagementTest.LeagueManagementTest.TeamManagement.ICoachPersistance;
-import dpl.LeagueSimulationManagementTest.LeagueManagementTest.TeamManagement.ILeaguePersistance;
-import dpl.LeagueSimulationManagementTest.LeagueManagementTest.TeamManagement.IManagerPersistance;
-import dpl.LeagueSimulationManagementTest.LeagueManagementTest.Trading.ITradePersistence;
-import dpl.LeagueSimulationManagementTest.UserInputOutputTest.UserInput.CmdUserInput;
-import dpl.LeagueSimulationManagementTest.UserInputOutputTest.UserInput.IUserInput;
-import dpl.LeagueSimulationManagementTest.UserInputOutputTest.UserOutput.CmdUserOutput;
-import dpl.LeagueSimulationManagementTest.UserInputOutputTest.UserOutput.IUserOutput;
+import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.IGameplayConfigPersistance;
+import dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine.*;
+import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ICoachPersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ILeaguePersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IManagerPersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradePersistence;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
 public class App {
 
