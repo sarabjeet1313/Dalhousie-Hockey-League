@@ -4,6 +4,6 @@ import java.sql.SQLException;
 
 public interface IRetiredPlayerPersistance {
 
-	public boolean persistRetiredPlayers(Player player, String teamName, League league) throws SQLException;
+	public void persistRetiredPlayers(Player player, String teamName, League league) throws SQLException;
 
 }
