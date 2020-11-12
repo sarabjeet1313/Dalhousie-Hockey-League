@@ -1,5 +1,7 @@
 package dpl.TeamManagementTest;
 
+import java.sql.SQLException;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -27,7 +29,7 @@ public class RetirementManagementTest {
 	}
 
 	@Test
-	public void replaceRetiredPlayersTest() {
+	public void replaceRetiredPlayersTest() throws SQLException {
 		Assert.assertTrue(leagueMockData.replaceRetiredPlayers(leagueData.getLeagueData()) instanceof League);
 	}
 	

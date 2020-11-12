@@ -36,7 +36,7 @@ public class LeagueMockData implements ILeaguePersistance {
 	Player agent4 = new Player("Agent7", "forward", false, 1, 1, 1, 1, 1, false, false, 0);
 	Player agent5 = new Player("Agent8", "defense", false, 1, 1, 1, 1, 1, false, false, 0);
 	Player agent6 = new Player("Agent9", "forward", false, 48, 1, 1, 1, 1, false, false, 0);
-	Player agent7 = new Player("Agent10", "forward", true, 1, 1, 1, 1, 1, false, false, 0);
+	Player agent7 = new Player("Agent10", "forward", true, 51, 1, 1, 1, 1, false, false, 0);
 	Player agent8 = new Player("Agent11", "defense", false, 1, 1, 1, 1, 1, false, false, 0);
 	Player agent9 = new Player("Agent12", "goalie", false, 1, 1, 1, 1, 1, false, false, 0);
 	Player agent10 = new Player("Agent13", "forward", false, 1, 1, 1, 1, 1, false, false, 0);
@@ -139,8 +139,7 @@ public class LeagueMockData implements ILeaguePersistance {
 		int likelihoodOfRetirement = retireManager.getLikelihoodOfRetirement(league, player);
 		Random rand = new Random();
 
-		if (rand.nextInt(likelihoodOfRetirement) == 0 || player.getAge() > maximumAge) {
-			replaceRetiredPlayers(league);
+		if (rand.nextInt(likelihoodOfRetirement) - 1 == 0 || player.getAge() > maximumAge) {
 			return Boolean.TRUE;
 		} else {
 			return Boolean.FALSE;
@@ -151,12 +150,11 @@ public class LeagueMockData implements ILeaguePersistance {
 		List<Conference> conferenceList = league.getConferenceList();
 		List<Player> freeAgentsList = league.getFreeAgents();
 		List<Player> tempList = new ArrayList<Player>();
-		int maximumRetirementAge = league.getGameConfig().getAging().getMaximumAge();
 
 		for (Player freeplayer : freeAgentsList) {
-			int years = freeplayer.getAge();
 
-			if (years > maximumRetirementAge) {
+			if (shouldPlayerRetire(league, freeplayer)) {
+				freeplayer.setRetireStatus(true);
 				tempList.add(freeplayer);
 			}
 		}
@@ -205,8 +203,8 @@ public class LeagueMockData implements ILeaguePersistance {
 	}
 
 	public League increaseAge(int days, League league) {
+		League tempLeague = null;
 		List<Conference> conferenceList = league.getConferenceList();
-		int maximumRetirementAge = league.getGameConfig().getAging().getMaximumAge();
 		List<Player> freeAgentsList = league.getFreeAgents();
 
 		for (int index = 0; index < conferenceList.size(); index++) {
@@ -219,7 +217,7 @@ public class LeagueMockData implements ILeaguePersistance {
 						int years = player.getAge();
 						player.setAge(years + 1);
 
-						if(player.getAge() >= maximumRetirementAge) {
+						if (shouldPlayerRetire(league, player)) {
 							player.setRetireStatus(true);
 						}
 					}
@@ -231,21 +229,23 @@ public class LeagueMockData implements ILeaguePersistance {
 
 		for (Player freeplayer : freeAgentsList) {
 			int years = freeplayer.getAge();
-			freeplayer.setAge(years + (int) (days / 365));
+			freeplayer.setAge(years + 1);
 
-			if (freeplayer.getAge() > maximumRetirementAge) {
+			if (shouldPlayerRetire(league, freeplayer)) {
 				freeplayer.setRetireStatus(true);
 			}
 		}
+
 		league.setFreeAgents(freeAgentsList);
-		return replaceRetiredPlayers(league);
+		tempLeague = replaceRetiredPlayers(league);
+		return tempLeague;
 	}
 
 	@Override
 	public boolean UpdateLeagueData(String leagueName, String teamName, Player player) {
 		boolean isUpdated = Boolean.FALSE;
 		League league = getTestData();
-		if(league.getLeagueName().equals(leagueName)) {
+		if (league.getLeagueName().equals(leagueName)) {
 			isUpdated = Boolean.TRUE;
 		}
 		return isUpdated;
