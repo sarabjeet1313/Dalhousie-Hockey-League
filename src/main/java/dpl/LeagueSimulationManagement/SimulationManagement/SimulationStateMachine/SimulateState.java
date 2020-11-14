@@ -45,7 +45,7 @@ public class SimulateState implements IState {
         stateContext.doProcessing();
         stateContext.nextState(); // simulation state
         stateContext.doProcessing();
-        stateContext.setState(new InternalEndState(output));
+        stateContext.nextState();
         stateContext.doProcessing();
     }
 

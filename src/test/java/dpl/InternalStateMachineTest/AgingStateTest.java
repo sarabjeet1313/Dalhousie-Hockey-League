@@ -33,7 +33,7 @@ public class AgingStateTest {
         context = new InternalStateContext(input, output);
         injury = new InjuryManagement();
         leagueToSimulate = new LeagueMockData().getTestData();
-        state = new AgingState(leagueToSimulate, injury, context, utility, "13-11-2020", output);
+        state = new AgingState(leagueToSimulate, null, null, injury, context, utility, "13-11-2020", "", 0, output);
     }
 
     @Test

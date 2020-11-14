@@ -25,17 +25,21 @@ public class GenerateRegularSeasonScheduleState implements ISimulationState {
 	private InternalStateContext context;
 	private ISchedule schedule;
 	private SeasonCalendar seasonCalendar;
+	private IStandingsPersistance standingsDb;
+	private int season;
 
 	public GenerateRegularSeasonScheduleState(League leagueToSimulate, IUserOutput output, int season,
-			InternalStateContext context, IStandingsPersistance standingsDb) {
+			InternalStateContext context, IStandingsPersistance standingsDb, SeasonCalendar utility) {
 		this.stateName = StateConstants.GENERATE_REGULAR_SEASON_SCHEDULE_STATE;
 		this.leagueToSimulate = leagueToSimulate;
 		this.standings = new StandingInfo(leagueToSimulate, season, standingsDb);
 		this.calendar = Calendar.getInstance();
 		this.schedule = new RegularSeasonSchedule(calendar, output);
-		this.seasonCalendar = new SeasonCalendar(season, output);
+		this.seasonCalendar = utility;
+		this.standingsDb = standingsDb;
 		this.output = output;
 		this.context = context;
+		this.season = season;
 		this.startDate = seasonCalendar.getRegularSeasonStartDay();
 		schedule.setCurrentDay(this.startDate);
 		schedule.setFirstDay(seasonCalendar.getRegularSeasonFirstDay());
@@ -44,8 +48,9 @@ public class GenerateRegularSeasonScheduleState implements ISimulationState {
 		seasonCalendar.setLastSeasonDay(this.endDate);
 	}
 
-	public void nextState(InternalStateContext context) {
+	public ISimulationState nextState(InternalStateContext context) {
 		this.nextStateName = StateConstants.ADVANCE_TIME_STATE;
+		return new AdvanceTimeState(this.leagueToSimulate, this.schedule, this.seasonCalendar, this.standingsDb, this.startDate, this.endDate, output, context, this.season);
 	}
 
 	public void doProcessing() {
@@ -66,6 +71,10 @@ public class GenerateRegularSeasonScheduleState implements ISimulationState {
 			output.setOutput(e.getMessage());
 			output.sendOutput();
 		}
+	}
+
+	public boolean shouldContinue() {
+		return true;
 	}
 
 	public String getRegularSeasonEndDate() {

@@ -6,6 +6,8 @@ import java.util.Map;
 
 import dpl.DplConstants.ScheduleConstants;
 import dpl.DplConstants.StateConstants;
+import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.InjuryManagement;
 import dpl.LeagueSimulationManagement.NewsSystem.GamePlayedPublisher;
 import dpl.LeagueSimulationManagement.NewsSystem.NewsSubscriber;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
@@ -21,25 +23,33 @@ public class SimulateGameState implements ISimulationState {
     private static String nextStateName;
     private League leagueToSimulate;
     private StandingInfo standings;
+    private IStandingsPersistance standingsDb;
     private ISchedule schedule;
     private InternalStateContext context;
     private SeasonCalendar utility;
     private String currentDate;
+    private String endDate;
+    private int season;
     private IUserOutput output;
     private ITeamInfo teamInfo;
     private double randomWinChance;
+    private InjuryManagement injury;
     private Map<String, List<Map<String, String>>> currentSchedule;
 
-    public SimulateGameState(League leagueToSimulate, ISchedule schedule, StandingInfo standings,
-                             InternalStateContext context, SeasonCalendar utility, String currentDate, IUserOutput output) {
+    public SimulateGameState(League leagueToSimulate, ISchedule schedule, IStandingsPersistance standingsDb,
+                             InternalStateContext context, SeasonCalendar utility, String currentDate, String endDate, int season, IUserOutput output) {
         this.stateName = StateConstants.SIMULATE_GAME_STATE;
         this.leagueToSimulate = leagueToSimulate;
-        this.standings = standings;
+        this.standingsDb = standingsDb;
+        this.standings = new StandingInfo(leagueToSimulate, season, standingsDb);
         this.schedule = schedule;
         this.context = context;
         this.utility = utility;
         this.currentDate = currentDate;
+        this.endDate = endDate;
+        this.season = season;
         this.currentSchedule = schedule.getFinalSchedule();
+        this.injury = new InjuryManagement();
         this.randomWinChance = leagueToSimulate.getGameConfig().getGameResolver().getRandomWinChance();
         this.output = output;
         this.teamInfo = new Team();
@@ -49,12 +59,12 @@ public class SimulateGameState implements ISimulationState {
         GamePlayedPublisher.getInstance().subscribe(new NewsSubscriber());
     }
 
-    public void nextState(InternalStateContext context) {
+    public ISimulationState nextState(InternalStateContext context) {
         this.nextStateName = StateConstants.INJURY_STATE;
+        return new InjuryCheckState(leagueToSimulate, injury, schedule, context, utility, currentDate, endDate, season, output, standingsDb);
     }
 
     public void doProcessing() {
-
         output.setOutput("Inside Match Simulation state");
         output.sendOutput();
 
@@ -195,6 +205,10 @@ public class SimulateGameState implements ISimulationState {
                 schedule.setTeamsToBeScheduled(clearTeams);
             }
         }
+    }
+
+    public boolean shouldContinue() {
+        return true;
     }
 
     public String getStateName() {

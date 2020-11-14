@@ -47,7 +47,7 @@ public class SimulateGameStateTest {
         context = new InternalStateContext(input, output);
         utility = new SeasonCalendar(0, output);
         output = new CmdUserOutput();
-        state = new SimulateGameState(leagueToSimulate, schedule, standings, context, utility, "14-11-2020", output);
+        state = new SimulateGameState(leagueToSimulate, schedule, standingsDb, context, utility, "14-11-2020", "", 0, output);
     }
 
     @Test
