@@ -35,7 +35,6 @@ public class RegularSeasonSchedule implements ISchedule {
     private List<String> teamsCompeting;
 
     public RegularSeasonSchedule(Calendar calendar, IUserOutput output) {
-
         this.totalDivisions = 0;
         this.totalTeams = 0;
         this.seasonType = ScheduleConstants.REGULAR_SEASON;

@@ -4,16 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import dpl.SystemConfig;
 import dpl.DplConstants.ScheduleConstants;
 import dpl.DplConstants.StateConstants;
-import dpl.LeagueSimulationManagement.NewsSystem.GamePlayedPublisher;
-import dpl.LeagueSimulationManagement.NewsSystem.NewsSubscriber;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamInfo;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManagementAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
+import dpl.LeagueSimulationManagement.NewsSystem.GamePlayedPublisher;
+import dpl.LeagueSimulationManagement.NewsSystem.NewsSubscriber;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
 public class SimulateGameState implements ISimulationState {
@@ -29,6 +30,8 @@ public class SimulateGameState implements ISimulationState {
     private ITeamInfo teamInfo;
     private double randomWinChance;
     private Map<String, List<Map<String, String>>> currentSchedule;
+	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
+			.getTeamManagementAbstractFactory();
 
     public SimulateGameState(League leagueToSimulate, ISchedule schedule, StandingInfo standings,
                              InternalStateContext context, SeasonCalendar utility, String currentDate, IUserOutput output) {
@@ -42,7 +45,7 @@ public class SimulateGameState implements ISimulationState {
         this.currentSchedule = schedule.getFinalSchedule();
         this.randomWinChance = leagueToSimulate.getGameConfig().getGameResolver().getRandomWinChance();
         this.output = output;
-        this.teamInfo = new Team();
+        this.teamInfo = teamManagement.Team();
     }
 
     static {

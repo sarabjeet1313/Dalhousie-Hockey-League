@@ -13,6 +13,10 @@ import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
 public class NewsSubscriber implements ITradeInfo, IGamesPlayedInfo, IInjuryInfo, IFreeAgencyInfo, IRetirementInfo {
     private IUserOutput output = new CmdUserOutput();
+    
+    public NewsSubscriber() {
+    	super();
+    }
 
     @Override
     public void updateTrade(String fromTeam, String toTeam, String[][] playersTraded) {

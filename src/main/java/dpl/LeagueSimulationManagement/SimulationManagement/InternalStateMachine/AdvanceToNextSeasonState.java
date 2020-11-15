@@ -6,10 +6,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import dpl.Dpl.ErrorHandling.RetirementManagementException;
 import dpl.DplConstants.ScheduleConstants;
 import dpl.DplConstants.StateConstants;
+import dpl.DplConstants.TeamManagementConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.*;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IInjuryManagement;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IRetirementManagement;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
 public class AdvanceToNextSeasonState implements ISimulationState {
@@ -39,14 +43,13 @@ public class AdvanceToNextSeasonState implements ISimulationState {
 		this.nextStateName = StateConstants.PERSIST_STATE;
 	}
 
-	public void doProcessing() {
+	public void doProcessing() throws RetirementManagementException {
 		int days = (int) daysLapsed();
 		try {
 			leagueToSimulate = retirement.increaseAge(days, leagueToSimulate);
 			leagueToSimulate = injury.updatePlayerInjuryStatus(days, leagueToSimulate);
 		} catch (SQLException e) {
-			output.setOutput(e.getMessage());
-			output.sendOutput();
+			throw new RetirementManagementException(TeamManagementConstants.RETIREMENT_EXCEPTION.toString());
 		}
 	}
 

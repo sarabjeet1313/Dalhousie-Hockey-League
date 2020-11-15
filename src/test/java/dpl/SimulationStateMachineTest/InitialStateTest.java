@@ -2,6 +2,7 @@ package dpl.SimulationStateMachineTest;
 import org.junit.Before;
 import org.junit.Test;
 
+import dpl.Dpl.ErrorHandling.RetirementManagementException;
 import dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine.InitialState;
 import dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine.StateContext;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
@@ -36,7 +37,7 @@ public class InitialStateTest {
     }
 
     @Test
-    public void doProcessingTest() {
+    public void doProcessingTest() throws RetirementManagementException {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
         context.doProcessing();

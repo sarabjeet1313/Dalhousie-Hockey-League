@@ -6,7 +6,9 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
+import dpl.SystemConfig;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Coach;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManagementAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Manager;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
@@ -14,14 +16,16 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
 
 public class TeamTest {
 
+	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
+			.getTeamManagementAbstractFactory();
 	List<Player> playerList = new ArrayList<Player>();
-	Coach headCoach = new Coach("Mary Smith", 0.2, 0.3, 0.1, 0.4);
-	Manager manager1 = new Manager("Karen Potam");
-	Team team = new Team("Boston", manager1, headCoach, playerList, Boolean.FALSE);
-	Player player1 = new Player("Player1", "Forword", false, 1, 1, 1, 1, 1, false, false, 0);
-	Player player2 = new Player("Player2", "Forword", false, 1, 1, 1, 1, 1, false, false, 0);
-	Player player3 = new Player("Player3", "Goalie", false, 1, 1, 1, 1, 1, false, false, 0);
-	Player player4 = new Player("Player4", "Defender", false, 1, 1, 1, 1, 1, false, false, 0);
+	Coach headCoach = teamManagement.CoachWithParameters("Mary Smith", 0.2, 0.3, 0.1, 0.4);
+	Manager manager1 = teamManagement.ManagerWithParameters("Karen Potam");
+	Team team = teamManagement.TeamWithParameters("Boston", manager1, headCoach, playerList, Boolean.FALSE);
+	Player player1 = teamManagement.PlayerWithParameters("Player1", "Forword", false, 1, 1, 1, 1, 1, false, false, 0);
+	Player player2 = teamManagement.PlayerWithParameters("Player2", "Forword", false, 1, 1, 1, 1, 1, false, false, 0);
+	Player player3 = teamManagement.PlayerWithParameters("Player3", "Goalie", false, 1, 1, 1, 1, 1, false, false, 0);
+	Player player4 = teamManagement.PlayerWithParameters("Player4", "Defender", false, 1, 1, 1, 1, 1, false, false, 0);
 	LeagueMockData league = new LeagueMockData();
 	private static final double DELTA = 1e-15;
 	List<Player> playersList = new ArrayList<Player>();
@@ -65,7 +69,7 @@ public class TeamTest {
 
 	@Test
 	public void setHeadCoachTest() {
-		Coach headCoach = new Coach("William", 0.2, 0.3, 0.1, 0.4);
+		Coach headCoach = teamManagement.CoachWithParameters("William", 0.2, 0.3, 0.1, 0.4);
 		team.setHeadCoach(headCoach);
 		Assert.assertEquals("William", team.getHeadCoach().getCoachName());
 	}
@@ -81,7 +85,7 @@ public class TeamTest {
 	public void setPlayersTest() {
 		playerList.add(player1);
 		playerList.add(player2);
-		Team team1 = new Team("Boston", manager1, headCoach, playerList, Boolean.FALSE);
+		Team team1 = teamManagement.TeamWithParameters("Boston", manager1, headCoach, playerList, Boolean.FALSE);
 		playerList.add(player3);
 		playerList.add(player4);
 		team1.setPlayerList(playerList);
@@ -100,7 +104,7 @@ public class TeamTest {
 	@Test
 	public void getAvailablePlayersListTest() {
 		LeagueObjectTestData leagueData = new LeagueObjectTestData();
-		League league = new League();
+		League league = teamManagement.League();
 		List<List<Player>> list = league.getAvailableLeaguePlayers(leagueData.getLeagueData());
 		Assert.assertEquals(3, list.size());
 	}

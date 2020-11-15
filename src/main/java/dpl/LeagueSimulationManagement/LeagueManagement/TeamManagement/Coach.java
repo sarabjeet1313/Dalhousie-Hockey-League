@@ -14,6 +14,10 @@ public class Coach {
 	private double saving;
 	private ICoachPersistance coachDb;
 
+	public Coach() {
+		super();
+	}
+
 	public Coach(String coachName, double skating, double shooting, double checking, double saving,
 			ICoachPersistance coachDb) {
 		this.coachName = coachName;

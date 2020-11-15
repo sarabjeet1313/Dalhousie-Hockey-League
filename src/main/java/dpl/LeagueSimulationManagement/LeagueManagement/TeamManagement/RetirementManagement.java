@@ -4,12 +4,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import dpl.Database.RetiredPlayersDataDB;
+import dpl.Dpl.ErrorHandling.RetirementManagementException;
+import dpl.DplConstants.TeamManagementConstants;
 import dpl.LeagueSimulationManagement.NewsSystem.NewsSubscriber;
 import dpl.LeagueSimulationManagement.NewsSystem.RetirementPublisher;
 
 public class RetirementManagement implements IRetirementManagement {
+
+	private static final Logger log = Logger.getLogger(RetirementManagement.class.getName());
 
 	static {
 		RetirementPublisher.getInstance().subscribe(new NewsSubscriber());
@@ -38,6 +44,7 @@ public class RetirementManagement implements IRetirementManagement {
 		int likelihoodOfRetirement = getLikelihoodOfRetirement(league, player);
 		Random rand = new Random();
 		if (rand.nextInt(likelihoodOfRetirement) - 1 == 0 || player.getAge() > maximumAge) {
+			log.log(Level.INFO, TeamManagementConstants.SHOULD_PLAYER_RETIRE.toString());
 			RetirementPublisher.getInstance().notify(player.getPlayerName(), player.getAge());
 			return Boolean.TRUE;
 		} else {
@@ -47,12 +54,13 @@ public class RetirementManagement implements IRetirementManagement {
 	}
 
 	@Override
-	public League replaceRetiredPlayers(League league) throws SQLException {
+	public League replaceRetiredPlayers(League league) throws SQLException, RetirementManagementException {
 		List<Conference> conferenceList = league.getConferenceList();
 		List<Player> freeAgentsList = league.getFreeAgents();
 		IRetiredPlayerPersistance iretiredPlayersObject = new RetiredPlayersDataDB();
 		List<Player> tempList = new ArrayList<Player>();
-		
+		log.log(Level.INFO, TeamManagementConstants.RETIREMENT_INFO.toString());
+
 		try {
 
 			for (Player freeplayer : freeAgentsList) {
@@ -109,13 +117,15 @@ public class RetirementManagement implements IRetirementManagement {
 				}
 			}
 		} catch (SQLException e) {
-			throw e;
+			log.log(Level.SEVERE, TeamManagementConstants.RETIREMENT_EXCEPTION.toString() + league.getLeagueName());
+			throw new RetirementManagementException(
+					TeamManagementConstants.RETIREMENT_EXCEPTION.toString() + league.getLeagueName());
 		}
 		return league;
 	}
 
 	@Override
-	public League increaseAge(int days, League league) throws SQLException {
+	public League increaseAge(int days, League league) throws SQLException, RetirementManagementException {
 		League tempLeague = null;
 		List<Conference> conferenceList = league.getConferenceList();
 		List<Player> freeAgentsList = league.getFreeAgents();
@@ -152,7 +162,8 @@ public class RetirementManagement implements IRetirementManagement {
 			league.setFreeAgents(freeAgentsList);
 			tempLeague = replaceRetiredPlayers(league);
 		} catch (SQLException e) {
-			throw e;
+			throw new RetirementManagementException(
+					TeamManagementConstants.RETIREMENT_EXCEPTION.toString() + league.getLeagueName());
 		}
 		return tempLeague;
 	}
