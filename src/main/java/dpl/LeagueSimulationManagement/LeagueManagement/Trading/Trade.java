@@ -127,16 +127,16 @@ public class Trade implements ITrade {
 
 	public List<Player> getWeakestPlayers(int maxPlayers, String teamName, League league, ITeamInfo iTPInfoObject,
 			IPlayerInfo iPInfoObject) {
-		List<Player> p = iTPInfoObject.getPlayersByTeam(teamName, league);
+		List<Player> playersByTeam = iTPInfoObject.getPlayersByTeam(teamName, league);
 		List<Player> returnWeakestPlayerList = new ArrayList<Player>();
 		double playerStrength;
-		String weakestPlayerPosition;
+		String weakestPlayerPosition = null;
 		double[] minStrengthArray = new double[maxPlayers];
 		int[] playerIndexArray = new int[maxPlayers];
 		HashMap<Integer, Double> hmPlayerStrength = new HashMap<Integer, Double>();
 
-		for (int i = 0; i < p.size(); i++) {
-			playerStrength = iPInfoObject.getPlayerStrength(p.get(i));
+		for (int i = 0; i < playersByTeam.size(); i++) {
+			playerStrength = iPInfoObject.getPlayerStrength(playersByTeam.get(i));
 			hmPlayerStrength.put(i, playerStrength);
 		}
 		int x = 0;
@@ -149,11 +149,13 @@ public class Trade implements ITrade {
 				break;
 			}
 		}
-		weakestPlayerPosition = p.get(playerIndexArray[0]).getPosition();
+		if (playerIndexArray.length> 0){
+			weakestPlayerPosition = playersByTeam.get(playerIndexArray[0]).getPosition();
+		}
 		for (int i = 0; i < playerIndexArray.length; i++) {
 
-			if (matchPosition(weakestPlayerPosition, p.get(playerIndexArray[i]).getPosition())) {
-				returnWeakestPlayerList.add(p.get(playerIndexArray[i]));
+			if (matchPosition(weakestPlayerPosition, playersByTeam.get(playerIndexArray[i]).getPosition())) {
+				returnWeakestPlayerList.add(playersByTeam.get(playerIndexArray[i]));
 			} else if (i + 1 < minStrengthArray.length) {
 				if (minStrengthArray[i + 1] > minStrengthArray[i]) {
 					break;
