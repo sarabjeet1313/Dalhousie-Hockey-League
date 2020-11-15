@@ -46,7 +46,7 @@ public class TradingStateTest {
         utility = new SeasonCalendar(0, output);
         tradeMock = new TradeObjectTestMockData();
         trade = new Trade(tradeMock);
-        state = new TradingState(leagueToSimulate, trade, context, output);
+        state = new TradingState(leagueToSimulate, trade, context, output, null, "", "", 0, null, null);
     }
 
     @Test

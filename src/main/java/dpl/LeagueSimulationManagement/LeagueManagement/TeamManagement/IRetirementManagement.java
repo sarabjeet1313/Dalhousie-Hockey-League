@@ -2,7 +2,7 @@ package dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement;
 
 import java.sql.SQLException;
 
-import dpl.Dpl.ErrorHandling.RetirementManagementException;
+import dpl.ErrorHandling.RetirementManagementException;
 
 public interface IRetirementManagement {
 

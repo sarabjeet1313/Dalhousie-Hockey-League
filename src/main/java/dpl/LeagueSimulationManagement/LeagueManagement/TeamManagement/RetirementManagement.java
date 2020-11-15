@@ -8,8 +8,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import dpl.Database.RetiredPlayersDataDB;
-import dpl.Dpl.ErrorHandling.RetirementManagementException;
 import dpl.DplConstants.TeamManagementConstants;
+import dpl.ErrorHandling.RetirementManagementException;
 import dpl.LeagueSimulationManagement.NewsSystem.NewsSubscriber;
 import dpl.LeagueSimulationManagement.NewsSystem.RetirementPublisher;
 

@@ -3,28 +3,28 @@ package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine
 import dpl.DplConstants.StateConstants;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
-public class InternalEndState implements ISimulationState {
-    private static IUserOutput output;
-    private static String stateName;
-    private static String nextStateName;
+import java.sql.SQLException;
 
-    public InternalEndState(IUserOutput output) {
+public class EndOfSeasonState implements ISimulationState{
+    private String stateName = "SeasonEndState";
+    private String nextStateName;
+    private IUserOutput output;
+
+    public EndOfSeasonState(IUserOutput output) {
         this.output = output;
-        this.stateName = StateConstants.END_STATE;
     }
-
     public ISimulationState nextState(InternalStateContext context) {
-        this.nextStateName = StateConstants.NO_STATE;
+        this.nextStateName = "None";
         return null;
     }
 
     public void doProcessing() {
-        output.setOutput("Thanks for using the DHL's Dynasty mode. Please come back soon.");
+        output.setOutput("Season has been simulated successfully.");
         output.sendOutput();
     }
 
     public boolean shouldContinue() {
-        return true;
+        return false;
     }
 
     public String getStateName() {

@@ -1,6 +1,6 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine;
 
-import dpl.Dpl.ErrorHandling.RetirementManagementException;
+import dpl.ErrorHandling.RetirementManagementException;
 
 public interface IState {
 

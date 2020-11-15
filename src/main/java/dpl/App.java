@@ -6,7 +6,7 @@ import dpl.Database.LeagueDataDB;
 import dpl.Database.ManagerDataDB;
 import dpl.Database.StandingsDataDb;
 import dpl.Database.TradeDataDB;
-import dpl.Dpl.ErrorHandling.RetirementManagementException;
+import dpl.ErrorHandling.RetirementManagementException;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.IGameplayConfigPersistance;
 import dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine.*;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;

@@ -1,6 +1,6 @@
 package dpl.SimulationStateMachineTest;
 import dpl.Database.GameConfigDB;
-import dpl.Dpl.ErrorHandling.RetirementManagementException;
+import dpl.ErrorHandling.RetirementManagementException;
 import dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine.ParsingState;
 import dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine.StateContext;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;

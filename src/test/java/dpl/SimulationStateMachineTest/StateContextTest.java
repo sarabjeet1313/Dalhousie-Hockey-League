@@ -1,5 +1,5 @@
 package dpl.SimulationStateMachineTest;
-import dpl.Dpl.ErrorHandling.RetirementManagementException;
+import dpl.ErrorHandling.RetirementManagementException;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.IGameplayConfigPersistance;
 import dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine.IState;
 import dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine.InitialState;

@@ -6,11 +6,14 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-import dpl.Dpl.ErrorHandling.RetirementManagementException;
 import dpl.DplConstants.ScheduleConstants;
 import dpl.DplConstants.StateConstants;
 import dpl.DplConstants.TeamManagementConstants;
+import dpl.ErrorHandling.RetirementManagementException;
+import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
+import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IInjuryManagement;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IRetirementManagement;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
@@ -25,10 +28,16 @@ public class AdvanceToNextSeasonState implements ISimulationState {
 	private InternalStateContext context;
 	private SeasonCalendar seasonCalendar;
 	private String currentDate;
+	private String endDate;
+	private int season;
 	private IUserOutput output;
+	private ISchedule schedule;
+	private StandingInfo standings;
+	private IStandingsPersistance standingsDb;
 
-	public AdvanceToNextSeasonState(League leagueToSimulate, IInjuryManagement injury, IRetirementManagement retirement,
-			InternalStateContext context, SeasonCalendar seasonCalendar, String currentDate, IUserOutput output) {
+	public AdvanceToNextSeasonState(League leagueToSimulate, ISchedule schedule, IStandingsPersistance standingsDb,
+			IInjuryManagement injury, IRetirementManagement retirement, InternalStateContext context,
+			SeasonCalendar seasonCalendar, String currentDate, String endDate, int season, IUserOutput output) {
 		this.stateName = StateConstants.NEXT_SEASON_STATE;
 		this.leagueToSimulate = leagueToSimulate;
 		this.injury = injury;
@@ -36,11 +45,17 @@ public class AdvanceToNextSeasonState implements ISimulationState {
 		this.context = context;
 		this.seasonCalendar = seasonCalendar;
 		this.currentDate = currentDate;
+		this.endDate = endDate;
+		this.standingsDb = standingsDb;
+		this.standings = new StandingInfo(leagueToSimulate, season, standingsDb);
+		this.schedule = schedule;
 		this.output = output;
 	}
 
-	public void nextState(InternalStateContext context) {
+	public ISimulationState nextState(InternalStateContext context) {
 		this.nextStateName = StateConstants.PERSIST_STATE;
+		return new PersistState(leagueToSimulate, schedule, standingsDb, context, seasonCalendar, currentDate, endDate,
+				season, output);
 	}
 
 	public void doProcessing() throws RetirementManagementException {
@@ -72,6 +87,10 @@ public class AdvanceToNextSeasonState implements ISimulationState {
 			output.sendOutput();
 		}
 		return 0;
+	}
+
+	public boolean shouldContinue() {
+		return true;
 	}
 
 	public String getStateName() {

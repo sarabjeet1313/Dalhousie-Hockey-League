@@ -3,7 +3,7 @@ import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalEndState;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStartState;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStateContext;
-import dpl.Dpl.ErrorHandling.RetirementManagementException;
+import dpl.ErrorHandling.RetirementManagementException;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.StandingsTest.StandingsMockDb;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;

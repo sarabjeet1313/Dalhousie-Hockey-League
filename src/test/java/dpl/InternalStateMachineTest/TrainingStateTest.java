@@ -47,7 +47,7 @@ public class TrainingStateTest {
         context = new InternalStateContext(input, output);
         utility = new SeasonCalendar(0, output);
         training = new Training(100, 100);
-        state = new TrainingState(leagueToSimulate, training, schedule, utility, "14-11-2020", output, context);
+        state = new TrainingState(leagueToSimulate, training, schedule, utility, "14-11-2020", "", output, context, null, 0);
     }
 
     @Test

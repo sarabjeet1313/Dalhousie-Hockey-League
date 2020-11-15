@@ -1,4 +1,4 @@
-package dpl.Dpl.ErrorHandling;
+package dpl.ErrorHandling;
 
 public class RetirementManagementException extends Exception{
 

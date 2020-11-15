@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import dpl.SystemConfig;
-import dpl.Dpl.ErrorHandling.RetirementManagementException;
+import dpl.ErrorHandling.RetirementManagementException;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IInjuryManagement;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ILeaguePersistance;
@@ -50,7 +50,7 @@ public class AdvanceToNextSeasonStateTest {
         leagueToSimulate.setLeagueDb(leagueMock);
         utility.setLastSeasonDay("20-11-2020");
         context = new InternalStateContext(input, output);
-        state = new AdvanceToNextSeasonState(leagueToSimulate, injury, retirement, context, utility, "13-11-2020", output);
+        state = new AdvanceToNextSeasonState(leagueToSimulate, null, null, injury, retirement, context, utility, "13-11-2020", "", 0, output);
     }
 
     @Test
