@@ -1,24 +1,30 @@
 package dpl.InternalStateMachineTest;
 
-import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.*;
-import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
-import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.RegularSeasonSchedule;
-import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
-import dpl.ScheduleTest.MockSchedule;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.InjuryManagement;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
-import dpl.TeamManagementTest.LeagueMockData;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Calendar;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Calendar;
-
-import static org.junit.Assert.*;
+import dpl.SystemConfig;
+import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
+import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.RegularSeasonSchedule;
+import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IInjuryManagement;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManagementAbstractFactory;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
+import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InjuryCheckState;
+import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStateContext;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+import dpl.ScheduleTest.MockSchedule;
+import dpl.TeamManagementTest.LeagueMockData;
 
 public class InjuryCheckStateTest {
     private IUserInput input;
@@ -26,11 +32,13 @@ public class InjuryCheckStateTest {
     private League leagueToSimulate;
     private ISchedule schedule;
     private MockSchedule mockSchedule;
-    private InjuryManagement injury;
+    private IInjuryManagement injury;
     private InternalStateContext context;
     private SeasonCalendar utility;
     private InjuryCheckState state;
     private Calendar calendar;
+    private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
+			.getTeamManagementAbstractFactory();
 
     @Before
     public void setUp() throws Exception {
@@ -38,7 +46,7 @@ public class InjuryCheckStateTest {
         output = new CmdUserOutput();
         calendar = Calendar.getInstance();
         schedule = new RegularSeasonSchedule(calendar, output);
-        injury = new InjuryManagement();
+        injury = teamManagement.InjuryManagement();
         mockSchedule = new MockSchedule();
         leagueToSimulate = new LeagueMockData().getTestData();
         context = new InternalStateContext(input, output);

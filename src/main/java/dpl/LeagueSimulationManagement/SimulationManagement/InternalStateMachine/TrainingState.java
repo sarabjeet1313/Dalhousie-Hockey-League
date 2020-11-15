@@ -15,73 +15,78 @@ import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
 public class TrainingState implements ISimulationState {
 
-    private String stateName;
-    private String nextStateName;
-    private League leagueToSimulate;
-    private String currentDate;
-    private String endDate;
-    private IUserOutput output;
-    private InternalStateContext context;
-    private ISchedule schedule;
-    private SeasonCalendar utility;
-    private Training training;
-    private StandingInfo standings;
-    private Trade trade;
-    private ITradePersistence tradeDb;
-    private IStandingsPersistance standingsDb;
-    private InjuryManagement injury;
-    private int season;
+	private String stateName;
+	private String nextStateName;
+	private League leagueToSimulate;
+	private String currentDate;
+	private String endDate;
+	private IUserOutput output;
+	private InternalStateContext context;
+	private ISchedule schedule;
+	private SeasonCalendar utility;
+	private Training training;
+	private StandingInfo standings;
+	private Trade trade;
+	private ITradePersistence tradeDb;
+	private IStandingsPersistance standingsDb;
+	private InjuryManagement injury;
+	private int season;
 
-    public TrainingState(League leagueToSimulate, Training training, ISchedule schedule, SeasonCalendar utility, String currentDate, String endDate, IUserOutput output, InternalStateContext context, IStandingsPersistance standings, int season) {
-        this.leagueToSimulate = leagueToSimulate;
-        this.output = output;
-        this.context = context;
-        this.schedule = schedule;
-        this.currentDate = currentDate;
-        this.endDate = endDate;
-        this.utility = utility;
-        this.stateName = "Training";
-        this.training = training;
-        this.season = season;
-        this.standingsDb = standings;
-        this.standings = new StandingInfo(leagueToSimulate, season, standings);
-        this.tradeDb = new TradeDataDB();
-        this.trade = new Trade(tradeDb);
-        this.injury = new InjuryManagement();
-    }
+	public TrainingState(League leagueToSimulate, Training training, ISchedule schedule, SeasonCalendar utility,
+			String currentDate, String endDate, IUserOutput output, InternalStateContext context,
+			IStandingsPersistance standings, int season) {
+		this.leagueToSimulate = leagueToSimulate;
+		this.output = output;
+		this.context = context;
+		this.schedule = schedule;
+		this.currentDate = currentDate;
+		this.endDate = endDate;
+		this.utility = utility;
+		this.stateName = "Training";
+		this.training = training;
+		this.season = season;
+		this.standingsDb = standings;
+		this.standings = new StandingInfo(leagueToSimulate, season, standings);
+		this.tradeDb = new TradeDataDB();
+		this.trade = new Trade(tradeDb);
+		this.injury = new InjuryManagement();
+	}
 
-    public ISimulationState nextState(InternalStateContext context) {
-        if (schedule.anyUnplayedGame(currentDate)) {
-            this.nextStateName = StateConstants.SIMULATE_GAME_STATE;
-            return new SimulateGameState(leagueToSimulate, schedule, standingsDb, context, utility, currentDate, endDate, season, output);
-        } else {
-            if (utility.isTradeDeadlinePending(this.currentDate)) {
-                this.nextStateName = StateConstants.TRADING_STATE;
-                return new TradingState(leagueToSimulate, trade, context, output, utility, currentDate, endDate, season, standingsDb, schedule);
-            } else {
-                this.nextStateName = StateConstants.AGING_STATE;
-                return new AgingState(leagueToSimulate, schedule, standingsDb, injury, context, utility, currentDate, endDate, season, output);
-            }
-        }
-    }
+	public ISimulationState nextState(InternalStateContext context) {
+		if (schedule.anyUnplayedGame(currentDate)) {
+			this.nextStateName = StateConstants.SIMULATE_GAME_STATE;
+			return new SimulateGameState(leagueToSimulate, schedule, standingsDb, context, utility, currentDate,
+					endDate, season, output);
+		} else {
+			if (utility.isTradeDeadlinePending(this.currentDate)) {
+				this.nextStateName = StateConstants.TRADING_STATE;
+				return new TradingState(leagueToSimulate, trade, context, output, utility, currentDate, endDate, season,
+						standingsDb, schedule);
+			} else {
+				this.nextStateName = StateConstants.AGING_STATE;
+				return new AgingState(leagueToSimulate, schedule, standingsDb, injury, context, utility, currentDate,
+						endDate, season, output);
+			}
+		}
+	}
 
-    public boolean shouldContinue() {
-        return true;
-    }
+	public boolean shouldContinue() {
+		return true;
+	}
 
-    public void doProcessing() {
-        leagueToSimulate = training.trackDaysForTraining(leagueToSimulate);
-    }
+	public void doProcessing() {
+		leagueToSimulate = training.trackDaysForTraining(leagueToSimulate);
+	}
 
-    public League getUpdatedLeague() {
-        return leagueToSimulate;
-    }
+	public League getUpdatedLeague() {
+		return leagueToSimulate;
+	}
 
-    public String getStateName() {
-        return this.stateName;
-    }
+	public String getStateName() {
+		return this.stateName;
+	}
 
-    public String getNextStateName() {
-        return this.nextStateName;
-    }
+	public String getNextStateName() {
+		return this.nextStateName;
+	}
 }

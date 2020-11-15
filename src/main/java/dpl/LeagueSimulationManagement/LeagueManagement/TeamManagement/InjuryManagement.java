@@ -51,8 +51,8 @@ public class InjuryManagement implements IInjuryManagement {
             player.setInjured(Boolean.TRUE);
             int injuryDays = random.nextInt(injuryDaysHigh - injuryDaysLow) + injuryDaysLow;
             player.setDaysInjured(injuryDays);
+            InjuryPublisher.getInstance().notify(player.getPlayerName(), player.getDaysInjured());
         }
-        InjuryPublisher.getInstance().notify(player.getPlayerName(), player.getDaysInjured());
         return player;
     }
 

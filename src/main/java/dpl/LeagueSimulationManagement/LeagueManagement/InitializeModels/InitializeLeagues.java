@@ -3,6 +3,8 @@ package dpl.LeagueSimulationManagement.LeagueManagement.InitializeModels;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+
+import dpl.SystemConfig;
 import dpl.DplConstants.CoachConstants;
 import dpl.DplConstants.ConferenceConstants;
 import dpl.DplConstants.GeneralConstants;
@@ -26,6 +28,7 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Division;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ICoachPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ILeaguePersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IManagerPersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManagementAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Manager;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
@@ -39,6 +42,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class InitializeLeagues implements IInitializeLeagues {
+	
 	private CmdParseJSON parser;
 	private String filePath;
 	private ILeaguePersistance leagueDb;
@@ -57,6 +61,8 @@ public class InitializeLeagues implements IInitializeLeagues {
 	private Trading trading;
 	private IGameplayConfigPersistance configDb;
 	private IManagerPersistance managerDb;
+	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
+			.getTeamManagementAbstractFactory();
 
 	public InitializeLeagues(String filePath, ILeaguePersistance leagueDb, IUserOutput output, IUserInput input,
 			ICoachPersistance coachDb, IGameplayConfigPersistance configDb, IManagerPersistance managerDb) {
@@ -99,7 +105,7 @@ public class InitializeLeagues implements IInitializeLeagues {
 			}
 
 			leagueName = truncateString(leagueName);
-			league = new League(leagueName, conferenceList, freeAgents, coaches, managerList, gameConfig, leagueDb);
+			league = teamManagement.LeagueWithDbParameters(leagueName, conferenceList, freeAgents, coaches, managerList, gameConfig, leagueDb);
 			boolean check = league.isValidLeagueName(leagueName);
 
 			if (check == Boolean.FALSE) {
@@ -159,7 +165,7 @@ public class InitializeLeagues implements IInitializeLeagues {
 				return null;
 			}
 
-			Conference conferenceObject = new Conference(conferenceName, bufferDivisionList);
+			Conference conferenceObject = teamManagement.ConferenceWithParameters(conferenceName, bufferDivisionList);
 			conferenceList.add(conferenceObject);
 			JsonArray divisions = conference.get(DivisionConstants.DIVISIONS_MODEL.toString()).getAsJsonArray();
 			Iterator<JsonElement> divisionListElement = divisions.iterator();
@@ -176,7 +182,7 @@ public class InitializeLeagues implements IInitializeLeagues {
 					return null;
 				}
 
-				Division divisionObject = new Division(divisionName, bufferTeamList);
+				Division divisionObject = teamManagement.DivisionWithParameters(divisionName, bufferTeamList);
 				bufferDivisionList.add(divisionObject);
 				conferenceObject.setDivisionList(bufferDivisionList);
 				JsonArray teams = division.get(TeamConstants.TEAMS.toString()).getAsJsonArray();
@@ -201,7 +207,7 @@ public class InitializeLeagues implements IInitializeLeagues {
 						output.sendOutput();
 						return null;
 					}
-					Manager managerobj = new Manager(genManager, managerDb);
+					Manager managerobj = teamManagement.ManagerWithDbParameters(genManager, managerDb);
 
 					JsonObject headCoach = team.get(CoachConstants.HEAD_COACH.toString()).getAsJsonObject();
 					String headCoachName = headCoach.get(CoachConstants.NAME.toString()).toString();
@@ -226,10 +232,10 @@ public class InitializeLeagues implements IInitializeLeagues {
 						return null;
 					}
 
-					Coach headCoachObj = new Coach(headCoachName, coachSkating, coachShooting, coachChecking,
-							coachSaving, coachDb);
+					Coach headCoachObj = teamManagement.CoachWithDbParameters(headCoachName, coachSkating,
+							coachShooting, coachChecking, coachSaving, coachDb);
 
-					Team teamObject = new Team(teamName, managerobj, headCoachObj, bufferPlayerList, false);
+					Team teamObject = teamManagement.TeamWithParameters(teamName, managerobj, headCoachObj, bufferPlayerList, false);
 					bufferTeamList.add(teamObject);
 					divisionObject.setTeamList(bufferTeamList);
 					JsonArray players = team.get(PlayerConstants.PLAYERS.toString()).getAsJsonArray();
@@ -310,7 +316,7 @@ public class InitializeLeagues implements IInitializeLeagues {
 							return null;
 						}
 
-						Player playerObject = new Player(playerName, position, captain, age, skating, shooting,
+						Player playerObject = teamManagement.PlayerWithParameters(playerName, position, captain, age, skating, shooting,
 								checking, saving, Boolean.FALSE, Boolean.FALSE, 0);
 						bufferPlayerList.add(playerObject);
 						teamObject.setPlayerList(bufferPlayerList);
@@ -420,7 +426,7 @@ public class InitializeLeagues implements IInitializeLeagues {
 					return null;
 				}
 
-				freeAgents.add(new Player(agentName, position, captain, age, skating, shooting, checking, saving, false,
+				freeAgents.add(teamManagement.PlayerWithParameters(agentName, position, captain, age, skating, shooting, checking, saving, false,
 						false, 0));
 			}
 		} catch (NullPointerException e) {
@@ -479,7 +485,8 @@ public class InitializeLeagues implements IInitializeLeagues {
 					return null;
 				}
 
-				coaches.add(new Coach(coachName, coachSkating, coachShooting, coachChecking, coachSaving, coachDb));
+				coaches.add(teamManagement.CoachWithDbParameters(coachName, coachSkating, coachShooting, coachChecking,
+						coachSaving, coachDb));
 			}
 		} catch (NullPointerException e) {
 			throw e;
@@ -499,7 +506,7 @@ public class InitializeLeagues implements IInitializeLeagues {
 					output.sendOutput();
 					return null;
 				}
-				Manager manager = new Manager(managerName, managerDb);
+				Manager manager = teamManagement.ManagerWithDbParameters(managerName, managerDb);
 				managerList.add(manager);
 			}
 		} catch (NullPointerException e) {

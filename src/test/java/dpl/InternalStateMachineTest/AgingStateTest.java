@@ -1,7 +1,10 @@
 package dpl.InternalStateMachineTest;
 
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.*;
+import dpl.SystemConfig;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IInjuryManagement;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManagementAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.InjuryManagement;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.TeamManagementTest.LeagueMockData;
@@ -23,7 +26,9 @@ public class AgingStateTest {
     private IUserInput input;
     private AgingState state;
     private League leagueToSimulate;
-    private InjuryManagement injury;
+    private IInjuryManagement injury;
+    private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
+			.getTeamManagementAbstractFactory();
 
     @Before
     public void setUp() throws Exception {
@@ -31,7 +36,7 @@ public class AgingStateTest {
         output = new CmdUserOutput();
         utility = new SeasonCalendar(0, output);
         context = new InternalStateContext(input, output);
-        injury = new InjuryManagement();
+        injury = teamManagement.InjuryManagement();
         leagueToSimulate = new LeagueMockData().getTestData();
         state = new AgingState(leagueToSimulate, null, null, injury, context, utility, "13-11-2020", "", 0, output);
     }

@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import dpl.SystemConfig;
 import dpl.DplConstants.InitializeLeaguesConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.GameplayConfig;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.IGameplayConfigPersistance;
@@ -11,6 +12,7 @@ import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersi
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Coach;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Conference;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ILeaguePersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManagementAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Manager;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
@@ -29,6 +31,8 @@ public class LoadTeamState implements IState {
 	private String stateName;
 	private String nextStateName;
 	private League leagueToSimulate;
+	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
+			.getTeamManagementAbstractFactory();
 
 	public LoadTeamState(IUserInput input, IUserOutput output, ILeaguePersistance leagueDb,
 			IGameplayConfigPersistance configDb, ITradePersistence tradeDb, IStandingsPersistance standingsDb) {
@@ -58,7 +62,7 @@ public class LoadTeamState implements IState {
 		List<Coach> coaches = null;
 		List<Manager> managers = new ArrayList<Manager>();
 		GameplayConfig config = new GameplayConfig(configDb);
-		leagueToSimulate = new League(InitializeLeaguesConstants.TEST_LEAGUE.toString(), conferencesList, freeAgents,
+		leagueToSimulate = teamManagement.LeagueWithDbParameters(InitializeLeaguesConstants.TEST_LEAGUE.toString(), conferencesList, freeAgents,
 				coaches, managers, config, leagueDb);
 		try {
 			leagueToSimulate = leagueToSimulate.loadLeague(teamName);

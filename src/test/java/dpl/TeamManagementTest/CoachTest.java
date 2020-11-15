@@ -3,11 +3,15 @@ package dpl.TeamManagementTest;
 import org.junit.Assert;
 import org.junit.Test;
 
+import dpl.SystemConfig;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Coach;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManagementAbstractFactory;
 
 public class CoachTest {
 	
-	Coach coach = new Coach("Coach1", 0.1, 0.1, 0.1, 0.1);
+	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
+			.getTeamManagementAbstractFactory();
+	Coach coach = teamManagement.CoachWithParameters("Coach1", 0.1, 0.1, 0.1, 0.1);
 	private static final double DELTA = 1e-15;
 
 	@Test

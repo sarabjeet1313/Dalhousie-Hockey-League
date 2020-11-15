@@ -30,7 +30,8 @@ public class GeneratePlayoffScheduleState implements ISimulationState {
 	private Training training;
 
 	public GeneratePlayoffScheduleState(League leagueToSimulate, SeasonCalendar seasonCalendar,
-			IStandingsPersistance standings, IUserOutput output, InternalStateContext context, int season, String currentDate, String endDate) {
+			IStandingsPersistance standings, IUserOutput output, InternalStateContext context, int season,
+			String currentDate, String endDate) {
 		this.stateName = StateConstants.GENERATE_PLAYOFF_SCHEDULE_STATE;
 		this.season = season;
 		this.output = output;
@@ -52,7 +53,8 @@ public class GeneratePlayoffScheduleState implements ISimulationState {
 
 	public ISimulationState nextState(InternalStateContext context) {
 		this.nextStateName = StateConstants.TRAINING_STATE;
-		return new TrainingState(leagueToSimulate, training, schedule, seasonCalendar, currentDate, lastRegularSeasonDay, output, context, standingsDb, season);
+		return new TrainingState(leagueToSimulate, training, schedule, seasonCalendar, currentDate,
+				lastRegularSeasonDay, output, context, standingsDb, season);
 	}
 
 	public void doProcessing() {

@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 
 public class GameplayConfig {
+	
 	private Aging aging;
 	private GameResolver gameResolver;
 	private Injury injury;
@@ -93,4 +94,5 @@ public class GameplayConfig {
 		}
 		return config;
 	}
+	
 }

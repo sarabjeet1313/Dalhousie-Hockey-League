@@ -6,6 +6,7 @@ import java.util.stream.DoubleStream;
 
 import dpl.LeagueSimulationManagement.NewsSystem.NewsSubscriber;
 import dpl.LeagueSimulationManagement.NewsSystem.TradePublisher;
+import dpl.SystemConfig;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.*;
 
 public class Trade implements ITrade {
@@ -14,6 +15,8 @@ public class Trade implements ITrade {
 	private List<Player> playerListOfferTeam;
 	private List<Player> playerListRequestedTeam;
 	private ITradePersistence tradeDB;
+	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
+			.getTeamManagementAbstractFactory();
 
 	static {
 		TradePublisher.getInstance().subscribe(new NewsSubscriber());
@@ -252,8 +255,8 @@ public class Trade implements ITrade {
 
 			String[][] playersTraded;
 			List<String> allTeamNameList;
-			ITeamInfo iTeamInfo = new Team();
-			IPlayerInfo iPlayerInfo = new Player();
+			ITeamInfo iTeamInfo = teamManagement.Team();
+			IPlayerInfo iPlayerInfo = teamManagement.Player();
 			AiAcceptReject aiAcceptReject = new AiAcceptReject();
 			TradeReset tradeReset = new TradeReset(tradeDB);
 			boolean isUserTeam = false;

@@ -1,6 +1,8 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
+import dpl.SystemConfig;
 import dpl.DplConstants.StateConstants;
+import dpl.ErrorHandling.RetirementManagementException;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Training;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
@@ -44,13 +46,15 @@ public class InternalSimulationState implements ISimulationState {
     private PersistState persistState;
     private ITradePersistence tradeDb;
     private TradeReset tradeReset;
+    private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
+			.getTeamManagementAbstractFactory();
 
     public InternalSimulationState(IUserInput input, IUserOutput output, int seasons, String teamName,
                                    League leagueToSimulate, InternalStateContext context, ITradePersistence tradeDb,
                                    IStandingsPersistance standingsDb) {
         this.training = new Training(output);
-        this.injury = new InjuryManagement();
-        this.retirement = new RetirementManagement();
+        this.injury = teamManagement.InjuryManagement();
+        this.retirement = teamManagement.RetirementManagement();
         this.trade = new Trade(tradeDb);
         this.tradeReset = new TradeReset(tradeDb);
         this.input = input;
@@ -73,7 +77,8 @@ public class InternalSimulationState implements ISimulationState {
         return endState;
     }
 
-    public void doProcessing() {
+    public void doProcessing() throws RetirementManagementException {
+
         for (int index = 1; index <= totalSeasons; index++) {
             this.season = index - 1;
             output.setOutput("Season " + index + " is simulating.");

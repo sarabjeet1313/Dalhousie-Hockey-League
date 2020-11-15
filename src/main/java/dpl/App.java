@@ -6,6 +6,7 @@ import dpl.Database.LeagueDataDB;
 import dpl.Database.ManagerDataDB;
 import dpl.Database.StandingsDataDb;
 import dpl.Database.TradeDataDB;
+import dpl.ErrorHandling.RetirementManagementException;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.IGameplayConfigPersistance;
 import dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine.*;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
@@ -20,7 +21,7 @@ import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
 public class App {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws RetirementManagementException {
         IUserInput input = new CmdUserInput();
         IUserOutput output = new CmdUserOutput();
         ILeaguePersistance leagueDb = new LeagueDataDB();

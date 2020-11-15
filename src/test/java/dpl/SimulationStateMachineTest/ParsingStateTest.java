@@ -1,5 +1,6 @@
 package dpl.SimulationStateMachineTest;
 import dpl.Database.GameConfigDB;
+import dpl.ErrorHandling.RetirementManagementException;
 import dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine.ParsingState;
 import dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine.StateContext;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
@@ -56,7 +57,7 @@ public class ParsingStateTest {
     }
 
     @Test
-    public void doProcessingTest() {
+    public void doProcessingTest() throws RetirementManagementException {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
         context.doProcessing();

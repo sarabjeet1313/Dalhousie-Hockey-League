@@ -1,5 +1,6 @@
 package dpl.TradingTest;
 
+import dpl.SystemConfig;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.*;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradePersistence;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.Trade;
@@ -15,17 +16,24 @@ import java.util.List;
 
 public class TradeTest {
 
+	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
+			.getTeamManagementAbstractFactory();
 	League leagueBefore = new TradeObjectTestMockData().getLeagueData();
 	League leagueAfter = new TradeObjectTestMockData().getLeagueDataAfterTrade();
 	ITradePersistence tradeDB = new TradeObjectTestMockData();
-	ITeamInfo IteamInfo = new Team();
-	IPlayerInfo IplayerInfo = new Player();
+	ITeamInfo IteamInfo = teamManagement.Team();
+	IPlayerInfo IplayerInfo = teamManagement.Player();
 	Trade trade = new Trade(tradeDB);
-	private Player player1 = new Player("Player One", "forward", true, 1, 1, 1, 1, 1, false, false, 0);
-	Player player1Offer = new Player("Player1", "Forward", false, 20, 1, 1, 1, 1, true, false, 0);
-	Player player2Offer = new Player("Player2", "Forward", false, 25, 1, 1, 1, 1, false, false, 0);
-	Player player1Request = new Player("Player3", "Forward", false, 26, 1, 19, 12, 1, false, false, 0);
-	Player player2Request = new Player("Player4", "Forward", false, 33, 1, 17, 14, 1, false, false, 0);
+	private Player player1 = teamManagement.PlayerWithParameters("Player One", "forward", true, 1, 1, 1, 1, 1, false,
+			false, 0);
+	Player player1Offer = teamManagement.PlayerWithParameters("Player1", "Forward", false, 20, 1, 1, 1, 1, true, false,
+			0);
+	Player player2Offer = teamManagement.PlayerWithParameters("Player2", "Forward", false, 25, 1, 1, 1, 1, false, false,
+			0);
+	Player player1Request = teamManagement.PlayerWithParameters("Player3", "Forward", false, 26, 1, 19, 12, 1, false,
+			false, 0);
+	Player player2Request = teamManagement.PlayerWithParameters("Player4", "Forward", false, 33, 1, 17, 14, 1, false,
+			false, 0);
 	ArrayList<Player> playerList1 = new ArrayList<Player>();
 	ArrayList<Player> playerList2 = new ArrayList<Player>();
 	Trade t = new Trade("Boston", playerList1, "Chicago", playerList2);
