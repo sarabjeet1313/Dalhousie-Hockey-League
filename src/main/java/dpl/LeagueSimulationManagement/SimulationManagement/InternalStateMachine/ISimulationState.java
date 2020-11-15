@@ -1,11 +1,16 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
-public interface ISimulationState {
-    public void nextState(InternalStateContext context);
+import dpl.ErrorHandling.RetirementManagementException;
 
-    public void doProcessing();
+public interface ISimulationState {
+    public ISimulationState nextState(InternalStateContext context);
+
+    public void doProcessing() throws RetirementManagementException;
 
     public String getStateName();
 
     public String getNextStateName();
+
+    public boolean shouldContinue();
+
 }

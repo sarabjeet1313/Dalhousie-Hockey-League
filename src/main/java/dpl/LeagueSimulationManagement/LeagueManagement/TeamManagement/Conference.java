@@ -6,6 +6,10 @@ public class Conference {
 
     private String conferenceName;
     private List<Division> divisionList;
+    
+    public Conference() {
+        super();
+    }
 
     public Conference(String conferenceName, List<Division> divisionList) {
         super();

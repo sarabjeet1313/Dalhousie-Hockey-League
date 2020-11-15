@@ -3,19 +3,28 @@ package dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement;
 import java.sql.SQLException;
 import java.util.List;
 
+import dpl.SystemConfig;
 import dpl.DplConstants.TeamManagementConstants;
 
 public class Manager {
 
 	private String managerName;
 	private IManagerPersistance managerDb;
+	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
+			.getTeamManagementAbstractFactory();
+	
+	public Manager() {
+		super();
+	}
 
 	public Manager(String managerName, IManagerPersistance managerDb) {
+		super();
 		this.managerName = managerName;
 		this.managerDb = managerDb;
 	}
 
 	public Manager(String managerName) {
+		super();
 		this.managerName = managerName;
 	}
 
@@ -43,7 +52,7 @@ public class Manager {
 		try {
 			List<Manager> list = league.getManagerList();
 			for (int index = 0; index < list.size(); index++) {
-				Manager manager = new Manager(list.get(index).getManagerName(), managerDb);
+				Manager manager = teamManagement.ManagerWithDbParameters(list.get(index).getManagerName(), managerDb);
 				isSaved = managerDb.persistManagerInfo(manager.getManagerName(), teamName, league.getLeagueName());
 			}
 		} catch (SQLException e) {

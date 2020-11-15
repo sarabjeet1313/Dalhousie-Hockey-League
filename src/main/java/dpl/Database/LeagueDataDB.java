@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import dpl.SystemConfig;
 import dpl.DplConstants.CoachConstants;
 import dpl.DplConstants.ConferenceConstants;
 import dpl.DplConstants.DivisionConstants;
@@ -15,6 +16,7 @@ import dpl.DplConstants.StoredProcedureConstants;
 import dpl.DplConstants.TeamConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Coach;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ILeaguePersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManagementAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Manager;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
@@ -28,6 +30,8 @@ public class LeagueDataDB implements ILeaguePersistance {
 	private String conferenceName = "";
 	private Coach headCoach = null;
 	private Manager manager = null;
+	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
+			.getTeamManagementAbstractFactory();
 
 	public boolean loadCommonLeagueData(String league, String conference, String division, String team) {
 		boolean isStored = Boolean.FALSE;
@@ -53,7 +57,7 @@ public class LeagueDataDB implements ILeaguePersistance {
 			boolean flag = Boolean.FALSE;
 			while (result.next()) {
 				boolean isUserTeam = Boolean.FALSE;
-				Player player = new Player(result.getString(PlayerConstants.PLAYER_NAME.toString()),
+				Player player = teamManagement.PlayerWithParameters(result.getString(PlayerConstants.PLAYER_NAME.toString()),
 						result.getString(PlayerConstants.PLAYER_POSITION.toString()),
 						result.getBoolean(PlayerConstants.PLAYER_CAPTAIN.toString()),
 						result.getInt(PlayerConstants.PLAYER_AGE.toString()),
@@ -72,12 +76,12 @@ public class LeagueDataDB implements ILeaguePersistance {
 						flag = Boolean.FALSE;
 					}
 					if (flag == Boolean.FALSE) {
-						headCoach = new Coach(result.getString(CoachConstants.COACH_NAME.toString()),
+						headCoach = teamManagement.CoachWithParameters(result.getString(CoachConstants.COACH_NAME.toString()),
 								result.getDouble(CoachConstants.COACH_SKATING.toString()),
 								result.getDouble(CoachConstants.COACH_SHOOTING.toString()),
 								result.getDouble(CoachConstants.COACH_CHECKING.toString()),
 								result.getDouble(CoachConstants.COACH_SAVING.toString()));
-						manager = new Manager(result.getString(ManagerConstants.GENERAL_MANAGER_NAME.toString()));
+						manager = teamManagement.ManagerWithParameters(result.getString(ManagerConstants.GENERAL_MANAGER_NAME.toString()));
 						flag = loadCommonLeagueData(result.getString(LeagueConstants.LEAGUE_NAME.toString()),
 								result.getString(ConferenceConstants.CONFERENCE_NAME.toString()),
 								result.getString(DivisionConstants.DIVISION_NAME.toString()),
@@ -90,14 +94,14 @@ public class LeagueDataDB implements ILeaguePersistance {
 						if (rteamName.equals(teamName)) {
 							isUserTeam = Boolean.TRUE;
 						}
-						Team team = new Team(rteamName, manager, headCoach, playerList, isUserTeam);
+						Team team = teamManagement.TeamWithParameters(rteamName, manager, headCoach, playerList, isUserTeam);
 						league = league.loadLeagueObject(leagueName, conferenceName, divisionName, team, league);
-						manager = new Manager(result.getString(ManagerConstants.GENERAL_MANAGER_NAME.toString()));
+						manager = teamManagement.ManagerWithParameters(result.getString(ManagerConstants.GENERAL_MANAGER_NAME.toString()));
 						flag = loadCommonLeagueData(result.getString(LeagueConstants.LEAGUE_NAME.toString()),
 								result.getString(ConferenceConstants.CONFERENCE_NAME.toString()),
 								result.getString(DivisionConstants.DIVISION_NAME.toString()),
 								result.getString(TeamConstants.TEAM_NAME.toString()));
-						headCoach = new Coach(result.getString(CoachConstants.COACH_NAME.toString()),
+						headCoach = teamManagement.CoachWithParameters(result.getString(CoachConstants.COACH_NAME.toString()),
 								result.getDouble(CoachConstants.COACH_SKATING.toString()),
 								result.getDouble(CoachConstants.COACH_SHOOTING.toString()),
 								result.getDouble(CoachConstants.COACH_CHECKING.toString()),

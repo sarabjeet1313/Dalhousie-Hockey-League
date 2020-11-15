@@ -3,6 +3,7 @@ import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalEndState;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStartState;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStateContext;
+import dpl.ErrorHandling.RetirementManagementException;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.StandingsTest.StandingsMockDb;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
@@ -49,7 +50,7 @@ public class InternalStateContextTest {
     }
 
     @Test
-    public void doProcessingTest() {
+    public void doProcessingTest() throws RetirementManagementException {
         context.setState(new InternalEndState(output));
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));

@@ -1,4 +1,5 @@
 package dpl.SimulationStateMachineTest;
+import dpl.ErrorHandling.RetirementManagementException;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.IGameplayConfigPersistance;
 import dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine.IState;
 import dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine.InitialState;
@@ -54,7 +55,7 @@ public class StateContextTest {
     }
 
     @Test
-    public void doProcessingTest() {
+    public void doProcessingTest() throws RetirementManagementException {
         context.setState(state);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));

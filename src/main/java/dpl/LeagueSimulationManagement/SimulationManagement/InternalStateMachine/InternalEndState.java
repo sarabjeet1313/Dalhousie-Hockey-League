@@ -13,14 +13,18 @@ public class InternalEndState implements ISimulationState {
         this.stateName = StateConstants.END_STATE;
     }
 
-    public void nextState(InternalStateContext context) {
+    public ISimulationState nextState(InternalStateContext context) {
         this.nextStateName = StateConstants.NO_STATE;
-        return;
+        return null;
     }
 
     public void doProcessing() {
         output.setOutput("Thanks for using the DHL's Dynasty mode. Please come back soon.");
         output.sendOutput();
+    }
+
+    public boolean shouldContinue() {
+        return true;
     }
 
     public String getStateName() {

@@ -2,21 +2,25 @@ package dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration;
 import java.util.ArrayList;
 import java.util.List;
 
+import dpl.SystemConfig;
 import dpl.DplConstants.GameConfigConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Coach;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Conference;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Division;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IInjuryManagement;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.InjuryManagement;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManagementAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
 public class Training {
+	
     private int daysUntilStatIncreaseCheck;
     private int trackDays;
     private IUserOutput output;
+    private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
+			.getTeamManagementAbstractFactory();
 
     public Training(int daysUntilStatIncreaseCheck, int trackDays) {
         this.daysUntilStatIncreaseCheck = daysUntilStatIncreaseCheck;
@@ -50,7 +54,7 @@ public class Training {
     public void updateStats(Player player, Coach headCoach, League league) {
         double randomValue = generateRandomValue();
         boolean statsUpdated = Boolean.FALSE;
-        IInjuryManagement injury = new InjuryManagement();
+        IInjuryManagement injury = teamManagement.InjuryManagement();
         if (randomValue < headCoach.getSkating()) {
             player.setSkating(player.getSkating() + 1);
             statsUpdated = Boolean.TRUE;

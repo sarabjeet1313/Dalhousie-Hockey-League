@@ -1,5 +1,6 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine;
 
+import dpl.ErrorHandling.RetirementManagementException;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
@@ -24,7 +25,7 @@ public class StateContext {
         this.currentState = state;
     }
 
-    public void doProcessing() {
+    public void doProcessing() throws RetirementManagementException {
         this.currentState.doProcessing();
     }
 }

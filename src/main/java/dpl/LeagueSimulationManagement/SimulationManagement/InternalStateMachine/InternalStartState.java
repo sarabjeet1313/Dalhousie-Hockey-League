@@ -32,9 +32,11 @@ public class InternalStartState implements ISimulationState {
         this.standingsDb = standingsDb;
     }
 
-    public void nextState(InternalStateContext context) {
+    public ISimulationState nextState(InternalStateContext context) {
         this.nextStateName = StateConstants.INTERNAL_SIMULATION_STATE;
-        context.setState(new InternalSimulationState(input, output, numOfSeasons, teamName, leagueToSimulate, context, tradeDb, standingsDb));
+        ISimulationState state = new InternalSimulationState(input, output, numOfSeasons, teamName, leagueToSimulate, context, tradeDb, standingsDb);
+        context.setState(state);
+        return state;
     }
 
     public void doProcessing() {
@@ -42,6 +44,10 @@ public class InternalStartState implements ISimulationState {
         output.sendOutput();
         input.setInput();
         this.numOfSeasons = Integer.parseInt(input.getInput());
+    }
+
+    public boolean shouldContinue() {
+        return true;
     }
 
     public String getStateName() {

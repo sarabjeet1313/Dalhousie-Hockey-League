@@ -10,6 +10,10 @@ import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
 public class AiAcceptReject {
+	
+	public AiAcceptReject() {
+		super();
+	}
 
     public boolean isAcceptOrReject(Trade trade, League league, double randomAcceptanceChance, boolean isUserTeam
             , IPlayerInfo iPInfoObject, ITeamInfo iTInfoObject) {
