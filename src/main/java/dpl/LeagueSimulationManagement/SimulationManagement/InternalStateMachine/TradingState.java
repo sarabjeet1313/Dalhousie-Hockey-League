@@ -6,6 +6,7 @@ import dpl.DplConstants.StateConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.InjuryManagement;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.Trade;
@@ -25,10 +26,11 @@ public class TradingState implements ISimulationState {
 	private String endDate;
 	private int season;
 	private IStandingsPersistance standingsDb;
+	private StandingInfo standings;
 	private ISchedule schedule;
 
 	public TradingState(League leagueToSimulate, Trade trade, InternalStateContext context, IUserOutput output,
-			SeasonCalendar utility, String currentDate, String endDate, int season, IStandingsPersistance standingsDb,
+			SeasonCalendar utility, String currentDate, String endDate, int season, IStandingsPersistance standingsDb, StandingInfo standings,
 			ISchedule schedule) {
 		this.stateName = StateConstants.TRADING_STATE;
 		this.leagueToSimulate = leagueToSimulate;
@@ -39,13 +41,15 @@ public class TradingState implements ISimulationState {
 		this.endDate = endDate;
 		this.season = season;
 		this.standingsDb = standingsDb;
+		this.standings = standings;
 		this.utility = utility;
 		this.schedule = schedule;
+		this.injury = new InjuryManagement();
 	}
 
 	public ISimulationState nextState(InternalStateContext context) {
 		this.nextStateName = StateConstants.AGING_STATE;
-		return new AgingState(leagueToSimulate, schedule, standingsDb, injury, context, utility, currentDate, endDate,
+		return new AgingState(leagueToSimulate, schedule, standingsDb, standings, injury, context, utility, currentDate, endDate,
 				season, output);
 	}
 

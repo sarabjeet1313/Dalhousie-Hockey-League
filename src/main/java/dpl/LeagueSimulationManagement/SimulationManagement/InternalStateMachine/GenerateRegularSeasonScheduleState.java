@@ -29,10 +29,10 @@ public class GenerateRegularSeasonScheduleState implements ISimulationState {
 	private int season;
 
 	public GenerateRegularSeasonScheduleState(League leagueToSimulate, IUserOutput output, int season,
-			InternalStateContext context, IStandingsPersistance standingsDb, SeasonCalendar utility) {
+			InternalStateContext context, IStandingsPersistance standingsDb, StandingInfo standings, SeasonCalendar utility) {
 		this.stateName = StateConstants.GENERATE_REGULAR_SEASON_SCHEDULE_STATE;
 		this.leagueToSimulate = leagueToSimulate;
-		this.standings = new StandingInfo(leagueToSimulate, season, standingsDb);
+		this.standings = standings;
 		this.calendar = Calendar.getInstance();
 		this.schedule = new RegularSeasonSchedule(calendar, output);
 		this.seasonCalendar = utility;
@@ -50,14 +50,14 @@ public class GenerateRegularSeasonScheduleState implements ISimulationState {
 
 	public ISimulationState nextState(InternalStateContext context) {
 		this.nextStateName = StateConstants.ADVANCE_TIME_STATE;
-		return new AdvanceTimeState(this.leagueToSimulate, this.schedule, this.seasonCalendar, this.standingsDb, this.startDate, this.endDate, output, context, this.season);
+		return new AdvanceTimeState(this.leagueToSimulate, this.schedule, this.seasonCalendar, this.standingsDb, this.standings, this.startDate, this.endDate, output, context, this.season);
 	}
 
 	public void doProcessing() {
 		output.setOutput("Scheduling the regular season for simulation.");
 		output.sendOutput();
 		try {
-			standings.initializeStandings();
+			//standings.initializeStandings();
 			if (null == leagueToSimulate) {
 				output.setOutput("Error scheduling season, passed league object is null. Please check");
 				output.sendOutput();

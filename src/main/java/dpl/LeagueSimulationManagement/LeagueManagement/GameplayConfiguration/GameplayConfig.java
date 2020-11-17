@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 
 public class GameplayConfig {
-	
+	private double penaltyChance = 0.4;
 	private Aging aging;
 	private GameResolver gameResolver;
 	private Injury injury;
@@ -73,6 +73,10 @@ public class GameplayConfig {
 
 	public void setTrading(Trading trading) {
 		this.trading = trading;
+	}
+
+	public double getPenaltyChance() {
+		return penaltyChance;
 	}
 
 	public boolean saveGameplayConfig(League league) throws SQLException {

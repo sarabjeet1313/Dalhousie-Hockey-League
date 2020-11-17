@@ -34,7 +34,7 @@ public class TrainingState implements ISimulationState {
 
 	public TrainingState(League leagueToSimulate, Training training, ISchedule schedule, SeasonCalendar utility,
 			String currentDate, String endDate, IUserOutput output, InternalStateContext context,
-			IStandingsPersistance standings, int season) {
+			IStandingsPersistance standingsDb, StandingInfo standings, int season) {
 		this.leagueToSimulate = leagueToSimulate;
 		this.output = output;
 		this.context = context;
@@ -45,8 +45,8 @@ public class TrainingState implements ISimulationState {
 		this.stateName = "Training";
 		this.training = training;
 		this.season = season;
-		this.standingsDb = standings;
-		this.standings = new StandingInfo(leagueToSimulate, season, standings);
+		this.standingsDb = standingsDb;
+		this.standings = standings;
 		this.tradeDb = new TradeDataDB();
 		this.trade = new Trade(tradeDb);
 		this.injury = new InjuryManagement();
@@ -55,16 +55,16 @@ public class TrainingState implements ISimulationState {
 	public ISimulationState nextState(InternalStateContext context) {
 		if (schedule.anyUnplayedGame(currentDate)) {
 			this.nextStateName = StateConstants.SIMULATE_GAME_STATE;
-			return new SimulateGameState(leagueToSimulate, schedule, standingsDb, context, utility, currentDate,
+			return new SimulateGameState(leagueToSimulate, schedule, standingsDb, standings, context, utility, currentDate,
 					endDate, season, output);
 		} else {
 			if (utility.isTradeDeadlinePending(this.currentDate)) {
 				this.nextStateName = StateConstants.TRADING_STATE;
 				return new TradingState(leagueToSimulate, trade, context, output, utility, currentDate, endDate, season,
-						standingsDb, schedule);
+						standingsDb, standings, schedule);
 			} else {
 				this.nextStateName = StateConstants.AGING_STATE;
-				return new AgingState(leagueToSimulate, schedule, standingsDb, injury, context, utility, currentDate,
+				return new AgingState(leagueToSimulate, schedule, standingsDb, standings, injury, context, utility, currentDate,
 						endDate, season, output);
 			}
 		}

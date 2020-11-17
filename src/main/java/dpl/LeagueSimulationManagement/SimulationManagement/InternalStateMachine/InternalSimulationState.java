@@ -85,8 +85,9 @@ public class InternalSimulationState implements ISimulationState {
             output.sendOutput();
 
             standingsDb.setSeason(index);
+            standings = new StandingInfo(leagueToSimulate, season, standingsDb, output);
             utility = new SeasonCalendar(season, output);
-            GenerateRegularSeasonScheduleState initialState = new GenerateRegularSeasonScheduleState(leagueToSimulate, this.output, this.season, this.context, standingsDb, utility);
+            GenerateRegularSeasonScheduleState initialState = new GenerateRegularSeasonScheduleState(leagueToSimulate, this.output, this.season, this.context, standingsDb, standings, utility);
             context.setState(initialState);
 
             while(context.shouldContinue()) {

@@ -9,6 +9,7 @@ import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.PlayoffSchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
@@ -23,6 +24,7 @@ public class GeneratePlayoffScheduleState implements ISimulationState {
 	private IUserOutput output;
 	private SeasonCalendar seasonCalendar;
 	private IStandingsPersistance standingsDb;
+	private StandingInfo standings;
 	private InternalStateContext context;
 	private String currentDate;
 	private String lastRegularSeasonDay;
@@ -30,13 +32,14 @@ public class GeneratePlayoffScheduleState implements ISimulationState {
 	private Training training;
 
 	public GeneratePlayoffScheduleState(League leagueToSimulate, SeasonCalendar seasonCalendar,
-			IStandingsPersistance standings, IUserOutput output, InternalStateContext context, int season,
-			String currentDate, String endDate) {
+										IStandingsPersistance standingsDb, StandingInfo standings, IUserOutput output, InternalStateContext context, int season,
+										String currentDate, String endDate) {
 		this.stateName = StateConstants.GENERATE_PLAYOFF_SCHEDULE_STATE;
 		this.season = season;
 		this.output = output;
 		this.seasonCalendar = seasonCalendar;
-		this.standingsDb = standings;
+		this.standingsDb = standingsDb;
+		this.standings = standings;
 		this.leagueToSimulate = leagueToSimulate;
 		this.schedule = new PlayoffSchedule(this.output, this.standingsDb, this.season);
 		this.context = context;
@@ -54,7 +57,7 @@ public class GeneratePlayoffScheduleState implements ISimulationState {
 	public ISimulationState nextState(InternalStateContext context) {
 		this.nextStateName = StateConstants.TRAINING_STATE;
 		return new TrainingState(leagueToSimulate, training, schedule, seasonCalendar, currentDate,
-				lastRegularSeasonDay, output, context, standingsDb, season);
+				lastRegularSeasonDay, output, context, standingsDb, standings, season);
 	}
 
 	public void doProcessing() {
@@ -67,6 +70,8 @@ public class GeneratePlayoffScheduleState implements ISimulationState {
 				output.sendOutput();
 				return;
 			}
+			standings.showRegularStats();
+			standings.resetStats();
 			schedule.generateSchedule(leagueToSimulate);
 			output.setOutput(GeneratePlayoffConstants.PLAYOFF_SUCCESSFUL.toString());
 			output.sendOutput();

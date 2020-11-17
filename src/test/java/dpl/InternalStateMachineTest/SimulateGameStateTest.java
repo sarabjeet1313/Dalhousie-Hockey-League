@@ -43,11 +43,11 @@ public class SimulateGameStateTest {
         mockSchedule = new MockSchedule();
         schedule.setFinalSchedule(mockSchedule.getMockSchedule());
         standingsDb = new StandingsMockDb(0);
-        standings = new StandingInfo(leagueToSimulate, 0, standingsDb);
+        standings = new StandingInfo(leagueToSimulate, 0, standingsDb, output);
         context = new InternalStateContext(input, output);
         utility = new SeasonCalendar(0, output);
         output = new CmdUserOutput();
-        state = new SimulateGameState(leagueToSimulate, schedule, standingsDb, context, utility, "14-11-2020", "", 0, output);
+        state = new SimulateGameState(leagueToSimulate, schedule, standingsDb, standings, context, utility, "14-11-2020", "", 0, output);
     }
 
     @Test
