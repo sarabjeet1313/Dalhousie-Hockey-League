@@ -52,4 +52,5 @@ public interface ITeamManagementAbstractFactory {
 	public Team TeamWithParameters(String teamName, Manager generalManager, Coach headCoach, List<Player> playerList,
 			boolean isNewTeam);
 
+	public IRosterManagement RosterManagement();
 }

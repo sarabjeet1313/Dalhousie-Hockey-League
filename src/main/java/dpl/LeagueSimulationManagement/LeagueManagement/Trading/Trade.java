@@ -159,19 +159,19 @@ public class Trade implements ITrade {
 				break;
 			}
 		}
-		if (playerIndexArray.length> 0){
+		if (playerIndexArray.length> 0) {
 			weakestPlayerPosition = playersByTeam.get(playerIndexArray[0]).getPosition();
-		}
-		for (int i = 0; i < playerIndexArray.length; i++) {
+			for (int i = 0; i < playerIndexArray.length; i++) {
 
-			if (matchPosition(weakestPlayerPosition, playersByTeam.get(playerIndexArray[i]).getPosition())) {
-				returnWeakestPlayerList.add(playersByTeam.get(playerIndexArray[i]));
-			} else if (i + 1 < minStrengthArray.length) {
-				if (minStrengthArray[i + 1] > minStrengthArray[i]) {
+				if (matchPosition(weakestPlayerPosition, playersByTeam.get(playerIndexArray[i]).getPosition())) {
+					returnWeakestPlayerList.add(playersByTeam.get(playerIndexArray[i]));
+				} else if (i + 1 < minStrengthArray.length) {
+					if (minStrengthArray[i + 1] > minStrengthArray[i]) {
+						break;
+					}
+				} else {
 					break;
 				}
-			} else {
-				break;
 			}
 		}
 		return returnWeakestPlayerList;

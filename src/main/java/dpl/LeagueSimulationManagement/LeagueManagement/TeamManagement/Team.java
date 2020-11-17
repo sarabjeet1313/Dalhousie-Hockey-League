@@ -109,6 +109,23 @@ public class Team implements ITeamInfo {
     }
 
     @Override
+    public void setPlayersByTeam(String teamName, List<Player> updatedPlayerList ,League league) {
+        List<Conference> conferenceList = league.getConferenceList();
+        for (int index = 0; index < conferenceList.size(); index++) {
+            List<Division> divisionList = conferenceList.get(index).getDivisionList();
+            for (int dIndex = 0; dIndex < divisionList.size(); dIndex++) {
+                List<Team> teamList = divisionList.get(dIndex).getTeamList();
+                for (int tIndex = 0; tIndex < teamList.size(); tIndex++) {
+                    if (teamList.get(tIndex).getTeamName().equals(teamName)) {
+                        teamList.get(tIndex).setPlayerList(updatedPlayerList);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
     public List<String> getAllTeamName(League league) {
         List<Conference> conferenceL = league.getConferenceList();
         List<Division> divisionL;

@@ -1,12 +1,14 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement;
 
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class RosterManagement implements IRosterManagement{
     // get ITeamInfo instance
     ITeamInfo teamInfo = new Team();
+
+    public RosterManagement(){
+        super();
+    }
 
     @Override
     public boolean checkRoster(String teamName, League league) {
@@ -38,33 +40,92 @@ public class RosterManagement implements IRosterManagement{
     public boolean updateActiveStatus(String teamName, League league) {
 
         List<Player> playerList = teamInfo.getPlayersByTeam(teamName,league);
-        List<Player> nonInjuredList = new LinkedList<>();
-        List<Player> injuredList = new LinkedList<>();
+        List<Player> updatedPlayerList = new ArrayList<>();
+        List<Player> goalieList= new ArrayList<>();
+        List<Player> nonInjuredList = new ArrayList<>();
+        List<Player> injuredList = new ArrayList<>();
 
         for(int pIndex = 0; pIndex < playerList.size(); pIndex++){
             Player tempPlayer = playerList.get(pIndex);
             if(tempPlayer.getDaysInjured() <= 0){
-                nonInjuredList.add(tempPlayer);
+                if(tempPlayer.getPosition().equals("goalie")){
+                    goalieList.add(tempPlayer);
+                }else{
+                    nonInjuredList.add(tempPlayer);
+                }
             }else{
-                injuredList.add(tempPlayer);
+                if(tempPlayer.getPosition().equals("goalie")){
+                    goalieList.add(tempPlayer);
+                }else{
+                    injuredList.add(tempPlayer);
+                }
             }
         }
+        goalieList.sort(Comparator.comparingDouble(p -> p.getPlayerStrength(p)));
         nonInjuredList.sort(Comparator.comparingDouble(p -> p.getPlayerStrength(p)));
         injuredList.sort(Comparator.comparingDouble(p -> p.getPlayerStrength(p)));
-        // need goalie
-        if(nonInjuredList.size()>=20){
+
+        Collections.reverse(goalieList);
+        Collections.reverse(nonInjuredList);
+        Collections.reverse(injuredList);
+
+        for (int index = 0 ; index< goalieList.size(); index++){
+            if(index < 2){
+                goalieList.get(index).setIsActive(Boolean.TRUE);
+            }else{
+                goalieList.get(index).setIsActive(Boolean.FALSE);
+            }
+        }
+
+        if(nonInjuredList.size()> 18){
             for(int index = 0; index < nonInjuredList.size(); index++ ){
-                if(index < 20){
+                if(index < 18){
                     nonInjuredList.get(index).setIsActive(Boolean.TRUE);
                 }else {
                     nonInjuredList.get(index).setIsActive(Boolean.FALSE);
+                    for (int indexInjured = 0; indexInjured< injuredList.size(); indexInjured++){
+                        injuredList.get(indexInjured).setIsActive(Boolean.FALSE);
+                    }
                 }
             }
         }else{
+            for(int index = 0; index < nonInjuredList.size(); index++ ){
+                nonInjuredList.get(index).setIsActive(Boolean.TRUE);
+            }
+            int tempCount = 18 - nonInjuredList.size();
+            for (int indexCount = 0; indexCount < injuredList.size() ; indexCount++){
+                if(indexCount< tempCount){
+                    injuredList.get(indexCount).setIsActive(Boolean.TRUE);
+                }else{
+                    injuredList.get(indexCount).setIsActive(Boolean.FALSE);
+                }
 
+            }
         }
+        updatedPlayerList.addAll(goalieList);
+        updatedPlayerList.addAll(nonInjuredList);
+        updatedPlayerList.addAll(injuredList);
 
-        return false;
+        teamInfo.setPlayersByTeam(teamName,updatedPlayerList, league);
+
+        return true;
+    }
+
+    @Override
+    public League updateLeagueActiveStatus(League league) {
+        String currentTeamName;
+        List<Conference> conferenceList = league.getConferenceList();
+        for (int index = 0; index < conferenceList.size(); index++) {
+            List<Division> divisionList = conferenceList.get(index).getDivisionList();
+            for (int dIndex = 0; dIndex < divisionList.size(); dIndex++) {
+                List<Team> teamList = divisionList.get(dIndex).getTeamList();
+                for (int tIndex = 0; tIndex < teamList.size(); tIndex++) {
+                    currentTeamName = teamList.get(tIndex).getTeamName();
+                    updateActiveStatus(currentTeamName, league);
+                }
+            }
+        }
+        return league;
     }
 }
 

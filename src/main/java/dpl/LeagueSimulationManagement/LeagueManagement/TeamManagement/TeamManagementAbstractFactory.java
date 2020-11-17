@@ -113,4 +113,9 @@ public class TeamManagementAbstractFactory implements ITeamManagementAbstractFac
 		return new Team(teamName, generalManager, headCoach, playerList, isNewTeam);
 	}
 
+	@Override
+	public IRosterManagement RosterManagement() {
+		return new RosterManagement();
+	}
+
 }

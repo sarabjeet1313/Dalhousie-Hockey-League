@@ -28,7 +28,7 @@ public class LeagueObjectTestData {
 
 	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
 			.getTeamManagementAbstractFactory();
-	private Player player1 = teamManagement.PlayerWithParameters("Player One", "forward", true, 1, 1, 1, 1, 1, false, false, 0, false);
+	private Player player1 = teamManagement.PlayerWithParameters("Player One", "forward", true, 1, 20, 1, 1, 1, false, false, 0, false);
 	private Player player2 = teamManagement.PlayerWithParameters("Player Two", "defense", false, 51, 1, 1, 1, 1, false, true, 0, false);
 	private Player player3 = teamManagement.PlayerWithParameters("Player Three", "goalie", false, 1, 1, 1, 1, 1, false, false, 0, false);
 	private Player player4 = teamManagement.PlayerWithParameters("Agent1", "forward", false, 1, 1, 1, 1, 1, false, false, 0, false);
