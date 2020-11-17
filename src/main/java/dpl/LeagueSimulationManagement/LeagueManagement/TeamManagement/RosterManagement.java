@@ -1,5 +1,8 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement;
 
+import dpl.DplConstants.PlayerConstants;
+
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -38,31 +41,59 @@ public class RosterManagement implements IRosterManagement{
     public boolean updateActiveStatus(String teamName, League league) {
 
         List<Player> playerList = teamInfo.getPlayersByTeam(teamName,league);
-        List<Player> nonInjuredList = new LinkedList<>();
-        List<Player> injuredList = new LinkedList<>();
+        List<Player> goalieList= new ArrayList<>();
+        List<Player> nonInjuredList = new ArrayList<>();
+        List<Player> injuredList = new ArrayList<>();
 
         for(int pIndex = 0; pIndex < playerList.size(); pIndex++){
             Player tempPlayer = playerList.get(pIndex);
             if(tempPlayer.getDaysInjured() <= 0){
-                nonInjuredList.add(tempPlayer);
+                if(tempPlayer.getPosition().equals("goalie")){
+                    goalieList.add(tempPlayer);
+                }else{
+                    nonInjuredList.add(tempPlayer);
+                }
             }else{
-                injuredList.add(tempPlayer);
+                if(tempPlayer.getPosition().equals("goalie")){
+                    goalieList.add(tempPlayer);
+                }else{
+                    injuredList.add(tempPlayer);
+                }
             }
         }
+        goalieList.sort(Comparator.comparingDouble(p -> p.getPlayerStrength(p)));
         nonInjuredList.sort(Comparator.comparingDouble(p -> p.getPlayerStrength(p)));
         injuredList.sort(Comparator.comparingDouble(p -> p.getPlayerStrength(p)));
-        // need goalie
-        if(nonInjuredList.size()>=20){
+        // set active goalie
+        goalieList.get(0).setIsActive(Boolean.TRUE);
+        goalieList.get(1).setIsActive(Boolean.TRUE);
+        if(nonInjuredList.size()>=17){
             for(int index = 0; index < nonInjuredList.size(); index++ ){
-                if(index < 20){
+                if(index < 18){
                     nonInjuredList.get(index).setIsActive(Boolean.TRUE);
                 }else {
                     nonInjuredList.get(index).setIsActive(Boolean.FALSE);
+                    for (int indexInjured = 0; indexInjured< injuredList.size(); indexInjured++){
+                        injuredList.get(indexInjured).setIsActive(Boolean.FALSE);
+                    }
                 }
             }
         }else{
+            for(int index = 0; index < nonInjuredList.size(); index++ ){
+                nonInjuredList.get(index).setIsActive(Boolean.TRUE);
+            }
+            int tempCount = 18 - nonInjuredList.size();
+            for (int indexCount = 0; indexCount < injuredList.size() ; indexCount++){
+                if(indexCount< tempCount){
+                    injuredList.get(indexCount).setIsActive(Boolean.TRUE);
+                }else{
+                    injuredList.get(indexCount).setIsActive(Boolean.FALSE);
+                }
 
+            }
         }
+
+
 
         return false;
     }
