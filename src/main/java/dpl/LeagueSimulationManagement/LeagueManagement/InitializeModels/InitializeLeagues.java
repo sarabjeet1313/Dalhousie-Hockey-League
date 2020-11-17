@@ -317,7 +317,7 @@ public class InitializeLeagues implements IInitializeLeagues {
 						}
 
 						Player playerObject = teamManagement.PlayerWithParameters(playerName, position, captain, age, skating, shooting,
-								checking, saving, Boolean.FALSE, Boolean.FALSE, 0);
+								checking, saving, Boolean.FALSE, Boolean.FALSE, 0, Boolean.FALSE);
 						bufferPlayerList.add(playerObject);
 						teamObject.setPlayerList(bufferPlayerList);
 					}
@@ -427,7 +427,7 @@ public class InitializeLeagues implements IInitializeLeagues {
 				}
 
 				freeAgents.add(teamManagement.PlayerWithParameters(agentName, position, captain, age, skating, shooting, checking, saving, false,
-						false, 0));
+						false, 0, false));
 			}
 		} catch (NullPointerException e) {
 			throw e;
