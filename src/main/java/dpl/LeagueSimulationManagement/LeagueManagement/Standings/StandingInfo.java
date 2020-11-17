@@ -10,22 +10,95 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Conference
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Division;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
 public class StandingInfo {
 
 	private League leagueToSimulate;
 	private int season;
+	private IUserOutput output;
+	private double totalSeasonMatches;
+	private double totalGoalsInSeason;
+	private double totalPenaltiesInSeason;
+	private double totalShotsInSeason;
+	private double totalSavesInSeason;
 	private InvokeStoredProcedure isp;
 	private Map<String, Integer> teamWinMap;
 	private Map<String, Integer> teamLoseMap;
 	private IStandingsPersistance standingsDb;
 
-	public StandingInfo(League leagueToSimulate, int season, IStandingsPersistance standingsDb) {
+	public StandingInfo(League leagueToSimulate, int season, IStandingsPersistance standingsDb, IUserOutput output) {
 		this.leagueToSimulate = leagueToSimulate;
 		this.standingsDb = standingsDb;
+		this.output = output;
 		teamWinMap = new HashMap<>();
 		teamLoseMap = new HashMap<>();
 		this.season = season;
+		resetStats();
+	}
+
+	public void resetStats() {
+		this.setTotalGoalsInSeason(0);
+		this.setTotalPenaltiesInSeason(0);
+		this.setTotalSavesInSeason(0);
+		this.setTotalSeasonMatches(0);
+		this.setTotalShotsInSeason(0);
+	}
+
+	public double getTotalSeasonMatches() {
+		return totalSeasonMatches;
+	}
+
+	public void setTotalSeasonMatches(double totalSeasonMatches) {
+		this.totalSeasonMatches = totalSeasonMatches;
+	}
+
+	public double getTotalGoalsInSeason() {
+		return totalGoalsInSeason;
+	}
+
+	public void setTotalGoalsInSeason(double totalGoalsInSeason) {
+		this.totalGoalsInSeason = totalGoalsInSeason;
+	}
+
+	public double getTotalPenaltiesInSeason() {
+		return totalPenaltiesInSeason;
+	}
+
+	public void setTotalPenaltiesInSeason(double totalPenaltiesInSeason) {
+		this.totalPenaltiesInSeason = totalPenaltiesInSeason;
+	}
+
+	public double getTotalShotsInSeason() {
+		return totalShotsInSeason;
+	}
+
+	public void setTotalShotsInSeason(double totalShotsInSeason) {
+		this.totalShotsInSeason = totalShotsInSeason;
+	}
+
+	public double getTotalSavesInSeason() {
+		return totalSavesInSeason;
+	}
+
+	public void setTotalSavesInSeason(double totalSavesInSeason) {
+		this.totalSavesInSeason = totalSavesInSeason;
+	}
+
+	public void showRegularStats() {
+		double goalsPerGame = getTotalGoalsInSeason() / getTotalSeasonMatches();
+		double penaltiesPerGame = getTotalPenaltiesInSeason() / getTotalSeasonMatches();
+		double totalShots = getTotalShotsInSeason() / getTotalSeasonMatches();
+		double totalSaves = getTotalSavesInSeason() / getTotalSeasonMatches();
+
+		output.setOutput("Goals per Game : " + goalsPerGame);
+		output.sendOutput();
+		output.setOutput("Penalties per Game : " + penaltiesPerGame);
+		output.sendOutput();
+		output.setOutput("Shots : " + totalShots);
+		output.sendOutput();
+		output.setOutput("Saves : " + totalSaves);
+		output.sendOutput();
 	}
 
 	public void updateTeamWinMap(String teamName) {

@@ -1,5 +1,6 @@
 package dpl.InternalStateMachineTest;
 
+import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.*;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.PlayoffSchedule;
@@ -24,7 +25,8 @@ public class GeneratePlayoffScheduleStateTest {
     private IUserOutput output;
     private IUserInput input;
     private ISchedule schedule;
-    private IStandingsPersistance standings;
+    private IStandingsPersistance standingsDb;
+    private StandingInfo standings;
     private SeasonCalendar utility;
     private InternalStateContext context;
     private GeneratePlayoffScheduleState state;
@@ -34,11 +36,12 @@ public class GeneratePlayoffScheduleStateTest {
         leagueToSimulate = new LeagueMockData().getTestData();
         output = new CmdUserOutput();
         input = new CmdUserInput();
-        standings = new StandingsMockDb(0);
-        schedule = new PlayoffSchedule(output, standings, 0);
+        standingsDb = new StandingsMockDb(0);
+        standings = new StandingInfo(leagueToSimulate, 0, standingsDb, output);
+        schedule = new PlayoffSchedule(output, standingsDb, 0);
         utility = new SeasonCalendar(0, output);
         context = new InternalStateContext(input, output);
-        state = new GeneratePlayoffScheduleState(leagueToSimulate, utility, standings, output, context, 1, "", "");
+        state = new GeneratePlayoffScheduleState(leagueToSimulate, utility, standingsDb, standings, output, context, 1, "", "");
     }
 
     @Test

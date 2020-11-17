@@ -10,6 +10,7 @@ import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Tra
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
@@ -25,13 +26,14 @@ public class AdvanceTimeState implements ISimulationState {
 	private boolean isALastDay;
 	private League leagueToSimulate;
 	private IStandingsPersistance standingsDb;
+	private StandingInfo standings;
 	private ISchedule schedule;
 	private Training training;
 	int season;
 
 	public AdvanceTimeState(League leagueToSimulate, ISchedule schedule, SeasonCalendar utility,
-			IStandingsPersistance standingsDb, String startDate, String endDate, IUserOutput output,
-			InternalStateContext context, int season) {
+							IStandingsPersistance standingsDb, StandingInfo standings, String startDate, String endDate, IUserOutput output,
+							InternalStateContext context, int season) {
 		this.stateName = StateConstants.ADVANCE_TIME_STATE;
 		this.currentDate = startDate;
 		this.training = new Training(output);
@@ -43,6 +45,7 @@ public class AdvanceTimeState implements ISimulationState {
 		this.leagueToSimulate = leagueToSimulate;
 		this.utility = utility;
 		this.standingsDb = standingsDb;
+		this.standings = standings;
 		this.season = season;
 		this.schedule = schedule;
 	}
@@ -50,12 +53,12 @@ public class AdvanceTimeState implements ISimulationState {
 	public ISimulationState nextState(InternalStateContext context) {
 		if (isALastDay) {
 			this.nextStateName = StateConstants.GENERATE_PLAYOFF_SCHEDULE_STATE;
-			return new GeneratePlayoffScheduleState(leagueToSimulate, utility, standingsDb, output, context, season,
+			return new GeneratePlayoffScheduleState(leagueToSimulate, utility, standingsDb, standings, output, context, season,
 					currentDate, endDate);
 		} else {
 			this.nextStateName = StateConstants.TRAINING_STATE;
 			return new TrainingState(leagueToSimulate, training, schedule, utility, currentDate, endDate, output,
-					context, standingsDb, season);
+					context, standingsDb, standings, season);
 		}
 	}
 

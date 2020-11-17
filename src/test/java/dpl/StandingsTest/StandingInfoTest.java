@@ -26,7 +26,7 @@ public class StandingInfoTest {
 		output = new CmdUserOutput();
 		standingsDb = new StandingsMockDb(0);
 		leagueToSimulate = new LeagueMockData().getTestData();
-		standings = new StandingInfo(leagueToSimulate, 0, standingsDb);
+		standings = new StandingInfo(leagueToSimulate, 0, standingsDb, output);
 	}
 
 	@Test

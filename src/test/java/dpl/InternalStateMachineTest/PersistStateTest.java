@@ -48,10 +48,10 @@ public class PersistStateTest {
         calendar = Calendar.getInstance();
         standingsDb = new StandingsMockDb(0);
         schedule = new RegularSeasonSchedule(calendar, output);
-        standings = new StandingInfo(leagueToSimulate, 0, standingsDb);
+        standings = new StandingInfo(leagueToSimulate, 0, standingsDb, output);
         context = new InternalStateContext(input, output);
         utility = new SeasonCalendar(0, output);
-        state = new PersistState(leagueToSimulate, schedule, standingsDb , context, utility, "13-11-2020", "", 0, output);
+        state = new PersistState(leagueToSimulate, schedule, standingsDb , standings, context, utility, "13-11-2020", "", 0, output);
     }
 
     @Test
