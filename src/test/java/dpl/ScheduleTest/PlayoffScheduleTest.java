@@ -1,5 +1,6 @@
 package dpl.ScheduleTest;
 
+import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.PlayoffSchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
@@ -29,8 +30,9 @@ public class PlayoffScheduleTest {
     public void setUp() throws Exception {
         output = new CmdUserOutput();
         standingsDb = new StandingsMockDb(0);
+        standings = new StandingInfo(leagueToSimulate, 0, standingsDb, output);
         leagueToSimulate = new LeagueMockData().getTestData();
-        state = new PlayoffSchedule(output, standingsDb, null, 0);
+        state = new PlayoffSchedule(output, standingsDb, standings, 0);
         mockSchedule = new MockSchedule();
     }
 
@@ -131,6 +133,7 @@ public class PlayoffScheduleTest {
         state.setFirstDay("13-11-2020");
         state.setLastDay("20-11-2020");
         state.generateSchedule(leagueToSimulate);
+        state.setFinalSchedule(mockSchedule.getFinalSchedule());
         assertEquals("Halifax", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
         assertNotEquals("Toronto", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
     	} catch (SQLException e) {

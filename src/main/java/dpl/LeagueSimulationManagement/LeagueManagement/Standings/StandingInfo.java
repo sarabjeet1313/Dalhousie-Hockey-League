@@ -139,7 +139,9 @@ public class StandingInfo {
 					List<Team> teamList = division.getTeamList();
 					for (Team teams : teamList) {
 						String teamName = teams.getTeamName();
-						teamPoints.put(teamWinMap.get(teamName) * 2, teamName);
+						if (teamWinMap.containsKey(teamName)) {
+							teamPoints.put(teamWinMap.get(teamName) * 2, teamName);
+						}
 					}
 					break;
 				}

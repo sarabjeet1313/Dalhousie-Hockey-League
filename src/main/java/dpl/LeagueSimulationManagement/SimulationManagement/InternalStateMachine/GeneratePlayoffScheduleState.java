@@ -97,4 +97,8 @@ public class GeneratePlayoffScheduleState implements ISimulationState {
 	public ISchedule getSchedule() {
 		return this.schedule;
 	}
+
+	public void setSchedule(ISchedule schedule) {
+		this.schedule = schedule;
+	}
 }

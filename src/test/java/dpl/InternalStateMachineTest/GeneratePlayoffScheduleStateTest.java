@@ -3,9 +3,9 @@ package dpl.InternalStateMachineTest;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.*;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
-import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.PlayoffSchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
+import dpl.ScheduleTest.MockSchedule;
 import dpl.StandingsTest.StandingsMockDb;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.TeamManagementTest.LeagueMockData;
@@ -38,7 +38,7 @@ public class GeneratePlayoffScheduleStateTest {
         input = new CmdUserInput();
         standingsDb = new StandingsMockDb(0);
         standings = new StandingInfo(leagueToSimulate, 0, standingsDb, output);
-        schedule = new PlayoffSchedule(output, standingsDb, null, 0);
+        schedule = new MockSchedule();
         utility = new SeasonCalendar(0, output);
         context = new InternalStateContext(input, output);
         state = new GeneratePlayoffScheduleState(leagueToSimulate, utility, standingsDb, standings, output, context, 1, "", "");
@@ -54,10 +54,11 @@ public class GeneratePlayoffScheduleStateTest {
 
     @Test
     public void doProcessingTest() {
-        assertFalse(state.getSchedule().getFinalSchedule().containsKey("15-04-2021"));
+        state.setSchedule(schedule);
+        assertFalse(state.getSchedule().getFinalSchedule().containsKey("15-11-2020"));
         state.doProcessing();
-        assertTrue(state.getSchedule().getFinalSchedule().containsKey("15-04-2021"));
-        assertEquals("Halifax", state.getSchedule().getFinalSchedule().get("15-04-2021").get(0).get("Boston"));
+        assertTrue(state.getSchedule().getFinalSchedule().containsKey("14-11-2020"));
+        assertEquals("Halifax", state.getSchedule().getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
     }
 
     @Test
@@ -75,8 +76,16 @@ public class GeneratePlayoffScheduleStateTest {
 
     @Test
     public void getScheduleTest() {
-        assertEquals(1, schedule.getSeasonType());
-        schedule.setSeasonType(0);
-        assertNotEquals(1, schedule.getSeasonType());
+        assertEquals(0, schedule.getSeasonType());
+        schedule.setSeasonType(1);
+        assertNotEquals(0, schedule.getSeasonType());
+    }
+
+    @Test
+    public void setScheduleTest() {
+        assertFalse(state.getSchedule().getFinalSchedule().containsKey("14-11-2020"));
+        state.setSchedule(schedule);
+        assertTrue(state.getSchedule().getFinalSchedule().containsKey("14-11-2020"));
+
     }
 }
