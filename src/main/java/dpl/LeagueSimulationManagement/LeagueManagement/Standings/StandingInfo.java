@@ -1,9 +1,7 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.Standings;
 
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import dpl.Database.InvokeStoredProcedure;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Conference;
@@ -85,19 +83,19 @@ public class StandingInfo {
 		this.totalSavesInSeason = totalSavesInSeason;
 	}
 
-	public void showRegularStats() {
+	public void showStats() {
 		double goalsPerGame = getTotalGoalsInSeason() / getTotalSeasonMatches();
 		double penaltiesPerGame = getTotalPenaltiesInSeason() / getTotalSeasonMatches();
 		double totalShots = getTotalShotsInSeason() / getTotalSeasonMatches();
 		double totalSaves = getTotalSavesInSeason() / getTotalSeasonMatches();
 
-		output.setOutput("Goals per Game : " + goalsPerGame);
+		output.setOutput("Goals per Game : " + Math.round(goalsPerGame * 100.0) / 100.0);
 		output.sendOutput();
-		output.setOutput("Penalties per Game : " + penaltiesPerGame);
+		output.setOutput("Penalties per Game : " + Math.round(penaltiesPerGame * 100.0) / 100.0);
 		output.sendOutput();
-		output.setOutput("Shots : " + totalShots);
+		output.setOutput("Shots : " + Math.round(totalShots * 100.0) / 100.0);
 		output.sendOutput();
-		output.setOutput("Saves : " + totalSaves);
+		output.setOutput("Saves : " + Math.round(totalSaves * 100.0) / 100.0);
 		output.sendOutput();
 	}
 
@@ -125,6 +123,47 @@ public class StandingInfo {
 
 	public Map<String, Integer> getTeamLoseMap() {
 		return teamLoseMap;
+	}
+
+	public List<String> getTopDivisionTeams(League leagueToSimulate, String divisionName) {
+
+		Map<Integer, String> teamPoints = new HashMap<>();
+		List<Conference> conferenceList = leagueToSimulate.getConferenceList();
+
+		for (Conference conference : conferenceList) {
+			List<Division> divisionList = conference.getDivisionList();
+
+			for (Division division : divisionList) {
+				String div = division.getDivisionName();
+				if (div.equals(divisionName)) {
+					List<Team> teamList = division.getTeamList();
+					for (Team teams : teamList) {
+						String teamName = teams.getTeamName();
+						if (teamWinMap.containsKey(teamName)) {
+							teamPoints.put(teamWinMap.get(teamName) * 2, teamName);
+						}
+					}
+					break;
+				}
+			}
+		}
+		return sortMap(teamPoints);
+	}
+
+	private List<String> sortMap(Map<Integer, String> teamMap) {
+		List<String> teams = new ArrayList<>();
+
+		Map<Integer, String> sortMap = new TreeMap<>(
+				(Comparator<Integer>) (o1, o2) -> o2.compareTo(o1)
+		);
+
+		sortMap.putAll(teamMap);
+
+		Iterator<Map.Entry<Integer, String>> iterator = sortMap.entrySet().iterator();
+		for (int i = 0; iterator.hasNext() && i < 4; i++) {
+			teams.add(iterator.next().getValue());
+		}
+		return teams;
 	}
 
 	public boolean initializeStandings() throws SQLException {
