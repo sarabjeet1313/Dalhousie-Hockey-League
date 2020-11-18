@@ -30,7 +30,7 @@ public class PlayoffScheduleTest {
         output = new CmdUserOutput();
         standingsDb = new StandingsMockDb(0);
         leagueToSimulate = new LeagueMockData().getTestData();
-        state = new PlayoffSchedule(output, standingsDb, 0);
+        state = new PlayoffSchedule(output, standingsDb, null, 0);
         mockSchedule = new MockSchedule();
     }
 

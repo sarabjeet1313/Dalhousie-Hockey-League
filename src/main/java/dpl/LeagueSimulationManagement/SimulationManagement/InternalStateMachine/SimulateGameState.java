@@ -18,7 +18,6 @@ import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 public class SimulateGameState implements ISimulationState {
 
 	private int fixedShotsPerTeam = 30;
-
 	private static String stateName;
 	private static String nextStateName;
 	private League leagueToSimulate;
@@ -35,6 +34,8 @@ public class SimulateGameState implements ISimulationState {
 	private IUserOutput output;
 	private ITeamInfo teamInfo;
 	private double penaltyChance;
+	private int checkingValueToPenalty;
+	private double shootingValueToGoal;
 	private InjuryManagement injury;
 	private Map<String, List<Map<String, String>>> currentSchedule;
 	private List<Player> firstTeamForwards;
@@ -72,8 +73,9 @@ public class SimulateGameState implements ISimulationState {
 		this.season = season;
 		this.currentSchedule = schedule.getFinalSchedule();
 		this.injury = new InjuryManagement();
-		//this.randomWinChance = leagueToSimulate.getGameConfig().getGameResolver().getRandomWinChance();
 		this.penaltyChance = leagueToSimulate.getGameConfig().getPenaltyChance();
+		this.checkingValueToPenalty = leagueToSimulate.getGameConfig().getCheckingValue();
+		this.shootingValueToGoal = leagueToSimulate.getGameConfig().getShootingValue();
 		this.output = output;
 		this.teamInfo = teamManagement.Team();
 		this.firstTeamForwards = new ArrayList<>();
@@ -108,8 +110,6 @@ public class SimulateGameState implements ISimulationState {
 	public void doProcessing() {
 		output.setOutput("Inside Match Simulation state");
 		output.sendOutput();
-
-		standings.setTotalSeasonMatches(standings.getTotalSeasonMatches() + 1);
 		if (schedule.getSeasonType() == ScheduleConstants.REGULAR_SEASON) {
 			simulateRegularMatches();
 		} else if (schedule.getSeasonType() == ScheduleConstants.PLAYOFF_SEASON) {
@@ -129,6 +129,7 @@ public class SimulateGameState implements ISimulationState {
 					output.sendOutput();
 					resetGoals(firstTeam, secondTeam);
 					simulateMatch(firstTeam, secondTeam);
+					standings.setTotalSeasonMatches(standings.getTotalSeasonMatches() + 1);
 
 					if(teamGoals.get(firstTeam) >= teamGoals.get(secondTeam)) {
 						winningTeam = firstTeam;
@@ -161,12 +162,13 @@ public class SimulateGameState implements ISimulationState {
 					int firstTeamWin = 1;
 					int secondTeamWin = 1;
 					for (int index = 0; index < 7; index++) {
-						if (firstTeamWin >= 4 || secondTeamWin >= 4) {
+						if (firstTeamWin >= 5 || secondTeamWin >= 5) {
 							break;
 						}
 						output.setOutput("Match is going on between " + firstTeam + " vs " + secondTeam);
 						output.sendOutput();
 						resetGoals(firstTeam, secondTeam);
+						standings.setTotalSeasonMatches(standings.getTotalSeasonMatches() + 1);
 						simulateMatch(firstTeam, secondTeam);
 
 						if(teamGoals.get(firstTeam) >= teamGoals.get(secondTeam)) {
@@ -202,8 +204,6 @@ public class SimulateGameState implements ISimulationState {
 
 		initializeTeamPlayers(firstTeam, secondTeam);
 		int diff = firstTeamSkatingTotal - secondTeamSkatingTotal;
-		output.setOutput("diff +++++++++++++++++++++++++++++++++++++++++ " + diff);
-		output.sendOutput();
 
 		if(diff < 0) {
 			if(Math.abs(diff) <= 6) {
@@ -223,7 +223,6 @@ public class SimulateGameState implements ISimulationState {
 			}
 			secondTeamShotsCounter = fixedShotsPerTeam;
 		}
-
 		int totalShots = firstTeamShotsCounter + secondTeamShotsCounter;
 
 		for(int i=1; i<=totalShots; i++){
@@ -239,15 +238,11 @@ public class SimulateGameState implements ISimulationState {
 			}
 
 			if(Math.random() > 0.5 && firstTeamShotsCounter > 0) {
-				output.setOutput("Shot By First Team. ------------------------------------------------------ " + i);
-				output.sendOutput();
 				firstTeamMakeAShot(firstTeam);
 				firstTeamShotsCounter--;
 			}
 			else {
 				if(secondTeamShotsCounter > 0) {
-					output.setOutput("Shot by Second Team. ------------------------------------------------------ " + i);
-					output.sendOutput();
 					secondTeamMakeAShot(secondTeam);
 					secondTeamShotsCounter--;
 				}
@@ -271,32 +266,23 @@ public class SimulateGameState implements ISimulationState {
 		Collections.shuffle(secondTeamGoaliesOnIce);
 		Player goalie = secondTeamGoaliesOnIce.get(0);
 
-		if(forwardPlayer.getShooting()*rand1 > (defensePlayer.getChecking()*rand2 + goalie.getSaving()*rand2)+3.75){
+		if(forwardPlayer.getShooting()*rand1 > (defensePlayer.getChecking()*rand2 + goalie.getSaving()*rand2)+shootingValueToGoal){
 			forwardPlayer.setGoals(forwardPlayer.getGoals() + 1);
 			standings.setTotalGoalsInSeason(standings.getTotalGoalsInSeason() + 1);
 			int goals = teamGoals.get(team);
 			teamGoals.put(team, goals+1);
-			output.setOutput("------------------------------------------ First Team GOAL by : " + forwardPlayer.getPlayerName());
-			output.sendOutput();
 		}
 		else if(goalie.getSaving()*rand1 > forwardPlayer.getShooting()*rand2) {
 			goalie.setSaves(goalie.getSaves() + 1);
 			standings.setTotalSavesInSeason(standings.getTotalSavesInSeason() + 1);
-			output.setOutput("------------------------------------------ First Team SAVE by : " + goalie.getPlayerName());
-			output.sendOutput();
 		}
 		else {
-			if(randomPenalty < penaltyChance) {
+			if(randomPenalty < penaltyChance && defensePlayer.getChecking() > checkingValueToPenalty) {
 				defensePlayer.setPenalties(defensePlayer.getPenalties() + 1);
 				standings.setTotalPenaltiesInSeason(standings.getTotalPenaltiesInSeason() + 1);
-				output.setOutput("------------------------------------------ First Team PENALTY by : " + defensePlayer.getPlayerName());
-				output.sendOutput();
 			}
 			defensePlayer.setSaves(defensePlayer.getSaves()+1);
 			standings.setTotalSavesInSeason(standings.getTotalSavesInSeason() + 1);
-			output.setOutput("------------------------------------------ First Team DEFENSE SAVE by : " + defensePlayer.getPlayerName());
-			output.sendOutput();
-
 		}
 	}
 
@@ -316,31 +302,23 @@ public class SimulateGameState implements ISimulationState {
 		Collections.shuffle(firstTeamGoaliesOnIce);
 		Player goalie = firstTeamGoaliesOnIce.get(0);
 
-		if(forwardPlayer.getShooting()*rand1 > (defensePlayer.getChecking()*rand2 + goalie.getSaving()*rand2)+3.75){
+		if(forwardPlayer.getShooting()*rand1 > (defensePlayer.getChecking()*rand2 + goalie.getSaving()*rand2)+shootingValueToGoal){
 			forwardPlayer.setGoals(forwardPlayer.getGoals() + 1);
 			standings.setTotalGoalsInSeason(standings.getTotalGoalsInSeason() + 1);
 			int goals = teamGoals.get(team);
 			teamGoals.put(team, goals+1);
-			output.setOutput("------------------------------------------ Second Team GOAL by : " + forwardPlayer.getPlayerName());
-			output.sendOutput();
 		}
 		else if(goalie.getSaving()*rand1 > forwardPlayer.getShooting()*rand2) {
 			goalie.setSaves(goalie.getSaves() + 1);
 			standings.setTotalSavesInSeason(standings.getTotalSavesInSeason() + 1);
-			output.setOutput("------------------------------------------ Second Team SAVE by : " + goalie.getPlayerName());
-			output.sendOutput();
 		}
 		else {
-			if(randomPenalty < penaltyChance) {
+			if(randomPenalty < penaltyChance && defensePlayer.getChecking() > checkingValueToPenalty) {
 				defensePlayer.setPenalties(defensePlayer.getPenalties() + 1);
 				standings.setTotalPenaltiesInSeason(standings.getTotalPenaltiesInSeason() + 1);
-				standings.setTotalSavesInSeason(standings.getTotalSavesInSeason() + 1);
-				output.setOutput("------------------------------------------ Second Team PENALTY by : " + defensePlayer.getPlayerName());
-				output.sendOutput();
 			}
 			defensePlayer.setSaves(defensePlayer.getSaves()+1);
-			output.setOutput("------------------------------------------ Second Team DEFENSE SAVE by : " + defensePlayer.getPlayerName());
-			output.sendOutput();
+			standings.setTotalSavesInSeason(standings.getTotalSavesInSeason() + 1);
 		}
 	}
 
@@ -407,8 +385,6 @@ public class SimulateGameState implements ISimulationState {
 			Collections.shuffle(firstTeamForwards);
 			if(firstTeamForwards.size() > 0) {
 				firstTeamForwardsOnIce.add(firstTeamForwards.get(0));
-//				output.setOutput("Forward: " + firstTeamForwards.get(0).getPlayerName());
-//				output.sendOutput();
 			}
 		}
 
@@ -416,8 +392,6 @@ public class SimulateGameState implements ISimulationState {
 			Collections.shuffle(firstTeamDefenseMen);
 			if(firstTeamDefenseMen.size() > 0) {
 				firstTeamDefenseMenOnIce.add(firstTeamDefenseMen.get(0));
-//				output.setOutput("Defense: " + firstTeamDefenseMen.get(0).getPlayerName());
-//				output.sendOutput();
 			}
 		}
 	}
@@ -427,8 +401,6 @@ public class SimulateGameState implements ISimulationState {
 			Collections.shuffle(secondTeamForwards);
 			if(secondTeamForwards.size() > 0) {
 				secondTeamForwardsOnIce.add(secondTeamForwards.get(0));
-//				output.setOutput("Forward2: " + secondTeamForwards.get(0).getPlayerName());
-//				output.sendOutput();
 			}
 		}
 
@@ -436,13 +408,12 @@ public class SimulateGameState implements ISimulationState {
 			Collections.shuffle(secondTeamDefenseMen);
 			if(secondTeamDefenseMen.size() > 0) {
 				secondTeamDefenseMenOnIce.add(secondTeamDefenseMen.get(0));
-//				output.setOutput("Defense2: " + secondTeamDefenseMen.get(0).getPlayerName());
-//				output.sendOutput();
 			}
 		}
 	}
 
 	private void generateNextRoundSchedule(String winningTeam, String losingTeam) {
+
 		List<String> teams = schedule.getTeamsToBeScheduled();
 		teams.add(winningTeam);
 		schedule.setTeamsToBeScheduled(teams);

@@ -41,7 +41,7 @@ public class GeneratePlayoffScheduleState implements ISimulationState {
 		this.standingsDb = standingsDb;
 		this.standings = standings;
 		this.leagueToSimulate = leagueToSimulate;
-		this.schedule = new PlayoffSchedule(this.output, this.standingsDb, this.season);
+		this.schedule = new PlayoffSchedule(this.output, this.standingsDb, this.standings, this.season);
 		this.context = context;
 		this.training = new Training(output);
 		this.startDate = this.seasonCalendar.getPlayoffFirstDay();
@@ -70,7 +70,7 @@ public class GeneratePlayoffScheduleState implements ISimulationState {
 				output.sendOutput();
 				return;
 			}
-			standings.showRegularStats();
+			standings.showStats();
 			standings.resetStats();
 			schedule.generateSchedule(leagueToSimulate);
 			output.setOutput(GeneratePlayoffConstants.PLAYOFF_SUCCESSFUL.toString());

@@ -38,7 +38,7 @@ public class GeneratePlayoffScheduleStateTest {
         input = new CmdUserInput();
         standingsDb = new StandingsMockDb(0);
         standings = new StandingInfo(leagueToSimulate, 0, standingsDb, output);
-        schedule = new PlayoffSchedule(output, standingsDb, 0);
+        schedule = new PlayoffSchedule(output, standingsDb, null, 0);
         utility = new SeasonCalendar(0, output);
         context = new InternalStateContext(input, output);
         state = new GeneratePlayoffScheduleState(leagueToSimulate, utility, standingsDb, standings, output, context, 1, "", "");

@@ -98,6 +98,8 @@ public class InternalSimulationState implements ISimulationState {
 
             output.setOutput("Season " + index + " winner is : " + utility.getSeasonWinner());
             output.sendOutput();
+
+            standings.showStats();
         }
     }
 
