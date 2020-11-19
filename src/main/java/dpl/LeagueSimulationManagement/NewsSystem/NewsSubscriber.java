@@ -1,5 +1,6 @@
 package dpl.LeagueSimulationManagement.NewsSystem;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -19,10 +20,10 @@ public class NewsSubscriber implements ITradeInfo, IGamesPlayedInfo, IInjuryInfo
     }
 
     @Override
-    public void updateTrade(String fromTeam, String toTeam, String[][] playersTraded) {
+    public void updateTrade(String fromTeam, String toTeam, ArrayList<String> fromTeamTrade, ArrayList<String> toTeamTrade) {
         Map<String, Map<String, Object>> trades = new LinkedHashMap<>(2);
-        trades.put(NewsSystemConstants.FROM.toString(), createTrade(fromTeam, playersTraded[0]));
-        trades.put(NewsSystemConstants.TO.toString(), createTrade(toTeam, playersTraded[1]));
+        trades.put(NewsSystemConstants.FROM.toString(), createTrade(fromTeam, fromTeamTrade));
+        trades.put(NewsSystemConstants.TO.toString(), createTrade(toTeam, toTeamTrade));
         output.setOutput(convertToJsonString(trades));
         output.sendOutput();
     }
@@ -63,10 +64,17 @@ public class NewsSubscriber implements ITradeInfo, IGamesPlayedInfo, IInjuryInfo
         output.sendOutput();
     }
 
-    private Map<String, Object> createTrade(String team, String[] players) {
+    private Map<String, Object> createTrade(String team, ArrayList<String> players) {
+        String[] p = new String[players.size()];
+        int i= 0;
+        for(String s: players){
+            p[i] = s;
+            i++;
+        }
+        i = 0;
         Map<String, Object> trade = new LinkedHashMap<>(2);
         trade.put(NewsSystemConstants.TEAM.toString(), team);
-        trade.put(NewsSystemConstants.PLAYERS.toString(), Arrays.asList(players));
+        trade.put(NewsSystemConstants.PLAYERS.toString(), Arrays.asList(p));
         return trade;
     }
 

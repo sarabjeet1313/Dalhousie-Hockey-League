@@ -12,6 +12,8 @@ public interface ITeamInfo {
 
     public List<Player> getPlayersByTeam(String teamName, League league);
 
+    public void setPlayersByTeam(String teamName, List<Player> updatedPlayerList ,League league);
+
     public List<String> getAllTeamName(League league);
 
     public String getUserTeamName(League league);

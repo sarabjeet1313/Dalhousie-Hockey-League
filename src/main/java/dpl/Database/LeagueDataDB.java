@@ -67,7 +67,8 @@ public class LeagueDataDB implements ILeaguePersistance {
 						result.getInt(PlayerConstants.SAVING.toString()),
 						result.getBoolean(PlayerConstants.IS_INJURED.toString()),
 						result.getBoolean(PlayerConstants.RETIRED_STATUS.toString()),
-						result.getInt(PlayerConstants.DAYS_INJURED.toString()));
+						result.getInt(PlayerConstants.DAYS_INJURED.toString()),
+						result.getBoolean(PlayerConstants.IS_ACTIVE.toString()));
 				String tempResult = result.getString(TeamConstants.TEAM_NAME.toString());
 				if (result.wasNull()) {
 					freeAgentList.add(player);

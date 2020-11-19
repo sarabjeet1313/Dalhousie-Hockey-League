@@ -41,7 +41,7 @@ public interface ITeamManagementAbstractFactory {
 	public Player Player();
 
 	public Player PlayerWithParameters(String playerName, String position, boolean captain, int age, int skating,
-			int shooting, int checking, int saving, boolean isInjured, boolean retireStatus, int daysInjured);
+			int shooting, int checking, int saving, boolean isInjured, boolean retireStatus, int daysInjured, boolean isActive);
 
 	public IRetirementManagement RetirementManagement();
 
@@ -52,4 +52,5 @@ public interface ITeamManagementAbstractFactory {
 	public Team TeamWithParameters(String teamName, Manager generalManager, Coach headCoach, List<Player> playerList,
 			boolean isNewTeam);
 
+	public IRosterManagement RosterManagement();
 }

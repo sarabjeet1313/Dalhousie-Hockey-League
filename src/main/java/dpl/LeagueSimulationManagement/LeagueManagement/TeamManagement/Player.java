@@ -18,13 +18,14 @@ public class Player implements IPlayerInfo {
     private boolean isInjured;
     private boolean retireStatus;
     private int daysInjured;
+    private boolean isActive;
 
     public Player() {
         super();
     }
 
     public Player(String playerName, String position, boolean captain, int age, int skating, int shooting, int checking,
-                  int saving, boolean isInjured, boolean retireStatus, int daysInjured) {
+                  int saving, boolean isInjured, boolean retireStatus, int daysInjured, boolean isActive) {
         super();
         this.playerName = playerName;
         this.position = position;
@@ -37,6 +38,7 @@ public class Player implements IPlayerInfo {
         this.isInjured = isInjured;
         this.retireStatus = retireStatus;
         this.daysInjured = daysInjured;
+        this.isActive = isActive;
         this.goals = 0;
         this.saves = 0;
         this.penalties = 0;
@@ -153,6 +155,10 @@ public class Player implements IPlayerInfo {
     public void setDaysInjured(int daysInjured) {
         this.daysInjured = daysInjured;
     }
+
+    public boolean isActive () {return isActive;}
+
+    public void setIsActive(boolean isActive){this.isActive = isActive;}
 
     @Override
     public double getPlayerStrength(Player player) {
