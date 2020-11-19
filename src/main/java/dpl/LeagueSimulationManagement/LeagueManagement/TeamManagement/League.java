@@ -21,7 +21,6 @@ public class League implements ILeagueOperation {
 	private static List<League> leagueList;
 	private GameplayConfig gameConfig;
 	private ILeaguePersistance leagueDb;
-	IUserOutput output = new CmdUserOutput();
 	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
 			.getTeamManagementAbstractFactory();
 

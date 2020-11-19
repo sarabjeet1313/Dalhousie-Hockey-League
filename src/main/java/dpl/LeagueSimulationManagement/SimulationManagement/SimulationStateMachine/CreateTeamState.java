@@ -51,9 +51,10 @@ public class CreateTeamState implements IState {
 	private List<Integer> indexList = new ArrayList<Integer>();
 	private List<Player> playersList = new ArrayList<Player>();
 	List<Player> tempList2 = new ArrayList<Player>();
-	CustomValidation validate = new CustomValidation();
+	private CustomValidation validate;
 	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
 			.getTeamManagementAbstractFactory();
+	private ISimulationStateMachineAbstractFactory simulationStateMachineAbstractFactory;
 
 	public CreateTeamState(IUserInput input, IUserOutput output, League league, ILeaguePersistance leagueDb,
 			ICoachPersistance coachDb, IGameplayConfigPersistance configDb, IManagerPersistance managerDb,
@@ -67,19 +68,21 @@ public class CreateTeamState implements IState {
 		this.tradeDb = tradeDb;
 		this.standingDb = standingDb;
 		this.initializedLeague = league;
+		this.stateName = "Create Team";
 		this.conferences = teamManagement.ConferenceWithParameters("", null);
 		this.divisions = teamManagement.DivisionWithParameters("", null);
 		this.teams = teamManagement.TeamWithParameters("", genManager, headCoach, null, Boolean.FALSE);
-		this.stateName = "Create Team";
+		this.simulationStateMachineAbstractFactory = SystemConfig.getSingleInstance().getSimulationStateMachineAbstractFactory();
+		this.validate = simulationStateMachineAbstractFactory.CustomValidation();
 	}
 
 	static {
-		FreeAgencyPublisher.getInstance().subscribe(new NewsSubscriber());
+		FreeAgencyPublisher.getInstance().subscribe(SystemConfig.getSingleInstance().getNewsSystemAbstractFactory().NewsSubscriber());
 	}
 
 	public void nextState(StateContext context) {
 		this.nextStateName = "Simulate";
-		context.setState(new SimulateState(input, output, teamName, initializedLeague, tradeDb, standingDb));
+		context.setState(this.simulationStateMachineAbstractFactory.SimulateState(input, output, teamName, initializedLeague, tradeDb, standingDb));
 	}
 
 	private void displayManagerList() {

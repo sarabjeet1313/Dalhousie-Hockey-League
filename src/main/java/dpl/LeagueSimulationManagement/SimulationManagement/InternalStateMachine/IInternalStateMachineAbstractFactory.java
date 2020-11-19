@@ -67,4 +67,5 @@ public interface IInternalStateMachineAbstractFactory {
 			SeasonCalendar utility, String currentDate, String endDate, IUserOutput output,
 			InternalStateContext context, IStandingsPersistance standingsDb, StandingInfo standings, int season);
 
+	public ISimulationState EndOfSeasonState(IUserOutput output);
 }

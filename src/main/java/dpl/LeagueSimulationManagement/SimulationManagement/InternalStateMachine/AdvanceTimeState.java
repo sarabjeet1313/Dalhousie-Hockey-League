@@ -13,6 +13,7 @@ import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersi
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+import dpl.SystemConfig;
 
 public class AdvanceTimeState implements ISimulationState {
 	private String stateName;
@@ -29,12 +30,14 @@ public class AdvanceTimeState implements ISimulationState {
 	private StandingInfo standings;
 	private ISchedule schedule;
 	private Training training;
-	int season;
+	private int season;
+	private IInternalStateMachineAbstractFactory internalStateMachineFactory;
 
 	public AdvanceTimeState(League leagueToSimulate, ISchedule schedule, SeasonCalendar utility,
 							IStandingsPersistance standingsDb, StandingInfo standings, String startDate, String endDate, IUserOutput output,
 							InternalStateContext context, int season) {
 		this.stateName = StateConstants.ADVANCE_TIME_STATE;
+		this.internalStateMachineFactory = SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory();
 		this.currentDate = startDate;
 		this.training = new Training(output);
 		this.endDate = endDate;
@@ -53,11 +56,11 @@ public class AdvanceTimeState implements ISimulationState {
 	public ISimulationState nextState(InternalStateContext context) {
 		if (isALastDay) {
 			this.nextStateName = StateConstants.GENERATE_PLAYOFF_SCHEDULE_STATE;
-			return new GeneratePlayoffScheduleState(leagueToSimulate, utility, standingsDb, standings, output, context, season,
+			return this.internalStateMachineFactory.GeneratePlayoffScheduleState(leagueToSimulate, utility, standingsDb, standings, output, context, season,
 					currentDate, endDate);
 		} else {
 			this.nextStateName = StateConstants.TRAINING_STATE;
-			return new TrainingState(leagueToSimulate, training, schedule, utility, currentDate, endDate, output,
+			return this.internalStateMachineFactory.TrainingState(leagueToSimulate, training, schedule, utility, currentDate, endDate, output,
 					context, standingsDb, standings, season);
 		}
 	}

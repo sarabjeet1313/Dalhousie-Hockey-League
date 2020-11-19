@@ -21,9 +21,12 @@ import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
 public class App {
 
+    private static SystemConfig config = SystemConfig.getSingleInstance();
+
     public static void main(String[] args) throws RetirementManagementException {
-        IUserInput input = new CmdUserInput();
-        IUserOutput output = new CmdUserOutput();
+
+        IUserInput input = config.getUserInputAbstractFactory().CmdUserInput();
+        IUserOutput output = config.getUserOutputAbstractFactory().CmdUserOutput();
         ILeaguePersistance leagueDb = new LeagueDataDB();
         ICoachPersistance coachDb = new CoachDataDB();
         IGameplayConfigPersistance configDb = new GameConfigDB();
@@ -31,19 +34,18 @@ public class App {
         ITradePersistence tradeDb = new TradeDataDB();
         IStandingsPersistance standingDb = new StandingsDataDb();
         StateContext context = new StateContext(input, output);
-        context.setState(new InitialState(input, output));
 
-
+        context.setState(config.getSimulationStateMachineAbstractFactory().InitialState(input, output));
         context.doProcessing();
 
         if (args == null || args.length == 0) {
-            context.setState(new LoadTeamState(input, output, leagueDb, configDb, tradeDb, standingDb));
+            context.setState(config.getSimulationStateMachineAbstractFactory().LoadTeamState(input, output, leagueDb, configDb, tradeDb, standingDb));
             context.doProcessing();
             context.nextState();
             context.doProcessing();
         } else {
             String filePath = args[0];
-            context.setState(new ParsingState(input, output, filePath, leagueDb, coachDb, configDb, managerDb, tradeDb, standingDb));
+            context.setState(config.getSimulationStateMachineAbstractFactory().ParsingState(input, output, filePath, leagueDb, coachDb, configDb, managerDb, tradeDb, standingDb));
             context.doProcessing();
             context.nextState();
             context.doProcessing();

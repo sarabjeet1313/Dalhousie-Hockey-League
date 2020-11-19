@@ -6,12 +6,14 @@ import dpl.DplConstants.GeneratePlayoffConstants;
 import dpl.DplConstants.StateConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Training;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
+import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.IScheduleAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.PlayoffSchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+import dpl.SystemConfig;
 
 public class GeneratePlayoffScheduleState implements ISimulationState {
 
@@ -30,18 +32,22 @@ public class GeneratePlayoffScheduleState implements ISimulationState {
 	private String lastRegularSeasonDay;
 	private ISchedule schedule;
 	private Training training;
+	private IInternalStateMachineAbstractFactory internalStateMachineFactory;
+	private IScheduleAbstractFactory scheduleAbstractFactory;
 
 	public GeneratePlayoffScheduleState(League leagueToSimulate, SeasonCalendar seasonCalendar,
 										IStandingsPersistance standingsDb, StandingInfo standings, IUserOutput output, InternalStateContext context, int season,
 										String currentDate, String endDate) {
 		this.stateName = StateConstants.GENERATE_PLAYOFF_SCHEDULE_STATE;
+		this.internalStateMachineFactory = SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory();
+		this.scheduleAbstractFactory = SystemConfig.getSingleInstance().getScheduleAbstractFactory();
 		this.season = season;
 		this.output = output;
 		this.seasonCalendar = seasonCalendar;
 		this.standingsDb = standingsDb;
 		this.standings = standings;
 		this.leagueToSimulate = leagueToSimulate;
-		this.schedule = new PlayoffSchedule(this.output, this.standingsDb, this.standings, this.season);
+		this.schedule = scheduleAbstractFactory.PlayoffSchedule(this.output, this.standingsDb, this.standings, this.season);
 		this.context = context;
 		this.training = new Training(output);
 		this.startDate = this.seasonCalendar.getPlayoffFirstDay();
@@ -56,7 +62,7 @@ public class GeneratePlayoffScheduleState implements ISimulationState {
 
 	public ISimulationState nextState(InternalStateContext context) {
 		this.nextStateName = StateConstants.TRAINING_STATE;
-		return new TrainingState(leagueToSimulate, training, schedule, seasonCalendar, currentDate,
+		return this.internalStateMachineFactory.TrainingState(leagueToSimulate, training, schedule, seasonCalendar, currentDate,
 				lastRegularSeasonDay, output, context, standingsDb, standings, season);
 	}
 

@@ -4,6 +4,7 @@ import java.util.*;
 
 import dpl.DplConstants.GeneralConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.*;
+import dpl.LeagueSimulationManagement.NewsSystem.INewsSystemAbstractFactory;
 import dpl.SystemConfig;
 import dpl.DplConstants.ScheduleConstants;
 import dpl.DplConstants.StateConstants;
@@ -36,7 +37,7 @@ public class SimulateGameState implements ISimulationState {
 	private double penaltyChance;
 	private int checkingValueToPenalty;
 	private double shootingValueToGoal;
-	private InjuryManagement injury;
+	private IInjuryManagement injury;
 	private Map<String, List<Map<String, String>>> currentSchedule;
 	private List<Player> firstTeamForwards;
 	private List<Player> firstTeamForwardsOnIce;
@@ -57,11 +58,16 @@ public class SimulateGameState implements ISimulationState {
 	private Map<String, Integer> teamGoals;
 	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
 			.getTeamManagementAbstractFactory();
+	private IInternalStateMachineAbstractFactory internalStateMachineFactory;
+	private ITeamManagementAbstractFactory teamManagementAbstractFactory;
+	private static INewsSystemAbstractFactory newsSystemAbstractFactory;
 
 	public SimulateGameState(League leagueToSimulate, ISchedule schedule, IStandingsPersistance standingsDb, StandingInfo standings,
 			InternalStateContext context, SeasonCalendar utility, String currentDate, String endDate, int season,
 			IUserOutput output) {
 		this.stateName = StateConstants.SIMULATE_GAME_STATE;
+		this.internalStateMachineFactory = SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory();
+		this.teamManagementAbstractFactory = SystemConfig.getSingleInstance().getTeamManagementAbstractFactory();
 		this.leagueToSimulate = leagueToSimulate;
 		this.standingsDb = standingsDb;
 		this.standings = standings;
@@ -72,7 +78,7 @@ public class SimulateGameState implements ISimulationState {
 		this.endDate = endDate;
 		this.season = season;
 		this.currentSchedule = schedule.getFinalSchedule();
-		this.injury = new InjuryManagement();
+		this.injury = teamManagementAbstractFactory.InjuryManagement();
 		this.penaltyChance = leagueToSimulate.getGameConfig().getPenaltyChance();
 		this.checkingValueToPenalty = leagueToSimulate.getGameConfig().getCheckingValue();
 		this.shootingValueToGoal = leagueToSimulate.getGameConfig().getShootingValue();
@@ -95,15 +101,16 @@ public class SimulateGameState implements ISimulationState {
 		this.secondTeamSkatingTotal = 0;
 		this.firstTeamShotsCounter = 0;
 		this.secondTeamShotsCounter = 0;
+		newsSystemAbstractFactory = SystemConfig.getSingleInstance().getNewsSystemAbstractFactory();
 	}
 
 	static {
-		GamePlayedPublisher.getInstance().subscribe(new NewsSubscriber());
+		GamePlayedPublisher.getInstance().subscribe(SystemConfig.getSingleInstance().getNewsSystemAbstractFactory().NewsSubscriber());
 	}
 
 	public ISimulationState nextState(InternalStateContext context) {
 		this.nextStateName = StateConstants.INJURY_STATE;
-		return new InjuryCheckState(leagueToSimulate, injury, schedule, context, utility, currentDate, endDate, season,
+		return this.internalStateMachineFactory.InjuryCheckState(leagueToSimulate, injury, schedule, context, utility, currentDate, endDate, season,
 				output, standingsDb, standings);
 	}
 
