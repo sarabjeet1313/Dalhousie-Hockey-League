@@ -7,6 +7,8 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ILeaguePer
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IManagerPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradePersistence;
+import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.IInternalStateMachineAbstractFactory;
+import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStateMachineAbstractFactory;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
@@ -39,8 +41,7 @@ public class SimulationStateMachineAbstractFactory implements ISimulationStateMa
 	public IState ParsingState(IUserInput input, IUserOutput output, String filePath, ILeaguePersistance leagueDb,
 			ICoachPersistance coachDb, IGameplayConfigPersistance configDb, IManagerPersistance managerDb,
 			ITradePersistence tradeDb, IStandingsPersistance standingDb) {
-		// TODO Auto-generated method stub
-		return null;
+		return new ParsingState(input, output, filePath, leagueDb, coachDb, configDb, managerDb, tradeDb, standingDb);
 	}
 
 	@Override

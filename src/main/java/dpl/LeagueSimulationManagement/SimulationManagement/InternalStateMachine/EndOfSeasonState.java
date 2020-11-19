@@ -1,11 +1,8 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
-import dpl.DplConstants.StateConstants;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
-import java.sql.SQLException;
-
-public class EndOfSeasonState implements ISimulationState{
+public class EndOfSeasonState implements ISimulationState {
     private String stateName = "SeasonEndState";
     private String nextStateName;
     private IUserOutput output;

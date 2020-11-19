@@ -5,12 +5,14 @@ import java.util.Calendar;
 
 import dpl.DplConstants.StateConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
+import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.IScheduleAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.RegularSeasonSchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+import dpl.SystemConfig;
 
 public class GenerateRegularSeasonScheduleState implements ISimulationState {
 
@@ -27,14 +29,18 @@ public class GenerateRegularSeasonScheduleState implements ISimulationState {
 	private SeasonCalendar seasonCalendar;
 	private IStandingsPersistance standingsDb;
 	private int season;
+	private IInternalStateMachineAbstractFactory internalStateMachineFactory;
+	private IScheduleAbstractFactory scheduleAbstractFactory;
 
 	public GenerateRegularSeasonScheduleState(League leagueToSimulate, IUserOutput output, int season,
 			InternalStateContext context, IStandingsPersistance standingsDb, StandingInfo standings, SeasonCalendar utility) {
 		this.stateName = StateConstants.GENERATE_REGULAR_SEASON_SCHEDULE_STATE;
+		this.internalStateMachineFactory = SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory();
+		this.scheduleAbstractFactory = SystemConfig.getSingleInstance().getScheduleAbstractFactory();
 		this.leagueToSimulate = leagueToSimulate;
 		this.standings = standings;
 		this.calendar = Calendar.getInstance();
-		this.schedule = new RegularSeasonSchedule(calendar, output);
+		this.schedule = scheduleAbstractFactory.RegularSeasonSchedule(calendar, output);
 		this.seasonCalendar = utility;
 		this.standingsDb = standingsDb;
 		this.output = output;
@@ -50,7 +56,7 @@ public class GenerateRegularSeasonScheduleState implements ISimulationState {
 
 	public ISimulationState nextState(InternalStateContext context) {
 		this.nextStateName = StateConstants.ADVANCE_TIME_STATE;
-		return new AdvanceTimeState(this.leagueToSimulate, this.schedule, this.seasonCalendar, this.standingsDb, this.standings, this.startDate, this.endDate, output, context, this.season);
+		return this.internalStateMachineFactory.AdvanceTimeState(this.leagueToSimulate, this.schedule, this.seasonCalendar, this.standingsDb, this.standings, this.startDate, this.endDate, output, context, this.season);
 	}
 
 	public void doProcessing() {

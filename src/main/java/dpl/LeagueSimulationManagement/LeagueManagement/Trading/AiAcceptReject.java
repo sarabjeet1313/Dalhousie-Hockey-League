@@ -6,19 +6,28 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInputAbstractFactory;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.UserInputAbstractFactory;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutputAbstractFactory;
+import dpl.SystemConfig;
 
 public class AiAcceptReject {
-	
+
+    private IUserInputAbstractFactory inputFactory;
+    private IUserOutputAbstractFactory outputFactory;
+
 	public AiAcceptReject() {
 		super();
+		this.inputFactory = SystemConfig.getSingleInstance().getUserInputAbstractFactory();
+		this.outputFactory = SystemConfig.getSingleInstance().getUserOutputAbstractFactory();
 	}
 
     public boolean isAcceptOrReject(Trade trade, League league, double randomAcceptanceChance, boolean isUserTeam
             , IPlayerInfo iPInfoObject, ITeamInfo iTInfoObject) {
-        IUserOutput output = new CmdUserOutput();
-        IUserInput Input = new CmdUserInput();
+        IUserOutput output = this.outputFactory.CmdUserOutput();
+        IUserInput Input = this.inputFactory.CmdUserInput();
         double playerOfferedStrength = 0;
         double playerRequestedStrength = 0;
         double totalTeamStrength = 0;

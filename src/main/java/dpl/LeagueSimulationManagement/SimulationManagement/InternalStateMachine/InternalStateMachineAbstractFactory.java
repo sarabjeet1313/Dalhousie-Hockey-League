@@ -119,4 +119,9 @@ public class InternalStateMachineAbstractFactory implements IInternalStateMachin
 				standingsDb, standings, season);
 	}
 
+	@Override
+	public ISimulationState EndOfSeasonState(IUserOutput output) {
+		return new EndOfSeasonState(output);
+	}
+
 }

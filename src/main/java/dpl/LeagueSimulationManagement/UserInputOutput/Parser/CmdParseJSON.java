@@ -3,18 +3,23 @@ package dpl.LeagueSimulationManagement.UserInputOutput.Parser;
 import com.google.gson.*;
 
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutputAbstractFactory;
+import dpl.SystemConfig;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
 public class CmdParseJSON implements IParser {
-    private static String filePath;
-    private static CmdUserOutput output;
+    private String filePath;
+    private IUserOutput output;
+    private IUserOutputAbstractFactory outputAbstractFactory;
 
     public CmdParseJSON(String filePath) {
         this.filePath = filePath;
-        this.output = new CmdUserOutput();
+        this.outputAbstractFactory = SystemConfig.getSingleInstance().getUserOutputAbstractFactory();
+        this.output = this.outputAbstractFactory.CmdUserOutput();
     }
 
     public String parse(String field) {

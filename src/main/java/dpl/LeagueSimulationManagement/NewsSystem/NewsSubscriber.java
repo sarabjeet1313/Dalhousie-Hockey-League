@@ -8,11 +8,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import dpl.DplConstants.NewsSystemConstants;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+import dpl.SystemConfig;
 
 public class NewsSubscriber implements ITradeInfo, IGamesPlayedInfo, IInjuryInfo, IFreeAgencyInfo, IRetirementInfo {
-    private IUserOutput output = new CmdUserOutput();
+    private IUserOutput output = SystemConfig.getSingleInstance().getUserOutputAbstractFactory().CmdUserOutput();
     
     public NewsSubscriber() {
     	super();

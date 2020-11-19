@@ -9,6 +9,7 @@ import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersi
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+import dpl.SystemConfig;
 
 public class PersistState implements ISimulationState {
 
@@ -25,11 +26,13 @@ public class PersistState implements ISimulationState {
 	private int season;
 	private String lastDate;
 	private IUserOutput output;
+	private IInternalStateMachineAbstractFactory internalStateMachineFactory;
 
 	public PersistState(League leagueToSimulate, ISchedule schedule, IStandingsPersistance standingsDb, StandingInfo standings,
 			InternalStateContext context, SeasonCalendar utility, String currentDate, String endDate, int season,
 			IUserOutput output) {
 		this.stateName = StateConstants.PERSIST_STATE;
+		this.internalStateMachineFactory = SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory();
 		this.leagueToSimulate = leagueToSimulate;
 		this.schedule = schedule;
 		this.standingsDb = standingsDb;
@@ -46,10 +49,10 @@ public class PersistState implements ISimulationState {
 	public ISimulationState nextState(InternalStateContext context) {
 		if (utility.getSeasonOverStatus()) {
 			this.nextStateName = "SeasonEndState";
-			return new EndOfSeasonState(output);
+			return this.internalStateMachineFactory.EndOfSeasonState(output);
 		} else {
 			this.nextStateName = StateConstants.ADVANCE_TIME_STATE;
-			return new AdvanceTimeState(this.leagueToSimulate, this.schedule, this.utility, this.standingsDb, this.standings,
+			return this.internalStateMachineFactory.AdvanceTimeState(this.leagueToSimulate, this.schedule, this.utility, this.standingsDb, this.standings,
 					this.currentDate, this.endDate, output, context, this.season);
 		}
 	}

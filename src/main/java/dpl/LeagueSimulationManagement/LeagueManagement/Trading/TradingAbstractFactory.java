@@ -17,8 +17,8 @@ public class TradingAbstractFactory implements ITradingAbstractFactory {
 	}
 
 	@Override
-	public Trade Trade() {
-		return new Trade();
+	public Trade Trade(ITradePersistence tradeDB) {
+		return new Trade(tradeDB);
 	}
 
 	@Override

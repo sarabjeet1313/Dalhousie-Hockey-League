@@ -33,6 +33,7 @@ public class LoadTeamState implements IState {
 	private League leagueToSimulate;
 	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
 			.getTeamManagementAbstractFactory();
+	private ISimulationStateMachineAbstractFactory simulationStateMachineAbstractFactory;
 
 	public LoadTeamState(IUserInput input, IUserOutput output, ILeaguePersistance leagueDb,
 			IGameplayConfigPersistance configDb, ITradePersistence tradeDb, IStandingsPersistance standingsDb) {
@@ -43,11 +44,12 @@ public class LoadTeamState implements IState {
 		this.configDb = configDb;
 		this.tradeDb = tradeDb;
 		this.standingsDb = standingsDb;
+		this.simulationStateMachineAbstractFactory = SystemConfig.getSingleInstance().getSimulationStateMachineAbstractFactory();
 	}
 
 	public void nextState(StateContext context) {
 		this.nextStateName = "Simulate";
-		context.setState(new SimulateState(input, output, teamName, leagueToSimulate, tradeDb, standingsDb));
+		context.setState(this.simulationStateMachineAbstractFactory.SimulateState(input, output, teamName, leagueToSimulate, tradeDb, standingsDb));
 	}
 
 	public void doProcessing() {
