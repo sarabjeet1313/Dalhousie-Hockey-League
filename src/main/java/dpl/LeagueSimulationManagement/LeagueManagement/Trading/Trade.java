@@ -196,12 +196,14 @@ public class Trade implements ITrade {
 		double offeredPlayersStrength = DoubleStream.of(maxPlayerStrengthsArray).sum();
 		double requestedPlayerStrength;
 		boolean isSame;
+		String currentTeamName;
 		for (int j = 0; j < allTeamNameList.size(); j++) {
 			isSame = sameTeam(t.getTradeOfferTeam(), allTeamNameList.get(j));
 			if (isSame == Boolean.FALSE) {
-				t.setTradeRequestedTeam(allTeamNameList.get(j));
+//				t.setTradeRequestedTeam(allTeamNameList.get(j));
+				currentTeamName = allTeamNameList.get(j);
 				currentTeamPlayers = getPlayersOfSpecificType(requiredPlayerType,
-						iTPInfoObject.getPlayersByTeam(t.getTradeRequestedTeam(), league));
+						iTPInfoObject.getPlayersByTeam(currentTeamName, league));
 
 				for (int i = 0; i < currentTeamPlayers.size(); i++) {
 					hmPlayerStrength.put(i, iPInfoObject.getPlayerStrength(currentTeamPlayers.get(i)));
@@ -220,6 +222,8 @@ public class Trade implements ITrade {
 				requestedPlayerStrength = DoubleStream.of(currentPlayerMaxStrength).sum();
 				if (requestedPlayerStrength > offeredPlayersStrength) {
 					offeredPlayersStrength = requestedPlayerStrength;
+					t.setTradeRequestedTeam(allTeamNameList.get(j));
+					returnStrongPlayerList.clear();
 					for (int h = 0; h < currentPlayerIndexArray.length; h++) {
 						returnStrongPlayerList.add(currentTeamPlayers.get(currentPlayerIndexArray[h]));
 					}
@@ -336,11 +340,19 @@ public class Trade implements ITrade {
 							}
 							conferenceL.get(cLIndex).setDivisionList(divisionL);
 						}
-						if (trade.getPlayerListOfferTeam().size() > 1
-								&& trade.getPlayerListRequestedTeam().size() > 1) {
+						if (trade.getPlayerListOfferTeam().size() > 0
+								&& trade.getPlayerListRequestedTeam().size() > 0) {
 							playersTraded = prepareToNotify(trade);
+							ArrayList<String> fromTeamPlayers = new ArrayList<>();
+							for(Player p : trade.getPlayerListOfferTeam()){
+								fromTeamPlayers.add(p.getPlayerName());
+							}
+							ArrayList<String> toTeamPlayers = new ArrayList<>();
+							for(Player p : trade.getPlayerListRequestedTeam()){
+								toTeamPlayers.add(p.getPlayerName());
+							}
 							TradePublisher.getInstance().notify(trade.getTradeOfferTeam(),
-									trade.getTradeRequestedTeam(), playersTraded);
+									trade.getTradeRequestedTeam(), fromTeamPlayers, toTeamPlayers);
 							leagueObject.setConferenceList(conferenceL);
 						}
 					}
