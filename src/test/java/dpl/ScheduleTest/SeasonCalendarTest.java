@@ -1,4 +1,4 @@
-package dpl.InternalStateMachineTest;
+package dpl.ScheduleTest;
 
 import org.junit.Before;
 import org.junit.Test;

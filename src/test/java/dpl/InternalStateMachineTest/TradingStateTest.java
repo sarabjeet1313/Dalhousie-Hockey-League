@@ -46,7 +46,7 @@ public class TradingStateTest {
         utility = new SeasonCalendar(0, output);
         tradeMock = new TradeObjectTestMockData();
         trade = new Trade(tradeMock);
-        state = new TradingState(leagueToSimulate, trade, context, output, null, "", "", 0, null, null);
+        state = new TradingState(leagueToSimulate, trade, context, output, null, "", "", 0, null, null, schedule);
     }
 
     @Test
@@ -82,5 +82,11 @@ public class TradingStateTest {
         assertNotEquals("Aging", state.getNextStateName());
         state.nextState(context);
         assertEquals("Aging", state.getNextStateName());
+    }
+
+    @Test
+    public void shouldContinueTest() {
+        assertTrue(state.shouldContinue());
+        assertFalse(!state.shouldContinue());
     }
 }

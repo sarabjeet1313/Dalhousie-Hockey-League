@@ -33,7 +33,7 @@ public class RegularSeasonScheduleTest {
         output = new CmdUserOutput();
         leagueToSimulate = new LeagueMockData().getTestData();
         standingsDb = new StandingsMockDb(0);
-        standings = new StandingInfo(leagueToSimulate, 0, standingsDb);
+        standings = new StandingInfo(leagueToSimulate, 0, standingsDb, output);
         calendar = Calendar.getInstance();
         state = new RegularSeasonSchedule(calendar, output);
         mockSchedule = new MockSchedule();

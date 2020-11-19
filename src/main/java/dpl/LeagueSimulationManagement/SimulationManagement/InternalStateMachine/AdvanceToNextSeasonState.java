@@ -35,7 +35,7 @@ public class AdvanceToNextSeasonState implements ISimulationState {
 	private StandingInfo standings;
 	private IStandingsPersistance standingsDb;
 
-	public AdvanceToNextSeasonState(League leagueToSimulate, ISchedule schedule, IStandingsPersistance standingsDb,
+	public AdvanceToNextSeasonState(League leagueToSimulate, ISchedule schedule, IStandingsPersistance standingsDb, StandingInfo standings,
 			IInjuryManagement injury, IRetirementManagement retirement, InternalStateContext context,
 			SeasonCalendar seasonCalendar, String currentDate, String endDate, int season, IUserOutput output) {
 		this.stateName = StateConstants.NEXT_SEASON_STATE;
@@ -47,14 +47,14 @@ public class AdvanceToNextSeasonState implements ISimulationState {
 		this.currentDate = currentDate;
 		this.endDate = endDate;
 		this.standingsDb = standingsDb;
-		this.standings = new StandingInfo(leagueToSimulate, season, standingsDb);
+		this.standings = standings;
 		this.schedule = schedule;
 		this.output = output;
 	}
 
 	public ISimulationState nextState(InternalStateContext context) {
 		this.nextStateName = StateConstants.PERSIST_STATE;
-		return new PersistState(leagueToSimulate, schedule, standingsDb, context, seasonCalendar, currentDate, endDate,
+		return new PersistState(leagueToSimulate, schedule, standingsDb, standings, context, seasonCalendar, currentDate, endDate,
 				season, output);
 	}
 

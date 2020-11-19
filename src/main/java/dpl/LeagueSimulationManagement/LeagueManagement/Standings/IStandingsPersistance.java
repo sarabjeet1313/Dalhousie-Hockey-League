@@ -14,6 +14,6 @@ public interface IStandingsPersistance {
 
 	void updateStandingsWin(String teamName) throws SQLException;
 
-	public List<String> getTop4TeamsFromStandings(String divisionName) throws SQLException;
+	public List<String>  getTop4TeamsFromStandings(String divisionName) throws SQLException;
 
 }

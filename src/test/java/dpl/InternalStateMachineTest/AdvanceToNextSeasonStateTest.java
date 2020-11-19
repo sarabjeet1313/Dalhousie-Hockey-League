@@ -50,7 +50,7 @@ public class AdvanceToNextSeasonStateTest {
         leagueToSimulate.setLeagueDb(leagueMock);
         utility.setLastSeasonDay("20-11-2020");
         context = new InternalStateContext(input, output);
-        state = new AdvanceToNextSeasonState(leagueToSimulate, null, null, injury, retirement, context, utility, "13-11-2020", "", 0, output);
+        state = new AdvanceToNextSeasonState(leagueToSimulate, null, null, null, injury, retirement, context, utility, "13-11-2020", "", 0, output);
     }
 
     @Test
@@ -87,5 +87,11 @@ public class AdvanceToNextSeasonStateTest {
         assertNotEquals("Persist", state.getNextStateName());
         state.nextState(context);
         assertEquals("Persist", state.getNextStateName());
+    }
+
+    @Test
+    public void shouldContinueTest() {
+        assertTrue(state.shouldContinue());
+        assertFalse(!state.shouldContinue());
     }
 }

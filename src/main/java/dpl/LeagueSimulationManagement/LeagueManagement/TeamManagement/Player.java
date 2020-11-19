@@ -12,6 +12,9 @@ public class Player implements IPlayerInfo {
     private int shooting;
     private int checking;
     private int saving;
+    private int goals;
+    private int penalties;
+    private int saves;
     private boolean isInjured;
     private boolean retireStatus;
     private int daysInjured;
@@ -36,6 +39,33 @@ public class Player implements IPlayerInfo {
         this.retireStatus = retireStatus;
         this.daysInjured = daysInjured;
         this.isActive = isActive;
+        this.goals = 0;
+        this.saves = 0;
+        this.penalties = 0;
+    }
+
+    public int getGoals() {
+        return goals;
+    }
+
+    public void setGoals(int goals) {
+        this.goals = goals;
+    }
+
+    public int getPenalties() {
+        return penalties;
+    }
+
+    public void setPenalties(int penalties) {
+        this.penalties = penalties;
+    }
+
+    public int getSaves() {
+        return saves;
+    }
+
+    public void setSaves(int save) {
+        this.saves = save;
     }
 
     public String getPlayerName() {

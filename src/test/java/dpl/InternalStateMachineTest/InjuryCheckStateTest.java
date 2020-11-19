@@ -51,7 +51,7 @@ public class InjuryCheckStateTest {
         leagueToSimulate = new LeagueMockData().getTestData();
         context = new InternalStateContext(input, output);
         utility = new SeasonCalendar(0, output);
-        state = new InjuryCheckState(leagueToSimulate, injury, schedule, context, utility, "14-11-2020", null, 0, output, null);
+        state = new InjuryCheckState(leagueToSimulate, injury, schedule, context, utility, "14-11-2020", null, 0, output, null, null);
         schedule.setFinalSchedule(mockSchedule.getMockSchedule());
     }
 
@@ -87,5 +87,11 @@ public class InjuryCheckStateTest {
         assertNotEquals("Trading", state.getNextStateName());
         state.nextState(context);
         assertEquals("SimulateGame", state.getNextStateName());
+    }
+
+    @Test
+    public void shouldContinueTest() {
+        assertTrue(state.shouldContinue());
+        assertFalse(!state.shouldContinue());
     }
 }

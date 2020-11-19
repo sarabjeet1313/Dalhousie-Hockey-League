@@ -31,16 +31,16 @@ public class PlayoffSchedule implements ISchedule {
 	private List<String> teamsScheduled;
 	private IStandingsPersistance standingsDb;
 
-	public PlayoffSchedule(IUserOutput output, IStandingsPersistance standings, int season) {
+	public PlayoffSchedule(IUserOutput output, IStandingsPersistance standingsDb, StandingInfo standings, int season) {
 		this.calendar = Calendar.getInstance();
 		this.output = output;
-		this.standingsDb = standings;
+		this.standingsDb = standingsDb;
+		this.standings = standings;
 		this.seasonType = ScheduleConstants.PLAYOFF_SEASON;
 		conferenceTeamList = new HashMap<>();
 		finalSchedule = new HashMap<>();
 		teamsToBeScheduled = new ArrayList<>();
 		teamsScheduled = new ArrayList<>();
-
 	}
 
 	public int getSeasonType() {
@@ -119,7 +119,8 @@ public class PlayoffSchedule implements ISchedule {
 
 					List<String> teams = new ArrayList<String>();
 					String divisionName = divisionList.get(dIndex).getDivisionName();
-					teams = standingsDb.getTop4TeamsFromStandings(divisionName);
+					//teams = standingsDb.getTop4TeamsFromStandings(divisionName);
+					teams = standings.getTopDivisionTeams(leagueToSimulate, divisionName);
 
 					if (conferenceTeamList.containsKey(conferenceName)) {
 						List<String> alreadyAddedTeams = conferenceTeamList.get(conferenceName);
@@ -132,7 +133,7 @@ public class PlayoffSchedule implements ISchedule {
 					teamsScheduled.addAll(teams);
 				}
 			}
-		} catch (SQLException e) {
+		} catch (NullPointerException e) {
 			throw e;
 		}
 	}

@@ -10,6 +10,7 @@ import dpl.DplConstants.StateConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IInjuryManagement;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradePersistence;
@@ -29,12 +30,13 @@ public class InjuryCheckState implements ISimulationState {
 	private int season;
 	private IUserOutput output;
 	private IStandingsPersistance standingsDb;
+	private StandingInfo standings;
 	private ITradePersistence tradeDb;
 	private Trade trade;
 
 	public InjuryCheckState(League leagueToSimulate, IInjuryManagement injury, ISchedule schedule,
 			InternalStateContext context, SeasonCalendar seasonCalendar, String currentDate, String endDate, int season,
-			IUserOutput output, IStandingsPersistance standingsDb) {
+			IUserOutput output, IStandingsPersistance standingsDb, StandingInfo standings) {
 		this.leagueToSimulate = leagueToSimulate;
 		this.injury = injury;
 		this.schedule = schedule;
@@ -45,6 +47,7 @@ public class InjuryCheckState implements ISimulationState {
 		this.season = season;
 		this.output = output;
 		this.standingsDb = standingsDb;
+		this.standings = standings;
 		this.tradeDb = new TradeDataDB();
 		this.trade = new Trade(tradeDb);
 		this.stateName = StateConstants.INJURY_STATE;
@@ -53,16 +56,16 @@ public class InjuryCheckState implements ISimulationState {
 	public ISimulationState nextState(InternalStateContext context) {
 		if (schedule.anyUnplayedGame(currentDate)) {
 			this.nextStateName = StateConstants.SIMULATE_GAME_STATE;
-			return new SimulateGameState(leagueToSimulate, schedule, standingsDb, context, seasonCalendar, currentDate,
+			return new SimulateGameState(leagueToSimulate, schedule, standingsDb, standings, context, seasonCalendar, currentDate,
 					endDate, season, output);
 		} else {
 			if (seasonCalendar.isTradeDeadlinePending(this.currentDate)) {
 				this.nextStateName = StateConstants.TRADING_STATE;
 				return new TradingState(leagueToSimulate, trade, context, output, seasonCalendar, currentDate, endDate,
-						season, standingsDb, schedule);
+						season, standingsDb, standings, schedule);
 			} else {
 				this.nextStateName = StateConstants.AGING_STATE;
-				return new AgingState(leagueToSimulate, schedule, standingsDb, injury, context, seasonCalendar,
+				return new AgingState(leagueToSimulate, schedule, standingsDb, standings, injury, context, seasonCalendar,
 						currentDate, endDate, season, output);
 			}
 		}
