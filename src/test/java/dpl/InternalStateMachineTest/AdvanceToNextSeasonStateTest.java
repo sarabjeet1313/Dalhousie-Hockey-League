@@ -88,4 +88,10 @@ public class AdvanceToNextSeasonStateTest {
         state.nextState(context);
         assertEquals("Persist", state.getNextStateName());
     }
+
+    @Test
+    public void shouldContinueTest() {
+        assertTrue(state.shouldContinue());
+        assertFalse(!state.shouldContinue());
+    }
 }

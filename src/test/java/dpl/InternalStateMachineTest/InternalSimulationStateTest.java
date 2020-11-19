@@ -1,5 +1,7 @@
 package dpl.InternalStateMachineTest;
 
+import dpl.ErrorHandling.RetirementManagementException;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalSimulationState;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStateContext;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
@@ -16,6 +18,9 @@ import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import org.junit.Before;
 import org.junit.Test;
 
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
 import static org.junit.Assert.*;
 
@@ -60,6 +65,12 @@ public class InternalSimulationStateTest {
         assertNotEquals("InternalEndState", state.getNextStateName());
         state.nextState(context);
         assertEquals("InternalEndState", state.getNextStateName());
+    }
+
+    @Test
+    public void shouldContinueTest() {
+        assertTrue(state.shouldContinue());
+        assertFalse(!state.shouldContinue());
     }
 
 }

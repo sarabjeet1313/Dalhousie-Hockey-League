@@ -40,6 +40,7 @@ public class InternalStateContextTest {
     public void nextStateTest() {
         context.nextState();
         assertEquals("InternalSimulation", context.currentStateName);
+        assertNotEquals("Negative", context.currentStateName);
         context.setState(state);
     }
 
@@ -47,6 +48,11 @@ public class InternalStateContextTest {
     public void setStateTest() {
         context.setState(state);
         assertEquals("Start", context.currentStateName);
+    }
+
+    @Test
+    public void getCurrentStateTest() {
+        assertTrue(context.getCurrentstate() instanceof InternalStartState);
     }
 
     @Test
@@ -60,4 +66,11 @@ public class InternalStateContextTest {
         gotOutput = gotOutput.replaceAll("\r", "");
         assertEquals(expected, gotOutput);
     }
+
+    @Test
+    public void shouldContinueTest() {
+        assertTrue(state.shouldContinue());
+        assertFalse(!state.shouldContinue());
+    }
+
 }

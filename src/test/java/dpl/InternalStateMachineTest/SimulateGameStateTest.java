@@ -77,4 +77,10 @@ public class SimulateGameStateTest {
         state.nextState(context);
         assertEquals("Injury", state.getNextStateName());
     }
+
+    @Test
+    public void shouldContinueTest() {
+        assertTrue(state.shouldContinue());
+        assertFalse(!state.shouldContinue());
+    }
 }

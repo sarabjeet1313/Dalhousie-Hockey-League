@@ -60,4 +60,10 @@ public class InternalEndStateTest {
         assertNotEquals("Negative", gotOutput);
         assertEquals(expected, gotOutput);
     }
+
+    @Test
+    public void shouldContinueTest() {
+        assertTrue(state.shouldContinue());
+        assertFalse(!state.shouldContinue());
+    }
 }

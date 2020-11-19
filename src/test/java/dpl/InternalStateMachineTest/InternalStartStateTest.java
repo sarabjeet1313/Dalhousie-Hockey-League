@@ -65,4 +65,10 @@ public class InternalStartStateTest {
         assertEquals("0", String.valueOf(state.numOfSeasons));
     }
 
+    @Test
+    public void shouldContinueTest() {
+        assertTrue(state.shouldContinue());
+        assertFalse(!state.shouldContinue());
+    }
+
 }

@@ -83,4 +83,10 @@ public class TradingStateTest {
         state.nextState(context);
         assertEquals("Aging", state.getNextStateName());
     }
+
+    @Test
+    public void shouldContinueTest() {
+        assertTrue(state.shouldContinue());
+        assertFalse(!state.shouldContinue());
+    }
 }

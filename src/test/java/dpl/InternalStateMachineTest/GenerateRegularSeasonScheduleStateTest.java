@@ -49,10 +49,10 @@ public class GenerateRegularSeasonScheduleStateTest {
 
     @Test
     public void doProcessingTest() {
-//        assertFalse(state.getSchedule().getFinalSchedule().containsKey("02-10-2020"));
-//        state.doProcessing();
-//        assertTrue(state.getSchedule().getFinalSchedule().containsKey("02-10-2020"));
-//        assertEquals("Halifax", state.getSchedule().getFinalSchedule().get("02-10-2020").get(0).get("Boston"));
+        assertFalse(state.getSchedule().getFinalSchedule().containsKey("02-10-2020"));
+        state.doProcessing();
+        assertTrue(state.getSchedule().getFinalSchedule().containsKey("02-10-2020"));
+        assertEquals("Halifax", state.getSchedule().getFinalSchedule().get("02-10-2020").get(0).get("Boston"));
     }
 
     @Test
@@ -86,4 +86,11 @@ public class GenerateRegularSeasonScheduleStateTest {
         state.nextState(context);
         assertEquals("AdvanceTime", state.getNextStateName());
     }
+
+    @Test
+    public void shouldContinueTest() {
+        assertTrue(state.shouldContinue());
+        assertFalse(!state.shouldContinue());
+    }
+
 }
