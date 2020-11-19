@@ -88,4 +88,10 @@ public class GeneratePlayoffScheduleStateTest {
         assertTrue(state.getSchedule().getFinalSchedule().containsKey("14-11-2020"));
 
     }
+
+    @Test
+    public void shouldContinueTest() {
+        assertTrue(state.shouldContinue());
+        assertFalse(!state.shouldContinue());
+    }
 }

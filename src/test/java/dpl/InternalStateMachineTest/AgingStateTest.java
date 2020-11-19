@@ -80,4 +80,10 @@ public class AgingStateTest {
         assertNotEquals("Persist", state.getNextStateName());
         assertEquals("NextSeason", state.getNextStateName());
     }
+
+    @Test
+    public void shouldContinueTest() {
+        assertTrue(state.shouldContinue());
+        assertFalse(!state.shouldContinue());
+    }
 }

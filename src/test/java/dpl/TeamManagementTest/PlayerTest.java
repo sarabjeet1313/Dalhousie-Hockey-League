@@ -166,4 +166,46 @@ public class PlayerTest {
 		Assert.assertNotEquals(4.5, strength, DELTA);
 	}
 
+	@Test
+	public void getGoalsTest() {
+		Assert.assertNotEquals(10, player.getGoals());
+		player.setGoals(10);
+		Assert.assertEquals(10, player.getGoals());
+	}
+
+	@Test
+	public void setGoalsTest() {
+		Assert.assertNotEquals(10, player.getGoals());
+		player.setGoals(10);
+		Assert.assertEquals(10, player.getGoals());
+	}
+
+	@Test
+	public void getPenaltiesTest() {
+		Assert.assertNotEquals(20, player.getPenalties());
+		player.setPenalties(20);
+		Assert.assertEquals(20, player.getPenalties());
+	}
+
+	@Test
+	public void setPenaltiesTest() {
+		Assert.assertNotEquals(20, player.getPenalties());
+		player.setPenalties(20);
+		Assert.assertEquals(20, player.getPenalties());
+	}
+
+	@Test
+	public void getSavesTest() {
+		Assert.assertNotEquals(30, player.getSaves());
+		player.setSaves(30);
+		Assert.assertEquals(30, player.getSaves());
+	}
+
+	@Test
+	public void setSavesTest() {
+		Assert.assertNotEquals(30, player.getSaves());
+		player.setSaves(30);
+		Assert.assertEquals(30, player.getSaves());
+	}
+
 }

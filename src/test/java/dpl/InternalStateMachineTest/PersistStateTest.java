@@ -86,4 +86,10 @@ public class PersistStateTest {
         state.nextState(context);
         assertEquals("AdvanceTime", state.getNextStateName());
     }
+
+    @Test
+    public void shouldContinueTest() {
+        assertTrue(state.shouldContinue());
+        assertFalse(!state.shouldContinue());
+    }
 }

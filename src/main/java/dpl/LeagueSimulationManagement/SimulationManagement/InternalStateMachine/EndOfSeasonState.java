@@ -13,6 +13,7 @@ public class EndOfSeasonState implements ISimulationState{
     public EndOfSeasonState(IUserOutput output) {
         this.output = output;
     }
+
     public ISimulationState nextState(InternalStateContext context) {
         this.nextStateName = "None";
         return null;

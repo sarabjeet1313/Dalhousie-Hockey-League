@@ -40,12 +40,18 @@ public class AdvanceTimeStateTest {
         assertNotEquals("Generate Playoff", state.getNextStateName());
     }
 
-//    @Test
-//    public void doProcessingTest() {
-//        state.doProcessing();
-//        assertEquals("03-04-2021", state.getCurrentDate());
-//        assertNotEquals("02-04-2021", state.getCurrentDate());
-//    }
+    @Test
+    public void doProcessingTest() {
+        state.doProcessing();
+        assertEquals("03-04-2021", state.getCurrentDate());
+        assertNotEquals("02-04-2021", state.getCurrentDate());
+    }
+
+    @Test
+    public void shouldContinueTest() {
+        assertTrue(state.shouldContinue());
+        assertFalse(!state.shouldContinue());
+    }
 
     @Test
     public void incrementCurrentDayTest() {

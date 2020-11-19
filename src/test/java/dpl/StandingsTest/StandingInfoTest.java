@@ -11,7 +11,10 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.sql.SQLException;
+import java.util.List;
 
 public class StandingInfoTest {
 
@@ -68,6 +71,110 @@ public class StandingInfoTest {
 			output.setOutput(e.getMessage());
 			output.sendOutput();
 		}
+	}
+
+	@Test
+	public void getTopDivisionTeamsTest() {
+		standings.updateTeamWinMap("Boston");
+		List<String> teams = standings.getTopDivisionTeams(leagueToSimulate, "Atlantic");
+		assertTrue(teams.contains("Boston"));
+	}
+
+	@Test
+	public void resetStatsTest() {
+		assertEquals(0, standings.getTotalGoalsInSeason(), 0.5);
+		assertEquals(0, standings.getTotalSavesInSeason(), 0.5);
+	}
+
+	@Test
+	public void getTotalSeasonMatchesTest() {
+		assertNotEquals(10, standings.getTotalSeasonMatches(), 0.5);
+		standings.setTotalSeasonMatches(10);
+		assertEquals(10, standings.getTotalSeasonMatches(), 0.5);
+	}
+
+	@Test
+	public void setTotalSeasonMatchesTest() {
+		assertNotEquals(10, standings.getTotalSeasonMatches(), 0.5);
+		standings.setTotalSeasonMatches(10);
+		assertEquals(10, standings.getTotalSeasonMatches(), 0.5);
+	}
+
+	@Test
+	public void getTotalGoalsInSeasonTest() {
+		assertNotEquals(20, standings.getTotalGoalsInSeason(), 0.5);
+		standings.setTotalGoalsInSeason(20);
+		assertEquals(20, standings.getTotalGoalsInSeason(), 0.5);
+	}
+
+	@Test
+	public void setTotalGoalsInSeasonTest() {
+		assertNotEquals(20, standings.getTotalGoalsInSeason(), 0.5);
+		standings.setTotalGoalsInSeason(20);
+		assertEquals(20, standings.getTotalGoalsInSeason(), 0.5);
+	}
+
+	@Test
+	public void getTotalPenaltiesInSeasonTest() {
+		assertNotEquals(30, standings.getTotalPenaltiesInSeason(), 0.5);
+		standings.setTotalPenaltiesInSeason(30);
+		assertEquals(30, standings.getTotalPenaltiesInSeason(), 0.5);
+	}
+
+	@Test
+	public void setTotalPenaltiesInSeasonTest() {
+		assertNotEquals(30, standings.getTotalPenaltiesInSeason(), 0.5);
+		standings.setTotalPenaltiesInSeason(30);
+		assertEquals(30, standings.getTotalPenaltiesInSeason(),0.5);
+	}
+
+	@Test
+	public void getTotalShotsInSeasonTest() {
+		assertNotEquals(40, standings.getTotalShotsInSeason(), 0.5);
+		standings.setTotalShotsInSeason(40);
+		assertEquals(40, standings.getTotalShotsInSeason(), 0.5);
+	}
+
+	@Test
+	public void setTotalShotsInSeasonTest() {
+		assertNotEquals(40, standings.getTotalShotsInSeason(), 0.5);
+		standings.setTotalShotsInSeason(40);
+		assertEquals(40, standings.getTotalShotsInSeason(), 0.5);
+	}
+
+	@Test
+	public void getTotalSavesInSeasonTest() {
+		assertNotEquals(50, standings.getTotalSavesInSeason(), 0.5);
+		standings.setTotalSavesInSeason(50);
+		assertEquals(50, standings.getTotalSavesInSeason(), 0.5);
+	}
+
+	@Test
+	public void setTotalSavesInSeasonTest() {
+		assertNotEquals(50, standings.getTotalSavesInSeason(), 0.5);
+		standings.setTotalSavesInSeason(50);
+		assertEquals(50, standings.getTotalSavesInSeason(), 0.5);
+	}
+
+	@Test
+	public void initializeStandings() {
+		try {
+			assertTrue(standings.initializeStandings());
+		} catch (Exception e) {
+			output.setOutput(e.getMessage());
+			output.sendOutput();
+		}
+	}
+
+	@Test
+	public void showStatsTest() {
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(out));
+		standings.showStats();
+		String expected  = "Goals per Game : 0.0Penalties per Game : 0.0Shots : 0.0Saves : 0.0";
+		String gotOutput = out.toString().replaceAll("\n", "");
+		gotOutput = gotOutput.replaceAll("\r", "");
+		assertEquals(expected, gotOutput);
 	}
 
 }
