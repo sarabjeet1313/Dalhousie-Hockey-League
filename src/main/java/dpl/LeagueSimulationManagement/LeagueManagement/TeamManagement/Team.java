@@ -171,7 +171,6 @@ public class Team implements ITeamInfo {
 
     @Override
     public double getTeamStrength(String teamName, League league) {
-        // List<Player> players = this.getPlayersByTeam(teamName, league);
         List<Player> activeRoster = getActivePlayers(teamName, league);
         double teamStrength = 0.0;
 
@@ -192,14 +191,7 @@ public class Team implements ITeamInfo {
             if (teamPlayer.isActive()) {
                 activePlayers.add(teamPlayer);
             }
-//            if (teamPlayer.getPosition().equals("goalie")) {
-//                if (teamPlayer.isActive()) {
-//                    activePlayers.add(teamPlayer);
-//                }
-//                team = (Team) activePlayers; //doubt
         }
-
-
         return activePlayers;
     }
 
