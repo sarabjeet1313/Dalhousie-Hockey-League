@@ -109,7 +109,7 @@ public class Team implements ITeamInfo {
     }
 
     @Override
-    public void setPlayersByTeam(String teamName, List<Player> updatedPlayerList ,League league) {
+    public void setPlayersByTeam(String teamName, List<Player> updatedPlayerList, League league) {
         List<Conference> conferenceList = league.getConferenceList();
         for (int index = 0; index < conferenceList.size(); index++) {
             List<Division> divisionList = conferenceList.get(index).getDivisionList();
@@ -171,14 +171,36 @@ public class Team implements ITeamInfo {
 
     @Override
     public double getTeamStrength(String teamName, League league) {
-        List<Player> players = this.getPlayersByTeam(teamName, league);
+        // List<Player> players = this.getPlayersByTeam(teamName, league);
+        List<Player> activeRoster = getActivePlayers(teamName, league);
         double teamStrength = 0.0;
 
-        for (Player player : players) {
+        for (Player player : activeRoster) {
             teamStrength = teamStrength + player.getPlayerStrength(player);
         }
 
         return teamStrength;
+    }
+
+    @Override
+    public List<Player> getActivePlayers(String teamName, League league) {
+        Team team = null;
+        List<Player> playerList = getPlayersByTeam(teamName, league);
+        List<Player> activePlayers = new ArrayList<>();
+        //List<Player> goalieList = new ArrayList<>();
+        for (Player teamPlayer : playerList) {
+            if (teamPlayer.isActive()) {
+                activePlayers.add(teamPlayer);
+            }
+//            if (teamPlayer.getPosition().equals("goalie")) {
+//                if (teamPlayer.isActive()) {
+//                    activePlayers.add(teamPlayer);
+//                }
+//                team = (Team) activePlayers; //doubt
+        }
+
+
+        return activePlayers;
     }
 
     @Override
