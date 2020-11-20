@@ -9,4 +9,12 @@ public class StandingsAbstractFactory implements IStandingsAbstractFactory {
 		return new StandingInfo(leagueToSimulate, season, standingsDb, output);
 	}
 
+	public Standing Standing(){
+		return new Standing();
+	}
+
+	public TeamStanding TeamStanding(){
+		return new TeamStanding();
+	}
+
 }

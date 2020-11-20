@@ -7,4 +7,7 @@ public interface IStandingsAbstractFactory {
 
 	public StandingInfo StandingInfo(League leagueToSimulate, int season, IStandingsPersistance standingsDb, IUserOutput output);
 
+	public Standing Standing();
+
+	public TeamStanding TeamStanding();
 }
