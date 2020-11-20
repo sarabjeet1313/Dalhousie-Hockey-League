@@ -9,6 +9,7 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Division;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+import dpl.SystemConfig;
 
 public class StandingInfo {
 
@@ -24,10 +25,13 @@ public class StandingInfo {
 	private Map<String, Integer> teamWinMap;
 	private Map<String, Integer> teamLoseMap;
 	private IStandingsPersistance standingsDb;
+	private Standing standing;
 
 	public StandingInfo(League leagueToSimulate, int season, IStandingsPersistance standingsDb, IUserOutput output) {
 		this.leagueToSimulate = leagueToSimulate;
 		this.standingsDb = standingsDb;
+		this.standing = SystemConfig.getSingleInstance().getStandingsAbstractFactory().Standing();
+		this.standing.setSeason(season);
 		this.output = output;
 		teamWinMap = new HashMap<>();
 		teamLoseMap = new HashMap<>();
@@ -106,6 +110,7 @@ public class StandingInfo {
 		} else {
 			teamWinMap.put(teamName, 1);
 		}
+		standing.updateStandingsWin(teamName);
 	}
 
 	public void updateTeamLoseMap(String teamName) {
@@ -115,6 +120,7 @@ public class StandingInfo {
 		} else {
 			teamLoseMap.put(teamName, 1);
 		}
+		standing.updateStandingsLosses(teamName);
 	}
 
 	public Map<String, Integer> getTeamWinMap() {
@@ -167,7 +173,6 @@ public class StandingInfo {
 	}
 
 	public boolean initializeStandings() throws SQLException {
-
 		boolean result = false;
 		try {
 			String leagueName = leagueToSimulate.getLeagueName();

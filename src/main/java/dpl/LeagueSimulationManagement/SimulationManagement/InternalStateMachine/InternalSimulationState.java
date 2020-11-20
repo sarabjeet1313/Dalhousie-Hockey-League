@@ -38,7 +38,7 @@ public class InternalSimulationState implements ISimulationState {
     private IInjuryManagement injury;
     private Trade trade;
     private ISchedule schedule;
-    private StandingInfo standings;
+    private StandingInfo standingsInfo;
     private IStandingsPersistance standingsDb;
     private TrainingState trainingState;
     private GeneratePlayoffScheduleState playoffScheduleState;
@@ -100,9 +100,9 @@ public class InternalSimulationState implements ISimulationState {
             output.sendOutput();
 
             standingsDb.setSeason(index);
-            standings = this.standingsAbstractFactory.StandingInfo(leagueToSimulate, season, standingsDb, output);
+            standingsInfo = this.standingsAbstractFactory.StandingInfo(leagueToSimulate, season, standingsDb, output);
             utility = this.scheduleAbstractFactory.SeasonCalendar(season, output);
-            initialState = this.internalStateMachineFactory.GenerateRegularSeasonScheduleState(leagueToSimulate, this.output, this.season, this.context, standingsDb, standings, utility);
+            initialState = this.internalStateMachineFactory.GenerateRegularSeasonScheduleState(leagueToSimulate, this.output, this.season, this.context, standingsDb, standingsInfo, utility);
             context.setState(initialState);
 
             while(context.shouldContinue()) {
@@ -114,7 +114,7 @@ public class InternalSimulationState implements ISimulationState {
             output.setOutput("Season " + index + " winner is : " + utility.getSeasonWinner());
             output.sendOutput();
 
-            standings.showStats();
+            standingsInfo.showStats();
         }
     }
 
