@@ -56,8 +56,8 @@ public class SimulateGameState implements ISimulationState {
 	private int firstTeamShotsCounter;
 	private int secondTeamShotsCounter;
 	private Map<String, Integer> teamGoals;
-	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
-			.getTeamManagementAbstractFactory();
+	private GameContext gameContext;
+	private ISimulateMatch simulateMatch;
 	private IInternalStateMachineAbstractFactory internalStateMachineFactory;
 	private ITeamManagementAbstractFactory teamManagementAbstractFactory;
 	private static INewsSystemAbstractFactory newsSystemAbstractFactory;
@@ -83,7 +83,7 @@ public class SimulateGameState implements ISimulationState {
 		this.checkingValueToPenalty = leagueToSimulate.getGameConfig().getCheckingValue();
 		this.shootingValueToGoal = leagueToSimulate.getGameConfig().getShootingValue();
 		this.output = output;
-		this.teamInfo = teamManagement.Team();
+		this.teamInfo = teamManagementAbstractFactory.Team();
 		this.firstTeamForwards = new ArrayList<>();
 		this.firstTeamForwardsOnIce = new ArrayList<>();
 		this.secondTeamForwards = new ArrayList<>();
@@ -101,7 +101,7 @@ public class SimulateGameState implements ISimulationState {
 		this.secondTeamSkatingTotal = 0;
 		this.firstTeamShotsCounter = 0;
 		this.secondTeamShotsCounter = 0;
-		newsSystemAbstractFactory = SystemConfig.getSingleInstance().getNewsSystemAbstractFactory();
+		this.newsSystemAbstractFactory = SystemConfig.getSingleInstance().getNewsSystemAbstractFactory();
 	}
 
 	static {
@@ -118,9 +118,13 @@ public class SimulateGameState implements ISimulationState {
 		output.setOutput("Inside Match Simulation state");
 		output.sendOutput();
 		if (schedule.getSeasonType() == ScheduleConstants.REGULAR_SEASON) {
-			simulateRegularMatches();
+			this.simulateMatch = internalStateMachineFactory.SimulateRegularSeasonMatch(currentDate, schedule, output, leagueToSimulate, standings);
+			this.gameContext = internalStateMachineFactory.GameContext(this.simulateMatch);
+			this.gameContext.simulateMatch();
 		} else if (schedule.getSeasonType() == ScheduleConstants.PLAYOFF_SEASON) {
-			simulatePlayoffMatches();
+			this.simulateMatch = internalStateMachineFactory.SimulatePlayoffSeasonMatch(currentDate, schedule, output, leagueToSimulate, standings, utility);
+			this.gameContext = internalStateMachineFactory.GameContext(this.simulateMatch);
+			this.gameContext.simulateMatch();
 		}
 	}
 
@@ -338,12 +342,12 @@ public class SimulateGameState implements ISimulationState {
 				for (Team team : teamList) {
 					String teamName = team.getTeamName();
 
-					if (teamName == firstTeam) {
+					if (teamName.equals(firstTeam)) {
 						List<Player> playerList = team.getPlayerList();
 						initializeFirstTeamPlayers(playerList);
 					}
 
-					if (teamName == secondTeam) {
+					if (teamName.equals(secondTeam)) {
 						List<Player> playerList = team.getPlayerList();
 						initializeSecondTeamPlayers(playerList);
 					}
