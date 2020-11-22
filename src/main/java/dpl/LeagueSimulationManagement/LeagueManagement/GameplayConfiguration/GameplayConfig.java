@@ -1,6 +1,9 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration;
 
+import java.io.IOException;
 import java.sql.SQLException;
+
+import com.google.gson.annotations.Expose;
 
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 
@@ -8,11 +11,11 @@ public class GameplayConfig {
 	private double penaltyChance = 0.45;
 	private int checkingValueToPenalty = 10;
 	private double shootingValueToGoal = 4.9;
-	private Aging aging;
-	private GameResolver gameResolver;
-	private Injury injury;
-	private Training training;
-	private Trading trading;
+	@Expose (serialize = true, deserialize = true) private Aging aging;
+	@Expose (serialize = true, deserialize = true) private GameResolver gameResolver;
+	@Expose (serialize = true, deserialize = true) private Injury injury;
+	@Expose (serialize = true, deserialize = true) private Training training;
+	@Expose (serialize = true, deserialize = true) private Trading trading;
 	private IGameplayConfigPersistance configDb;
 
 	public GameplayConfig(IGameplayConfigPersistance configDb) {
@@ -89,24 +92,27 @@ public class GameplayConfig {
 		return checkingValueToPenalty;
 	}
 
-	public boolean saveGameplayConfig(League league) throws SQLException {
+	public boolean saveGameplayConfig(League league) throws SQLException, IOException {
 		boolean isValid = Boolean.FALSE;
 		try {
 			isValid = configDb.persistGameConfig(league.getGameConfig(), league.getLeagueName());
 		} catch (SQLException e) {
 			throw e;
+		} catch (IOException e) {
+			throw e;
 		}
 		return isValid;
 	}
 
-	public GameplayConfig loadGameplayConfig(League league) throws SQLException {
+	public GameplayConfig loadGameplayConfig(League league) throws SQLException, IOException {
 		GameplayConfig config = null;
 		try {
 			config = configDb.loadGameplayConfigData(league.getLeagueName());
 		} catch (SQLException e) {
 			throw e;
+		} catch (IOException e) {
+			throw e;
 		}
 		return config;
 	}
-	
 }

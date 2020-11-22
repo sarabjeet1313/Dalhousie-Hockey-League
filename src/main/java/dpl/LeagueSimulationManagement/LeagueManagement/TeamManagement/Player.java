@@ -1,24 +1,26 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement;
 
+import com.google.gson.annotations.Expose;
+
 import dpl.DplConstants.GeneralConstants;
 
 public class Player implements IPlayerInfo {
 
-    private String playerName;
-    private String position;
-    private boolean captain;
-    private int age;
-    private int skating;
-    private int shooting;
-    private int checking;
-    private int saving;
-    private int goals;
-    private int penalties;
-    private int saves;
-    private boolean isInjured;
-    private boolean retireStatus;
-    private int daysInjured;
-    private boolean isActive;
+	@Expose (serialize = true, deserialize = true) private String playerName;
+	@Expose (serialize = true, deserialize = true) private String position;
+	@Expose (serialize = true, deserialize = true) private boolean captain;
+	@Expose (serialize = true, deserialize = true) private int age;
+	@Expose (serialize = true, deserialize = true) private int skating;
+	@Expose (serialize = true, deserialize = true) private int shooting;
+	@Expose (serialize = true, deserialize = true) private int checking;
+	@Expose (serialize = true, deserialize = true) private int saving;
+	@Expose (serialize = true, deserialize = true) private int goals;
+	@Expose (serialize = true, deserialize = true) private int penalties;
+	@Expose (serialize = true, deserialize = true) private int saves;
+	@Expose (serialize = true, deserialize = true) private boolean isInjured;
+	@Expose (serialize = true, deserialize = true) private boolean retireStatus;
+	@Expose (serialize = true, deserialize = true) private int daysInjured;
+	@Expose (serialize = true, deserialize = true) private boolean isActive;
 
     public Player() {
         super();

@@ -118,17 +118,17 @@ public class LeagueMockData implements ILeaguePersistance {
 	}
 
 	@Override
-	public int checkLeagueName(String leagueName) {
-		League league = getTestData();
+	public int checkLeagueName(League league) {
+		League tempLeague = getTestData();
 		int rowCount = 0;
-		if (league.getLeagueName().equals(leagueName)) {
+		if (league.getLeagueName().equals(tempLeague.getLeagueName())) {
 			rowCount = 1;
 		}
 		return rowCount;
 	}
 
 	@Override
-	public boolean persisitLeagueData(String leagueName, String conferenceName, String divisionName, String teamName,
+	public boolean persisitLeagueData(League league, String conferenceName, String divisionName, String teamName,
 			String generalManager, String headCoach, Player player) {
 		if (teamName.equals("Empty")) {
 			List<Player> playerList = new ArrayList<Player>();
@@ -246,10 +246,10 @@ public class LeagueMockData implements ILeaguePersistance {
 	}
 
 	@Override
-	public boolean UpdateLeagueData(String leagueName, String teamName, Player player) {
+	public boolean updateLeagueData(League league, String teamName, Player player) {
 		boolean isUpdated = Boolean.FALSE;
-		League league = getTestData();
-		if (league.getLeagueName().equals(leagueName)) {
+		League tempLeague = getTestData();
+		if (league.getLeagueName().equals(tempLeague.getLeagueName())) {
 			isUpdated = Boolean.TRUE;
 		}
 		return isUpdated;

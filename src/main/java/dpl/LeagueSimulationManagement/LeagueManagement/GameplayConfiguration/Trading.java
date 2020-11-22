@@ -1,10 +1,12 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration;
 
+import com.google.gson.annotations.Expose;
+
 public class Trading {
-    int lossPoint;
-    double randomTradeOfferChance;
-    int maxPlayersPerTrade;
-    double randomAcceptanceChance;
+	@Expose (serialize = true, deserialize = true) int lossPoint;
+	@Expose (serialize = true, deserialize = true) double randomTradeOfferChance;
+	@Expose (serialize = true, deserialize = true) int maxPlayersPerTrade;
+	@Expose (serialize = true, deserialize = true) double randomAcceptanceChance;
 
     public Trading(int lossPoint, double randomTradeOfferChance, int maxPlayersPerTrade,
                    double randomAcceptanceChance) {
