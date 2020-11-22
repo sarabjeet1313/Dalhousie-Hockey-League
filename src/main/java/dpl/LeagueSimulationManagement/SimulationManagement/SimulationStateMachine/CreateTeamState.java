@@ -1,5 +1,6 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -433,6 +434,9 @@ public class CreateTeamState implements IState {
 			}
 			isCreated = initializedLeague.createTeam(initializedLeague);
 		} catch (SQLException e) {
+			output.setOutput(e.getMessage());
+			output.sendOutput();
+		} catch (IOException e) {
 			output.setOutput(e.getMessage());
 			output.sendOutput();
 		}

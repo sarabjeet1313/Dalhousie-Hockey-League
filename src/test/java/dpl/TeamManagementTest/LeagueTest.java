@@ -1,5 +1,6 @@
 package dpl.TeamManagementTest;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -117,6 +118,9 @@ public class LeagueTest {
 		} catch (SQLException e) {
 			output.setOutput(e.getMessage());
 			output.sendOutput();
+		} catch (IOException e) {
+			output.setOutput(e.getMessage());
+			output.sendOutput();
 		}
 	}
 
@@ -137,10 +141,15 @@ public class LeagueTest {
 
 	@Test
 	public void isValidLeagueNameTest() {
+		League tempLeague = leagueData;
+		tempLeague.setLeagueName("Test");
 		try {
-			Assert.assertTrue(league.isValidLeagueName("Test"));
-			Assert.assertFalse(league.isValidLeagueName("Dalhousie Hockey League"));
+			Assert.assertTrue(league.isValidLeagueName(tempLeague));
+			Assert.assertTrue(league.isValidLeagueName(leagueData));
 		} catch (SQLException e) {
+			output.setOutput(e.getMessage());
+			output.sendOutput();
+		} catch (IOException e) {
 			output.setOutput(e.getMessage());
 			output.sendOutput();
 		}
@@ -152,6 +161,9 @@ public class LeagueTest {
 			LeagueObjectTestData leagueData = new LeagueObjectTestData();
 			Assert.assertTrue(league.createTeam(leagueData.getLeagueData()));
 		} catch (SQLException e) {
+			output.setOutput(e.getMessage());
+			output.sendOutput();
+		} catch (IOException e) {
 			output.setOutput(e.getMessage());
 			output.sendOutput();
 		}
@@ -172,8 +184,11 @@ public class LeagueTest {
 	@Test
 	public void UpdateLeagueTest() {
 		try {
-			Assert.assertTrue(league.UpdateLeague(league));
+			Assert.assertTrue(league.updateLeague(league));
 		} catch (SQLException e) {
+			output.setOutput(e.getMessage());
+			output.sendOutput();
+		} catch (IOException e) {
 			output.setOutput(e.getMessage());
 			output.sendOutput();
 		}
