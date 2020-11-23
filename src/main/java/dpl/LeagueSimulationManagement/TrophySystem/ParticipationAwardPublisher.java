@@ -1,34 +1,33 @@
-package dpl.LeagueSimulationManagement.TrophySystem.publisher;
+package dpl.LeagueSimulationManagement.TrophySystem;
 
 import dpl.DplConstants.TrophySystemConstants;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.TrophyState;
-import dpl.LeagueSimulationManagement.TrophySystem.subscriber.ICalderMemorialTrophy;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CalderMemorialTrophyPublisher {
-    private final List<ICalderMemorialTrophy> subscribers;
-    private static CalderMemorialTrophyPublisher instance;
+public class ParticipationAwardPublisher {
+    private final List<IParticipationAward> subscribers;
+    private static ParticipationAwardPublisher instance;
     private IUserOutput output;
 
-    private CalderMemorialTrophyPublisher() {
+    private ParticipationAwardPublisher() {
         subscribers = new ArrayList<>();
     }
 
-    public static CalderMemorialTrophyPublisher getInstance() {
+    public static ParticipationAwardPublisher getInstance() {
         if (instance == null) {
-            instance = new CalderMemorialTrophyPublisher();
+            instance = new ParticipationAwardPublisher();
         }
         return instance;
     }
 
-    public void subscribe(ICalderMemorialTrophy subscriber) {
+    public void subscribe(IParticipationAward subscriber) {
         this.subscribers.add(subscriber);
     }
 
-    public void unsubscribe(ICalderMemorialTrophy subscriber) {
+    public void unsubscribe(IParticipationAward subscriber) {
         this.subscribers.remove(subscriber);
     }
 
@@ -37,8 +36,8 @@ public class CalderMemorialTrophyPublisher {
             if (null == trophy || null == trophy.getAwardedTeam()) {
                 throw new IllegalArgumentException();
             }
-            for (ICalderMemorialTrophy subscriber : this.subscribers) {
-                trophy.setTrophyName(TrophySystemConstants.CALDER_MEMORIAL_TROPHY.toString());
+            for (IParticipationAward subscriber : this.subscribers) {
+                trophy.setTrophyName(TrophySystemConstants.PARTICIPATION_AWARD.toString());
                 subscriber.updateTrophy(trophy);
             }
 

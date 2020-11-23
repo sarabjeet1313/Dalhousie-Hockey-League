@@ -1,34 +1,33 @@
-package dpl.LeagueSimulationManagement.TrophySystem.publisher;
+package dpl.LeagueSimulationManagement.TrophySystem;
 
 import dpl.DplConstants.TrophySystemConstants;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.TrophyState;
-import dpl.LeagueSimulationManagement.TrophySystem.subscriber.IVezinaTrophy;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class VezinaTrophyPublisher {
-    private final List<IVezinaTrophy> subscribers;
-    private static VezinaTrophyPublisher instance;
+public class CalderMemorialTrophyPublisher {
+    private final List<ICalderMemorialTrophy> subscribers;
+    private static CalderMemorialTrophyPublisher instance;
     private IUserOutput output;
 
-    private VezinaTrophyPublisher() {
+    private CalderMemorialTrophyPublisher() {
         subscribers = new ArrayList<>();
     }
 
-    public static VezinaTrophyPublisher getInstance() {
+    public static CalderMemorialTrophyPublisher getInstance() {
         if (instance == null) {
-            instance = new VezinaTrophyPublisher();
+            instance = new CalderMemorialTrophyPublisher();
         }
         return instance;
     }
 
-    public void subscribe(IVezinaTrophy subscriber) {
+    public void subscribe(ICalderMemorialTrophy subscriber) {
         this.subscribers.add(subscriber);
     }
 
-    public void unsubscribe(IVezinaTrophy subscriber) {
+    public void unsubscribe(ICalderMemorialTrophy subscriber) {
         this.subscribers.remove(subscriber);
     }
 
@@ -37,8 +36,8 @@ public class VezinaTrophyPublisher {
             if (null == trophy || null == trophy.getAwardedTeam()) {
                 throw new IllegalArgumentException();
             }
-            for (IVezinaTrophy subscriber : this.subscribers) {
-                trophy.setTrophyName(TrophySystemConstants.VEZINA_TROPHY.toString());
+            for (ICalderMemorialTrophy subscriber : this.subscribers) {
+                trophy.setTrophyName(TrophySystemConstants.CALDER_MEMORIAL_TROPHY.toString());
                 subscriber.updateTrophy(trophy);
             }
 

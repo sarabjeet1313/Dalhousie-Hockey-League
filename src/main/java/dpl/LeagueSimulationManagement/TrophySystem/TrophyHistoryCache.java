@@ -1,4 +1,4 @@
-package dpl.LeagueSimulationManagement.TrophySystem.cache;
+package dpl.LeagueSimulationManagement.TrophySystem;
 
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.TrophyState;
 

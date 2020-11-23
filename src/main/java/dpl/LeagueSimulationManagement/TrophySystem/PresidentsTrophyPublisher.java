@@ -1,34 +1,33 @@
-package dpl.LeagueSimulationManagement.TrophySystem.publisher;
+package dpl.LeagueSimulationManagement.TrophySystem;
 
-import dpl.DplConstants.TrophySystemConstants;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.TrophyState;
-import dpl.LeagueSimulationManagement.TrophySystem.subscriber.IJackAdamsAward;
+import dpl.DplConstants.TrophySystemConstants;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class JackAdamsAwardPublisher {
-    private final List<IJackAdamsAward> subscribers;
-    private static JackAdamsAwardPublisher instance;
+public class PresidentsTrophyPublisher {
+    private final List<IPresidentsTrophy> subscribers;
+    private static PresidentsTrophyPublisher instance;
     private IUserOutput output;
 
-    private JackAdamsAwardPublisher() {
+    private PresidentsTrophyPublisher() {
         subscribers = new ArrayList<>();
     }
 
-    public static JackAdamsAwardPublisher getInstance() {
+    public static PresidentsTrophyPublisher getInstance() {
         if (instance == null) {
-            instance = new JackAdamsAwardPublisher();
+            instance = new PresidentsTrophyPublisher();
         }
         return instance;
     }
 
-    public void subscribe(IJackAdamsAward subscriber) {
+    public void subscribe(IPresidentsTrophy subscriber) {
         this.subscribers.add(subscriber);
     }
 
-    public void unsubscribe(IJackAdamsAward subscriber) {
+    public void unsubscribe(IPresidentsTrophy subscriber) {
         this.subscribers.remove(subscriber);
     }
 
@@ -37,8 +36,8 @@ public class JackAdamsAwardPublisher {
             if (null == trophy || null == trophy.getAwardedTeam()) {
                 throw new IllegalArgumentException();
             }
-            for (IJackAdamsAward subscriber : this.subscribers) {
-                trophy.setTrophyName(TrophySystemConstants.JACK_ADAMS_AWARD.toString());
+            for (IPresidentsTrophy subscriber : this.subscribers) {
+                trophy.setTrophyName(TrophySystemConstants.PRESIDENT_TROPHY.toString());
                 subscriber.updateTrophy(trophy);
             }
 

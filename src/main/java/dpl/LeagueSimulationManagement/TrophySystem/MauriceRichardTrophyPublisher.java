@@ -1,8 +1,7 @@
-package dpl.LeagueSimulationManagement.TrophySystem.publisher;
+package dpl.LeagueSimulationManagement.TrophySystem;
 
 import dpl.DplConstants.TrophySystemConstants;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.TrophyState;
-import dpl.LeagueSimulationManagement.TrophySystem.subscriber.IMauriceRichardTrophy;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
 import java.util.ArrayList;

@@ -1,34 +1,33 @@
-package dpl.LeagueSimulationManagement.TrophySystem.publisher;
+package dpl.LeagueSimulationManagement.TrophySystem;
 
 import dpl.DplConstants.TrophySystemConstants;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.TrophyState;
-import dpl.LeagueSimulationManagement.TrophySystem.subscriber.IRobHawkeyMemorialCup;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RobHawkeyMemorialCupPublisher {
-    private final List<IRobHawkeyMemorialCup> subscribers;
-    private static RobHawkeyMemorialCupPublisher instance;
+public class VezinaTrophyPublisher {
+    private final List<IVezinaTrophy> subscribers;
+    private static VezinaTrophyPublisher instance;
     private IUserOutput output;
 
-    private RobHawkeyMemorialCupPublisher() {
+    private VezinaTrophyPublisher() {
         subscribers = new ArrayList<>();
     }
 
-    public static RobHawkeyMemorialCupPublisher getInstance() {
+    public static VezinaTrophyPublisher getInstance() {
         if (instance == null) {
-            instance = new RobHawkeyMemorialCupPublisher();
+            instance = new VezinaTrophyPublisher();
         }
         return instance;
     }
 
-    public void subscribe(IRobHawkeyMemorialCup subscriber) {
+    public void subscribe(IVezinaTrophy subscriber) {
         this.subscribers.add(subscriber);
     }
 
-    public void unsubscribe(IRobHawkeyMemorialCup subscriber) {
+    public void unsubscribe(IVezinaTrophy subscriber) {
         this.subscribers.remove(subscriber);
     }
 
@@ -37,8 +36,8 @@ public class RobHawkeyMemorialCupPublisher {
             if (null == trophy || null == trophy.getAwardedTeam()) {
                 throw new IllegalArgumentException();
             }
-            for (IRobHawkeyMemorialCup subscriber : this.subscribers) {
-                trophy.setTrophyName(TrophySystemConstants.ROB_HAWKEY_MEMORIAL_CUP.toString());
+            for (IVezinaTrophy subscriber : this.subscribers) {
+                trophy.setTrophyName(TrophySystemConstants.VEZINA_TROPHY.toString());
                 subscriber.updateTrophy(trophy);
             }
 
