@@ -1,6 +1,6 @@
 package dpl.LeagueSimulationManagement.TrophySystem.subscriber;
 
-import dpl.LeagueSimulationManagement.TrophySystem.data.TrophyState;
+import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.TrophyState;
 
 public interface IParticipationAward {
     void updateTrophy(TrophyState trophy);

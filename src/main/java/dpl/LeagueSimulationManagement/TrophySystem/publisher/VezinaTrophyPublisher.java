@@ -1,8 +1,7 @@
 package dpl.LeagueSimulationManagement.TrophySystem.publisher;
 
-import dpl.LeagueSimulationManagement.TrophySystem.constants.TrophySystemConstants;
-import dpl.LeagueSimulationManagement.TrophySystem.data.TrophyState;
-import dpl.LeagueSimulationManagement.TrophySystem.subscriber.IRobHawkeyMemorialCup;
+import dpl.DplConstants.TrophySystemConstants;
+import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.TrophyState;
 import dpl.LeagueSimulationManagement.TrophySystem.subscriber.IVezinaTrophy;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
@@ -24,6 +23,7 @@ public class VezinaTrophyPublisher {
         }
         return instance;
     }
+
     public void subscribe(IVezinaTrophy subscriber) {
         this.subscribers.add(subscriber);
     }

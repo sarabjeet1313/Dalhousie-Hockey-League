@@ -8,8 +8,7 @@ public enum TrophySystemConstants {
     VEZINA_TROPHY("Vezina Trophy"),
     MAURICE_RICHARD_TROPHY("Maurice Richard Trophy"),
     ROB_HAWKEY_MEMORIAL_CUP("Rob Hawkey Memorial Cup"),
-    PARTICIPATION_AWARD("Participation Award")
-    ;
+    PARTICIPATION_AWARD("Participation Award");
 
     private final String trophySystemString;
 

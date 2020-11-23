@@ -1,8 +1,7 @@
 package dpl.LeagueSimulationManagement.TrophySystem.publisher;
 
-import dpl.LeagueSimulationManagement.TrophySystem.constants.TrophySystemConstants;
-import dpl.LeagueSimulationManagement.TrophySystem.data.TrophyState;
-import dpl.LeagueSimulationManagement.TrophySystem.subscriber.IMauriceRichardTrophy;
+import dpl.DplConstants.TrophySystemConstants;
+import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.TrophyState;
 import dpl.LeagueSimulationManagement.TrophySystem.subscriber.IParticipationAward;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
@@ -24,6 +23,7 @@ public class ParticipationAwardPublisher {
         }
         return instance;
     }
+
     public void subscribe(IParticipationAward subscriber) {
         this.subscribers.add(subscriber);
     }

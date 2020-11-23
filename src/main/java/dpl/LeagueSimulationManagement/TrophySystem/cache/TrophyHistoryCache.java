@@ -1,6 +1,6 @@
 package dpl.LeagueSimulationManagement.TrophySystem.cache;
 
-import dpl.LeagueSimulationManagement.TrophySystem.data.TrophyState;
+import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.TrophyState;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,8 @@ public class TrophyHistoryCache {
     private static List<TrophyState> trophyList = new ArrayList<>();
     private static TrophyHistoryCache instance;
 
-    private TrophyHistoryCache(){}
+    private TrophyHistoryCache() {
+    }
 
     public static TrophyHistoryCache getInstance() {
         if (instance == null) {
@@ -18,14 +19,15 @@ public class TrophyHistoryCache {
         return instance;
     }
 
-    public void add(TrophyState trophy){
+    public void add(TrophyState trophy) {
         instance.add(trophy);
     }
 
-    public List<TrophyState> getTrophies(){
+    public List<TrophyState> getTrophies() {
         return new ArrayList<TrophyState>(trophyList);
     }
-    public void print(){
+
+    public void print() {
 
     }
 

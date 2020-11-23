@@ -1,8 +1,8 @@
 package dpl.LeagueSimulationManagement.TrophySystem.publisher;
 
 import dpl.LeagueSimulationManagement.TrophySystem.subscriber.IPresidentsTrophy;
-import dpl.LeagueSimulationManagement.TrophySystem.data.TrophyState;
-import dpl.LeagueSimulationManagement.TrophySystem.constants.TrophySystemConstants;
+import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.TrophyState;
+import dpl.DplConstants.TrophySystemConstants;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
 import java.util.ArrayList;
@@ -23,6 +23,7 @@ public class PresidentsTrophyPublisher {
         }
         return instance;
     }
+
     public void subscribe(IPresidentsTrophy subscriber) {
         this.subscribers.add(subscriber);
     }
