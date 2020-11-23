@@ -68,4 +68,12 @@ public interface IInternalStateMachineAbstractFactory {
 			InternalStateContext context, IStandingsPersistance standingsDb, StandingInfo standings, int season);
 
 	public ISimulationState EndOfSeasonState(IUserOutput output);
+
+	public ISimulateMatch SimulateRegularSeasonMatch(String currentDate, ISchedule schedule, IUserOutput output, League leagueToSimulate, StandingInfo standings);
+
+	public ISimulateMatch SimulatePlayoffSeasonMatch(String currentDate, ISchedule schedule, IUserOutput output, League leagueToSimulate, StandingInfo standings, SeasonCalendar utility);
+
+	public GameContext GameContext(ISimulateMatch match);
+
+
 }

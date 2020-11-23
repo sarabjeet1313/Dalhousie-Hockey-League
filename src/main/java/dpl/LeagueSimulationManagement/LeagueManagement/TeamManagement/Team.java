@@ -3,15 +3,17 @@ package dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.annotations.Expose;
+
 import dpl.DplConstants.TeamManagementConstants;
 
 public class Team implements ITeamInfo {
 
-    private String teamName;
-    private Manager generalManager;
-    private Coach headCoach;
-    private List<Player> playerList;
-    private boolean isNewTeam;
+	@Expose (serialize = true, deserialize = true) private String teamName;
+	@Expose (serialize = true, deserialize = true) private Manager generalManager;
+	@Expose (serialize = true, deserialize = true) private Coach headCoach;
+	@Expose (serialize = true, deserialize = true) private List<Player> playerList;
+	@Expose (serialize = true, deserialize = true) private boolean isNewTeam;
 
     public Team() {
         super();
