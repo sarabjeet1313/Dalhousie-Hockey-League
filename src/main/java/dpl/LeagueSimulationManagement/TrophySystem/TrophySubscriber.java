@@ -1,6 +1,5 @@
-package dpl.LeagueSimulationManagement.TrophySystem.subscriber;
+package dpl.LeagueSimulationManagement.TrophySystem;
 
-import dpl.LeagueSimulationManagement.TrophySystem.cache.TrophyHistoryCache;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.TrophyState;
 
 public class TrophySubscriber implements IPresidentsTrophy, ICalderMemorialTrophy, IJackAdamsAward, IMauriceRichardTrophy, IParticipationAward, IRobHawkeyMemorialCup, IVezinaTrophy {

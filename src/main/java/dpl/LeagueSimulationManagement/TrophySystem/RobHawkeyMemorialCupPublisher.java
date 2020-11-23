@@ -1,34 +1,33 @@
-package dpl.LeagueSimulationManagement.TrophySystem.publisher;
+package dpl.LeagueSimulationManagement.TrophySystem;
 
 import dpl.DplConstants.TrophySystemConstants;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.TrophyState;
-import dpl.LeagueSimulationManagement.TrophySystem.subscriber.IParticipationAward;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ParticipationAwardPublisher {
-    private final List<IParticipationAward> subscribers;
-    private static ParticipationAwardPublisher instance;
+public class RobHawkeyMemorialCupPublisher {
+    private final List<IRobHawkeyMemorialCup> subscribers;
+    private static RobHawkeyMemorialCupPublisher instance;
     private IUserOutput output;
 
-    private ParticipationAwardPublisher() {
+    private RobHawkeyMemorialCupPublisher() {
         subscribers = new ArrayList<>();
     }
 
-    public static ParticipationAwardPublisher getInstance() {
+    public static RobHawkeyMemorialCupPublisher getInstance() {
         if (instance == null) {
-            instance = new ParticipationAwardPublisher();
+            instance = new RobHawkeyMemorialCupPublisher();
         }
         return instance;
     }
 
-    public void subscribe(IParticipationAward subscriber) {
+    public void subscribe(IRobHawkeyMemorialCup subscriber) {
         this.subscribers.add(subscriber);
     }
 
-    public void unsubscribe(IParticipationAward subscriber) {
+    public void unsubscribe(IRobHawkeyMemorialCup subscriber) {
         this.subscribers.remove(subscriber);
     }
 
@@ -37,8 +36,8 @@ public class ParticipationAwardPublisher {
             if (null == trophy || null == trophy.getAwardedTeam()) {
                 throw new IllegalArgumentException();
             }
-            for (IParticipationAward subscriber : this.subscribers) {
-                trophy.setTrophyName(TrophySystemConstants.PARTICIPATION_AWARD.toString());
+            for (IRobHawkeyMemorialCup subscriber : this.subscribers) {
+                trophy.setTrophyName(TrophySystemConstants.ROB_HAWKEY_MEMORIAL_CUP.toString());
                 subscriber.updateTrophy(trophy);
             }
 

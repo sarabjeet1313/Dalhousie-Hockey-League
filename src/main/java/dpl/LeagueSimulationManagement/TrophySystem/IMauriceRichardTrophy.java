@@ -1,7 +1,7 @@
-package dpl.LeagueSimulationManagement.TrophySystem.subscriber;
+package dpl.LeagueSimulationManagement.TrophySystem;
 
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.TrophyState;
 
-public interface IVezinaTrophy {
+public interface IMauriceRichardTrophy {
     void updateTrophy(TrophyState trophy);
 }

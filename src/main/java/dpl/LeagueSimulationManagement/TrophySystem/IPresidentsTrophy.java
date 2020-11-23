@@ -1,7 +1,7 @@
-package dpl.LeagueSimulationManagement.TrophySystem.subscriber;
+package dpl.LeagueSimulationManagement.TrophySystem;
 
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.TrophyState;
 
-public interface IRobHawkeyMemorialCup {
+public interface IPresidentsTrophy {
     void updateTrophy(TrophyState trophy);
 }
