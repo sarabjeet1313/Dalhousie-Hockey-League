@@ -124,4 +124,18 @@ public class InternalStateMachineAbstractFactory implements IInternalStateMachin
 		return new EndOfSeasonState(output);
 	}
 
+	@Override
+	public ISimulateMatch SimulateRegularSeasonMatch(String currentDate, ISchedule schedule, IUserOutput output, League leagueToSimulate, StandingInfo standings) {
+		return new SimulateRegularSeasonMatch(currentDate, schedule, output, leagueToSimulate, standings);
+	}
+
+	@Override
+	public ISimulateMatch SimulatePlayoffSeasonMatch(String currentDate, ISchedule schedule, IUserOutput output, League leagueToSimulate, StandingInfo standings, SeasonCalendar utility) {
+		return new SimulatePlayoffSeasonMatch(currentDate, schedule, output, leagueToSimulate, standings, utility);
+	}
+
+	@Override
+	public GameContext GameContext(ISimulateMatch match) {
+		return new GameContext(match);
+	}
 }
