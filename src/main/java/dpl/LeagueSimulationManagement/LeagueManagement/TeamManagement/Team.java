@@ -3,15 +3,17 @@ package dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.annotations.Expose;
+
 import dpl.DplConstants.TeamManagementConstants;
 
 public class Team implements ITeamInfo {
 
-    private String teamName;
-    private Manager generalManager;
-    private Coach headCoach;
-    private List<Player> playerList;
-    private boolean isNewTeam;
+	@Expose (serialize = true, deserialize = true) private String teamName;
+	@Expose (serialize = true, deserialize = true) private Manager generalManager;
+	@Expose (serialize = true, deserialize = true) private Coach headCoach;
+	@Expose (serialize = true, deserialize = true) private List<Player> playerList;
+	@Expose (serialize = true, deserialize = true) private boolean isNewTeam;
 
     public Team() {
         super();
@@ -109,6 +111,23 @@ public class Team implements ITeamInfo {
     }
 
     @Override
+    public void setPlayersByTeam(String teamName, List<Player> updatedPlayerList, League league) {
+        List<Conference> conferenceList = league.getConferenceList();
+        for (int index = 0; index < conferenceList.size(); index++) {
+            List<Division> divisionList = conferenceList.get(index).getDivisionList();
+            for (int dIndex = 0; dIndex < divisionList.size(); dIndex++) {
+                List<Team> teamList = divisionList.get(dIndex).getTeamList();
+                for (int tIndex = 0; tIndex < teamList.size(); tIndex++) {
+                    if (teamList.get(tIndex).getTeamName().equals(teamName)) {
+                        teamList.get(tIndex).setPlayerList(updatedPlayerList);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
     public List<String> getAllTeamName(League league) {
         List<Conference> conferenceL = league.getConferenceList();
         List<Division> divisionL;
@@ -154,14 +173,28 @@ public class Team implements ITeamInfo {
 
     @Override
     public double getTeamStrength(String teamName, League league) {
-        List<Player> players = this.getPlayersByTeam(teamName, league);
+        List<Player> activeRoster = getActivePlayers(teamName, league);
         double teamStrength = 0.0;
 
-        for (Player player : players) {
+        for (Player player : activeRoster) {
             teamStrength = teamStrength + player.getPlayerStrength(player);
         }
 
         return teamStrength;
+    }
+
+    @Override
+    public List<Player> getActivePlayers(String teamName, League league) {
+        Team team = null;
+        List<Player> playerList = getPlayersByTeam(teamName, league);
+        List<Player> activePlayers = new ArrayList<>();
+        //List<Player> goalieList = new ArrayList<>();
+        for (Player teamPlayer : playerList) {
+            if (teamPlayer.isActive()) {
+                activePlayers.add(teamPlayer);
+            }
+        }
+        return activePlayers;
     }
 
     @Override

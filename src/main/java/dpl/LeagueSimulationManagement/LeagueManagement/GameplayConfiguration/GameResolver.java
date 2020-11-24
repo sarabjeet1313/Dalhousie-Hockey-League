@@ -1,7 +1,9 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration;
 
+import com.google.gson.annotations.Expose;
+
 public class GameResolver {
-    double randomWinChance;
+	@Expose (serialize = true, deserialize = true) double randomWinChance;
 
     public GameResolver(double randomWinChance) {
         super();

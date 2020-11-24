@@ -8,9 +8,13 @@ public interface ITeamInfo {
 
     public double getTeamStrength(String teamName, League league);
 
+    List<Player> getActivePlayers(String teamName, League league);
+
     public boolean shouldReverseResult(double randomChance);
 
     public List<Player> getPlayersByTeam(String teamName, League league);
+
+    public void setPlayersByTeam(String teamName, List<Player> updatedPlayerList, League league);
 
     public List<String> getAllTeamName(League league);
 

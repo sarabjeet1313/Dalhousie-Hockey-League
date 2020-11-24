@@ -20,14 +20,14 @@ public class RetirementManagementTest {
 
 	@Test
 	public void getLikelihoodOfRetirementTest() {
-		Player player = teamManagement.PlayerWithParameters("Player1", "Forward", false, 1, 1, 1, 1, 1, false, false, 0);
+		Player player = teamManagement.PlayerWithParameters("Player1", "Forward", false, 1, 1, 1, 1, 1, false, false, 0, false);
 		int likelihood = retirementManager.getLikelihoodOfRetirement(leagueData.getLeagueData(), player);
 		Assert.assertNotEquals(likelihood, 0);
 	}
 
 	@Test
 	public void shouldPlayerRetireTest() {
-		Player player = teamManagement.PlayerWithParameters("Player1", "Forward", false, 51, 1, 1, 1, 1, false, true, 0);
+		Player player = teamManagement.PlayerWithParameters("Player1", "Forward", false, 51, 1, 1, 1, 1, false, true, 0, false);
 		Assert.assertTrue(leagueMockData.shouldPlayerRetire(leagueData.getLeagueData(), player));
 	}
 

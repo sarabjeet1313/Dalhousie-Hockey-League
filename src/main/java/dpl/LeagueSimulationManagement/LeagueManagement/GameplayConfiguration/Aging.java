@@ -1,8 +1,11 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration;
 
+import com.google.gson.annotations.Expose;
+
 public class Aging {
-    int averageRetirementAge;
-    int maximumAge;
+    
+	@Expose (serialize = true, deserialize = true) int averageRetirementAge;
+	@Expose (serialize = true, deserialize = true) int maximumAge;
 
     public Aging(int averageRetirementAge, int maximumAge) {
         this.averageRetirementAge = averageRetirementAge;

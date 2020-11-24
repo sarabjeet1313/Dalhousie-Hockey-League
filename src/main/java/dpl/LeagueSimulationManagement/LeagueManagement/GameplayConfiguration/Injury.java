@@ -1,9 +1,11 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration;
 
+import com.google.gson.annotations.Expose;
+
 public class Injury {
-    double randomInjuryChance;
-    int injuryDaysLow;
-    int injuryDaysHigh;
+	@Expose (serialize = true, deserialize = true) double randomInjuryChance;
+	@Expose (serialize = true, deserialize = true) int injuryDaysLow;
+	@Expose (serialize = true, deserialize = true) int injuryDaysHigh;
 
     public Injury(double randomInjuryChance, int injuryDaysLow, int injuryDaysHigh) {
         this.randomInjuryChance = randomInjuryChance;

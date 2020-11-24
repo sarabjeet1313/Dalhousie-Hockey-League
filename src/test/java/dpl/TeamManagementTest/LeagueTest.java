@@ -1,5 +1,6 @@
 package dpl.TeamManagementTest;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,10 +27,10 @@ public class LeagueTest {
 	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
 			.getTeamManagementAbstractFactory();
 	League leagueData = new LeagueObjectTestData().getLeagueData();
-	Player player1 = teamManagement.PlayerWithParameters("Player1", "Forward", false, 1, 1, 1, 1, 1, false, false, 0);
-	Player player2 = teamManagement.PlayerWithParameters("Player2", "Forward", false, 1, 1, 1, 1, 1, false, false, 0);
-	Player player3 = teamManagement.PlayerWithParameters("Player3", "defence", false, 1, 1, 1, 1, 1, false, false, 0);
-	Player player4 = teamManagement.PlayerWithParameters("Player4", "Goalie", false, 1, 1, 1, 1, 1, false, false, 0);
+	Player player1 = teamManagement.PlayerWithParameters("Player1", "Forward", false, 1, 1, 1, 1, 1, false, false, 0, false);
+	Player player2 = teamManagement.PlayerWithParameters("Player2", "Forward", false, 1, 1, 1, 1, 1, false, false, 0, false);
+	Player player3 = teamManagement.PlayerWithParameters("Player3", "defence", false, 1, 1, 1, 1, 1, false, false, 0, false);
+	Player player4 = teamManagement.PlayerWithParameters("Player4", "Goalie", false, 1, 1, 1, 1, 1, false, false, 0, false);
 	Coach coach1 = teamManagement.CoachWithParameters("Coach One", 0.1, 0.2, 0.1, 0.1);
 	Coach coach2 = teamManagement.CoachWithParameters("Coach Two", 0.1, 0.2, 0.1, 0.1);
 	Coach coach3 = teamManagement.CoachWithParameters("Coach Three", 0.1, 0.2, 0.1, 0.1);
@@ -117,6 +118,9 @@ public class LeagueTest {
 		} catch (SQLException e) {
 			output.setOutput(e.getMessage());
 			output.sendOutput();
+		} catch (IOException e) {
+			output.setOutput(e.getMessage());
+			output.sendOutput();
 		}
 	}
 
@@ -137,10 +141,15 @@ public class LeagueTest {
 
 	@Test
 	public void isValidLeagueNameTest() {
+		League tempLeague = leagueData;
+		tempLeague.setLeagueName("Test");
 		try {
-			Assert.assertTrue(league.isValidLeagueName("Test"));
-			Assert.assertFalse(league.isValidLeagueName("Dalhousie Hockey League"));
+			Assert.assertTrue(league.isValidLeagueName(tempLeague));
+			Assert.assertTrue(league.isValidLeagueName(leagueData));
 		} catch (SQLException e) {
+			output.setOutput(e.getMessage());
+			output.sendOutput();
+		} catch (IOException e) {
 			output.setOutput(e.getMessage());
 			output.sendOutput();
 		}
@@ -152,6 +161,9 @@ public class LeagueTest {
 			LeagueObjectTestData leagueData = new LeagueObjectTestData();
 			Assert.assertTrue(league.createTeam(leagueData.getLeagueData()));
 		} catch (SQLException e) {
+			output.setOutput(e.getMessage());
+			output.sendOutput();
+		} catch (IOException e) {
 			output.setOutput(e.getMessage());
 			output.sendOutput();
 		}
@@ -172,8 +184,11 @@ public class LeagueTest {
 	@Test
 	public void UpdateLeagueTest() {
 		try {
-			Assert.assertTrue(league.UpdateLeague(league));
+			Assert.assertTrue(league.updateLeague(league));
 		} catch (SQLException e) {
+			output.setOutput(e.getMessage());
+			output.sendOutput();
+		} catch (IOException e) {
 			output.setOutput(e.getMessage());
 			output.sendOutput();
 		}
