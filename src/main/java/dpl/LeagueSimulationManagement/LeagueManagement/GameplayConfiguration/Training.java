@@ -2,6 +2,8 @@ package dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.annotations.Expose;
+
 import dpl.SystemConfig;
 import dpl.DplConstants.GameConfigConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Coach;
@@ -16,8 +18,8 @@ import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
 public class Training {
 	
-    private int daysUntilStatIncreaseCheck;
-    private int trackDays;
+	@Expose (serialize = true, deserialize = true) private int daysUntilStatIncreaseCheck;
+	@Expose (serialize = true, deserialize = true) private int trackDays;
     private IUserOutput output;
     private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
 			.getTeamManagementAbstractFactory();

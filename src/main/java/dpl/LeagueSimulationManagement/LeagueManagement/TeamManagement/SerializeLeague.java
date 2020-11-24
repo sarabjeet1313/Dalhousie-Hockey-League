@@ -11,10 +11,11 @@ import com.google.gson.GsonBuilder;
 import dpl.DplConstants.TeamManagementConstants;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+import dpl.SystemConfig;
 
 public class SerializeLeague implements ISerialize {
 
-    IUserOutput output = new CmdUserOutput();
+    IUserOutput output = SystemConfig.getSingleInstance().getUserOutputAbstractFactory().CmdUserOutput();
 
     @Override
     public boolean serializeLeagueModel(League league) throws IOException {

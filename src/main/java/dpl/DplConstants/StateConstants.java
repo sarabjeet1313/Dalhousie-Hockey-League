@@ -19,4 +19,12 @@ public class StateConstants {
     public static final String ADVANCE_DAY_STATE = "Advanced the date by one day";
     public static final String EXPECTING_DAYS_STATE = "Exception finding days lapsed during advancing to next season";
     public static final String INSIDE_AGEING_STATE = "Inside Aging state";
+    public static final String END_OF_SEASON_STATE_OUTPUT = "Season has been simulated successfully.";
+    public static final String END_SEASON_STATE = "SeasonEndState";
+    public static final String ALL_STAR_GAME_STATE = "AllStartGameState";
+    public static final String TROPHY_STATE = "TrophyState";
+    public static final String PLAYER_DRAFT = "PlayerDraftState";
+    public static final String INJURY_ENTRY = "Inside Injury Check state";
+    public static final String NEXT_SEASON_ENTRY = "Inside Next Season state";
+    public static final String END_STATE_FINISH = "Thanks for using the DHL's Dynasty mode. Please come back soon.";
 }

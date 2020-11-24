@@ -3,6 +3,8 @@ package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import dpl.DplConstants.ScheduleConstants;
 import dpl.DplConstants.StateConstants;
@@ -12,7 +14,9 @@ import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.RetirementManagement;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+import dpl.SystemConfig;
 
 public class AdvanceTimeState implements ISimulationState {
 	private String stateName;
@@ -24,23 +28,26 @@ public class AdvanceTimeState implements ISimulationState {
 	private Calendar calendar;
 	private SeasonCalendar utility;
 	private boolean isALastDay;
+	private boolean isAllStarGameDay;
 	private League leagueToSimulate;
 	private IStandingsPersistance standingsDb;
 	private StandingInfo standings;
 	private ISchedule schedule;
 	private Training training;
-	int season;
+	private int season;
+	private IInternalStateMachineAbstractFactory internalStateMachineFactory;
+	private static final Logger log = Logger.getLogger(AdvanceTimeState.class.getName());
 
-	public AdvanceTimeState(League leagueToSimulate, ISchedule schedule, SeasonCalendar utility,
-							IStandingsPersistance standingsDb, StandingInfo standings, String startDate, String endDate, IUserOutput output,
-							InternalStateContext context, int season) {
+	public AdvanceTimeState(League leagueToSimulate, ISchedule schedule, SeasonCalendar utility, IStandingsPersistance standingsDb, StandingInfo standings, String startDate, String endDate, IUserOutput output, InternalStateContext context, int season) {
 		this.stateName = StateConstants.ADVANCE_TIME_STATE;
+		this.internalStateMachineFactory = SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory();
 		this.currentDate = startDate;
 		this.training = new Training(output);
 		this.endDate = endDate;
 		this.output = output;
 		this.context = context;
 		this.isALastDay = false;
+		this.isAllStarGameDay = false;
 		this.calendar = Calendar.getInstance();
 		this.leagueToSimulate = leagueToSimulate;
 		this.utility = utility;
@@ -53,11 +60,17 @@ public class AdvanceTimeState implements ISimulationState {
 	public ISimulationState nextState(InternalStateContext context) {
 		if (isALastDay) {
 			this.nextStateName = StateConstants.GENERATE_PLAYOFF_SCHEDULE_STATE;
-			return new GeneratePlayoffScheduleState(leagueToSimulate, utility, standingsDb, standings, output, context, season,
+			return this.internalStateMachineFactory.GeneratePlayoffScheduleState(leagueToSimulate, utility, standingsDb, standings, output, context, season,
 					currentDate, endDate);
-		} else {
+		}
+		if (isAllStarGameDay) {
+			this.nextStateName = StateConstants.ALL_STAR_GAME_STATE;
+			return this.internalStateMachineFactory.AllStarGameState(leagueToSimulate, training, schedule, utility, currentDate, endDate, output,
+					context, standingsDb, standings, season);
+		}
+		else {
 			this.nextStateName = StateConstants.TRAINING_STATE;
-			return new TrainingState(leagueToSimulate, training, schedule, utility, currentDate, endDate, output,
+			return this.internalStateMachineFactory.TrainingState(leagueToSimulate, training, schedule, utility, currentDate, endDate, output,
 					context, standingsDb, standings, season);
 		}
 	}
@@ -74,6 +87,9 @@ public class AdvanceTimeState implements ISimulationState {
 		this.currentDate = LocalDate.parse(this.currentDate, formatter).plusDays(1).format(formatter).toString();
 		if (this.currentDate.equals(this.endDate)) {
 			this.isALastDay = true;
+		}
+		if(this.currentDate.equals(this.utility.getAllStartGameDay())) {
+			this.isAllStarGameDay = true;
 		}
 	}
 

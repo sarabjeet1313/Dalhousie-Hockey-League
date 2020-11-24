@@ -1,5 +1,6 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,6 +19,7 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IInjuryMan
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IRetirementManagement;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+import dpl.SystemConfig;
 
 public class AdvanceToNextSeasonState implements ISimulationState {
 	private String stateName;
@@ -34,11 +36,13 @@ public class AdvanceToNextSeasonState implements ISimulationState {
 	private ISchedule schedule;
 	private StandingInfo standings;
 	private IStandingsPersistance standingsDb;
+	private IInternalStateMachineAbstractFactory internalStateMachineFactory;
 
 	public AdvanceToNextSeasonState(League leagueToSimulate, ISchedule schedule, IStandingsPersistance standingsDb, StandingInfo standings,
 			IInjuryManagement injury, IRetirementManagement retirement, InternalStateContext context,
 			SeasonCalendar seasonCalendar, String currentDate, String endDate, int season, IUserOutput output) {
 		this.stateName = StateConstants.NEXT_SEASON_STATE;
+		this.internalStateMachineFactory = SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory();
 		this.leagueToSimulate = leagueToSimulate;
 		this.injury = injury;
 		this.retirement = retirement;
@@ -54,17 +58,22 @@ public class AdvanceToNextSeasonState implements ISimulationState {
 
 	public ISimulationState nextState(InternalStateContext context) {
 		this.nextStateName = StateConstants.PERSIST_STATE;
-		return new PersistState(leagueToSimulate, schedule, standingsDb, standings, context, seasonCalendar, currentDate, endDate,
+		return this.internalStateMachineFactory.PersistState(leagueToSimulate, schedule, standingsDb, standings, context, seasonCalendar, currentDate, endDate,
 				season, output);
 	}
 
 	public void doProcessing() throws RetirementManagementException {
+		output.setOutput(StateConstants.NEXT_SEASON_ENTRY);
+		output.sendOutput();
 		int days = (int) daysLapsed();
 		try {
 			leagueToSimulate = retirement.increaseAge(days, leagueToSimulate);
 			leagueToSimulate = injury.updatePlayerInjuryStatus(days, leagueToSimulate);
 		} catch (SQLException e) {
 			throw new RetirementManagementException(TeamManagementConstants.RETIREMENT_EXCEPTION.toString());
+		} catch (IOException e) {
+			output.setOutput(e.getMessage());
+			output.sendOutput();
 		}
 	}
 

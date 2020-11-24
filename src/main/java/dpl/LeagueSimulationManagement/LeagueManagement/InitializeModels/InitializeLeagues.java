@@ -36,6 +36,7 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -106,7 +107,7 @@ public class InitializeLeagues implements IInitializeLeagues {
 
 			leagueName = truncateString(leagueName);
 			league = teamManagement.LeagueWithDbParameters(leagueName, conferenceList, freeAgents, coaches, managerList, gameConfig, leagueDb);
-			boolean check = league.isValidLeagueName(leagueName);
+			boolean check = league.isValidLeagueName(league);
 
 			if (check == Boolean.FALSE) {
 				output.setOutput(InitializeLeaguesConstants.VALID_MSG.toString());
@@ -142,6 +143,9 @@ public class InitializeLeagues implements IInitializeLeagues {
 			output.setOutput(e.getMessage());
 			output.sendOutput();
 		} catch (NullPointerException e) {
+			output.setOutput(e.getMessage());
+			output.sendOutput();
+		} catch (IOException e) {
 			output.setOutput(e.getMessage());
 			output.sendOutput();
 		}

@@ -11,7 +11,7 @@ public class FreeAgencyPublisher {
     private static FreeAgencyPublisher instance;
     private IUserOutput output;
 
-	private FreeAgencyPublisher() {
+    private FreeAgencyPublisher() {
         subscribers = new ArrayList<>();
     }
 

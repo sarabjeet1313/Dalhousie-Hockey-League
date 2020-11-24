@@ -3,6 +3,8 @@ package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import dpl.Database.TradeDataDB;
 import dpl.DplConstants.ScheduleConstants;
@@ -13,9 +15,12 @@ import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersi
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IInjuryManagement;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.RetirementManagement;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradePersistence;
+import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradingAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.Trade;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+import dpl.SystemConfig;
 
 public class InjuryCheckState implements ISimulationState {
 	private String stateName;
@@ -33,11 +38,16 @@ public class InjuryCheckState implements ISimulationState {
 	private StandingInfo standings;
 	private ITradePersistence tradeDb;
 	private Trade trade;
+	private IInternalStateMachineAbstractFactory internalStateMachineFactory;
+	private ITradingAbstractFactory tradingAbstractFactory;
+	private static final Logger log = Logger.getLogger(InjuryCheckState.class.getName());
 
 	public InjuryCheckState(League leagueToSimulate, IInjuryManagement injury, ISchedule schedule,
 			InternalStateContext context, SeasonCalendar seasonCalendar, String currentDate, String endDate, int season,
 			IUserOutput output, IStandingsPersistance standingsDb, StandingInfo standings) {
 		this.leagueToSimulate = leagueToSimulate;
+		this.internalStateMachineFactory = SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory();
+		this.tradingAbstractFactory = SystemConfig.getSingleInstance().getTradingAbstractFactory();
 		this.injury = injury;
 		this.schedule = schedule;
 		this.context = context;
@@ -49,29 +59,32 @@ public class InjuryCheckState implements ISimulationState {
 		this.standingsDb = standingsDb;
 		this.standings = standings;
 		this.tradeDb = new TradeDataDB();
-		this.trade = new Trade(tradeDb);
+		this.trade = tradingAbstractFactory.Trade(tradeDb);
 		this.stateName = StateConstants.INJURY_STATE;
 	}
 
 	public ISimulationState nextState(InternalStateContext context) {
 		if (schedule.anyUnplayedGame(currentDate)) {
 			this.nextStateName = StateConstants.SIMULATE_GAME_STATE;
-			return new SimulateGameState(leagueToSimulate, schedule, standingsDb, standings, context, seasonCalendar, currentDate,
+			return this.internalStateMachineFactory.SimulateGameState(leagueToSimulate, schedule, standingsDb, standings, context, seasonCalendar, currentDate,
 					endDate, season, output);
 		} else {
 			if (seasonCalendar.isTradeDeadlinePending(this.currentDate)) {
 				this.nextStateName = StateConstants.TRADING_STATE;
-				return new TradingState(leagueToSimulate, trade, context, output, seasonCalendar, currentDate, endDate,
+				return this.internalStateMachineFactory.TradingState(leagueToSimulate, trade, context, output, seasonCalendar, currentDate, endDate,
 						season, standingsDb, standings, schedule);
 			} else {
 				this.nextStateName = StateConstants.AGING_STATE;
-				return new AgingState(leagueToSimulate, schedule, standingsDb, standings, injury, context, seasonCalendar,
+				return this.internalStateMachineFactory.AgingState(leagueToSimulate, schedule, standingsDb, standings, injury, context, seasonCalendar,
 						currentDate, endDate, season, output);
 			}
 		}
 	}
 
 	public void doProcessing() {
+		output.setOutput(StateConstants.INJURY_ENTRY);
+		output.sendOutput();
+
 		List<Map<String, String>> competingList = new ArrayList<Map<String, String>>();
 		competingList = schedule.getFinalSchedule().get(currentDate);
 		for (Map<String, String> teams : competingList) {
@@ -85,8 +98,9 @@ public class InjuryCheckState implements ISimulationState {
 			currentSchedule.remove(this.currentDate);
 			schedule.setFinalSchedule(currentSchedule);
 		}
-		output.setOutput("Inside Injury Check state");
+		output.setOutput(StateConstants.INJURY_ENTRY);
 		output.sendOutput();
+		//log.log(Level.INFO, StateConstants.INJURY_ENTRY);
 	}
 
 	public boolean shouldContinue() {
