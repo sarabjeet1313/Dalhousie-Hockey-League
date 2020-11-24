@@ -78,7 +78,7 @@ public class CreateTeamState implements IState {
 	}
 
 	static {
-		FreeAgencyPublisher.getInstance().subscribe(SystemConfig.getSingleInstance().getNewsSystemAbstractFactory().NewsSubscriber());
+		FreeAgencyPublisher.getInstance().subscribe(new NewsSubscriber());
 	}
 
 	public void nextState(StateContext context) {

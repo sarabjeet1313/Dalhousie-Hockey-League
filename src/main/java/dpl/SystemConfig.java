@@ -12,8 +12,6 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManag
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.TeamManagementAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradingAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.TradingAbstractFactory;
-import dpl.LeagueSimulationManagement.NewsSystem.INewsSystemAbstractFactory;
-import dpl.LeagueSimulationManagement.NewsSystem.NewsSystemAbstractFactory;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.IInternalStateMachineAbstractFactory;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStateMachineAbstractFactory;
 import dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine.ISimulationStateMachineAbstractFactory;
@@ -36,7 +34,6 @@ public class SystemConfig {
     private IScheduleAbstractFactory scheduleAbstractFactory;
     private IStandingsAbstractFactory standingsAbstractFactory;
     private ITradingAbstractFactory tradingAbstractFactory;
-    private INewsSystemAbstractFactory newsSystemAbstractFactory;
     private IInternalStateMachineAbstractFactory internalStateMachineAbstractFactory;
     private ISimulationStateMachineAbstractFactory simulationStateMachineAbstractFactory;
     private IParserAbstractFactory parserAbstractFactory;
@@ -51,7 +48,6 @@ public class SystemConfig {
         scheduleAbstractFactory = new ScheduleAbstractFactory();
         standingsAbstractFactory = new StandingsAbstractFactory();
         tradingAbstractFactory = new TradingAbstractFactory();
-        newsSystemAbstractFactory = new NewsSystemAbstractFactory();
         internalStateMachineAbstractFactory = new InternalStateMachineAbstractFactory();
         simulationStateMachineAbstractFactory = new SimulationStateMachineAbstractFactory();
         parserAbstractFactory = new ParserAbstractFactory();
@@ -89,10 +85,6 @@ public class SystemConfig {
 
     public ITradingAbstractFactory getTradingAbstractFactory() {
         return tradingAbstractFactory;
-    }
-
-    public INewsSystemAbstractFactory getNewsSystemAbstractFactory() {
-        return newsSystemAbstractFactory;
     }
 
     public IInternalStateMachineAbstractFactory getInternalStateMachineAbstractFactory() {

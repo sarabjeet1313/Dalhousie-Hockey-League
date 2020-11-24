@@ -4,7 +4,6 @@ import java.util.*;
 
 import dpl.DplConstants.GeneralConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.*;
-import dpl.LeagueSimulationManagement.NewsSystem.INewsSystemAbstractFactory;
 import dpl.SystemConfig;
 import dpl.DplConstants.ScheduleConstants;
 import dpl.DplConstants.StateConstants;
@@ -105,7 +104,7 @@ public class SimulateGameState implements ISimulationState {
 	}
 
 	static {
-		GamePlayedPublisher.getInstance().subscribe(SystemConfig.getSingleInstance().getNewsSystemAbstractFactory().NewsSubscriber());
+		GamePlayedPublisher.getInstance().subscribe(new NewsSubscriber());
 	}
 
 	public ISimulationState nextState(InternalStateContext context) {
