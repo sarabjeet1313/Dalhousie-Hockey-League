@@ -78,7 +78,7 @@ public class AgingStateTest {
         utility.setSeasonOverStatus(true);
         state.nextState(context);
         assertNotEquals("Persist", state.getNextStateName());
-        assertEquals("NextSeason", state.getNextStateName());
+        assertEquals("TrophyState", state.getNextStateName());
     }
 
     @Test

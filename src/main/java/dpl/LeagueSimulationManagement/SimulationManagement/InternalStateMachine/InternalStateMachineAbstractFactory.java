@@ -125,6 +125,21 @@ public class InternalStateMachineAbstractFactory implements IInternalStateMachin
 	}
 
 	@Override
+	public ISimulationState AllStarGameState(League leagueToSimulate, Training training, ISchedule schedule, SeasonCalendar utility, String currentDate, String endDate, IUserOutput output, InternalStateContext context, IStandingsPersistance standingsDb, StandingInfo standings, int season) {
+		return new AllStarGameState(leagueToSimulate, training, schedule, utility, currentDate, endDate, output, context, standingsDb, standings, season) ;
+	}
+
+	@Override
+	public ISimulationState TrophyState(League leagueToSimulate, ISchedule schedule, IStandingsPersistance standingsDb, StandingInfo standings,IInjuryManagement injury, IRetirementManagement retirement, InternalStateContext context, SeasonCalendar seasonCalendar, String currentDate, String endDate, int season, IUserOutput output) {
+		return new TrophySystemState(leagueToSimulate, schedule, standingsDb, standings, injury, retirement, context, seasonCalendar, currentDate, endDate, season, output);
+	}
+
+	@Override
+	public ISimulationState PlayerDraftState(League leagueToSimulate, ISchedule schedule, IStandingsPersistance standingsDb, StandingInfo standings,IInjuryManagement injury, IRetirementManagement retirement, InternalStateContext context, SeasonCalendar seasonCalendar, String currentDate, String endDate, int season, IUserOutput output) {
+		return new PlayerDraftState(leagueToSimulate, schedule, standingsDb, standings, injury, retirement, context, seasonCalendar, currentDate, endDate, season, output);
+	}
+
+	@Override
 	public ISimulateMatch SimulateRegularSeasonMatch(String currentDate, ISchedule schedule, IUserOutput output, League leagueToSimulate, StandingInfo standings) {
 		return new SimulateRegularSeasonMatch(currentDate, schedule, output, leagueToSimulate, standings);
 	}
