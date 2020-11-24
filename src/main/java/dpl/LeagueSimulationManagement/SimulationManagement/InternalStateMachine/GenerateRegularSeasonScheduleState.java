@@ -2,11 +2,13 @@ package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine
 
 import java.sql.SQLException;
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import dpl.DplConstants.GenerateRegularConstants;
 import dpl.DplConstants.StateConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.IScheduleAbstractFactory;
-import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.RegularSeasonSchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
@@ -31,6 +33,7 @@ public class GenerateRegularSeasonScheduleState implements ISimulationState {
 	private int season;
 	private IInternalStateMachineAbstractFactory internalStateMachineFactory;
 	private IScheduleAbstractFactory scheduleAbstractFactory;
+	private static final Logger log = Logger.getLogger(GenerateRegularSeasonScheduleState.class.getName());
 
 	public GenerateRegularSeasonScheduleState(League leagueToSimulate, IUserOutput output, int season,
 			InternalStateContext context, IStandingsPersistance standingsDb, StandingInfo standings, SeasonCalendar utility) {
@@ -60,18 +63,17 @@ public class GenerateRegularSeasonScheduleState implements ISimulationState {
 	}
 
 	public void doProcessing() {
-		output.setOutput("Scheduling the regular season for simulation.");
+		output.setOutput(GenerateRegularConstants.SCHEDULING_REGULAR.toString());
 		output.sendOutput();
+		//log.log(Level.INFO, GenerateRegularConstants.SCHEDULING_REGULAR.toString());
 		try {
 			//standings.initializeStandings();
 			if (null == leagueToSimulate) {
-				output.setOutput("Error scheduling season, passed league object is null. Please check");
-				output.sendOutput();
+				log.log(Level.SEVERE, GenerateRegularConstants.SCHEDULING_ERROR.toString());
 				return;
 			}
 			schedule.generateSchedule(leagueToSimulate);
-			output.setOutput("Regular season has been scheduled successfully.");
-			output.sendOutput();
+			//log.log(Level.INFO, GenerateRegularConstants.REGULAR_SUCCESSFUL.toString());
 			schedule.setCurrentDay(seasonCalendar.getRegularSeasonStartDay());
 		} catch (SQLException e) {
 			output.setOutput(e.getMessage());

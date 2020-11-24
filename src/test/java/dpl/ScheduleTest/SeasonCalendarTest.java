@@ -99,6 +99,12 @@ public class SeasonCalendarTest {
     }
 
     @Test
+    public void getAllStartGameDayTest() {
+        assertNotEquals("29-01-2021", state.getAllStartGameDay());
+        assertEquals("23-01-2021", state.getAllStartGameDay());
+    }
+
+    @Test
     public void isTradeDeadlinePending() {
         assertTrue(state.isTradeDeadlinePending("30-11-2020"));
         assertFalse(state.isTradeDeadlinePending("30-06-2021"));

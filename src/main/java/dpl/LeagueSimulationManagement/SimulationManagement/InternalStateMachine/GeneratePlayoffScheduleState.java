@@ -1,17 +1,19 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import dpl.DplConstants.GeneratePlayoffConstants;
 import dpl.DplConstants.StateConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Training;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.IScheduleAbstractFactory;
-import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.PlayoffSchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.RetirementManagement;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.SystemConfig;
 
@@ -34,6 +36,7 @@ public class GeneratePlayoffScheduleState implements ISimulationState {
 	private Training training;
 	private IInternalStateMachineAbstractFactory internalStateMachineFactory;
 	private IScheduleAbstractFactory scheduleAbstractFactory;
+	private static final Logger log = Logger.getLogger(GeneratePlayoffScheduleState.class.getName());
 
 	public GeneratePlayoffScheduleState(League leagueToSimulate, SeasonCalendar seasonCalendar,
 										IStandingsPersistance standingsDb, StandingInfo standings, IUserOutput output, InternalStateContext context, int season,
@@ -67,20 +70,18 @@ public class GeneratePlayoffScheduleState implements ISimulationState {
 	}
 
 	public void doProcessing() {
-
 		output.setOutput(GeneratePlayoffConstants.SCHEDULING_PLAYOFF.toString());
 		output.sendOutput();
+		//log.log(Level.INFO, GeneratePlayoffConstants.SCHEDULING_PLAYOFF.toString());
 		try {
 			if (null == leagueToSimulate) {
-				output.setOutput(GeneratePlayoffConstants.SCHEDULING_ERROR.toString());
-				output.sendOutput();
+				log.log(Level.SEVERE, GeneratePlayoffConstants.SCHEDULING_ERROR.toString());
 				return;
 			}
 			standings.showStats();
 			standings.resetStats();
 			schedule.generateSchedule(leagueToSimulate);
-			output.setOutput(GeneratePlayoffConstants.PLAYOFF_SUCCESSFUL.toString());
-			output.sendOutput();
+		//	log.log(Level.INFO, GeneratePlayoffConstants.PLAYOFF_SUCCESSFUL.toString());
 			schedule.setCurrentDay(this.startDate);
 		} catch (SQLException e) {
 			output.setOutput(e.getMessage());

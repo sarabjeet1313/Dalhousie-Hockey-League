@@ -62,6 +62,8 @@ public class AdvanceToNextSeasonState implements ISimulationState {
 	}
 
 	public void doProcessing() throws RetirementManagementException {
+		output.setOutput(StateConstants.NEXT_SEASON_ENTRY);
+		output.sendOutput();
 		int days = (int) daysLapsed();
 		try {
 			leagueToSimulate = retirement.increaseAge(days, leagueToSimulate);
