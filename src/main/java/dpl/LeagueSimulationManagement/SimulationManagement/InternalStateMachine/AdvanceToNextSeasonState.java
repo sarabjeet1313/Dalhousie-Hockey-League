@@ -1,6 +1,5 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -71,9 +70,6 @@ public class AdvanceToNextSeasonState implements ISimulationState {
 			leagueToSimulate = injury.updatePlayerInjuryStatus(days, leagueToSimulate);
 		} catch (SQLException e) {
 			throw new RetirementManagementException(TeamManagementConstants.RETIREMENT_EXCEPTION.toString());
-		} catch (IOException e) {
-			output.setOutput(e.getMessage());
-			output.sendOutput();
 		}
 	}
 

@@ -21,7 +21,7 @@ public class TradingState implements ISimulationState {
 	private InternalStateContext context;
 	private Trade trade;
 	private IUserOutput output;
-	private InjuryManagement injury = new InjuryManagement();
+	private InjuryManagement injury;
 	private SeasonCalendar utility;
 	private String currentDate;
 	private String endDate;

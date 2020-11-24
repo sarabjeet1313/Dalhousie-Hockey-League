@@ -1,20 +1,17 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-
-import com.google.gson.annotations.Expose;
 
 import dpl.DplConstants.TeamManagementConstants;
 
 public class Coach {
 
-	@Expose (serialize = true, deserialize = true) private String coachName;
-	@Expose (serialize = true, deserialize = true) private double skating;
-	@Expose (serialize = true, deserialize = true) private double shooting;
-	@Expose (serialize = true, deserialize = true) private double checking;
-	@Expose (serialize = true, deserialize = true) private double saving;
+	private String coachName;
+	private double skating;
+	private double shooting;
+	private double checking;
+	private double saving;
 	private ICoachPersistance coachDb;
 
 	public Coach() {
@@ -79,21 +76,18 @@ public class Coach {
 		this.saving = saving;
 	}
 
-	public boolean saveTeamCoaches(Coach coach, String teamName, String leagueName) throws SQLException, IOException {
+	public boolean saveTeamCoaches(Coach coach, String teamName, String leagueName) throws SQLException {
 		boolean isValid = Boolean.FALSE;
-		Coach tempCoach = new Coach(coach.getCoachName(), coach.getSkating(), coach.getShooting(), coach.getChecking(), coach.getSaving()); 
 		try {
-			isValid = coachDb.persistCoaches(tempCoach, teamName, leagueName);
+			isValid = coachDb.persistCoaches(coach, teamName, leagueName);
 		} catch (SQLException e) {
-			throw e;
-		} catch (IOException e) {
 			throw e;
 		}
 
 		return isValid;
 	}
 
-	public boolean saveLeagueCoaches(League league) throws SQLException, IOException {
+	public boolean saveLeagueCoaches(League league) throws SQLException {
 		boolean isValid = Boolean.FALSE;
 		boolean flag = Boolean.FALSE;
 		try {
@@ -102,15 +96,12 @@ public class Coach {
 			String teamName = TeamManagementConstants.EMPTY.toString();
 			for (int index = 0; index < coachList.size(); index++) {
 				Coach coach = coachList.get(index);
-				Coach tempCoach = new Coach(coach.getCoachName(), coach.getSkating(), coach.getShooting(), coach.getChecking(), coach.getSaving());
-				isValid = coachDb.persistCoaches(tempCoach, teamName, leagueName);
+				isValid = coachDb.persistCoaches(coach, teamName, leagueName);
 				if (isValid == Boolean.FALSE) {
 					flag = Boolean.FALSE;
 				}
 			}
 		} catch (SQLException e) {
-			throw e;
-		} catch (IOException e) {
 			throw e;
 		}
 		return (isValid && flag);

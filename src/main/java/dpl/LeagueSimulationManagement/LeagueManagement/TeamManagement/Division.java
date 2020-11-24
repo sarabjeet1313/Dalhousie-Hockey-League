@@ -2,12 +2,10 @@ package dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement;
 
 import java.util.List;
 
-import com.google.gson.annotations.Expose;
-
 public class Division {
 
-	@Expose (serialize = true, deserialize = true) private String divisionName;
-	@Expose (serialize = true, deserialize = true) private List<Team> teamList;
+	private String divisionName;
+	private List<Team> teamList;
 
 	public Division() {
 		super();

@@ -67,8 +67,7 @@ public class LeagueDataDB implements ILeaguePersistance {
 						result.getInt(PlayerConstants.SAVING.toString()),
 						result.getBoolean(PlayerConstants.IS_INJURED.toString()),
 						result.getBoolean(PlayerConstants.RETIRED_STATUS.toString()),
-						result.getInt(PlayerConstants.DAYS_INJURED.toString()),
-						result.getBoolean(PlayerConstants.IS_ACTIVE.toString()));
+						result.getInt(PlayerConstants.DAYS_INJURED.toString()));
 				String tempResult = result.getString(TeamConstants.TEAM_NAME.toString());
 				if (result.wasNull()) {
 					freeAgentList.add(player);
@@ -123,12 +122,12 @@ public class LeagueDataDB implements ILeaguePersistance {
 	}
 
 	@Override
-	public int checkLeagueName(League league) throws SQLException {
+	public int checkLeagueName(String leagueName) throws SQLException {
 		ResultSet result;
 		int rowCount = 0;
 		try {
 			invoke = new InvokeStoredProcedure(StoredProcedureConstants.CHECK_LEAGUE_NAME.getSpString());
-			invoke.setParameter(1, league.getLeagueName());
+			invoke.setParameter(1, leagueName);
 			result = invoke.executeQueryWithResults();
 			while (result.next()) {
 				rowCount = result.getInt(LeagueConstants.ROW_COUNT.toString());
@@ -142,13 +141,13 @@ public class LeagueDataDB implements ILeaguePersistance {
 	}
 
 	@Override
-	public boolean persisitLeagueData(League league, String conferenceName, String divisionName, String teamName,
+	public boolean persisitLeagueData(String leagueName, String conferenceName, String divisionName, String teamName,
 			String generalManager, String headCoach, Player player) throws SQLException {
 		ResultSet result;
 		boolean isPersisted = Boolean.FALSE;
 		try {
 			invoke = new InvokeStoredProcedure(StoredProcedureConstants.PERSIST_LEAGUE.getSpString());
-			invoke.setParameter(1, league.getLeagueName());
+			invoke.setParameter(1, leagueName);
 			invoke.setParameter(2, conferenceName);
 			invoke.setParameter(3, divisionName);
 			invoke.setParameter(4, teamName);
@@ -178,12 +177,12 @@ public class LeagueDataDB implements ILeaguePersistance {
 	}
 
 	@Override
-	public boolean updateLeagueData(League league, String teamName, Player player) throws SQLException {
+	public boolean UpdateLeagueData(String leagueName, String teamName, Player player) throws SQLException {
 		ResultSet result;
 		boolean isPersisted = Boolean.FALSE;
 		try {
 			invoke = new InvokeStoredProcedure(StoredProcedureConstants.UPDATE_LEAGUE.getSpString());
-			invoke.setParameter(1, league.getLeagueName());
+			invoke.setParameter(1, leagueName);
 			invoke.setParameter(2, teamName);
 			invoke.setParameter(3, player.getPlayerName());
 			invoke.setParameter(4, player.getPosition());

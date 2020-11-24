@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.ArrayList;
 
 import org.junit.After;
 import org.junit.Before;
@@ -27,12 +26,7 @@ public class TradeTest {
 
     @Test
     public void outputJsonTest() {
-        ArrayList<String> s1 = new ArrayList<>();
-        ArrayList<String> s2 = new ArrayList<>();
-        s1.add("Mario Lemieux");
-        s1.add("Patrick Roy");
-        s2.add("Wayne Gretzky");
-        TradePublisher.getInstance().notify("Montreal Canadiens", "Winnipeg Jets", s1, s2 );
+        TradePublisher.getInstance().notify("Montreal Canadiens", "Winnipeg Jets", new String[][]{{"Mario Lemieux", "Patrick Roy"}, {"Wayne Gretzky"}});
         assertEquals(OutputConstants.TRADES, console.toString().trim());
     }
 

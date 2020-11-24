@@ -28,13 +28,13 @@ public class TradePublisher {
         this.subscribers.remove(subscriber);
     }
 
-    public void notify(String fromTeam, String toTeam, ArrayList<String> fromTeamTrade, ArrayList<String> toTeamTrade) {
+    public void notify(String fromTeam, String toTeam, String[][] playersTraded) {
         try {
-            if (null == fromTeam || null == toTeam || toTeamTrade.size() < 1 || fromTeamTrade.size() < 1) {
+            if (null == fromTeam || null == toTeam || null == playersTraded) {
                 throw new IllegalArgumentException();
             }
             for (ITradeInfo subscriber : this.subscribers) {
-                subscriber.updateTrade(fromTeam, toTeam, fromTeamTrade, toTeamTrade);
+                subscriber.updateTrade(fromTeam, toTeam, playersTraded);
             }
         } catch (IllegalArgumentException e) {
             output.setOutput(e + NewsSystemConstants.ARGUMENT_MESSAGE.toString());

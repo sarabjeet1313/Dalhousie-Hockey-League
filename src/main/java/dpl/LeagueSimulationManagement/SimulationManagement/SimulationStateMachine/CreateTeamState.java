@@ -1,6 +1,5 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -188,7 +187,7 @@ public class CreateTeamState implements IState {
 							+ " | 	" + pList.get(index).getChecking() + " | 	" + pList.get(index).getSaving());
 			output.sendOutput();
 		}
-		for (int index = 0; index < 4; index++) {
+		for (int index = 0; index < 2; index++) {
 			output.setOutput("Please enter selected Goalie ID");
 			output.sendOutput();
 			input.setInput();
@@ -237,16 +236,14 @@ public class CreateTeamState implements IState {
 
 	private void displaySelectedPlayers(List<Player> fdList) {
 		int temp = -1;
-		int forwardPlayers = 16;
-		int defencePlayers = 10;
 		String inputValue = "";
-		for (int index = 0; index < 26; index++) {
+		for (int index = 0; index < 18; index++) {
 			output.setOutput("Please enter selected Player ID (Number of players selected: " + (index) + ")");
 			output.sendOutput();
 			input.setInput();
 			inputValue = input.getInput();
 			if (validate.isNumber(inputValue) == Boolean.FALSE) {
-				output.setOutput("Player ID cannot be null");
+				output.setOutput("Goalie ID cannot be null");
 				output.sendOutput();
 				temp = -1;
 			} else {
@@ -268,38 +265,11 @@ public class CreateTeamState implements IState {
 				}
 				output.setOutput("Player Already added");
 				output.sendOutput();
-			} else if( fdList.get(temp).getPosition().equals("forward") ){
-				if(forwardPlayers < 1){
-					if (index == 0) {
-						index = -1;
-					} else {
-						index = index - 1;
-					}
-					output.setOutput("Max number of Forward Players (16) already Reached!! \n Choose Players with Type: Defence!!");
-					output.sendOutput();
-				}else {
-					forwardPlayers--;
-					playersList.add(fdList.get(temp));
-					tempList2.add(fdList.get(temp));
-					indexList.add(temp + 1);
-					FreeAgencyPublisher.getInstance().notify(fdList.get(temp).getPlayerName(), "hired");
-				}
-			}else {
-				if(defencePlayers < 1){
-					if (index == 0) {
-						index = -1;
-					} else {
-						index = index - 1;
-					}
-					output.setOutput("Max number of Defence Players (10) already Reached!! \n Choose Players with Type: Forward!!");
-					output.sendOutput();
-				}else {
-					defencePlayers--;
-					playersList.add(fdList.get(temp));
-					tempList2.add(fdList.get(temp));
-					indexList.add(temp + 1);
-					FreeAgencyPublisher.getInstance().notify(fdList.get(temp).getPlayerName(), "hired");
-				}
+			} else {
+				playersList.add(fdList.get(temp));
+				tempList2.add(fdList.get(temp));
+				indexList.add(temp + 1);
+				FreeAgencyPublisher.getInstance().notify(fdList.get(temp).getPlayerName(), "hired");
 			}
 		}
 
@@ -383,16 +353,16 @@ public class CreateTeamState implements IState {
 		displayManagerList();
 		displayCoachesList();
 
-		output.setOutput("Please select 30 Roster Players for " + teamName);
+		output.setOutput("Please select 20 Roster Players for " + teamName);
 		output.sendOutput();
-		output.setOutput("Please select 4 Golies");
+		output.setOutput("Please select 2 Golies");
 		output.sendOutput();
 		list = initializedLeague.getAvailableLeaguePlayers(initializedLeague);
 		pList = list.get(0);
 		diaplayGoalieList(pList);
 		indexList.clear();
 		pList.removeAll(tempList1);
-		output.setOutput("Please select 26 Skaters (16 forward and 10 defense)");
+		output.setOutput("Please select 18 Skaters (forward and defense)");
 		output.sendOutput();
 		fList = list.get(1);
 		dList = list.get(2);
@@ -434,9 +404,6 @@ public class CreateTeamState implements IState {
 			}
 			isCreated = initializedLeague.createTeam(initializedLeague);
 		} catch (SQLException e) {
-			output.setOutput(e.getMessage());
-			output.sendOutput();
-		} catch (IOException e) {
 			output.setOutput(e.getMessage());
 			output.sendOutput();
 		}

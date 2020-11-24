@@ -87,9 +87,9 @@ public class TeamManagementAbstractFactory implements ITeamManagementAbstractFac
 
 	@Override
 	public Player PlayerWithParameters(String playerName, String position, boolean captain, int age, int skating,
-			int shooting, int checking, int saving, boolean isInjured, boolean retireStatus, int daysInjured , boolean isActive) {
+			int shooting, int checking, int saving, boolean isInjured, boolean retireStatus, int daysInjured) {
 		return new Player(playerName, position, captain, age, skating, shooting, checking, saving, isInjured,
-				retireStatus, daysInjured, isActive);
+				retireStatus, daysInjured);
 	}
 
 	@Override
@@ -111,11 +111,6 @@ public class TeamManagementAbstractFactory implements ITeamManagementAbstractFac
 	public Team TeamWithParameters(String teamName, Manager generalManager, Coach headCoach, List<Player> playerList,
 			boolean isNewTeam) {
 		return new Team(teamName, generalManager, headCoach, playerList, isNewTeam);
-	}
-
-	@Override
-	public IRosterManagement RosterManagement() {
-		return new RosterManagement();
 	}
 
 }

@@ -2,12 +2,10 @@ package dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement;
 
 import java.util.List;
 
-import com.google.gson.annotations.Expose;
-
 public class Conference {
 
-	@Expose (serialize = true, deserialize = true) private String conferenceName;
-	@Expose (serialize = true, deserialize = true) private List<Division> divisionList;
+    private String conferenceName;
+    private List<Division> divisionList;
     
     public Conference() {
         super();

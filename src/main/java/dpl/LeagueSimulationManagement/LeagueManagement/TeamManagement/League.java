@@ -1,11 +1,8 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.google.gson.annotations.Expose;
 
 import dpl.SystemConfig;
 import dpl.DplConstants.GeneralConstants;
@@ -16,13 +13,13 @@ import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
 public class League implements ILeagueOperation {
 
-	@Expose (serialize = true, deserialize = true) private String leagueName;
-	@Expose (serialize = true, deserialize = true) private List<Conference> conferenceList;
-	@Expose (serialize = true, deserialize = true) private List<Player> freeAgents;
-	@Expose (serialize = true, deserialize = true) private List<Coach> coaches;
-	@Expose (serialize = true, deserialize = true) private List<Manager> managerList;
+	private String leagueName;
+	private List<Conference> conferenceList;
+	private List<Player> freeAgents;
+	private List<Coach> coaches;
+	private List<Manager> managerList;
 	private static List<League> leagueList;
-	@Expose (serialize = true, deserialize = true) private GameplayConfig gameConfig;
+	private GameplayConfig gameConfig;
 	private ILeaguePersistance leagueDb;
 	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
 			.getTeamManagementAbstractFactory();
@@ -118,14 +115,12 @@ public class League implements ILeagueOperation {
 		this.gameConfig = gameConfig;
 	}
 
-	public boolean isValidLeagueName(League league) throws SQLException, IOException {
+	public boolean isValidLeagueName(String leagueName) throws SQLException {
 		int rowCount = 0;
 		boolean isValid = Boolean.TRUE;
 		try {
-			rowCount = leagueDb.checkLeagueName(league);
+			rowCount = leagueDb.checkLeagueName(leagueName);
 		} catch (SQLException e) {
-			throw e;
-		} catch (IOException e) {
 			throw e;
 		}
 		if (rowCount > 0) {
@@ -135,20 +130,18 @@ public class League implements ILeagueOperation {
 	}
 
 	@Override
-	public League loadLeague(String teamName) throws SQLException, IOException {
+	public League loadLeague(String teamName) throws SQLException {
 		League league = null;
 		try {
 			league = leagueDb.loadLeagueData(teamName);
 		} catch (SQLException e) {
-			throw e;
-		} catch (IOException e) {
 			throw e;
 		}
 		return league;
 	}
 
 	@Override
-	public boolean createTeam(League league) throws SQLException, IOException {
+	public boolean createTeam(League league) throws SQLException {
 		boolean isCreated = Boolean.FALSE;
 		String leagueName = league.getLeagueName();
 		String conferenceName, divisionName, teamName, coachName,
@@ -175,7 +168,7 @@ public class League implements ILeagueOperation {
 						headCoach = teamList.get(tIndex).getHeadCoach();
 						playerList = teamList.get(tIndex).getPlayerList();
 						for (int pIndex = 0; pIndex < playerList.size(); pIndex++) {
-							isCreated = leagueDb.persisitLeagueData(league, conferenceName, divisionName, teamName,
+							isCreated = leagueDb.persisitLeagueData(leagueName, conferenceName, divisionName, teamName,
 									generalManager.getManagerName(), headCoach.getCoachName(), playerList.get(pIndex));
 						}
 						isCreated = headCoach.saveTeamCoaches(headCoach, teamName, leagueName);
@@ -189,7 +182,7 @@ public class League implements ILeagueOperation {
 			playerList = league.getFreeAgents();
 			if (!playerList.isEmpty()) {
 				for (int index = 0; index < playerList.size(); index++) {
-					isCreated = leagueDb.persisitLeagueData(league, conferenceName, divisionName, teamName,
+					isCreated = leagueDb.persisitLeagueData(leagueName, conferenceName, divisionName, teamName,
 							managerName, coachName, playerList.get(index));
 				}
 			}
@@ -197,8 +190,6 @@ public class League implements ILeagueOperation {
 			headCoach.saveLeagueCoaches(league);
 			generalManager.saveManagerList(league);
 		} catch (SQLException e) {
-			throw e;
-		} catch (IOException e) {
 			throw e;
 		}
 
@@ -295,8 +286,9 @@ public class League implements ILeagueOperation {
 	}
 
 	@Override
-	public boolean updateLeague(League league) throws SQLException, IOException {
+	public boolean UpdateLeague(League league) throws SQLException {
 		boolean isUpdated = Boolean.FALSE;
+		String leagueName = league.getLeagueName();
 		String teamName = TeamManagementConstants.EMPTY.toString();
 		List<Conference> conferenceList = league.getConferenceList();
 		List<Team> teamList;
@@ -311,14 +303,12 @@ public class League implements ILeagueOperation {
 						teamName = teamList.get(tIndex).getTeamName();
 						playerList = teamList.get(tIndex).getPlayerList();
 						for (int pIndex = 0; pIndex < playerList.size(); pIndex++) {
-							isUpdated = leagueDb.updateLeagueData(league, teamName, playerList.get(pIndex));
+							isUpdated = leagueDb.UpdateLeagueData(leagueName, teamName, playerList.get(pIndex));
 						}
 					}
 				}
 			}
 		} catch (SQLException e) {
-			throw e;
-		} catch (IOException e) {
 			throw e;
 		}
 		return isUpdated;

@@ -1,6 +1,5 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +54,7 @@ public class RetirementManagement implements IRetirementManagement {
 	}
 
 	@Override
-	public League replaceRetiredPlayers(League league) throws SQLException, RetirementManagementException, IOException {
+	public League replaceRetiredPlayers(League league) throws SQLException, RetirementManagementException {
 		List<Conference> conferenceList = league.getConferenceList();
 		List<Player> freeAgentsList = league.getFreeAgents();
 		IRetiredPlayerPersistance iretiredPlayersObject = new RetiredPlayersDataDB();
@@ -121,14 +120,12 @@ public class RetirementManagement implements IRetirementManagement {
 			log.log(Level.SEVERE, TeamManagementConstants.RETIREMENT_EXCEPTION.toString() + league.getLeagueName());
 			throw new RetirementManagementException(
 					TeamManagementConstants.RETIREMENT_EXCEPTION.toString() + league.getLeagueName());
-		} catch (IOException e) {
-			throw e;
 		}
 		return league;
 	}
 
 	@Override
-	public League increaseAge(int days, League league) throws SQLException, RetirementManagementException, IOException {
+	public League increaseAge(int days, League league) throws SQLException, RetirementManagementException {
 		League tempLeague = null;
 		List<Conference> conferenceList = league.getConferenceList();
 		List<Player> freeAgentsList = league.getFreeAgents();
@@ -167,8 +164,6 @@ public class RetirementManagement implements IRetirementManagement {
 		} catch (SQLException e) {
 			throw new RetirementManagementException(
 					TeamManagementConstants.RETIREMENT_EXCEPTION.toString() + league.getLeagueName());
-		} catch (IOException e) {
-			throw e;
 		}
 		return tempLeague;
 	}

@@ -36,7 +36,6 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -107,7 +106,7 @@ public class InitializeLeagues implements IInitializeLeagues {
 
 			leagueName = truncateString(leagueName);
 			league = teamManagement.LeagueWithDbParameters(leagueName, conferenceList, freeAgents, coaches, managerList, gameConfig, leagueDb);
-			boolean check = league.isValidLeagueName(league);
+			boolean check = league.isValidLeagueName(leagueName);
 
 			if (check == Boolean.FALSE) {
 				output.setOutput(InitializeLeaguesConstants.VALID_MSG.toString());
@@ -143,9 +142,6 @@ public class InitializeLeagues implements IInitializeLeagues {
 			output.setOutput(e.getMessage());
 			output.sendOutput();
 		} catch (NullPointerException e) {
-			output.setOutput(e.getMessage());
-			output.sendOutput();
-		} catch (IOException e) {
 			output.setOutput(e.getMessage());
 			output.sendOutput();
 		}
@@ -321,7 +317,7 @@ public class InitializeLeagues implements IInitializeLeagues {
 						}
 
 						Player playerObject = teamManagement.PlayerWithParameters(playerName, position, captain, age, skating, shooting,
-								checking, saving, Boolean.FALSE, Boolean.FALSE, 0, Boolean.FALSE);
+								checking, saving, Boolean.FALSE, Boolean.FALSE, 0);
 						bufferPlayerList.add(playerObject);
 						teamObject.setPlayerList(bufferPlayerList);
 					}
@@ -431,7 +427,7 @@ public class InitializeLeagues implements IInitializeLeagues {
 				}
 
 				freeAgents.add(teamManagement.PlayerWithParameters(agentName, position, captain, age, skating, shooting, checking, saving, false,
-						false, 0, false));
+						false, 0));
 			}
 		} catch (NullPointerException e) {
 			throw e;

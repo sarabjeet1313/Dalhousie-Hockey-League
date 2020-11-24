@@ -22,10 +22,10 @@ public class TeamTest {
 	Coach headCoach = teamManagement.CoachWithParameters("Mary Smith", 0.2, 0.3, 0.1, 0.4);
 	Manager manager1 = teamManagement.ManagerWithParameters("Karen Potam");
 	Team team = teamManagement.TeamWithParameters("Boston", manager1, headCoach, playerList, Boolean.FALSE);
-	Player player1 = teamManagement.PlayerWithParameters("Player1", "Forword", false, 1, 1, 1, 1, 1, false, false, 0, false);
-	Player player2 = teamManagement.PlayerWithParameters("Player2", "Forword", false, 1, 1, 1, 1, 1, false, false, 0, false);
-	Player player3 = teamManagement.PlayerWithParameters("Player3", "Goalie", false, 1, 1, 1, 1, 1, false, false, 0, false);
-	Player player4 = teamManagement.PlayerWithParameters("Player4", "Defender", false, 1, 1, 1, 1, 1, false, false, 0, false);
+	Player player1 = teamManagement.PlayerWithParameters("Player1", "Forword", false, 1, 1, 1, 1, 1, false, false, 0);
+	Player player2 = teamManagement.PlayerWithParameters("Player2", "Forword", false, 1, 1, 1, 1, 1, false, false, 0);
+	Player player3 = teamManagement.PlayerWithParameters("Player3", "Goalie", false, 1, 1, 1, 1, 1, false, false, 0);
+	Player player4 = teamManagement.PlayerWithParameters("Player4", "Defender", false, 1, 1, 1, 1, 1, false, false, 0);
 	LeagueMockData league = new LeagueMockData();
 	private static final double DELTA = 1e-15;
 	List<Player> playersList = new ArrayList<Player>();

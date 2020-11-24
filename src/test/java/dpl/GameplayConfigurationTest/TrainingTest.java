@@ -19,7 +19,7 @@ public class TrainingTest {
 			.getTeamManagementAbstractFactory();
 	League mockData = new LeagueObjectTestData().getLeagueData();
 	Training training = new Training(100, 100);
-	Player player = teamManagement.PlayerWithParameters("Player One", "forward", true, 1, 1, 1, 1, 1, false, false, 0, false);
+	Player player = teamManagement.PlayerWithParameters("Player One", "forward", true, 1, 1, 1, 1, 1, false, false, 0);
 	Coach coach = teamManagement.CoachWithParameters("Coach One", 0.5, 0.5, 0.5, 0.5);
 
 	@Test

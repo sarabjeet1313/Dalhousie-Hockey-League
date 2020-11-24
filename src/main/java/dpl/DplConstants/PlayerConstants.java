@@ -16,7 +16,6 @@ public enum PlayerConstants {
 	IS_INJURED("isInjured"),
 	RETIRED_STATUS("retiredStatus"),
 	DAYS_INJURED("daysInjured"),
-	IS_ACTIVE("isActive"),
 	ENTER_DETAILS("Please enter Player name. Player:" ),
 	ENTER_PLAYER("Please enter player:"),
 	ENTER_FREE_AGENT("Please enter Free Agent:" ),
