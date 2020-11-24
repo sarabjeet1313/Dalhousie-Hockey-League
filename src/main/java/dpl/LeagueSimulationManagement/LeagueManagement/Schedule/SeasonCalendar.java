@@ -80,6 +80,14 @@ public class SeasonCalendar {
         return dateFormat.format(seasonCalendar.getTime());
     }
 
+    public String getAllStartGameDay() {
+        seasonCalendar.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+        seasonCalendar.set(Calendar.DAY_OF_WEEK_IN_MONTH, ScheduleConstants.LAST_WEEK);
+        seasonCalendar.set(Calendar.MONTH, Calendar.JANUARY);
+        seasonCalendar.set(Calendar.YEAR, playoffYear);
+        return dateFormat.format(seasonCalendar.getTime());
+    }
+
     public String getSeasonWinner() {
         return seasonWinner;
     }

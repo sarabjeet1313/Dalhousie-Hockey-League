@@ -3,6 +3,8 @@ package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import dpl.Database.TradeDataDB;
 import dpl.DplConstants.ScheduleConstants;
@@ -13,6 +15,7 @@ import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersi
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IInjuryManagement;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.RetirementManagement;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradePersistence;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradingAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.Trade;
@@ -37,6 +40,7 @@ public class InjuryCheckState implements ISimulationState {
 	private Trade trade;
 	private IInternalStateMachineAbstractFactory internalStateMachineFactory;
 	private ITradingAbstractFactory tradingAbstractFactory;
+	private static final Logger log = Logger.getLogger(InjuryCheckState.class.getName());
 
 	public InjuryCheckState(League leagueToSimulate, IInjuryManagement injury, ISchedule schedule,
 			InternalStateContext context, SeasonCalendar seasonCalendar, String currentDate, String endDate, int season,
@@ -78,6 +82,9 @@ public class InjuryCheckState implements ISimulationState {
 	}
 
 	public void doProcessing() {
+		output.setOutput(StateConstants.INJURY_ENTRY);
+		output.sendOutput();
+
 		List<Map<String, String>> competingList = new ArrayList<Map<String, String>>();
 		competingList = schedule.getFinalSchedule().get(currentDate);
 		for (Map<String, String> teams : competingList) {
@@ -91,8 +98,9 @@ public class InjuryCheckState implements ISimulationState {
 			currentSchedule.remove(this.currentDate);
 			schedule.setFinalSchedule(currentSchedule);
 		}
-		output.setOutput("Inside Injury Check state");
+		output.setOutput(StateConstants.INJURY_ENTRY);
 		output.sendOutput();
+		//log.log(Level.INFO, StateConstants.INJURY_ENTRY);
 	}
 
 	public boolean shouldContinue() {

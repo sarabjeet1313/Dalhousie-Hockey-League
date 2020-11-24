@@ -4,8 +4,6 @@ import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IInjuryManagement;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IRetirementManagement;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.*;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
@@ -52,88 +50,107 @@ public class InternalStateMachineAbstractFactoryTest {
     }
 
     @Test
-    public void advanceToNextSeasonState() {
+    public void advanceToNextSeasonStateTest() {
         ISimulationState state = factory.AdvanceToNextSeasonState(leagueToSimulate, schedule, standingsDb, standings,null, null , context, utility, "13-11-2020", "02-04-2021",0, output);
         assertTrue(state instanceof AdvanceToNextSeasonState);
     }
 
     @Test
-    public void agingState() {
+    public void agingStateTest() {
         ISimulationState state = factory.AgingState(leagueToSimulate, schedule, standingsDb, standings, null, context, utility, "13-11-2020",
                 "02-04-2021", 0, output);
         assertTrue(state instanceof AgingState);
     }
 
     @Test
-    public void generatePlayoffScheduleState() {
+    public void generatePlayoffScheduleStateTest() {
         ISimulationState state = factory.GeneratePlayoffScheduleState(leagueToSimulate, utility, standingsDb, standings, output, context, 0,
                 "13-11-2020", "02-04-2021");
         assertTrue(state instanceof GeneratePlayoffScheduleState);
     }
 
     @Test
-    public void generateRegularSeasonScheduleState() {
+    public void generateRegularSeasonScheduleStateTest() {
         ISimulationState state = factory.GenerateRegularSeasonScheduleState(leagueToSimulate, output, 0, context, standingsDb, standings, utility);
         assertTrue(state instanceof GenerateRegularSeasonScheduleState);
     }
 
     @Test
-    public void injuryCheckState() {
+    public void injuryCheckStateTest() {
         ISimulationState state = factory.InjuryCheckState(leagueToSimulate, null, schedule, context, utility, "13-11-2020", "02-04-2021",
                 0, output, standingsDb, standings);
         assertTrue(state instanceof InjuryCheckState);
     }
 
     @Test
-    public void internalEndState() {
+    public void internalEndStateTest() {
         ISimulationState state = factory.InternalEndState(output);
         assertTrue(state instanceof InternalEndState);
     }
 
     @Test
-    public void internalSimulationState() {
+    public void internalSimulationStateTest() {
         ISimulationState state = factory.InternalSimulationState(input, output, 0, "", leagueToSimulate, context, null,
                 standingsDb);
         assertTrue(state instanceof InternalSimulationState);
     }
 
     @Test
-    public void internalStartState() {
+    public void internalStartStateTest() {
         ISimulationState state = factory.InternalStartState(input, output, "", leagueToSimulate, context, null, standingsDb);
         assertTrue(state instanceof InternalStartState);
     }
 
     @Test
-    public void internalStateContext() {
+    public void internalStateContextTest() {
         InternalStateContext context = factory.InternalStateContext(input, output);
         assertTrue(context instanceof InternalStateContext);
     }
 
     @Test
-    public void persistState() {
+    public void persistStateTest() {
         ISimulationState state = factory.PersistState(leagueToSimulate, schedule, standingsDb, standings, context, utility, "13-11-2020", "02-04-2021", 0,
                 output);
         assertTrue(state instanceof PersistState);
     }
 
     @Test
-    public void simulateGameState() {
+    public void simulateGameStateTest() {
         ISimulationState state = factory.SimulateGameState(leagueToSimulate, schedule, standingsDb, standings, context, utility, "13-11-2020", "02-04-2021",
                 0, output);
         assertTrue(state instanceof SimulateGameState);
     }
 
     @Test
-    public void tradingState() {
+    public void tradingStateTest() {
         ISimulationState state = factory.TradingState(leagueToSimulate, null, context, output, utility, "13-11-2020", "02-04-2021", 0,
                 standingsDb, standings, schedule);
         assertTrue(state instanceof TradingState);
     }
 
     @Test
-    public void trainingState() {
+    public void trainingStateTest() {
         ISimulationState state = factory.TrainingState(leagueToSimulate, null, schedule, utility, "13-11-2020", "02-04-2021", output, context,
                 standingsDb, standings, 0);
         assertTrue(state instanceof TrainingState);
     }
+
+    @Test
+    public void allStarGameStateTest() {
+        ISimulationState state = factory.AllStarGameState(leagueToSimulate, null, schedule, utility, "13-11-2020", "02-04-2021", output, context, standingsDb, standings, 0);
+        assertTrue(state instanceof AllStarGameState);
+    }
+
+    @Test
+    public void trophyStateTest() {
+        ISimulationState state = factory.TrophyState(leagueToSimulate, schedule, standingsDb, standings, null, null, context, utility, "13-11-2020", "02-04-2021", 0, output);
+        assertTrue(state instanceof TrophySystemState);
+    }
+
+    @Test
+    public void playerDraftStateTest() {
+        ISimulationState state = factory.PlayerDraftState(leagueToSimulate, schedule, standingsDb, standings, null, null, context, utility, "13-11-2020", "02-04-2021", 0, output);
+        assertTrue(state instanceof PlayerDraftState);
+    }
+
 }
