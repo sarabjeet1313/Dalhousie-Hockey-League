@@ -131,7 +131,7 @@ public class InternalStateMachineAbstractFactory implements IInternalStateMachin
 
 	@Override
 	public ISimulationState TrophyState(League leagueToSimulate, ISchedule schedule, IStandingsPersistance standingsDb, StandingInfo standings,IInjuryManagement injury, IRetirementManagement retirement, InternalStateContext context, SeasonCalendar seasonCalendar, String currentDate, String endDate, int season, IUserOutput output) {
-		return new TrophyState(leagueToSimulate, schedule, standingsDb, standings, injury, retirement, context, seasonCalendar, currentDate, endDate, season, output);
+		return new TrophySystemState(leagueToSimulate, schedule, standingsDb, standings, injury, retirement, context, seasonCalendar, currentDate, endDate, season, output);
 	}
 
 	@Override

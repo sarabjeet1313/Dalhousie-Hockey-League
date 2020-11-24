@@ -14,7 +14,7 @@ import dpl.SystemConfig;
 
 import java.util.Calendar;
 
-public class TrophyState implements ISimulationState {
+public class TrophySystemState implements ISimulationState {
     private String stateName;
     private String nextStateName;
     private String currentDate;
@@ -32,8 +32,8 @@ public class TrophyState implements ISimulationState {
     private int season;
     private IInternalStateMachineAbstractFactory internalStateMachineFactory;
 
-    public TrophyState(League leagueToSimulate, ISchedule schedule, IStandingsPersistance standingsDb, StandingInfo standings, IInjuryManagement injury, IRetirementManagement retirement, InternalStateContext context,
-                       SeasonCalendar utility, String currentDate, String endDate, int season, IUserOutput output) {
+    public TrophySystemState(League leagueToSimulate, ISchedule schedule, IStandingsPersistance standingsDb, StandingInfo standings, IInjuryManagement injury, IRetirementManagement retirement, InternalStateContext context,
+                             SeasonCalendar utility, String currentDate, String endDate, int season, IUserOutput output) {
         this.internalStateMachineFactory = SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory();
         this.leagueToSimulate = leagueToSimulate;
         this.injury = injury;

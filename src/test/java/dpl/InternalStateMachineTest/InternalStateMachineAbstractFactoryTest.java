@@ -4,8 +4,6 @@ import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IInjuryManagement;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IRetirementManagement;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.*;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
@@ -146,7 +144,7 @@ public class InternalStateMachineAbstractFactoryTest {
     @Test
     public void trophyStateTest() {
         ISimulationState state = factory.TrophyState(leagueToSimulate, schedule, standingsDb, standings, null, null, context, utility, "13-11-2020", "02-04-2021", 0, output);
-        assertTrue(state instanceof TrophyState);
+        assertTrue(state instanceof TrophySystemState);
     }
 
     @Test
