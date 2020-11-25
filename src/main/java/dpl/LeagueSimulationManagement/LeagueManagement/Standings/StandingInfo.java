@@ -1,6 +1,5 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.Standings;
 
-import java.sql.SQLException;
 import java.util.*;
 
 import dpl.Database.InvokeStoredProcedure;
@@ -85,6 +84,10 @@ public class StandingInfo {
 
 	public void setTotalSavesInSeason(double totalSavesInSeason) {
 		this.totalSavesInSeason = totalSavesInSeason;
+	}
+
+	public Standing getStanding() {
+		return this.standing;
 	}
 
 	public void showStats() {
@@ -172,60 +175,60 @@ public class StandingInfo {
 		return teams;
 	}
 
-	public boolean initializeStandings() throws SQLException {
-		boolean result = false;
-		try {
-			String leagueName = leagueToSimulate.getLeagueName();
-			List<Conference> conferenceList = leagueToSimulate.getConferenceList();
+//	public boolean initializeStandings() throws SQLException {
+//		boolean result = false;
+//		try {
+//			String leagueName = leagueToSimulate.getLeagueName();
+//			List<Conference> conferenceList = leagueToSimulate.getConferenceList();
+//
+//			for (Conference conferences : conferenceList) {
+//				List<Division> divisionList = conferences.getDivisionList();
+//				String conferenceName = conferences.getConferenceName();
+//
+//				for (Division divisions : divisionList) {
+//					List<Team> teamList = divisions.getTeamList();
+//					String divisionName = divisions.getDivisionName();
+//
+//					for (Team teams : teamList) {
+//						String teamName = teams.getTeamName();
+//						result = standingsDb.insertToStandings(leagueName, conferenceName, divisionName, teamName);
+//						if (result) {
+//							continue;
+//						} else {
+//							return result;
+//						}
+//					}
+//				}
+//			}
+//		} catch (SQLException e) {
+//			throw e;
+//		}
+//		return result;
+//	}
 
-			for (Conference conferences : conferenceList) {
-				List<Division> divisionList = conferences.getDivisionList();
-				String conferenceName = conferences.getConferenceName();
-
-				for (Division divisions : divisionList) {
-					List<Team> teamList = divisions.getTeamList();
-					String divisionName = divisions.getDivisionName();
-
-					for (Team teams : teamList) {
-						String teamName = teams.getTeamName();
-						result = standingsDb.insertToStandings(leagueName, conferenceName, divisionName, teamName);
-						if (result) {
-							continue;
-						} else {
-							return result;
-						}
-					}
-				}
-			}
-		} catch (SQLException e) {
-			throw e;
-		}
-		return result;
-	}
-
-	public void updateStandings() throws SQLException {
-		try {
-			for (Map.Entry<String, Integer> entry : this.teamWinMap.entrySet()) {
-				String teamWon = entry.getKey();
-				int noOfMatchesWon = entry.getValue();
-
-				for (int i = 0; i < noOfMatchesWon; i++) {
-					standingsDb.updateStandingsWin(teamWon);
-				}
-				teamWinMap.put(teamWon, 0);
-			}
-
-			for (Map.Entry<String, Integer> entry : this.teamLoseMap.entrySet()) {
-				String teamLose = entry.getKey();
-				int noOfMatchesLose = entry.getValue();
-
-				for (int i = 0; i < noOfMatchesLose; i++) {
-					standingsDb.updateStandingsLosses(teamLose);
-				}
-				teamLoseMap.put(teamLose, 0);
-			}
-		} catch (SQLException e) {
-			throw e;
-		}
-	}
+//	public void updateStandings() throws SQLException {
+//		try {
+//			for (Map.Entry<String, Integer> entry : this.teamWinMap.entrySet()) {
+//				String teamWon = entry.getKey();
+//				int noOfMatchesWon = entry.getValue();
+//
+//				for (int i = 0; i < noOfMatchesWon; i++) {
+//					standingsDb.updateStandingsWin(teamWon);
+//				}
+//				teamWinMap.put(teamWon, 0);
+//			}
+//
+//			for (Map.Entry<String, Integer> entry : this.teamLoseMap.entrySet()) {
+//				String teamLose = entry.getKey();
+//				int noOfMatchesLose = entry.getValue();
+//
+//				for (int i = 0; i < noOfMatchesLose; i++) {
+//					standingsDb.updateStandingsLosses(teamLose);
+//				}
+//				teamLoseMap.put(teamLose, 0);
+//			}
+//		} catch (SQLException e) {
+//			throw e;
+//		}
+//	}
 }

@@ -7,6 +7,7 @@ public enum FileConstants {
 	MANAGER_SERIALIZATION_FILE("managerSerialization.json"),
 	RETIRED_PLAYER_SERIALIZATION_FILE("retiredPlayerSerialization.json"),
 	GAMEPLAY_CONFIG_SERIALIZATION_FILE("gameplayConfigSerialization.json"),
+	STANDING_SERIALIZATION_FILE("standingSerialization.json"),
 	NEW_LINE("\n");
 	
 
