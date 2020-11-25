@@ -24,6 +24,8 @@ import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInputAbstra
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.UserInputAbstractFactory;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutputAbstractFactory;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.UserOutputAbstractFactory;
+import dpl.SerializeDeserialize.ISerializeDeserializeAbstractFactory;
+import dpl.SerializeDeserialize.SerializeDeserializeAbstractFactory;
 
 public class SystemConfig {
 
@@ -40,6 +42,7 @@ public class SystemConfig {
     private IUserInputAbstractFactory userInputAbstractFactory;
     private IUserOutputAbstractFactory userOutputAbstractFactory;
     private ITrophySystemAbstractFactory trophySystemAbstractFactory;
+    private ISerializeDeserializeAbstractFactory serializeDeserializeAbstractFactory;
 
     private SystemConfig() {
         teamManagementAbstractFactory = new TeamManagementAbstractFactory();
@@ -54,6 +57,7 @@ public class SystemConfig {
         userInputAbstractFactory = new UserInputAbstractFactory();
         userOutputAbstractFactory = new UserOutputAbstractFactory();
         trophySystemAbstractFactory = new TrophySystemAbstractFactory();
+        serializeDeserializeAbstractFactory = new SerializeDeserializeAbstractFactory();
     }
 
     public static SystemConfig getSingleInstance() {
@@ -109,6 +113,10 @@ public class SystemConfig {
 
     public ITrophySystemAbstractFactory getTrophySystemAbstractFactory() {
         return trophySystemAbstractFactory;
+    }
+
+    public ISerializeDeserializeAbstractFactory getSerializeDeserializeAbstractFactory() {
+        return serializeDeserializeAbstractFactory;
     }
 
 }

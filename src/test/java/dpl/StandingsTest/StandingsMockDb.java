@@ -89,9 +89,14 @@ public class StandingsMockDb implements IStandingsPersistance {
         return standingsTeamLoss;
     }
 
-    public boolean insertToStandings(String leagueName, String conferenceName, String divisionName, String teamName) {
-        StandingsMock  standing = new StandingsMock(season, leagueName, conferenceName, divisionName, teamName);
-        standings.add(standing);
+    public boolean insertToStandings(Standing standing) {
+        int season = 1;
+        String leagueName = "Dal Hockey League";
+        String divisionName = "Pacific";
+        String conferenceName = "Eastern Conference";
+        String teamName = "Test Team";
+        StandingsMock  standingInfo = new StandingsMock(season, leagueName, conferenceName, divisionName, teamName);
+        standings.add(standingInfo);
         return true;
     }
 

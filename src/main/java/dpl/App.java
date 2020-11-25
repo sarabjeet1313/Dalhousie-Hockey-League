@@ -4,7 +4,6 @@ import dpl.Database.CoachDataDB;
 import dpl.Database.GameConfigDB;
 import dpl.Database.LeagueDataDB;
 import dpl.Database.ManagerDataDB;
-import dpl.Database.StandingsDataDb;
 import dpl.Database.TradeDataDB;
 import dpl.ErrorHandling.RetirementManagementException;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.IGameplayConfigPersistance;
@@ -32,7 +31,7 @@ public class App {
         IGameplayConfigPersistance configDb = new GameConfigDB();
         IManagerPersistance managerDb = new ManagerDataDB();
         ITradePersistence tradeDb = new TradeDataDB();
-        IStandingsPersistance standingDb = new StandingsDataDb();
+        IStandingsPersistance standingDb = config.getSerializeDeserializeAbstractFactory().StandingSerializationDeserialization();
         StateContext context = new StateContext(input, output);
 
         context.setState(config.getSimulationStateMachineAbstractFactory().InitialState(input, output));

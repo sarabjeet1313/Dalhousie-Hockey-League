@@ -7,4 +7,9 @@ public class SerializeDeserializeAbstractFactory implements ISerializeDeserializ
 		return new CoachSerializationDeserialization();
 	}
 
+	@Override
+	public StandingSerializationDeserialization StandingSerializationDeserialization() {
+		return new StandingSerializationDeserialization();
+	}
+
 }
