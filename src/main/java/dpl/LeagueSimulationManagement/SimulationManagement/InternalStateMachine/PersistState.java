@@ -1,5 +1,6 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 import dpl.DplConstants.StateConstants;
@@ -17,7 +18,7 @@ public class PersistState implements ISimulationState {
 	private String nextStateName;
 	private League leagueToSimulate;
 	private ISchedule schedule;
-	private StandingInfo standings;
+	private StandingInfo standingInfo;
 	private IStandingsPersistance standingsDb;
 	private InternalStateContext context;
 	private SeasonCalendar utility;
@@ -36,7 +37,7 @@ public class PersistState implements ISimulationState {
 		this.leagueToSimulate = leagueToSimulate;
 		this.schedule = schedule;
 		this.standingsDb = standingsDb;
-		this.standings = standings;
+		this.standingInfo = standings;
 		this.context = context;
 		this.utility = utility;
 		this.currentDate = currentDate;
@@ -52,7 +53,7 @@ public class PersistState implements ISimulationState {
 			return this.internalStateMachineFactory.EndOfSeasonState(output);
 		} else {
 			this.nextStateName = StateConstants.ADVANCE_TIME_STATE;
-			return this.internalStateMachineFactory.AdvanceTimeState(this.leagueToSimulate, this.schedule, this.utility, this.standingsDb, this.standings,
+			return this.internalStateMachineFactory.AdvanceTimeState(this.leagueToSimulate, this.schedule, this.utility, this.standingsDb, this.standingInfo,
 					this.currentDate, this.endDate, output, context, this.season);
 		}
 	}
@@ -60,6 +61,15 @@ public class PersistState implements ISimulationState {
 	public void doProcessing() {
 		output.setOutput("Inside persist state");
 		output.sendOutput();
+		if(utility.getSeasonOverStatus()) {
+			try {
+				standingsDb.insertToStandings(standingInfo.getStanding());
+			} catch (IOException e) {
+				output.setOutput(e.getMessage());
+				output.sendOutput();
+			}
+		}
+	}
 //		try {
 //		//	standings.updateStandings();
 //		//	leagueToSimulate.UpdateLeague(leagueToSimulate);
@@ -71,8 +81,6 @@ public class PersistState implements ISimulationState {
 //			output.setOutput(e.getMessage());
 //			output.sendOutput();
 //		}
-
-	}
 
 	public boolean shouldContinue() {
 		return true;
