@@ -72,7 +72,6 @@ public class GeneratePlayoffScheduleState implements ISimulationState {
 	public void doProcessing() {
 		output.setOutput(GeneratePlayoffConstants.SCHEDULING_PLAYOFF.toString());
 		output.sendOutput();
-		//log.log(Level.INFO, GeneratePlayoffConstants.SCHEDULING_PLAYOFF.toString());
 		try {
 			if (null == leagueToSimulate) {
 				log.log(Level.SEVERE, GeneratePlayoffConstants.SCHEDULING_ERROR.toString());
@@ -81,12 +80,13 @@ public class GeneratePlayoffScheduleState implements ISimulationState {
 			standings.showStats();
 			standings.resetStats();
 			schedule.generateSchedule(leagueToSimulate);
-		//	log.log(Level.INFO, GeneratePlayoffConstants.PLAYOFF_SUCCESSFUL.toString());
+			log.log(Level.INFO, GeneratePlayoffConstants.PLAYOFF_SUCCESSFUL.toString());
 			schedule.setCurrentDay(this.startDate);
 		} catch (SQLException e) {
 			output.setOutput(e.getMessage());
 			output.sendOutput();
 		}
+		log.log(Level.INFO, GeneratePlayoffConstants.SCHEDULING_PLAYOFF.toString());
 	}
 
 	public boolean shouldContinue() {

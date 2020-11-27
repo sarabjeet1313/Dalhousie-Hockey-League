@@ -33,7 +33,6 @@ public class App {
         ITradePersistence tradeDb = new TradeDataDB();
         IStandingsPersistance standingDb = config.getSerializeDeserializeAbstractFactory().StandingSerializationDeserialization();
         StateContext context = new StateContext(input, output);
-
         context.setState(config.getSimulationStateMachineAbstractFactory().InitialState(input, output));
         context.doProcessing();
 

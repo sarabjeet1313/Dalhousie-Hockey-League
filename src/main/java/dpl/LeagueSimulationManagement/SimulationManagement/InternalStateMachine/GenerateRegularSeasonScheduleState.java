@@ -65,7 +65,7 @@ public class GenerateRegularSeasonScheduleState implements ISimulationState {
 	public void doProcessing() {
 		output.setOutput(GenerateRegularConstants.SCHEDULING_REGULAR.toString());
 		output.sendOutput();
-		//log.log(Level.INFO, GenerateRegularConstants.SCHEDULING_REGULAR.toString());
+		log.log(Level.INFO, GenerateRegularConstants.SCHEDULING_REGULAR.toString());
 		try {
 			//standings.initializeStandings();
 			if (null == leagueToSimulate) {
@@ -73,7 +73,7 @@ public class GenerateRegularSeasonScheduleState implements ISimulationState {
 				return;
 			}
 			schedule.generateSchedule(leagueToSimulate);
-			//log.log(Level.INFO, GenerateRegularConstants.REGULAR_SUCCESSFUL.toString());
+			log.log(Level.INFO, GenerateRegularConstants.REGULAR_SUCCESSFUL.toString());
 			schedule.setCurrentDay(seasonCalendar.getRegularSeasonStartDay());
 		} catch (SQLException e) {
 			output.setOutput(e.getMessage());

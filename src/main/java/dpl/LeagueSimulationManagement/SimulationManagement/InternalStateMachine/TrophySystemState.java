@@ -13,6 +13,8 @@ import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.SystemConfig;
 
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TrophySystemState implements ISimulationState {
     private String stateName;
@@ -31,6 +33,7 @@ public class TrophySystemState implements ISimulationState {
     private IRetirementManagement retirement;
     private int season;
     private IInternalStateMachineAbstractFactory internalStateMachineFactory;
+    private static final Logger log = Logger.getLogger(TrophySystemState.class.getName());
 
     public TrophySystemState(League leagueToSimulate, ISchedule schedule, IStandingsPersistance standingsDb, StandingInfo standings, IInjuryManagement injury, IRetirementManagement retirement, InternalStateContext context,
                              SeasonCalendar utility, String currentDate, String endDate, int season, IUserOutput output) {
@@ -60,6 +63,7 @@ public class TrophySystemState implements ISimulationState {
         output.setOutput(StateConstants.TROPHY_STATE);
         output.sendOutput();
         // TODO
+        log.log(Level.INFO, StateConstants.TROPHY_STATE);
     }
 
     public boolean shouldContinue() {

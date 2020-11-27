@@ -66,9 +66,9 @@ public class AgingState implements ISimulationState {
 	}
 
 	public void doProcessing() {
-//		log.log(Level.INFO, StateConstants.INSIDE_AGEING_STATE);
-//		leagueToSimulate = injury.updatePlayerInjuryStatus(1, leagueToSimulate);
-		output.setOutput(StateConstants.INSIDE_AGEING_STATE);
+		log.log(Level.INFO, StateConstants.INSIDE_AGING_STATE);
+		leagueToSimulate = injury.updatePlayerInjuryStatus(1, leagueToSimulate);
+		output.setOutput(StateConstants.INSIDE_AGING_STATE);
 		output.sendOutput();
 	}
 

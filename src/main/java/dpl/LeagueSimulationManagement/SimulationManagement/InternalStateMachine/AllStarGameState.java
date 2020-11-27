@@ -2,6 +2,8 @@ package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import dpl.SystemConfig;
 import dpl.DplConstants.StateConstants;
@@ -32,6 +34,7 @@ public class AllStarGameState implements ISimulationState {
 	private Training training;
 	private int season;
 	private IInternalStateMachineAbstractFactory internalStateMachineFactory;
+	private static final Logger log = Logger.getLogger(AllStarGameState.class.getName());
 	private ITeamManagementAbstractFactory teamManagementAbstractFactory;
 
 	public AllStarGameState(League leagueToSimulate, Training training, ISchedule schedule, SeasonCalendar utility,
@@ -92,8 +95,8 @@ public class AllStarGameState implements ISimulationState {
 			winningTeam = secondTeam.getTeamName();
 			losingTeam = firstTeam.getTeamName();
 		}
-
 		GamePlayedPublisher.getInstance().notify(winningTeam, losingTeam, "");
+        log.log(Level.INFO, StateConstants.ALL_STAR_GAME_STATE);
 	}
 
 	public boolean shouldContinue() {

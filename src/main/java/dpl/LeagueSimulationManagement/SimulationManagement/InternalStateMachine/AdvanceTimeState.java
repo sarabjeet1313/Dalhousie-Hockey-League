@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import dpl.DplConstants.GeneralConstants;
 import dpl.DplConstants.ScheduleConstants;
 import dpl.DplConstants.StateConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Training;
@@ -36,7 +37,7 @@ public class AdvanceTimeState implements ISimulationState {
 	private Training training;
 	private int season;
 	private IInternalStateMachineAbstractFactory internalStateMachineFactory;
-	private static final Logger log = Logger.getLogger(AdvanceTimeState.class.getName());
+	private Logger log = Logger.getLogger(AdvanceTimeState.class.getName());
 
 	public AdvanceTimeState(League leagueToSimulate, ISchedule schedule, SeasonCalendar utility, IStandingsPersistance standingsDb, StandingInfo standings, String startDate, String endDate, IUserOutput output, InternalStateContext context, int season) {
 		this.stateName = StateConstants.ADVANCE_TIME_STATE;
@@ -76,9 +77,10 @@ public class AdvanceTimeState implements ISimulationState {
 	}
 
 	public void doProcessing() {
+		log.log(Level.INFO, StateConstants.ADVANCE_DAY_STATE);
+		incrementCurrentDay();
 		output.setOutput(StateConstants.ADVANCE_DAY_STATE);
 		output.sendOutput();
-		incrementCurrentDay();
 	}
 
 	public void incrementCurrentDay() {
