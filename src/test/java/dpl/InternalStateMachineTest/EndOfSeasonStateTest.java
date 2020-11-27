@@ -11,7 +11,6 @@ import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.Calendar;
 
 import static org.junit.Assert.*;
 
@@ -39,7 +38,7 @@ public class EndOfSeasonStateTest {
     }
 
     @Test
-    public void doProcessing() {
+    public void doProcessingTest() {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
         state.doProcessing();
@@ -50,19 +49,19 @@ public class EndOfSeasonStateTest {
     }
 
     @Test
-    public void shouldContinue() {
+    public void shouldContinueTest() {
         assertFalse(state.shouldContinue());
         assertTrue(!state.shouldContinue());
     }
 
     @Test
-    public void getStateName() {
+    public void getStateNameTest() {
         assertEquals("SeasonEndState", state.getStateName());
         assertNotEquals("Negative", state.getStateName());
     }
 
     @Test
-    public void getNextStateName() {
+    public void getNextStateNameTest() {
         state.nextState(context);
         assertNotEquals("Negative", state.getNextStateName());
         assertEquals("None", state.getNextStateName());

@@ -1,16 +1,7 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
-import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import dpl.DplConstants.ScheduleConstants;
 import dpl.DplConstants.StateConstants;
-import dpl.DplConstants.TeamManagementConstants;
 import dpl.ErrorHandling.RetirementManagementException;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
@@ -21,6 +12,14 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IRetiremen
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.SystemConfig;
+
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AdvanceToNextSeasonState implements ISimulationState {
 	private String stateName;
@@ -64,7 +63,7 @@ public class AdvanceToNextSeasonState implements ISimulationState {
 				season, output);
 	}
 
-	public void doProcessing() throws RetirementManagementException {
+	public void doProcessing(){
 		output.setOutput(StateConstants.NEXT_SEASON_ENTRY);
 		output.sendOutput();
 		int days = (int) daysLapsed();
@@ -72,7 +71,7 @@ public class AdvanceToNextSeasonState implements ISimulationState {
 			leagueToSimulate = retirement.increaseAge(days, leagueToSimulate);
 			leagueToSimulate = injury.updatePlayerInjuryStatus(days, leagueToSimulate);
 			log.log(Level.INFO, StateConstants.NEXT_SEASON_ENTRY);
-		} catch (SQLException e) {
+		} catch (SQLException | RetirementManagementException e) {
 			output.setOutput(e.getMessage());
 			output.sendOutput();
 		}

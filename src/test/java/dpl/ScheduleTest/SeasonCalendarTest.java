@@ -1,11 +1,10 @@
 package dpl.ScheduleTest;
 
-import org.junit.Before;
-import org.junit.Test;
-
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+import org.junit.Before;
+import org.junit.Test;
 
 import static org.junit.Assert.*;
 
@@ -105,13 +104,13 @@ public class SeasonCalendarTest {
     }
 
     @Test
-    public void isTradeDeadlinePending() {
+    public void isTradeDeadlinePendingTest() {
         assertTrue(state.isTradeDeadlinePending("30-11-2020"));
         assertFalse(state.isTradeDeadlinePending("30-06-2021"));
     }
 
     @Test
-    public void isLastDayOfSeason() {
+    public void isLastDayOfSeasonTest() {
         assertTrue(state.isLastDayOfSeason("01-06-2021"));
         assertFalse(state.isLastDayOfSeason("30-06-2021"));
 

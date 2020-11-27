@@ -16,7 +16,7 @@ import dpl.TeamManagementTest.LeagueMockData;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 public class InternalStateMachineAbstractFactoryTest {
 
@@ -136,6 +136,12 @@ public class InternalStateMachineAbstractFactoryTest {
     }
 
     @Test
+    public void endOfSeasonStateTest() {
+        ISimulationState state = factory.EndOfSeasonState(output);
+        assertTrue(state instanceof EndOfSeasonState);
+    }
+
+    @Test
     public void allStarGameStateTest() {
         ISimulationState state = factory.AllStarGameState(leagueToSimulate, null, schedule, utility, "13-11-2020", "02-04-2021", output, context, standingsDb, standings, 0);
         assertTrue(state instanceof AllStarGameState);
@@ -151,6 +157,26 @@ public class InternalStateMachineAbstractFactoryTest {
     public void playerDraftStateTest() {
         ISimulationState state = factory.PlayerDraftState(leagueToSimulate, schedule, standingsDb, standings, null, null, context, utility, "13-11-2020", "02-04-2021", 0, output);
         assertTrue(state instanceof PlayerDraftState);
+    }
+
+    @Test
+    public void simulateRegularSeasonMatchTest() {
+        ISimulateMatch match = factory.SimulateRegularSeasonMatch("13-11-2020", schedule, output, leagueToSimulate, standings);
+        assertTrue(match instanceof SimulateRegularSeasonMatch);
+
+    }
+
+    @Test
+    public void simulatePlayoffSeasonMatchTest() {
+        ISimulateMatch match = factory.SimulatePlayoffSeasonMatch("13-11-2020", schedule, output, leagueToSimulate, standings, utility);
+        assertTrue(match instanceof SimulatePlayoffSeasonMatch);
+    }
+
+    @Test
+    public void gameContextTest() {
+        ISimulateMatch match = factory.SimulatePlayoffSeasonMatch("13-11-2020", schedule, output, leagueToSimulate, standings, utility);
+        GameContext context = factory.GameContext(match);
+        assertTrue(context instanceof GameContext);
     }
 
 }

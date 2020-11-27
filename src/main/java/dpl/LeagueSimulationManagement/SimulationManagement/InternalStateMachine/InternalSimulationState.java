@@ -1,23 +1,26 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
-import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.IGameplayConfigurationAbstractFactory;
-import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.IScheduleAbstractFactory;
-import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsAbstractFactory;
-import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradingAbstractFactory;
-import dpl.SystemConfig;
 import dpl.DplConstants.StateConstants;
 import dpl.ErrorHandling.RetirementManagementException;
+import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.IGameplayConfigurationAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Training;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
+import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.IScheduleAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
+import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.*;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IInjuryManagement;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IRetirementManagement;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManagementAbstractFactory;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradePersistence;
+import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradingAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.Trade;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.TradeReset;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+import dpl.SystemConfig;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -96,7 +99,7 @@ public class InternalSimulationState implements ISimulationState {
         return endState;
     }
 
-    public void doProcessing() throws RetirementManagementException {
+    public void doProcessing() {
         log.log(Level.INFO, StateConstants.GAME_SIMULATION);
         for (int index = 1; index <= totalSeasons; index++) {
             this.season = index - 1;
@@ -115,6 +118,8 @@ public class InternalSimulationState implements ISimulationState {
                 context.setState(state);
             }
             output.setOutput("Season " + index + " winner is : " + utility.getSeasonWinner());
+            output.sendOutput();
+            output.setOutput("\nSeason stats after Playoffs : \n");
             output.sendOutput();
             standingsInfo.showStats();
         }

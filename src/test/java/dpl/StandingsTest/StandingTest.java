@@ -1,11 +1,6 @@
 package dpl.StandingsTest;
 
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.Standing;
-import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
-import dpl.TeamManagementTest.LeagueMockData;
 import org.junit.Before;
 import org.junit.Test;
 

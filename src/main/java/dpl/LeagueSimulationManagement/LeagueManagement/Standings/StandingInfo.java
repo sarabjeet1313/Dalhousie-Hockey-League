@@ -1,10 +1,5 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.Standings;
 
-import java.sql.SQLException;
-import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import dpl.Database.InvokeStoredProcedure;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Conference;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Division;
@@ -13,6 +8,11 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.EndOfSeasonState;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.SystemConfig;
+
+import java.sql.SQLException;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class StandingInfo {
 
