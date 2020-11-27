@@ -14,6 +14,9 @@ import dpl.LeagueSimulationManagement.LeagueManagement.Trading.Trade;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.SystemConfig;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class TrainingState implements ISimulationState {
 
 	private String stateName;
@@ -33,6 +36,7 @@ public class TrainingState implements ISimulationState {
 	private InjuryManagement injury;
 	private int season;
 	private IInternalStateMachineAbstractFactory internalStateMachineFactory;
+	private static final Logger log = Logger.getLogger(TrainingState.class.getName());
 
 	public TrainingState(League leagueToSimulate, Training training, ISchedule schedule, SeasonCalendar utility,
 			String currentDate, String endDate, IUserOutput output, InternalStateContext context,
@@ -78,9 +82,10 @@ public class TrainingState implements ISimulationState {
 	}
 
 	public void doProcessing() {
-		output.setOutput("Inside Training State");
+		output.setOutput(StateConstants.TRAINING_ENTRY);
 		output.sendOutput();
 		leagueToSimulate = training.trackDaysForTraining(leagueToSimulate);
+		log.log(Level.INFO, StateConstants.TRAINING_ENTRY);
 	}
 
 	public League getUpdatedLeague() {

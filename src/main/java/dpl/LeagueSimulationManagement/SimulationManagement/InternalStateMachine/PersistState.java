@@ -1,6 +1,8 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import dpl.DplConstants.StateConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
@@ -27,6 +29,7 @@ public class PersistState implements ISimulationState {
 	private String lastDate;
 	private IUserOutput output;
 	private IInternalStateMachineAbstractFactory internalStateMachineFactory;
+	private static final Logger log = Logger.getLogger(PersistState.class.getName());
 
 	public PersistState(League leagueToSimulate, ISchedule schedule, IStandingsPersistance standingsDb, StandingInfo standings,
 			InternalStateContext context, SeasonCalendar utility, String currentDate, String endDate, int season,
@@ -58,8 +61,7 @@ public class PersistState implements ISimulationState {
 	}
 
 	public void doProcessing() {
-		output.setOutput("Inside persist state");
-		output.sendOutput();
+		log.log(Level.INFO, StateConstants.PERSIST_ENTRY);
 //		try {
 //		//	standings.updateStandings();
 //		//	leagueToSimulate.UpdateLeague(leagueToSimulate);
@@ -71,6 +73,8 @@ public class PersistState implements ISimulationState {
 //			output.setOutput(e.getMessage());
 //			output.sendOutput();
 //		}
+		output.setOutput("Inside persist state");
+		output.sendOutput();
 
 	}
 

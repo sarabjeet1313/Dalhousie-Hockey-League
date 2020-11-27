@@ -34,7 +34,6 @@ public class App {
         ITradePersistence tradeDb = new TradeDataDB();
         IStandingsPersistance standingDb = new StandingsDataDb();
         StateContext context = new StateContext(input, output);
-
         context.setState(config.getSimulationStateMachineAbstractFactory().InitialState(input, output));
         context.doProcessing();
 

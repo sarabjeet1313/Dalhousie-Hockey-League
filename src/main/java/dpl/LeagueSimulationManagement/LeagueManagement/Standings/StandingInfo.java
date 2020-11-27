@@ -2,12 +2,15 @@ package dpl.LeagueSimulationManagement.LeagueManagement.Standings;
 
 import java.sql.SQLException;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import dpl.Database.InvokeStoredProcedure;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Conference;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Division;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
+import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.EndOfSeasonState;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.SystemConfig;
 
@@ -26,6 +29,7 @@ public class StandingInfo {
 	private Map<String, Integer> teamLoseMap;
 	private IStandingsPersistance standingsDb;
 	private Standing standing;
+	private static final Logger log = Logger.getLogger(EndOfSeasonState.class.getName());
 
 	public StandingInfo(League leagueToSimulate, int season, IStandingsPersistance standingsDb, IUserOutput output) {
 		this.leagueToSimulate = leagueToSimulate;
@@ -132,7 +136,6 @@ public class StandingInfo {
 	}
 
 	public List<String> getTopDivisionTeams(League leagueToSimulate, String divisionName) {
-
 		Map<Integer, String> teamPoints = new HashMap<>();
 		List<Conference> conferenceList = leagueToSimulate.getConferenceList();
 
@@ -153,6 +156,7 @@ public class StandingInfo {
 				}
 			}
 		}
+		log.log(Level.INFO, "Fetching top 4 teams from division");
 		return sortMap(teamPoints);
 	}
 

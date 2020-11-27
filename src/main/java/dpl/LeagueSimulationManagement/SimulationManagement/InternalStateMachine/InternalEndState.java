@@ -25,7 +25,7 @@ public class InternalEndState implements ISimulationState {
     public void doProcessing() {
         output.setOutput(StateConstants.END_STATE_FINISH);
         output.sendOutput();
-        //log.log(Level.INFO, StateConstants.END_STATE_FINISH);
+        log.log(Level.INFO, StateConstants.END_STATE_FINISH);
     }
 
     public boolean shouldContinue() {

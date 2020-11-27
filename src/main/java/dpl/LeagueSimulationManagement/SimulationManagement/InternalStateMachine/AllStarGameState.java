@@ -10,6 +10,8 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.SystemConfig;
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AllStarGameState implements ISimulationState {
     private String stateName;
@@ -26,6 +28,7 @@ public class AllStarGameState implements ISimulationState {
     private ISchedule schedule;
     private Training training;
     private int season;
+    private static final Logger log = Logger.getLogger(AllStarGameState.class.getName());
     private IInternalStateMachineAbstractFactory internalStateMachineFactory;
 
     public AllStarGameState(League leagueToSimulate, Training training, ISchedule schedule, SeasonCalendar utility, String currentDate, String endDate, IUserOutput output, InternalStateContext context, IStandingsPersistance standingsDb, StandingInfo standings, int season) {
@@ -55,6 +58,7 @@ public class AllStarGameState implements ISimulationState {
         output.setOutput(StateConstants.ALL_STAR_GAME_STATE);
         output.sendOutput();
         // TODO
+        log.log(Level.INFO, StateConstants.ALL_STAR_GAME_STATE);
     }
 
     public boolean shouldContinue() {

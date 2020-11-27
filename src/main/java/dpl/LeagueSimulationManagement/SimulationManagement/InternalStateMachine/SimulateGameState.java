@@ -1,6 +1,8 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import dpl.DplConstants.GeneralConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.*;
@@ -61,6 +63,7 @@ public class SimulateGameState implements ISimulationState {
 	private IInternalStateMachineAbstractFactory internalStateMachineFactory;
 	private ITeamManagementAbstractFactory teamManagementAbstractFactory;
 	private static INewsSystemAbstractFactory newsSystemAbstractFactory;
+	private static final Logger log = Logger.getLogger(SimulateGameState.class.getName());
 
 	public SimulateGameState(League leagueToSimulate, ISchedule schedule, IStandingsPersistance standingsDb, StandingInfo standings,
 			InternalStateContext context, SeasonCalendar utility, String currentDate, String endDate, int season,
@@ -115,8 +118,7 @@ public class SimulateGameState implements ISimulationState {
 	}
 
 	public void doProcessing() {
-		output.setOutput("Inside Match Simulation state");
-		output.sendOutput();
+		log.log(Level.INFO, StateConstants.GAME_SIMULATION_ENTRY);
 		if (schedule.getSeasonType() == ScheduleConstants.REGULAR_SEASON) {
 			this.simulateMatch = internalStateMachineFactory.SimulateRegularSeasonMatch(currentDate, schedule, output, leagueToSimulate, standings);
 			this.gameContext = internalStateMachineFactory.GameContext(this.simulateMatch);
@@ -126,6 +128,8 @@ public class SimulateGameState implements ISimulationState {
 			this.gameContext = internalStateMachineFactory.GameContext(this.simulateMatch);
 			this.gameContext.simulateMatch();
 		}
+		output.setOutput(StateConstants.GAME_SIMULATION_ENTRY);
+		output.sendOutput();
 	}
 
 	private void simulateRegularMatches() {

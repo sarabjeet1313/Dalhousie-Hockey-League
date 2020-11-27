@@ -70,6 +70,7 @@ public class InjuryCheckState implements ISimulationState {
 					endDate, season, output);
 		} else {
 			if (seasonCalendar.isTradeDeadlinePending(this.currentDate)) {
+				log.log(Level.INFO, ScheduleConstants.TRADE_DEADLINE);
 				this.nextStateName = StateConstants.TRADING_STATE;
 				return this.internalStateMachineFactory.TradingState(leagueToSimulate, trade, context, output, seasonCalendar, currentDate, endDate,
 						season, standingsDb, standings, schedule);
@@ -100,7 +101,7 @@ public class InjuryCheckState implements ISimulationState {
 		}
 		output.setOutput(StateConstants.INJURY_ENTRY);
 		output.sendOutput();
-		//log.log(Level.INFO, StateConstants.INJURY_ENTRY);
+		log.log(Level.INFO, StateConstants.INJURY_ENTRY);
 	}
 
 	public boolean shouldContinue() {
