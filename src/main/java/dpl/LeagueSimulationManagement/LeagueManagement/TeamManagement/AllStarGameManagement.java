@@ -8,6 +8,7 @@ import java.util.Map;
 
 import dpl.SystemConfig;
 import dpl.DplConstants.GeneralConstants;
+import dpl.DplConstants.TeamManagementConstants;
 
 public class AllStarGameManagement implements IAllStarGameManagement {
 
@@ -15,8 +16,8 @@ public class AllStarGameManagement implements IAllStarGameManagement {
 			.getTeamManagementAbstractFactory();
 
 	@Override
-	public List<Team> getTeamsForAllStarGame(League league) {
-		
+	public List<Team> performAllStarGame(League league) {
+
 		List<Conference> conferenceList = league.getConferenceList();
 		List<String> teamNameList = new ArrayList<String>();
 		Map<String, List<Player>> forwardplayersList = getSortedPlayersByType(conferenceList,
@@ -49,6 +50,17 @@ public class AllStarGameManagement implements IAllStarGameManagement {
 		}
 
 		for (Map.Entry<String, List<Player>> entry : defenseplayersList.entrySet()) {
+			if (dIndex < 2) {
+				Player firstPlayer = entry.getValue().get(0);
+				if (dIndex % 2 == 0) {
+					teamA.getPlayerList().add(firstPlayer);
+				} else {
+					teamB.getPlayerList().add(firstPlayer);
+				}
+				entry.getValue().remove(0);
+				dIndex++;
+				continue;
+			}
 			if (teamNameList.contains(entry.getKey())) {
 				continue;
 			} else {
@@ -66,6 +78,17 @@ public class AllStarGameManagement implements IAllStarGameManagement {
 		}
 
 		for (Map.Entry<String, List<Player>> entry : goalieplayersList.entrySet()) {
+			if (gIndex < 2) {
+				Player firstPlayer = entry.getValue().get(0);
+				if (gIndex % 2 == 0) {
+					teamA.getPlayerList().add(firstPlayer);
+				} else {
+					teamB.getPlayerList().add(firstPlayer);
+				}
+				entry.getValue().remove(0);
+				gIndex++;
+				continue;
+			}
 			if (teamNameList.contains(entry.getKey())) {
 				continue;
 			} else {
@@ -81,11 +104,14 @@ public class AllStarGameManagement implements IAllStarGameManagement {
 				gIndex++;
 			}
 		}
-		
+
+		teamA.setTeamName(TeamManagementConstants.TEAM_A.toString());
+		teamB.setTeamName(TeamManagementConstants.TEAM_B.toString());
 		teamsList.add(teamA);
 		teamsList.add(teamB);
 
 		return teamsList;
+
 	}
 
 	public Map<String, List<Player>> getSortedPlayersByType(List<Conference> conferenceList, String PlayerType) {

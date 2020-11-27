@@ -3,6 +3,8 @@ package dpl.DplConstants;
 public enum TeamManagementConstants {
 	
 	EMPTY("Empty"),
+	TEAM_A("AllStarTeamA"),
+	TEAM_B("AllStarTeamB"),
 	RETIREMENT_INFO("Finding Retired Players"),
 	SHOULD_PLAYER_RETIRE("Found the player who should retire"),
 	RETIREMENT_EXCEPTION("Exception occured in league"),

@@ -14,7 +14,7 @@ public class AllStarGameManagementTest {
 
 	@Test
 	public void getTeamsForAllStarGameTest() {
-		Assert.assertEquals(2, star.getTeamsForAllStarGame(leagueData).size());
+		Assert.assertEquals(2, star.performAllStarGame(leagueData).size());
 	}
 	
 }

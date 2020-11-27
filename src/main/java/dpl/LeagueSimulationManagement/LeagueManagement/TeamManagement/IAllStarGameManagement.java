@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface IAllStarGameManagement {
 	
-	public List<Team> getTeamsForAllStarGame(League league);
+	public List<Team> performAllStarGame(League league);
 
 }
