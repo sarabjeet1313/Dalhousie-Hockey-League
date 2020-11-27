@@ -19,6 +19,9 @@ import dpl.LeagueSimulationManagement.LeagueManagement.Trading.TradeReset;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class InternalSimulationState implements ISimulationState {
 
     private IUserInput input;
@@ -58,6 +61,7 @@ public class InternalSimulationState implements ISimulationState {
     private IStandingsAbstractFactory standingsAbstractFactory;
     private IGameplayConfigurationAbstractFactory gameplayConfigurationAbstractFactory;
     private ITradingAbstractFactory tradingAbstractFactory;
+    private static final Logger log = Logger.getLogger(InternalSimulationState.class.getName());
 
     public InternalSimulationState(IUserInput input, IUserOutput output, int seasons, String teamName,
                                    League leagueToSimulate, InternalStateContext context, ITradePersistence tradeDb,
@@ -86,14 +90,14 @@ public class InternalSimulationState implements ISimulationState {
     }
 
     public ISimulationState nextState(InternalStateContext context) {
-        this.nextStateName = "InternalEndState";
+        this.nextStateName = StateConstants.INTERNAL_END_STATE;
         ISimulationState endState = this.internalStateMachineFactory.InternalEndState(output);
         context.setState(endState);
         return endState;
     }
 
     public void doProcessing() throws RetirementManagementException {
-
+        log.log(Level.INFO, StateConstants.GAME_SIMULATION);
         for (int index = 1; index <= totalSeasons; index++) {
             this.season = index - 1;
             output.setOutput("Season " + index + " is simulating.");
@@ -110,10 +114,8 @@ public class InternalSimulationState implements ISimulationState {
                 ISimulationState state = context.nextState();
                 context.setState(state);
             }
-
             output.setOutput("Season " + index + " winner is : " + utility.getSeasonWinner());
             output.sendOutput();
-
             standingsInfo.showStats();
         }
     }

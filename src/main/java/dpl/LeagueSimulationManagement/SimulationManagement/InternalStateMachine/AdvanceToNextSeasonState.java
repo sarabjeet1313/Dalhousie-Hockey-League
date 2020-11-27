@@ -6,6 +6,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import dpl.DplConstants.ScheduleConstants;
 import dpl.DplConstants.StateConstants;
@@ -36,6 +38,7 @@ public class AdvanceToNextSeasonState implements ISimulationState {
 	private ISchedule schedule;
 	private StandingInfo standings;
 	private IStandingsPersistance standingsDb;
+	private Logger log = Logger.getLogger(AdvanceToNextSeasonState.class.getName());
 	private IInternalStateMachineAbstractFactory internalStateMachineFactory;
 
 	public AdvanceToNextSeasonState(League leagueToSimulate, ISchedule schedule, IStandingsPersistance standingsDb, StandingInfo standings,
@@ -69,9 +72,8 @@ public class AdvanceToNextSeasonState implements ISimulationState {
 		try {
 			leagueToSimulate = retirement.increaseAge(days, leagueToSimulate);
 			leagueToSimulate = injury.updatePlayerInjuryStatus(days, leagueToSimulate);
-		} catch (SQLException e) {
-			throw new RetirementManagementException(TeamManagementConstants.RETIREMENT_EXCEPTION.toString());
-		} catch (IOException e) {
+			log.log(Level.INFO, StateConstants.NEXT_SEASON_ENTRY);
+		} catch (SQLException | IOException e) {
 			output.setOutput(e.getMessage());
 			output.sendOutput();
 		}

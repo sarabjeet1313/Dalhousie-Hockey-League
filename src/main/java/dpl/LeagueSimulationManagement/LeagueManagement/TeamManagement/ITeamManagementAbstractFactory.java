@@ -53,4 +53,8 @@ public interface ITeamManagementAbstractFactory {
 			boolean isNewTeam);
 
 	public IRosterManagement RosterManagement();
+	
+	public IAllStarGameManagement AllStarGameManagement();
+	
 }
+

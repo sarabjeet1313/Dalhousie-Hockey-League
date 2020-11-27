@@ -25,7 +25,7 @@ public class EndOfSeasonState implements ISimulationState {
     public void doProcessing() {
         output.setOutput(StateConstants.END_OF_SEASON_STATE_OUTPUT);
         output.sendOutput();
-//        log.log(Level.INFO, StateConstants.END_OF_SEASON_STATE_OUTPUT);
+        log.log(Level.INFO, StateConstants.END_OF_SEASON_STATE_OUTPUT);
     }
 
     public boolean shouldContinue() {

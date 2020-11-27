@@ -118,4 +118,9 @@ public class TeamManagementAbstractFactory implements ITeamManagementAbstractFac
 		return new RosterManagement();
 	}
 
+	@Override
+	public IAllStarGameManagement AllStarGameManagement() {
+		return new AllStarGameManagement();
+	}
+
 }

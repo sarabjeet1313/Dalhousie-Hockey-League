@@ -13,6 +13,8 @@ import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.SystemConfig;
 
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class PlayerDraftState implements ISimulationState {
     private String stateName;
@@ -32,6 +34,7 @@ public class PlayerDraftState implements ISimulationState {
     private IRetirementManagement retirement;
     private int season;
     private IInternalStateMachineAbstractFactory internalStateMachineFactory;
+    private static final Logger log = Logger.getLogger(PlayerDraftState.class.getName());
 
     public PlayerDraftState(League leagueToSimulate, ISchedule schedule, IStandingsPersistance standingsDb, StandingInfo standings,
                             IInjuryManagement injury, IRetirementManagement retirement, InternalStateContext context,
@@ -64,6 +67,7 @@ public class PlayerDraftState implements ISimulationState {
         output.setOutput(StateConstants.PLAYER_DRAFT);
         output.sendOutput();
         // TODO
+        log.log(Level.INFO, StateConstants.PLAYER_DRAFT);
     }
 
     public boolean shouldContinue() {
