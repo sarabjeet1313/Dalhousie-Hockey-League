@@ -1,18 +1,19 @@
 package dpl.InternalStateMachineTest;
+
+import dpl.ErrorHandling.RetirementManagementException;
+import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.ISimulationState;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalEndState;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStartState;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStateContext;
-import dpl.ErrorHandling.RetirementManagementException;
-import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
-import dpl.StandingsTest.StandingsMockDb;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
-
-import org.junit.Test;
+import dpl.StandingsTest.StandingsMockDb;
 import org.junit.Before;
+import org.junit.Test;
+
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
@@ -48,11 +49,13 @@ public class InternalStateContextTest {
     public void setStateTest() {
         context.setState(state);
         assertEquals("Start", context.currentStateName);
+        assertNotEquals("Negative", context.currentStateName);
     }
 
     @Test
     public void getCurrentStateTest() {
         assertTrue(context.getCurrentstate() instanceof InternalStartState);
+        assertFalse(context.getCurrentstate() instanceof InternalEndState);
     }
 
     @Test

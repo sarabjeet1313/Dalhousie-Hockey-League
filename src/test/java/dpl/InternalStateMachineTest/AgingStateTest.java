@@ -1,18 +1,17 @@
 package dpl.InternalStateMachineTest;
 
-import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.*;
-import dpl.SystemConfig;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IInjuryManagement;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManagementAbstractFactory;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.InjuryManagement;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
-import dpl.TeamManagementTest.LeagueMockData;
+import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.AgingState;
+import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStateContext;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
-
+import dpl.SystemConfig;
+import dpl.TeamManagementTest.LeagueMockData;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -57,7 +56,7 @@ public class AgingStateTest {
     }
 
     @Test
-    public void getUpdatedLeague() {
+    public void getUpdatedLeagueTest() {
         state.doProcessing();
         assertFalse(null == state.getUpdatedLeague());
         assertTrue(state.getUpdatedLeague() instanceof League);

@@ -1,26 +1,19 @@
 package dpl.InternalStateMachineTest;
 
-import dpl.ErrorHandling.RetirementManagementException;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
-import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalSimulationState;
-import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStateContext;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
-import dpl.StandingsTest.StandingsMockDb;
-import dpl.TeamManagementTest.LeagueMockData;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradePersistence;
-import dpl.TradingTest.TradeObjectTestMockData;
+import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalSimulationState;
+import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStateContext;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
-
+import dpl.StandingsTest.StandingsMockDb;
+import dpl.TeamManagementTest.LeagueMockData;
+import dpl.TradingTest.TradeObjectTestMockData;
 import org.junit.Before;
 import org.junit.Test;
-
-
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 
 import static org.junit.Assert.*;
 

@@ -1,10 +1,5 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
-import java.sql.SQLException;
-import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import dpl.DplConstants.GenerateRegularConstants;
 import dpl.DplConstants.StateConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
@@ -15,6 +10,11 @@ import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.SystemConfig;
+
+import java.sql.SQLException;
+import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class GenerateRegularSeasonScheduleState implements ISimulationState {
 
@@ -67,7 +67,6 @@ public class GenerateRegularSeasonScheduleState implements ISimulationState {
 		output.sendOutput();
 		log.log(Level.INFO, GenerateRegularConstants.SCHEDULING_REGULAR.toString());
 		try {
-			//standings.initializeStandings();
 			if (null == leagueToSimulate) {
 				log.log(Level.SEVERE, GenerateRegularConstants.SCHEDULING_ERROR.toString());
 				return;

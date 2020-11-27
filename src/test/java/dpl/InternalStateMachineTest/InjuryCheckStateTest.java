@@ -1,16 +1,5 @@
 package dpl.InternalStateMachineTest;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.util.Calendar;
-
-import org.junit.Before;
-import org.junit.Test;
-
-import dpl.SystemConfig;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.RegularSeasonSchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
@@ -24,7 +13,14 @@ import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.ScheduleTest.MockSchedule;
+import dpl.SystemConfig;
 import dpl.TeamManagementTest.LeagueMockData;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.util.Calendar;
+
+import static org.junit.Assert.*;
 
 public class InjuryCheckStateTest {
     private IUserInput input;
@@ -76,7 +72,7 @@ public class InjuryCheckStateTest {
     }
 
     @Test
-    public void getUpdatedLeague() {
+    public void getUpdatedLeagueTest() {
         state.doProcessing();
         assertFalse(null == state.getUpdatedLeague());
         assertTrue( state.getUpdatedLeague() instanceof League);
