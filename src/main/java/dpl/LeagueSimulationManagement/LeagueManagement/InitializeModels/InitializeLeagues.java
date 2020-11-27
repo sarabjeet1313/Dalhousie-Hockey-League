@@ -244,7 +244,7 @@ public class InitializeLeagues implements IInitializeLeagues {
 					divisionObject.setTeamList(bufferTeamList);
 					JsonArray players = team.get(PlayerConstants.PLAYERS.toString()).getAsJsonArray();
 
-					if (players.size() > 20) {
+					if (players.size() > 30) {
 						output.setOutput(TeamConstants.TEAM_OVER_FLOW.toString());
 						output.sendOutput();
 						return null;
