@@ -1,21 +1,21 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
-import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import dpl.DplConstants.GeneralConstants;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.*;
-import dpl.SystemConfig;
 import dpl.DplConstants.ScheduleConstants;
 import dpl.DplConstants.StateConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.*;
 import dpl.LeagueSimulationManagement.NewsSystem.GamePlayedPublisher;
 import dpl.LeagueSimulationManagement.NewsSystem.NewsSubscriber;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+import dpl.SystemConfig;
+
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SimulateGameState implements ISimulationState {
 

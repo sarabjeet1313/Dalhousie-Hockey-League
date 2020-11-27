@@ -1,12 +1,13 @@
 package dpl.UserInputTest;
+
+import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
 import org.junit.Before;
 import org.junit.Test;
 
-import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
-
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertEquals;
 
 public class CmdUserInputTest {
     private static CmdUserInput cmdInput;

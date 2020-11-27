@@ -3,12 +3,11 @@ package dpl.ScheduleTest;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.RegularSeasonSchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
-import dpl.StandingsTest.StandingsMockDb;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
-import dpl.TeamManagementTest.LeagueMockData;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
-
+import dpl.StandingsTest.StandingsMockDb;
+import dpl.TeamManagementTest.LeagueMockData;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -97,15 +96,15 @@ public class RegularSeasonScheduleTest {
         assertEquals("29-10-2020", state.getCurrentDay());
     }
 
-//    @Test
-//    public void generateScheduleTest() {
-//        state.setCurrentDay("13-11-2020");
-//        state.setFirstDay("14-11-2020");
-//        state.setLastDay("20-11-2020");
-//        state.generateSchedule(leagueToSimulate);
-//        assertEquals("Halifax", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
-//        assertNotEquals("Toronto", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
-//    }
+    @Test
+    public void generateScheduleTest() {
+        state.setCurrentDay("13-11-2020");
+        state.setFirstDay("14-11-2020");
+        state.setLastDay("20-11-2020");
+        state.generateSchedule(leagueToSimulate);
+        assertEquals("Halifax", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
+        assertNotEquals("Toronto", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
+    }
 
     @Test
     public void incrementCurrentDayTest() {
@@ -161,5 +160,12 @@ public class RegularSeasonScheduleTest {
         state.setFinalSchedule(mockSchedule.getMockSchedule());
         assertEquals("Halifax", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
         assertNotEquals("Calgary", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
+    }
+
+    @Test
+    public void anyUnplayedGameTest() {
+        state.setFinalSchedule(mockSchedule.getMockSchedule());
+        assertTrue(state.anyUnplayedGame("14-11-2020"));
+        assertFalse(state.anyUnplayedGame("17-11-2020"));
     }
 }

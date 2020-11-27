@@ -1,19 +1,18 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.Schedule;
 
+import dpl.DplConstants.ScheduleConstants;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Conference;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Division;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import dpl.DplConstants.ScheduleConstants;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Conference;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Division;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
-import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.EndOfSeasonState;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
 public class RegularSeasonSchedule implements ISchedule {
 

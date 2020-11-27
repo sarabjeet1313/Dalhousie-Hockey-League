@@ -1,10 +1,5 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import dpl.DplConstants.StateConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
@@ -13,6 +8,10 @@ import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.SystemConfig;
+
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class PersistState implements ISimulationState {
 
@@ -62,6 +61,7 @@ public class PersistState implements ISimulationState {
 	}
 
 	public void doProcessing() {
+		log.log(Level.INFO, StateConstants.PERSIST_ENTRY);
 		output.setOutput("Inside persist state");
 		output.sendOutput();
 		if(utility.getSeasonOverStatus()) {
