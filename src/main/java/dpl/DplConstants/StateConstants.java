@@ -21,7 +21,7 @@ public class StateConstants {
     public static final String INSIDE_AGEING_STATE = "Inside Aging state";
     public static final String END_OF_SEASON_STATE_OUTPUT = "Season has been simulated successfully.";
     public static final String END_SEASON_STATE = "SeasonEndState";
-    public static final String ALL_STAR_GAME_STATE = "AllStartGameState";
+	public static final String ALL_STAR_GAME_STATE = "AllStartGameState";
     public static final String TROPHY_STATE = "TrophyState";
     public static final String PLAYER_DRAFT = "PlayerDraftState";
     public static final String INJURY_ENTRY = "Inside Injury Check state";
