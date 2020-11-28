@@ -1,7 +1,10 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import dpl.SystemConfig;
 import dpl.DplConstants.StateConstants;
-import dpl.ErrorHandling.RetirementManagementException;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.IGameplayConfigurationAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Training;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
@@ -20,10 +23,6 @@ import dpl.LeagueSimulationManagement.LeagueManagement.Trading.Trade;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.TradeReset;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
-import dpl.SystemConfig;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class InternalSimulationState implements ISimulationState {
 
