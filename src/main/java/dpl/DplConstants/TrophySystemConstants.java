@@ -10,6 +10,7 @@ public enum TrophySystemConstants {
     ROB_HAWKEY_MEMORIAL_CUP("Rob Hawkey Memorial Cup"),
     PARTICIPATION_AWARD("Participation Award");
 
+
     private final String trophySystemString;
 
     TrophySystemConstants(String trophySystemString) {

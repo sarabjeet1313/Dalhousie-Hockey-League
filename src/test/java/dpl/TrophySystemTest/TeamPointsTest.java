@@ -1,5 +1,6 @@
 package dpl.TrophySystemTest;
 
+import dpl.DplConstants.TrophySystemConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
 import dpl.LeagueSimulationManagement.NewsSystem.GamePlayedPublisher;
 import dpl.LeagueSimulationManagement.TrophySystem.IObserver;
@@ -21,7 +22,7 @@ public class TeamPointsTest {
     private Team team;
     @Before
     public void before() {
-        observer = TrophySystemAbstractFactory.createObserver(TrophySystemAbstractFactory.PRESIDENTS_TROPHY);
+        observer = TrophySystemAbstractFactory.createObserver(TrophySystemConstants.PRESIDENT_TROPHY);
         TeamPoints.getInstance().attach(observer);
         team = new Team();
         team.setTeamName("TestTeam");
