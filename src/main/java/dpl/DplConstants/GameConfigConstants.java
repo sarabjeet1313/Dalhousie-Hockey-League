@@ -9,6 +9,8 @@ public enum GameConfigConstants {
 	INJURY_DAYS_LOW("injuryDaysLow"),
 	INJURY_DAYS_HIGH("injuryDaysHigh"),
 	GAME_PLAY_CONFIG("gameplayConfig"),
+	GMTABLE("gmTable"),
+	STAT_DECAY_CHANCE("statDecayChance"),
 	INJURIES("injuries"),
 	AGING("aging"),
 	AVGERAGE_RETIREMENT_AGE("averageRetirementAge"),

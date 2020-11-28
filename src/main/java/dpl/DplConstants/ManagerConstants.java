@@ -4,6 +4,9 @@ public enum ManagerConstants {
 
 	SUCCESS("success"),
 	GENERAL_MANAGER_NAME("generalManagerName"),
+	NAME("name"),
+	PERSONALITY("personality"),
+	NORMAL("normal"),
 	GENERAL_MANAGER("generalManager"),
 	GENERAL_MANAGERS("generalManagers"),
 	GENERAL_MANAGER_ERROR("Please enter General Manager name. Null values are not accepted."),
