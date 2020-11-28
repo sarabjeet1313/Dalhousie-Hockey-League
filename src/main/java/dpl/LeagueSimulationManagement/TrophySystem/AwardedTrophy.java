@@ -3,7 +3,7 @@ package dpl.LeagueSimulationManagement.TrophySystem;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Coach;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
 
-public class AwardedTrophies {
+public class AwardedTrophy {
 
     public void bestTeam(int year){
         String bestTeam = TeamPoints.getInstance().getBestTeam();
