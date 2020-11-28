@@ -2,6 +2,7 @@ package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,8 +15,8 @@ import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersi
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManagementAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
-import dpl.LeagueSimulationManagement.NewsSystem.GamePlayedPublisher;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
 public class AllStarGameState implements ISimulationState {
@@ -63,7 +64,6 @@ public class AllStarGameState implements ISimulationState {
 	}
 
 	public void doProcessing() {
-		String winningTeam = "", losingTeam = "";
 
 		output.setOutput(StateConstants.ALL_STAR_GAME_STATE);
 		output.sendOutput();
@@ -73,29 +73,12 @@ public class AllStarGameState implements ISimulationState {
 		Team secondTeam = teamList.get(1);
 		output.setOutput("Match is going on between " + firstTeam.getTeamName() + " vs " + secondTeam.getTeamName());
 		output.sendOutput();
-
-		this.leagueToSimulate.getConferenceList().get(0).getDivisionList().get(0).getTeamList().add(firstTeam);
-		this.leagueToSimulate.getConferenceList().get(0).getDivisionList().get(0).getTeamList().add(secondTeam);
-
-		SimulateGameState SimulateGameState = new SimulateGameState(leagueToSimulate, standings);
-
-		SimulateGameState.simulateMatch(firstTeam.getTeamName(), secondTeam.getTeamName());
-		
-		if(null == SimulateGameState.getTeamGoals().get(firstTeam.getTeamName()) || null == SimulateGameState.getTeamGoals().get(firstTeam.getTeamName())) {
-			output.setOutput("Match is drawn");
-			output.sendOutput();
-			return;
+		List<Map<Player, String>> playersByTeam = teamManagementAbstractFactory.AllStarGameManagement()
+				.getPlayersBytTeam();
+		output.setOutput(firstTeam.getTeamName() + " won the match");
+		for (Map.Entry<Player, String> entry : playersByTeam.get(0).entrySet()) {
+			output.setOutput(entry.getKey().getPlayerName() + "--" + entry.getValue());
 		}
-
-		if (SimulateGameState.getTeamGoals().get(firstTeam.getTeamName()) >= SimulateGameState.getTeamGoals()
-				.get(secondTeam.getTeamName())) {
-			winningTeam = firstTeam.getTeamName();
-			losingTeam = secondTeam.getTeamName();
-		} else {
-			winningTeam = secondTeam.getTeamName();
-			losingTeam = firstTeam.getTeamName();
-		}
-		GamePlayedPublisher.getInstance().notify(winningTeam, losingTeam, "");
         log.log(Level.INFO, StateConstants.ALL_STAR_GAME_STATE);
 	}
 
