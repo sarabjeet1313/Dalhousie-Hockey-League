@@ -11,6 +11,7 @@ import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradePersistence
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class TradeObjectTestMockData implements ITradePersistence {
@@ -30,7 +31,7 @@ public class TradeObjectTestMockData implements ITradePersistence {
     List<Player> freePlayerList = new ArrayList<Player>();
     List<Coach> coachList = new ArrayList<Coach>();
     List<Manager> managerList = new ArrayList<Manager>();
-    Aging aging = new Aging(35, 50);
+    Aging aging = new Aging(35, 50, 0.02);
     GameResolver gameResolver = new GameResolver(0.1);
     Injury injury = new Injury(0.05, 1, 260);
     Training training = new Training(100, 100);
@@ -38,10 +39,11 @@ public class TradeObjectTestMockData implements ITradePersistence {
     private ICoachPersistance coachMock = new CoachMockData();
     private IGameplayConfigPersistance configMock = new GamaplayConfigMockData();
     private IManagerPersistance managerMock = new ManagerMockData();
-    Trading trading = new Trading(8, 0.05, 2, 0.05);
-    Manager manager1 = teamManagement.ManagerWithDbParameters("Karen Potam", managerMock);
-    Manager manager2 = teamManagement.ManagerWithDbParameters("Joseph Squidly", managerMock);
-    Manager manager3 = teamManagement.ManagerWithDbParameters("Tom Spaghetti", managerMock);
+    private HashMap<String, Double> gmTable = new HashMap<>();
+    Trading trading = new Trading(8, 0.05, 2, 0.05, gmTable);
+    Manager manager1 = teamManagement.ManagerWithDbParameters("Karen Potam","normal", managerMock);
+    Manager manager2 = teamManagement.ManagerWithDbParameters("Joseph Squidly","normal", managerMock);
+    Manager manager3 = teamManagement.ManagerWithDbParameters("Tom Spaghetti","normal", managerMock);
     Coach coach1 = teamManagement.CoachWithDbParameters("Coach One", 0.1, 0.2, 0.1, 0.1, coachMock);
     Coach coach2 = teamManagement.CoachWithDbParameters("Coach Two", 0.1, 0.2, 0.1, 0.1, coachMock);
     Coach coach3 = teamManagement.CoachWithDbParameters("Coach Three", 0.1, 0.2, 0.1, 0.1, coachMock);

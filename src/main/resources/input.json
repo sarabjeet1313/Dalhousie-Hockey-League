@@ -2,7 +2,8 @@
    "gameplayConfig": {
       "aging": {
          "averageRetirementAge": 40,
-         "maximumAge": 46
+         "maximumAge": 46,
+         "statDecayChance": 0.04
       },
       "training": {
          "daysUntilStatIncreaseCheck": 145
@@ -11,7 +12,12 @@
          "randomTradeOfferChance": 0.1,
          "lossPoint": 7,
          "randomAcceptanceChance": 0.02,
-         "maxPlayersPerTrade": 2
+         "maxPlayersPerTrade": 2,
+         "gmTable": {
+            "shrewd": -0.1,
+            "normal": 0.0,
+            "gambler": 0.1
+         }
       },
       "gameResolver": {
          "randomWinChance": 0.5
@@ -232,7 +238,10 @@
                            "shooting": 13
                         }
                      ],
-                     "generalManager": "Tami Cherry",
+                     "generalManager": {
+                        "name": "Sammy Chang",
+                        "personality": "shrewd"
+                     },
                      "headCoach": {
                         "skating": 0.51,
                         "checking": 0.94,
@@ -445,7 +454,10 @@
                            "shooting": 5
                         }
                      ],
-                     "generalManager": "Chris Burbchuk",
+                     "generalManager": {
+                        "name": "Chris Burbchuk",
+                        "personality": "shrewd"
+                     },
                      "headCoach": {
                         "skating": 0.07,
                         "checking": 0.47,
@@ -663,7 +675,10 @@
                            "shooting": 14
                         }
                      ],
-                     "generalManager": "Abraham Khatri",
+                     "generalManager": {
+                        "name": "Abraham Khatri",
+                        "personality": "shrewd"
+                     },
                      "headCoach": {
                         "skating": 0.26,
                         "checking": 0.28,
@@ -886,7 +901,10 @@
                            "shooting": 12
                         }
                      ],
-                     "generalManager": "Tami Wu",
+                     "generalManager":{
+                        "name":  "Tami Wu",
+                        "personality": "normal"
+                     },
                      "headCoach": {
                         "skating": 1.0,
                         "checking": 0.98,
@@ -1099,7 +1117,10 @@
                            "shooting": 18
                         }
                      ],
-                     "generalManager": "Rob Burbchuk",
+                     "generalManager":{
+                        "name":  "Rob Burbchuck",
+                        "personality": "normal"
+                     },
                      "headCoach": {
                         "skating": 0.49,
                         "checking": 0.27,
@@ -1317,7 +1338,10 @@
                            "shooting": 3
                         }
                      ],
-                     "generalManager": "Roger Singh",
+                     "generalManager":{
+                        "name":  "Roger Singh",
+                        "personality": "normal"
+                     },
                      "headCoach": {
                         "skating": 0.36,
                         "checking": 0.78,
@@ -1530,7 +1554,10 @@
                            "shooting": 19
                         }
                      ],
-                     "generalManager": "Mary Chang",
+                     "generalManager":{
+                        "name":  "Mary Chang",
+                        "personality": "normal"
+                     },
                      "headCoach": {
                         "skating": 0.67,
                         "checking": 0.49,
@@ -2451,10 +2478,29 @@
    ],
    "leagueName": "test Hockey League",
    "generalManagers": [
-      "Zongming Thomson",
-      "Rashita Samson",
-      "Tami Marley",
-      "Roger Liu",
-      "Hardik Greenbaum"
+      {
+         "name":  "Hardik Greenbaum",
+         "personality": "normal"
+      },
+      {
+         "name":  "Tami Wu",
+         "personality": "normal"
+      },
+      {
+         "name":  "Roger Liu",
+         "personality": "normal"
+      },
+      {
+         "name":  "Tami Marley",
+         "personality": "normal"
+      },
+      {
+         "name":  "Rashita Samson",
+         "personality": "normal"
+      },
+      {
+         "name":  "Zongming Thomson",
+         "personality": "normal"
+      }
    ]
 }

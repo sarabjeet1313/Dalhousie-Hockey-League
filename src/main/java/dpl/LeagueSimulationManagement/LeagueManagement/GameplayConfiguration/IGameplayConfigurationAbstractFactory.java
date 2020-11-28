@@ -1,8 +1,10 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration;
 
+import java.util.HashMap;
+
 public interface IGameplayConfigurationAbstractFactory {
 
-	public Aging Aging(int averageRetirementAge, int maximumAge);
+	public Aging Aging(int averageRetirementAge, int maximumAge, double statDecayChance);
 
 	public GameplayConfig GameplayConfigWithDbParameters(IGameplayConfigPersistance configDb);
 
@@ -17,7 +19,7 @@ public interface IGameplayConfigurationAbstractFactory {
 	public Injury Injury(double randomInjuryChance, int injuryDaysLow, int injuryDaysHigh);
 
 	public Trading Trading(int lossPoint, double randomTradeOfferChance, int maxPlayersPerTrade,
-			double randomAcceptanceChance);
+						   double randomAcceptanceChance, HashMap<String,Double> gmTable);
 	
 	public Training Training(int daysUntilStatIncreaseCheck, int trackDays);
 }

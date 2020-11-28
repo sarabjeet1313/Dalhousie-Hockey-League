@@ -1,9 +1,6 @@
 package dpl.TeamManagementTest;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 import dpl.SystemConfig;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Aging;
@@ -65,18 +62,19 @@ public class LeagueMockData implements ILeaguePersistance {
 	Coach coach2 = teamManagement.CoachWithParameters("Coach Two", 0.1, 0.2, 0.1, 0.1);
 	Coach coach3 = teamManagement.CoachWithParameters("Coach Three", 0.1, 0.2, 0.1, 0.1);
 	Coach headCoach = teamManagement.CoachWithParameters("Mary Smith", 0.2, 0.3, 0.1, 0.4);
-	Manager manager1 = teamManagement.ManagerWithParameters("Karen Potam");
-	Manager manager2 = teamManagement.ManagerWithParameters("Joseph Squidly");
-	Manager manager3 = teamManagement.ManagerWithParameters("Tom Spaghetti");
+	Manager manager1 = teamManagement.ManagerWithParameters("Karen Potam", "normal");
+	Manager manager2 = teamManagement.ManagerWithParameters("Joseph Squidly", "normal");
+	Manager manager3 = teamManagement.ManagerWithParameters("Tom Spaghetti", "normal");
 	List<Player> playerList = new ArrayList<Player>();
 	List<Player> freePlayerList = new ArrayList<Player>();
 	List<Coach> coachList = new ArrayList<Coach>();
 	List<Manager> managerList = new ArrayList<Manager>();
-	Aging aging = new Aging(35, 50);
+	Aging aging = new Aging(35, 50, 0.02);
 	GameResolver gameResolver = new GameResolver(0.1);
 	Injury injury = new Injury(0.05, 1, 260);
 	Training training = new Training(100, 100);
-	Trading trading = new Trading(8, 0.05, 2, 0.05);
+	HashMap<String, Double> gmTable = new HashMap<>();
+	Trading trading = new Trading(8, 0.05, 2, 0.05, gmTable);
 	League league = getTestData();
 	IRetirementManagement retireManager = teamManagement.RetirementManagement();
 
