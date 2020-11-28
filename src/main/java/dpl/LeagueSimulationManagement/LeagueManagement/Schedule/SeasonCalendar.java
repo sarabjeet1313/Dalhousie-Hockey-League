@@ -1,11 +1,11 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.Schedule;
 
+import dpl.DplConstants.ScheduleConstants;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
-import dpl.DplConstants.ScheduleConstants;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
 public class SeasonCalendar {
 
