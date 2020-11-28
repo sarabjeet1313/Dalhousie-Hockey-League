@@ -57,7 +57,6 @@ public class RetirementManagement implements IRetirementManagement {
 	public League replaceRetiredPlayers(League league) throws SQLException, IOException {
 		List<Conference> conferenceList = league.getConferenceList();
 		List<Player> freeAgentsList = league.getFreeAgents();
-		IRetiredPlayerPersistance iretiredPlayersObject = new RetiredPlayersDataDB();
 		List<Player> tempList = new ArrayList<Player>();
 		log.log(Level.INFO, TeamManagementConstants.RETIREMENT_INFO.toString());
 
@@ -68,7 +67,6 @@ public class RetirementManagement implements IRetirementManagement {
 				if (shouldPlayerRetire(league, freeplayer)) {
 					tempList.add(freeplayer);
 					freeplayer.setRetireStatus(true);
-					iretiredPlayersObject.persistRetiredPlayers(freeplayer, null, league);
 				}
 			}
 
@@ -107,18 +105,13 @@ public class RetirementManagement implements IRetirementManagement {
 									league.setFreeAgents(freeAgentsList);
 									league.getConferenceList().get(index).getDivisionList().get(dIndex).getTeamList()
 											.get(tIndex).setPlayerList(playersByTeam);
-
-									iretiredPlayersObject.persistRetiredPlayers(retiredPlayer,
-											teamList.get(tIndex).getTeamName(), league);
 								}
 							}
 						}
 					}
 				}
 			}
-		} catch (SQLException e) {
-			throw e;
-		} catch (IOException e) {
+		} catch (IndexOutOfBoundsException e) {
 			throw e;
 		}
 		return league;
