@@ -71,13 +71,13 @@ public class TeamManagementAbstractFactory implements ITeamManagementAbstractFac
 	}
 
 	@Override
-	public Manager ManagerWithParameters(String managerName) {
-		return new Manager(managerName);
+	public Manager ManagerWithParameters(String managerName, String personality) {
+		return new Manager(managerName, personality);
 	}
 
 	@Override
-	public Manager ManagerWithDbParameters(String managerName, IManagerPersistance managerDb) {
-		return new Manager(managerName, managerDb);
+	public Manager ManagerWithDbParameters(String managerName, String personality ,IManagerPersistance managerDb) {
+		return new Manager(managerName, personality ,managerDb);
 	}
 
 	@Override

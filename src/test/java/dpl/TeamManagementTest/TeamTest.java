@@ -20,7 +20,7 @@ public class TeamTest {
 			.getTeamManagementAbstractFactory();
 	List<Player> playerList = new ArrayList<Player>();
 	Coach headCoach = teamManagement.CoachWithParameters("Mary Smith", 0.2, 0.3, 0.1, 0.4);
-	Manager manager1 = teamManagement.ManagerWithParameters("Karen Potam");
+	Manager manager1 = teamManagement.ManagerWithParameters("Karen Potam", "normal");
 	Team team = teamManagement.TeamWithParameters("Boston", manager1, headCoach, playerList, Boolean.FALSE);
 	Player player1 = teamManagement.PlayerWithParameters("Player1", "Forword", false, 1, 1, 1, 1, 1, false, false, 0, false);
 	Player player2 = teamManagement.PlayerWithParameters("Player2", "Forword", false, 1, 1, 1, 1, 1, false, false, 0, false);

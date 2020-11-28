@@ -74,7 +74,7 @@ public class CreateTeamStateTest {
 	public void createTeamInLeagueTest() {
 		Coach headCoach = teamManagement.CoachWithDbParameters("Mary Smith", 0.2, 0.3, 0.1, 0.4, coachMock);
 		League league = new LeagueObjectTestData().getLeagueData();
-		Manager manager1 = teamManagement.ManagerWithDbParameters("Karen Potam", managerMock);
+		Manager manager1 = teamManagement.ManagerWithDbParameters("Karen Potam", "normal" ,managerMock);
 		List<Player> pList = league.getFreeAgents();
 		boolean success = state.createTeamInLeague("Eastern Conference", "Atlantic", "testTeam", manager1, headCoach,
 				pList, league);

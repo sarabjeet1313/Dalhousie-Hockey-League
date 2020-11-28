@@ -1,15 +1,18 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration;
 
 import com.google.gson.annotations.Expose;
+import org.jetbrains.annotations.Async;
 
 public class Aging {
     
 	@Expose (serialize = true, deserialize = true) int averageRetirementAge;
 	@Expose (serialize = true, deserialize = true) int maximumAge;
+    @Expose (serialize = true, deserialize = true) double statDecayChance ;
 
-    public Aging(int averageRetirementAge, int maximumAge) {
+    public Aging(int averageRetirementAge, int maximumAge, double statDecayChance) {
         this.averageRetirementAge = averageRetirementAge;
         this.maximumAge = maximumAge;
+        this.statDecayChance = statDecayChance;
     }
 
     public int getAverageRetirementAge() {
@@ -28,4 +31,10 @@ public class Aging {
         this.maximumAge = maximumAge;
     }
 
+    public double getStateDecayChance() {
+        return statDecayChance;
+    }
+    public void setStateDecayChance(double stateDecayChance) {
+        this.statDecayChance = stateDecayChance;
+    }
 }

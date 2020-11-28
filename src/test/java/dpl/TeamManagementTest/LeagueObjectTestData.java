@@ -2,16 +2,11 @@ package dpl.TeamManagementTest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
+import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.*;
 import dpl.SystemConfig;
-import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Aging;
-import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.GameResolver;
-import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.GameplayConfig;
-import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.IGameplayConfigPersistance;
-import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Injury;
-import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Trading;
-import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Training;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Coach;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Conference;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Division;
@@ -26,8 +21,11 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
 
 public class LeagueObjectTestData {
 
+	HashMap<String, Double> gmTable = new HashMap<>();
 	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
 			.getTeamManagementAbstractFactory();
+	private IGameplayConfigurationAbstractFactory gameConfig = SystemConfig.getSingleInstance()
+			.getGameplayConfigurationAbstractFactory();
 	private Player player1 = teamManagement.PlayerWithParameters("Player One", "forward", true, 1, 20, 1, 1, 1, false, false, 0, false);
 	private Player player2 = teamManagement.PlayerWithParameters("Player Two", "defense", false, 51, 1, 1, 1, 1, false, true, 0, false);
 	private Player player3 = teamManagement.PlayerWithParameters("Player Three", "goalie", false, 1, 1, 1, 1, 1, false, false, 0, false);
@@ -65,7 +63,7 @@ public class LeagueObjectTestData {
 	List<Player> freePlayerList = new ArrayList<Player>();
 	List<Coach> coachList = new ArrayList<Coach>();
 	List<Manager> managerList = new ArrayList<Manager>();
-	Aging aging = new Aging(35, 50);
+	Aging aging = new Aging(35, 50, 0.02);
 	GameResolver gameResolver = new GameResolver(0.1);
 	Injury injury = new Injury(0.05, 1, 260);
 	Training training = new Training(100, 100);
@@ -73,10 +71,11 @@ public class LeagueObjectTestData {
 	private ICoachPersistance coachMock = new CoachMockData();
 	private IGameplayConfigPersistance configMock = new GamaplayConfigMockData();
 	private IManagerPersistance managerMock = new ManagerMockData();
-	Trading trading = new Trading(8, 0.05, 2, 0.05);
-	Manager manager1 = teamManagement.ManagerWithDbParameters("Karen Potam", managerMock);
-	Manager manager2 = teamManagement.ManagerWithDbParameters("Joseph Squidly", managerMock);
-	Manager manager3 = teamManagement.ManagerWithDbParameters("Tom Spaghetti", managerMock);
+
+	Trading trading = gameConfig.Trading(8, 0.05, 2, 0.05, gmTable);
+	Manager manager1 = teamManagement.ManagerWithDbParameters("Karen Potam","normal", managerMock);
+	Manager manager2 = teamManagement.ManagerWithDbParameters("Joseph Squidly","normal", managerMock);
+	Manager manager3 = teamManagement.ManagerWithDbParameters("Tom Spaghetti","normal", managerMock);
 	Coach coach1 = teamManagement.CoachWithDbParameters("Coach One", 0.1, 0.2, 0.1, 0.1, coachMock);
 	Coach coach2 = teamManagement.CoachWithDbParameters("Coach Two", 0.1, 0.2, 0.1, 0.1, coachMock);
 	Coach coach3 = teamManagement.CoachWithDbParameters("Coach Three", 0.1, 0.2, 0.1, 0.1, coachMock);
