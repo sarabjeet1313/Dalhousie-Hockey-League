@@ -3,8 +3,8 @@ package dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration;
 public class GameplayConfigurationAbstractFactory implements IGameplayConfigurationAbstractFactory {
 
 	@Override
-	public Aging Aging(int averageRetirementAge, int maximumAge) {
-		return new Aging(averageRetirementAge, maximumAge);
+	public Aging Aging(int averageRetirementAge, int maximumAge, double statDecayChance) {
+		return new Aging(averageRetirementAge, maximumAge, statDecayChance);
 	}
 
 	@Override

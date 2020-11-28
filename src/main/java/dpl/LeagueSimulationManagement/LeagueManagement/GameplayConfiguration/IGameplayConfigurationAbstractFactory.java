@@ -2,7 +2,7 @@ package dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration;
 
 public interface IGameplayConfigurationAbstractFactory {
 
-	public Aging Aging(int averageRetirementAge, int maximumAge);
+	public Aging Aging(int averageRetirementAge, int maximumAge, double statDecayChance);
 
 	public GameplayConfig GameplayConfigWithDbParameters(IGameplayConfigPersistance configDb);
 

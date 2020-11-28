@@ -2,13 +2,17 @@ package dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import dpl.Database.RetiredPlayersDataDB;
+import dpl.DplConstants.ScheduleConstants;
 import dpl.DplConstants.TeamManagementConstants;
 import dpl.ErrorHandling.RetirementManagementException;
 import dpl.LeagueSimulationManagement.NewsSystem.NewsSubscriber;
@@ -127,9 +131,22 @@ public class RetirementManagement implements IRetirementManagement {
 		return league;
 	}
 
+	public Player statDecayCheck(Player player, League league) {
+		double decayValue = league.getGameConfig().getAging().getStatDecayChance();
+		double random = new Random().nextDouble();
+		if(random < decayValue) {
+			player.setSkating(player.getSkating() - 1);
+			player.setShooting(player.getShooting() - 1);
+			player.setChecking(player.getChecking() - 1);
+			player.setSaving(player.getSaving() - 1);
+		}
+		return player;
+	}
 	@Override
-	public League increaseAge(int days, League league) throws SQLException, RetirementManagementException, IOException {
+	public League increaseAge(String currentDate, League league) throws SQLException, RetirementManagementException, IOException, ParseException {
 		League tempLeague = null;
+		String playerBirthDay = "";
+		long dateDiff = 0;
 		List<Conference> conferenceList = league.getConferenceList();
 		List<Player> freeAgentsList = league.getFreeAgents();
 		try {
@@ -140,12 +157,17 @@ public class RetirementManagement implements IRetirementManagement {
 					for (int tIndex = 0; tIndex < teamList.size(); tIndex++) {
 						List<Player> playersByTeam = teamList.get(tIndex).getPlayerList();
 						for (Player player : playersByTeam) {
-							int years = player.getAge();
-							player.setAge(years + 1);
-
+							playerBirthDay = player.getBirthDay() + "-" + player.getBirthMonth() + "-" + player.getBirthYear(); 
+							Date date = new SimpleDateFormat(ScheduleConstants.DATE_FORMAT.toString()).parse(currentDate);
+							Date birthDate = new SimpleDateFormat(ScheduleConstants.DATE_FORMAT.toString()).parse(playerBirthDay);
+							dateDiff = birthDate.getTime() - date.getTime();
+							if(dateDiff == 0) {
+								player.setAge(player.getAge() + 1);
+							}
 							if (shouldPlayerRetire(league, player)) {
 								player.setRetireStatus(true);
 							}
+							player = statDecayCheck(player, league);
 						}
 						league.getConferenceList().get(index).getDivisionList().get(dIndex).getTeamList().get(tIndex)
 								.setPlayerList(playersByTeam);
@@ -154,20 +176,26 @@ public class RetirementManagement implements IRetirementManagement {
 			}
 
 			for (Player freeplayer : freeAgentsList) {
-				int years = freeplayer.getAge();
-				freeplayer.setAge(years + 1);
-
+				playerBirthDay = freeplayer.getBirthDay() + "-" + freeplayer.getBirthMonth() + "-" + freeplayer.getBirthYear(); 
+				Date date = new SimpleDateFormat(ScheduleConstants.DATE_FORMAT.toString()).parse(currentDate);
+				Date birthDate = new SimpleDateFormat(ScheduleConstants.DATE_FORMAT.toString()).parse(playerBirthDay);
+				dateDiff = birthDate.getTime() - date.getTime();
+				if(dateDiff == 0) {
+					freeplayer.setAge(freeplayer.getAge() + 1);
+				}
 				if (shouldPlayerRetire(league, freeplayer)) {
 					freeplayer.setRetireStatus(true);
 				}
+				freeplayer = statDecayCheck(freeplayer, league);
 			}
-
 			league.setFreeAgents(freeAgentsList);
 			tempLeague = replaceRetiredPlayers(league);
 		} catch (SQLException e) {
 			throw new RetirementManagementException(
 					TeamManagementConstants.RETIREMENT_EXCEPTION.toString() + league.getLeagueName());
 		} catch (IOException e) {
+			throw e;
+		} catch (ParseException e) {
 			throw e;
 		}
 		return tempLeague;

@@ -13,6 +13,7 @@ public enum GameConfigConstants {
 	AGING("aging"),
 	AVGERAGE_RETIREMENT_AGE("averageRetirementAge"),
 	MAX_AGE("maximumAge"),
+	STAT_DECAY_CHANCE("statDecayChance"),
 	INVALID_RETIREMENT_AGE("Invalid Average Retirement Age"),
 	GAME_RESOLVER("gameResolver"),
 	INVALID_MAX_AGE("Invalid Max Retirement Age"),

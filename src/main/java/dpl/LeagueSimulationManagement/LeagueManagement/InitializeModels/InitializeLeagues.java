@@ -43,7 +43,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class InitializeLeagues implements IInitializeLeagues {
-	
+
 	private CmdParseJSON parser;
 	private String filePath;
 	private ILeaguePersistance leagueDb;
@@ -106,7 +106,8 @@ public class InitializeLeagues implements IInitializeLeagues {
 			}
 
 			leagueName = truncateString(leagueName);
-			league = teamManagement.LeagueWithDbParameters(leagueName, conferenceList, freeAgents, coaches, managerList, gameConfig, leagueDb);
+			league = teamManagement.LeagueWithDbParameters(leagueName, conferenceList, freeAgents, coaches, managerList,
+					gameConfig, leagueDb);
 			boolean check = league.isValidLeagueName(league);
 
 			if (check == Boolean.FALSE) {
@@ -239,7 +240,8 @@ public class InitializeLeagues implements IInitializeLeagues {
 					Coach headCoachObj = teamManagement.CoachWithDbParameters(headCoachName, coachSkating,
 							coachShooting, coachChecking, coachSaving, coachDb);
 
-					Team teamObject = teamManagement.TeamWithParameters(teamName, managerobj, headCoachObj, bufferPlayerList, false);
+					Team teamObject = teamManagement.TeamWithParameters(teamName, managerobj, headCoachObj,
+							bufferPlayerList, false);
 					bufferTeamList.add(teamObject);
 					divisionObject.setTeamList(bufferTeamList);
 					JsonArray players = team.get(PlayerConstants.PLAYERS.toString()).getAsJsonArray();
@@ -311,6 +313,9 @@ public class InitializeLeagues implements IInitializeLeagues {
 						int shooting = player.get(PlayerConstants.SHOOTING.toString()).getAsInt();
 						int checking = player.get(PlayerConstants.CHECKING.toString()).getAsInt();
 						int saving = player.get(PlayerConstants.SAVING.toString()).getAsInt();
+						int birthDay = player.get(PlayerConstants.BIRTH_DAY.toString()).getAsInt();
+						int birthMonth = player.get(PlayerConstants.BIRTH_MONTH.toString()).getAsInt();
+						int birthYear = player.get(PlayerConstants.BIRTH_YEAR.toString()).getAsInt();
 
 						String returnedValue = isValidPlayer(skating, shooting, checking, saving);
 
@@ -320,8 +325,9 @@ public class InitializeLeagues implements IInitializeLeagues {
 							return null;
 						}
 
-						Player playerObject = teamManagement.PlayerWithParameters(playerName, position, captain, age, skating, shooting,
-								checking, saving, Boolean.FALSE, Boolean.FALSE, 0, Boolean.FALSE);
+						Player playerObject = teamManagement.PlayerWithParameters(playerName, position, captain, age,
+								skating, shooting, checking, saving, Boolean.FALSE, Boolean.FALSE, 0, Boolean.FALSE,
+								birthDay, birthMonth, birthYear);
 						bufferPlayerList.add(playerObject);
 						teamObject.setPlayerList(bufferPlayerList);
 					}
@@ -421,6 +427,9 @@ public class InitializeLeagues implements IInitializeLeagues {
 				int shooting = freeAgentObj.get(PlayerConstants.SHOOTING.toString()).getAsInt();
 				int checking = freeAgentObj.get(PlayerConstants.CHECKING.toString()).getAsInt();
 				int saving = freeAgentObj.get(PlayerConstants.SAVING.toString()).getAsInt();
+				int birthDay = freeAgentObj.get(PlayerConstants.BIRTH_DAY.toString()).getAsInt();
+				int birthMonth = freeAgentObj.get(PlayerConstants.BIRTH_MONTH.toString()).getAsInt();
+				int birthYear = freeAgentObj.get(PlayerConstants.BIRTH_YEAR.toString()).getAsInt();
 
 				String freeAgentReturnedValue = isValidPlayer(skating, shooting, checking, saving);
 
@@ -430,8 +439,8 @@ public class InitializeLeagues implements IInitializeLeagues {
 					return null;
 				}
 
-				freeAgents.add(teamManagement.PlayerWithParameters(agentName, position, captain, age, skating, shooting, checking, saving, false,
-						false, 0, false));
+				freeAgents.add(teamManagement.PlayerWithParameters(agentName, position, captain, age, skating, shooting,
+						checking, saving, false, false, 0, false, birthDay, birthMonth, birthYear));
 			}
 		} catch (NullPointerException e) {
 			throw e;
@@ -539,6 +548,7 @@ public class InitializeLeagues implements IInitializeLeagues {
 		JsonObject agingObj = config.get(GameConfigConstants.AGING.toString()).getAsJsonObject();
 		int avgAge = agingObj.get(GameConfigConstants.AVGERAGE_RETIREMENT_AGE.toString()).getAsInt();
 		int maxAge = agingObj.get(GameConfigConstants.MAX_AGE.toString()).getAsInt();
+		double statDecayChance = agingObj.get(GameConfigConstants.STAT_DECAY_CHANCE.toString()).getAsDouble();
 		if (avgAge < 1) {
 			output.setOutput(GameConfigConstants.INVALID_RETIREMENT_AGE.toString());
 			output.sendOutput();
@@ -549,7 +559,7 @@ public class InitializeLeagues implements IInitializeLeagues {
 			output.sendOutput();
 			return null;
 		}
-		aging = new Aging(avgAge, maxAge);
+		aging = new Aging(avgAge, maxAge, statDecayChance);
 		return aging;
 	}
 

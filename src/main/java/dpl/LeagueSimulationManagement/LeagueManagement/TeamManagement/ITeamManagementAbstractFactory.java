@@ -8,8 +8,7 @@ public interface ITeamManagementAbstractFactory {
 
 	public Coach Coach();
 
-	public Coach CoachWithParameters(String coachName, double skating, double shooting, double checking,
-			double saving);
+	public Coach CoachWithParameters(String coachName, double skating, double shooting, double checking, double saving);
 
 	public Coach CoachWithDbParameters(String coachName, double skating, double shooting, double checking,
 			double saving, ICoachPersistance coachDb);
@@ -41,7 +40,8 @@ public interface ITeamManagementAbstractFactory {
 	public Player Player();
 
 	public Player PlayerWithParameters(String playerName, String position, boolean captain, int age, int skating,
-			int shooting, int checking, int saving, boolean isInjured, boolean retireStatus, int daysInjured, boolean isActive);
+			int shooting, int checking, int saving, boolean isInjured, boolean retireStatus, int daysInjured,
+			boolean isActive, int birthDay, int birthMonth, int birthYear);
 
 	public IRetirementManagement RetirementManagement();
 
