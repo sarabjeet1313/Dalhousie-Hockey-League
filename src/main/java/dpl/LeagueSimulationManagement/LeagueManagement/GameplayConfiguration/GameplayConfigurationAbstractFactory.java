@@ -1,5 +1,7 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration;
 
+import java.util.HashMap;
+
 public class GameplayConfigurationAbstractFactory implements IGameplayConfigurationAbstractFactory {
 
 	@Override
@@ -36,8 +38,8 @@ public class GameplayConfigurationAbstractFactory implements IGameplayConfigurat
 
 	@Override
 	public Trading Trading(int lossPoint, double randomTradeOfferChance, int maxPlayersPerTrade,
-			double randomAcceptanceChance) {
-		return new Trading(lossPoint, randomTradeOfferChance, maxPlayersPerTrade, randomAcceptanceChance);
+						   double randomAcceptanceChance, HashMap<String, Double> gmTable) {
+		return new Trading(lossPoint, randomTradeOfferChance, maxPlayersPerTrade, randomAcceptanceChance, gmTable);
 	}
 
 	@Override

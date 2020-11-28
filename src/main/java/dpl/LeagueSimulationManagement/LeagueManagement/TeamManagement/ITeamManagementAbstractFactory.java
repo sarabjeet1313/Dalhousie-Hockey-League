@@ -33,9 +33,9 @@ public interface ITeamManagementAbstractFactory {
 
 	public Manager Manager();
 
-	public Manager ManagerWithParameters(String managerName);
+	public Manager ManagerWithParameters(String managerName, String personality);
 
-	public Manager ManagerWithDbParameters(String managerName, IManagerPersistance managerDb);
+	public Manager ManagerWithDbParameters(String managerName, String personality, IManagerPersistance managerDb);
 
 	public Player Player();
 
@@ -53,4 +53,10 @@ public interface ITeamManagementAbstractFactory {
 			boolean isNewTeam);
 
 	public IRosterManagement RosterManagement();
+	
+	public IAllStarGameManagement AllStarGameManagement();
+	
+	public IPlayerDraft PlayerDraft();
+	
 }
+

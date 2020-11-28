@@ -1,7 +1,6 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
 import dpl.DplConstants.StateConstants;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.RetirementManagement;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
 import java.util.logging.Level;
@@ -25,7 +24,7 @@ public class EndOfSeasonState implements ISimulationState {
     public void doProcessing() {
         output.setOutput(StateConstants.END_OF_SEASON_STATE_OUTPUT);
         output.sendOutput();
-//        log.log(Level.INFO, StateConstants.END_OF_SEASON_STATE_OUTPUT);
+        log.log(Level.INFO, StateConstants.END_OF_SEASON_STATE_OUTPUT);
     }
 
     public boolean shouldContinue() {

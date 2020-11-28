@@ -9,7 +9,8 @@ public enum GeneralConstants {
 	PROP_FILE("app.properties"),
 	FORWARD("forward"),
 	DEFENSE("defense"),
-	GOALIE("goalie");
+	GOALIE("goalie"),
+	LOG_FILE("log.txt");
 
 	private final String constantString;
 

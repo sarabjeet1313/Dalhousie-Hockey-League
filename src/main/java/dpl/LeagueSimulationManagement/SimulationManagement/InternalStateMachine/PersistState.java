@@ -1,8 +1,5 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
-import java.io.IOException;
-import java.sql.SQLException;
-
 import dpl.DplConstants.StateConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
@@ -11,6 +8,10 @@ import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.SystemConfig;
+
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class PersistState implements ISimulationState {
 
@@ -28,6 +29,7 @@ public class PersistState implements ISimulationState {
 	private String lastDate;
 	private IUserOutput output;
 	private IInternalStateMachineAbstractFactory internalStateMachineFactory;
+	private static final Logger log = Logger.getLogger(PersistState.class.getName());
 
 	public PersistState(League leagueToSimulate, ISchedule schedule, IStandingsPersistance standingsDb, StandingInfo standings,
 			InternalStateContext context, SeasonCalendar utility, String currentDate, String endDate, int season,
@@ -59,6 +61,7 @@ public class PersistState implements ISimulationState {
 	}
 
 	public void doProcessing() {
+		log.log(Level.INFO, StateConstants.PERSIST_ENTRY);
 		output.setOutput("Inside persist state");
 		output.sendOutput();
 		if(utility.getSeasonOverStatus()) {
@@ -69,18 +72,8 @@ public class PersistState implements ISimulationState {
 				output.sendOutput();
 			}
 		}
+		log.log(Level.INFO, StateConstants.PERSIST_ENTRY);
 	}
-//		try {
-//		//	standings.updateStandings();
-//		//	leagueToSimulate.UpdateLeague(leagueToSimulate);
-//			// TODO Breej, replace it with the logic from leagueToSimulate itself.
-////            if (tradeReset instanceof TradeReset) {
-////                tradeReset.UpdateTrade();
-////            }
-//		} catch (SQLException e) {
-//			output.setOutput(e.getMessage());
-//			output.sendOutput();
-//		}
 
 	public boolean shouldContinue() {
 		return true;

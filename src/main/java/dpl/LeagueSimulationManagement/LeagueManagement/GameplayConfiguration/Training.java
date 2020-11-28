@@ -54,11 +54,13 @@ public class Training {
     }
 
     public void updateStats(Player player, Coach headCoach, League league) {
+        int statPlayer=0;
         double randomValue = generateRandomValue();
         boolean statsUpdated = Boolean.FALSE;
         IInjuryManagement injury = teamManagement.InjuryManagement();
         if (randomValue < headCoach.getSkating()) {
             player.setSkating(player.getSkating() + 1);
+            statPlayer+=1;
             statsUpdated = Boolean.TRUE;
         } else {
             player = injury.getPlayerInjuryDays(player, league);
@@ -66,6 +68,7 @@ public class Training {
         randomValue = generateRandomValue();
         if (randomValue < headCoach.getShooting() && player.isInjured() == Boolean.FALSE) {
             player.setShooting(player.getShooting() + 1);
+            statPlayer+=1;
             statsUpdated = Boolean.TRUE;
         } else {
             if (player.isInjured() == Boolean.FALSE) {
@@ -76,6 +79,7 @@ public class Training {
         if (randomValue < headCoach.getChecking() && player.isInjured() == Boolean.FALSE) {
             statsUpdated = Boolean.TRUE;
             player.setChecking(player.getChecking() + 1);
+            statPlayer+=1;
         } else {
             if (player.isInjured() == Boolean.FALSE) {
                 player = injury.getPlayerInjuryDays(player, league);
@@ -84,6 +88,7 @@ public class Training {
         randomValue = generateRandomValue();
         if (randomValue < headCoach.getSaving() && player.isInjured() == Boolean.FALSE) {
             player.setShooting(player.getShooting() + 1);
+            statPlayer+=1;
             statsUpdated = Boolean.TRUE;
         } else {
             if (player.isInjured() == Boolean.FALSE) {
@@ -94,6 +99,7 @@ public class Training {
             output.setOutput(GameConfigConstants.TRAINING_STATS.toString() + player.getPlayerName());
             output.sendOutput();
         }
+        //notify(coach, statPlayer);
 
     }
 

@@ -6,12 +6,14 @@ import java.util.List;
 
 import com.google.gson.annotations.Expose;
 
+import dpl.DplConstants.ManagerConstants;
 import dpl.SystemConfig;
 import dpl.DplConstants.TeamManagementConstants;
 
 public class Manager {
 
 	@Expose (serialize = true, deserialize = true) private String managerName;
+	@Expose (serialize = true, deserialize = true) private String personality;
 	private IManagerPersistance managerDb;
 	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
 			.getTeamManagementAbstractFactory();
@@ -20,15 +22,17 @@ public class Manager {
 		super();
 	}
 
-	public Manager(String managerName, IManagerPersistance managerDb) {
+	public Manager(String managerName, String personality,IManagerPersistance managerDb) {
 		super();
 		this.managerName = managerName;
+		this.personality = personality;
 		this.managerDb = managerDb;
 	}
 
-	public Manager(String managerName) {
+	public Manager(String managerName, String personality) {
 		super();
 		this.managerName = managerName;
+		this.personality = personality;
 	}
 
 	public String getManagerName() {
@@ -38,6 +42,15 @@ public class Manager {
 	public void setManagerName(String managerName) {
 		this.managerName = managerName;
 	}
+
+	public String getManagerPersonality() {
+		return personality;
+	}
+
+	public void setManagerPersonality(String personality) {
+		this.personality = personality;
+	}
+
 
 	public boolean saveTeamGeneralManager(String managerName, String teamName, String leagueName)
 			throws SQLException, IOException {
@@ -58,7 +71,7 @@ public class Manager {
 		try {
 			List<Manager> list = league.getManagerList();
 			for (int index = 0; index < list.size(); index++) {
-				Manager manager = new Manager(list.get(index).getManagerName(), managerDb);
+				Manager manager = new Manager(list.get(index).getManagerName(), ManagerConstants.PERSONALITY.toString(),managerDb);
 				isSaved = managerDb.persistManagerInfo(manager.getManagerName(), teamName, league.getLeagueName());
 			}
 		} catch (SQLException e) {

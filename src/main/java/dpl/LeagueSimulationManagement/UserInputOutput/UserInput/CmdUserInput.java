@@ -3,6 +3,7 @@ package dpl.LeagueSimulationManagement.UserInputOutput.UserInput;
 import java.util.Scanner;
 
 public class CmdUserInput implements IUserInput {
+
     private String inputResponse;
 
     public CmdUserInput() {

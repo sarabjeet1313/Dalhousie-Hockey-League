@@ -1,9 +1,10 @@
-package dpl.LeagueSimulationManagement.LeagueManagement.Drafting;
+package dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import dpl.SystemConfig;
 import dpl.DplConstants.PlayerConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Conference;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Division;
@@ -12,6 +13,9 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
 
 public class PlayerDraft implements IPlayerDraft {
+	
+	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
+			.getTeamManagementAbstractFactory();
 
 	@Override
 	public List<Team> generateDraftingTeams(List<String> teamList, League league) {
@@ -112,7 +116,7 @@ public class PlayerDraft implements IPlayerDraft {
 		day = new Random().nextInt(29) + 1;
 		month = new Random().nextInt(12) + 1;
 		year = new Random().nextInt(2) + 1998;
-		Player player = new Player("Player " + count, playerType, Boolean.FALSE, 2020 - year, skating, shooting,
+		Player player = teamManagement.PlayerWithParameters("Player " + count, playerType, Boolean.FALSE, 2020 - year, skating, shooting,
 				checking, saving, Boolean.FALSE, Boolean.FALSE, 0, Boolean.FALSE, day, month, year);
 		return player;
 	}

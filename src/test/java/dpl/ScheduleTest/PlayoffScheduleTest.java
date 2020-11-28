@@ -1,21 +1,19 @@
 package dpl.ScheduleTest;
 
-import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.PlayoffSchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
-import dpl.StandingsTest.StandingsMockDb;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
-import dpl.TeamManagementTest.LeagueMockData;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
-
+import dpl.StandingsTest.StandingsMockDb;
+import dpl.TeamManagementTest.LeagueMockData;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 import java.sql.SQLException;
+
+import static org.junit.Assert.*;
 
 public class PlayoffScheduleTest {
 
@@ -30,8 +28,8 @@ public class PlayoffScheduleTest {
     public void setUp() throws Exception {
         output = new CmdUserOutput();
         standingsDb = new StandingsMockDb(0);
-        standings = new StandingInfo(leagueToSimulate, 0, standingsDb, output);
         leagueToSimulate = new LeagueMockData().getTestData();
+        standings = new StandingInfo(leagueToSimulate, 0, standingsDb, output);
         state = new PlayoffSchedule(output, standingsDb, standings, 0);
         mockSchedule = new MockSchedule();
     }
@@ -174,4 +172,12 @@ public class PlayoffScheduleTest {
         assertEquals("Halifax", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
         assertNotEquals("Calgary", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
     }
+
+    @Test
+    public void anyUnplayedGameTest() {
+        state.setFinalSchedule(mockSchedule.getMockSchedule());
+        assertTrue(state.anyUnplayedGame("14-11-2020"));
+        assertFalse(state.anyUnplayedGame("17-11-2020"));
+    }
+
 }

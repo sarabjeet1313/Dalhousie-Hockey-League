@@ -94,11 +94,11 @@ public class CreateTeamState implements IState {
 		do {
 			output.setOutput("Please select the General manager for " + teamName);
 			output.sendOutput();
-			output.setOutput("ManagerID | MANAGER NAME");
+			output.setOutput("ManagerID | MANAGER NAME | MANAGER'S PERSONALITY");
 			output.sendOutput();
 			List<Manager> gmList = initializedLeague.getManagerList();
 			for (int index = 0; index < gmList.size(); index++) {
-				output.setOutput(index + 1 + "	| " + gmList.get(index).getManagerName());
+				output.setOutput(index + 1 + "	| " + gmList.get(index).getManagerName()+"   |   " + gmList.get(index).getManagerPersonality());
 				output.sendOutput();
 			}
 			output.setOutput("Please enter the selected Manager ID");
@@ -117,10 +117,10 @@ public class CreateTeamState implements IState {
 				output.setOutput("Please enter a valid Manager ID");
 				output.sendOutput();
 			} else {
-				genManager = teamManagement.ManagerWithDbParameters(gmList.get(managerId).getManagerName(), managerDb);
+				genManager = teamManagement.ManagerWithDbParameters(gmList.get(managerId).getManagerName(), gmList.get(managerId).getManagerPersonality() ,managerDb);
 				gmList.remove(managerId);
 				for (int index = 0; index < gmList.size(); index++) {
-					Manager manager = teamManagement.ManagerWithDbParameters(gmList.get(index).getManagerName(), managerDb);
+					Manager manager = teamManagement.ManagerWithDbParameters(gmList.get(index).getManagerName(),gmList.get(managerId).getManagerPersonality(), managerDb);
 					tempManagerList.add(manager);
 				}
 				initializedLeague.setManagerList(tempManagerList);

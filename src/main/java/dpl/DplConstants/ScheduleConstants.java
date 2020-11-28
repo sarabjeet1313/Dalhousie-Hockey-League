@@ -14,4 +14,6 @@ public class ScheduleConstants {
     public static final int PLAYOFF_MAX_MATCHES = 105;
     public static final int REGULAR_MATCH_PER_TEAM = 84;
     public static final int REGULAR_SEASON_MAX_MATCH_PER_DAY = 28;
+    public static final String TRADE_DEADLINE = "Trade deadline has passed moving now to Trading State";
+    public static final String DRAFT_DATE = "15-07-2021";
 }

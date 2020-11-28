@@ -54,28 +54,28 @@ public class TeamStandingTest {
     }
 
     @Test
-    public void getLosses() {
+    public void getLossesTest() {
         assertNotEquals(14, teamStanding.getLosses());
         teamStanding.setLosses(14);
         assertEquals(14, teamStanding.getLosses());
     }
 
     @Test
-    public void setLosses() {
+    public void setLossesTest() {
         assertNotEquals(14, teamStanding.getLosses());
         teamStanding.setLosses(14);
         assertEquals(14, teamStanding.getLosses());
     }
 
     @Test
-    public void getPoints() {
+    public void getPointsTest() {
         assertNotEquals(24, teamStanding.getPoints());
         teamStanding.setPoints(24);
         assertEquals(24, teamStanding.getPoints());
     }
 
     @Test
-    public void setPoints() {
+    public void setPointsTest() {
         assertNotEquals(24, teamStanding.getPoints());
         teamStanding.setPoints(24);
         assertEquals(24, teamStanding.getPoints());

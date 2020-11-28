@@ -1,15 +1,7 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
-import java.io.IOException;
-import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
-
 import dpl.DplConstants.ScheduleConstants;
 import dpl.DplConstants.StateConstants;
-import dpl.DplConstants.TeamManagementConstants;
 import dpl.ErrorHandling.RetirementManagementException;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
@@ -20,6 +12,15 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IRetiremen
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.SystemConfig;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AdvanceToNextSeasonState implements ISimulationState {
 	private String stateName;
@@ -36,6 +37,7 @@ public class AdvanceToNextSeasonState implements ISimulationState {
 	private ISchedule schedule;
 	private StandingInfo standings;
 	private IStandingsPersistance standingsDb;
+	private Logger log = Logger.getLogger(AdvanceToNextSeasonState.class.getName());
 	private IInternalStateMachineAbstractFactory internalStateMachineFactory;
 
 	public AdvanceToNextSeasonState(League leagueToSimulate, ISchedule schedule, IStandingsPersistance standingsDb, StandingInfo standings,
@@ -62,16 +64,15 @@ public class AdvanceToNextSeasonState implements ISimulationState {
 				season, output);
 	}
 
-	public void doProcessing() throws RetirementManagementException {
+	public void doProcessing(){
 		output.setOutput(StateConstants.NEXT_SEASON_ENTRY);
 		output.sendOutput();
 		int days = (int) daysLapsed();
 		try {
 			leagueToSimulate = retirement.increaseAge(currentDate, leagueToSimulate);
 			leagueToSimulate = injury.updatePlayerInjuryStatus(days, leagueToSimulate);
-		} catch (SQLException e) {
-			throw new RetirementManagementException(TeamManagementConstants.RETIREMENT_EXCEPTION.toString());
-		} catch (IOException e) {
+			log.log(Level.INFO, StateConstants.NEXT_SEASON_ENTRY);
+		} catch (SQLException | RetirementManagementException | IOException e) {
 			output.setOutput(e.getMessage());
 			output.sendOutput();
 		} catch (ParseException e) {

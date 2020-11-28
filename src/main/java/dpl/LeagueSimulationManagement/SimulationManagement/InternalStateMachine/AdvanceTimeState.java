@@ -1,11 +1,5 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import dpl.DplConstants.ScheduleConstants;
 import dpl.DplConstants.StateConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Training;
@@ -14,9 +8,14 @@ import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.RetirementManagement;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.SystemConfig;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AdvanceTimeState implements ISimulationState {
 	private String stateName;
@@ -36,7 +35,7 @@ public class AdvanceTimeState implements ISimulationState {
 	private Training training;
 	private int season;
 	private IInternalStateMachineAbstractFactory internalStateMachineFactory;
-	private static final Logger log = Logger.getLogger(AdvanceTimeState.class.getName());
+	private Logger log = Logger.getLogger(AdvanceTimeState.class.getName());
 
 	public AdvanceTimeState(League leagueToSimulate, ISchedule schedule, SeasonCalendar utility, IStandingsPersistance standingsDb, StandingInfo standings, String startDate, String endDate, IUserOutput output, InternalStateContext context, int season) {
 		this.stateName = StateConstants.ADVANCE_TIME_STATE;
@@ -76,9 +75,10 @@ public class AdvanceTimeState implements ISimulationState {
 	}
 
 	public void doProcessing() {
+		log.log(Level.INFO, StateConstants.ADVANCE_DAY_STATE);
+		incrementCurrentDay();
 		output.setOutput(StateConstants.ADVANCE_DAY_STATE);
 		output.sendOutput();
-		incrementCurrentDay();
 	}
 
 	public void incrementCurrentDay() {
