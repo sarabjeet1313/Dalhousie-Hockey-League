@@ -1,6 +1,16 @@
 package dpl.InternalStateMachineTest;
 
-import dpl.ErrorHandling.RetirementManagementException;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
+import org.junit.Before;
+import org.junit.Test;
+
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.ISimulationState;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalEndState;
@@ -11,13 +21,6 @@ import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.StandingsTest.StandingsMockDb;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-
-import static org.junit.Assert.*;
 
 public class InternalStateContextTest {
 
@@ -59,7 +62,7 @@ public class InternalStateContextTest {
     }
 
     @Test
-    public void doProcessingTest() throws RetirementManagementException {
+    public void doProcessingTest() {
         context.setState(new InternalEndState(output));
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));

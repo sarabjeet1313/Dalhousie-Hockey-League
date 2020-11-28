@@ -1,18 +1,18 @@
 package dpl.SimulationStateMachineTest;
+import static org.junit.Assert.assertEquals;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
 import org.junit.Before;
 import org.junit.Test;
 
-import dpl.ErrorHandling.RetirementManagementException;
 import dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine.InitialState;
 import dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine.StateContext;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
-
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import static org.junit.Assert.*;
 
 public class InitialStateTest {
     private static InitialState state;
@@ -37,7 +37,7 @@ public class InitialStateTest {
     }
 
     @Test
-    public void doProcessingTest() throws RetirementManagementException {
+    public void doProcessingTest() {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
         context.doProcessing();

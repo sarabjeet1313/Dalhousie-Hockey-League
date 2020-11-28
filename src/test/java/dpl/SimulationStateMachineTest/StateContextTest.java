@@ -1,24 +1,25 @@
 package dpl.SimulationStateMachineTest;
-import dpl.ErrorHandling.RetirementManagementException;
+import static org.junit.Assert.assertEquals;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
+import org.junit.Before;
+import org.junit.Test;
+
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.IGameplayConfigPersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ILeaguePersistance;
 import dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine.IState;
 import dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine.InitialState;
 import dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine.LoadTeamState;
 import dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine.StateContext;
-import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
-import dpl.StandingsTest.StandingsMockDb;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ILeaguePersistance;
-import dpl.TeamManagementTest.LeagueMockData;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
-
-import org.junit.Before;
-import org.junit.Test;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import static org.junit.Assert.*;
+import dpl.StandingsTest.StandingsMockDb;
+import dpl.TeamManagementTest.LeagueMockData;
 
 public class StateContextTest {
     private static IState state;
@@ -55,7 +56,7 @@ public class StateContextTest {
     }
 
     @Test
-    public void doProcessingTest() throws RetirementManagementException {
+    public void doProcessingTest() {
         context.setState(state);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
