@@ -13,23 +13,23 @@ public class TeamPointsObserverTest {
     private IObserver observer;
 
     @Before
-//    public void before() {
-//        subject = TeamPoints.getInstance();
-//        Team  team = new Team();
-//        team.setTeamName("TestTeam");
-//        subject.setValue("team", team);
-//        observer = TrophySystemAbstractFactory.createObserver(TrophySystemAbstractFactory.PRESIDENTS_TROPHY);
-//    }
+    public void before() {
+        subject = TeamPoints.getInstance();
+        Team  team = new Team();
+        team.setTeamName("TestTeam");
+        subject.setValue("team", team);
+        observer = TrophySystemAbstractFactory.createObserver(TrophySystemAbstractFactory.PRESIDENTS_TROPHY);
+    }
 
     @After
     public void after() {
         subject = null;
     }
 
-//    @Test
-//    public void updateTest(){
-//        observer.update(subject);
-//        assertEquals("TestTeam", TeamPoints.getInstance().getBestTeam());
-//    }
+    @Test
+    public void updateTest(){
+            observer.update(subject);
+        assertEquals("TestTeam", TeamPoints.getInstance().getBestTeam());
+    }
 
 }
