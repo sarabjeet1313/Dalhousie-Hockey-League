@@ -14,6 +14,8 @@ public class AllStarGameManagement implements IAllStarGameManagement {
 
 	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
 			.getTeamManagementAbstractFactory();
+	Map<Player, String> playersATeam = new HashMap<Player, String>();
+	Map<Player, String> playersBTeam = new HashMap<Player, String>();
 
 	@Override
 	public List<Team> performAllStarGame(League league) {
@@ -40,8 +42,10 @@ public class AllStarGameManagement implements IAllStarGameManagement {
 				Player firstPlayer = entry.getValue().get(0);
 				if (fIndex % 2 == 0) {
 					teamA.getPlayerList().add(firstPlayer);
+					playersATeam.put(firstPlayer, entry.getKey());
 				} else {
 					teamB.getPlayerList().add(firstPlayer);
+					playersBTeam.put(firstPlayer, entry.getKey());
 				}
 				entry.getValue().remove(0);
 				teamNameList.add(entry.getKey());
@@ -54,8 +58,10 @@ public class AllStarGameManagement implements IAllStarGameManagement {
 				Player firstPlayer = entry.getValue().get(0);
 				if (dIndex % 2 == 0) {
 					teamA.getPlayerList().add(firstPlayer);
+					playersATeam.put(firstPlayer, entry.getKey());
 				} else {
 					teamB.getPlayerList().add(firstPlayer);
+					playersBTeam.put(firstPlayer, entry.getKey());
 				}
 				entry.getValue().remove(0);
 				dIndex++;
@@ -68,8 +74,10 @@ public class AllStarGameManagement implements IAllStarGameManagement {
 					Player firstPlayer = entry.getValue().get(0);
 					if (dIndex % 2 == 0) {
 						teamA.getPlayerList().add(firstPlayer);
+						playersATeam.put(firstPlayer, entry.getKey());
 					} else {
 						teamB.getPlayerList().add(firstPlayer);
+						playersBTeam.put(firstPlayer, entry.getKey());
 					}
 					entry.getValue().remove(0);
 				}
@@ -82,8 +90,10 @@ public class AllStarGameManagement implements IAllStarGameManagement {
 				Player firstPlayer = entry.getValue().get(0);
 				if (gIndex % 2 == 0) {
 					teamA.getPlayerList().add(firstPlayer);
+					playersATeam.put(firstPlayer, entry.getKey());
 				} else {
 					teamB.getPlayerList().add(firstPlayer);
+					playersBTeam.put(firstPlayer, entry.getKey());
 				}
 				entry.getValue().remove(0);
 				gIndex++;
@@ -96,8 +106,10 @@ public class AllStarGameManagement implements IAllStarGameManagement {
 					Player firstPlayer = entry.getValue().get(0);
 					if (gIndex % 2 == 0) {
 						teamA.getPlayerList().add(firstPlayer);
+						playersATeam.put(firstPlayer, entry.getKey());
 					} else {
 						teamB.getPlayerList().add(firstPlayer);
+						playersBTeam.put(firstPlayer, entry.getKey());
 					}
 					entry.getValue().remove(0);
 				}
@@ -111,9 +123,9 @@ public class AllStarGameManagement implements IAllStarGameManagement {
 		teamsList.add(teamB);
 
 		return teamsList;
-
 	}
-
+	
+	@Override
 	public Map<String, List<Player>> getSortedPlayersByType(List<Conference> conferenceList, String PlayerType) {
 		Map<String, List<Player>> playersInTeamByType = new HashMap<String, List<Player>>();
 
@@ -137,5 +149,14 @@ public class AllStarGameManagement implements IAllStarGameManagement {
 
 		return playersInTeamByType;
 	}
-
+	
+	@Override
+	public List<Map<Player, String>> getPlayersBytTeam() {
+		List<Map<Player, String>> playersByTeam = new ArrayList<Map<Player,String>>();
+		
+		playersByTeam.add(playersATeam);
+		playersByTeam.add(playersBTeam);
+		
+		return playersByTeam;
+	}
 }

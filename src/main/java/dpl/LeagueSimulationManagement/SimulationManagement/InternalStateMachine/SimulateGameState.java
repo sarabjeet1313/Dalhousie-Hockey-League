@@ -104,35 +104,6 @@ public class SimulateGameState implements ISimulationState {
 		this.secondTeamShotsCounter = 0;
 	}
 
-	public SimulateGameState(League leagueToSimulate, StandingInfo standings) {
-		this.internalStateMachineFactory = SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory();
-		this.teamManagementAbstractFactory = SystemConfig.getSingleInstance().getTeamManagementAbstractFactory();
-		this.leagueToSimulate = leagueToSimulate;
-		this.injury = teamManagementAbstractFactory.InjuryManagement();
-		this.penaltyChance = leagueToSimulate.getGameConfig().getPenaltyChance();
-		this.checkingValueToPenalty = leagueToSimulate.getGameConfig().getCheckingValue();
-		this.shootingValueToGoal = leagueToSimulate.getGameConfig().getShootingValue();
-		this.teamInfo = teamManagementAbstractFactory.Team();
-		this.standings = standings;
-		this.firstTeamForwards = new ArrayList<>();
-		this.firstTeamForwardsOnIce = new ArrayList<>();
-		this.secondTeamForwards = new ArrayList<>();
-		this.secondTeamForwardsOnIce = new ArrayList<>();
-		this.firstTeamDefenseMen = new ArrayList<>();
-		this.firstTeamDefenseMenOnIce = new ArrayList<>();
-		this.secondTeamDefenseMen = new ArrayList<>();
-		this.secondTeamDefenseMenOnIce = new ArrayList<>();
-		this.firstTeamGoalies = new ArrayList<>();
-		this.firstTeamGoaliesOnIce = new ArrayList<>();
-		this.secondTeamGoalies = new ArrayList<>();
-		this.secondTeamGoaliesOnIce = new ArrayList<>();
-		this.teamGoals = new HashMap<>();
-		this.firstTeamSkatingTotal = 0;
-		this.secondTeamSkatingTotal = 0;
-		this.firstTeamShotsCounter = 0;
-		this.secondTeamShotsCounter = 0;
-	}
-
 	static {
 		GamePlayedPublisher.getInstance().subscribe(new NewsSubscriber());
 	}
@@ -241,7 +212,7 @@ public class SimulateGameState implements ISimulationState {
 		}
 	}
 
-	public void simulateMatch(String firstTeam, String secondTeam) {
+	private void simulateMatch(String firstTeam, String secondTeam) {
 
 		initializeTeamPlayers(firstTeam, secondTeam);
 		int diff = firstTeamSkatingTotal - secondTeamSkatingTotal;
