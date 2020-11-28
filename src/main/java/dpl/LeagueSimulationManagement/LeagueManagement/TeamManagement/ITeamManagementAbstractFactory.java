@@ -37,7 +37,7 @@ public interface ITeamManagementAbstractFactory {
 	public Manager ManagerWithParameters(String managerName, String personality);
 
 	public Manager ManagerWithDbParameters(String managerName, String personality, IManagerPersistance managerDb);
-
+ 
 	public Player Player();
 
 	public Player PlayerWithParameters(String playerName, String position, boolean captain, int age, int skating,

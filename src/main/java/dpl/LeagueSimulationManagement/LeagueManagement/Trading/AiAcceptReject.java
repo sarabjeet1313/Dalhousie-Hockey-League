@@ -1,5 +1,7 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.Trading;
 
+import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.IGameplayConfigurationAbstractFactory;
+import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Trading;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IPlayerInfo;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamInfo;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
@@ -13,21 +15,28 @@ import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutputAbstractFactory;
 import dpl.SystemConfig;
 
+import java.util.HashMap;
+
 public class AiAcceptReject {
 
     private IUserInputAbstractFactory inputFactory;
     private IUserOutputAbstractFactory outputFactory;
-
+    private IGameplayConfigurationAbstractFactory gameConfigFactory;
 	public AiAcceptReject() {
 		super();
 		this.inputFactory = SystemConfig.getSingleInstance().getUserInputAbstractFactory();
 		this.outputFactory = SystemConfig.getSingleInstance().getUserOutputAbstractFactory();
+		this.gameConfigFactory = SystemConfig.getSingleInstance().getGameplayConfigurationAbstractFactory();
 	}
 
     public boolean isAcceptOrReject(Trade trade, League league, double randomAcceptanceChance, boolean isUserTeam
             , IPlayerInfo iPInfoObject, ITeamInfo iTInfoObject) {
         IUserOutput output = this.outputFactory.CmdUserOutput();
         IUserInput Input = this.inputFactory.CmdUserInput();
+        Trading tradingObject = this.gameConfigFactory.Trading();
+        HashMap<String,Double> gmTable = tradingObject.getGmTable();
+        //temp fix
+        double personality = gmTable.get("normal");
         double playerOfferedStrength = 0;
         double playerRequestedStrength = 0;
         double totalTeamStrength = 0;
@@ -64,7 +73,7 @@ public class AiAcceptReject {
             Input.setInput();
             String response = Input.getInput();
             return response.equals("y");
-        } else if (Math.random() < randomAcceptanceChance) {
+        } else if (Math.random() < randomAcceptanceChance + personality) {
             return true;
         } else {
             for (Player p1 : trade.getPlayerListOfferTeam()) {
