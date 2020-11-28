@@ -31,6 +31,6 @@ public class BestCoachLeagueObserverTest {
     @Test
     public void updateTest(){
         observer.update(subject);
-        assertEquals("Robin", BestCoachLeague.getInstance().getBestCoach().getCoachName());
+        assertEquals("Adem", BestCoachLeague.getInstance().getBestCoach().getCoachName());
     }
 }
