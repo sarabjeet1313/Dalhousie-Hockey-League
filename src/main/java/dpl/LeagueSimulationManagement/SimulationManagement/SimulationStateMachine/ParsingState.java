@@ -29,6 +29,7 @@ public class ParsingState implements IState {
 	private IInitializeModelsAbstractFactory initializeModels = SystemConfig.getSingleInstance()
 			.getInitializeModelsAbstractFactory();
 	private ISimulationStateMachineAbstractFactory simulationStateMachineAbstractFactory;
+	
 
 
 	public ParsingState(IUserInput input, IUserOutput output, String filePath, ILeaguePersistance leagueDb,

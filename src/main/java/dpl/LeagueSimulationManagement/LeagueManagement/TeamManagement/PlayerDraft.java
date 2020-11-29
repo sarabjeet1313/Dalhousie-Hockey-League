@@ -22,7 +22,7 @@ public class PlayerDraft implements IPlayerDraft {
 		List<Conference> conferenceList = league.getConferenceList();
 		List<Division> divisionList = null;
 		List<Team> teamObjList = null;
-		List<Team> selectedTeamList = null;
+		List<Team> selectedTeamList = new ArrayList<>();
 
 		for (int index = 0; index < conferenceList.size(); index++) {
 			divisionList = conferenceList.get(index).getDivisionList();
@@ -45,7 +45,7 @@ public class PlayerDraft implements IPlayerDraft {
 	public List<Player> generateDraftingPlayers(int teamCount) {
 		int numberOfPlayers = teamCount * 7;
 		int forwordNumber = numberOfPlayers / 2;
-		int defenceNumber = (int) ((numberOfPlayers - forwordNumber) * 0.4);
+		int defenceNumber = (int) ((numberOfPlayers) * 0.4);
 		int goalieNumber = numberOfPlayers - forwordNumber - defenceNumber;
 		List<Player> playerList = new ArrayList<>();
 		String position = "";
@@ -62,7 +62,7 @@ public class PlayerDraft implements IPlayerDraft {
 			}
 			playerList.add(generatePlayerStat(position, index + 1));
 		}
-		return null;
+		return playerList;
 	}
 
 	private Player generatePlayerStat(String playerType, int count) {
@@ -134,7 +134,7 @@ public class PlayerDraft implements IPlayerDraft {
 				}
 			}
 		}
-		return tempTeamList;
+		return teamList;
 	}
 
 	public League postDrafting(List<Team> teamList, League league) {
