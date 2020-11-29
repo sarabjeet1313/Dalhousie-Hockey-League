@@ -2,46 +2,40 @@ package dpl.TrophySystemTest;
 
 import dpl.DplConstants.TrophySystemConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
-import dpl.LeagueSimulationManagement.NewsSystem.GamePlayedPublisher;
 import dpl.LeagueSimulationManagement.TrophySystem.IObserver;
-import dpl.LeagueSimulationManagement.TrophySystem.TeamPoints;
-import dpl.LeagueSimulationManagement.TrophySystem.TeamPointsObserver;
+import dpl.LeagueSimulationManagement.TrophySystem.TeamPoint;
 import dpl.LeagueSimulationManagement.TrophySystem.TrophySystemAbstractFactory;
-import dpl.LeagueSimulationManagement.TrophySystem.TrophySystemAbstractFactory;
-import dpl.NewsSystemTest.OutputConstants;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.PrintStream;
-
 import static org.junit.Assert.assertEquals;
 
-public class TeamPointsTest {
+public class TeamPointTest {
     private IObserver observer;
     private Team team;
     @Before
     public void before() {
         observer = TrophySystemAbstractFactory.createObserver(TrophySystemConstants.PRESIDENT_TROPHY);
-        TeamPoints.getInstance().attach(observer);
+        TeamPoint.getInstance().attach(observer);
         team = new Team();
         team.setTeamName("TestTeam");
     }
 
     @After
     public void after() {
-        TeamPoints.getInstance().detach(observer);
+        TeamPoint.getInstance().detach(observer);
     }
 
     @Test
     public void setAndGetValueTest() {
-        TeamPoints.getInstance().setValue("TestKey", "TestValue");
-        assertEquals("TestValue", TeamPoints.getInstance().getValue("TestKey"));
+        TeamPoint.getInstance().setValue("TestKey", "TestValue");
+        assertEquals("TestValue", TeamPoint.getInstance().getValue("TestKey"));
     }
 
     @Test
     public void notifyAllObserversTest() {
-        TeamPoints.getInstance().notifyWhenATeamWinsTheMatch(team);
-        assertEquals("TestTeam", TeamPoints.getInstance().getBestTeam());
+        TeamPoint.getInstance().notifyTeamWinsTheMatch(team);
+        assertEquals("TestTeam", TeamPoint.getInstance().getBestTeam());
     }
 }
