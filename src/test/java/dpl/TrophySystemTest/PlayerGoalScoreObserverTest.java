@@ -17,7 +17,9 @@ public class PlayerGoalScoreObserverTest {
     public void before() {
         subject = PlayerGoalScore.getInstance();
         Player player = new Player();
-        player.setPlayerName("Alexa");
+        player.setPlayerName(TrophySystemTestConstants.PLAYER_TEST.toString());
+        player.setGoals(TrophySystemParameterTestConstants.TEST_GOALS.toInteger());
+        player.setSaves(TrophySystemParameterTestConstants.TEST_SAVES.toInteger());
         subject.setValue(TrophySystemConstants.PLAYER.toString(), player);
         observer = TrophySystemAbstractFactory.createObserver(TrophySystemConstants.CALDER_MEMORIAL_TROPHY);
     }
@@ -30,6 +32,6 @@ public class PlayerGoalScoreObserverTest {
     @Test
     public void updateTest() {
         observer.update(subject);
-        //assertEquals("Alexa", PlayerGoalScore.getInstance().getBestPlayer().getPlayerName());
+        assertEquals(TrophySystemTestConstants.PLAYER_TEST.toString(), PlayerGoalScore.getInstance().getBestPlayer().getPlayerName());
     }
 }

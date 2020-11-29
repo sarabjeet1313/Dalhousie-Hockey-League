@@ -1,9 +1,7 @@
 package dpl.TrophySystemTest;
 
 import dpl.DplConstants.TrophySystemConstants;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Coach;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
-import dpl.LeagueSimulationManagement.TrophySystem.BestCoachLeague;
 import dpl.LeagueSimulationManagement.TrophySystem.BestDefenceMen;
 import dpl.LeagueSimulationManagement.TrophySystem.IObserver;
 import dpl.LeagueSimulationManagement.TrophySystem.TrophySystemAbstractFactory;
@@ -22,7 +20,8 @@ public class BestDefenceMenTest {
         observer = TrophySystemAbstractFactory.createObserver(TrophySystemConstants.ROB_HAWKEY_MEMORIAL_CUP);
         BestDefenceMen.getInstance().attach(observer);
         player = new Player();
-        player.setPlayerName("DefencePlayer");
+        player.setPlayerName(TrophySystemTestConstants.PLAYER_TEST.toString());
+        player.setPenalties(TrophySystemParameterTestConstants.TEST_PENALTIES.toInteger());
     }
 
     @After
@@ -32,13 +31,13 @@ public class BestDefenceMenTest {
 
     @Test
     public void setAndGetValueTest() {
-        BestDefenceMen.getInstance().setValue("TestKey", "TestValue");
-        assertEquals("TestValue", BestDefenceMen.getInstance().getValue("TestKey"));
+        BestDefenceMen.getInstance().setValue(TrophySystemTestConstants.TEST_KEY.toString(), TrophySystemTestConstants.TEST_VALUE.toString());
+        assertEquals(TrophySystemTestConstants.TEST_VALUE.toString(), BestDefenceMen.getInstance().getValue(TrophySystemTestConstants.TEST_KEY.toString()));
     }
 
     @Test
     public void notifyAllObserversTest() {
         BestDefenceMen.getInstance().notifyWhenPlayerGoal(player);
-        //assertEquals("DefencePlayer", BestDefenceMen.getInstance().getBestDefenceMen().getPlayerName());
+        assertEquals(TrophySystemTestConstants.PLAYER_TEST.toString(), BestDefenceMen.getInstance().getBestDefenceMen().getPlayerName());
     }
 }

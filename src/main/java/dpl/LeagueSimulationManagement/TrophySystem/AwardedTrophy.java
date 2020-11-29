@@ -4,9 +4,14 @@ import dpl.DplConstants.TrophySystemConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Coach;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.UserOutputAbstractFactory;
 
 public class AwardedTrophy {
     private IUserOutput output;
+
+    private AwardedTrophy() {
+        output = (new UserOutputAbstractFactory()).CmdUserOutput();
+    }
 
     private void bestTeam(int year) {
         String bestTeam = TeamPoint.getInstance().getBestTeam();
@@ -58,14 +63,16 @@ public class AwardedTrophy {
         output.sendOutput();
     }
 
-    public void trophy(int year) {
+    public void trophyRegularSeason(int year) {
         bestTeam(year);
-        bestPlayer(year);
-        bestGoalie(year);
+        bestPlayer(year); //after first year
         bestCoach(year);
-        bestScore(year);
-        bestDefencemen(year);
         participationTeam(year);
     }
 
+    public void trophyStanleyCup(int year) {
+        bestGoalie(year);
+        bestScore(year);
+        bestDefencemen(year);
+    }
 }

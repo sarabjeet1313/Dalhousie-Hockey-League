@@ -1,8 +1,17 @@
 package dpl.LeagueSimulationManagement.TrophySystem;
 
 import dpl.DplConstants.TrophySystemConstants;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.UserOutputAbstractFactory;
 
 public class TrophySystemAbstractFactory {
+    private static IUserOutput output;
+
+    private TrophySystemAbstractFactory()
+    {
+        output = (new UserOutputAbstractFactory()).CmdUserOutput();
+    }
+
     public static IObserver createObserver(TrophySystemConstants awardType) {
         IObserver observer = null;
         switch (awardType) {
@@ -28,7 +37,8 @@ public class TrophySystemAbstractFactory {
                 observer = new ParticipantAwardObserver();
                 break;
             default:
-                System.out.println(TrophySystemConstants.ARROW.toString());
+                output.setOutput(TrophySystemConstants.ARROW.toString());
+                output.sendOutput();
                 break;
         }
 

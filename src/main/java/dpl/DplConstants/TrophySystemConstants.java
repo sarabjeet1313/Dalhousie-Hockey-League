@@ -20,9 +20,9 @@ public enum TrophySystemConstants {
     STAT_PLAYER("StatPlayer"),
     PLAYER("player"),
     TEAM("team"),
-    YEAR("year"),
+    YEAR("Year: "),
     LINE("=========="),
-    ARROW("--->"),
+    ARROW(" Trophy ---> Name: "),
     VALID_AWARD_TYPE("Please provide the valid award type..!"),
     PARTICIPATION_AWARD("Participation Award");
 

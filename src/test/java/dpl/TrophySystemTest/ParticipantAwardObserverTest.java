@@ -20,8 +20,8 @@ public class ParticipantAwardObserverTest {
     public void before() {
         subject = BestDefenceMen.getInstance();
         Player player = new Player();
-        player.setPenalties(34);
-        player.setPlayerName("Alex");
+        player.setPenalties(TrophySystemParameterTestConstants.TEST_PENALTIES.toInteger());
+        player.setPlayerName(TrophySystemTestConstants.PLAYER_TEST.toString());
         subject.setValue(TrophySystemConstants.PLAYER.toString(), player);
         observer = TrophySystemAbstractFactory.createObserver(TrophySystemConstants.ROB_HAWKEY_MEMORIAL_CUP);
     }
@@ -34,6 +34,6 @@ public class ParticipantAwardObserverTest {
     @Test
     public void updateTest() {
         observer.update(subject);
-        assertEquals("Alex", BestDefenceMen.getInstance().getBestDefenceMen().getPlayerName());
+        assertEquals(TrophySystemTestConstants.PLAYER_TEST.toString(), BestDefenceMen.getInstance().getBestDefenceMen().getPlayerName());
     }
 }

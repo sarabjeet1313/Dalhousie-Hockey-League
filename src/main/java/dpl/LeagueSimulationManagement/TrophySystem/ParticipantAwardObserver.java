@@ -3,7 +3,9 @@ package dpl.LeagueSimulationManagement.TrophySystem;
 import dpl.DplConstants.TrophySystemConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ParticipantAwardObserver implements IObserver {
@@ -23,11 +25,19 @@ public class ParticipantAwardObserver implements IObserver {
         } else {
             teamPoints.put(team.getTeamName(), 1);
         }
-        for (String teamName : teamPoints.keySet()) {
-            if (points > teamPoints.get(teamName)) {
-                teamWithLowPoints = teamName;
+        if(teamPoints.size() > 0){
+            teamWithLowPoints = (String) teamPoints.keySet().toArray()[0];
+            points = teamPoints.get(teamWithLowPoints);
+        }
+        if(teamPoints.size() > 1) {
+            for (String teamName : teamPoints.keySet()) {
+                if (points > teamPoints.get(teamName)) {
+                    teamWithLowPoints = teamName;
+                }
+                points = teamPoints.get(teamName);
             }
         }
+
         ParticipantAward.getInstance().setTeamWithLowestPoints(teamWithLowPoints);
     }
 }

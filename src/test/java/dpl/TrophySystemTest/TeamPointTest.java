@@ -14,12 +14,15 @@ import static org.junit.Assert.assertEquals;
 public class TeamPointTest {
     private IObserver observer;
     private Team team;
+    private Team team2;
     @Before
     public void before() {
         observer = TrophySystemAbstractFactory.createObserver(TrophySystemConstants.PRESIDENT_TROPHY);
         TeamPoint.getInstance().attach(observer);
         team = new Team();
         team.setTeamName("TestTeam");
+        team2 = new Team();
+        team2.setTeamName("TestTeam2");
     }
 
     @After
@@ -36,6 +39,8 @@ public class TeamPointTest {
     @Test
     public void notifyAllObserversTest() {
         TeamPoint.getInstance().notifyTeamWinsTheMatch(team);
-        assertEquals("TestTeam", TeamPoint.getInstance().getBestTeam());
+        TeamPoint.getInstance().notifyTeamWinsTheMatch(team2);
+        TeamPoint.getInstance().notifyTeamWinsTheMatch(team2);
+        assertEquals("TestTeam2", TeamPoint.getInstance().getBestTeam());
     }
 }

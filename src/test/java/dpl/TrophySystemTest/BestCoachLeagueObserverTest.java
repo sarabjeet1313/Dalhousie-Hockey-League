@@ -17,8 +17,8 @@ public class BestCoachLeagueObserverTest {
     public void before() {
         subject = BestCoachLeague.getInstance();
         Coach coach = new Coach();
-        coach.setCoachName("Adem");
-        subject.setValue(TrophySystemConstants.STAT_PLAYER.toString(), 10);
+        coach.setCoachName(TrophySystemTestConstants.COACH_TEST.toString());
+        subject.setValue(TrophySystemConstants.STAT_PLAYER.toString(), TrophySystemParameterTestConstants.TEST_COACH_COUNT.toInteger());
         subject.setValue(TrophySystemConstants.COACH.toString(), coach);
         observer = TrophySystemAbstractFactory.createObserver(TrophySystemConstants.JACK_ADAMS_AWARD);
     }
@@ -31,6 +31,6 @@ public class BestCoachLeagueObserverTest {
     @Test
     public void updateTest() {
         observer.update(subject);
-        assertEquals("Adem", BestCoachLeague.getInstance().getBestCoach().getCoachName());
+        assertEquals(TrophySystemTestConstants.COACH_TEST.toString(), BestCoachLeague.getInstance().getBestCoach().getCoachName());
     }
 }

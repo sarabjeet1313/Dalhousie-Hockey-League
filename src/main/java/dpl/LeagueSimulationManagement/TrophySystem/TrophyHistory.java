@@ -2,16 +2,21 @@ package dpl.LeagueSimulationManagement.TrophySystem;
 
 import dpl.DplConstants.TrophySystemConstants;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.UserOutputAbstractFactory;
 
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class TrophyHistory {
+    private static final Logger log = Logger.getLogger(TrophyHistory.class.getName());
     private static Map<Integer, List<Map<String, String>>> trophyList;
     private static TrophyHistory instance;
     private IUserOutput output;
 
     private TrophyHistory() {
         trophyList = new HashMap<>();
+        output = (new UserOutputAbstractFactory()).CmdUserOutput();
     }
 
     public static TrophyHistory getInstance() {
