@@ -24,6 +24,6 @@ public class TopGoalScoreObserver implements IObserver{
                 bestPlayer = player;
             }
         }
-        TopGoalScore.getInstance().setTopGoalScorer(bestPlayer);
+        TopGoalScore.getInstance().setTopGoalScore(bestPlayer);
     }
 }

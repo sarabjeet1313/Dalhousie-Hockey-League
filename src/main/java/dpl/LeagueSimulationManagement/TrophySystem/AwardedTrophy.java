@@ -30,7 +30,7 @@ public class AwardedTrophy {
     }
 
     private void bestScorer(int year) {
-        Player player = TopGoalScore.getInstance().getTopGoalScorer();
+        Player player = TopGoalScore.getInstance().getTopGoalScore();
         TrophyHistory.getInstance().addTrophy(year, "Maurice Richard Trophy", player.getPlayerName());
         System.out.println("Best Scorer :" + player.getPlayerName());
     }

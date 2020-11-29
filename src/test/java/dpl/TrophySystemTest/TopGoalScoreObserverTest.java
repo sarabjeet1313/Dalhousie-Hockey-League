@@ -30,6 +30,6 @@ public class TopGoalScoreObserverTest {
     @Test
     public void updateTest(){
         observer.update(subject);
-        assertEquals("Robin", TopGoalScore.getInstance().getTopGoalScorer().getPlayerName());
+        assertEquals("Robin", TopGoalScore.getInstance().getTopGoalScore().getPlayerName());
     }
 }

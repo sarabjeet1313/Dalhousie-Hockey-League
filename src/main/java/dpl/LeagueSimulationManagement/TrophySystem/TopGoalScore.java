@@ -20,11 +20,11 @@ public class TopGoalScore extends Subject{
         notifyAllObservers();
     }
 
-    public Player getTopGoalScorer() {
+    public Player getTopGoalScore() {
         return topGoalScorer;
     }
 
-    public void setTopGoalScorer(Player topGoalScorer) {
+    public void setTopGoalScore(Player topGoalScorer) {
         this.topGoalScorer = topGoalScorer;
     }
 }

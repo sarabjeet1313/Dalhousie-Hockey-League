@@ -16,7 +16,7 @@ public class TrophySystemAbstractFactory {
                 observer = new BestCoachLeagueObserver();
                 break;
             case VEZINA_TROPHY:
-                observer = new GoalSaverObserver();
+                observer = new GoalSaveObserver();
                 break;
             case MAURICE_RICHARD_TROPHY:
                 observer = new TopGoalScoreObserver();
