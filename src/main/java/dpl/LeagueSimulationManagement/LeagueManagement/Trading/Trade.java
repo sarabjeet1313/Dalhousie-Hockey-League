@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.DoubleStream;
 
+import dpl.LeagueSimulationManagement.LeagueManagement.Standings.Standing;
+import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.NewsSystem.NewsSubscriber;
 import dpl.LeagueSimulationManagement.NewsSystem.TradePublisher;
 import dpl.SystemConfig;
@@ -231,7 +233,7 @@ public class Trade implements ITrade {
 	}
 
 	@Override
-	public League startTrade(League leagueObject)  {
+	public League startTrade(League leagueObject, StandingInfo standings)  {
 
 		Trade trade = tradingAbstractFactory.Trade();
 		List<String> eligibleTeamNameList;
@@ -253,7 +255,7 @@ public class Trade implements ITrade {
 		List<Player> playerL;
 
 		String userTeamName = iTeamInfo.getUserTeamName(leagueObject);
-		eligibleTeamNameList = tradeDB.getEligibleTeamName(minLossPoints, leagueObject);
+		eligibleTeamNameList = tradeDB.getEligibleTeamName(minLossPoints, leagueObject, standings);
 		allTeamNameList = iTeamInfo.getAllTeamName(leagueObject);
 		eligibleTeamNameList.remove(userTeamName);
 
@@ -332,7 +334,7 @@ public class Trade implements ITrade {
 			}
 		}
 	//Specific maybe ?
-		tradeReset.UpdateTrade();
+		tradeReset.UpdateTrade(standings);
 		return leagueObject;
 	}
 }

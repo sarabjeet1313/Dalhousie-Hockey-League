@@ -646,7 +646,7 @@ public class InitializeLeagues implements IInitializeLeagues {
 			HashMap<String,Double> gmTable = new HashMap<>();
 			gmTableObject.keySet().forEach(keyStr ->
 			{
-				gmTable.put(keyStr, gmTable.get(keyStr));
+				gmTable.put(keyStr, gmTableObject.get(keyStr).getAsDouble());
 			});
 			trading = new Trading(lossPoint, randomTradeOfferChance, maxPlayersPerTrade, randomAcceptanceChance, gmTable);
 		} catch (NullPointerException e) {

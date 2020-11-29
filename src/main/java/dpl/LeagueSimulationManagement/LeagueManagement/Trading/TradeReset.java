@@ -1,5 +1,7 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.Trading;
 
+import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
+
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +23,11 @@ public class TradeReset {
         this.teamNames.clear();
     }
 
-    public void UpdateTrade(){
+    public void UpdateTrade(StandingInfo standingInfo){
         boolean isPersisted = Boolean.FALSE;
         if(this.teamNames.size() > 1){
             for(String teamName: this.teamNames){
-                isPersisted = tradeDB.resetTradeLossPoint(teamName);
+                isPersisted = tradeDB.resetTradeLossPoint(teamName, standingInfo);
             }
         }
         if(isPersisted == Boolean.TRUE){

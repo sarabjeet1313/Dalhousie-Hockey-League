@@ -165,8 +165,9 @@ public class RosterManagement implements IRosterManagement{
     }
 
     @Override
-    public void balanceOutRoster(League league) {
+    public boolean balanceOutRoster(League league) {
         String currentTeamName;
+        boolean isBalanced = Boolean.FALSE;
         boolean isValid;
         List<Player> freeAgentList = league.getFreeAgents();
         List<Conference> conferenceList = league.getConferenceList();
@@ -261,10 +262,11 @@ public class RosterManagement implements IRosterManagement{
                     teamList.get(tIndex).setPlayerList(tempPlayerList);
                 }
             }
+            isBalanced = Boolean.TRUE;
         }
+
         league.setFreeAgents(freeAgentList);
+        return isBalanced;
     }
-
-
 }
 

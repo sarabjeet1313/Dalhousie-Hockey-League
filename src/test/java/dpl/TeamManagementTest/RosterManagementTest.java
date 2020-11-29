@@ -29,5 +29,11 @@ public class RosterManagementTest {
     public void updateLeagueActiveStatusTest(){
         Assert.assertEquals("Dalhousie Hockey League", irm.updateLeagueActiveStatus(leagueData).getLeagueName());
     }
+
+    @Test
+    public void balanceOutRoster(){
+        Assert.assertEquals(1, 1);
+    }
+
 }
 

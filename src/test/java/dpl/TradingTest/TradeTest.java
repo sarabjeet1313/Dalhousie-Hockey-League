@@ -18,6 +18,7 @@ public class TradeTest {
 
 	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
 			.getTeamManagementAbstractFactory();
+
 	League leagueBefore = new TradeObjectTestMockData().getLeagueData();
 	League leagueAfter = new TradeObjectTestMockData().getLeagueDataAfterTrade();
 	ITradePersistence tradeDB = new TradeObjectTestMockData();
@@ -138,7 +139,7 @@ public class TradeTest {
 	@Test
 	public void startTradeTest() {
 		try {
-			League league = trade.startTrade(leagueBefore);
+			League league = trade.startTrade(leagueBefore, null );
 			Assert.assertEquals(leagueAfter.getLeagueName(), league.getLeagueName());
 		} catch (Exception e) {
 			output.setOutput(e.getMessage());

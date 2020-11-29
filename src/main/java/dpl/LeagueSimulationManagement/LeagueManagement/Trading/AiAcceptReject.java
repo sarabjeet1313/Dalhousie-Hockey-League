@@ -31,9 +31,8 @@ public class AiAcceptReject {
             , IPlayerInfo iPInfoObject, ITeamInfo iTInfoObject) {
         IUserOutput output = this.outputFactory.CmdUserOutput();
         IUserInput Input = this.inputFactory.CmdUserInput();
-        Trading tradingObject = this.gameConfigFactory.Trading();
         Manager manager = this.teamManagementFactory.Manager();
-        HashMap<String,Double> gmTable = tradingObject.getGmTable();
+        HashMap<String,Double> gmTable = league.getGameConfig().getTrading().getGmTable();
         String personalityType = manager.getMangerPersonalityByTeam(trade.getTradeRequestedTeam(), league);
 
         double personalityValue = gmTable.get(personalityType);

@@ -5,23 +5,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.*;
 import dpl.SystemConfig;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.IGameplayConfigPersistance;
 import dpl.LeagueSimulationManagement.NewsSystem.FreeAgencyPublisher;
 import dpl.LeagueSimulationManagement.NewsSystem.NewsSubscriber;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Coach;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Conference;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Division;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ICoachPersistance;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ILeaguePersistance;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IManagerPersistance;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManagementAbstractFactory;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Manager;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.TeamManagementAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradePersistence;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
@@ -40,6 +29,7 @@ public class CreateTeamState implements IState {
 	private Conference conferences;
 	private Division divisions;
 	private Team teams;
+	private IRosterManagement rosterManagement;
 	private String conferenceName = "";
 	private String divisionName = "";
 	private String teamName = "";
@@ -70,6 +60,7 @@ public class CreateTeamState implements IState {
 		this.standingDb = standingDb;
 		this.initializedLeague = league;
 		this.stateName = "Create Team";
+		this.rosterManagement = teamManagement.RosterManagement();
 		this.conferences = teamManagement.ConferenceWithParameters("", null);
 		this.divisions = teamManagement.DivisionWithParameters("", null);
 		this.teams = teamManagement.TeamWithParameters("", genManager, headCoach, null, Boolean.FALSE);
@@ -432,6 +423,7 @@ public class CreateTeamState implements IState {
 					}
 				}
 			}
+			initializedLeague = rosterManagement.updateLeagueActiveStatus(initializedLeague);
 			isCreated = initializedLeague.createTeam(initializedLeague);
 		} catch (SQLException e) {
 			output.setOutput(e.getMessage());
