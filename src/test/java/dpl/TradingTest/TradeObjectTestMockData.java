@@ -123,7 +123,7 @@ public class TradeObjectTestMockData implements ITradePersistence {
     }
 
     @Override
-    public List<String> getEligibleTeamName(int lossPoints) {
+    public List<String> getEligibleTeamName(int lossPoints, League league) {
         List<String> eligibleTradeTeam = new ArrayList<>();
         eligibleTradeTeam.add("Boston");
         return eligibleTradeTeam;
