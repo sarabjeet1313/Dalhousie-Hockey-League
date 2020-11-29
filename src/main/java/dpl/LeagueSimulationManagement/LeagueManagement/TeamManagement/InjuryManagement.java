@@ -5,7 +5,6 @@ import java.util.Random;
 
 import dpl.LeagueSimulationManagement.NewsSystem.InjuryPublisher;
 import dpl.LeagueSimulationManagement.NewsSystem.NewsSubscriber;
-import dpl.SystemConfig;
 
 public class InjuryManagement implements IInjuryManagement {
 

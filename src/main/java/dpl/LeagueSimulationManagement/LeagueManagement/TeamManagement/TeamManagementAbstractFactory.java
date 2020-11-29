@@ -88,9 +88,9 @@ public class TeamManagementAbstractFactory implements ITeamManagementAbstractFac
 	@Override
 	public Player PlayerWithParameters(String playerName, String position, boolean captain, int age, int skating,
 			int shooting, int checking, int saving, boolean isInjured, boolean retireStatus, int daysInjured,
-			boolean isActive, int birthDay, int birthMonth, int birthYear) {
+			boolean isActive, int birthDay, int birthMonth, int birthYear, boolean isDraftPlayer) {
 		return new Player(playerName, position, captain, age, skating, shooting, checking, saving, isInjured,
-				retireStatus, daysInjured, isActive, birthDay, birthMonth, birthYear);
+				retireStatus, daysInjured, isActive, birthDay, birthMonth, birthYear, isDraftPlayer);
 	}
 
 	@Override
