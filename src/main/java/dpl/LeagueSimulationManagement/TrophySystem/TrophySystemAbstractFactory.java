@@ -1,15 +1,17 @@
 package dpl.LeagueSimulationManagement.TrophySystem;
 
 import dpl.DplConstants.TrophySystemConstants;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManagementAbstractFactory;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.UserOutputAbstractFactory;
+import dpl.SystemConfig;
 
 public class TrophySystemAbstractFactory {
     private static IUserOutput output;
 
     private TrophySystemAbstractFactory()
     {
-        output = (new UserOutputAbstractFactory()).CmdUserOutput();
+        output = SystemConfig.getSingleInstance().getUserOutputAbstractFactory().CmdUserOutput();
     }
 
     public static IObserver createObserver(TrophySystemConstants awardType) {
