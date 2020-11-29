@@ -2,15 +2,15 @@ package dpl.LeagueSimulationManagement.TrophySystem;
 
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
 
-public class TeamPoints extends Subject{
-    private static TeamPoints instance;
+public class TeamPoint extends Subject{
+    private static TeamPoint instance;
     private String bestTeam;
 
-    private TeamPoints(){ }
+    private TeamPoint(){ }
 
-    public static TeamPoints getInstance(){
+    public static TeamPoint getInstance(){
         if(instance == null){
-            instance = new TeamPoints();
+            instance = new TeamPoint();
         }
         return  instance;
     }

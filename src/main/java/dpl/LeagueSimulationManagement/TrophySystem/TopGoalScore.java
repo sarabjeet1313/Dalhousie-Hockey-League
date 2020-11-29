@@ -2,15 +2,15 @@ package dpl.LeagueSimulationManagement.TrophySystem;
 
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
 
-public class TopGoalScorer extends Subject{
-    private static TopGoalScorer instance;
+public class TopGoalScore extends Subject{
+    private static TopGoalScore instance;
     private Player topGoalScorer;
 
-    private TopGoalScorer(){ }
+    private TopGoalScore(){ }
 
-    public static TopGoalScorer getInstance(){
+    public static TopGoalScore getInstance(){
         if(instance == null){
-            instance = new TopGoalScorer();
+            instance = new TopGoalScore();
         }
         return  instance;
     }

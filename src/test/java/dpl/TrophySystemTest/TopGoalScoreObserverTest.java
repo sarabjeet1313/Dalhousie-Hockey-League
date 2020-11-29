@@ -1,7 +1,6 @@
 package dpl.TrophySystemTest;
 
 import dpl.DplConstants.TrophySystemConstants;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Coach;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
 import dpl.LeagueSimulationManagement.TrophySystem.*;
 import org.junit.After;
@@ -10,17 +9,17 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class GoalSaverObserverTest {
+public class TopGoalScoreObserverTest {
     private Subject subject;
     private IObserver observer;
     @Before
     public void before() {
-        subject = GoalSaver.getInstance();
-        Player player= new Player();
-        player.setPlayerName("Alissa");
-        player.setSaves(3);
+        subject = TopGoalScore.getInstance();
+        Player player=new Player();
+        player.setPlayerName("Robin");
+        player.setGoals(100);
         subject.setValue("player", player);
-        observer = TrophySystemAbstractFactory.createObserver(TrophySystemConstants.VEZINA_TROPHY);
+        observer = TrophySystemAbstractFactory.createObserver(TrophySystemConstants.MAURICE_RICHARD_TROPHY);
     }
 
     @After
@@ -31,6 +30,6 @@ public class GoalSaverObserverTest {
     @Test
     public void updateTest(){
         observer.update(subject);
-        assertEquals("Alissa", GoalSaver.getInstance().getBestGoalSaver().getPlayerName());
+        assertEquals("Robin", TopGoalScore.getInstance().getTopGoalScorer().getPlayerName());
     }
 }

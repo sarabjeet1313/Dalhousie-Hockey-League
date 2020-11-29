@@ -6,19 +6,19 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
 public class AwardedTrophy {
 
     private void bestTeam(int year) {
-        String bestTeam = TeamPoints.getInstance().getBestTeam();
+        String bestTeam = TeamPoint.getInstance().getBestTeam();
         TrophyHistory.getInstance().addTrophy(year, "President's Trophy", bestTeam);
         System.out.println("Best Team :" + bestTeam);
     }
 
     private void bestPlayer(int year) {
-        Player player = PlayerGoalScorer.getInstance().getBestPlayer();
+        Player player = PlayerGoalScore.getInstance().getBestPlayer();
         TrophyHistory.getInstance().addTrophy(year, "Calder Memorial Trophy", player.getPlayerName());
         System.out.println("Best Player :" + player.getPlayerName());
     }
 
     private void bestGoalie(int year) {
-        Player player = GoalSaver.getInstance().getBestGoalSaver();
+        Player player = GoalSave.getInstance().getBestGoalSaver();
         TrophyHistory.getInstance().addTrophy(year, "Vezina Trophy", player.getPlayerName());
         System.out.println("Best Goalie :" + player.getPlayerName());
     }
@@ -30,7 +30,7 @@ public class AwardedTrophy {
     }
 
     private void bestScorer(int year) {
-        Player player = TopGoalScorer.getInstance().getTopGoalScorer();
+        Player player = TopGoalScore.getInstance().getTopGoalScorer();
         TrophyHistory.getInstance().addTrophy(year, "Maurice Richard Trophy", player.getPlayerName());
         System.out.println("Best Scorer :" + player.getPlayerName());
     }
@@ -42,7 +42,7 @@ public class AwardedTrophy {
     }
 
     private void participationTeam(int year) {
-        String participatedTeam = ParticipantsAward.getInstance().getTeamWithLowestPoints();
+        String participatedTeam = ParticipantAward.getInstance().getTeamWithLowestPoints();
         TrophyHistory.getInstance().addTrophy(year, "Participation Award", participatedTeam);
         System.out.println("Participation Team :" + participatedTeam);
     }

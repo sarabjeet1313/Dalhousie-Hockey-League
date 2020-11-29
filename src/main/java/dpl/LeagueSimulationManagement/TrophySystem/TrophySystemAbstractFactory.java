@@ -7,10 +7,10 @@ public class TrophySystemAbstractFactory {
         IObserver observer = null;
         switch (awardType) {
             case PRESIDENT_TROPHY :
-                observer = new TeamPointsObserver();
+                observer = new TeamPointObserver();
                 break;
             case CALDER_MEMORIAL_TROPHY:
-                observer = new PlayerGoalScorerObserver();
+                observer = new PlayerGoalScoreObserver();
                 break;
             case JACK_ADAMS_AWARD:
                 observer = new BestCoachLeagueObserver();
@@ -19,13 +19,13 @@ public class TrophySystemAbstractFactory {
                 observer = new GoalSaverObserver();
                 break;
             case MAURICE_RICHARD_TROPHY:
-                observer = new TopGoalScorerObserver();
+                observer = new TopGoalScoreObserver();
                 break;
             case ROB_HAWKEY_MEMORIAL_CUP:
                 observer = new BestDefenceMenObserver();
                 break;
             case PARTICIPATION_AWARD:
-                observer = new ParticipantsAwardObserver();
+                observer = new ParticipantAwardObserver();
                 break;
             default:
                 System.out.println("Please provide the valid award type..!");
