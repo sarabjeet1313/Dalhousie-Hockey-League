@@ -68,13 +68,14 @@ public class InternalSimulationState implements ISimulationState {
     public InternalSimulationState(IUserInput input, IUserOutput output, int seasons, String teamName,
                                    League leagueToSimulate, InternalStateContext context, ITradePersistence tradeDb,
                                    IStandingsPersistance standingsDb) {
-        this.training = new Training(output);
+        
         this.internalStateMachineFactory = SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory();
         this.standingsAbstractFactory = SystemConfig.getSingleInstance().getStandingsAbstractFactory();
         this.scheduleAbstractFactory = SystemConfig.getSingleInstance().getScheduleAbstractFactory();
         this.gameplayConfigurationAbstractFactory = SystemConfig.getSingleInstance().getGameplayConfigurationAbstractFactory();
         this.tradingAbstractFactory = SystemConfig.getSingleInstance().getTradingAbstractFactory();
         this.injury = teamManagement.InjuryManagement();
+        this.training = gameplayConfigurationAbstractFactory.Training();
         this.retirement = teamManagement.RetirementManagement();
         this.tradeDb = tradeDb;
         this.trade = tradingAbstractFactory.Trade(tradeDb);

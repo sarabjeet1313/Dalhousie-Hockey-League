@@ -42,13 +42,15 @@ public class Player implements IPlayerInfo {
 	private int birthMonth;
 	@Expose(serialize = true, deserialize = true)
 	private int birthYear;
+	@Expose(serialize = true, deserialize = true)
+	private boolean isDraftPlayer;
 
 	public Player() {
 		super();
 	}
 
 	public Player(String playerName, String position, boolean captain, int age, int skating, int shooting, int checking,
-			int saving, boolean isInjured, boolean retireStatus, int daysInjured, boolean isActive, int birthDay, int birthMonth, int birthYear) {
+			int saving, boolean isInjured, boolean retireStatus, int daysInjured, boolean isActive, int birthDay, int birthMonth, int birthYear, boolean isDraftPlayer) {
 		super();
 		this.playerName = playerName;
 		this.position = position;
@@ -68,6 +70,7 @@ public class Player implements IPlayerInfo {
 		this.birthDay = birthDay;
 		this.birthMonth = birthMonth;
 		this.birthYear = birthYear;
+		this.isDraftPlayer = isDraftPlayer;
 	}
 
 	public int getGoals() {
@@ -212,6 +215,18 @@ public class Player implements IPlayerInfo {
 
 	public void setBirthYear(int birthYear) {
 		this.birthYear = birthYear;
+	}
+
+	public boolean isDraftPlayer() {
+		return isDraftPlayer;
+	}
+
+	public void setDraftPlayer(boolean isDraftPlayer) {
+		this.isDraftPlayer = isDraftPlayer;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 
 	@Override

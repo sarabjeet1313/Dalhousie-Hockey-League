@@ -13,7 +13,7 @@ public class PlayerTest {
 
 	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
 			.getTeamManagementAbstractFactory();
-	Player player = teamManagement.PlayerWithParameters("Player1", "Forward", false, 1, 1, 1, 1, 1, false, false, 0, false, 23, 3, 1999);
+	Player player = teamManagement.PlayerWithParameters("Player1", "Forward", false, 1, 1, 1, 1, 1, false, false, 0, false, 23, 3, 1999, Boolean.FALSE);
 	IPlayerInfo playerInfo = new PlayerInfoMock();
 	private static final double DELTA = 1e-15;
 
@@ -131,7 +131,7 @@ public class PlayerTest {
 	@Test
 	public void getPlayerStrengthTest() {
 		Player player = teamManagement.PlayerWithParameters("Player1", "Forward", false, 1, 1, 1, 1, 1, false, false,
-				0, false, 23, 3, 1999);
+				0, false, 23, 3, 1999, Boolean.FALSE);
 		double strength = playerInfo.getPlayerStrength(player);
 		Assert.assertEquals(2.5, strength, DELTA);
 	}
@@ -139,21 +139,21 @@ public class PlayerTest {
 	@Test
 	public void getPlayerStrengthTwoTest() {
 		Player player = teamManagement.PlayerWithParameters("Player1", "Forward", false, 1, 2, 1, 1, 1, false, false,
-				0, false, 23, 3, 1999);
+				0, false, 23, 3, 1999, Boolean.FALSE);
 		double strength = playerInfo.getPlayerStrength(player);
 		Assert.assertNotEquals(2.5, strength, DELTA);
 	}
 
 	@Test
 	public void getPlayerStrengthThreeTest() {
-		Player player = teamManagement.PlayerWithParameters("Player1", "Forward", false, 1, 1, 1, 1, 1, true, false, 0, false, 23, 3, 1999);
+		Player player = teamManagement.PlayerWithParameters("Player1", "Forward", false, 1, 1, 1, 1, 1, true, false, 0, false, 23, 3, 1999, Boolean.FALSE);
 		double strength = playerInfo.getPlayerStrength(player);
 		Assert.assertEquals(1.25, strength, DELTA);
 	}
 
 	@Test
 	public void getPlayerStrengthFourTest() {
-		Player player = teamManagement.PlayerWithParameters("Player1", "Defense", false, 1, 1, 2, 1, 1, true, false, 0, false, 23, 3, 1999);
+		Player player = teamManagement.PlayerWithParameters("Player1", "Defense", false, 1, 1, 2, 1, 1, true, false, 0, false, 23, 3, 1999, Boolean.FALSE);
 		double strength = playerInfo.getPlayerStrength(player);
 		Assert.assertEquals(1.5, strength, DELTA);
 	}
@@ -161,7 +161,7 @@ public class PlayerTest {
 	@Test
 	public void getPlayerStrengthFiveTest() {
 		Player player = teamManagement.PlayerWithParameters("Player1", "Forward", false, 1, 2, 1, 1, 1, false, false,
-				0, false, 23, 3, 1999);
+				0, false, 23, 3, 1999, Boolean.FALSE);
 		double strength = playerInfo.getPlayerStrength(player);
 		Assert.assertNotEquals(4.5, strength, DELTA);
 	}

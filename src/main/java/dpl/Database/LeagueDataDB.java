@@ -57,7 +57,8 @@ public class LeagueDataDB implements ILeaguePersistance {
 			boolean flag = Boolean.FALSE;
 			while (result.next()) {
 				boolean isUserTeam = Boolean.FALSE;
-				Player player = teamManagement.PlayerWithParameters(result.getString(PlayerConstants.PLAYER_NAME.toString()),
+				Player player = teamManagement.PlayerWithParameters(
+						result.getString(PlayerConstants.PLAYER_NAME.toString()),
 						result.getString(PlayerConstants.PLAYER_POSITION.toString()),
 						result.getBoolean(PlayerConstants.PLAYER_CAPTAIN.toString()),
 						result.getInt(PlayerConstants.PLAYER_AGE.toString()),
@@ -68,10 +69,7 @@ public class LeagueDataDB implements ILeaguePersistance {
 						result.getBoolean(PlayerConstants.IS_INJURED.toString()),
 						result.getBoolean(PlayerConstants.RETIRED_STATUS.toString()),
 						result.getInt(PlayerConstants.DAYS_INJURED.toString()),
-						result.getBoolean(PlayerConstants.IS_ACTIVE.toString()),
-						20,
-						4,
-						1999);
+						result.getBoolean(PlayerConstants.IS_ACTIVE.toString()), 20, 4, 1999, false);
 				String tempResult = result.getString(TeamConstants.TEAM_NAME.toString());
 				if (result.wasNull()) {
 					freeAgentList.add(player);
@@ -80,13 +78,16 @@ public class LeagueDataDB implements ILeaguePersistance {
 						flag = Boolean.FALSE;
 					}
 					if (flag == Boolean.FALSE) {
-						headCoach = teamManagement.CoachWithParameters(result.getString(CoachConstants.COACH_NAME.toString()),
+						headCoach = teamManagement.CoachWithParameters(
+								result.getString(CoachConstants.COACH_NAME.toString()),
 								result.getDouble(CoachConstants.COACH_SKATING.toString()),
 								result.getDouble(CoachConstants.COACH_SHOOTING.toString()),
 								result.getDouble(CoachConstants.COACH_CHECKING.toString()),
 								result.getDouble(CoachConstants.COACH_SAVING.toString()));
 						// temp fix
-						manager = teamManagement.ManagerWithParameters(result.getString(ManagerConstants.GENERAL_MANAGER_NAME.toString()), ManagerConstants.PERSONALITY.toString());
+						manager = teamManagement.ManagerWithParameters(
+								result.getString(ManagerConstants.GENERAL_MANAGER_NAME.toString()),
+								ManagerConstants.PERSONALITY.toString());
 						flag = loadCommonLeagueData(result.getString(LeagueConstants.LEAGUE_NAME.toString()),
 								result.getString(ConferenceConstants.CONFERENCE_NAME.toString()),
 								result.getString(DivisionConstants.DIVISION_NAME.toString()),
@@ -99,14 +100,18 @@ public class LeagueDataDB implements ILeaguePersistance {
 						if (rteamName.equals(teamName)) {
 							isUserTeam = Boolean.TRUE;
 						}
-						Team team = teamManagement.TeamWithParameters(rteamName, manager, headCoach, playerList, isUserTeam);
+						Team team = teamManagement.TeamWithParameters(rteamName, manager, headCoach, playerList,
+								isUserTeam);
 						league = league.loadLeagueObject(leagueName, conferenceName, divisionName, team, league);
-						manager = teamManagement.ManagerWithParameters(result.getString(ManagerConstants.GENERAL_MANAGER_NAME.toString()), ManagerConstants.PERSONALITY.toString());
+						manager = teamManagement.ManagerWithParameters(
+								result.getString(ManagerConstants.GENERAL_MANAGER_NAME.toString()),
+								ManagerConstants.PERSONALITY.toString());
 						flag = loadCommonLeagueData(result.getString(LeagueConstants.LEAGUE_NAME.toString()),
 								result.getString(ConferenceConstants.CONFERENCE_NAME.toString()),
 								result.getString(DivisionConstants.DIVISION_NAME.toString()),
 								result.getString(TeamConstants.TEAM_NAME.toString()));
-						headCoach = teamManagement.CoachWithParameters(result.getString(CoachConstants.COACH_NAME.toString()),
+						headCoach = teamManagement.CoachWithParameters(
+								result.getString(CoachConstants.COACH_NAME.toString()),
 								result.getDouble(CoachConstants.COACH_SKATING.toString()),
 								result.getDouble(CoachConstants.COACH_SHOOTING.toString()),
 								result.getDouble(CoachConstants.COACH_CHECKING.toString()),
