@@ -3,16 +3,16 @@ package dpl.LeagueSimulationManagement.TrophySystem;
 import dpl.DplConstants.TrophySystemConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
 
-public class BestDefenceMen extends Subject {
-    private static BestDefenceMen instance;
-    private Player bestDefenceMen;
+public class PlayerGoalScore extends Subject {
+    private static PlayerGoalScore instance;
+    private Player bestPlayer;
 
-    private BestDefenceMen() {
+    private PlayerGoalScore() {
     }
 
-    public static BestDefenceMen getInstance() {
+    public static PlayerGoalScore getInstance() {
         if (instance == null) {
-            instance = new BestDefenceMen();
+            instance = new PlayerGoalScore();
         }
         return instance;
     }
@@ -22,11 +22,11 @@ public class BestDefenceMen extends Subject {
         notifyAllObservers();
     }
 
-    public Player getBestDefenceMen() {
-        return bestDefenceMen;
+    public Player getBestPlayer() {
+        return bestPlayer;
     }
 
-    public void setBestDefenceMen(Player bestDefenceMen) {
-        this.bestDefenceMen = bestDefenceMen;
+    public void setBestPlayer(Player bestPlayer) {
+        this.bestPlayer = bestPlayer;
     }
 }

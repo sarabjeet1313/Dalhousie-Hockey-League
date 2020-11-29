@@ -1,50 +1,61 @@
 package dpl.LeagueSimulationManagement.TrophySystem;
 
+import dpl.DplConstants.TrophySystemConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Coach;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
 public class AwardedTrophy {
+    private IUserOutput output;
 
     private void bestTeam(int year) {
-        String bestTeam = TeamPoints.getInstance().getBestTeam();
-        TrophyHistory.getInstance().addTrophy(year, "President's Trophy", bestTeam);
-        System.out.println("Best Team :" + bestTeam);
+        String bestTeam = TeamPoint.getInstance().getBestTeam();
+        TrophyHistory.getInstance().addTrophy(year, TrophySystemConstants.PRESIDENT_TROPHY.toString(), bestTeam);
+        output.setOutput(TrophySystemConstants.BEST_TEAM.toString() + bestTeam);
+        output.sendOutput();
     }
 
     private void bestPlayer(int year) {
-        Player player = PlayerGoalScorer.getInstance().getBestPlayer();
-        TrophyHistory.getInstance().addTrophy(year, "Calder Memorial Trophy", player.getPlayerName());
-        System.out.println("Best Player :" + player.getPlayerName());
+        Player player = PlayerGoalScore.getInstance().getBestPlayer();
+        TrophyHistory.getInstance().addTrophy(year, TrophySystemConstants.CALDER_MEMORIAL_TROPHY.toString(), player.getPlayerName());
+        output.setOutput(TrophySystemConstants.BEST_PLAYER.toString() + player.getPlayerName());
+        output.sendOutput();
     }
 
     private void bestGoalie(int year) {
-        Player player = GoalSaver.getInstance().getBestGoalSaver();
-        TrophyHistory.getInstance().addTrophy(year, "Vezina Trophy", player.getPlayerName());
-        System.out.println("Best Goalie :" + player.getPlayerName());
+        Player player = GoalSave.getInstance().getBestGoalSaver();
+        TrophyHistory.getInstance().addTrophy(year, TrophySystemConstants.VEZINA_TROPHY.toString(), player.getPlayerName());
+        output.setOutput(TrophySystemConstants.BEST_GOALIE.toString() + player.getPlayerName());
+        output.sendOutput();
     }
 
     private void bestCoach(int year) {
         Coach coach = BestCoachLeague.getInstance().getBestCoach();
-        TrophyHistory.getInstance().addTrophy(year, "Jack Adam's Award", coach.getCoachName());
-        System.out.println("Best Coach :" + coach.getCoachName());
+        TrophyHistory.getInstance().addTrophy(year, TrophySystemConstants.JACK_ADAMS_AWARD.toString(), coach.getCoachName());
+        output.setOutput(TrophySystemConstants.BEST_COACH.toString() + coach.getCoachName());
+        output.sendOutput();
+
     }
 
-    private void bestScorer(int year) {
-        Player player = TopGoalScorer.getInstance().getTopGoalScorer();
-        TrophyHistory.getInstance().addTrophy(year, "Maurice Richard Trophy", player.getPlayerName());
-        System.out.println("Best Scorer :" + player.getPlayerName());
+    private void bestScore(int year) {
+        Player player = TopGoalScore.getInstance().getTopGoalScore();
+        TrophyHistory.getInstance().addTrophy(year, TrophySystemConstants.MAURICE_RICHARD_TROPHY.toString(), player.getPlayerName());
+        output.setOutput(TrophySystemConstants.BEST_SCORE.toString() + player.getPlayerName());
+        output.sendOutput();
     }
 
     private void bestDefencemen(int year) {
         Player player = BestDefenceMen.getInstance().getBestDefenceMen();
-        TrophyHistory.getInstance().addTrophy(year, "Rob Hawkey Memorial Cup", player.getPlayerName());
-        System.out.println("Best Defencemen :" + player.getPlayerName());
+        TrophyHistory.getInstance().addTrophy(year, TrophySystemConstants.ROB_HAWKEY_MEMORIAL_CUP.toString(), player.getPlayerName());
+        output.setOutput(TrophySystemConstants.BEST_DEFENCEMEN.toString() + player.getPlayerName());
+        output.sendOutput();
     }
 
     private void participationTeam(int year) {
-        String participatedTeam = ParticipantsAward.getInstance().getTeamWithLowestPoints();
-        TrophyHistory.getInstance().addTrophy(year, "Participation Award", participatedTeam);
-        System.out.println("Participation Team :" + participatedTeam);
+        String participatedTeam = ParticipantAward.getInstance().getTeamWithLowestPoints();
+        TrophyHistory.getInstance().addTrophy(year, TrophySystemConstants.PARTICIPATION_AWARD.toString(), participatedTeam);
+        output.setOutput(TrophySystemConstants.PARTICIPATION_TEAM.toString() + participatedTeam);
+        output.sendOutput();
     }
 
     public void trophy(int year) {
@@ -52,7 +63,7 @@ public class AwardedTrophy {
         bestPlayer(year);
         bestGoalie(year);
         bestCoach(year);
-        bestScorer(year);
+        bestScore(year);
         bestDefencemen(year);
         participationTeam(year);
     }

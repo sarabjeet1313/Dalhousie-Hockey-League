@@ -9,16 +9,16 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class TeamPointsObserverTest {
+public class TeamPointObserverTest {
     private Subject subject;
     private IObserver observer;
 
     @Before
     public void before() {
-        subject = TeamPoints.getInstance();
-        Team  team = new Team();
+        subject = TeamPoint.getInstance();
+        Team team = new Team();
         team.setTeamName("TestTeam");
-        subject.setValue("team", team);
+        subject.setValue(TrophySystemConstants.TEAM.toString(), team);
         observer = TrophySystemAbstractFactory.createObserver(TrophySystemConstants.PRESIDENT_TROPHY);
     }
 
@@ -28,9 +28,9 @@ public class TeamPointsObserverTest {
     }
 
     @Test
-    public void updateTest(){
-            observer.update(subject);
-        assertEquals("TestTeam", TeamPoints.getInstance().getBestTeam());
+    public void updateTest() {
+        observer.update(subject);
+        assertEquals("TestTeam", TeamPoint.getInstance().getBestTeam());
     }
 
 }

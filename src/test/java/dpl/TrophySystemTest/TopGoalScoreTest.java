@@ -1,4 +1,4 @@
 package dpl.TrophySystemTest;
 
-public class GoalSaverTest {
+public class TopGoalScoreTest {
 }
