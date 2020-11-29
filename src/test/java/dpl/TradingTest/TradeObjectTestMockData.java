@@ -18,21 +18,20 @@ public class TradeObjectTestMockData implements ITradePersistence {
 
 	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
 			.getTeamManagementAbstractFactory();
-    private Player player1 = teamManagement.PlayerWithParameters("Player One", "forward", true, 1, 1, 1, 1, 1, false, false, 0,false);
-    private Player player7 = teamManagement.PlayerWithParameters("Player Seven", "forward", false, 1, 1, 1, 1, 1, false, false, 0, false);
-    private Player player2 = teamManagement.PlayerWithParameters("Player Two", "defense", false, 51, 12, 12, 13, 12, false, true, 0, false);
-    private Player player3 = teamManagement.PlayerWithParameters("Player Three", "goalie", false, 10, 19, 18, 15, 14, false, false, 0, false);
-    private Player player4 = teamManagement.PlayerWithParameters("Agent1", "forward", false, 1, 11, 14, 12, 13, false, false, 0, false);
-    private Player player5 = teamManagement.PlayerWithParameters("Agent2", "defense", false, 1, 100, 1, 1, 1, false, false, 0, false);
-    private Player player6 = teamManagement.PlayerWithParameters("Agent3", "defense", false, 1, 1, 1, 1, 1, false, false, 0, false);
-    private Player player8 = teamManagement.PlayerWithParameters("Player Eight", "forward", false, 1, 20, 20, 20, 20, false, false, 0, false);
+    private Player player1 = teamManagement.PlayerWithParameters("Player One", "forward", true, 1, 1, 1, 1, 1, false, false, 0,false, 23, 3, 1999);
+    private Player player7 = teamManagement.PlayerWithParameters("Player Seven", "forward", false, 1, 1, 1, 1, 1, false, false, 0, false, 23, 3, 1999);
+    private Player player2 = teamManagement.PlayerWithParameters("Player Two", "defense", false, 51, 12, 12, 13, 12, false, true, 0, false, 23, 3, 1999);
+    private Player player3 = teamManagement.PlayerWithParameters("Player Three", "goalie", false, 10, 19, 18, 15, 14, false, false, 0, false, 19, 5, 2000);
+    private Player player4 = teamManagement.PlayerWithParameters("Agent1", "forward", false, 1, 11, 14, 12, 13, false, false, 0, false, 19, 5, 2000);
+    private Player player5 = teamManagement.PlayerWithParameters("Agent2", "defense", false, 1, 100, 1, 1, 1, false, false, 0, false, 19, 5, 2000);
+    private Player player6 = teamManagement.PlayerWithParameters("Agent3", "defense", false, 1, 1, 1, 1, 1, false, false, 0, false, 19, 5, 2000);
+    private Player player8 = teamManagement.PlayerWithParameters("Player Eight", "forward", false, 1, 20, 20, 20, 20, false, false, 0, false, 19, 5, 2000);
     List<Player> playerList = new ArrayList<Player>();
     List<Player> playerList2 = new ArrayList<Player>();
     List<Player> freePlayerList = new ArrayList<Player>();
     List<Coach> coachList = new ArrayList<Coach>();
     List<Manager> managerList = new ArrayList<Manager>();
     Aging aging = new Aging(35, 50, 0.02);
-    GameResolver gameResolver = new GameResolver(0.1);
     Injury injury = new Injury(0.05, 1, 260);
     Training training = new Training(100, 100);
     private ILeaguePersistance leagueMock = new LeagueMockData();
@@ -76,7 +75,7 @@ public class TradeObjectTestMockData implements ITradePersistence {
         Conference conference = teamManagement.ConferenceWithParameters("Eastern Conference", divisionList);
         List<Conference> conferenceList = new ArrayList<Conference>();
         conferenceList.add(conference);
-        GameplayConfig config = new GameplayConfig(aging, gameResolver, injury, training, trading, configMock);
+        GameplayConfig config = new GameplayConfig(aging, injury, training, trading, configMock);
         League league = teamManagement.LeagueWithDbParameters("Dalhousie Hockey League", conferenceList, freePlayerList, coachList, managerList,
                 config, leagueMock);
         return league;
@@ -117,7 +116,7 @@ public class TradeObjectTestMockData implements ITradePersistence {
         Conference conference = teamManagement.ConferenceWithParameters("Eastern Conference", divisionList);
         List<Conference> conferenceList = new ArrayList<Conference>();
         conferenceList.add(conference);
-        GameplayConfig config = new GameplayConfig(aging, gameResolver, injury, training, trading, configMock);
+        GameplayConfig config = new GameplayConfig(aging, injury, training, trading, configMock);
         League league = teamManagement.LeagueWithDbParameters("Dalhousie Hockey League", conferenceList, freePlayerList, coachList, managerList,
                 config, leagueMock);
         return league;

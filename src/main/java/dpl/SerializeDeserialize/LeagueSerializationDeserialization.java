@@ -94,7 +94,7 @@ public class LeagueSerializationDeserialization implements ILeaguePersistance {
 	public boolean persisitLeagueData(League league, String conferenceName, String divisionName, String teamName,
 			String generalManager, String headCoach, Player player) throws IOException {
 		boolean isSerialized = Boolean.FALSE;
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
 		try {
 			reader = new FileReader(url.getFile());
 			if (reader.read() == -1) {

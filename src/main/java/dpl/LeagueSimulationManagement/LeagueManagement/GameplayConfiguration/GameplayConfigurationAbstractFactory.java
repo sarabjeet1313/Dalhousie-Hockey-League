@@ -15,20 +15,14 @@ public class GameplayConfigurationAbstractFactory implements IGameplayConfigurat
 	}
 
 	@Override
-	public GameplayConfig GameplayConfigWithAllParameters(Aging aging, GameResolver gameResolver, Injury injury,
-			Training training, Trading trading, IGameplayConfigPersistance configDb) {
-		return new GameplayConfig(aging, gameResolver, injury, training, trading, configDb);
+	public GameplayConfig GameplayConfigWithAllParameters(Aging aging, Injury injury, Training training,
+			Trading trading, IGameplayConfigPersistance configDb) {
+		return new GameplayConfig(aging, injury, training, trading, configDb);
 	}
 
 	@Override
-	public GameplayConfig GameplayConfigWithParameters(Aging aging, GameResolver gameResolver, Injury injury,
-			Training training, Trading trading) {
-		return new GameplayConfig(aging, gameResolver, injury, training, trading);
-	}
-
-	@Override
-	public GameResolver GameResolver(double randomWinChance) {
-		return new GameResolver(randomWinChance);
+	public GameplayConfig GameplayConfigWithParameters(Aging aging, Injury injury, Training training, Trading trading) {
+		return new GameplayConfig(aging, injury, training, trading);
 	}
 
 	@Override
@@ -38,7 +32,7 @@ public class GameplayConfigurationAbstractFactory implements IGameplayConfigurat
 
 	@Override
 	public Trading Trading(int lossPoint, double randomTradeOfferChance, int maxPlayersPerTrade,
-						   double randomAcceptanceChance, HashMap<String, Double> gmTable) {
+			double randomAcceptanceChance, HashMap<String, Double> gmTable) {
 		return new Trading(lossPoint, randomTradeOfferChance, maxPlayersPerTrade, randomAcceptanceChance, gmTable);
 	}
 

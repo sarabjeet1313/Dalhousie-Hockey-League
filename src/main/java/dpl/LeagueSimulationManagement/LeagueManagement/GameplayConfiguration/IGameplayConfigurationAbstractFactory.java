@@ -8,13 +8,13 @@ public interface IGameplayConfigurationAbstractFactory {
 
 	public GameplayConfig GameplayConfigWithDbParameters(IGameplayConfigPersistance configDb);
 
-	public GameplayConfig GameplayConfigWithAllParameters(Aging aging, GameResolver gameResolver, Injury injury,
+	public GameplayConfig GameplayConfigWithAllParameters(Aging aging, Injury injury,
 			Training training, Trading trading, IGameplayConfigPersistance configDb);
 
-	public GameplayConfig GameplayConfigWithParameters(Aging aging, GameResolver gameResolver, Injury injury,
+	public GameplayConfig GameplayConfigWithParameters(Aging aging, Injury injury,
 			Training training, Trading trading);
 
-	public GameResolver GameResolver(double randomWinChance);
+
 
 	public Injury Injury(double randomInjuryChance, int injuryDaysLow, int injuryDaysHigh);
 

@@ -87,9 +87,10 @@ public class TeamManagementAbstractFactory implements ITeamManagementAbstractFac
 
 	@Override
 	public Player PlayerWithParameters(String playerName, String position, boolean captain, int age, int skating,
-			int shooting, int checking, int saving, boolean isInjured, boolean retireStatus, int daysInjured , boolean isActive) {
+			int shooting, int checking, int saving, boolean isInjured, boolean retireStatus, int daysInjured,
+			boolean isActive, int birthDay, int birthMonth, int birthYear) {
 		return new Player(playerName, position, captain, age, skating, shooting, checking, saving, isInjured,
-				retireStatus, daysInjured, isActive);
+				retireStatus, daysInjured, isActive, birthDay, birthMonth, birthYear);
 	}
 
 	@Override
@@ -123,4 +124,8 @@ public class TeamManagementAbstractFactory implements ITeamManagementAbstractFac
 		return new AllStarGameManagement();
 	}
 
+	@Override
+	public IPlayerDraft PlayerDraft() {
+		return new PlayerDraft();
+	}
 }
