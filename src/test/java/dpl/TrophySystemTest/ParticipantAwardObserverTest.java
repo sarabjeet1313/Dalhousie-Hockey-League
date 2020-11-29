@@ -22,7 +22,7 @@ public class ParticipantAwardObserverTest {
         Player player = new Player();
         player.setPenalties(34);
         player.setPlayerName("Alex");
-        subject.setValue("player", player);
+        subject.setValue(TrophySystemConstants.PLAYER.toString(), player);
         observer = TrophySystemAbstractFactory.createObserver(TrophySystemConstants.ROB_HAWKEY_MEMORIAL_CUP);
     }
 

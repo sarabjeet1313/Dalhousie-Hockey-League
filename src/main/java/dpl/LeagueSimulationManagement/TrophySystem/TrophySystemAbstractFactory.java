@@ -3,10 +3,10 @@ package dpl.LeagueSimulationManagement.TrophySystem;
 import dpl.DplConstants.TrophySystemConstants;
 
 public class TrophySystemAbstractFactory {
-    public static IObserver createObserver(TrophySystemConstants awardType){
+    public static IObserver createObserver(TrophySystemConstants awardType) {
         IObserver observer = null;
         switch (awardType) {
-            case PRESIDENT_TROPHY :
+            case PRESIDENT_TROPHY:
                 observer = new TeamPointObserver();
                 break;
             case CALDER_MEMORIAL_TROPHY:
@@ -28,7 +28,7 @@ public class TrophySystemAbstractFactory {
                 observer = new ParticipantAwardObserver();
                 break;
             default:
-                System.out.println("Please provide the valid award type..!");
+                System.out.println(TrophySystemConstants.ARROW.toString());
                 break;
         }
 

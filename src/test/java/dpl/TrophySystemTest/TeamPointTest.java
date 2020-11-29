@@ -35,7 +35,7 @@ public class TeamPointTest {
 
     @Test
     public void notifyAllObserversTest() {
-        TeamPoint.getInstance().notifyWhenATeamWinsTheMatch(team);
+        TeamPoint.getInstance().notifyTeamWinsTheMatch(team);
         assertEquals("TestTeam", TeamPoint.getInstance().getBestTeam());
     }
 }

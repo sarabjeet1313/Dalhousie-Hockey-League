@@ -1,22 +1,24 @@
 package dpl.LeagueSimulationManagement.TrophySystem;
 
+import dpl.DplConstants.TrophySystemConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
 
-public class TopGoalScore extends Subject{
+public class TopGoalScore extends Subject {
     private static TopGoalScore instance;
     private Player topGoalScorer;
 
-    private TopGoalScore(){ }
-
-    public static TopGoalScore getInstance(){
-        if(instance == null){
-            instance = new TopGoalScore();
-        }
-        return  instance;
+    private TopGoalScore() {
     }
 
-    public void notifyWhenPlayerGoal(Player player){
-        setValue("player", player);
+    public static TopGoalScore getInstance() {
+        if (instance == null) {
+            instance = new TopGoalScore();
+        }
+        return instance;
+    }
+
+    public void notifyPlayerGoal(Player player) {
+        setValue(TrophySystemConstants.PLAYER.toString(), player);
         notifyAllObservers();
     }
 

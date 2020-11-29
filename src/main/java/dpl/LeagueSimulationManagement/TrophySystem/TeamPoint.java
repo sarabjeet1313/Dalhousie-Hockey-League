@@ -1,21 +1,24 @@
 package dpl.LeagueSimulationManagement.TrophySystem;
 
+import dpl.DplConstants.TrophySystemConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
 
-public class TeamPoint extends Subject{
+public class TeamPoint extends Subject {
     private static TeamPoint instance;
     private String bestTeam;
 
-    private TeamPoint(){ }
+    private TeamPoint() {
+    }
 
-    public static TeamPoint getInstance(){
-        if(instance == null){
+    public static TeamPoint getInstance() {
+        if (instance == null) {
             instance = new TeamPoint();
         }
-        return  instance;
+        return instance;
     }
-    public void notifyWhenATeamWinsTheMatch(Team team){
-        setValue("team", team);
+
+    public void notifyTeamWinsTheMatch(Team team) {
+        setValue(TrophySystemConstants.TEAM.toString(), team);
         notifyAllObservers();
     }
 

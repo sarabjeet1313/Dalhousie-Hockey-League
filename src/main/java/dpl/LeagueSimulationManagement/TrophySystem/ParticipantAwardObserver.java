@@ -1,14 +1,15 @@
 package dpl.LeagueSimulationManagement.TrophySystem;
 
+import dpl.DplConstants.TrophySystemConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class ParticipantAwardObserver implements IObserver{
+public class ParticipantAwardObserver implements IObserver {
     private Map<String, Integer> teamPoints;
 
-    public ParticipantAwardObserver(){
+    public ParticipantAwardObserver() {
         teamPoints = new HashMap<>();
     }
 
@@ -16,14 +17,14 @@ public class ParticipantAwardObserver implements IObserver{
     public void update(Subject subject) {
         String teamWithLowPoints = null;
         int points = 0;
-        Team team = (Team)subject.getValue("team");
-        if(teamPoints.containsKey(team.getTeamName())){
+        Team team = (Team) subject.getValue(TrophySystemConstants.TEAM.toString());
+        if (teamPoints.containsKey(team.getTeamName())) {
             teamPoints.put(team.getTeamName(), teamPoints.get(team.getTeamName()) + 1);
-        }else{
+        } else {
             teamPoints.put(team.getTeamName(), 1);
         }
-        for(String teamName: teamPoints.keySet()){
-            if(points > teamPoints.get(teamName)){
+        for (String teamName : teamPoints.keySet()) {
+            if (points > teamPoints.get(teamName)) {
                 teamWithLowPoints = teamName;
             }
         }
