@@ -1,7 +1,6 @@
 package dpl;
 
 import dpl.Database.TradeDataDB;
-import dpl.ErrorHandling.RetirementManagementException;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.IGameplayConfigPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ICoachPersistance;
@@ -16,7 +15,7 @@ public class App {
 
     private static SystemConfig config = SystemConfig.getSingleInstance();
 
-    public static void main(String[] args) throws RetirementManagementException {
+    public static void main(String[] args) {
 
         IUserInput input = config.getUserInputAbstractFactory().CmdUserInput();
         IUserOutput output = config.getUserOutputAbstractFactory().CmdUserOutput();

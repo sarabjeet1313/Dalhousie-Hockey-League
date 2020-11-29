@@ -1,12 +1,10 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine;
 
-import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalEndState;
-import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStartState;
-import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStateContext;
-import dpl.ErrorHandling.RetirementManagementException;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradePersistence;
+import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStartState;
+import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStateContext;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
@@ -37,7 +35,7 @@ public class SimulateState implements IState {
         return;
     }
 
-    public void doProcessing() throws RetirementManagementException {
+    public void doProcessing() {
         output.setOutput("Welcome to Simulation state :-) ");
         output.sendOutput();
 

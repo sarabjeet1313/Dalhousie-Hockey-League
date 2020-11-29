@@ -14,7 +14,6 @@ import java.util.logging.Logger;
 import dpl.Database.RetiredPlayersDataDB;
 import dpl.DplConstants.ScheduleConstants;
 import dpl.DplConstants.TeamManagementConstants;
-import dpl.ErrorHandling.RetirementManagementException;
 import dpl.LeagueSimulationManagement.NewsSystem.NewsSubscriber;
 import dpl.LeagueSimulationManagement.NewsSystem.RetirementPublisher;
 
@@ -59,10 +58,9 @@ public class RetirementManagement implements IRetirementManagement {
 	}
 
 	@Override
-	public League replaceRetiredPlayers(League league) throws SQLException, RetirementManagementException, IOException {
+	public League replaceRetiredPlayers(League league) throws SQLException, IOException {
 		List<Conference> conferenceList = league.getConferenceList();
 		List<Player> freeAgentsList = league.getFreeAgents();
-		IRetiredPlayerPersistance iretiredPlayersObject = new RetiredPlayersDataDB();
 		List<Player> tempList = new ArrayList<Player>();
 		log.log(Level.INFO, TeamManagementConstants.RETIREMENT_INFO.toString());
 
@@ -73,7 +71,6 @@ public class RetirementManagement implements IRetirementManagement {
 				if (shouldPlayerRetire(league, freeplayer)) {
 					tempList.add(freeplayer);
 					freeplayer.setRetireStatus(true);
-					iretiredPlayersObject.persistRetiredPlayers(freeplayer, null, league);
 				}
 			}
 
@@ -112,20 +109,13 @@ public class RetirementManagement implements IRetirementManagement {
 									league.setFreeAgents(freeAgentsList);
 									league.getConferenceList().get(index).getDivisionList().get(dIndex).getTeamList()
 											.get(tIndex).setPlayerList(playersByTeam);
-
-									iretiredPlayersObject.persistRetiredPlayers(retiredPlayer,
-											teamList.get(tIndex).getTeamName(), league);
 								}
 							}
 						}
 					}
 				}
 			}
-		} catch (SQLException e) {
-			log.log(Level.SEVERE, TeamManagementConstants.RETIREMENT_EXCEPTION.toString() + league.getLeagueName());
-			throw new RetirementManagementException(
-					TeamManagementConstants.RETIREMENT_EXCEPTION.toString() + league.getLeagueName());
-		} catch (IOException e) {
+		} catch (IndexOutOfBoundsException e) {
 			throw e;
 		}
 		return league;
@@ -143,7 +133,7 @@ public class RetirementManagement implements IRetirementManagement {
 		return player;
 	}
 	@Override
-	public League increaseAge(String currentDate, League league) throws SQLException, RetirementManagementException, IOException, ParseException {
+	public League increaseAge(String currentDate, League league) throws SQLException, IOException, ParseException {
 		League tempLeague = null;
 		String playerBirthDay = "";
 		long dateDiff = 0;
@@ -191,8 +181,7 @@ public class RetirementManagement implements IRetirementManagement {
 			league.setFreeAgents(freeAgentsList);
 			tempLeague = replaceRetiredPlayers(league);
 		} catch (SQLException e) {
-			throw new RetirementManagementException(
-					TeamManagementConstants.RETIREMENT_EXCEPTION.toString() + league.getLeagueName());
+			throw e;
 		} catch (IOException e) {
 			throw e;
 		} catch (ParseException e) {

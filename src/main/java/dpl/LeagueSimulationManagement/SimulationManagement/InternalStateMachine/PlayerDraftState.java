@@ -74,6 +74,7 @@ public class PlayerDraftState implements ISimulationState {
         output.sendOutput();
         // TODO
         IPlayerDraft playerDraft = teamManagement.PlayerDraft();
+        standings.getTeamWinMap();
         log.log(Level.INFO, StateConstants.PLAYER_DRAFT);
     }
 
