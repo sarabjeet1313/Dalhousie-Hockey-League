@@ -11,30 +11,31 @@ public class GameplayConfig {
 	private double penaltyChance = 0.45;
 	private int checkingValueToPenalty = 10;
 	private double shootingValueToGoal = 4.9;
-	@Expose (serialize = true, deserialize = true) private Aging aging;
-	@Expose (serialize = true, deserialize = true) private GameResolver gameResolver;
-	@Expose (serialize = true, deserialize = true) private Injury injury;
-	@Expose (serialize = true, deserialize = true) private Training training;
-	@Expose (serialize = true, deserialize = true) private Trading trading;
+	@Expose(serialize = true, deserialize = true)
+	private Aging aging;
+	@Expose(serialize = true, deserialize = true)
+	private Injury injury;
+	@Expose(serialize = true, deserialize = true)
+	private Training training;
+	@Expose(serialize = true, deserialize = true)
+	private Trading trading;
 	private IGameplayConfigPersistance configDb;
 
 	public GameplayConfig(IGameplayConfigPersistance configDb) {
 		this.configDb = configDb;
 	}
 
-	public GameplayConfig(Aging aging, GameResolver gameResolver, Injury injury, Training training, Trading trading,
+	public GameplayConfig(Aging aging, Injury injury, Training training, Trading trading,
 			IGameplayConfigPersistance configDb) {
 		this.aging = aging;
-		this.gameResolver = gameResolver;
 		this.injury = injury;
 		this.training = training;
 		this.trading = trading;
 		this.configDb = configDb;
 	}
 
-	public GameplayConfig(Aging aging, GameResolver gameResolver, Injury injury, Training training, Trading trading) {
+	public GameplayConfig(Aging aging, Injury injury, Training training, Trading trading) {
 		this.aging = aging;
-		this.gameResolver = gameResolver;
 		this.injury = injury;
 		this.training = training;
 		this.trading = trading;
@@ -48,13 +49,6 @@ public class GameplayConfig {
 		this.aging = aging;
 	}
 
-	public GameResolver getGameResolver() {
-		return gameResolver;
-	}
-
-	public void setGameResolver(GameResolver gameResolver) {
-		this.gameResolver = gameResolver;
-	}
 
 	public Injury getInjury() {
 		return injury;

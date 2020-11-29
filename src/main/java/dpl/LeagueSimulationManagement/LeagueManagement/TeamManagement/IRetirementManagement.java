@@ -2,8 +2,7 @@ package dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement;
 
 import java.io.IOException;
 import java.sql.SQLException;
-
-import dpl.ErrorHandling.RetirementManagementException;
+import java.text.ParseException;
 
 public interface IRetirementManagement {
 
@@ -11,8 +10,8 @@ public interface IRetirementManagement {
 
     public boolean shouldPlayerRetire(League league, Player player) throws SQLException;
 
-    public League replaceRetiredPlayers(League league) throws SQLException, RetirementManagementException, IOException;
+    public League replaceRetiredPlayers(League league) throws SQLException, IOException;
 
-    public League increaseAge(int days, League league) throws SQLException, RetirementManagementException, IOException;
+    public League increaseAge(String currentDate, League league) throws SQLException, IOException, ParseException;
 
 }

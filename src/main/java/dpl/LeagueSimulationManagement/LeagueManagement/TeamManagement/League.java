@@ -185,7 +185,7 @@ public class League implements ILeagueOperation {
 				}
 			}
 			conferenceName = divisionName = teamName = coachName = TeamManagementConstants.EMPTY.toString();
-			playerList.clear();
+//			playerList.clear();
 			playerList = league.getFreeAgents();
 			if (!playerList.isEmpty()) {
 				for (int index = 0; index < playerList.size(); index++) {
