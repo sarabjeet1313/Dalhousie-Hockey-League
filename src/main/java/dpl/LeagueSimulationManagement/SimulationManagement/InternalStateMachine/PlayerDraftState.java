@@ -11,10 +11,13 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IPlayerDra
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IRetirementManagement;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManagementAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.SystemConfig;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -72,9 +75,13 @@ public class PlayerDraftState implements ISimulationState {
     public void doProcessing() {
         output.setOutput(StateConstants.PLAYER_DRAFT);
         output.sendOutput();
-        // TODO
         IPlayerDraft playerDraft = teamManagement.PlayerDraft();
-        standings.getTeamWinMap();
+        List<String> teamNameList = standings.sortMapDraft();
+        List<Team> teamList= playerDraft.generateDraftingTeams(teamNameList, leagueToSimulate);
+        List<Player> playerList = playerDraft.generateDraftingPlayers(teamList.size());
+        List<Team> updatedTeamList = playerDraft.startRoundDraft(teamList, playerList);
+        leagueToSimulate = playerDraft.postDrafting(updatedTeamList, leagueToSimulate);
+        
         log.log(Level.INFO, StateConstants.PLAYER_DRAFT);
     }
 

@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class StandingInfo {
 
@@ -180,19 +181,15 @@ public class StandingInfo {
 		return teams;
 	}
 	
-	private List<String> sortMapDraft(Map<Integer, String> teamMap) {
+	public List<String> sortMapDraft() {
 		List<String> teams = new ArrayList<>();
+		Map<String, Integer> temMap = teamWinMap.entrySet().stream()
+				  .sorted(Map.Entry.comparingByValue())
+				  .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
 
-		Map<Integer, String> sortMap = new TreeMap<>(
-				(Comparator<Integer>) (o1, o2) -> o1.compareTo(o2)
-		);
-
-		sortMap.putAll(teamMap);
-
-		Iterator<Map.Entry<Integer, String>> iterator = sortMap.entrySet().iterator();
-		for (int i = 0; iterator.hasNext() && i < 16; i++) {
-			teams.add(iterator.next().getValue());
-		}
+		temMap.forEach((key, value) ->  {
+			teams.add(key);
+		} );
 		return teams;
 	} 
 
