@@ -246,6 +246,7 @@ public class Trade implements ITrade {
 		ITeamInfo iTeamInfo = teamManagement.Team();
 		IPlayerInfo iPlayerInfo = teamManagement.Player();
 		AiAcceptReject aiAcceptReject = tradingAbstractFactory.AiAcceptReject();
+		IRosterManagement rosterManagement = teamManagement.RosterManagement();
 		TradeReset tradeReset = tradingAbstractFactory.TradeReset(tradeDB);
 		boolean isUserTeam = false;
 
@@ -335,6 +336,15 @@ public class Trade implements ITrade {
 		}
 	//Specific maybe ?
 		tradeReset.UpdateTrade(standings);
+		rosterManagement.balanceOutRoster(leagueObject);
+
 		return leagueObject;
+	}
+
+	@Override
+	public List<Team> startTradeDraftPick(League league, List<Team> teamList) {
+
+
+		return null;
 	}
 }

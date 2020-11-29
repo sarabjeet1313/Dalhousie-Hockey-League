@@ -46,4 +46,8 @@ public class GameplayConfigurationAbstractFactory implements IGameplayConfigurat
 		return new Training(daysUntilStatIncreaseCheck, trackDays);
 	}
 
+	@Override
+	public dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Training Training() {
+		return new Training();
+	}
 }

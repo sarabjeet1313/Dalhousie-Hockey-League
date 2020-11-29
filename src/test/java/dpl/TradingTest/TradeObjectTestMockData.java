@@ -20,14 +20,14 @@ public class TradeObjectTestMockData implements ITradePersistence {
 
 	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
 			.getTeamManagementAbstractFactory();
-    private Player player1 = teamManagement.PlayerWithParameters("Player One", "forward", true, 1, 1, 1, 1, 1, false, false, 0,false, 23, 3, 1999);
-    private Player player7 = teamManagement.PlayerWithParameters("Player Seven", "forward", false, 1, 1, 1, 1, 1, false, false, 0, false, 23, 3, 1999);
-    private Player player2 = teamManagement.PlayerWithParameters("Player Two", "defense", false, 51, 12, 12, 13, 12, false, true, 0, false, 23, 3, 1999);
-    private Player player3 = teamManagement.PlayerWithParameters("Player Three", "goalie", false, 10, 19, 18, 15, 14, false, false, 0, false, 19, 5, 2000);
-    private Player player4 = teamManagement.PlayerWithParameters("Agent1", "forward", false, 1, 11, 14, 12, 13, false, false, 0, false, 19, 5, 2000);
-    private Player player5 = teamManagement.PlayerWithParameters("Agent2", "defense", false, 1, 100, 1, 1, 1, false, false, 0, false, 19, 5, 2000);
-    private Player player6 = teamManagement.PlayerWithParameters("Agent3", "defense", false, 1, 1, 1, 1, 1, false, false, 0, false, 19, 5, 2000);
-    private Player player8 = teamManagement.PlayerWithParameters("Player Eight", "forward", false, 1, 20, 20, 20, 20, false, false, 0, false, 19, 5, 2000);
+    private Player player1 = teamManagement.PlayerWithParameters("Player One", "forward", true, 1, 1, 1, 1, 1, false, false, 0,false, 23, 3, 1999, Boolean.FALSE);
+    private Player player7 = teamManagement.PlayerWithParameters("Player Seven", "forward", false, 1, 1, 1, 1, 1, false, false, 0, false, 23, 3, 1999, Boolean.FALSE);
+    private Player player2 = teamManagement.PlayerWithParameters("Player Two", "defense", false, 51, 12, 12, 13, 12, false, true, 0, false, 23, 3, 1999, Boolean.FALSE);
+    private Player player3 = teamManagement.PlayerWithParameters("Player Three", "goalie", false, 10, 19, 18, 15, 14, false, false, 0, false, 19, 5, 2000, Boolean.FALSE);
+    private Player player4 = teamManagement.PlayerWithParameters("Agent1", "forward", false, 1, 11, 14, 12, 13, false, false, 0, false, 19, 5, 2000, Boolean.FALSE);
+    private Player player5 = teamManagement.PlayerWithParameters("Agent2", "defense", false, 1, 100, 1, 1, 1, false, false, 0, false, 19, 5, 2000, Boolean.FALSE);
+    private Player player6 = teamManagement.PlayerWithParameters("Agent3", "defense", false, 1, 1, 1, 1, 1, false, false, 0, false, 19, 5, 2000, Boolean.FALSE);
+    private Player player8 = teamManagement.PlayerWithParameters("Player Eight", "forward", false, 1, 20, 20, 20, 20, false, false, 0, false, 19, 5, 2000, Boolean.FALSE);
     List<Player> playerList = new ArrayList<Player>();
     List<Player> playerList2 = new ArrayList<Player>();
     List<Player> freePlayerList = new ArrayList<Player>();

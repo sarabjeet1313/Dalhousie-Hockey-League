@@ -11,8 +11,6 @@ import dpl.SystemConfig;
 import dpl.DplConstants.GeneralConstants;
 import dpl.DplConstants.TeamManagementConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.GameplayConfig;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
 public class League implements ILeagueOperation {
 
