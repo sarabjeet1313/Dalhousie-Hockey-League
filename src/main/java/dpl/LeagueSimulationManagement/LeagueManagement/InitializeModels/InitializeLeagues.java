@@ -213,7 +213,7 @@ public class InitializeLeagues implements IInitializeLeagues {
 						output.sendOutput();
 						return null;
 					}
-					Manager managerObj = teamManagement.ManagerWithDbParameters(managerName,personality, managerDb);
+					Manager managerObj = teamManagement.ManagerWithDbParameters(managerName, personality, managerDb);
 
 					JsonObject headCoach = team.get(CoachConstants.HEAD_COACH.toString()).getAsJsonObject();
 					String headCoachName = headCoach.get(CoachConstants.NAME.toString()).toString();
@@ -241,7 +241,8 @@ public class InitializeLeagues implements IInitializeLeagues {
 					Coach headCoachObj = teamManagement.CoachWithDbParameters(headCoachName, coachSkating,
 							coachShooting, coachChecking, coachSaving, coachDb);
 
-					Team teamObject = teamManagement.TeamWithParameters(teamName, managerObj, headCoachObj, bufferPlayerList, false);
+					Team teamObject = teamManagement.TeamWithParameters(teamName, managerObj, headCoachObj,
+							bufferPlayerList, false);
 					bufferTeamList.add(teamObject);
 					divisionObject.setTeamList(bufferTeamList);
 					JsonArray players = team.get(PlayerConstants.PLAYERS.toString()).getAsJsonArray();
@@ -300,15 +301,6 @@ public class InitializeLeagues implements IInitializeLeagues {
 							isCaptainPositionOccupied = captain;
 						}
 
-						int age = player.get(PlayerConstants.PLAYER_AGE.toString()).getAsInt();
-
-						if (age < 0) {
-							output.setOutput(PlayerConstants.PLAYER.toString() + count
-									+ PlayerConstants.PLAYER_AGE_ERROR.toString());
-							output.sendOutput();
-							return null;
-						}
-
 						int skating = player.get(PlayerConstants.SKATING.toString()).getAsInt();
 						int shooting = player.get(PlayerConstants.SHOOTING.toString()).getAsInt();
 						int checking = player.get(PlayerConstants.CHECKING.toString()).getAsInt();
@@ -316,6 +308,7 @@ public class InitializeLeagues implements IInitializeLeagues {
 						int birthDay = player.get(PlayerConstants.BIRTH_DAY.toString()).getAsInt();
 						int birthMonth = player.get(PlayerConstants.BIRTH_MONTH.toString()).getAsInt();
 						int birthYear = player.get(PlayerConstants.BIRTH_YEAR.toString()).getAsInt();
+						int age = 2020 - birthYear;
 
 						String returnedValue = isValidPlayer(skating, shooting, checking, saving);
 
@@ -327,7 +320,7 @@ public class InitializeLeagues implements IInitializeLeagues {
 
 						Player playerObject = teamManagement.PlayerWithParameters(playerName, position, captain, age,
 								skating, shooting, checking, saving, Boolean.FALSE, Boolean.FALSE, 0, Boolean.FALSE,
-								birthDay, birthMonth, birthYear);
+								birthDay, birthMonth, birthYear, Boolean.FALSE);
 						bufferPlayerList.add(playerObject);
 						teamObject.setPlayerList(bufferPlayerList);
 					}
@@ -440,7 +433,7 @@ public class InitializeLeagues implements IInitializeLeagues {
 				}
 
 				freeAgents.add(teamManagement.PlayerWithParameters(agentName, position, captain, age, skating, shooting,
-						checking, saving, false, false, 0, false, birthDay, birthMonth, birthYear));
+						checking, saving, false, false, 0, false, birthDay, birthMonth, birthYear, Boolean.FALSE));
 			}
 		} catch (NullPointerException e) {
 			throw e;
@@ -522,7 +515,7 @@ public class InitializeLeagues implements IInitializeLeagues {
 					output.sendOutput();
 					return null;
 				}
-				Manager manager = teamManagement.ManagerWithDbParameters(managerName, personality ,managerDb);
+				Manager manager = teamManagement.ManagerWithDbParameters(managerName, personality, managerDb);
 				managerList.add(manager);
 			}
 		} catch (NullPointerException e) {
@@ -643,12 +636,12 @@ public class InitializeLeagues implements IInitializeLeagues {
 			}
 
 			JsonObject gmTableObject = tradingObj.get(GameConfigConstants.GMTABLE.toString()).getAsJsonObject();
-			HashMap<String,Double> gmTable = new HashMap<>();
-			gmTableObject.keySet().forEach(keyStr ->
-			{
+			HashMap<String, Double> gmTable = new HashMap<>();
+			gmTableObject.keySet().forEach(keyStr -> {
 				gmTable.put(keyStr, gmTable.get(keyStr));
 			});
-			trading = new Trading(lossPoint, randomTradeOfferChance, maxPlayersPerTrade, randomAcceptanceChance, gmTable);
+			trading = new Trading(lossPoint, randomTradeOfferChance, maxPlayersPerTrade, randomAcceptanceChance,
+					gmTable);
 		} catch (NullPointerException e) {
 			throw e;
 		}

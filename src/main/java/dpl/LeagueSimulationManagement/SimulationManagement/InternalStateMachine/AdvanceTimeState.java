@@ -41,7 +41,7 @@ public class AdvanceTimeState implements ISimulationState {
 		this.stateName = StateConstants.ADVANCE_TIME_STATE;
 		this.internalStateMachineFactory = SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory();
 		this.currentDate = startDate;
-		this.training = new Training(output);
+		this.training = SystemConfig.getSingleInstance().getGameplayConfigurationAbstractFactory().Training();
 		this.endDate = endDate;
 		this.output = output;
 		this.context = context;

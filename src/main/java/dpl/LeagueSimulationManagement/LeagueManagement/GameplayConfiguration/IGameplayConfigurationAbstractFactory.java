@@ -8,18 +8,17 @@ public interface IGameplayConfigurationAbstractFactory {
 
 	public GameplayConfig GameplayConfigWithDbParameters(IGameplayConfigPersistance configDb);
 
-	public GameplayConfig GameplayConfigWithAllParameters(Aging aging, Injury injury,
-			Training training, Trading trading, IGameplayConfigPersistance configDb);
+	public GameplayConfig GameplayConfigWithAllParameters(Aging aging, Injury injury, Training training,
+			Trading trading, IGameplayConfigPersistance configDb);
 
-	public GameplayConfig GameplayConfigWithParameters(Aging aging, Injury injury,
-			Training training, Trading trading);
-
-
+	public GameplayConfig GameplayConfigWithParameters(Aging aging, Injury injury, Training training, Trading trading);
 
 	public Injury Injury(double randomInjuryChance, int injuryDaysLow, int injuryDaysHigh);
 
 	public Trading Trading(int lossPoint, double randomTradeOfferChance, int maxPlayersPerTrade,
-						   double randomAcceptanceChance, HashMap<String,Double> gmTable);
-	
+			double randomAcceptanceChance, HashMap<String, Double> gmTable);
+
 	public Training Training(int daysUntilStatIncreaseCheck, int trackDays);
+
+	public Training Training();
 }

@@ -51,7 +51,7 @@ public class GeneratePlayoffScheduleState implements ISimulationState {
 		this.leagueToSimulate = leagueToSimulate;
 		this.schedule = scheduleAbstractFactory.PlayoffSchedule(this.output, this.standingsDb, this.standings, this.season);
 		this.context = context;
-		this.training = new Training(output);
+		this.training = SystemConfig.getSingleInstance().getGameplayConfigurationAbstractFactory().Training();
 		this.startDate = this.seasonCalendar.getPlayoffFirstDay();
 		schedule.setFirstDay(startDate);
 		schedule.setCurrentDay(startDate);

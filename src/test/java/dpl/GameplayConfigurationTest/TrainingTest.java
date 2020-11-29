@@ -14,12 +14,13 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
 import dpl.TeamManagementTest.LeagueObjectTestData;
 
 public class TrainingTest {
-	
+
 	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
 			.getTeamManagementAbstractFactory();
 	League mockData = new LeagueObjectTestData().getLeagueData();
 	Training training = new Training(100, 100);
-	Player player = teamManagement.PlayerWithParameters("Player One", "forward", true, 1, 1, 1, 1, 1, false, false, 0, false, 23, 3, 1999);
+	Player player = teamManagement.PlayerWithParameters("Player One", "forward", true, 1, 1, 1, 1, 1, false, false, 0,
+			false, 23, 3, 1999, Boolean.FALSE);
 	Coach coach = teamManagement.CoachWithParameters("Coach One", 0.5, 0.5, 0.5, 0.5);
 
 	@Test
