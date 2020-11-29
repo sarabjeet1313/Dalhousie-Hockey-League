@@ -1,20 +1,27 @@
 package dpl.InternalStateMachineTest;
 
-import dpl.ErrorHandling.RetirementManagementException;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import dpl.SystemConfig;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.*;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IInjuryManagement;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ILeaguePersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IRetirementManagement;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManagementAbstractFactory;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.AdvanceToNextSeasonState;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStateContext;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
-import dpl.SystemConfig;
 import dpl.TeamManagementTest.LeagueMockData;
-import org.junit.Before;
-import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class AdvanceToNextSeasonStateTest {
 
@@ -53,7 +60,7 @@ public class AdvanceToNextSeasonStateTest {
     }
 
     @Test
-    public void doProcessingTest() throws RetirementManagementException {
+    public void doProcessingTest() {
         leagueToSimulate.setLeagueDb(leagueMock);
         state.doProcessing();
         assertFalse(null == state.getUpdatedLeague());
@@ -61,7 +68,7 @@ public class AdvanceToNextSeasonStateTest {
     }
 
     @Test
-    public void getUpdatedLeagueTest() throws RetirementManagementException {
+    public void getUpdatedLeagueTest() {
         leagueToSimulate.setLeagueDb(leagueMock);
         state.doProcessing();
         assertFalse(null == state.getUpdatedLeague());

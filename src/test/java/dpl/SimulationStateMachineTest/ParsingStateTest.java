@@ -1,26 +1,28 @@
 package dpl.SimulationStateMachineTest;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.net.URL;
+
+import org.junit.Before;
+import org.junit.Test;
+
 import dpl.Database.GameConfigDB;
-import dpl.ErrorHandling.RetirementManagementException;
+import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
+import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradePersistence;
 import dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine.ParsingState;
 import dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine.StateContext;
-import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
-import dpl.StandingsTest.StandingsMockDb;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
-import dpl.TeamManagementTest.CoachMockData;
-import dpl.TeamManagementTest.LeagueMockData;
-import dpl.TeamManagementTest.ManagerMockData;
-import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradePersistence;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
-
-import org.junit.Before;
-import org.junit.Test;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.net.URL;
-import static org.junit.Assert.*;
+import dpl.StandingsTest.StandingsMockDb;
+import dpl.TeamManagementTest.CoachMockData;
+import dpl.TeamManagementTest.LeagueMockData;
+import dpl.TeamManagementTest.ManagerMockData;
 
 public class ParsingStateTest {
 	
@@ -57,7 +59,7 @@ public class ParsingStateTest {
     }
 
     @Test
-    public void doProcessingTest() throws RetirementManagementException {
+    public void doProcessingTest() {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
         context.doProcessing();
