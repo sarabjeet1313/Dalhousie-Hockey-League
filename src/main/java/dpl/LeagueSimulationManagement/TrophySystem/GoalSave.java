@@ -2,15 +2,15 @@ package dpl.LeagueSimulationManagement.TrophySystem;
 
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
 
-public class GoalSaver extends Subject{
-    private static GoalSaver instance;
+public class GoalSave extends Subject{
+    private static GoalSave instance;
     private Player bestGoalSaver;
 
-    private GoalSaver(){ }
+    private GoalSave(){ }
 
-    public static GoalSaver getInstance(){
+    public static GoalSave getInstance(){
         if(instance == null){
-            instance = new GoalSaver();
+            instance = new GoalSave();
         }
         return  instance;
     }

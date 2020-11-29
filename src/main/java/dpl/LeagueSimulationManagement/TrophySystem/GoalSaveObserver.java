@@ -5,27 +5,24 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayerGoalScorerObserver implements IObserver{
+public class GoalSaveObserver implements IObserver{
     private List<Player> playerList;
 
-    public PlayerGoalScorerObserver(){
+    public GoalSaveObserver(){
         playerList = new ArrayList<>();
     }
 
     @Override
     public void update(Subject subject) {
-        Player bestPlayer = null;
+        Player bestGoalSaver = null;
         int saves = 0;
-        int goals = 0;
         playerList.add((Player) subject.getValue("player"));
-
         for(Player player: playerList){
-            if(saves < player.getSaves() && goals < player.getGoals()){
+            if(saves < player.getSaves()){
                 saves = player.getSaves();
-                goals = player.getGoals();
-                bestPlayer = player;
+                bestGoalSaver = player;
             }
         }
-        PlayerGoalScorer.getInstance().setBestPlayer(bestPlayer);
+        GoalSave.getInstance().setBestGoalSaver(bestGoalSaver);
     }
 }

@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class ParicipantsAwardObserverTest {
+public class ParticipantAwardObserverTest {
     private Subject subject;
     private IObserver observer;
 

@@ -5,16 +5,16 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ParticipantsAwardObserver implements IObserver{
+public class TeamPointObserver implements IObserver{
     private Map<String, Integer> teamPoints;
 
-    public ParticipantsAwardObserver(){
+    public TeamPointObserver(){
         teamPoints = new HashMap<>();
     }
 
     @Override
     public void update(Subject subject) {
-        String teamWithLowPoints = null;
+        String teamWithHighPoints = null;
         int points = 0;
         Team team = (Team)subject.getValue("team");
         if(teamPoints.containsKey(team.getTeamName())){
@@ -23,10 +23,11 @@ public class ParticipantsAwardObserver implements IObserver{
             teamPoints.put(team.getTeamName(), 1);
         }
         for(String teamName: teamPoints.keySet()){
-            if(points > teamPoints.get(teamName)){
-                teamWithLowPoints = teamName;
+            if(points < teamPoints.get(teamName)){
+                teamWithHighPoints = teamName;
             }
         }
-        ParticipantsAward.getInstance().setTeamWithLowestPoints(teamWithLowPoints);
+        TeamPoint.getInstance().setBestTeam(teamWithHighPoints);
     }
+
 }
