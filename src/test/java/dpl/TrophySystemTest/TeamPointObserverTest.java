@@ -16,9 +16,9 @@ public class TeamPointObserverTest {
     @Before
     public void before() {
         subject = TeamPoint.getInstance();
-        Team  team = new Team();
+        Team team = new Team();
         team.setTeamName("TestTeam");
-        subject.setValue("team", team);
+        subject.setValue(TrophySystemConstants.TEAM.toString(), team);
         observer = TrophySystemAbstractFactory.createObserver(TrophySystemConstants.PRESIDENT_TROPHY);
     }
 
@@ -28,8 +28,8 @@ public class TeamPointObserverTest {
     }
 
     @Test
-    public void updateTest(){
-            observer.update(subject);
+    public void updateTest() {
+        observer.update(subject);
         assertEquals("TestTeam", TeamPoint.getInstance().getBestTeam());
     }
 

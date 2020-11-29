@@ -12,13 +12,14 @@ import static org.junit.Assert.assertEquals;
 public class GoalSaveObserverTest {
     private Subject subject;
     private IObserver observer;
+
     @Before
     public void before() {
         subject = GoalSave.getInstance();
-        Player player= new Player();
+        Player player = new Player();
         player.setPlayerName("Alissa");
         player.setSaves(3);
-        subject.setValue("player", player);
+        subject.setValue(TrophySystemConstants.PLAYER.toString(), player);
         observer = TrophySystemAbstractFactory.createObserver(TrophySystemConstants.VEZINA_TROPHY);
     }
 
@@ -28,7 +29,7 @@ public class GoalSaveObserverTest {
     }
 
     @Test
-    public void updateTest(){
+    public void updateTest() {
         observer.update(subject);
         assertEquals("Alissa", GoalSave.getInstance().getBestGoalSaver().getPlayerName());
     }

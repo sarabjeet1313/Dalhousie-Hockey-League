@@ -12,12 +12,13 @@ import static org.junit.Assert.assertEquals;
 public class PlayerGoalScoreObserverTest {
     private Subject subject;
     private IObserver observer;
+
     @Before
     public void before() {
         subject = PlayerGoalScore.getInstance();
-        Player player=new Player();
+        Player player = new Player();
         player.setPlayerName("Alexa");
-        subject.setValue("player", player);
+        subject.setValue(TrophySystemConstants.PLAYER.toString(), player);
         observer = TrophySystemAbstractFactory.createObserver(TrophySystemConstants.CALDER_MEMORIAL_TROPHY);
     }
 
@@ -27,7 +28,7 @@ public class PlayerGoalScoreObserverTest {
     }
 
     @Test
-    public void updateTest(){
+    public void updateTest() {
         observer.update(subject);
         //assertEquals("Alexa", PlayerGoalScore.getInstance().getBestPlayer().getPlayerName());
     }

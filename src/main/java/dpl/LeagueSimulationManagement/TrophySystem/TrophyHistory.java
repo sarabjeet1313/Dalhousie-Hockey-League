@@ -1,10 +1,14 @@
 package dpl.LeagueSimulationManagement.TrophySystem;
 
+import dpl.DplConstants.TrophySystemConstants;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+
 import java.util.*;
 
 public class TrophyHistory {
     private static Map<Integer, List<Map<String, String>>> trophyList;
     private static TrophyHistory instance;
+    private IUserOutput output;
 
     private TrophyHistory() {
         trophyList = new HashMap<>();
@@ -17,7 +21,7 @@ public class TrophyHistory {
         return instance;
     }
 
-    public void addTrophy(int year, String award, String awardedTo){
+    public void addTrophy(int year, String award, String awardedTo) {
         Map<String, String> trophy = new HashMap<>();
         trophy.put(award, awardedTo);
         List<Map<String, String>> list = (trophyList.containsKey(year)) ? trophyList.get(year) : new ArrayList<>();
@@ -25,14 +29,14 @@ public class TrophyHistory {
         trophyList.put(year, list);
     }
 
-    public Map<Integer, List<Map<String, String>>> getTrophyHistory(){
+    public Map<Integer, List<Map<String, String>>> getTrophyHistory() {
         Map<Integer, List<Map<String, String>>> history = new HashMap<>();
         Set<Integer> keys = trophyList.keySet();
-        for(Integer year: keys){
+        for (Integer year : keys) {
             List<Map<String, String>> list = new ArrayList<>();
-            for(Map<String, String> yearlyTrophies: trophyList.get(year)){
+            for (Map<String, String> yearlyTrophies : trophyList.get(year)) {
                 Map<String, String> trophy = new HashMap<>();
-                for(String trophyName: yearlyTrophies.keySet()){
+                for (String trophyName : yearlyTrophies.keySet()) {
                     trophy.put(trophyName, yearlyTrophies.get(trophyName));
                 }
                 list.add(trophy);
@@ -42,19 +46,21 @@ public class TrophyHistory {
         return history;
     }
 
-    public void displayTrophyHistory(){
+    public void displayTrophyHistory() {
         List<Integer> keys = new ArrayList<>(trophyList.keySet());
         Collections.sort(keys);
         Collections.reverse(keys);
-        for(Integer year: keys){
-            System.out.println("Year " + year);
-            System.out.println("==========");
-            for(Map<String, String> yearlyTrophies: trophyList.get(year)){
-                for(String trophyName: yearlyTrophies.keySet()){
-                    System.out.println(trophyName + "===>" + yearlyTrophies.get(trophyName));
+        for (Integer year : keys) {
+            output.setOutput(TrophySystemConstants.YEAR.toString() + year);
+            output.sendOutput();
+            output.setOutput(TrophySystemConstants.LINE.toString());
+            output.sendOutput();
+            for (Map<String, String> yearlyTrophies : trophyList.get(year)) {
+                for (String trophyName : yearlyTrophies.keySet()) {
+                    output.setOutput(trophyName + TrophySystemConstants.ARROW.toString() + yearlyTrophies.get(trophyName));
+                    output.sendOutput();
                 }
             }
         }
     }
-
 }
