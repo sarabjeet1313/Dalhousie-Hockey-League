@@ -11,7 +11,6 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import dpl.Database.RetiredPlayersDataDB;
 import dpl.DplConstants.ScheduleConstants;
 import dpl.DplConstants.TeamManagementConstants;
 import dpl.LeagueSimulationManagement.NewsSystem.NewsSubscriber;
@@ -58,7 +57,7 @@ public class RetirementManagement implements IRetirementManagement {
 	}
 
 	@Override
-	public League replaceRetiredPlayers(League league) throws SQLException, IOException {
+	public League replaceRetiredPlayers(League league) throws IOException {
 		List<Conference> conferenceList = league.getConferenceList();
 		List<Player> freeAgentsList = league.getFreeAgents();
 		List<Player> tempList = new ArrayList<Player>();
@@ -100,7 +99,6 @@ public class RetirementManagement implements IRetirementManagement {
 									}
 
 									Player returnedPlayer = freeAgentsList.get(selectedIndex);
-									Player retiredPlayer = playersByTeam.get(pIndex);
 
 									freeAgentsList.remove(returnedPlayer);
 									playersByTeam.remove(playersByTeam.get(pIndex));
@@ -124,7 +122,7 @@ public class RetirementManagement implements IRetirementManagement {
 	public Player statDecayCheck(Player player, League league) {
 		double decayValue = league.getGameConfig().getAging().getStatDecayChance();
 		double random = new Random().nextDouble();
-		if(random < decayValue) {
+		if (random < decayValue) {
 			player.setSkating(player.getSkating() - 1);
 			player.setShooting(player.getShooting() - 1);
 			player.setChecking(player.getChecking() - 1);
@@ -132,6 +130,7 @@ public class RetirementManagement implements IRetirementManagement {
 		}
 		return player;
 	}
+
 	@Override
 	public League increaseAge(String currentDate, League league) throws SQLException, IOException, ParseException {
 		League tempLeague = null;
@@ -147,11 +146,14 @@ public class RetirementManagement implements IRetirementManagement {
 					for (int tIndex = 0; tIndex < teamList.size(); tIndex++) {
 						List<Player> playersByTeam = teamList.get(tIndex).getPlayerList();
 						for (Player player : playersByTeam) {
-							playerBirthDay = player.getBirthDay() + "-" + player.getBirthMonth() + "-" + player.getBirthYear(); 
-							Date date = new SimpleDateFormat(ScheduleConstants.DATE_FORMAT.toString()).parse(currentDate);
-							Date birthDate = new SimpleDateFormat(ScheduleConstants.DATE_FORMAT.toString()).parse(playerBirthDay);
+							playerBirthDay = player.getBirthDay() + "-" + player.getBirthMonth() + "-"
+									+ player.getBirthYear();
+							Date date = new SimpleDateFormat(ScheduleConstants.DATE_FORMAT.toString())
+									.parse(currentDate);
+							Date birthDate = new SimpleDateFormat(ScheduleConstants.DATE_FORMAT.toString())
+									.parse(playerBirthDay);
 							dateDiff = birthDate.getTime() - date.getTime();
-							if(dateDiff == 0) {
+							if (dateDiff == 0) {
 								player.setAge(player.getAge() + 1);
 							}
 							if (shouldPlayerRetire(league, player)) {
@@ -166,11 +168,12 @@ public class RetirementManagement implements IRetirementManagement {
 			}
 
 			for (Player freeplayer : freeAgentsList) {
-				playerBirthDay = freeplayer.getBirthDay() + "-" + freeplayer.getBirthMonth() + "-" + freeplayer.getBirthYear(); 
+				playerBirthDay = freeplayer.getBirthDay() + "-" + freeplayer.getBirthMonth() + "-"
+						+ freeplayer.getBirthYear();
 				Date date = new SimpleDateFormat(ScheduleConstants.DATE_FORMAT.toString()).parse(currentDate);
 				Date birthDate = new SimpleDateFormat(ScheduleConstants.DATE_FORMAT.toString()).parse(playerBirthDay);
 				dateDiff = birthDate.getTime() - date.getTime();
-				if(dateDiff == 0) {
+				if (dateDiff == 0) {
 					freeplayer.setAge(freeplayer.getAge() + 1);
 				}
 				if (shouldPlayerRetire(league, freeplayer)) {
@@ -180,8 +183,6 @@ public class RetirementManagement implements IRetirementManagement {
 			}
 			league.setFreeAgents(freeAgentsList);
 			tempLeague = replaceRetiredPlayers(league);
-		} catch (SQLException e) {
-			throw e;
 		} catch (IOException e) {
 			throw e;
 		} catch (ParseException e) {
