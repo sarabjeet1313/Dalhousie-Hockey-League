@@ -188,7 +188,6 @@ public class Team implements ITeamInfo {
         Team team = null;
         List<Player> playerList = getPlayersByTeam(teamName, league);
         List<Player> activePlayers = new ArrayList<>();
-        //List<Player> goalieList = new ArrayList<>();
         for (Player teamPlayer : playerList) {
             if (teamPlayer.isActive()) {
                 activePlayers.add(teamPlayer);

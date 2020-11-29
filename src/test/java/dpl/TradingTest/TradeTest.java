@@ -140,7 +140,7 @@ public class TradeTest {
 		try {
 			League league = trade.startTrade(leagueBefore);
 			Assert.assertEquals(leagueAfter.getLeagueName(), league.getLeagueName());
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			output.setOutput(e.getMessage());
 			output.sendOutput();
 		}

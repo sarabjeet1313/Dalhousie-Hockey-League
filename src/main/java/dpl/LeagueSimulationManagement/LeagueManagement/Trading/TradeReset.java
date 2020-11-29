@@ -21,9 +21,8 @@ public class TradeReset {
         this.teamNames.clear();
     }
 
-    public void UpdateTrade() throws SQLException {
+    public void UpdateTrade(){
         boolean isPersisted = Boolean.FALSE;
-        try {
         if(this.teamNames.size() > 1){
             for(String teamName: this.teamNames){
                 isPersisted = tradeDB.resetTradeLossPoint(teamName);
@@ -32,9 +31,7 @@ public class TradeReset {
         if(isPersisted == Boolean.TRUE){
             this.clearList();
         }
-        }catch (SQLException e) {
-			throw e;
-		}
+
     }
     
 }

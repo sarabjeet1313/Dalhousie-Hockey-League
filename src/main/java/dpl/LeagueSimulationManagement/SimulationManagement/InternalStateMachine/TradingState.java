@@ -63,7 +63,7 @@ public class TradingState implements ISimulationState {
 		log.log(Level.INFO, StateConstants.TRADING_ENTRY);
 		try {
 			leagueToSimulate = trade.startTrade(leagueToSimulate);
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			log.log(Level.SEVERE, e.getMessage());
 			output.setOutput(e.getMessage());
 			output.sendOutput();

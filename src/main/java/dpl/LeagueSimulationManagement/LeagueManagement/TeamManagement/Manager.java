@@ -65,6 +65,26 @@ public class Manager {
 		return isSaved;
 	}
 
+	public String getMangerPersonalityByTeam(String teamName, League league){
+		String currentTeamName;
+		String  personalityType = ManagerConstants.NORMAL.toString();
+		List<Conference> conferenceList = league.getConferenceList();
+		for (int index = 0; index < conferenceList.size(); index++) {
+			List<Division> divisionList = conferenceList.get(index).getDivisionList();
+			for (int dIndex = 0; dIndex < divisionList.size(); dIndex++) {
+				List<Team> teamList = divisionList.get(dIndex).getTeamList();
+				for (int tIndex = 0; tIndex < teamList.size(); tIndex++) {
+					currentTeamName = teamList.get(tIndex).getTeamName();
+					if(currentTeamName.equals(teamName)){
+						Manager teamManager = teamList.get(tIndex).getGeneralManager();
+						personalityType = teamManager.getManagerPersonality();
+					}
+				}
+			}
+		}
+		return personalityType;
+	}
+
 	public boolean saveManagerList(League league) throws SQLException, IOException {
 		boolean isSaved = Boolean.FALSE;
 		String teamName = TeamManagementConstants.EMPTY.toString();
