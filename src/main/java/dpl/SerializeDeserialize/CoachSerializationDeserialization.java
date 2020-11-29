@@ -17,7 +17,7 @@ public class CoachSerializationDeserialization implements ICoachPersistance {
 	@Override
 	public boolean persistCoaches(Coach coach, String teamName, String leagueName) throws IOException {
 		boolean isSerialized = Boolean.FALSE;
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
 		Writer fileWriter = null;
 		URL url = null;
 		try {

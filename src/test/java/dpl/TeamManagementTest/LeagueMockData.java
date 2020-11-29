@@ -1,10 +1,13 @@
 package dpl.TeamManagementTest;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
 
 import dpl.SystemConfig;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Aging;
-import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.GameResolver;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.GameplayConfig;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Injury;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Trading;
@@ -18,46 +21,45 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManag
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Manager;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.RetirementManagement;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
 
 public class LeagueMockData implements ILeaguePersistance {
 
 	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
 			.getTeamManagementAbstractFactory();
-	private Player player1 = teamManagement.PlayerWithParameters("Player One", "forward", true, 49, 1, 1, 1, 1, false, false, 0,false);
-	private Player player2 = teamManagement.PlayerWithParameters("Player Two", "defense", false, 51, 1, 1, 1, 1, false, true, 0, false);
-	private Player player3 = teamManagement.PlayerWithParameters("Player Three", "goalie", false, 1, 1, 1, 1, 1, false, false, 0, false);
-	private Player player4 = teamManagement.PlayerWithParameters("Agent1", "forward", false, 1, 1, 1, 1, 1, false, false, 0, false);
-	private Player player5 = teamManagement.PlayerWithParameters("Agent2", "defense", false, 51, 1, 1, 1, 1, false, true, 0,false);
-	private Player player6 = teamManagement.PlayerWithParameters("Agent3", "defense", false, 1, 1, 1, 1, 1, false, false, 0, false);
-	Player agent1 = teamManagement.PlayerWithParameters("Agent4", "forward", true, 1, 1, 1, 1, 1, false, false, 0, false);
-	Player agent2 = teamManagement.PlayerWithParameters("Agent5", "goalie", false, 50, 1, 1, 1, 1, false, false, 0, false);
-	Player agent3 = teamManagement.PlayerWithParameters("Agent6", "forward", false, 1, 1, 1, 1, 1, false, false, 0, false);
-	Player agent4 = teamManagement.PlayerWithParameters("Agent7", "forward", false, 1, 1, 1, 1, 1, false, false, 0, false);
-	Player agent5 = teamManagement.PlayerWithParameters("Agent8", "defense", false, 1, 1, 1, 1, 1, false, false, 0, false);
-	Player agent6 = teamManagement.PlayerWithParameters("Agent9", "forward", false, 48, 1, 1, 1, 1, false, false, 0, false);
-	Player agent7 = teamManagement.PlayerWithParameters("Agent10", "forward", true, 51, 1, 1, 1, 1, false, false, 0, false);
-	Player agent8 = teamManagement.PlayerWithParameters("Agent11", "defense", false, 1, 1, 1, 1, 1, false, false, 0, false);
-	Player agent9 = teamManagement.PlayerWithParameters("Agent12", "goalie", false, 1, 1, 1, 1, 1, false, false, 0, false);
-	Player agent10 = teamManagement.PlayerWithParameters("Agent13", "forward", false, 1, 1, 1, 1, 1, false, false, 0, false);
-	Player agent11 = teamManagement.PlayerWithParameters("Agent14", "defense", false, 1, 1, 1, 1, 1, false, false, 0, false);
-	Player agent12 = teamManagement.PlayerWithParameters("Agent15", "defense", false, 49, 1, 1, 1, 1, false, false, 0, false);
-	Player agent13 = teamManagement.PlayerWithParameters("Agent16", "forward", true, 1, 1, 1, 1, 1, false, false, 0, false);
-	Player agent14 = teamManagement.PlayerWithParameters("Agent17", "defense", false, 1, 1, 1, 1, 1, false, false, 0, false);
-	Player agent15 = teamManagement.PlayerWithParameters("Agent18", "forward", false, 1, 1, 1, 1, 1, false, false, 0, false);
-	Player agent16 = teamManagement.PlayerWithParameters("Agent19", "forward", false, 1, 1, 1, 1, 1, false, false, 0, false);
-	Player agent17 = teamManagement.PlayerWithParameters("Agent20", "defense", false, 1, 1, 1, 1, 1, false, false, 0, false);
-	Player agent18 = teamManagement.PlayerWithParameters("Agent21", "defense", false, 1, 1, 1, 1, 1, false, false, 0, false);
-	Player agent19 = teamManagement.PlayerWithParameters("Agent22", "defense", false, 1, 1, 1, 1, 1, false, false, 0, false);
-	Player agent20 = teamManagement.PlayerWithParameters("Agent23", "goalie", false, 1, 1, 1, 1, 1, false, false, 0, false);
-	Player agent21 = teamManagement.PlayerWithParameters("Agent24", "forward", true, 1, 1, 1, 1, 1, false, false, 0, false);
-	Player agent22 = teamManagement.PlayerWithParameters("Agent25", "defense", false, 1, 1, 1, 1, 1, false, false, 0, false);
-	Player agent23 = teamManagement.PlayerWithParameters("Agent26", "goalie", false, 1, 1, 1, 1, 1, false, false, 0, false);
-	Player agent24 = teamManagement.PlayerWithParameters("Agent27", "forward", false, 1, 1, 1, 1, 1, false, false, 0, false);
-	Player agent25 = teamManagement.PlayerWithParameters("Agent28", "defense", false, 1, 1, 1, 1, 1, false, false, 0, false);
-	Player agent26 = teamManagement.PlayerWithParameters("Agent29", "defense", false, 1, 1, 1, 1, 1, false, false, 0, false);
-	Player agent27 = teamManagement.PlayerWithParameters("Agent30", "goalie", false, 1, 1, 1, 1, 1, false, false, 0, false);
+	private Player player1 = teamManagement.PlayerWithParameters("Player One", "forward", true, 49, 1, 1, 1, 1, false, false, 0,false, 20, 5, 2000);
+	private Player player2 = teamManagement.PlayerWithParameters("Player Two", "defense", false, 51, 1, 1, 1, 1, false, true, 0, false, 20, 5, 2000);
+	private Player player3 = teamManagement.PlayerWithParameters("Player Three", "goalie", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000);
+	private Player player4 = teamManagement.PlayerWithParameters("Agent1", "forward", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000);
+	private Player player5 = teamManagement.PlayerWithParameters("Agent2", "defense", false, 51, 1, 1, 1, 1, false, true, 0,false, 20, 5, 2000);
+	private Player player6 = teamManagement.PlayerWithParameters("Agent3", "defense", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000);
+	Player agent1 = teamManagement.PlayerWithParameters("Agent4", "forward", true, 1, 1, 1, 1, 1, false, false, 0, false, 25, 7, 2001);
+	Player agent2 = teamManagement.PlayerWithParameters("Agent5", "goalie", false, 50, 1, 1, 1, 1, false, false, 0, false, 25, 7, 2001);
+	Player agent3 = teamManagement.PlayerWithParameters("Agent6", "forward", false, 1, 1, 1, 1, 1, false, false, 0, false, 25, 7, 2001);
+	Player agent4 = teamManagement.PlayerWithParameters("Agent7", "forward", false, 1, 1, 1, 1, 1, false, false, 0, false, 25, 7, 2001);
+	Player agent5 = teamManagement.PlayerWithParameters("Agent8", "defense", false, 1, 1, 1, 1, 1, false, false, 0, false, 25, 7, 2001);
+	Player agent6 = teamManagement.PlayerWithParameters("Agent9", "forward", false, 48, 1, 1, 1, 1, false, false, 0, false, 25, 7, 2001);
+	Player agent7 = teamManagement.PlayerWithParameters("Agent10", "forward", true, 51, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000);
+	Player agent8 = teamManagement.PlayerWithParameters("Agent11", "defense", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000);
+	Player agent9 = teamManagement.PlayerWithParameters("Agent12", "goalie", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000);
+	Player agent10 = teamManagement.PlayerWithParameters("Agent13", "forward", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000);
+	Player agent11 = teamManagement.PlayerWithParameters("Agent14", "defense", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000);
+	Player agent12 = teamManagement.PlayerWithParameters("Agent15", "defense", false, 49, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000);
+	Player agent13 = teamManagement.PlayerWithParameters("Agent16", "forward", true, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000);
+	Player agent14 = teamManagement.PlayerWithParameters("Agent17", "defense", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000);
+	Player agent15 = teamManagement.PlayerWithParameters("Agent18", "forward", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000);
+	Player agent16 = teamManagement.PlayerWithParameters("Agent19", "forward", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000);
+	Player agent17 = teamManagement.PlayerWithParameters("Agent20", "defense", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000);
+	Player agent18 = teamManagement.PlayerWithParameters("Agent21", "defense", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000);
+	Player agent19 = teamManagement.PlayerWithParameters("Agent22", "defense", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000);
+	Player agent20 = teamManagement.PlayerWithParameters("Agent23", "goalie", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000);
+	Player agent21 = teamManagement.PlayerWithParameters("Agent24", "forward", true, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000);
+	Player agent22 = teamManagement.PlayerWithParameters("Agent25", "defense", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000);
+	Player agent23 = teamManagement.PlayerWithParameters("Agent26", "goalie", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000);
+	Player agent24 = teamManagement.PlayerWithParameters("Agent27", "forward", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000);
+	Player agent25 = teamManagement.PlayerWithParameters("Agent28", "defense", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000);
+	Player agent26 = teamManagement.PlayerWithParameters("Agent29", "defense", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000);
+	Player agent27 = teamManagement.PlayerWithParameters("Agent30", "goalie", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000);
 	Coach coach1 = teamManagement.CoachWithParameters("Coach One", 0.1, 0.2, 0.1, 0.1);
 	Coach coach2 = teamManagement.CoachWithParameters("Coach Two", 0.1, 0.2, 0.1, 0.1);
 	Coach coach3 = teamManagement.CoachWithParameters("Coach Three", 0.1, 0.2, 0.1, 0.1);
@@ -70,7 +72,6 @@ public class LeagueMockData implements ILeaguePersistance {
 	List<Coach> coachList = new ArrayList<Coach>();
 	List<Manager> managerList = new ArrayList<Manager>();
 	Aging aging = new Aging(35, 50, 0.02);
-	GameResolver gameResolver = new GameResolver(0.1);
 	Injury injury = new Injury(0.05, 1, 260);
 	Training training = new Training(100, 100);
 	HashMap<String, Double> gmTable = new HashMap<>();
@@ -103,7 +104,7 @@ public class LeagueMockData implements ILeaguePersistance {
 		ArrayList<Conference> conferenceList = new ArrayList<Conference>();
 		conferenceList.add(conference1);
 		conferenceList.add(conference2);
-		GameplayConfig config = new GameplayConfig(aging, gameResolver, injury, training, trading);
+		GameplayConfig config = new GameplayConfig(aging, injury, training, trading);
 		League league = teamManagement.LeagueWithParameters("Dalhousie Hockey League", conferenceList, freePlayerList, coachList, managerList,
 				config);
 		return league;

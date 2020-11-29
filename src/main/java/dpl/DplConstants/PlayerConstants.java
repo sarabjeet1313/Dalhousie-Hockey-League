@@ -29,7 +29,14 @@ public enum PlayerConstants {
 	SKATING_ERROR(" skating value should be between 0 and 20."),
 	SHOOTING_ERROR(" shooting value should be between 0 and 20."),
 	CHECKING_ERROR(" checking value should be between 0 and 20."),
-	SAVING_ERROR(" saving value should be between 0 and 20.");
+	SAVING_ERROR(" saving value should be between 0 and 20."),
+	BIRTH_DAY("birthDay"),
+	BIRTH_MONTH("birthMonth"),
+	BIRTH_YEAR("birthYear"),
+	GOALIE("goalie"),
+	FORWARD("forward"),
+	DEFENCE("defense");
+	
 
 	private final String playerString;
 

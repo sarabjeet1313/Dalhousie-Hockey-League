@@ -1,35 +1,45 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration;
 
 import com.google.gson.annotations.Expose;
-import org.jetbrains.annotations.Async;
 
 public class Aging {
-    
-	@Expose (serialize = true, deserialize = true) int averageRetirementAge;
-	@Expose (serialize = true, deserialize = true) int maximumAge;
-    @Expose (serialize = true, deserialize = true) double statDecayChance ;
 
-    public Aging(int averageRetirementAge, int maximumAge, double statDecayChance) {
-        this.averageRetirementAge = averageRetirementAge;
-        this.maximumAge = maximumAge;
-        this.statDecayChance = statDecayChance;
-    }
+	@Expose(serialize = true, deserialize = true)
+	int averageRetirementAge;
+	@Expose(serialize = true, deserialize = true)
+	int maximumAge;
+	@Expose(serialize = true, deserialize = true)
+	double statDecayChance;
 
-    public int getAverageRetirementAge() {
-        return averageRetirementAge;
-    }
+	public Aging(int averageRetirementAge, int maximumAge, double statDecayChance) {
+		this.averageRetirementAge = averageRetirementAge;
+		this.maximumAge = maximumAge;
+		this.statDecayChance = statDecayChance;
+	}
 
-    public void setAverageRetirementAge(int averageRetirementAge) {
-        this.averageRetirementAge = averageRetirementAge;
-    }
+	public int getAverageRetirementAge() {
+		return averageRetirementAge;
+	}
 
-    public int getMaximumAge() {
-        return maximumAge;
-    }
+	public void setAverageRetirementAge(int averageRetirementAge) {
+		this.averageRetirementAge = averageRetirementAge;
+	}
 
-    public void setMaximumAge(int maximumAge) {
-        this.maximumAge = maximumAge;
-    }
+	public int getMaximumAge() {
+		return maximumAge;
+	}
+
+	public void setMaximumAge(int maximumAge) {
+		this.maximumAge = maximumAge;
+	}
+
+	public double getStatDecayChance() {
+		return statDecayChance;
+	}
+
+	public void setStatDecayChance(double statDecayChance) {
+		this.statDecayChance = statDecayChance;
+	}
 
     public double getStateDecayChance() {
         return statDecayChance;

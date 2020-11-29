@@ -7,7 +7,9 @@ import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IInjuryManagement;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IPlayerDraft;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IRetirementManagement;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManagementAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.SystemConfig;
@@ -34,12 +36,16 @@ public class PlayerDraftState implements ISimulationState {
     private IRetirementManagement retirement;
     private int season;
     private IInternalStateMachineAbstractFactory internalStateMachineFactory;
+    private ITeamManagementAbstractFactory teamManagement;
     private static final Logger log = Logger.getLogger(PlayerDraftState.class.getName());
+    
+    
 
     public PlayerDraftState(League leagueToSimulate, ISchedule schedule, IStandingsPersistance standingsDb, StandingInfo standings,
                             IInjuryManagement injury, IRetirementManagement retirement, InternalStateContext context,
                             SeasonCalendar utility, String currentDate, String endDate, int season, IUserOutput output) {
         this.internalStateMachineFactory = SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory();
+        this.teamManagement = SystemConfig.getSingleInstance().getTeamManagementAbstractFactory();
         this.leagueToSimulate = leagueToSimulate;
         this.training = training;
         this.schedule = schedule;
@@ -67,6 +73,8 @@ public class PlayerDraftState implements ISimulationState {
         output.setOutput(StateConstants.PLAYER_DRAFT);
         output.sendOutput();
         // TODO
+        IPlayerDraft playerDraft = teamManagement.PlayerDraft();
+        standings.getTeamWinMap();
         log.log(Level.INFO, StateConstants.PLAYER_DRAFT);
     }
 

@@ -179,6 +179,22 @@ public class StandingInfo {
 		}
 		return teams;
 	}
+	
+	private List<String> sortMapDraft(Map<Integer, String> teamMap) {
+		List<String> teams = new ArrayList<>();
+
+		Map<Integer, String> sortMap = new TreeMap<>(
+				(Comparator<Integer>) (o1, o2) -> o1.compareTo(o2)
+		);
+
+		sortMap.putAll(teamMap);
+
+		Iterator<Map.Entry<Integer, String>> iterator = sortMap.entrySet().iterator();
+		for (int i = 0; iterator.hasNext() && i < 16; i++) {
+			teams.add(iterator.next().getValue());
+		}
+		return teams;
+	} 
 
 //	public boolean initializeStandings() throws SQLException {
 //		boolean result = false;

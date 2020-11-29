@@ -68,10 +68,13 @@ public class AdvanceToNextSeasonState implements ISimulationState {
 		output.sendOutput();
 		int days = (int) daysLapsed();
 		try {
-			leagueToSimulate = retirement.increaseAge(days, leagueToSimulate);
+			leagueToSimulate = retirement.increaseAge(currentDate, leagueToSimulate);
 			leagueToSimulate = injury.updatePlayerInjuryStatus(days, leagueToSimulate);
 			log.log(Level.INFO, StateConstants.NEXT_SEASON_ENTRY);
 		} catch (SQLException | IOException e) {
+			output.setOutput(e.getMessage());
+			output.sendOutput();
+		} catch (ParseException e) {
 			output.setOutput(e.getMessage());
 			output.sendOutput();
 		}

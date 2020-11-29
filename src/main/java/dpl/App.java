@@ -1,9 +1,5 @@
 package dpl;
 
-import dpl.Database.CoachDataDB;
-import dpl.Database.GameConfigDB;
-import dpl.Database.LeagueDataDB;
-import dpl.Database.ManagerDataDB;
 import dpl.Database.TradeDataDB;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.IGameplayConfigPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
@@ -23,10 +19,10 @@ public class App {
 
         IUserInput input = config.getUserInputAbstractFactory().CmdUserInput();
         IUserOutput output = config.getUserOutputAbstractFactory().CmdUserOutput();
-        ILeaguePersistance leagueDb = new LeagueDataDB();
-        ICoachPersistance coachDb = new CoachDataDB();
-        IGameplayConfigPersistance configDb = new GameConfigDB();
-        IManagerPersistance managerDb = new ManagerDataDB();
+        ILeaguePersistance leagueDb = config.getSerializeDeserializeAbstractFactory().LeagueSerializationDeserialization();
+        ICoachPersistance coachDb = config.getSerializeDeserializeAbstractFactory().CoachSerializationDeserialization();
+        IGameplayConfigPersistance configDb = config.getSerializeDeserializeAbstractFactory().GameplayConfigSerializationDeserialization();
+        IManagerPersistance managerDb = config.getSerializeDeserializeAbstractFactory().ManagerSerializationDeserialization();
         ITradePersistence tradeDb = new TradeDataDB();
         IStandingsPersistance standingDb = config.getSerializeDeserializeAbstractFactory().StandingSerializationDeserialization();
         StateContext context = new StateContext(input, output);

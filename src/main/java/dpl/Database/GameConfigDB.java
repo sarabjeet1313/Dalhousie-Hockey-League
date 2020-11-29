@@ -7,7 +7,6 @@ import java.util.HashMap;
 import dpl.DplConstants.GameConfigConstants;
 import dpl.DplConstants.StoredProcedureConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Aging;
-import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.GameResolver;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.GameplayConfig;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.IGameplayConfigPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Injury;
@@ -21,7 +20,6 @@ public class GameConfigDB implements IGameplayConfigPersistance {
     public GameplayConfig loadGameplayConfigData(String leagueName) throws SQLException {
         GameplayConfig config = null;
         Aging aging = null;
-        GameResolver gameResolver = null;
         Injury injury = null;
         Training training = null;
         Trading trading = null;
@@ -34,7 +32,6 @@ public class GameConfigDB implements IGameplayConfigPersistance {
                 //temp fix
                 aging = new Aging(result.getInt(GameConfigConstants.AVG_RETIREMENT_AGE.toString()),
                         result.getInt(GameConfigConstants.MAX_RETIREMENT_AGE.toString()), 0.02);
-                gameResolver = new GameResolver(result.getDouble(GameConfigConstants.RANDOM_WIN_CHANCE.toString()));
                 injury = new Injury(result.getDouble(GameConfigConstants.RANDOM_INJURY_CHANCE.toString()),
                         result.getInt(GameConfigConstants.INJURY_DAYS_LOW.toString()),
                         result.getInt(GameConfigConstants.INJURY_DAYS_HIGH.toString()));
@@ -47,7 +44,7 @@ public class GameConfigDB implements IGameplayConfigPersistance {
                         result.getInt(GameConfigConstants.MAX_PLAYERS_PER_TRADE.toString()),
                         result.getDouble(GameConfigConstants.RANDOM_ACCEPTANCE_CHANCE.toString()),gmTable );
             }
-            config = new GameplayConfig(aging, gameResolver, injury, training, trading);
+            config = new GameplayConfig(aging, injury, training, trading);
         } catch (SQLException e) {
 			throw e;
 		} finally {
@@ -65,7 +62,6 @@ public class GameConfigDB implements IGameplayConfigPersistance {
             invoke.setParameter(1, leagueName);
             invoke.setParameter(2, config.getAging().getAverageRetirementAge());
             invoke.setParameter(3, config.getAging().getMaximumAge());
-            invoke.setParameter(4, config.getGameResolver().getRandomWinChance());
             invoke.setParameter(5, config.getInjury().getRandomInjuryChance());
             invoke.setParameter(6, config.getInjury().getInjuryDaysLow());
             invoke.setParameter(7, config.getInjury().getInjuryDaysHigh());
