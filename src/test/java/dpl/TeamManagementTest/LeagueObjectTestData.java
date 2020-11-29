@@ -5,8 +5,14 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.*;
 import dpl.SystemConfig;
+import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Aging;
+import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.GameplayConfig;
+import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.IGameplayConfigPersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.IGameplayConfigurationAbstractFactory;
+import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Injury;
+import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Trading;
+import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Training;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Coach;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Conference;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Division;
@@ -64,7 +70,6 @@ public class LeagueObjectTestData {
 	List<Coach> coachList = new ArrayList<Coach>();
 	List<Manager> managerList = new ArrayList<Manager>();
 	Aging aging = new Aging(35, 50, 0.02);
-	GameResolver gameResolver = new GameResolver(0.1);
 	Injury injury = new Injury(0.05, 1, 260);
 	Training training = new Training(100, 100);
 	private ILeaguePersistance leagueMock = new LeagueMockData();
@@ -104,7 +109,7 @@ public class LeagueObjectTestData {
 		Conference conference = teamManagement.ConferenceWithParameters("Eastern Conference", divisionList);
 		List<Conference> conferenceList = new ArrayList<Conference>();
 		conferenceList.add(conference);
-		GameplayConfig config = new GameplayConfig(aging, gameResolver, injury, training, trading, configMock);
+		GameplayConfig config = new GameplayConfig(aging, injury, training, trading, configMock);
 		League league = teamManagement.LeagueWithDbParameters("Dalhousie Hockey League", conferenceList, freePlayerList, coachList, managerList,
 				config, leagueMock);
 		return league;

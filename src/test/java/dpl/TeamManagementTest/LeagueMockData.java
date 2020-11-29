@@ -1,10 +1,13 @@
 package dpl.TeamManagementTest;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
 
 import dpl.SystemConfig;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Aging;
-import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.GameResolver;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.GameplayConfig;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Injury;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Trading;
@@ -18,7 +21,6 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManag
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Manager;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.RetirementManagement;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
 
 public class LeagueMockData implements ILeaguePersistance {
@@ -70,7 +72,6 @@ public class LeagueMockData implements ILeaguePersistance {
 	List<Coach> coachList = new ArrayList<Coach>();
 	List<Manager> managerList = new ArrayList<Manager>();
 	Aging aging = new Aging(35, 50, 0.02);
-	GameResolver gameResolver = new GameResolver(0.1);
 	Injury injury = new Injury(0.05, 1, 260);
 	Training training = new Training(100, 100);
 	HashMap<String, Double> gmTable = new HashMap<>();
@@ -103,7 +104,7 @@ public class LeagueMockData implements ILeaguePersistance {
 		ArrayList<Conference> conferenceList = new ArrayList<Conference>();
 		conferenceList.add(conference1);
 		conferenceList.add(conference2);
-		GameplayConfig config = new GameplayConfig(aging, gameResolver, injury, training, trading);
+		GameplayConfig config = new GameplayConfig(aging, injury, training, trading);
 		League league = teamManagement.LeagueWithParameters("Dalhousie Hockey League", conferenceList, freePlayerList, coachList, managerList,
 				config);
 		return league;
