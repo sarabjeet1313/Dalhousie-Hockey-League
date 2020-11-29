@@ -14,8 +14,8 @@ public class AllStarGameManagement implements IAllStarGameManagement {
 
 	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
 			.getTeamManagementAbstractFactory();
-	Map<Player, String> playersATeam = new HashMap<Player, String>();
-	Map<Player, String> playersBTeam = new HashMap<Player, String>();
+	static Map<Player, String> playersATeam = new HashMap<Player, String>();
+	static Map<Player, String> playersBTeam = new HashMap<Player, String>();
 
 	@Override
 	public List<Team> performAllStarGame(League league) {

@@ -75,9 +75,11 @@ public class AllStarGameState implements ISimulationState {
 		output.sendOutput();
 		List<Map<Player, String>> playersByTeam = teamManagementAbstractFactory.AllStarGameManagement()
 				.getPlayersBytTeam();
-		output.setOutput(firstTeam.getTeamName() + " won the match");
+		output.setOutput(firstTeam.getTeamName() + " won the match");		
+		output.sendOutput();
 		for (Map.Entry<Player, String> entry : playersByTeam.get(0).entrySet()) {
-			output.setOutput(entry.getKey().getPlayerName() + "--" + entry.getValue());
+			output.setOutput(entry.getKey().getPlayerName() + " -- " + entry.getValue());	
+			output.sendOutput();
 		}
         log.log(Level.INFO, StateConstants.ALL_STAR_GAME_STATE);
 	}
