@@ -19,7 +19,6 @@ public class PlayerDraft implements IPlayerDraft {
 
 	private static final Logger log = Logger.getLogger(PlayerDraft.class.getName());
 	public final String GENERATE_DRAFT_PLAYER = "Generating playes for drafting";
-	public final String CHECK_DRAFT_TRADING = "Check the posibility of drafting for trading";
 	public final String START_DRAFTING = "Drafting Started Round : ";
 	public final String NORMALIZE_DRAFT_PLAYERS = "Resolving the drafted players. Normalizing the Team players to 30";
 

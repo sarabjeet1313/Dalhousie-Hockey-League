@@ -2,7 +2,6 @@ package dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement;
 
 public enum TeamConstants {
 
-	SUCCESS("success"),
 	TEAM_NAME("teamName"),
 	TEAMS("teams"),
 	TEAM_ERROR("Please enter Team name. Null values are not accepted."),

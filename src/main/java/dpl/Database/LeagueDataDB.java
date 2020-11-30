@@ -82,7 +82,6 @@ public class LeagueDataDB implements ILeaguePersistance {
 								result.getDouble(CoachConstants.COACH_SHOOTING.toString()),
 								result.getDouble(CoachConstants.COACH_CHECKING.toString()),
 								result.getDouble(CoachConstants.COACH_SAVING.toString()));
-						// temp fix
 						manager = teamManagement.ManagerWithParameters(
 								result.getString(ManagerConstants.GENERAL_MANAGER_NAME.toString()),
 								ManagerConstants.PERSONALITY.toString());
