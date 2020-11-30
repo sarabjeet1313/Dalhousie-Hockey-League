@@ -1,8 +1,8 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.TradeUtility;
-import dpl.DplConstants.ScheduleConstants;
-import dpl.DplConstants.StateConstants;
+import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ScheduleConstants;
+import dpl.LeagueSimulationManagement.SimulationManagement.StateConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
@@ -63,21 +63,28 @@ public class InjuryCheckState implements ISimulationState {
 	}
 
 	public ISimulationState nextState(InternalStateContext context) {
-		if (schedule.anyUnplayedGame(currentDate)) {
-			this.nextStateName = StateConstants.SIMULATE_GAME_STATE;
-			return this.internalStateMachineFactory.SimulateGameState(leagueToSimulate, schedule, standingsDb, standings, context, seasonCalendar, currentDate,
-					endDate, season, output);
-		} else {
-			if (seasonCalendar.isTradeDeadlinePending(this.currentDate)) {
-				log.log(Level.INFO, ScheduleConstants.TRADE_DEADLINE);
-				this.nextStateName = StateConstants.TRADING_STATE;
-				return this.internalStateMachineFactory.TradingState(leagueToSimulate, trade, context, output, seasonCalendar, currentDate, endDate,
-						season, standingsDb, standings, schedule);
+		try {
+			if (schedule.anyUnplayedGame(currentDate)) {
+				this.nextStateName = StateConstants.SIMULATE_GAME_STATE;
+				return this.internalStateMachineFactory.SimulateGameState(leagueToSimulate, schedule, standingsDb, standings, context, seasonCalendar, currentDate,
+						endDate, season, output);
 			} else {
-				this.nextStateName = StateConstants.AGING_STATE;
-				return this.internalStateMachineFactory.AgingState(leagueToSimulate, schedule, standingsDb, standings, injury, context, seasonCalendar,
-						currentDate, endDate, season, output);
+				if (seasonCalendar.isTradeDeadlinePending(this.currentDate)) {
+					log.log(Level.INFO, ScheduleConstants.TRADE_DEADLINE);
+					this.nextStateName = StateConstants.TRADING_STATE;
+					return this.internalStateMachineFactory.TradingState(leagueToSimulate, trade, context, output, seasonCalendar, currentDate, endDate,
+							season, standingsDb, standings, schedule);
+				} else {
+					this.nextStateName = StateConstants.AGING_STATE;
+					return this.internalStateMachineFactory.AgingState(leagueToSimulate, schedule, standingsDb, standings, injury, context, seasonCalendar,
+							currentDate, endDate, season, output);
+				}
 			}
+		} catch(Exception e) {
+			output.setOutput(e.getMessage());
+			output.sendOutput();
+			log.log(Level.SEVERE, e.getMessage());
+			return null;
 		}
 	}
 

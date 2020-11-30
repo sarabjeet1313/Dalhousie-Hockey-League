@@ -126,7 +126,6 @@ public class PlayoffScheduleTest {
 
     @Test
     public void generateScheduleTest() {
-    	try {
         state.setCurrentDay("13-11-2020");
         state.setFirstDay("13-11-2020");
         state.setLastDay("20-11-2020");
@@ -134,10 +133,6 @@ public class PlayoffScheduleTest {
         state.setFinalSchedule(mockSchedule.getFinalSchedule());
         assertEquals("Halifax", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
         assertNotEquals("Toronto", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
-    	} catch (SQLException e) {
-    		output.setOutput(e.getMessage());
-    		output.sendOutput();
-		}
     }
 
     @Test

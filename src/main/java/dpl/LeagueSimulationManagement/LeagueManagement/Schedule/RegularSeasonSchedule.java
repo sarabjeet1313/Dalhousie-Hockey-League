@@ -1,6 +1,5 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.Schedule;
 
-import dpl.DplConstants.ScheduleConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Conference;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Division;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
@@ -138,7 +137,6 @@ public class RegularSeasonSchedule implements ISchedule {
 
     private void setMatchesPerDay() {
         SimpleDateFormat myFormat = new SimpleDateFormat(ScheduleConstants.DATE_FORMAT);
-
         try {
             Date date1 = myFormat.parse(firstDay);
             Date date2 = myFormat.parse(lastDay);
@@ -151,7 +149,10 @@ public class RegularSeasonSchedule implements ISchedule {
                 matchesPerDay = matchCount + 1;
             }
         } catch (ParseException e) {
-            e.printStackTrace();
+            output.setOutput(e.getMessage());
+            output.sendOutput();
+            log.log(Level.SEVERE, e.getMessage());
+            System.exit(1);
         }
     }
 
@@ -408,7 +409,6 @@ public class RegularSeasonSchedule implements ISchedule {
     }
 
     public boolean incrementCurrentDay() {
-
         if (currentDay.equals(lastDay)) {
             return false;
         } else {
@@ -417,7 +417,10 @@ public class RegularSeasonSchedule implements ISchedule {
             try {
                 calendar.setTime(dateFormat.parse(currentDay));
             } catch (ParseException e) {
+                output.setOutput(e.getMessage());
+                output.sendOutput();
                 log.log(Level.SEVERE, e.getMessage());
+                return false;
             }
             calendar.add(Calendar.DAY_OF_MONTH, 1);
             currentDay = dateFormat.format(calendar.getTime());

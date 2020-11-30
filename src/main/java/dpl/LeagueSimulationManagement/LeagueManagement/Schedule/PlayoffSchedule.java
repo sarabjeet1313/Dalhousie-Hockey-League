@@ -1,6 +1,5 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.Schedule;
 
-import dpl.DplConstants.ScheduleConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Conference;
@@ -8,7 +7,6 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Division;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -94,7 +92,7 @@ public class PlayoffSchedule implements ISchedule {
 		return this.teamsScheduled;
 	}
 
-	public void generateSchedule(League leagueToSimulate) throws SQLException {
+	public void generateSchedule(League leagueToSimulate) {
 		setMatchesPerDay();
 		populateInternalModel(leagueToSimulate);
 		for (Map.Entry<String, List<String>> entry : conferenceTeamList.entrySet()) {
@@ -104,7 +102,7 @@ public class PlayoffSchedule implements ISchedule {
 		log.log(Level.INFO, "PlayOff schedule generated");
 	}
 
-	private void populateInternalModel(League leagueToSimulate) throws SQLException {
+	private void populateInternalModel(League leagueToSimulate) {
 		try {
 			if (leagueToSimulate == null) {
 				return;
@@ -133,8 +131,10 @@ public class PlayoffSchedule implements ISchedule {
 				}
 			}
 		} catch (NullPointerException e) {
-			log.log(Level.SEVERE, "Found null pointer exception while populating model in Playoff Schedule");
-			throw e;
+			output.setOutput(e.getMessage());
+			output.sendOutput();
+			log.log(Level.SEVERE, e.getMessage());
+			System.exit(1);
 		}
 	}
 
@@ -169,7 +169,10 @@ public class PlayoffSchedule implements ISchedule {
 			}
 
 		} catch (ParseException e) {
-			e.printStackTrace();
+			output.setOutput(e.getMessage());
+			output.sendOutput();
+			log.log(Level.SEVERE, e.getMessage());
+			System.exit(1);
 		}
 	}
 
@@ -181,7 +184,10 @@ public class PlayoffSchedule implements ISchedule {
 			try {
 				calendar.setTime(dateFormat.parse(currentDay));
 			} catch (ParseException e) {
+				output.setOutput(e.getMessage());
+				output.sendOutput();
 				log.log(Level.SEVERE, e.getMessage());
+				System.exit(1);
 			}
 			calendar.add(Calendar.DAY_OF_MONTH, 1);
 			currentDay = dateFormat.format(calendar.getTime());
