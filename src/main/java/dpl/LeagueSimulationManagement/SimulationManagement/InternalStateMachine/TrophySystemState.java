@@ -73,6 +73,8 @@ public class TrophySystemState implements ISimulationState {
         sendUpdatesToTrophy();
         trophySystemAbstractFactory.AwardedTrophy().trophyStanleyCup(season + 1);
         TrophyHistory.getInstance().displayTrophyHistory();
+        trophySystemAbstractFactory.AwardedTrophy().trophyEndOfSeason(season + 1);
+        TrophyHistory.getInstance().displayTrophyHistory();
         log.log(Level.INFO, StateConstants.TROPHY_STATE);
     }
 

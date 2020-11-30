@@ -304,7 +304,7 @@ public class InitializeLeagues implements IInitializeLeagues {
 						int birthDay = player.get(PlayerConstants.BIRTH_DAY.toString()).getAsInt();
 						int birthMonth = player.get(PlayerConstants.BIRTH_MONTH.toString()).getAsInt();
 						int birthYear = player.get(PlayerConstants.BIRTH_YEAR.toString()).getAsInt();
-						int age = 2020 - birthYear;
+						int age = 2020 - birthYear+10;
 
 						String returnedValue = isValidPlayer(skating, shooting, checking, saving);
 
@@ -404,14 +404,6 @@ public class InitializeLeagues implements IInitializeLeagues {
 					return null;
 				}
 
-				int age = freeAgentObj.get(PlayerConstants.PLAYER_AGE.toString()).getAsInt();
-				if (age < 0) {
-					output.setOutput(PlayerConstants.FREE_AGENT.toString() + count
-							+ PlayerConstants.PLAYER_AGE_ERROR.toString());
-					output.sendOutput();
-					return null;
-				}
-
 				int skating = freeAgentObj.get(PlayerConstants.SKATING.toString()).getAsInt();
 				int shooting = freeAgentObj.get(PlayerConstants.SHOOTING.toString()).getAsInt();
 				int checking = freeAgentObj.get(PlayerConstants.CHECKING.toString()).getAsInt();
@@ -419,7 +411,7 @@ public class InitializeLeagues implements IInitializeLeagues {
 				int birthDay = freeAgentObj.get(PlayerConstants.BIRTH_DAY.toString()).getAsInt();
 				int birthMonth = freeAgentObj.get(PlayerConstants.BIRTH_MONTH.toString()).getAsInt();
 				int birthYear = freeAgentObj.get(PlayerConstants.BIRTH_YEAR.toString()).getAsInt();
-
+				int age = 2020 - birthYear +10;
 				String freeAgentReturnedValue = isValidPlayer(skating, shooting, checking, saving);
 
 				if (freeAgentReturnedValue.length() > 0) {

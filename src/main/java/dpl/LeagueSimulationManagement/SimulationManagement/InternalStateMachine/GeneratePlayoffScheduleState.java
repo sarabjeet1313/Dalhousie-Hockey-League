@@ -37,6 +37,8 @@ public class GeneratePlayoffScheduleState implements ISimulationState {
 	private Training training;
 	private IInternalStateMachineAbstractFactory internalStateMachineFactory;
 	private IScheduleAbstractFactory scheduleAbstractFactory;
+	private ITrophySystemAbstractFactory trophySystemAbstractFactory = SystemConfig.getSingleInstance().getTrophySystemAbstractFactory();
+
 	private static final Logger log = Logger.getLogger(GeneratePlayoffScheduleState.class.getName());
 
 	public GeneratePlayoffScheduleState(League leagueToSimulate, SeasonCalendar seasonCalendar,
@@ -66,6 +68,7 @@ public class GeneratePlayoffScheduleState implements ISimulationState {
     static {
         PlayerGoalScore.getInstance().attach(TrophySystemAbstractFactory.createObserver(TrophySystemConstants.CALDER_MEMORIAL_TROPHY));
         ParticipantAward.getInstance().attach(TrophySystemAbstractFactory.createObserver(TrophySystemConstants.PARTICIPATION_AWARD));
+
     }
 	public ISimulationState nextState(InternalStateContext context) {
 		this.nextStateName = StateConstants.TRAINING_STATE;
