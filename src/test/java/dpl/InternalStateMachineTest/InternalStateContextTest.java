@@ -72,8 +72,8 @@ public class InternalStateContextTest {
 
     @Test
     public void shouldContinueTest() {
-        assertTrue(state.shouldContinue());
-        assertFalse(!state.shouldContinue());
+        assertTrue(context.shouldContinue());
+        assertFalse(!context.shouldContinue());
     }
 
 }

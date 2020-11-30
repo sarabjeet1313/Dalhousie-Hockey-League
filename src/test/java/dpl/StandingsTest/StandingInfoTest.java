@@ -160,4 +160,12 @@ public class StandingInfoTest {
 		assertEquals(expected, gotOutput);
 	}
 
+	@Test
+	public void sortMapDraftTest() {
+		standings.sortMapDraft();
+		assertFalse(standings.getTeamWinMap().containsKey("Boston"));
+		standings.updateTeamWinMap("Halifax");
+		assertTrue(standings.getTeamWinMap().containsKey("Halifax"));
+	}
+
 }

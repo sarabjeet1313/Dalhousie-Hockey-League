@@ -14,7 +14,7 @@ public class StandingsMockDb implements IStandingsPersistance {
     private Map<String, Integer> standingsTeamLoss;
     private List<StandingsMock> standings;
     private List<TeamStanding> teamStandings;
-
+    private Map<String, Integer> teamWinMap;
 
     public StandingsMockDb(int season) {
         this.season = season;
@@ -22,6 +22,7 @@ public class StandingsMockDb implements IStandingsPersistance {
         this.standingsTeamLoss = new HashMap<>();
         this.teamStandings = new ArrayList<>();
         this.standings = new ArrayList<>();
+        this.teamWinMap = standingsTeamWin;
 
         standingsTeamWin.put("Halifax", 2);
         standingsTeamWin.put("Boston", 0);

@@ -11,11 +11,8 @@ import java.io.Writer;
 import java.net.URL;
 
 public class StandingSerializationDeserialization implements IStandingsPersistance {
+
     private int season;
-
-    public StandingSerializationDeserialization() {
-
-    }
 
     public void setSeason(int season) {
         this.season = season;

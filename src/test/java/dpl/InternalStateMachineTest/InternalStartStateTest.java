@@ -62,7 +62,7 @@ public class InternalStartStateTest {
         String input = "0";
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
-        this.input.setInput();
+        state.doProcessing();
         assertNotEquals("1", String.valueOf(state.numOfSeasons));
         assertEquals("0", String.valueOf(state.numOfSeasons));
     }
