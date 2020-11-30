@@ -66,10 +66,10 @@ public class LeagueObjectTestData {
 	Player agent25 = teamManagement.PlayerWithParameters("Agent28", "defense", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000, Boolean.FALSE);
 	Player agent26 = teamManagement.PlayerWithParameters("Agent29", "defense", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000, Boolean.FALSE);
 	Player agent27 = teamManagement.PlayerWithParameters("Agent30", "goalie", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000, Boolean.FALSE);
-	List<Player> playerList = new ArrayList<Player>();
-	List<Player> freePlayerList = new ArrayList<Player>();
-	List<Coach> coachList = new ArrayList<Coach>();
-	List<Manager> managerList = new ArrayList<Manager>();
+	List<Player> playerList = new ArrayList<>();
+	List<Player> freePlayerList = new ArrayList<>();
+	List<Coach> coachList = new ArrayList<>();
+	List<Manager> managerList = new ArrayList<>();
 	Aging aging = new Aging(35, 50, 0.02);
 	Injury injury = new Injury(0.05, 1, 260);
 	Training training = new Training(100, 100);

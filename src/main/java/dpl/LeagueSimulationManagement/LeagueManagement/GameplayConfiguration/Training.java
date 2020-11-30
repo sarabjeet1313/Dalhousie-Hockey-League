@@ -116,7 +116,7 @@ public class Training {
 		List<Conference> conferenceList = league.getConferenceList();
 		List<Team> teamList;
 		List<Division> divisionList;
-		List<Player> playerList = new ArrayList<Player>();
+		List<Player> playerList = new ArrayList<>();
 		for (int cIndex = 0; cIndex < conferenceList.size(); cIndex++) {
 			divisionList = conferenceList.get(cIndex).getDivisionList();
 			for (int dIndex = 0; dIndex < divisionList.size(); dIndex++) {

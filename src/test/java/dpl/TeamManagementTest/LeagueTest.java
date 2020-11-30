@@ -34,10 +34,10 @@ public class LeagueTest {
 	Coach coach3 = teamManagement.CoachWithParameters("Coach Three", 0.1, 0.2, 0.1, 0.1);
 	Coach headCoach = teamManagement.CoachWithParameters("Mary Smith", 0.2, 0.3, 0.1, 0.4);
 	List<Player> freeAgents = leagueData.getFreeAgents();
-	List<Player> playerList = new ArrayList<Player>();
+	List<Player> playerList = new ArrayList<>();
 	List<Coach> coachesList = leagueData.getCoaches();
-	List<Division> divisionList = new ArrayList<Division>();
-	List<Division> divisionList1 = new ArrayList<Division>();
+	List<Division> divisionList = new ArrayList<>();
+	List<Division> divisionList1 = new ArrayList<>();
 	List<Conference> conferenceList = leagueData.getConferenceList();
 	List<Manager> managerList = leagueData.getManagerList();
 	Conference conference = teamManagement.ConferenceWithParameters("Eastern Conference", divisionList);
@@ -47,7 +47,7 @@ public class LeagueTest {
 	League league = teamManagement.LeagueWithDbParameters("Dalhousie Hockey League", conferenceList, freeAgents, coachesList, managerList, config,
 			leagueMock);
 	ILeaguePersistance object = new LeagueMockData();
-	List<League> leagueList = new ArrayList<League>();
+	List<League> leagueList = new ArrayList<>();
 	private IUserOutput output = new CmdUserOutput();
 
 	@Test

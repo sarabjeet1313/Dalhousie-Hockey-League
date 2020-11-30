@@ -49,10 +49,10 @@ public class CreateTeamState implements IState {
 	private String stateName;
 	private String nextStateName;
 	private List<List<Player>> list;
-	private List<Player> tempList1 = new ArrayList<Player>();
-	private List<Integer> indexList = new ArrayList<Integer>();
-	private List<Player> playersList = new ArrayList<Player>();
-	List<Player> tempList2 = new ArrayList<Player>();
+	private List<Player> tempList1 = new ArrayList<>();
+	private List<Integer> indexList = new ArrayList<>();
+	private List<Player> playersList = new ArrayList<>();
+	List<Player> tempList2 = new ArrayList<>();
 	private CustomValidation validate;
 	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
 			.getTeamManagementAbstractFactory();
@@ -94,7 +94,7 @@ public class CreateTeamState implements IState {
 	private void displayManagerList() {
 		boolean validManager = false;
 		String inputValue = "";
-		List<Manager> tempManagerList = new ArrayList<Manager>();
+		List<Manager> tempManagerList = new ArrayList<>();
 		int managerId = -1;
 		do {
 			output.setOutput(CreateTeamConstants.SELECT_GM.toString() + teamName);
@@ -409,7 +409,7 @@ public class CreateTeamState implements IState {
 		output.sendOutput();
 		displayPlayersList(fList, "FORWORD", 0);
 		displayPlayersList(dList, "DEFENCE", fList.size());
-		fdList = new ArrayList<Player>();
+		fdList = new ArrayList<>();
 		fdList.addAll(fList);
 		fdList.addAll(dList);
 		displaySelectedPlayers(fdList);

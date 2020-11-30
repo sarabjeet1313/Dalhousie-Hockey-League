@@ -42,11 +42,11 @@ public class TradeObjectTestMockData implements ITradePersistence {
     private Player player5 = teamManagement.PlayerWithParameters("Agent2", "defense", false, 1, 100, 1, 1, 1, false, false, 0, false, 19, 5, 2000, Boolean.FALSE);
     private Player player6 = teamManagement.PlayerWithParameters("Agent3", "defense", false, 1, 1, 1, 1, 1, false, false, 0, false, 19, 5, 2000, Boolean.FALSE);
     private Player player8 = teamManagement.PlayerWithParameters("Player Eight", "forward", false, 1, 20, 20, 20, 20, false, false, 0, false, 19, 5, 2000, Boolean.FALSE);
-    List<Player> playerList = new ArrayList<Player>();
-    List<Player> playerList2 = new ArrayList<Player>();
-    List<Player> freePlayerList = new ArrayList<Player>();
-    List<Coach> coachList = new ArrayList<Coach>();
-    List<Manager> managerList = new ArrayList<Manager>();
+    List<Player> playerList = new ArrayList<>();
+    List<Player> playerList2 = new ArrayList<>();
+    List<Player> freePlayerList = new ArrayList<>();
+    List<Coach> coachList = new ArrayList<>();
+    List<Manager> managerList = new ArrayList<>();
     Aging aging = new Aging(35, 50, 0.02);
     Injury injury = new Injury(0.05, 1, 260);
     Training training = new Training(100, 100);
@@ -82,14 +82,14 @@ public class TradeObjectTestMockData implements ITradePersistence {
         playerList2.add(player8);
         Team team1 = teamManagement.TeamWithParameters("Boston", manager1, coach1, playerList, Boolean.FALSE);
         Team team2 = teamManagement.TeamWithParameters("Halifax", manager2, coach2, playerList2, Boolean.FALSE);
-        ArrayList<Team> teamList = new ArrayList<Team>();
+        ArrayList<Team> teamList = new ArrayList<>();
         teamList.add(team1);
         teamList.add(team2);
         Division division = teamManagement.DivisionWithParameters("Atlantic", teamList);
-        List<Division> divisionList = new ArrayList<Division>();
+        List<Division> divisionList = new ArrayList<>();
         divisionList.add(division);
         Conference conference = teamManagement.ConferenceWithParameters("Eastern Conference", divisionList);
-        List<Conference> conferenceList = new ArrayList<Conference>();
+        List<Conference> conferenceList = new ArrayList<>();
         conferenceList.add(conference);
         GameplayConfig config = new GameplayConfig(aging, injury, training, trading, configMock);
         League league = teamManagement.LeagueWithDbParameters("Dalhousie Hockey League", conferenceList, freePlayerList, coachList, managerList,

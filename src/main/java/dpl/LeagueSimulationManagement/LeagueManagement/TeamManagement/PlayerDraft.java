@@ -182,7 +182,7 @@ public class PlayerDraft implements IPlayerDraft {
 	}
 
 	private List<List<Player>> selectTopPlayer(List<Player> playerList) {
-		List<List<Player>> returnList = new ArrayList<List<Player>>();
+		List<List<Player>> returnList = new ArrayList<>();
 		List<Player> tempList = new ArrayList<>();
 		List<Player> tempList1 = new ArrayList<>();
 		int forwordCount = 16;

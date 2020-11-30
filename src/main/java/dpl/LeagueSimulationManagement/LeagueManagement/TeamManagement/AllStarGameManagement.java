@@ -13,8 +13,8 @@ public class AllStarGameManagement implements IAllStarGameManagement {
 
 	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
 			.getTeamManagementAbstractFactory();
-	static Map<Player, String> playersATeam = new HashMap<Player, String>();
-	static Map<Player, String> playersBTeam = new HashMap<Player, String>();
+	static Map<Player, String> playersATeam = new HashMap<>();
+	static Map<Player, String> playersBTeam = new HashMap<>();
 
 	@Override
 	public List<Team> performAllStarGame(League league) {
@@ -30,8 +30,8 @@ public class AllStarGameManagement implements IAllStarGameManagement {
 		List<Team> teamsList = new ArrayList<Team>();
 		Team teamA = teamManagement.Team();
 		Team teamB = teamManagement.Team();
-		teamA.setPlayerList(new ArrayList<Player>());
-		teamB.setPlayerList(new ArrayList<Player>());
+		teamA.setPlayerList(new ArrayList<>());
+		teamB.setPlayerList(new ArrayList<>());
 		int fIndex = 0;
 		int dIndex = 0;
 		int gIndex = 0;
@@ -126,7 +126,7 @@ public class AllStarGameManagement implements IAllStarGameManagement {
 	
 	@Override
 	public Map<String, List<Player>> getSortedPlayersByType(List<Conference> conferenceList, String PlayerType) {
-		Map<String, List<Player>> playersInTeamByType = new HashMap<String, List<Player>>();
+		Map<String, List<Player>> playersInTeamByType = new HashMap<>();
 
 		for (int index = 0; index < conferenceList.size(); index++) {
 			List<Division> divisionList = conferenceList.get(index).getDivisionList();
@@ -134,7 +134,7 @@ public class AllStarGameManagement implements IAllStarGameManagement {
 				List<Team> teamList = divisionList.get(dIndex).getTeamList();
 				for (int tIndex = 0; tIndex < teamList.size(); tIndex++) {
 					List<Player> playerList = teamList.get(tIndex).getPlayerList();
-					List<Player> tempList = new ArrayList<Player>();
+					List<Player> tempList = new ArrayList<>();
 					for (int pIndex = 0; pIndex < playerList.size(); pIndex++) {
 						if (playerList.get(pIndex).getPosition().equalsIgnoreCase(PlayerType)) {
 							tempList.add(playerList.get(pIndex));

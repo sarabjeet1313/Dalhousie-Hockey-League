@@ -44,8 +44,8 @@ public class LeagueDataDB implements ILeaguePersistance {
 	@Override
 	public League loadLeagueData(String teamName) {
 		League league = new League();
-		List<Player> playerList = new ArrayList<Player>();
-		List<Player> freeAgentList = new ArrayList<Player>();
+		List<Player> playerList = new ArrayList<>();
+		List<Player> freeAgentList = new ArrayList<>();
 		ResultSet result;
 		try {
 			invoke = new InvokeStoredProcedure(StoredProcedureConstants.LOAD_LEAGUE.getSpString());

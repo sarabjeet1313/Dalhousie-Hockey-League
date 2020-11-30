@@ -66,7 +66,7 @@ public class LoadTeamState implements IState {
 		List<Conference> conferencesList = null;
 		List<Player> freeAgents = null;
 		List<Coach> coaches = null;
-		List<Manager> managers = new ArrayList<Manager>();
+		List<Manager> managers = new ArrayList<>();
 		GameplayConfig config = new GameplayConfig(configDb);
 		leagueToSimulate = teamManagement.LeagueWithDbParameters(InitializeLeaguesConstants.TEST_LEAGUE.toString(),
 				conferencesList, freeAgents, coaches, managers, config, leagueDb);

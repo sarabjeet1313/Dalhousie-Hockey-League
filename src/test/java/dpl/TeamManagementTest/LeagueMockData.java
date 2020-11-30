@@ -68,10 +68,10 @@ public class LeagueMockData implements ILeaguePersistance {
 	Manager manager1 = teamManagement.ManagerWithParameters("Karen Potam", "normal");
 	Manager manager2 = teamManagement.ManagerWithParameters("Joseph Squidly", "normal");
 	Manager manager3 = teamManagement.ManagerWithParameters("Tom Spaghetti", "normal");
-	List<Player> playerList = new ArrayList<Player>();
-	List<Player> freePlayerList = new ArrayList<Player>();
-	List<Coach> coachList = new ArrayList<Coach>();
-	List<Manager> managerList = new ArrayList<Manager>();
+	List<Player> playerList = new ArrayList<>();
+	List<Player> freePlayerList = new ArrayList<>();
+	List<Coach> coachList = new ArrayList<>();
+	List<Manager> managerList = new ArrayList<>();
 	Aging aging = new Aging(35, 50, 0.02);
 	Injury injury = new Injury(0.05, 1, 260);
 	Training training = new Training(100, 100);
