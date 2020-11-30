@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import dpl.StandingsTest.StandingsMockDb;
 import dpl.SystemConfig;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Aging;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.GameplayConfig;
@@ -26,6 +27,7 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
 
 public class LeagueMockData implements ILeaguePersistance {
 
+	private static LeagueMockData instance;
 	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
 			.getTeamManagementAbstractFactory();
 	private Player player1 = teamManagement.PlayerWithParameters("Player One", "forward", true, 49, 1, 1, 1, 1, false, false, 0,false, 20, 5, 2000, Boolean.FALSE);
@@ -80,6 +82,13 @@ public class LeagueMockData implements ILeaguePersistance {
 	League league = getTestData();
 	IRetirementManagement retireManager = teamManagement.RetirementManagement();
 
+	public static LeagueMockData getInstance() {
+		if (instance == null) {
+			instance = new LeagueMockData();
+		}
+		return instance;
+	}
+
 	public League getTestData() {
 		playerList.add(player1);
 		playerList.add(player2);
@@ -94,9 +103,11 @@ public class LeagueMockData implements ILeaguePersistance {
 		managerList.add(manager3);
 		Team team1 = teamManagement.TeamWithParameters("Boston", manager1, headCoach, playerList, Boolean.FALSE);
 		Team team2 = teamManagement.TeamWithParameters("Halifax", manager2, headCoach, playerList, Boolean.FALSE);
+		Team team3 = teamManagement.TeamWithParameters("Toronto", manager2, headCoach, playerList, Boolean.FALSE);
 		ArrayList<Team> teamList = new ArrayList<Team>();
 		teamList.add(team1);
 		teamList.add(team2);
+		teamList.add(team3);
 		Division division = teamManagement.DivisionWithParameters("Atlantic", teamList);
 		ArrayList<Division> divisionList = new ArrayList<Division>();
 		divisionList.add(division);

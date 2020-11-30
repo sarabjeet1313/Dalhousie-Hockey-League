@@ -32,9 +32,10 @@ import java.util.List;
 
 public class TradeObjectTestMockData implements ITradePersistence {
 
-    private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
-            .getTeamManagementAbstractFactory();
-    private Player player1 = teamManagement.PlayerWithParameters("Player One", "forward", true, 1, 1, 1, 1, 1, false, false, 0, false, 23, 3, 1999, Boolean.FALSE);
+    private static TradeObjectTestMockData instance;
+	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
+			.getTeamManagementAbstractFactory();
+    private Player player1 = teamManagement.PlayerWithParameters("Player One", "forward", true, 1, 1, 1, 1, 1, false, false, 0,false, 23, 3, 1999, Boolean.FALSE);
     private Player player7 = teamManagement.PlayerWithParameters("Player Seven", "forward", false, 1, 1, 1, 1, 1, false, false, 0, false, 23, 3, 1999, Boolean.FALSE);
     private Player player2 = teamManagement.PlayerWithParameters("Player Two", "defense", false, 51, 12, 12, 13, 12, false, true, 0, false, 23, 3, 1999, Boolean.FALSE);
     private Player player3 = teamManagement.PlayerWithParameters("Player Three", "goalie", false, 10, 19, 18, 15, 14, false, false, 0, false, 19, 5, 2000, Boolean.FALSE);
@@ -63,6 +64,13 @@ public class TradeObjectTestMockData implements ITradePersistence {
     Coach coach2 = teamManagement.CoachWithDbParameters("Coach Two", 0.1, 0.2, 0.1, 0.1, coachMock);
     Coach coach3 = teamManagement.CoachWithDbParameters("Coach Three", 0.1, 0.2, 0.1, 0.1, coachMock);
     Coach headCoach = teamManagement.CoachWithDbParameters("Mary Smith", 0.2, 0.3, 0.1, 0.4, coachMock);
+
+    public static TradeObjectTestMockData getInstance() {
+        if(null == instance) {
+           instance = new TradeObjectTestMockData();
+        }
+        return instance;
+    }
 
     public League getLeagueData() {
         playerList.add(player1);

@@ -5,13 +5,13 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class MockSchedule implements ISchedule{
 
+    private static MockSchedule instance;
     private Calendar calendar;
     private IUserOutput output;
     private Map< String, List<Map<String, String>>> schedule;
@@ -22,6 +22,13 @@ public class MockSchedule implements ISchedule{
     private String currentDay;
     private String firstDay;
     private String lastDay;
+
+    public static MockSchedule getInstance() {
+        if (instance == null) {
+            instance = new MockSchedule();
+        }
+        return instance;
+    }
 
     public MockSchedule() {
         output = new CmdUserOutput();

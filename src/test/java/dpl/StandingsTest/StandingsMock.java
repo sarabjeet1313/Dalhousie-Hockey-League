@@ -2,6 +2,7 @@ package dpl.StandingsTest;
 
 public class StandingsMock {
 
+    private static StandingsMock instance;
     private int season;
     private String leagueName;
     private String conferenceName;
@@ -11,6 +12,13 @@ public class StandingsMock {
     private int loss;
     private int points;
     private int gameLoss;
+
+    public static StandingsMock getInstance(int season, String leagueName, String conferenceName, String divisionName, String teamName) {
+        if (instance == null) {
+            instance = new StandingsMock(season, leagueName, conferenceName, divisionName, teamName);
+        }
+        return instance;
+    }
 
     public StandingsMock(int season, String leagueName, String conferenceName, String divisionName, String teamName) {
         this.season = season;

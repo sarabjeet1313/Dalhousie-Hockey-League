@@ -1,6 +1,7 @@
 package dpl.StandingsTest;
 
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.TeamStanding;
+import dpl.SystemConfig;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,7 +13,7 @@ public class TeamStandingTest {
 
     @Before
     public void setUp() throws Exception {
-        teamStanding = new TeamStanding();
+        teamStanding = SystemConfig.getSingleInstance().getStandingsAbstractFactory().TeamStanding();
         teamStanding.setTeamName("Halifax");
         teamStanding.setWins(10);
         teamStanding.setLosses(10);
@@ -21,7 +22,7 @@ public class TeamStandingTest {
 
     @Test
     public void teamStandingTest() {
-        TeamStanding teamStanding = new TeamStanding();
+        TeamStanding teamStanding = SystemConfig.getSingleInstance().getStandingsAbstractFactory().TeamStanding();
         assertTrue(teamStanding instanceof TeamStanding);
     }
 

@@ -1,6 +1,8 @@
 package dpl.UserInputTest;
 
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
+import dpl.SystemConfig;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,11 +12,11 @@ import java.io.InputStream;
 import static org.junit.Assert.assertEquals;
 
 public class CmdUserInputTest {
-    private static CmdUserInput cmdInput;
+    private static IUserInput cmdInput;
 
     @Before
     public void setUpClass() throws Exception {
-        cmdInput = new CmdUserInput();
+        cmdInput = SystemConfig.getSingleInstance().getUserInputAbstractFactory().CmdUserInput();
     }
 
     @Test

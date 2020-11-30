@@ -1,17 +1,15 @@
 package dpl.InternalStateMachineTest;
 
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
-import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.RegularSeasonSchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.GenerateRegularSeasonScheduleState;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStateContext;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.StandingsTest.StandingsMockDb;
+import dpl.SystemConfig;
 import dpl.TeamManagementTest.LeagueMockData;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,14 +28,14 @@ public class GenerateRegularSeasonScheduleStateTest {
 
     @Before
     public void setUp() throws Exception {
-        input = new CmdUserInput();
-        output = new CmdUserOutput();
-        leagueToSimulate = new LeagueMockData().getTestData();
-        utility = new SeasonCalendar(0, output);
-        context = new InternalStateContext(input, output);
-        schedule = new RegularSeasonSchedule(null, output);
-        standingsDb = new StandingsMockDb(0);
-        state = new GenerateRegularSeasonScheduleState(leagueToSimulate, output, 0, context, standingsDb, null, utility);
+        input = SystemConfig.getSingleInstance().getUserInputAbstractFactory().CmdUserInput();
+        output = SystemConfig.getSingleInstance().getUserOutputAbstractFactory().CmdUserOutput();
+        leagueToSimulate = LeagueMockData.getInstance().getTestData();
+        utility = SystemConfig.getSingleInstance().getScheduleAbstractFactory().SeasonCalendar(0, output);
+        context = SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory().InternalStateContext(input, output);
+        schedule = SystemConfig.getSingleInstance().getScheduleAbstractFactory().RegularSeasonSchedule(null, output);
+        standingsDb = StandingsMockDb.getInstance();
+        state = (GenerateRegularSeasonScheduleState) SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory().GenerateRegularSeasonScheduleState(leagueToSimulate, output, 0, context, standingsDb, null, utility);
     }
 
     @Test
@@ -53,7 +51,7 @@ public class GenerateRegularSeasonScheduleStateTest {
         assertFalse(state.getSchedule().getFinalSchedule().containsKey("02-10-2020"));
         state.doProcessing();
         assertTrue(state.getSchedule().getFinalSchedule().containsKey("02-10-2020"));
-        assertEquals("Halifax", state.getSchedule().getFinalSchedule().get("02-10-2020").get(0).get("Boston"));
+        assertEquals("Toronto", state.getSchedule().getFinalSchedule().get("02-10-2020").get(0).get("Boston"));
     }
 
     @Test

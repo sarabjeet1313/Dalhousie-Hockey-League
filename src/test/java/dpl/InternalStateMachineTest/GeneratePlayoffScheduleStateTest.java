@@ -7,12 +7,11 @@ import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.GeneratePlayoffScheduleState;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStateContext;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.ScheduleTest.MockSchedule;
 import dpl.StandingsTest.StandingsMockDb;
+import dpl.SystemConfig;
 import dpl.TeamManagementTest.LeagueMockData;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,15 +32,15 @@ public class GeneratePlayoffScheduleStateTest {
 
     @Before
     public void setUp() throws Exception {
-        leagueToSimulate = new LeagueMockData().getTestData();
-        output = new CmdUserOutput();
-        input = new CmdUserInput();
-        standingsDb = new StandingsMockDb(0);
-        standings = new StandingInfo(leagueToSimulate, 0, standingsDb, output);
-        schedule = new MockSchedule();
-        utility = new SeasonCalendar(0, output);
-        context = new InternalStateContext(input, output);
-        state = new GeneratePlayoffScheduleState(leagueToSimulate, utility, standingsDb, standings, output, context, 1, "", "");
+        leagueToSimulate = LeagueMockData.getInstance().getTestData();
+        output = SystemConfig.getSingleInstance().getUserOutputAbstractFactory().CmdUserOutput();
+        input = SystemConfig.getSingleInstance().getUserInputAbstractFactory().CmdUserInput();
+        standingsDb = StandingsMockDb.getInstance();
+        standings = SystemConfig.getSingleInstance().getStandingsAbstractFactory().StandingInfo(leagueToSimulate, 0, standingsDb, output);
+        schedule = MockSchedule.getInstance();
+        utility = SystemConfig.getSingleInstance().getScheduleAbstractFactory().SeasonCalendar(0, output);
+        context = SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory().InternalStateContext(input, output);
+        state = (GeneratePlayoffScheduleState) SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory().GeneratePlayoffScheduleState(leagueToSimulate, utility, standingsDb, standings, output, context, 1, "", "");
     }
 
     @Test
@@ -56,9 +55,9 @@ public class GeneratePlayoffScheduleStateTest {
     public void doProcessingTest() {
         state.setSchedule(schedule);
         assertFalse(state.getSchedule().getFinalSchedule().containsKey("15-11-2020"));
-      //  state.doProcessing();
-       // assertTrue(state.getSchedule().getFinalSchedule().containsKey("14-11-2020"));
-      //  assertEquals("Halifax", state.getSchedule().getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
+        state.doProcessing();
+        assertTrue(state.getSchedule().getFinalSchedule().containsKey("14-11-2020"));
+        assertEquals("Halifax", state.getSchedule().getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
     }
 
     @Test

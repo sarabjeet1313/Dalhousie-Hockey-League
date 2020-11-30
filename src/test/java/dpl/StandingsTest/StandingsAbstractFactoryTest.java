@@ -1,13 +1,9 @@
 package dpl.StandingsTest;
 
-import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
-import dpl.LeagueSimulationManagement.LeagueManagement.Standings.Standing;
-import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
-import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingsAbstractFactory;
-import dpl.LeagueSimulationManagement.LeagueManagement.Standings.TeamStanding;
+import dpl.LeagueSimulationManagement.LeagueManagement.Standings.*;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+import dpl.SystemConfig;
 import dpl.TeamManagementTest.LeagueMockData;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +12,7 @@ import static org.junit.Assert.*;
 
 public class StandingsAbstractFactoryTest {
 
-    StandingsAbstractFactory factory;
+    IStandingsAbstractFactory factory;
     IUserOutput output;
     IStandingsPersistance standingsDb;
     League leagueToSimulate;
@@ -24,11 +20,11 @@ public class StandingsAbstractFactoryTest {
 
     @Before
     public void setUp() throws Exception {
-        factory = new StandingsAbstractFactory();
-        output = new CmdUserOutput();
-        standingsDb = new StandingsMockDb(0);
-        leagueToSimulate = new LeagueMockData().getTestData();
-        standings = new StandingInfo(leagueToSimulate, 0, standingsDb, output);
+        factory = SystemConfig.getSingleInstance().getStandingsAbstractFactory();
+        output = SystemConfig.getSingleInstance().getUserOutputAbstractFactory().CmdUserOutput();
+        standingsDb = StandingsMockDb.getInstance();
+        leagueToSimulate = LeagueMockData.getInstance().getTestData();
+        standings = SystemConfig.getSingleInstance().getStandingsAbstractFactory().StandingInfo(leagueToSimulate, 0, standingsDb, output);
     }
 
     @Test

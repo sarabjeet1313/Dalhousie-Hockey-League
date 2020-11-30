@@ -7,6 +7,7 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.StandingsTest.StandingsMockDb;
+import dpl.SystemConfig;
 import dpl.TeamManagementTest.LeagueMockData;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,12 +27,12 @@ public class PlayoffScheduleTest {
 
     @Before
     public void setUp() throws Exception {
-        output = new CmdUserOutput();
-        standingsDb = new StandingsMockDb(0);
-        leagueToSimulate = new LeagueMockData().getTestData();
-        standings = new StandingInfo(leagueToSimulate, 0, standingsDb, output);
-        state = new PlayoffSchedule(output, standingsDb, standings, 0);
-        mockSchedule = new MockSchedule();
+        output = SystemConfig.getSingleInstance().getUserOutputAbstractFactory().CmdUserOutput();
+        standingsDb = StandingsMockDb.getInstance();
+        leagueToSimulate = LeagueMockData.getInstance().getTestData();
+        standings = SystemConfig.getSingleInstance().getStandingsAbstractFactory().StandingInfo(leagueToSimulate, 0, standingsDb, output);
+        state = SystemConfig.getSingleInstance().getScheduleAbstractFactory().PlayoffSchedule(output, standingsDb, standings, 0);
+        mockSchedule = MockSchedule.getInstance();
     }
 
     @Test
@@ -131,8 +132,8 @@ public class PlayoffScheduleTest {
         state.setLastDay("20-11-2020");
         state.generateSchedule(leagueToSimulate);
         state.setFinalSchedule(mockSchedule.getFinalSchedule());
-        assertEquals("Halifax", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
-        assertNotEquals("Toronto", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
+        assertEquals("Brampton", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
+        assertNotEquals("Halifax", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
     }
 
     @Test
@@ -164,7 +165,7 @@ public class PlayoffScheduleTest {
     @Test
     public void setFinalScheduleTest() {
         state.setFinalSchedule(mockSchedule.getMockSchedule());
-        assertEquals("Halifax", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
+        assertEquals("Brampton", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
         assertNotEquals("Calgary", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
     }
 

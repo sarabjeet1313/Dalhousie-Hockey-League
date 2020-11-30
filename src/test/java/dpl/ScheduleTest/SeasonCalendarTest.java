@@ -3,6 +3,7 @@ package dpl.ScheduleTest;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+import dpl.SystemConfig;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,8 +16,8 @@ public class SeasonCalendarTest {
 
     @Before
     public void setUp() throws Exception {
-        output = new CmdUserOutput();
-        state = new SeasonCalendar(0,output);
+        output = SystemConfig.getSingleInstance().getUserOutputAbstractFactory().CmdUserOutput();
+        state = SystemConfig.getSingleInstance().getScheduleAbstractFactory().SeasonCalendar(0, output);
     }
 
     @Test

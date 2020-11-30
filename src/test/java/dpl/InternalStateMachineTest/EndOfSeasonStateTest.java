@@ -2,10 +2,9 @@ package dpl.InternalStateMachineTest;
 
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.EndOfSeasonState;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStateContext;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+import dpl.SystemConfig;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,10 +22,10 @@ public class EndOfSeasonStateTest {
 
     @Before
     public void setUp() throws Exception {
-        input = new CmdUserInput();
-        output = new CmdUserOutput();
-        context = new InternalStateContext(input, output);
-        state = new EndOfSeasonState(output);
+        input = SystemConfig.getSingleInstance().getUserInputAbstractFactory().CmdUserInput();
+        output = SystemConfig.getSingleInstance().getUserOutputAbstractFactory().CmdUserOutput();
+        context = SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory().InternalStateContext(input, output);
+        state = (EndOfSeasonState) SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory().EndOfSeasonState(output);
     }
 
     @Test

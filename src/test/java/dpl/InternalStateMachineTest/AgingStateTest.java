@@ -6,9 +6,7 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManag
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.AgingState;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStateContext;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.SystemConfig;
 import dpl.TeamManagementTest.LeagueMockData;
@@ -31,13 +29,13 @@ public class AgingStateTest {
 
     @Before
     public void setUp() throws Exception {
-        input = new CmdUserInput();
-        output = new CmdUserOutput();
-        utility = new SeasonCalendar(0, output);
-        context = new InternalStateContext(input, output);
+        input = SystemConfig.getSingleInstance().getUserInputAbstractFactory().CmdUserInput();
+        output = SystemConfig.getSingleInstance().getUserOutputAbstractFactory().CmdUserOutput();
+        utility = SystemConfig.getSingleInstance().getScheduleAbstractFactory().SeasonCalendar(0, output);
+        context = SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory().InternalStateContext(input, output);
         injury = teamManagement.InjuryManagement();
-        leagueToSimulate = new LeagueMockData().getTestData();
-        state = new AgingState(leagueToSimulate, null, null, null, injury, context, utility, "13-11-2020", "", 0, output);
+        leagueToSimulate = LeagueMockData.getInstance().getTestData();
+        state = (AgingState)SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory().AgingState(leagueToSimulate, null, null, null, injury, context, utility, "13-11-2020", "", 0, output);
     }
 
     @Test

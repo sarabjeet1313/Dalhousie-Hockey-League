@@ -5,11 +5,10 @@ import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersi
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradePersistence;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalSimulationState;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStateContext;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.StandingsTest.StandingsMockDb;
+import dpl.SystemConfig;
 import dpl.TeamManagementTest.LeagueMockData;
 import dpl.TradingTest.TradeObjectTestMockData;
 import org.junit.Before;
@@ -29,14 +28,14 @@ public class InternalSimulationStateTest {
 
     @Before
     public void setUp() throws Exception {
-        input = new CmdUserInput();
-        output = new CmdUserOutput();
-        leagueMock = new LeagueMockData();
-        utlity = new SeasonCalendar(0, output);
-        context = new InternalStateContext(input, output);
-        standingMock = new StandingsMockDb(0);
-        tradeMock = new TradeObjectTestMockData();
-        state = new InternalSimulationState(input, output, 1, "testTeam", leagueMock.getTestData(), context, tradeMock, standingMock);
+        input = SystemConfig.getSingleInstance().getUserInputAbstractFactory().CmdUserInput();
+        output = SystemConfig.getSingleInstance().getUserOutputAbstractFactory().CmdUserOutput();
+        leagueMock = LeagueMockData.getInstance();
+        utlity = SystemConfig.getSingleInstance().getScheduleAbstractFactory().SeasonCalendar(0, output);
+        context = SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory().InternalStateContext(input, output);
+        standingMock = StandingsMockDb.getInstance();
+        tradeMock = TradeObjectTestMockData.getInstance();
+        state = (InternalSimulationState) SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory().InternalSimulationState(input, output, 1, "testTeam", leagueMock.getTestData(), context, tradeMock, standingMock);
     }
 
     @Test

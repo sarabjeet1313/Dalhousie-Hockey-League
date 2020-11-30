@@ -2,10 +2,9 @@ package dpl.InternalStateMachineTest;
 
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalEndState;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStateContext;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+import dpl.SystemConfig;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,10 +21,10 @@ public class InternalEndStateTest {
 
     @Before
     public void setUp() throws Exception {
-        input = new CmdUserInput();
-        output = new CmdUserOutput();
-        state = new InternalEndState(output);
-        context = new InternalStateContext(input, output);
+        input = SystemConfig.getSingleInstance().getUserInputAbstractFactory().CmdUserInput();
+        output = SystemConfig.getSingleInstance().getUserOutputAbstractFactory().CmdUserOutput();
+        state = (InternalEndState) SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory().InternalEndState(output);
+        context = SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory().InternalStateContext(input, output);
     }
 
     @Test

@@ -1,16 +1,13 @@
 package dpl.InternalStateMachineTest;
 
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
-import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.RegularSeasonSchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IInjuryManagement;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManagementAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InjuryCheckState;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStateContext;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.ScheduleTest.MockSchedule;
 import dpl.SystemConfig;
@@ -38,16 +35,16 @@ public class InjuryCheckStateTest {
 
     @Before
     public void setUp() throws Exception {
-        input = new CmdUserInput();
-        output = new CmdUserOutput();
+        input = SystemConfig.getSingleInstance().getUserInputAbstractFactory().CmdUserInput();
+        output = SystemConfig.getSingleInstance().getUserOutputAbstractFactory().CmdUserOutput();
         calendar = Calendar.getInstance();
-        schedule = new RegularSeasonSchedule(calendar, output);
+        schedule = SystemConfig.getSingleInstance().getScheduleAbstractFactory().RegularSeasonSchedule(calendar, output);
         injury = teamManagement.InjuryManagement();
-        mockSchedule = new MockSchedule();
-        leagueToSimulate = new LeagueMockData().getTestData();
-        context = new InternalStateContext(input, output);
-        utility = new SeasonCalendar(0, output);
-        state = new InjuryCheckState(leagueToSimulate, injury, schedule, context, utility, "14-11-2020", null, 0, output, null, null);
+        mockSchedule = MockSchedule.getInstance();
+        leagueToSimulate = LeagueMockData.getInstance().getTestData();
+        context = SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory().InternalStateContext(input, output);
+        utility = SystemConfig.getSingleInstance().getScheduleAbstractFactory().SeasonCalendar(0, output);
+        state = (InjuryCheckState) SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory().InjuryCheckState(leagueToSimulate, injury, schedule, context, utility, "14-11-2020", null, 0, output, null, null);
         schedule.setFinalSchedule(mockSchedule.getMockSchedule());
     }
 

@@ -9,6 +9,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.List;
 
+import dpl.SystemConfig;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -28,10 +29,10 @@ public class StandingInfoTest {
 
 	@Before
 	public void setUp() throws Exception {
-		output = new CmdUserOutput();
-		standingsDb = new StandingsMockDb(0);
-		leagueToSimulate = new LeagueMockData().getTestData();
-		standings = new StandingInfo(leagueToSimulate, 0, standingsDb, output);
+		output = SystemConfig.getSingleInstance().getUserOutputAbstractFactory().CmdUserOutput();
+		standingsDb = StandingsMockDb.getInstance();
+		leagueToSimulate = LeagueMockData.getInstance().getTestData();
+		standings = SystemConfig.getSingleInstance().getStandingsAbstractFactory().StandingInfo(leagueToSimulate, 0, standingsDb, output);
 	}
 
 	@Test
