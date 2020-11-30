@@ -1,11 +1,25 @@
 package dpl.TradingTest;
 
-import dpl.LeagueSimulationManagement.LeagueManagement.Standings.Standing;
+import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Aging;
+import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.GameplayConfig;
+import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.IGameplayConfigPersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Injury;
+import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Trading;
+import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Training;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Coach;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Conference;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Division;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ICoachPersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ILeaguePersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IManagerPersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManagementAbstractFactory;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Manager;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
 import dpl.SystemConfig;
 import dpl.GameplayConfigurationTest.GamaplayConfigMockData;
-import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.*;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.*;
 import dpl.TeamManagementTest.CoachMockData;
 import dpl.TeamManagementTest.LeagueMockData;
 import dpl.TeamManagementTest.ManagerMockData;
@@ -18,9 +32,9 @@ import java.util.List;
 
 public class TradeObjectTestMockData implements ITradePersistence {
 
-	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
-			.getTeamManagementAbstractFactory();
-    private Player player1 = teamManagement.PlayerWithParameters("Player One", "forward", true, 1, 1, 1, 1, 1, false, false, 0,false, 23, 3, 1999, Boolean.FALSE);
+    private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
+            .getTeamManagementAbstractFactory();
+    private Player player1 = teamManagement.PlayerWithParameters("Player One", "forward", true, 1, 1, 1, 1, 1, false, false, 0, false, 23, 3, 1999, Boolean.FALSE);
     private Player player7 = teamManagement.PlayerWithParameters("Player Seven", "forward", false, 1, 1, 1, 1, 1, false, false, 0, false, 23, 3, 1999, Boolean.FALSE);
     private Player player2 = teamManagement.PlayerWithParameters("Player Two", "defense", false, 51, 12, 12, 13, 12, false, true, 0, false, 23, 3, 1999, Boolean.FALSE);
     private Player player3 = teamManagement.PlayerWithParameters("Player Three", "goalie", false, 10, 19, 18, 15, 14, false, false, 0, false, 19, 5, 2000, Boolean.FALSE);
@@ -42,9 +56,9 @@ public class TradeObjectTestMockData implements ITradePersistence {
     private IManagerPersistance managerMock = new ManagerMockData();
     private HashMap<String, Double> gmTable = new HashMap<>();
     Trading trading = new Trading(8, 0.05, 2, 0.05, gmTable);
-    Manager manager1 = teamManagement.ManagerWithDbParameters("Karen Potam","normal", managerMock);
-    Manager manager2 = teamManagement.ManagerWithDbParameters("Joseph Squidly","normal", managerMock);
-    Manager manager3 = teamManagement.ManagerWithDbParameters("Tom Spaghetti","normal", managerMock);
+    Manager manager1 = teamManagement.ManagerWithDbParameters("Karen Potam", "normal", managerMock);
+    Manager manager2 = teamManagement.ManagerWithDbParameters("Joseph Squidly", "normal", managerMock);
+    Manager manager3 = teamManagement.ManagerWithDbParameters("Tom Spaghetti", "normal", managerMock);
     Coach coach1 = teamManagement.CoachWithDbParameters("Coach One", 0.1, 0.2, 0.1, 0.1, coachMock);
     Coach coach2 = teamManagement.CoachWithDbParameters("Coach Two", 0.1, 0.2, 0.1, 0.1, coachMock);
     Coach coach3 = teamManagement.CoachWithDbParameters("Coach Three", 0.1, 0.2, 0.1, 0.1, coachMock);
@@ -83,7 +97,7 @@ public class TradeObjectTestMockData implements ITradePersistence {
         return league;
     }
 
-    public List<String> getAllTeamNames(){
+    public List<String> getAllTeamNames() {
         List<String> teamNames = new ArrayList<>();
         teamNames.add("Boston");
         teamNames.add("Halifax");

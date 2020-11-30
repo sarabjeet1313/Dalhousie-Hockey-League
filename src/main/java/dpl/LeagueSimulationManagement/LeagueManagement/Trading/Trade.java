@@ -18,11 +18,18 @@ public class Trade implements ITrade {
     private List<Player> playerListRequestedTeam;
     private ITradePersistence tradeDB;
 
-    private static final Logger log = Logger.getLogger(PlayerDraft.class.getName());
+    private static final Logger log = Logger.getLogger(Trade.class.getName());
     public final String PLAYER_OFFERED_FOR_TRADE = "Player offered for trade : ";
     public final String OF_STRENGTH = " of Strength ";
     public final String TRADE_OFFERED_BY_TEAM = "| Trade offered by team  ";
     public final String DRAFT_PICK_ORDER = " for Draft pick order :";
+    public final String TRADE_OFFERED_BY = "Trade has been offered by:";
+    public final String FOR_PLAYER = "offered players :";
+    public final String TRADE_REQUESTED_TO = "Requested To:";
+    public final String REQUESTED_PLAYER = "Requested players :";
+    public final String ACCEPTED = "Trade accepted by both parties !!";
+    public final String REJECTED = "Trade Rejected";
+
 
     private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance().getTeamManagementAbstractFactory();
     private ITradingAbstractFactory tradingAbstractFactory = SystemConfig.getSingleInstance().getTradingAbstractFactory();
@@ -355,10 +362,10 @@ public class Trade implements ITrade {
                 }
 
                 checkIfUnevenTradePossible(trade, leagueObject, iTeamInfo, iPlayerInfo);
-
+                boolean flag = Boolean.FALSE;
                 if (aiAcceptReject.isAcceptOrReject(trade, leagueObject, randAcceptChance, isUserTeam, iPlayerInfo,
                         iTeamInfo)) {
-
+                    flag = Boolean.TRUE;
                     for (int cLIndex = 0; cLIndex < conferenceL.size(); cLIndex++) {
                         divisionL = conferenceL.get(cLIndex).getDivisionList();
 
@@ -410,9 +417,18 @@ public class Trade implements ITrade {
                         leagueObject.setConferenceList(conferenceL);
                     }
                 }
+                if (flag == Boolean.TRUE) {
+                    log.log(Level.INFO, TRADE_OFFERED_BY
+                            + trade.getTradeOfferTeam() + TRADE_REQUESTED_TO + trade.getTradeRequestedTeam()
+                            + ACCEPTED);
+                } else {
+                    log.log(Level.INFO, TRADE_OFFERED_BY
+                            + trade.getTradeOfferTeam() + TRADE_REQUESTED_TO + trade.getTradeRequestedTeam()
+                            + REJECTED);
+                }
             }
         }
-        //Specific maybe ?
+
         tradeReset.UpdateTrade(standings);
         return leagueObject;
     }

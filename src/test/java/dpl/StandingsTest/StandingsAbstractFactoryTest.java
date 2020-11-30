@@ -1,6 +1,10 @@
 package dpl.StandingsTest;
 
-import dpl.LeagueSimulationManagement.LeagueManagement.Standings.*;
+import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.Standings.Standing;
+import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
+import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingsAbstractFactory;
+import dpl.LeagueSimulationManagement.LeagueManagement.Standings.TeamStanding;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;

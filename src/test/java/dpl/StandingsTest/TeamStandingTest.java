@@ -80,4 +80,18 @@ public class TeamStandingTest {
         teamStanding.setPoints(24);
         assertEquals(24, teamStanding.getPoints());
     }
+
+    @Test
+    public void getTradeLossPointTest() {
+        assertNotEquals(10, teamStanding.getTradeLossPoint());
+        teamStanding.setTradeLossPoint(10);
+        assertEquals(10, teamStanding.getTradeLossPoint());
+    }
+
+    @Test
+    public void setTradeLossPointTest() {
+        assertNotEquals(69, teamStanding.getTradeLossPoint());
+        teamStanding.setTradeLossPoint(69);
+        assertEquals(69, teamStanding.getTradeLossPoint());
+    }
 }
