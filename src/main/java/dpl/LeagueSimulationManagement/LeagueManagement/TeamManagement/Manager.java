@@ -46,17 +46,17 @@ public class Manager {
 		this.personality = personality;
 	}
 
-	public boolean saveTeamGeneralManager(String managerName, String teamName, String leagueName) throws IOException {
+	public boolean saveTeamGeneralManager(Manager manager, String teamName, String leagueName) throws IOException {
 		boolean isSaved = Boolean.FALSE;
 		try {
-			isSaved = managerDb.persistManagerInfo(managerName, teamName, leagueName);
+			isSaved = managerDb.persistManagerInfo(manager, teamName, leagueName);
 		} catch (IOException e) {
 			throw e;
 		}
 		return isSaved;
 	}
 
-	public String getMangerPersonalityByTeam(String teamName, League league){
+	public String getMangerPersonalityByTeam(String teamName, League league) {
 		String currentTeamName;
 		String  personalityType = ManagerConstants.NORMAL.toString();
 		List<Conference> conferenceList = league.getConferenceList();
@@ -82,9 +82,7 @@ public class Manager {
 		try {
 			List<Manager> list = league.getManagerList();
 			for (int index = 0; index < list.size(); index++) {
-				Manager manager = new Manager(list.get(index).getManagerName(), ManagerConstants.PERSONALITY.toString(),
-						managerDb);
-				isSaved = managerDb.persistManagerInfo(manager.getManagerName(), teamName, league.getLeagueName());
+				isSaved = managerDb.persistManagerInfo(list.get(index), teamName, league.getLeagueName());
 			}
 		} catch (IOException e) {
 			throw e;

@@ -1,6 +1,5 @@
 package dpl.TeamManagementTest;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -114,7 +113,7 @@ public class LeagueTest {
 		try {
 			League fetchedleague = league.loadLeague("Boston");
 			Assert.assertEquals(fetchedleague.getLeagueName(), league.getLeagueName());
-		} catch (IOException e) {
+		} catch (Exception e) {
 			output.setOutput(e.getMessage());
 			output.sendOutput();
 		}
@@ -142,7 +141,7 @@ public class LeagueTest {
 		try {
 			Assert.assertTrue(league.isValidLeagueName(tempLeague));
 			Assert.assertTrue(league.isValidLeagueName(leagueData));
-		} catch (IOException e) {
+		} catch (Exception e) {
 			output.setOutput(e.getMessage());
 			output.sendOutput();
 		}
@@ -153,7 +152,7 @@ public class LeagueTest {
 		try {
 			LeagueObjectTestData leagueData = new LeagueObjectTestData();
 			Assert.assertTrue(league.createTeam(leagueData.getLeagueData()));
-		} catch (IOException e) {
+		} catch (Exception e) {
 			output.setOutput(e.getMessage());
 			output.sendOutput();
 		}
@@ -175,7 +174,7 @@ public class LeagueTest {
 	public void UpdateLeagueTest() {
 		try {
 			Assert.assertTrue(league.updateLeague(league));
-		} catch (IOException e) {
+		} catch (Exception e) {
 			output.setOutput(e.getMessage());
 			output.sendOutput();
 		}

@@ -8,7 +8,6 @@ import java.net.URL;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import dpl.DplConstants.FileConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Coach;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ICoachPersistance;
 
@@ -31,7 +30,6 @@ public class CoachSerializationDeserialization implements ICoachPersistance {
 			throw e;
 		} finally {
 			fileWriter.close();
-			
 		}
 		return isSerialized;
 	}

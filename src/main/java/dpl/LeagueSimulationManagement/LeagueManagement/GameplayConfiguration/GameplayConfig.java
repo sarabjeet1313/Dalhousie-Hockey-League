@@ -7,7 +7,7 @@ import com.google.gson.annotations.Expose;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 
 public class GameplayConfig {
-	
+
 	private double penaltyChance = 0.45;
 	private int checkingValueToPenalty = 10;
 	private double shootingValueToGoal = 4.9;
@@ -48,7 +48,6 @@ public class GameplayConfig {
 	public void setAging(Aging aging) {
 		this.aging = aging;
 	}
-
 
 	public Injury getInjury() {
 		return injury;
@@ -105,5 +104,5 @@ public class GameplayConfig {
 		}
 		return config;
 	}
-	
+
 }

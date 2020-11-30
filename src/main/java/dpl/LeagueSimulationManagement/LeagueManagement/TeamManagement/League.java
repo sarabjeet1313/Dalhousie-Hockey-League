@@ -177,7 +177,7 @@ public class League implements ILeagueOperation {
 									generalManager.getManagerName(), headCoach.getCoachName(), playerList.get(pIndex));
 						}
 						isCreated = headCoach.saveTeamCoaches(headCoach, teamName, leagueName);
-						isCreated = generalManager.saveTeamGeneralManager(generalManager.getManagerName(), teamName,
+						isCreated = generalManager.saveTeamGeneralManager(generalManager, teamName,
 								leagueName);
 					}
 				}

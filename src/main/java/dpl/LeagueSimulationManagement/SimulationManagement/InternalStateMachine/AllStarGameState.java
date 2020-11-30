@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class AllStarGameState implements ISimulationState {
+	
 	private String stateName;
 	private String nextStateName;
 	private String currentDate;
@@ -64,7 +65,6 @@ public class AllStarGameState implements ISimulationState {
 	}
 
 	public void doProcessing() {
-
 		output.setOutput(StateConstants.ALL_STAR_GAME_STATE);
 		output.sendOutput();
 		List<Team> teamList = teamManagementAbstractFactory.AllStarGameManagement()
@@ -95,4 +95,5 @@ public class AllStarGameState implements ISimulationState {
 	public String getNextStateName() {
 		return this.nextStateName;
 	}
+	
 }

@@ -29,7 +29,7 @@ public class ParsingState implements IState {
 	private IInitializeModelsAbstractFactory initializeModels = SystemConfig.getSingleInstance()
 			.getInitializeModelsAbstractFactory();
 	private ISimulationStateMachineAbstractFactory simulationStateMachineAbstractFactory;
-	
+
 	public ParsingState(IUserInput input, IUserOutput output, String filePath, ILeaguePersistance leagueDb,
 			ICoachPersistance coachDb, IGameplayConfigPersistance configDb, IManagerPersistance managerDb,
 			ITradePersistence tradeDb, IStandingsPersistance standingDb) {
@@ -43,13 +43,14 @@ public class ParsingState implements IState {
 		this.stateName = "Parsing";
 		this.tradeDb = tradeDb;
 		this.standingDb = standingDb;
-		this.simulationStateMachineAbstractFactory = SystemConfig.getSingleInstance().getSimulationStateMachineAbstractFactory();
+		this.simulationStateMachineAbstractFactory = SystemConfig.getSingleInstance()
+				.getSimulationStateMachineAbstractFactory();
 	}
 
 	public void nextState(StateContext context) {
 		this.nextStateName = "Create Team";
-		context.setState(this.simulationStateMachineAbstractFactory.CreateTeamState(input, output, initializedLeague, leagueDb, coachDb, configDb, managerDb,
-				tradeDb, standingDb));
+		context.setState(this.simulationStateMachineAbstractFactory.CreateTeamState(input, output, initializedLeague,
+				leagueDb, coachDb, configDb, managerDb, tradeDb, standingDb));
 	}
 
 	public void doProcessing() {

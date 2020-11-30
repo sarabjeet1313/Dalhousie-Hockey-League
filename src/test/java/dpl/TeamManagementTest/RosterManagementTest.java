@@ -13,6 +13,7 @@ public class RosterManagementTest {
             .getTeamManagementAbstractFactory();
     League leagueData = new LeagueObjectTestData().getLeagueData();
     IRosterManagement irm = teamManagement.RosterManagement();
+    
     @Test
     public void checkRosterTest(){
         Assert.assertEquals(Boolean.FALSE, irm.checkRoster("Boston",leagueData));

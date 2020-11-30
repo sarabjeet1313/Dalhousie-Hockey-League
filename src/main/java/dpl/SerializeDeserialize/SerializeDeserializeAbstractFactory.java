@@ -1,6 +1,6 @@
 package dpl.SerializeDeserialize;
 
-public class SerializeDeserializeAbstractFactory implements ISerializeDeserializeAbstractFactory{
+public class SerializeDeserializeAbstractFactory implements ISerializeDeserializeAbstractFactory {
 
 	@Override
 	public CoachSerializationDeserialization CoachSerializationDeserialization() {
@@ -11,22 +11,22 @@ public class SerializeDeserializeAbstractFactory implements ISerializeDeserializ
 	public StandingSerializationDeserialization StandingSerializationDeserialization() {
 		return new StandingSerializationDeserialization();
 	}
-	
+
 	@Override
 	public GameplayConfigSerializationDeserialization GameplayConfigSerializationDeserialization() {
 		return new GameplayConfigSerializationDeserialization();
 	}
-	
+
 	@Override
 	public LeagueSerializationDeserialization LeagueSerializationDeserialization() {
 		return new LeagueSerializationDeserialization();
 	}
-	
+
 	@Override
 	public ManagerSerializationDeserialization ManagerSerializationDeserialization() {
 		return new ManagerSerializationDeserialization();
 	}
-	
+
 	@Override
 	public RetiredPlayerSerializationDeserialization RetiredPlayerSerializationDeserialization() {
 		return new RetiredPlayerSerializationDeserialization();

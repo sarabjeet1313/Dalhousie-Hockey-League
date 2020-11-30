@@ -1,22 +1,22 @@
 package dpl.LeagueSimulationManagement.UserInputOutput.UserOutput;
 
 public class CmdUserOutput implements IUserOutput {
-    private String outputResponse;
+	private String outputResponse;
 
-    public CmdUserOutput() {
-        setInitialValues();
-    }
+	public CmdUserOutput() {
+		setInitialValues();
+	}
 
-    public void setInitialValues() {
-        outputResponse = "";
-    }
+	public void setInitialValues() {
+		outputResponse = "";
+	}
 
-    public void setOutput(String outputResponse) {
-        this.outputResponse = outputResponse;
-    }
+	public void setOutput(String outputResponse) {
+		this.outputResponse = outputResponse;
+	}
 
-    public String sendOutput() {
-        System.out.println(outputResponse);
-        return this.outputResponse;
-    }
+	public String sendOutput() {
+		System.out.println(outputResponse);
+		return this.outputResponse;
+	}
 }

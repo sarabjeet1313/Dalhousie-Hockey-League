@@ -1,5 +1,6 @@
 package dpl.InitializeModelsTest;
 
+import dpl.GameplayConfigurationTest.GamaplayConfigMockData;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.IGameplayConfigPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.InitializeModels.InitializeLeagues;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ICoachPersistance;
@@ -7,7 +8,6 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ILeaguePer
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IManagerPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.TeamManagementTest.CoachMockData;
-import dpl.TeamManagementTest.GamaplayConfigMockData;
 import dpl.TeamManagementTest.LeagueMockData;
 import dpl.TeamManagementTest.ManagerMockData;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
