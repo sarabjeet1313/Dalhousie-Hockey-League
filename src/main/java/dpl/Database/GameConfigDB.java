@@ -3,7 +3,7 @@ package dpl.Database;
 import java.sql.ResultSet;
 import java.util.HashMap;
 
-import dpl.DplConstants.GameConfigConstants;
+import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.GameConfigConstants;
 import dpl.DplConstants.StoredProcedureConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Aging;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.GameplayConfig;

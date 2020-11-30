@@ -6,7 +6,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import dpl.SystemConfig;
-import dpl.DplConstants.RosterManagementConstants;
 
 public class RosterManagement implements IRosterManagement{
 

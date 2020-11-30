@@ -11,7 +11,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import dpl.SystemConfig;
-import dpl.DplConstants.GameConfigConstants;
+import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.GameConfigConstants;
 import dpl.DplConstants.GeneralConstants;
 import dpl.DplConstants.InitializeLeaguesConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Aging;

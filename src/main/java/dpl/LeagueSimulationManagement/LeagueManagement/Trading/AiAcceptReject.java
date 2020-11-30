@@ -1,8 +1,6 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.Trading;
 
-import dpl.DplConstants.TradeConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.IGameplayConfigurationAbstractFactory;
-import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Trading;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.*;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInputAbstractFactory;
@@ -50,7 +48,7 @@ public class AiAcceptReject {
             output.setOutput(TradeConstants.PLAYERTABLE_HEADER.toString());
             output.sendOutput();
             for (Player p : trade.getPlayerListRequestedTeam()) {
-                output.setOutput("| " + p.getPlayerName() + " | " + p.getPosition() + " | " + p.getAge() + " | " + p.getSkating() + " | " + p.getShooting() + " | " + p.getChecking() + " | " + p.getSaving() + " |");
+                output.setOutput("| " + p.getPlayerName() + " | " + p.getPosition() + "     | " + p.getAge() + "     | " + p.getSkating() + "     | " + p.getShooting() + "    | " + p.getChecking() + "     | " + p.getSaving() + "    |");
                 output.sendOutput();
             }
             output.setOutput(TradeConstants.PARTITION.toString());
@@ -62,7 +60,7 @@ public class AiAcceptReject {
             output.setOutput(TradeConstants.PLAYERTABLE_HEADER.toString());
             output.sendOutput();
             for (Player p : trade.getPlayerListOfferTeam()) {
-                output.setOutput("| " + p.getPlayerName() + " | " + p.getPosition() + " | " + p.getAge() + " | " + p.getSkating() + " | " + p.getShooting() + " | " + p.getChecking() + " | " + p.getSaving() + " |");
+                output.setOutput("| " + p.getPlayerName() + " | " + p.getPosition() + "     | " + p.getAge() + "     | " + p.getSkating() + "     | " + p.getShooting() + "    | " + p.getChecking() + "     | " + p.getSaving() + "    |");
                 output.sendOutput();
             }
             output.setOutput("                               ");
