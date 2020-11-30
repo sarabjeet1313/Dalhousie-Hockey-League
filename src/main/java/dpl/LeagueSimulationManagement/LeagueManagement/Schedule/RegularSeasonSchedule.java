@@ -42,14 +42,14 @@ public class RegularSeasonSchedule implements ISchedule {
         this.seasonType = ScheduleConstants.REGULAR_SEASON;
         this.calendar = calendar;
         this.output = output;
-        listOfConferences = new ArrayList<String>();
-        conferenceTeamsMap = new HashMap<String, List<String>>();
-        divisionTeamsMap = new HashMap<String, List<String>>();
-        conferenceDivisionMap = new HashMap<String, List<String>>();
-        listOfConferences = new ArrayList<String>();
-        matchScheduledForTeam = new HashMap<String, Integer>();
-        finalSchedule = new HashMap<String, List<Map<String, String>>>();
-        matchesOnADay = new HashMap<String, Integer>();
+        listOfConferences = new ArrayList<>();
+        conferenceTeamsMap = new HashMap<>();
+        divisionTeamsMap = new HashMap<>();
+        conferenceDivisionMap = new HashMap<>();
+        listOfConferences = new ArrayList<>();
+        matchScheduledForTeam = new HashMap<>();
+        finalSchedule = new HashMap<>();
+        matchesOnADay = new HashMap<>();
         teamsScheduled = new ArrayList<>();
         teamsToBeScheduled = new ArrayList<>();
         teamsCompeting = new ArrayList<>();
@@ -110,13 +110,13 @@ public class RegularSeasonSchedule implements ISchedule {
             String conferenceName = conferenceList.get(index).getConferenceName();
             this.listOfConferences.add(conferenceName);
             this.totalDivisions += divisionList.size();
-            List<String> divisions = new ArrayList<String>();
+            List<String> divisions = new ArrayList<>();
             for (int dIndex = 0; dIndex < divisionList.size(); dIndex++) {
                 List<Team> teamList = divisionList.get(dIndex).getTeamList();
                 String divisionName = divisionList.get(dIndex).getDivisionName();
                 divisions.add(divisionName);
                 this.totalTeams += teamList.size();
-                List<String> teams = new ArrayList<String>();
+                List<String> teams = new ArrayList<>();
                 for (int tIndex = 0; tIndex < teamList.size(); tIndex++) {
                     String teamName = teamList.get(tIndex).getTeamName();
                     teams.add(teamName);
@@ -191,7 +191,7 @@ public class RegularSeasonSchedule implements ISchedule {
 
                 if (matchScheduledForTeam.containsKey(teamName) && matchCounter < (ScheduleConstants.REGULAR_SEASON_MAX_MATCH_PER_DAY + 1)) {
                     if (matchesOnADay.get(currentDay) < matchesPerDay) {
-                        Map<String, String> teamsCompeting = new HashMap<String, String>();
+                        Map<String, String> teamsCompeting = new HashMap<>();
                         teamsCompeting.put(teamName, team);
 
                         if (finalSchedule.containsKey(currentDay)) {
@@ -214,7 +214,7 @@ public class RegularSeasonSchedule implements ISchedule {
 
                     } else {
                         incrementCurrentDay();
-                        Map<String, String> teamsCompeting = new HashMap<String, String>();
+                        Map<String, String> teamsCompeting = new HashMap<>();
                         teamsCompeting.put(teamName, team);
 
 
@@ -274,7 +274,7 @@ public class RegularSeasonSchedule implements ISchedule {
 
                 if (matchScheduledForTeam.containsKey(teamName) && matchCounter < ScheduleConstants.REGULAR_SEASON_MAX_MATCH_PER_DAY + 1) {
                     if (matchesOnADay.get(currentDay) < matchesPerDay) {
-                        Map<String, String> teamsCompeting = new HashMap<String, String>();
+                        Map<String, String> teamsCompeting = new HashMap<>();
                         teamsCompeting.put(teamName, team);
 
                         if (finalSchedule.containsKey(currentDay)) {
@@ -297,7 +297,7 @@ public class RegularSeasonSchedule implements ISchedule {
 
                     } else {
                         incrementCurrentDay();
-                        Map<String, String> teamsCompeting = new HashMap<String, String>();
+                        Map<String, String> teamsCompeting = new HashMap<>();
                         teamsCompeting.put(teamName, team);
 
                         if (finalSchedule.containsKey(currentDay)) {
@@ -354,7 +354,7 @@ public class RegularSeasonSchedule implements ISchedule {
 
                 if (matchScheduledForTeam.containsKey(teamName) && matchCounter < ScheduleConstants.REGULAR_SEASON_MAX_MATCH_PER_DAY + 1) {
                     if (matchesOnADay.get(currentDay) < matchesPerDay) {
-                        Map<String, String> teamsCompeting = new HashMap<String, String>();
+                        Map<String, String> teamsCompeting = new HashMap<>();
                         teamsCompeting.put(teamName, team);
 
                         if (finalSchedule.containsKey(currentDay)) {
@@ -377,7 +377,7 @@ public class RegularSeasonSchedule implements ISchedule {
 
                     } else {
                         incrementCurrentDay();
-                        Map<String, String> teamsCompeting = new HashMap<String, String>();
+                        Map<String, String> teamsCompeting = new HashMap<>();
                         teamsCompeting.put(teamName, team);
 
                         if (finalSchedule.containsKey(currentDay)) {

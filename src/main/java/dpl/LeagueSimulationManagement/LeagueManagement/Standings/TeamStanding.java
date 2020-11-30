@@ -5,11 +5,21 @@ public class TeamStanding {
     private int wins;
     private int losses;
     private int points;
+    private int tradeLossPoint;
 
-    public void TeamStanding() {
+    public TeamStanding() {
         this.wins = 0;
         this.losses = 0;
         this.points = 0;
+        this.tradeLossPoint = 0;
+    }
+
+    public int getTradeLossPoint() {
+        return tradeLossPoint;
+    }
+
+    public void setTradeLossPoint(int tradeLossPoint) {
+        this.tradeLossPoint = tradeLossPoint;
     }
 
     public String getTeamName() {

@@ -1,7 +1,5 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
-import dpl.LeagueSimulationManagement.SimulationManagement.GeneratePlayoffConstants;
-import dpl.LeagueSimulationManagement.SimulationManagement.StateConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Training;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.IScheduleAbstractFactory;
@@ -9,6 +7,8 @@ import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.*;
+import dpl.LeagueSimulationManagement.SimulationManagement.GeneratePlayoffConstants;
+import dpl.LeagueSimulationManagement.SimulationManagement.StateConstants;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.SystemConfig;
 
@@ -101,9 +101,7 @@ public class GeneratePlayoffScheduleState implements ISimulationState {
 				List<Team> teamList = division.getTeamList();
 				for (Team team : teamList) {
 					List<Player> playerList = team.getPlayerList();
-					//TODO prashant's team subscribe
 					for(Player player: playerList) {
-						//TODO prashant's player subscribe
 					}
 				}
 			}

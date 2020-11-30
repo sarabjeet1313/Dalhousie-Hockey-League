@@ -141,7 +141,7 @@ public class SimulatePlayoffSeasonMatch implements ISimulateMatch{
                 utility.setLastSeasonDay(this.currentDate);
             } else {
                 schedule.generateScheduleOnTheFly(schedule.getTeamsToBeScheduled(), this.currentDate);
-                List<String> teamsAlreadyScheduled = new ArrayList<String>(schedule.getTeamsToBeScheduled());
+                List<String> teamsAlreadyScheduled = new ArrayList<>(schedule.getTeamsToBeScheduled());
                 schedule.setTeamsScheduled(teamsAlreadyScheduled);
                 List<String> clearTeams = new ArrayList<>();
                 schedule.setTeamsToBeScheduled(clearTeams);

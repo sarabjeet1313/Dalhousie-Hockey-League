@@ -1,13 +1,14 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
-import dpl.LeagueSimulationManagement.SimulationManagement.StateConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.InjuryManagement;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IInjuryManagement;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManagementAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.Trade;
+import dpl.LeagueSimulationManagement.SimulationManagement.StateConstants;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.SystemConfig;
 
@@ -22,7 +23,7 @@ public class TradingState implements ISimulationState {
 	private InternalStateContext context;
 	private Trade trade;
 	private IUserOutput output;
-	private InjuryManagement injury;
+	private IInjuryManagement injury;
 	private SeasonCalendar utility;
 	private String currentDate;
 	private String endDate;
@@ -31,6 +32,8 @@ public class TradingState implements ISimulationState {
 	private StandingInfo standings;
 	private ISchedule schedule;
 	private IInternalStateMachineAbstractFactory internalStateMachineFactory;
+	private ITeamManagementAbstractFactory teamManagementAbstractFactory;
+
 	private static final Logger log = Logger.getLogger(TradingState.class.getName());
 
 	public TradingState(League leagueToSimulate, Trade trade, InternalStateContext context, IUserOutput output,
@@ -38,6 +41,7 @@ public class TradingState implements ISimulationState {
 			ISchedule schedule) {
 		this.stateName = StateConstants.TRADING_STATE;
 		this.internalStateMachineFactory = SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory();
+		this.teamManagementAbstractFactory = SystemConfig.getSingleInstance().getTeamManagementAbstractFactory();
 		this.leagueToSimulate = leagueToSimulate;
 		this.trade = trade;
 		this.context = context;
@@ -49,7 +53,7 @@ public class TradingState implements ISimulationState {
 		this.standings = standings;
 		this.utility = utility;
 		this.schedule = schedule;
-		this.injury = new InjuryManagement();
+		this.injury = teamManagementAbstractFactory.InjuryManagement();
 	}
 
 	public ISimulationState nextState(InternalStateContext context) {

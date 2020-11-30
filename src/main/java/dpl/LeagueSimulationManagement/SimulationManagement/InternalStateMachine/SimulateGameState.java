@@ -1,15 +1,14 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
 import dpl.DplConstants.GeneralConstants;
-import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ScheduleConstants;
-import dpl.LeagueSimulationManagement.SimulationManagement.StateConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
+import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ScheduleConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.*;
 import dpl.LeagueSimulationManagement.NewsSystem.GamePlayedPublisher;
-import dpl.LeagueSimulationManagement.NewsSystem.INewsSystemAbstractFactory;
+import dpl.LeagueSimulationManagement.SimulationManagement.StateConstants;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.SystemConfig;
 
@@ -61,7 +60,6 @@ public class SimulateGameState implements ISimulationState {
 	private ISimulateMatch simulateMatch;
 	private IInternalStateMachineAbstractFactory internalStateMachineFactory;
 	private ITeamManagementAbstractFactory teamManagementAbstractFactory;
-	private static INewsSystemAbstractFactory newsSystemAbstractFactory;
 	private static final Logger log = Logger.getLogger(SimulateGameState.class.getName());
 
 	public SimulateGameState(League leagueToSimulate, ISchedule schedule, IStandingsPersistance standingsDb, StandingInfo standings,
@@ -103,7 +101,6 @@ public class SimulateGameState implements ISimulationState {
 		this.secondTeamSkatingTotal = 0;
 		this.firstTeamShotsCounter = 0;
 		this.secondTeamShotsCounter = 0;
-		this.newsSystemAbstractFactory = SystemConfig.getSingleInstance().getNewsSystemAbstractFactory();
 	}
 
 	static {
@@ -444,7 +441,7 @@ public class SimulateGameState implements ISimulationState {
 				utility.setLastSeasonDay(this.currentDate);
 			} else {
 				schedule.generateScheduleOnTheFly(schedule.getTeamsToBeScheduled(), this.currentDate);
-				List<String> teamsAlreadyScheduled = new ArrayList<String>(schedule.getTeamsToBeScheduled());
+				List<String> teamsAlreadyScheduled = new ArrayList<>(schedule.getTeamsToBeScheduled());
 				schedule.setTeamsScheduled(teamsAlreadyScheduled);
 				List<String> clearTeams = new ArrayList<>();
 				schedule.setTeamsToBeScheduled(clearTeams);

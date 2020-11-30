@@ -29,19 +29,19 @@ public class PlayoffSchedule implements ISchedule {
 	private Map<String, List<Map<String, String>>> finalSchedule;
 	private List<String> teamsToBeScheduled;
 	private List<String> teamsScheduled;
-	private IStandingsPersistance standingsDb;
+	private SimpleDateFormat dateFormat;
 	private static final Logger log = Logger.getLogger(PlayoffSchedule.class.getName());
 
 	public PlayoffSchedule(IUserOutput output, IStandingsPersistance standingsDb, StandingInfo standings, int season) {
 		this.calendar = Calendar.getInstance();
 		this.output = output;
-		this.standingsDb = standingsDb;
 		this.standings = standings;
 		this.seasonType = ScheduleConstants.PLAYOFF_SEASON;
 		conferenceTeamList = new HashMap<>();
 		finalSchedule = new HashMap<>();
 		teamsToBeScheduled = new ArrayList<>();
 		teamsScheduled = new ArrayList<>();
+		dateFormat = new SimpleDateFormat(ScheduleConstants.DATE_FORMAT);
 	}
 
 	public int getSeasonType() {
@@ -112,10 +112,10 @@ public class PlayoffSchedule implements ISchedule {
 			for (int index = 0; index < conferenceList.size(); index++) {
 				List<Division> divisionList = conferenceList.get(index).getDivisionList();
 				String conferenceName = conferenceList.get(index).getConferenceName();
-				List<String> divisions = new ArrayList<String>();
+				List<String> divisions = new ArrayList<>();
 				for (int dIndex = 0; dIndex < divisionList.size(); dIndex++) {
 
-					List<String> teams = new ArrayList<String>();
+					List<String> teams = new ArrayList<>();
 					String divisionName = divisionList.get(dIndex).getDivisionName();
 					teams = standings.getTopDivisionTeams(leagueToSimulate, divisionName);
 
@@ -143,7 +143,7 @@ public class PlayoffSchedule implements ISchedule {
 		incrementCurrentDay();
 		int totalTeams = teamsToCompete.size();
 		for (int i = 0; i < totalTeams / 2; i++) {
-			Map<String, String> teamsCompeting = new HashMap<String, String>();
+			Map<String, String> teamsCompeting = new HashMap<>();
 			teamsCompeting.put(teamsToCompete.get(i), teamsToCompete.get(totalTeams - 1 - i));
 			List<Map<String, String>> matchList = new ArrayList<>();
 			matchList.add(teamsCompeting);
@@ -153,11 +153,9 @@ public class PlayoffSchedule implements ISchedule {
 	}
 
 	private void setMatchesPerDay() {
-		SimpleDateFormat myFormat = new SimpleDateFormat(ScheduleConstants.DATE_FORMAT);
-
 		try {
-			Date date1 = myFormat.parse(firstDay);
-			Date date2 = myFormat.parse(lastDay);
+			Date date1 = dateFormat.parse(firstDay);
+			Date date2 = dateFormat.parse(lastDay);
 			long diff = date2.getTime() - date1.getTime();
 			int totalDays = (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
 
@@ -180,7 +178,6 @@ public class PlayoffSchedule implements ISchedule {
 		if (currentDay.equals(lastDay)) {
 			return false;
 		} else {
-			SimpleDateFormat dateFormat = new SimpleDateFormat(ScheduleConstants.DATE_FORMAT);
 			try {
 				calendar.setTime(dateFormat.parse(currentDay));
 			} catch (ParseException e) {

@@ -5,9 +5,9 @@ import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
 public interface IStandingsAbstractFactory {
 
-	public StandingInfo StandingInfo(League leagueToSimulate, int season, IStandingsPersistance standingsDb, IUserOutput output);
+	StandingInfo StandingInfo(League leagueToSimulate, int season, IStandingsPersistance standingsDb, IUserOutput output);
 
-	public Standing Standing();
+	Standing Standing();
 
-	public TeamStanding TeamStanding();
+	TeamStanding TeamStanding();
 }

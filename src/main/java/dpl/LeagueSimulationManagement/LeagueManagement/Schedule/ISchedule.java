@@ -1,10 +1,10 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.Schedule;
 
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
+
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
-
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 
 public interface ISchedule {
 
@@ -28,20 +28,20 @@ public interface ISchedule {
 
     boolean incrementCurrentDay();
 
-    public Map<String, List<Map<String, String>>> getFinalSchedule();
+    Map<String, List<Map<String, String>>> getFinalSchedule();
 
     void setFinalSchedule(Map<String, List<Map<String, String>>> schedule);
 
-    public void setTeamsToBeScheduled(List<String> teamsToBeScheduled);
+    void setTeamsToBeScheduled(List<String> teamsToBeScheduled);
 
-    public List<String> getTeamsToBeScheduled();
+    List<String> getTeamsToBeScheduled();
 
-    public void setTeamsScheduled(List<String> teamsScheduled);
+    void setTeamsScheduled(List<String> teamsScheduled);
 
-    public List<String> getTeamsScheduled();
+    List<String> getTeamsScheduled();
 
-    public void generateScheduleOnTheFly(List<String> teamsToCompete, String currentDay);
+    void generateScheduleOnTheFly(List<String> teamsToCompete, String currentDay);
 
-    public boolean anyUnplayedGame(String date);
+    boolean anyUnplayedGame(String date);
 
 }

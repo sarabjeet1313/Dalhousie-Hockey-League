@@ -29,94 +29,94 @@ import dpl.SerializeDeserialize.SerializeDeserializeAbstractFactory;
 
 public class SystemConfig {
 
-	private static SystemConfig singleInstance = null;
-	private ITeamManagementAbstractFactory teamManagementAbstractFactory;
-	private IGameplayConfigurationAbstractFactory gameplayConfigurationAbstractFactory;
-	private IInitializeModelsAbstractFactory initializeModelsAbstractFactory;
-	private IScheduleAbstractFactory scheduleAbstractFactory;
-	private IStandingsAbstractFactory standingsAbstractFactory;
-	private ITradingAbstractFactory tradingAbstractFactory;
-	private INewsSystemAbstractFactory newsSystemAbstractFactory;
-	private IInternalStateMachineAbstractFactory internalStateMachineAbstractFactory;
-	private ISimulationStateMachineAbstractFactory simulationStateMachineAbstractFactory;
-	private IParserAbstractFactory parserAbstractFactory;
-	private IUserInputAbstractFactory userInputAbstractFactory;
-	private IUserOutputAbstractFactory userOutputAbstractFactory;
-	private ISerializeDeserializeAbstractFactory serializeDeserializeAbstractFactory;
+    private static SystemConfig singleInstance = null;
+    private ITeamManagementAbstractFactory teamManagementAbstractFactory;
+    private IGameplayConfigurationAbstractFactory gameplayConfigurationAbstractFactory;
+    private IInitializeModelsAbstractFactory initializeModelsAbstractFactory;
+    private IScheduleAbstractFactory scheduleAbstractFactory;
+    private IStandingsAbstractFactory standingsAbstractFactory;
+    private ITradingAbstractFactory tradingAbstractFactory;
+    private IInternalStateMachineAbstractFactory internalStateMachineAbstractFactory;
+    private ISimulationStateMachineAbstractFactory simulationStateMachineAbstractFactory;
+    private IParserAbstractFactory parserAbstractFactory;
+    private IUserInputAbstractFactory userInputAbstractFactory;
+    private IUserOutputAbstractFactory userOutputAbstractFactory;
+    private ISerializeDeserializeAbstractFactory serializeDeserializeAbstractFactory;
+    private INewsSystemAbstractFactory newsSystemAbstractFactory;
 
-	private SystemConfig() {
-		teamManagementAbstractFactory = new TeamManagementAbstractFactory();
-		gameplayConfigurationAbstractFactory = new GameplayConfigurationAbstractFactory();
-		initializeModelsAbstractFactory = new InitializeModelsAbstractFactory();
-		scheduleAbstractFactory = new ScheduleAbstractFactory();
-		standingsAbstractFactory = new StandingsAbstractFactory();
-		tradingAbstractFactory = new TradingAbstractFactory();
-		newsSystemAbstractFactory = new NewsSystemAbstractFactory();
-		internalStateMachineAbstractFactory = new InternalStateMachineAbstractFactory();
-		simulationStateMachineAbstractFactory = new SimulationStateMachineAbstractFactory();
-		parserAbstractFactory = new ParserAbstractFactory();
-		userInputAbstractFactory = new UserInputAbstractFactory();
-		userOutputAbstractFactory = new UserOutputAbstractFactory();
-		serializeDeserializeAbstractFactory = new SerializeDeserializeAbstractFactory();
-	}
+    private SystemConfig() {
+        teamManagementAbstractFactory = new TeamManagementAbstractFactory();
+        gameplayConfigurationAbstractFactory = new GameplayConfigurationAbstractFactory();
+        initializeModelsAbstractFactory = new InitializeModelsAbstractFactory();
+        scheduleAbstractFactory = new ScheduleAbstractFactory();
+        standingsAbstractFactory = new StandingsAbstractFactory();
+        tradingAbstractFactory = new TradingAbstractFactory();
+        internalStateMachineAbstractFactory = new InternalStateMachineAbstractFactory();
+        simulationStateMachineAbstractFactory = new SimulationStateMachineAbstractFactory();
+        parserAbstractFactory = new ParserAbstractFactory();
+        userInputAbstractFactory = new UserInputAbstractFactory();
+        userOutputAbstractFactory = new UserOutputAbstractFactory();
+        serializeDeserializeAbstractFactory = new SerializeDeserializeAbstractFactory();
+        newsSystemAbstractFactory = new NewsSystemAbstractFactory();
+    }
 
-	public static SystemConfig getSingleInstance() {
-		if (null == singleInstance) {
-			singleInstance = new SystemConfig();
-		}
-		return singleInstance;
-	}
+    public static SystemConfig getSingleInstance() {
+        if (null == singleInstance) {
+            singleInstance = new SystemConfig();
+        }
+        return singleInstance;
+    }
 
-	public ITeamManagementAbstractFactory getTeamManagementAbstractFactory() {
-		return teamManagementAbstractFactory;
-	}
+    public ITeamManagementAbstractFactory getTeamManagementAbstractFactory() {
+        return teamManagementAbstractFactory;
+    }
 
-	public IGameplayConfigurationAbstractFactory getGameplayConfigurationAbstractFactory() {
-		return gameplayConfigurationAbstractFactory;
-	}
+    public IGameplayConfigurationAbstractFactory getGameplayConfigurationAbstractFactory() {
+        return gameplayConfigurationAbstractFactory;
+    }
 
-	public IInitializeModelsAbstractFactory getInitializeModelsAbstractFactory() {
-		return initializeModelsAbstractFactory;
-	}
+    public IInitializeModelsAbstractFactory getInitializeModelsAbstractFactory() {
+        return initializeModelsAbstractFactory;
+    }
 
-	public IScheduleAbstractFactory getScheduleAbstractFactory() {
-		return scheduleAbstractFactory;
-	}
+    public IScheduleAbstractFactory getScheduleAbstractFactory() {
+        return scheduleAbstractFactory;
+    }
 
-	public IStandingsAbstractFactory getStandingsAbstractFactory() {
-		return standingsAbstractFactory;
-	}
+    public IStandingsAbstractFactory getStandingsAbstractFactory() {
+        return standingsAbstractFactory;
+    }
 
-	public ITradingAbstractFactory getTradingAbstractFactory() {
-		return tradingAbstractFactory;
-	}
+    public ITradingAbstractFactory getTradingAbstractFactory() {
+        return tradingAbstractFactory;
+    }
 
-	public INewsSystemAbstractFactory getNewsSystemAbstractFactory() {
-		return newsSystemAbstractFactory;
-	}
+    public IInternalStateMachineAbstractFactory getInternalStateMachineAbstractFactory() {
+        return internalStateMachineAbstractFactory;
+    }
 
-	public IInternalStateMachineAbstractFactory getInternalStateMachineAbstractFactory() {
-		return internalStateMachineAbstractFactory;
-	}
+    public ISimulationStateMachineAbstractFactory getSimulationStateMachineAbstractFactory() {
+        return simulationStateMachineAbstractFactory;
+    }
 
-	public ISimulationStateMachineAbstractFactory getSimulationStateMachineAbstractFactory() {
-		return simulationStateMachineAbstractFactory;
-	}
+    public IParserAbstractFactory getParserAbstractFactory() {
+        return parserAbstractFactory;
+    }
 
-	public IParserAbstractFactory getParserAbstractFactory() {
-		return parserAbstractFactory;
-	}
+    public IUserInputAbstractFactory getUserInputAbstractFactory() {
+        return userInputAbstractFactory;
+    }
 
-	public IUserInputAbstractFactory getUserInputAbstractFactory() {
-		return userInputAbstractFactory;
-	}
+    public IUserOutputAbstractFactory getUserOutputAbstractFactory() {
+        return userOutputAbstractFactory;
+    }
 
-	public IUserOutputAbstractFactory getUserOutputAbstractFactory() {
-		return userOutputAbstractFactory;
-	}
+    public ISerializeDeserializeAbstractFactory getSerializeDeserializeAbstractFactory() {
+        return serializeDeserializeAbstractFactory;
+    }
 
-	public ISerializeDeserializeAbstractFactory getSerializeDeserializeAbstractFactory() {
-		return serializeDeserializeAbstractFactory;
-	}
+    public INewsSystemAbstractFactory getNewsSystemAbstractFactory() {
+        return newsSystemAbstractFactory;
+    }
 
 }

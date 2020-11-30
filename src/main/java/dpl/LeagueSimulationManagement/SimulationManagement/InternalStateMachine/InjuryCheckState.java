@@ -1,9 +1,8 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
 import dpl.Database.TradeDataDB;
-import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ScheduleConstants;
-import dpl.LeagueSimulationManagement.SimulationManagement.StateConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
+import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ScheduleConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
@@ -12,6 +11,7 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradePersistence;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradingAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.Trade;
+import dpl.LeagueSimulationManagement.SimulationManagement.StateConstants;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.SystemConfig;
 
@@ -92,7 +92,7 @@ public class InjuryCheckState implements ISimulationState {
 		output.setOutput(StateConstants.INJURY_ENTRY);
 		output.sendOutput();
 
-		List<Map<String, String>> competingList = new ArrayList<Map<String, String>>();
+		List<Map<String, String>> competingList = new ArrayList<>();
 		competingList = schedule.getFinalSchedule().get(currentDate);
 		for (Map<String, String> teams : competingList) {
 			for (Map.Entry<String, String> entry : teams.entrySet()) {
