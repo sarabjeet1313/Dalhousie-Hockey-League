@@ -428,7 +428,6 @@ public class Trade implements ITrade {
                 }
             }
         }
-
         tradeReset.UpdateTrade(standings);
         return leagueObject;
     }
