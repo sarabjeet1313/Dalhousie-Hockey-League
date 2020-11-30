@@ -1,6 +1,5 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
-import dpl.DplConstants.StateConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
@@ -9,6 +8,7 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IInjuryMan
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IRetirementManagement;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManagementAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
+import dpl.LeagueSimulationManagement.SimulationManagement.StateConstants;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.SystemConfig;
 
@@ -56,14 +56,21 @@ public class AgingState implements ISimulationState {
 	}
 
 	public ISimulationState nextState(InternalStateContext context) {
-		if (seasonCalendar.getSeasonOverStatus() | seasonCalendar.isLastDayOfSeason(currentDate)) {
-			this.nextStateName = StateConstants.TROPHY_STATE;
-			return this.internalStateMachineFactory.TrophyState(leagueToSimulate, schedule, standingsDb, standings, injury, retirement, context,
-					seasonCalendar, currentDate, endDate, season, output);
-		} else {
-			this.nextStateName = StateConstants.PERSIST_STATE;
-			return this.internalStateMachineFactory.PersistState(leagueToSimulate, schedule, standingsDb, standings, context, seasonCalendar, currentDate,
-					endDate, season, output);
+		try {
+			if (seasonCalendar.getSeasonOverStatus() | seasonCalendar.isLastDayOfSeason(currentDate)) {
+				this.nextStateName = StateConstants.TROPHY_STATE;
+				return this.internalStateMachineFactory.TrophyState(leagueToSimulate, schedule, standingsDb, standings, injury, retirement, context,
+						seasonCalendar, currentDate, endDate, season, output);
+			} else {
+				this.nextStateName = StateConstants.PERSIST_STATE;
+				return this.internalStateMachineFactory.PersistState(leagueToSimulate, schedule, standingsDb, standings, context, seasonCalendar, currentDate,
+						endDate, season, output);
+			}
+		} catch (Exception e) {
+			output.setOutput(e.getMessage());
+			output.sendOutput();
+			log.log(Level.SEVERE, e.getMessage());
+			return null;
 		}
 	}
 

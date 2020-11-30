@@ -1,25 +1,22 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
-import java.io.IOException;
-import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import dpl.SystemConfig;
-import dpl.DplConstants.ScheduleConstants;
-import dpl.DplConstants.StateConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
+import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ScheduleConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IInjuryManagement;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IRetirementManagement;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
+import dpl.LeagueSimulationManagement.SimulationManagement.StateConstants;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+import dpl.SystemConfig;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AdvanceToNextSeasonState implements ISimulationState {
 	private String stateName;
@@ -71,12 +68,11 @@ public class AdvanceToNextSeasonState implements ISimulationState {
 			leagueToSimulate = retirement.increaseAge(currentDate, leagueToSimulate);
 			leagueToSimulate = injury.updatePlayerInjuryStatus(days, leagueToSimulate);
 			log.log(Level.INFO, StateConstants.NEXT_SEASON_ENTRY);
-		} catch (SQLException | IOException e) {
+		} catch (Exception e) {
+			log.log(Level.SEVERE, e.getMessage());
 			output.setOutput(e.getMessage());
 			output.sendOutput();
-		} catch (ParseException e) {
-			output.setOutput(e.getMessage());
-			output.sendOutput();
+			System.exit(1);
 		}
 	}
 
@@ -94,11 +90,12 @@ public class AdvanceToNextSeasonState implements ISimulationState {
 			long difference = date2.getTime() - date1.getTime();
 			long days = TimeUnit.DAYS.convert(difference, TimeUnit.MILLISECONDS);
 			return days;
-		} catch (ParseException e) {
+		} catch (Exception e) {
+			log.log(Level.SEVERE, e.getMessage());
 			output.setOutput(StateConstants.EXPECTING_DAYS_STATE);
 			output.sendOutput();
+			return 0;
 		}
-		return 0;
 	}
 
 	public boolean shouldContinue() {

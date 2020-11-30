@@ -19,4 +19,5 @@ public interface ITeamInfo {
     public List<String> getAllTeamName(League league);
 
     public String getUserTeamName(League league);
+    
 }

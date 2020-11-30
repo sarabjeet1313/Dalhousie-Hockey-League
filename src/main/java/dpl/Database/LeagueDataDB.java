@@ -1,26 +1,25 @@
 package dpl.Database;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import dpl.SystemConfig;
-import dpl.DplConstants.CoachConstants;
-import dpl.DplConstants.ConferenceConstants;
-import dpl.DplConstants.DivisionConstants;
-import dpl.DplConstants.LeagueConstants;
-import dpl.DplConstants.ManagerConstants;
-import dpl.DplConstants.PlayerConstants;
 import dpl.DplConstants.StoredProcedureConstants;
-import dpl.DplConstants.TeamConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Coach;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.CoachConstants;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ConferenceConstants;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.DivisionConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ILeaguePersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManagementAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.LeagueConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Manager;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ManagerConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.PlayerConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.TeamConstants;
 
 public class LeagueDataDB implements ILeaguePersistance {
 	InvokeStoredProcedure invoke = null;
@@ -44,7 +43,7 @@ public class LeagueDataDB implements ILeaguePersistance {
 	}
 
 	@Override
-	public League loadLeagueData(String teamName) throws SQLException {
+	public League loadLeagueData(String teamName) {
 		League league = new League();
 		List<Player> playerList = new ArrayList<Player>();
 		List<Player> freeAgentList = new ArrayList<Player>();
@@ -121,10 +120,7 @@ public class LeagueDataDB implements ILeaguePersistance {
 					}
 				}
 			}
-		} catch (SQLException e) {
-			throw e;
-		} finally {
-			invoke.closeConnection();
+		} catch (Exception e) {
 		}
 		league.setLeagueName(leagueName);
 		league.setFreeAgents(freeAgentList);
@@ -132,7 +128,7 @@ public class LeagueDataDB implements ILeaguePersistance {
 	}
 
 	@Override
-	public int checkLeagueName(League league) throws SQLException {
+	public int checkLeagueName(League league) {
 		ResultSet result;
 		int rowCount = 0;
 		try {
@@ -142,17 +138,14 @@ public class LeagueDataDB implements ILeaguePersistance {
 			while (result.next()) {
 				rowCount = result.getInt(LeagueConstants.ROW_COUNT.toString());
 			}
-		} catch (SQLException e) {
-			throw e;
-		} finally {
-			invoke.closeConnection();
+		} catch (Exception e) {
 		}
 		return rowCount;
 	}
 
 	@Override
 	public boolean persisitLeagueData(League league, String conferenceName, String divisionName, String teamName,
-			String generalManager, String headCoach, Player player) throws SQLException {
+			String generalManager, String headCoach, Player player) {
 		ResultSet result;
 		boolean isPersisted = Boolean.FALSE;
 		try {
@@ -178,16 +171,13 @@ public class LeagueDataDB implements ILeaguePersistance {
 			while (result.next()) {
 				isPersisted = result.getBoolean(LeagueConstants.SUCCESS.toString());
 			}
-		} catch (SQLException e) {
-			throw e;
-		} finally {
-			invoke.closeConnection();
+		} catch (Exception e) {
 		}
 		return isPersisted;
 	}
 
 	@Override
-	public boolean updateLeagueData(League league, String teamName, Player player) throws SQLException {
+	public boolean updateLeagueData(League league, String teamName, Player player) {
 		ResultSet result;
 		boolean isPersisted = Boolean.FALSE;
 		try {
@@ -209,10 +199,7 @@ public class LeagueDataDB implements ILeaguePersistance {
 			while (result.next()) {
 				isPersisted = result.getBoolean(LeagueConstants.SUCCESS.toString());
 			}
-		} catch (SQLException e) {
-			throw e;
-		} finally {
-			invoke.closeConnection();
+		} catch (Exception e) {
 		}
 		return isPersisted;
 	}

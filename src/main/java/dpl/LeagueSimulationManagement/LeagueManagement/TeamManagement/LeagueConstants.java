@@ -1,4 +1,4 @@
-package dpl.DplConstants;
+package dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement;
 
 public enum LeagueConstants {
 

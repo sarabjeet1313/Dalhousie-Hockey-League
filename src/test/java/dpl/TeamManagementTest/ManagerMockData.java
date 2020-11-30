@@ -3,7 +3,7 @@ package dpl.TeamManagementTest;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IManagerPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 
-public class ManagerMockData implements IManagerPersistance{
+public class ManagerMockData implements IManagerPersistance {
 	
 	League league = new LeagueMockData().getTestData();
 	

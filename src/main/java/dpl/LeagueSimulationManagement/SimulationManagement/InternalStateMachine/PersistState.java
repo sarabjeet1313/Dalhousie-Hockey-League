@@ -1,15 +1,14 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
-import dpl.DplConstants.StateConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
+import dpl.LeagueSimulationManagement.SimulationManagement.StateConstants;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.SystemConfig;
 
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,7 +25,6 @@ public class PersistState implements ISimulationState {
 	private String currentDate;
 	private String endDate;
 	private int season;
-	private String lastDate;
 	private IUserOutput output;
 	private IInternalStateMachineAbstractFactory internalStateMachineFactory;
 	private static final Logger log = Logger.getLogger(PersistState.class.getName());
@@ -45,7 +43,6 @@ public class PersistState implements ISimulationState {
 		this.currentDate = currentDate;
 		this.endDate = endDate;
 		this.season = season;
-		this.lastDate = utility.getRegularSeasonLastDay();
 		this.output = output;
 	}
 
@@ -67,9 +64,11 @@ public class PersistState implements ISimulationState {
 		if(utility.getSeasonOverStatus()) {
 			try {
 				standingsDb.insertToStandings(standingInfo.getStanding());
-			} catch (IOException e) {
+			} catch (Exception e) {
+				log.log(Level.SEVERE, e.getMessage());
 				output.setOutput(e.getMessage());
 				output.sendOutput();
+				System.exit(1);
 			}
 		}
 		log.log(Level.INFO, StateConstants.PERSIST_ENTRY);

@@ -1,9 +1,7 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
-import dpl.LeagueSimulationManagement.LeagueManagement.Trading.TradeUtility;
-import dpl.DplConstants.ScheduleConstants;
-import dpl.DplConstants.StateConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
+import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ScheduleConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
@@ -12,6 +10,7 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradePersistence;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradingAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.Trade;
+import dpl.LeagueSimulationManagement.SimulationManagement.StateConstants;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.SystemConfig;
 
@@ -57,27 +56,34 @@ public class InjuryCheckState implements ISimulationState {
 		this.output = output;
 		this.standingsDb = standingsDb;
 		this.standings = standings;
-		this.tradeDb = new TradeUtility();
+		this.tradeDb = tradingAbstractFactory.TradeUtility();
 		this.trade = tradingAbstractFactory.Trade(tradeDb);
 		this.stateName = StateConstants.INJURY_STATE;
 	}
 
 	public ISimulationState nextState(InternalStateContext context) {
-		if (schedule.anyUnplayedGame(currentDate)) {
-			this.nextStateName = StateConstants.SIMULATE_GAME_STATE;
-			return this.internalStateMachineFactory.SimulateGameState(leagueToSimulate, schedule, standingsDb, standings, context, seasonCalendar, currentDate,
-					endDate, season, output);
-		} else {
-			if (seasonCalendar.isTradeDeadlinePending(this.currentDate)) {
-				log.log(Level.INFO, ScheduleConstants.TRADE_DEADLINE);
-				this.nextStateName = StateConstants.TRADING_STATE;
-				return this.internalStateMachineFactory.TradingState(leagueToSimulate, trade, context, output, seasonCalendar, currentDate, endDate,
-						season, standingsDb, standings, schedule);
+		try {
+			if (schedule.anyUnplayedGame(currentDate)) {
+				this.nextStateName = StateConstants.SIMULATE_GAME_STATE;
+				return this.internalStateMachineFactory.SimulateGameState(leagueToSimulate, schedule, standingsDb, standings, context, seasonCalendar, currentDate,
+						endDate, season, output);
 			} else {
-				this.nextStateName = StateConstants.AGING_STATE;
-				return this.internalStateMachineFactory.AgingState(leagueToSimulate, schedule, standingsDb, standings, injury, context, seasonCalendar,
-						currentDate, endDate, season, output);
+				if (seasonCalendar.isTradeDeadlinePending(this.currentDate)) {
+					log.log(Level.INFO, ScheduleConstants.TRADE_DEADLINE);
+					this.nextStateName = StateConstants.TRADING_STATE;
+					return this.internalStateMachineFactory.TradingState(leagueToSimulate, trade, context, output, seasonCalendar, currentDate, endDate,
+							season, standingsDb, standings, schedule);
+				} else {
+					this.nextStateName = StateConstants.AGING_STATE;
+					return this.internalStateMachineFactory.AgingState(leagueToSimulate, schedule, standingsDb, standings, injury, context, seasonCalendar,
+							currentDate, endDate, season, output);
+				}
 			}
+		} catch(Exception e) {
+			output.setOutput(e.getMessage());
+			output.sendOutput();
+			log.log(Level.SEVERE, e.getMessage());
+			return null;
 		}
 	}
 
@@ -85,7 +91,7 @@ public class InjuryCheckState implements ISimulationState {
 		output.setOutput(StateConstants.INJURY_ENTRY);
 		output.sendOutput();
 
-		List<Map<String, String>> competingList = new ArrayList<Map<String, String>>();
+		List<Map<String, String>> competingList = new ArrayList<>();
 		competingList = schedule.getFinalSchedule().get(currentDate);
 		for (Map<String, String> teams : competingList) {
 			for (Map.Entry<String, String> entry : teams.entrySet()) {

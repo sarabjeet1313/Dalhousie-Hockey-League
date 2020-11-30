@@ -22,6 +22,11 @@ public class TradingAbstractFactory implements ITradingAbstractFactory {
 	}
 
 	@Override
+	public TradeUtility TradeUtility() {
+		return new TradeUtility();
+	}
+
+	@Override
 	public Trade Trade(ITradePersistence tradeDB) {
 		return new Trade(tradeDB);
 	}

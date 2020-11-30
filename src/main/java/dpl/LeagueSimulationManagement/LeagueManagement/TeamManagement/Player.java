@@ -50,7 +50,8 @@ public class Player implements IPlayerInfo {
 	}
 
 	public Player(String playerName, String position, boolean captain, int age, int skating, int shooting, int checking,
-			int saving, boolean isInjured, boolean retireStatus, int daysInjured, boolean isActive, int birthDay, int birthMonth, int birthYear, boolean isDraftPlayer) {
+			int saving, boolean isInjured, boolean retireStatus, int daysInjured, boolean isActive, int birthDay,
+			int birthMonth, int birthYear, boolean isDraftPlayer) {
 		super();
 		this.playerName = playerName;
 		this.position = position;

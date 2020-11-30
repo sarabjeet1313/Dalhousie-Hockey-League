@@ -1,28 +1,23 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 import com.google.gson.annotations.Expose;
 
-import dpl.DplConstants.ManagerConstants;
-import dpl.SystemConfig;
-import dpl.DplConstants.TeamManagementConstants;
-
 public class Manager {
 
-	@Expose (serialize = true, deserialize = true) private String managerName;
-	@Expose (serialize = true, deserialize = true) private String personality;
+	@Expose(serialize = true, deserialize = true)
+	private String managerName;
+	@Expose(serialize = true, deserialize = true)
+	private String personality;
 	private IManagerPersistance managerDb;
-	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
-			.getTeamManagementAbstractFactory();
-	
+
 	public Manager() {
 		super();
 	}
 
-	public Manager(String managerName, String personality,IManagerPersistance managerDb) {
+	public Manager(String managerName, String personality, IManagerPersistance managerDb) {
 		super();
 		this.managerName = managerName;
 		this.personality = personality;
@@ -51,14 +46,10 @@ public class Manager {
 		this.personality = personality;
 	}
 
-
-	public boolean saveTeamGeneralManager(String managerName, String teamName, String leagueName)
-			throws SQLException, IOException {
+	public boolean saveTeamGeneralManager(String managerName, String teamName, String leagueName) throws IOException {
 		boolean isSaved = Boolean.FALSE;
 		try {
 			isSaved = managerDb.persistManagerInfo(managerName, teamName, leagueName);
-		} catch (SQLException e) {
-			throw e;
 		} catch (IOException e) {
 			throw e;
 		}
@@ -85,17 +76,16 @@ public class Manager {
 		return personalityType;
 	}
 
-	public boolean saveManagerList(League league) throws SQLException, IOException {
+	public boolean saveManagerList(League league) throws IOException {
 		boolean isSaved = Boolean.FALSE;
 		String teamName = TeamManagementConstants.EMPTY.toString();
 		try {
 			List<Manager> list = league.getManagerList();
 			for (int index = 0; index < list.size(); index++) {
-				Manager manager = new Manager(list.get(index).getManagerName(), ManagerConstants.PERSONALITY.toString(),managerDb);
+				Manager manager = new Manager(list.get(index).getManagerName(), ManagerConstants.PERSONALITY.toString(),
+						managerDb);
 				isSaved = managerDb.persistManagerInfo(manager.getManagerName(), teamName, league.getLeagueName());
 			}
-		} catch (SQLException e) {
-			throw e;
 		} catch (IOException e) {
 			throw e;
 		}

@@ -68,19 +68,6 @@ public class StandingInfoTest {
 		assertEquals(0, standings.getStanding().getSeason());
 	}
 
-//	@Test
-//	public void updateStandingsTest() {
-//		try {
-//			assertNotEquals(1, standingsDb.getStandingsTeamWin().get("Boston").intValue());
-//			standings.updateTeamWinMap("Boston");
-//			standings.updateStandings();
-//			assertEquals(1, standingsDb.getStandingsTeamWin().get("Boston").intValue());
-//		} catch (SQLException e) {
-//			output.setOutput(e.getMessage());
-//			output.sendOutput();
-//		}
-//	}
-
 	@Test
 	public void getTopDivisionTeamsTest() {
 		standings.updateTeamWinMap("Boston");
@@ -163,16 +150,6 @@ public class StandingInfoTest {
 		standings.setTotalSavesInSeason(50);
 		assertEquals(50, standings.getTotalSavesInSeason(), 0.5);
 	}
-
-//	@Test
-//	public void initializeStandingsTest() {
-//		try {
-//			assertTrue(standings.initializeStandings());
-//		} catch (Exception e) {
-//			output.setOutput(e.getMessage());
-//			output.sendOutput();
-//		}
-//	}
 
 	@Test
 	public void showStatsTest() {

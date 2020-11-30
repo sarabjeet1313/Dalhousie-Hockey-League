@@ -18,4 +18,7 @@ public interface ITradingAbstractFactory {
 
 	public Trade TradeWithParameters(String tradeOfferTeam, List<Player> playerListOfferTeam,
 			String tradeRequestedTeam, List<Player> playerListRequestedTeam);
+
+	public TradeUtility TradeUtility();
+
 }
