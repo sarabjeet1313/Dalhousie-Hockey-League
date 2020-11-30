@@ -150,7 +150,7 @@ public class RosterManagement implements IRosterManagement{
     }
 
     public Player getWeakestPlayer(List<Player> playerList, String playerType){
-        double minStrength = 0;
+        double minStrength = 999;
         Player weakestPlayer = null;
         for(Player player : playerList ){
             if(player.getPosition().equals(playerType)){
@@ -191,7 +191,7 @@ public class RosterManagement implements IRosterManagement{
         int forward = 16;
         int defence = 10;
         int goalie = 4;
-        if(isValid==Boolean.FALSE){
+        if(checkRoster(currentTeamName, league)==Boolean.FALSE){
             for (Player p: tempPlayerList){
                 if (p.getPosition().equals(RosterManagementConstants.FORWARD.toString())){
                     forward--;

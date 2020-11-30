@@ -136,6 +136,47 @@ public class Trade implements ITrade {
 		return p;
 	}
 
+	public boolean checkIfUnevenTradePossible(Trade trade, League league,ITeamInfo teamInfo, IPlayerInfo playerInfo){
+		boolean isPossible = Boolean.FALSE;
+		String tradeOfferTeam = trade.getTradeOfferTeam();
+		String tradeRequestTeam= trade.getTradeRequestedTeam();
+		List<Player> playerListOfferTeam = teamInfo.getPlayersByTeam(tradeOfferTeam, league);
+		List<Player> playerListRequestTeam = teamInfo.getPlayersByTeam(tradeRequestTeam, league);
+		List<Player> tempPlayerList = new ArrayList<>();
+		Player starPlayerOfRequestedTeam = trade.getStrongestPlayer(playerListRequestTeam);
+		List<Player> starPlayerList = new ArrayList<>();
+		starPlayerList.add(starPlayerOfRequestedTeam);
+		double StarPlayerStrength = playerInfo.getPlayerStrength(starPlayerOfRequestedTeam);
+		double sum = 0;
+		if(Math.random() < 1){
+			while (tempPlayerList.size() < 1){
+				double tempPlayer1Strength = 0;
+				double tempPlayer2Strength = 0;
+				boolean flag = Boolean.FALSE;
+				for(int index = 0; index < playerListOfferTeam.size(); index ++){
+					tempPlayer1Strength = playerInfo.getPlayerStrength(playerListOfferTeam.get(index));
+					for(int indexJ = 1; indexJ < playerListOfferTeam.size(); indexJ ++ ){
+						tempPlayer2Strength = playerInfo.getPlayerStrength(playerListOfferTeam.get(indexJ));
+						sum = tempPlayer1Strength + tempPlayer2Strength;
+						if(sum <= StarPlayerStrength){
+							tempPlayerList.add(playerListOfferTeam.get(index));
+							tempPlayerList.add(playerListOfferTeam.get(indexJ));
+							flag = Boolean.TRUE;
+							break;
+						}
+
+					}
+					if (flag){
+						break;
+					}
+				}
+			}
+			isPossible = Boolean.TRUE;
+			tempPlayerList.clear();
+		}
+		return isPossible;
+	}
+
 	public List<Player> getWeakestPlayers(int maxPlayers, String teamName, League league, ITeamInfo iTPInfoObject,
 			IPlayerInfo iPInfoObject) {
 		List<Player> playersByTeam = iTPInfoObject.getPlayersByTeam(teamName, league);
@@ -261,7 +302,9 @@ public class Trade implements ITrade {
 					t.setTradeRequestedTeam(allTeamNameList.get(j));
 					returnStrongPlayerList.clear();
 					for (int h = 0; h < currentPlayerIndexArray.length; h++) {
-						returnStrongPlayerList.add(currentTeamPlayers.get(currentPlayerIndexArray[h]));
+						if(currentPlayerIndexArray[h]< currentTeamPlayers.size()){
+							returnStrongPlayerList.add(currentTeamPlayers.get(currentPlayerIndexArray[h]));
+						}
 					}
 				}
 
@@ -284,7 +327,6 @@ public class Trade implements ITrade {
 		ITeamInfo iTeamInfo = teamManagement.Team();
 		IPlayerInfo iPlayerInfo = teamManagement.Player();
 		AiAcceptReject aiAcceptReject = tradingAbstractFactory.AiAcceptReject();
-		IRosterManagement rosterManagement = teamManagement.RosterManagement();
 		TradeReset tradeReset = tradingAbstractFactory.TradeReset(tradeDB);
 		boolean isUserTeam = false;
 
@@ -315,6 +357,8 @@ public class Trade implements ITrade {
 				if (userTeamName.equals(trade.getTradeRequestedTeam())) {
 					isUserTeam = true;
 				}
+
+				checkIfUnevenTradePossible(trade, leagueObject, iTeamInfo, iPlayerInfo);
 
 				if (aiAcceptReject.isAcceptOrReject(trade, leagueObject, randAcceptChance, isUserTeam, iPlayerInfo,
 						iTeamInfo)) {
