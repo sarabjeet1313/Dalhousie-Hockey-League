@@ -2,8 +2,6 @@ package dpl.TeamManagementTest;
 
 import static org.junit.Assert.assertTrue;
 
-import java.io.IOException;
-
 import org.junit.Test;
 
 import dpl.SystemConfig;
@@ -25,7 +23,7 @@ public class SerializeLeagueTest {
 	public void serializeLeagueModelTest() {
 		try {
 		assertTrue(serializeLeague.serializeLeagueModel(league));
-	} catch (IOException e) {
+	} catch (Exception e) {
 		output.setOutput(e.getMessage());
 		output.sendOutput();
 	}

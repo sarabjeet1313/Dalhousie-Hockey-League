@@ -1,6 +1,5 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement;
 
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -55,7 +54,7 @@ public class RetirementManagement implements IRetirementManagement {
 	}
 
 	@Override
-	public League replaceRetiredPlayers(League league) throws IOException {
+	public League replaceRetiredPlayers(League league) throws IndexOutOfBoundsException {
 		List<Conference> conferenceList = league.getConferenceList();
 		List<Player> freeAgentsList = league.getFreeAgents();
 		List<Player> tempList = new ArrayList<Player>();
@@ -130,7 +129,7 @@ public class RetirementManagement implements IRetirementManagement {
 	}
 
 	@Override
-	public League increaseAge(String currentDate, League league) throws IOException, ParseException {
+	public League increaseAge(String currentDate, League league) throws IndexOutOfBoundsException, ParseException {
 		League tempLeague = null;
 		String playerBirthDay = "";
 		long dateDiff = 0;
@@ -181,7 +180,7 @@ public class RetirementManagement implements IRetirementManagement {
 			}
 			league.setFreeAgents(freeAgentsList);
 			tempLeague = replaceRetiredPlayers(league);
-		} catch (IOException e) {
+		} catch (IndexOutOfBoundsException e) {
 			throw e;
 		} catch (ParseException e) {
 			throw e;

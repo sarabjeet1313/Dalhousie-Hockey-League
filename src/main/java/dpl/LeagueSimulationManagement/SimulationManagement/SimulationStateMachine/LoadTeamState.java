@@ -1,6 +1,5 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -78,12 +77,11 @@ public class LoadTeamState implements IState {
 				output.setOutput("League has been initialized for the team: " + teamName);
 				output.sendOutput();
 			}
-		} catch (IOException e) {
+		} catch (Exception e) {
 			log.log(Level.SEVERE, e.getMessage());
 			output.setOutput(e.getMessage());
 			output.sendOutput();
 		}
-
 	}
 
 	public String getStateName() {
