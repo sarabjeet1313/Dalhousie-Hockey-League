@@ -18,7 +18,8 @@ import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStateMachineAbstractFactory;
 import dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine.ISimulationStateMachineAbstractFactory;
 import dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine.SimulationStateMachineAbstractFactory;
-//import dpl.LeagueSimulationManagement.TrophySystem.TrophySystemAbstractFactory;
+import dpl.LeagueSimulationManagement.TrophySystem.ITrophySystemAbstractFactory;
+import dpl.LeagueSimulationManagement.TrophySystem.TrophySystemAbstractFactory;
 import dpl.LeagueSimulationManagement.UserInputOutput.Parser.IParserAbstractFactory;
 import dpl.LeagueSimulationManagement.UserInputOutput.Parser.ParserAbstractFactory;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInputAbstractFactory;
@@ -42,6 +43,7 @@ public class SystemConfig {
     private IParserAbstractFactory parserAbstractFactory;
     private IUserInputAbstractFactory userInputAbstractFactory;
     private IUserOutputAbstractFactory userOutputAbstractFactory;
+    private ITrophySystemAbstractFactory trophySystemAbstractFactory;
     private ISerializeDeserializeAbstractFactory serializeDeserializeAbstractFactory;
     private INewsSystemAbstractFactory newsSystemAbstractFactory;
 
@@ -57,6 +59,7 @@ public class SystemConfig {
         parserAbstractFactory = new ParserAbstractFactory();
         userInputAbstractFactory = new UserInputAbstractFactory();
         userOutputAbstractFactory = new UserOutputAbstractFactory();
+        trophySystemAbstractFactory = new TrophySystemAbstractFactory();
         serializeDeserializeAbstractFactory = new SerializeDeserializeAbstractFactory();
         newsSystemAbstractFactory = new NewsSystemAbstractFactory();
     }
@@ -74,6 +77,10 @@ public class SystemConfig {
 
     public IGameplayConfigurationAbstractFactory getGameplayConfigurationAbstractFactory() {
         return gameplayConfigurationAbstractFactory;
+    }
+
+    public INewsSystemAbstractFactory getNewsSystemAbstractFactory() {
+        return newsSystemAbstractFactory;
     }
 
     public IInitializeModelsAbstractFactory getInitializeModelsAbstractFactory() {
@@ -112,12 +119,14 @@ public class SystemConfig {
         return userOutputAbstractFactory;
     }
 
-    public ISerializeDeserializeAbstractFactory getSerializeDeserializeAbstractFactory() {
-        return serializeDeserializeAbstractFactory;
+
+    public ITrophySystemAbstractFactory getTrophySystemAbstractFactory() {
+        return trophySystemAbstractFactory;
     }
 
-    public INewsSystemAbstractFactory getNewsSystemAbstractFactory() {
-        return newsSystemAbstractFactory;
+
+    public ISerializeDeserializeAbstractFactory getSerializeDeserializeAbstractFactory() {
+        return serializeDeserializeAbstractFactory;
     }
 
 }

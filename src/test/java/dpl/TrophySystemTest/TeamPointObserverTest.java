@@ -1,6 +1,6 @@
 package dpl.TrophySystemTest;
 
-import dpl.DplConstants.TrophySystemConstants;
+import dpl.LeagueSimulationManagement.TrophySystem.TrophySystemConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
 import dpl.LeagueSimulationManagement.TrophySystem.*;
 import org.junit.After;
@@ -17,7 +17,7 @@ public class TeamPointObserverTest {
     public void before() {
         subject = TeamPoint.getInstance();
         Team team = new Team();
-        team.setTeamName("TestTeam");
+        team.setTeamName(TrophySystemTestConstants.TEAM_TEST.toString());
         subject.setValue(TrophySystemConstants.TEAM.toString(), team);
         observer = TrophySystemAbstractFactory.createObserver(TrophySystemConstants.PRESIDENT_TROPHY);
     }
@@ -30,7 +30,7 @@ public class TeamPointObserverTest {
     @Test
     public void updateTest() {
         observer.update(subject);
-        assertEquals("TestTeam", TeamPoint.getInstance().getBestTeam());
+        assertEquals(TrophySystemTestConstants.TEAM_TEST.toString(), TeamPoint.getInstance().getBestTeam());
     }
 
 }

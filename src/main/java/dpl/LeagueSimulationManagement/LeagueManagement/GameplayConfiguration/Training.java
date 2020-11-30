@@ -7,6 +7,9 @@ import java.util.logging.Logger;
 
 import com.google.gson.annotations.Expose;
 
+import dpl.LeagueSimulationManagement.TrophySystem.TrophySystemConstants;
+import dpl.LeagueSimulationManagement.TrophySystem.BestCoachLeague;
+import dpl.LeagueSimulationManagement.TrophySystem.TrophySystemAbstractFactory;
 import dpl.SystemConfig;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Coach;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Conference;
@@ -32,7 +35,9 @@ public class Training {
 		this.daysUntilStatIncreaseCheck = daysUntilStatIncreaseCheck;
 		this.trackDays = trackDays;
 	}
-
+    static {
+        BestCoachLeague.getInstance().attach(TrophySystemAbstractFactory.createObserver(TrophySystemConstants.JACK_ADAMS_AWARD));
+    }
 	public Training() {
 	}
 
@@ -101,6 +106,7 @@ public class Training {
 		if (statsUpdated == Boolean.TRUE) {
 			log.log(Level.INFO, STAT_UPDATE + player.getPlayerName());
 		}
+        BestCoachLeague.getInstance().notifyCoachTraining(headCoach, statPlayer);
 
 	}
 

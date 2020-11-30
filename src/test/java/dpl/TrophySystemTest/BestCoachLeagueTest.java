@@ -1,11 +1,9 @@
 package dpl.TrophySystemTest;
 
-import dpl.DplConstants.TrophySystemConstants;
+import dpl.LeagueSimulationManagement.TrophySystem.TrophySystemConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Coach;
-
 import dpl.LeagueSimulationManagement.TrophySystem.BestCoachLeague;
 import dpl.LeagueSimulationManagement.TrophySystem.IObserver;
-
 import dpl.LeagueSimulationManagement.TrophySystem.TrophySystemAbstractFactory;
 import org.junit.After;
 import org.junit.Before;
@@ -22,7 +20,7 @@ public class BestCoachLeagueTest {
         observer = TrophySystemAbstractFactory.createObserver(TrophySystemConstants.JACK_ADAMS_AWARD);
         BestCoachLeague.getInstance().attach(observer);
         coach = new Coach();
-        coach.setCoachName("TestCoach");
+        coach.setCoachName(TrophySystemTestConstants.COACH_TEST.toString());
     }
 
     @After
@@ -32,13 +30,13 @@ public class BestCoachLeagueTest {
 
     @Test
     public void setAndGetValueTest() {
-        BestCoachLeague.getInstance().setValue("TestKey", "TestValue");
-        assertEquals("TestValue", BestCoachLeague.getInstance().getValue("TestKey"));
+        BestCoachLeague.getInstance().setValue(TrophySystemTestConstants.TEST_KEY.toString(), TrophySystemTestConstants.TEST_VALUE.toString());
+        assertEquals(TrophySystemTestConstants.TEST_VALUE.toString(), BestCoachLeague.getInstance().getValue(TrophySystemTestConstants.TEST_KEY.toString()));
     }
 
     @Test
     public void notifyAllObserversTest() {
         BestCoachLeague.getInstance().notifyCoachTraining(coach, 1);
-        assertEquals("TestCoach", BestCoachLeague.getInstance().getBestCoach().getCoachName());
+        assertEquals(TrophySystemTestConstants.COACH_TEST.toString(), BestCoachLeague.getInstance().getBestCoach().getCoachName());
     }
 }

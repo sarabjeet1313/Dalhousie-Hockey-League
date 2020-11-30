@@ -1,4 +1,4 @@
-package dpl.DplConstants;
+package dpl.LeagueSimulationManagement.NewsSystem;
 
 public enum NewsSystemConstants {
     ARGUMENT_MESSAGE("Argument passed contains null value"),
@@ -11,6 +11,7 @@ public enum NewsSystemConstants {
     AGE("age"),
     TEAM("team"),
     FROM("from"),
+    EXCEPTION_MESSAGE("NullPointer Exception caught"),
     TO("to");
 
     private final String NewsSystemString;
