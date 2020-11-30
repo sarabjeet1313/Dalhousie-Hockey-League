@@ -8,15 +8,14 @@ import java.util.Map;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import dpl.DplConstants.NewsSystemConstants;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.SystemConfig;
 
 public class NewsSubscriber implements ITradeInfo, IGamesPlayedInfo, IInjuryInfo, IFreeAgencyInfo, IRetirementInfo {
     private IUserOutput output = SystemConfig.getSingleInstance().getUserOutputAbstractFactory().CmdUserOutput();
-    
+
     public NewsSubscriber() {
-    	super();
+        super();
     }
 
     @Override
@@ -66,8 +65,8 @@ public class NewsSubscriber implements ITradeInfo, IGamesPlayedInfo, IInjuryInfo
 
     private Map<String, Object> createTrade(String team, ArrayList<String> players) {
         String[] p = new String[players.size()];
-        int i= 0;
-        for(String s: players){
+        int i = 0;
+        for (String s : players) {
             p[i] = s;
             i++;
         }

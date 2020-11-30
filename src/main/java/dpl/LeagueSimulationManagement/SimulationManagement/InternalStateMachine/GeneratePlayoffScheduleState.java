@@ -9,6 +9,8 @@ import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.*;
 import dpl.LeagueSimulationManagement.SimulationManagement.GeneratePlayoffConstants;
 import dpl.LeagueSimulationManagement.SimulationManagement.StateConstants;
+import dpl.LeagueSimulationManagement.TrophySystem.*;
+import dpl.LeagueSimulationManagement.TrophySystem.PlayerGoalScore;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.SystemConfig;
 
@@ -61,7 +63,10 @@ public class GeneratePlayoffScheduleState implements ISimulationState {
 		schedule.setLastDay(endDate);
 		seasonCalendar.setLastSeasonDay(this.endDate);
 	}
-
+    static {
+        PlayerGoalScore.getInstance().attach(TrophySystemAbstractFactory.createObserver(TrophySystemConstants.CALDER_MEMORIAL_TROPHY));
+        ParticipantAward.getInstance().attach(TrophySystemAbstractFactory.createObserver(TrophySystemConstants.PARTICIPATION_AWARD));
+    }
 	public ISimulationState nextState(InternalStateContext context) {
 		this.nextStateName = StateConstants.TRAINING_STATE;
 		return this.internalStateMachineFactory.TrainingState(leagueToSimulate, training, schedule, seasonCalendar, currentDate,
@@ -94,19 +99,21 @@ public class GeneratePlayoffScheduleState implements ISimulationState {
 	}
 
 	private void sendUpdatesToTrophy() {
-		List<Conference> conferenceList = leagueToSimulate.getConferenceList();
-		for (Conference conference : conferenceList) {
-			List<Division> divisionList = conference.getDivisionList();
-			for (Division division : divisionList) {
-				List<Team> teamList = division.getTeamList();
-				for (Team team : teamList) {
-					List<Player> playerList = team.getPlayerList();
-					for(Player player: playerList) {
-					}
-				}
-			}
-		}
-	}
+        List<Conference> conferenceList = leagueToSimulate.getConferenceList();
+        for (Conference conference : conferenceList) {
+            List<Division> divisionList = conference.getDivisionList();
+            for (Division division : divisionList) {
+                List<Team> teamList = division.getTeamList();
+                for (Team team : teamList) {
+                    List<Player> playerList = team.getPlayerList();
+					ParticipantAward.getInstance().notifyParticipatedTeam(team);
+                    for (Player player : playerList) {
+						PlayerGoalScore.getInstance().notifyWhenPlayerGoal(player);
+                    }
+                }
+            }
+        }
+    }
 
 	public boolean shouldContinue() {
 		return true;

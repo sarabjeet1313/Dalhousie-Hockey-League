@@ -1,13 +1,20 @@
 package dpl.LeagueSimulationManagement.TrophySystem;
 
-import dpl.DplConstants.TrophySystemConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.RetirementManagement;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+import dpl.SystemConfig;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class BestDefenceMen extends Subject {
     private static BestDefenceMen instance;
     private Player bestDefenceMen;
+    private static final Logger log = Logger.getLogger(RetirementManagement.class.getName());
+    private IUserOutput output = SystemConfig.getSingleInstance().getUserOutputAbstractFactory().CmdUserOutput();
 
-    private BestDefenceMen() {
+    BestDefenceMen() {
     }
 
     public static BestDefenceMen getInstance() {
@@ -18,8 +25,17 @@ public class BestDefenceMen extends Subject {
     }
 
     public void notifyWhenPlayerGoal(Player player) {
-        setValue(TrophySystemConstants.PLAYER.toString(), player);
-        notifyAllObservers();
+        try {
+            if (null == player) {
+                throw new NullPointerException();
+            }
+            setValue(TrophySystemConstants.PLAYER.toString(), player);
+            notifyAllObservers();
+        } catch (NullPointerException e) {
+            log.log(Level.SEVERE, TrophySystemConstants.EXCEPTION_MESSAGE.toString());
+            output.setOutput(TrophySystemConstants.NULLPOINTER_MESSAGE.toString());
+            output.sendOutput();
+        }
     }
 
     public Player getBestDefenceMen() {

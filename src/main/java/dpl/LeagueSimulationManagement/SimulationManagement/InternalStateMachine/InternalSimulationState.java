@@ -56,6 +56,8 @@ public class InternalSimulationState implements ISimulationState {
         this.standingsDb = standingsDb;
     }
 
+
+
     public ISimulationState nextState(InternalStateContext context) {
         this.nextStateName = StateConstants.INTERNAL_END_STATE;
         ISimulationState endState = this.internalStateMachineFactory.InternalEndState(output);
@@ -76,7 +78,7 @@ public class InternalSimulationState implements ISimulationState {
             initialState = this.internalStateMachineFactory.GenerateRegularSeasonScheduleState(leagueToSimulate, this.output, this.season, this.context, standingsDb, standingsInfo, utility);
             context.setState(initialState);
 
-            while(context.shouldContinue()) {
+            while (context.shouldContinue()) {
                 context.doProcessing();
                 ISimulationState state = context.nextState();
                 context.setState(state);
@@ -85,23 +87,7 @@ public class InternalSimulationState implements ISimulationState {
             output.sendOutput();
             output.setOutput("\nSeason stats after Playoffs : \n");
             output.sendOutput();
-            sendUpdatesToTrophy();
             standingsInfo.showStats();
-        }
-    }
-
-    private void sendUpdatesToTrophy() {
-        List<Conference> conferenceList = leagueToSimulate.getConferenceList();
-        for (Conference conference : conferenceList) {
-            List<Division> divisionList = conference.getDivisionList();
-            for (Division division : divisionList) {
-                List<Team> teamList = division.getTeamList();
-                for (Team team : teamList) {
-                    List<Player> playerList = team.getPlayerList();
-                    for(Player player: playerList) {
-                    }
-                }
-            }
         }
     }
 

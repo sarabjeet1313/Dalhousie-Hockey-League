@@ -1,10 +1,17 @@
 package dpl.LeagueSimulationManagement.TrophySystem;
 
-import dpl.DplConstants.TrophySystemConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Coach;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.RetirementManagement;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+import dpl.SystemConfig;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class BestCoachLeague extends Subject {
     private Coach bestCoach;
+    private static final Logger log = Logger.getLogger(RetirementManagement.class.getName());
+    private IUserOutput output = SystemConfig.getSingleInstance().getUserOutputAbstractFactory().CmdUserOutput();
     private static BestCoachLeague instance;
 
     private BestCoachLeague() {
@@ -18,9 +25,18 @@ public class BestCoachLeague extends Subject {
     }
 
     public void notifyCoachTraining(Coach coach, int statPlayer) {
-        setValue(TrophySystemConstants.COACH.toString(), coach);
-        setValue(TrophySystemConstants.STAT_PLAYER.toString(), statPlayer);
-        notifyAllObservers();
+        try {
+            if (null == coach) {
+                throw new NullPointerException();
+            }
+            setValue(TrophySystemConstants.COACH.toString(), coach);
+            setValue(TrophySystemConstants.STAT_PLAYER.toString(), statPlayer);
+            notifyAllObservers();
+        } catch (NullPointerException e) {
+            log.log(Level.SEVERE, TrophySystemConstants.EXCEPTION_MESSAGE.toString());
+            output.setOutput(TrophySystemConstants.NULLPOINTER_MESSAGE.toString());
+            output.sendOutput();
+        }
     }
 
     public void setBestCoach(Coach coach) {

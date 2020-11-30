@@ -32,7 +32,7 @@ public class TradeTest {
         s1.add("Mario Lemieux");
         s1.add("Patrick Roy");
         s2.add("Wayne Gretzky");
-        TradePublisher.getInstance().notify("Montreal Canadiens", "Winnipeg Jets", s1, s2 );
+        TradePublisher.getInstance().notify("Montreal Canadiens", "Winnipeg Jets", s1, s2);
         assertEquals(OutputConstants.TRADES, console.toString().trim());
     }
 

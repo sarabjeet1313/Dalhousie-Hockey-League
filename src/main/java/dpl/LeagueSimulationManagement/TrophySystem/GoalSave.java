@@ -1,13 +1,20 @@
 package dpl.LeagueSimulationManagement.TrophySystem;
 
-import dpl.DplConstants.TrophySystemConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.RetirementManagement;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+import dpl.SystemConfig;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class GoalSave extends Subject {
     private static GoalSave instance;
     private Player bestGoalSaver;
+    private static final Logger log = Logger.getLogger(RetirementManagement.class.getName());
+    private IUserOutput output = SystemConfig.getSingleInstance().getUserOutputAbstractFactory().CmdUserOutput();
 
-    private GoalSave() {
+    public GoalSave() {
     }
 
     public static GoalSave getInstance() {
@@ -18,8 +25,17 @@ public class GoalSave extends Subject {
     }
 
     public void notifyPlayerSaveGoal(Player player) {
-        setValue(TrophySystemConstants.PLAYER.toString(), player);
-        notifyAllObservers();
+        try {
+            if (null == player) {
+                throw new NullPointerException();
+            }
+            setValue(TrophySystemConstants.PLAYER.toString(), player);
+            notifyAllObservers();
+        } catch (NullPointerException e) {
+            log.log(Level.SEVERE, TrophySystemConstants.EXCEPTION_MESSAGE.toString());
+            output.setOutput(TrophySystemConstants.NULLPOINTER_MESSAGE.toString());
+            output.sendOutput();
+        }
     }
 
     public Player getBestGoalSaver() {
