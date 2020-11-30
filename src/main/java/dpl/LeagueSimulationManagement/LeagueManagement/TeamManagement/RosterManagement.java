@@ -1,13 +1,12 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement;
 
-import dpl.DplConstants.RosterManagementConstants;
-import dpl.SystemConfig;
-
-import javax.swing.text.StyledEditorKit;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import dpl.SystemConfig;
+import dpl.DplConstants.RosterManagementConstants;
 
 public class RosterManagement implements IRosterManagement{
 

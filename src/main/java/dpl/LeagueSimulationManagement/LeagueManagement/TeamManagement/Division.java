@@ -6,8 +6,10 @@ import com.google.gson.annotations.Expose;
 
 public class Division {
 
-	@Expose (serialize = true, deserialize = true) private String divisionName;
-	@Expose (serialize = true, deserialize = true) private List<Team> teamList;
+	@Expose(serialize = true, deserialize = true)
+	private String divisionName;
+	@Expose(serialize = true, deserialize = true)
+	private List<Team> teamList;
 
 	public Division() {
 		super();

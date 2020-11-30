@@ -9,8 +9,6 @@ import java.util.logging.Logger;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITrade;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradingAbstractFactory;
 import dpl.SystemConfig;
-import dpl.DplConstants.PlayerConstants;
-import dpl.DplConstants.StateConstants;
 
 public class PlayerDraft implements IPlayerDraft {
 

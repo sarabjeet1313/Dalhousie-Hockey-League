@@ -30,8 +30,6 @@ public class ParsingState implements IState {
 			.getInitializeModelsAbstractFactory();
 	private ISimulationStateMachineAbstractFactory simulationStateMachineAbstractFactory;
 	
-
-
 	public ParsingState(IUserInput input, IUserOutput output, String filePath, ILeaguePersistance leagueDb,
 			ICoachPersistance coachDb, IGameplayConfigPersistance configDb, IManagerPersistance managerDb,
 			ITradePersistence tradeDb, IStandingsPersistance standingDb) {

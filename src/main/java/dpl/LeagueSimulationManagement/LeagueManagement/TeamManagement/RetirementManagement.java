@@ -1,7 +1,6 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,7 +11,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import dpl.DplConstants.ScheduleConstants;
-import dpl.DplConstants.TeamManagementConstants;
 import dpl.LeagueSimulationManagement.NewsSystem.NewsSubscriber;
 import dpl.LeagueSimulationManagement.NewsSystem.RetirementPublisher;
 
@@ -132,7 +130,7 @@ public class RetirementManagement implements IRetirementManagement {
 	}
 
 	@Override
-	public League increaseAge(String currentDate, League league) throws SQLException, IOException, ParseException {
+	public League increaseAge(String currentDate, League league) throws IOException, ParseException {
 		League tempLeague = null;
 		String playerBirthDay = "";
 		long dateDiff = 0;

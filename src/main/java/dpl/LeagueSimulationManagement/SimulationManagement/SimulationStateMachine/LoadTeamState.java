@@ -1,9 +1,10 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import dpl.SystemConfig;
 import dpl.DplConstants.InitializeLeaguesConstants;
@@ -35,6 +36,7 @@ public class LoadTeamState implements IState {
 	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
 			.getTeamManagementAbstractFactory();
 	private ISimulationStateMachineAbstractFactory simulationStateMachineAbstractFactory;
+	private static final Logger log = Logger.getLogger(LoadTeamState.class.getName());
 
 	public LoadTeamState(IUserInput input, IUserOutput output, ILeaguePersistance leagueDb,
 			IGameplayConfigPersistance configDb, ITradePersistence tradeDb, IStandingsPersistance standingsDb) {
@@ -76,10 +78,8 @@ public class LoadTeamState implements IState {
 				output.setOutput("League has been initialized for the team: " + teamName);
 				output.sendOutput();
 			}
-		} catch (SQLException e) {
-			output.setOutput(e.getMessage());
-			output.sendOutput();
 		} catch (IOException e) {
+			log.log(Level.SEVERE, e.getMessage());
 			output.setOutput(e.getMessage());
 			output.sendOutput();
 		}

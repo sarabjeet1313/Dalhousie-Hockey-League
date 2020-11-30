@@ -2,7 +2,6 @@ package dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement;
 
 import java.util.List;
 
-
 public interface IPlayerDraft {
 
 	public List<Team> generateDraftingTeams(List<String> teamList, League league);

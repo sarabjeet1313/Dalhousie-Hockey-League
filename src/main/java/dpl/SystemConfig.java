@@ -40,7 +40,6 @@ public class SystemConfig {
     private IParserAbstractFactory parserAbstractFactory;
     private IUserInputAbstractFactory userInputAbstractFactory;
     private IUserOutputAbstractFactory userOutputAbstractFactory;
-//    private ITrophySystemAbstractFactory trophySystemAbstractFactory;
     private ISerializeDeserializeAbstractFactory serializeDeserializeAbstractFactory;
 
     private SystemConfig() {
@@ -55,7 +54,6 @@ public class SystemConfig {
         parserAbstractFactory = new ParserAbstractFactory();
         userInputAbstractFactory = new UserInputAbstractFactory();
         userOutputAbstractFactory = new UserOutputAbstractFactory();
-//        trophySystemAbstractFactory = new TrophySystemAbstractFactory();
         serializeDeserializeAbstractFactory = new SerializeDeserializeAbstractFactory();
     }
 
@@ -109,10 +107,6 @@ public class SystemConfig {
     public IUserOutputAbstractFactory getUserOutputAbstractFactory() {
         return userOutputAbstractFactory;
     }
-
-//    public ITrophySystemAbstractFactory getTrophySystemAbstractFactory() {
-//        return trophySystemAbstractFactory;
-//    }
 
     public ISerializeDeserializeAbstractFactory getSerializeDeserializeAbstractFactory() {
         return serializeDeserializeAbstractFactory;
