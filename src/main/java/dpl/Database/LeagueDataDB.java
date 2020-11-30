@@ -44,8 +44,8 @@ public class LeagueDataDB implements ILeaguePersistance {
 	@Override
 	public League loadLeagueData(String teamName) {
 		League league = new League();
-		List<Player> playerList = new ArrayList<Player>();
-		List<Player> freeAgentList = new ArrayList<Player>();
+		List<Player> playerList = new ArrayList<>();
+		List<Player> freeAgentList = new ArrayList<>();
 		ResultSet result;
 		try {
 			invoke = new InvokeStoredProcedure(StoredProcedureConstants.LOAD_LEAGUE.getSpString());
@@ -82,7 +82,6 @@ public class LeagueDataDB implements ILeaguePersistance {
 								result.getDouble(CoachConstants.COACH_SHOOTING.toString()),
 								result.getDouble(CoachConstants.COACH_CHECKING.toString()),
 								result.getDouble(CoachConstants.COACH_SAVING.toString()));
-						// temp fix
 						manager = teamManagement.ManagerWithParameters(
 								result.getString(ManagerConstants.GENERAL_MANAGER_NAME.toString()),
 								ManagerConstants.PERSONALITY.toString());

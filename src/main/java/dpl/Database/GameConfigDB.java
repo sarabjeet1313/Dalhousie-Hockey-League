@@ -27,7 +27,6 @@ public class GameConfigDB implements IGameplayConfigPersistance {
             invoke.setParameter(1, leagueName);
             result = invoke.executeQueryWithResults();
             while (result.next()) {
-                //temp fix
                 aging = new Aging(result.getInt(GameConfigConstants.AVG_RETIREMENT_AGE.toString()),
                         result.getInt(GameConfigConstants.MAX_RETIREMENT_AGE.toString()), 0.02);
                 injury = new Injury(result.getDouble(GameConfigConstants.RANDOM_INJURY_CHANCE.toString()),

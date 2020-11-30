@@ -13,12 +13,12 @@ import org.junit.Assert;
 
 public class ConferenceTest {
 	
-	ArrayList<Division> divisionList = new ArrayList<Division>();
+	ArrayList<Division> divisionList = new ArrayList<>();
 	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
 			.getTeamManagementAbstractFactory();
 	Conference conference = teamManagement.ConferenceWithParameters("Eastern Conference", divisionList);
-	ArrayList<Team> teamList = new ArrayList<Team>();
-	ArrayList<Team> teamList1 = new ArrayList<Team>();
+	ArrayList<Team> teamList = new ArrayList<>();
+	ArrayList<Team> teamList1 = new ArrayList<>();
 	Division division = teamManagement.DivisionWithParameters("Atlantic", teamList);
 	Division division1 = teamManagement.DivisionWithParameters("Florida", teamList1);
 	

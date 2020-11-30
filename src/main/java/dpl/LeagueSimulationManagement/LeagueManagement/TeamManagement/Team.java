@@ -97,7 +97,7 @@ public class Team implements ITeamInfo {
 	@Override
 	public List<Player> getPlayersByTeam(String teamName, League league) {
 		List<Conference> conferenceList = league.getConferenceList();
-		List<Player> playersByTeam = new ArrayList<Player>();
+		List<Player> playersByTeam = new ArrayList<>();
 		for (int index = 0; index < conferenceList.size(); index++) {
 			List<Division> divisionList = conferenceList.get(index).getDivisionList();
 			for (int dIndex = 0; dIndex < divisionList.size(); dIndex++) {

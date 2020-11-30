@@ -10,7 +10,7 @@ public abstract class Subject {
     private List<IObserver> observers;
 
     public Subject() {
-        observers = new ArrayList<IObserver>();
+        observers = new ArrayList<>();
         keyValuePairs = new HashMap<>();
     }
 

@@ -35,7 +35,7 @@ public class MockSchedule implements ISchedule{
         calendar = Calendar.getInstance();
         schedule = new HashMap<>();
         teamsList = new ArrayList<>();
-        teamsScheduled = new ArrayList<String>();
+        teamsScheduled = new ArrayList<>();
         teamsToBeScheduled = new ArrayList<>();
         teamsToBeScheduled.add("Brampton");
         this.teamsScheduled.add("Boston");

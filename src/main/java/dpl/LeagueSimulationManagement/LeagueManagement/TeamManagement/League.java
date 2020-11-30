@@ -156,7 +156,7 @@ public class League implements ILeagueOperation {
 		List<Conference> conferenceList = league.getConferenceList();
 		List<Team> teamList;
 		List<Division> divisionList;
-		List<Player> playerList = new ArrayList<Player>();
+		List<Player> playerList = new ArrayList<>();
 		try {
 
 			for (int cIndex = 0; cIndex < conferenceList.size(); cIndex++) {
@@ -202,11 +202,11 @@ public class League implements ILeagueOperation {
 
 	@Override
 	public List<List<Player>> getAvailableLeaguePlayers(League league) {
-		List<List<Player>> list = new ArrayList<List<Player>>();
+		List<List<Player>> list = new ArrayList<>();
 		List<Player> playerList = league.getFreeAgents();
-		List<Player> golieList = new ArrayList<Player>();
-		List<Player> forwordList = new ArrayList<Player>();
-		List<Player> defenceList = new ArrayList<Player>();
+		List<Player> golieList = new ArrayList<>();
+		List<Player> forwordList = new ArrayList<>();
+		List<Player> defenceList = new ArrayList<>();
 		for (int index = 0; index < playerList.size(); index++) {
 			if (playerList.get(index).getPosition().equals(GeneralConstants.GOALIE.toString())) {
 				golieList.add(playerList.get(index));
@@ -233,9 +233,9 @@ public class League implements ILeagueOperation {
 		List<Division> divisionList = null;
 		try {
 			if (conferenceList == null) {
-				conferenceList = new ArrayList<Conference>();
-				divisionList = new ArrayList<Division>();
-				teamList = new ArrayList<Team>();
+				conferenceList = new ArrayList<>();
+				divisionList = new ArrayList<>();
+				teamList = new ArrayList<>();
 				teamList.add(team);
 				Division division = teamManagement.DivisionWithParameters(divisionName, teamList);
 				divisionList.add(division);
@@ -256,7 +256,7 @@ public class League implements ILeagueOperation {
 			}
 			divisionList = conferenceList.get(conferenceIndex).getDivisionList();
 			if (divisionList == null) {
-				teamList = new ArrayList<Team>();
+				teamList = new ArrayList<>();
 				teamList.add(team);
 				Division division = teamManagement.DivisionWithParameters(divisionName, teamList);
 				divisionList = new ArrayList<Division>();
@@ -296,7 +296,7 @@ public class League implements ILeagueOperation {
 		List<Conference> conferenceList = league.getConferenceList();
 		List<Team> teamList;
 		List<Division> divisionList;
-		List<Player> playerList = new ArrayList<Player>();
+		List<Player> playerList = new ArrayList<>();
 		try {
 			for (int cIndex = 0; cIndex < conferenceList.size(); cIndex++) {
 				divisionList = conferenceList.get(cIndex).getDivisionList();

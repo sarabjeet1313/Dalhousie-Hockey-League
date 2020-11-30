@@ -6,7 +6,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import dpl.SystemConfig;
-import dpl.DplConstants.RosterManagementConstants;
 
 public class RosterManagement implements IRosterManagement {
 
@@ -152,7 +151,7 @@ public class RosterManagement implements IRosterManagement {
 	}
 
 	public Player getWeakestPlayer(List<Player> playerList, String playerType) {
-		double minStrength = 0;
+		double minStrength = 999;
 		Player weakestPlayer = null;
 		for (Player player : playerList) {
 			if (player.getPosition().equals(playerType)) {
@@ -183,96 +182,97 @@ public class RosterManagement implements IRosterManagement {
 		return league;
 	}
 
-	@Override
-	public boolean balanceOutSingleRoster(String currentTeamName, League league) {
-		List<Player> freeAgentList = league.getFreeAgents();
-		boolean isValid = checkRoster(currentTeamName, league);
-		boolean isBalanced = Boolean.FALSE;
-		List<Player> tempPlayerList = teamInfo.getPlayersByTeam(currentTeamName, league);
-		int forward = 16;
-		int defence = 10;
-		int goalie = 4;
-		if (isValid == Boolean.FALSE) {
-			for (Player p : tempPlayerList) {
-				if (p.getPosition().equals(RosterManagementConstants.FORWARD.toString())) {
-					forward--;
-				}
-				if (p.getPosition().equals(RosterManagementConstants.DEFENSE.toString())) {
-					defence--;
-				}
-				if (p.getPosition().equals(RosterManagementConstants.GOALIE.toString())) {
-					goalie--;
-				}
-			}
-			Player tempPlayer;
-			if (forward < 0) {
-				while (forward < 0) {
-					tempPlayer = getStrongestPlayer(freeAgentList, RosterManagementConstants.FORWARD.toString());
-					tempPlayerList.add(tempPlayer);
-					freeAgentList.remove(tempPlayer);
-					forward++;
-					if (forward == 0) {
-						break;
-					}
-				}
-			} else {
-				while (forward > 0) {
-					tempPlayer = getWeakestPlayer(tempPlayerList, RosterManagementConstants.FORWARD.toString());
-					tempPlayerList.remove(tempPlayer);
-					freeAgentList.add(tempPlayer);
-					forward--;
-					if (forward == 0) {
-						break;
-					}
-				}
-			}
-			if (defence < 0) {
-				while (defence < 0) {
-					tempPlayer = getStrongestPlayer(freeAgentList, RosterManagementConstants.DEFENSE.toString());
-					tempPlayerList.add(tempPlayer);
-					freeAgentList.remove(tempPlayer);
-					defence++;
-					if (defence == 0) {
-						break;
-					}
-				}
-			} else {
-				while (defence > 0) {
-					tempPlayer = getWeakestPlayer(tempPlayerList, RosterManagementConstants.DEFENSE.toString());
-					tempPlayerList.remove(tempPlayer);
-					freeAgentList.add(tempPlayer);
-					defence--;
-					if (defence == 0) {
-						break;
-					}
-				}
-			}
-			if (goalie < 0) {
-				while (goalie < 0) {
-					tempPlayer = getStrongestPlayer(freeAgentList, RosterManagementConstants.GOALIE.toString());
-					tempPlayerList.add(tempPlayer);
-					freeAgentList.remove(tempPlayer);
-					goalie++;
-					if (goalie == 0) {
-						break;
-					}
-				}
-			} else {
-				while (goalie > 0) {
-					tempPlayer = getWeakestPlayer(tempPlayerList, RosterManagementConstants.GOALIE.toString());
-					tempPlayerList.remove(tempPlayer);
-					freeAgentList.add(tempPlayer);
-					goalie--;
-					if (goalie == 0) {
-						break;
-					}
-				}
-			}
-			isBalanced = Boolean.TRUE;
-		}
-		teamInfo.setPlayersByTeam(currentTeamName, tempPlayerList, league);
-		freeAgentList.removeAll(Collections.singleton(null));
-		league.setFreeAgents(freeAgentList);
-		return isBalanced;
-	}
+    @Override
+    public boolean balanceOutSingleRoster(String currentTeamName, League league) {
+        List<Player> freeAgentList = league.getFreeAgents();
+        boolean isValid = checkRoster(currentTeamName, league);
+        boolean isBalanced = Boolean.FALSE;
+        List<Player> tempPlayerList = teamInfo.getPlayersByTeam(currentTeamName,league);
+        int forward = 16;
+        int defence = 10;
+        int goalie = 4;
+        if(checkRoster(currentTeamName, league)==Boolean.FALSE){
+            for (Player p: tempPlayerList){
+                if (p.getPosition().equals(RosterManagementConstants.FORWARD.toString())){
+                    forward--;
+                }
+                if(p.getPosition().equals(RosterManagementConstants.DEFENSE.toString())){
+                    defence--;
+                }
+                if(p.getPosition().equals(RosterManagementConstants.GOALIE.toString())){
+                    goalie--;
+                }
+            }
+            Player tempPlayer;
+            if(forward < 0 ){
+                while(forward<0){
+                    tempPlayer= getStrongestPlayer(freeAgentList,RosterManagementConstants.FORWARD.toString());
+                    tempPlayerList.add(tempPlayer);
+                    freeAgentList.remove(tempPlayer);
+                    forward++;
+                    if(forward == 0){
+                        break;
+                    }
+                }
+            }else{
+                while(forward>0){
+                    tempPlayer = getWeakestPlayer(tempPlayerList, RosterManagementConstants.FORWARD.toString());
+                    tempPlayerList.remove(tempPlayer);
+                    freeAgentList.add(tempPlayer);
+                    forward--;
+                    if(forward == 0){
+                        break;
+                    }
+                }
+            }
+            if(defence < 0 ){
+                while(defence<0){
+                    tempPlayer= getStrongestPlayer(freeAgentList,RosterManagementConstants.DEFENSE.toString());
+                    tempPlayerList.add(tempPlayer);
+                    freeAgentList.remove(tempPlayer);
+                    defence++;
+                    if(defence == 0){
+                        break;
+                    }
+                }
+            }else{
+                while(defence>0){
+                    tempPlayer = getWeakestPlayer(tempPlayerList, RosterManagementConstants.DEFENSE.toString());
+                    tempPlayerList.remove(tempPlayer);
+                    freeAgentList.add(tempPlayer);
+                    defence--;
+                    if(defence == 0){
+                        break;
+                    }
+                }
+            }
+            if(goalie < 0 ){
+                while(goalie<0){
+                    tempPlayer= getStrongestPlayer(freeAgentList,RosterManagementConstants.GOALIE.toString());
+                    tempPlayerList.add(tempPlayer);
+                    freeAgentList.remove(tempPlayer);
+                    goalie++;
+                    if(goalie == 0){
+                        break;
+                    }
+                }
+            }else{
+                while(goalie>0){
+                    tempPlayer = getWeakestPlayer(tempPlayerList, RosterManagementConstants.GOALIE.toString());
+                    tempPlayerList.remove(tempPlayer);
+                    freeAgentList.add(tempPlayer);
+                    goalie--;
+                    if(goalie == 0){
+                        break;
+                    }
+                }
+            }
+           isBalanced = Boolean.TRUE;
+        }
+        teamInfo.setPlayersByTeam(currentTeamName,tempPlayerList, league);
+        freeAgentList.removeAll(Collections.singleton(null));
+        league.setFreeAgents(freeAgentList);
+        return isBalanced;
+    }
+
 }

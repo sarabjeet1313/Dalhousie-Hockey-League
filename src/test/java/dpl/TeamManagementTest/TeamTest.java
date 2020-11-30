@@ -18,7 +18,7 @@ public class TeamTest {
 
 	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
 			.getTeamManagementAbstractFactory();
-	List<Player> playerList = new ArrayList<Player>();
+	List<Player> playerList = new ArrayList<>();
 	Coach headCoach = teamManagement.CoachWithParameters("Mary Smith", 0.2, 0.3, 0.1, 0.4);
 	Manager manager1 = teamManagement.ManagerWithParameters("Karen Potam", "normal");
 	Team team = teamManagement.TeamWithParameters("Boston", manager1, headCoach, playerList, Boolean.FALSE);
@@ -32,7 +32,7 @@ public class TeamTest {
 			false, 23, 3, 1999, Boolean.FALSE);
 	LeagueMockData league = new LeagueMockData();
 	private static final double DELTA = 1e-15;
-	List<Player> playersList = new ArrayList<Player>();
+	List<Player> playersList = new ArrayList<>();
 
 	@Test
 	public void parameterizedConstructorTest() {

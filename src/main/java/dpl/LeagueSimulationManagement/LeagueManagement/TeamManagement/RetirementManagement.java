@@ -57,7 +57,7 @@ public class RetirementManagement implements IRetirementManagement {
 	public League replaceRetiredPlayers(League league) throws IndexOutOfBoundsException {
 		List<Conference> conferenceList = league.getConferenceList();
 		List<Player> freeAgentsList = league.getFreeAgents();
-		List<Player> tempList = new ArrayList<Player>();
+		List<Player> tempList = new ArrayList<>();
 		log.log(Level.INFO, TeamManagementConstants.RETIREMENT_INFO.toString());
 
 		try {

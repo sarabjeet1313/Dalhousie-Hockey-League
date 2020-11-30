@@ -2,7 +2,6 @@ package dpl.LeagueSimulationManagement.LeagueManagement.Trading;
 
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
