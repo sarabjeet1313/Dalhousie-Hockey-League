@@ -1,14 +1,13 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import dpl.SystemConfig;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.IGameplayConfigPersistance;
-import dpl.LeagueSimulationManagement.NewsSystem.FreeAgencyPublisher;
-import dpl.LeagueSimulationManagement.NewsSystem.NewsSubscriber;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Coach;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Conference;
@@ -21,8 +20,9 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Manager;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.TeamManagementAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradePersistence;
+import dpl.LeagueSimulationManagement.NewsSystem.FreeAgencyPublisher;
+import dpl.LeagueSimulationManagement.NewsSystem.NewsSubscriber;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
@@ -56,6 +56,7 @@ public class CreateTeamState implements IState {
 	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
 			.getTeamManagementAbstractFactory();
 	private ISimulationStateMachineAbstractFactory simulationStateMachineAbstractFactory;
+	private static final Logger log = Logger.getLogger(CreateTeamState.class.getName());
 
 	public CreateTeamState(IUserInput input, IUserOutput output, League league, ILeaguePersistance leagueDb,
 			ICoachPersistance coachDb, IGameplayConfigPersistance configDb, IManagerPersistance managerDb,
@@ -433,10 +434,8 @@ public class CreateTeamState implements IState {
 				}
 			}
 			isCreated = initializedLeague.createTeam(initializedLeague);
-		} catch (SQLException e) {
-			output.setOutput(e.getMessage());
-			output.sendOutput();
 		} catch (IOException e) {
+			log.log(Level.SEVERE, e.getMessage());
 			output.setOutput(e.getMessage());
 			output.sendOutput();
 		}

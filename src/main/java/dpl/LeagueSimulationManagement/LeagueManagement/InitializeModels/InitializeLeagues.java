@@ -1,7 +1,6 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.InitializeModels;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -12,15 +11,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import dpl.SystemConfig;
-import dpl.DplConstants.CoachConstants;
-import dpl.DplConstants.ConferenceConstants;
-import dpl.DplConstants.DivisionConstants;
 import dpl.DplConstants.GameConfigConstants;
 import dpl.DplConstants.GeneralConstants;
 import dpl.DplConstants.InitializeLeaguesConstants;
-import dpl.DplConstants.ManagerConstants;
-import dpl.DplConstants.PlayerConstants;
-import dpl.DplConstants.TeamConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Aging;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.GameplayConfig;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.IGameplayConfigPersistance;
@@ -28,16 +21,22 @@ import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Inj
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Trading;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Training;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Coach;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.CoachConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Conference;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ConferenceConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Division;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.DivisionConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ICoachPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ILeaguePersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IManagerPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManagementAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Manager;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ManagerConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.PlayerConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.TeamConstants;
 import dpl.LeagueSimulationManagement.UserInputOutput.Parser.CmdParseJSON;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
@@ -139,9 +138,6 @@ public class InitializeLeagues implements IInitializeLeagues {
 			league.setFreeAgents(freeAgents);
 			league.setCoaches(coaches);
 			league.setManagerList(managerList);
-		} catch (SQLException e) {
-			output.setOutput(e.getMessage());
-			output.sendOutput();
 		} catch (NullPointerException e) {
 			output.setOutput(e.getMessage());
 			output.sendOutput();

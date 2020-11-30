@@ -7,8 +7,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import dpl.SystemConfig;
-import dpl.DplConstants.PlayerConstants;
-import dpl.DplConstants.StateConstants;
 
 public class PlayerDraft implements IPlayerDraft {
 

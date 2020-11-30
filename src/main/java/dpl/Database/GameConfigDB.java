@@ -1,7 +1,6 @@
 package dpl.Database;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
 
 import dpl.DplConstants.GameConfigConstants;
@@ -17,7 +16,7 @@ public class GameConfigDB implements IGameplayConfigPersistance {
     InvokeStoredProcedure invoke = null;
 
     @Override
-    public GameplayConfig loadGameplayConfigData(String leagueName) throws SQLException {
+    public GameplayConfig loadGameplayConfigData(String leagueName) {
         GameplayConfig config = null;
         Aging aging = null;
         Injury injury = null;
@@ -45,16 +44,14 @@ public class GameConfigDB implements IGameplayConfigPersistance {
                         result.getDouble(GameConfigConstants.RANDOM_ACCEPTANCE_CHANCE.toString()),gmTable );
             }
             config = new GameplayConfig(aging, injury, training, trading);
-        } catch (SQLException e) {
-			throw e;
-		} finally {
-			invoke.closeConnection();
+        } catch (Exception e) {
+			
 		}
         return config;
     }
 
     @Override
-    public boolean persistGameConfig(GameplayConfig config, String leagueName) throws SQLException {
+    public boolean persistGameConfig(GameplayConfig config, String leagueName) {
         boolean isPersisted = Boolean.FALSE;
         ResultSet result;
         try {
@@ -74,11 +71,9 @@ public class GameConfigDB implements IGameplayConfigPersistance {
             while (result.next()) {
                 isPersisted = result.getBoolean(GameConfigConstants.SUCCESS.toString());
             }
-        } catch (SQLException e) {
-			throw e;
-		} finally {
-			invoke.closeConnection();
-		}
+        } catch (Exception e) {
+			
+		} 
         return isPersisted;
     }
 }

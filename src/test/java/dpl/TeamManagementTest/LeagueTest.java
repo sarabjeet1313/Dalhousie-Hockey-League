@@ -1,9 +1,10 @@
 package dpl.TeamManagementTest;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.junit.Assert;
 import org.junit.Test;
 
 import dpl.SystemConfig;
@@ -19,8 +20,6 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
-
-import org.junit.Assert;
 
 public class LeagueTest {
 
@@ -115,9 +114,6 @@ public class LeagueTest {
 		try {
 			League fetchedleague = league.loadLeague("Boston");
 			Assert.assertEquals(fetchedleague.getLeagueName(), league.getLeagueName());
-		} catch (SQLException e) {
-			output.setOutput(e.getMessage());
-			output.sendOutput();
 		} catch (IOException e) {
 			output.setOutput(e.getMessage());
 			output.sendOutput();
@@ -146,9 +142,6 @@ public class LeagueTest {
 		try {
 			Assert.assertTrue(league.isValidLeagueName(tempLeague));
 			Assert.assertTrue(league.isValidLeagueName(leagueData));
-		} catch (SQLException e) {
-			output.setOutput(e.getMessage());
-			output.sendOutput();
 		} catch (IOException e) {
 			output.setOutput(e.getMessage());
 			output.sendOutput();
@@ -160,9 +153,6 @@ public class LeagueTest {
 		try {
 			LeagueObjectTestData leagueData = new LeagueObjectTestData();
 			Assert.assertTrue(league.createTeam(leagueData.getLeagueData()));
-		} catch (SQLException e) {
-			output.setOutput(e.getMessage());
-			output.sendOutput();
 		} catch (IOException e) {
 			output.setOutput(e.getMessage());
 			output.sendOutput();
@@ -185,9 +175,6 @@ public class LeagueTest {
 	public void UpdateLeagueTest() {
 		try {
 			Assert.assertTrue(league.updateLeague(league));
-		} catch (SQLException e) {
-			output.setOutput(e.getMessage());
-			output.sendOutput();
 		} catch (IOException e) {
 			output.setOutput(e.getMessage());
 			output.sendOutput();
