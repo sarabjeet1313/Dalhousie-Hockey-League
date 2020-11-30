@@ -24,7 +24,6 @@ public class Training {
 	private int daysUntilStatIncreaseCheck;
 	@Expose(serialize = true, deserialize = true)
 	private int trackDays;
-	private IUserOutput output;
 	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
 			.getTeamManagementAbstractFactory();
 	private static final Logger log = Logger.getLogger(Training.class.getName());
@@ -54,11 +53,11 @@ public class Training {
 		this.trackDays = trackDays;
 	}
 
-	public double generateRandomValue() {
+	private double generateRandomValue() {
 		return Math.random();
 	}
 
-	public void updateStats(Player player, Coach headCoach, League league) {
+	private void updateStats(Player player, Coach headCoach, League league) {
 		int statPlayer = 0;
 		double randomValue = generateRandomValue();
 		boolean statsUpdated = Boolean.FALSE;
@@ -101,7 +100,7 @@ public class Training {
 			}
 		}
 		if (statsUpdated == Boolean.TRUE) {
-			log.log(Level.INFO, STAT_UPDATE+player.getPlayerName());
+			log.log(Level.INFO, STAT_UPDATE + player.getPlayerName());
 		}
 
 	}
