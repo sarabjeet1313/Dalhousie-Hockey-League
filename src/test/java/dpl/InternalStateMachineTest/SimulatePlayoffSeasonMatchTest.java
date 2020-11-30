@@ -48,7 +48,7 @@ public class SimulatePlayoffSeasonMatchTest {
     @Test
     public void simulateMatchTest() {
         playoffSeasonMatch.simulateMatch();
-        assertEquals("Toronto", schedule.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
+        assertEquals("Halifax", schedule.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
         assertNotEquals("Calgary", schedule.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
     }
 }

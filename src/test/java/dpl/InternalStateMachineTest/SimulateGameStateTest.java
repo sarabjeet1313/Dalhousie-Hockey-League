@@ -60,7 +60,7 @@ public class SimulateGameStateTest {
     @Test
     public void doProcessingTest() {
         state.doProcessing();
-        assertEquals("Toronto", schedule.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
+        assertEquals("Brampton", schedule.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
         assertNotEquals("Calgary", schedule.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
     }
 
