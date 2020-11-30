@@ -1,7 +1,12 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
-import dpl.DplConstants.StateConstants;
-import dpl.ErrorHandling.RetirementManagementException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.*;
+import dpl.SystemConfig;
+import dpl.LeagueSimulationManagement.SimulationManagement.StateConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.IGameplayConfigurationAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Training;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
@@ -10,10 +15,6 @@ import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IInjuryManagement;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IRetirementManagement;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManagementAbstractFactory;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradePersistence;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradingAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.Trade;
@@ -121,7 +122,24 @@ public class InternalSimulationState implements ISimulationState {
             output.sendOutput();
             output.setOutput("\nSeason stats after Playoffs : \n");
             output.sendOutput();
+            sendUpdatesToTrophy();
             standingsInfo.showStats();
+        }
+    }
+
+    private void sendUpdatesToTrophy() {
+        List<Conference> conferenceList = leagueToSimulate.getConferenceList();
+        for (Conference conference : conferenceList) {
+            List<Division> divisionList = conference.getDivisionList();
+            for (Division division : divisionList) {
+                List<Team> teamList = division.getTeamList();
+                for (Team team : teamList) {
+                    List<Player> playerList = team.getPlayerList();
+                    for(Player player: playerList) {
+                        //TODO prashant's player subscribe
+                    }
+                }
+            }
         }
     }
 

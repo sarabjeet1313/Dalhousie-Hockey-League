@@ -4,7 +4,6 @@ import dpl.Database.CoachDataDB;
 import dpl.Database.GameConfigDB;
 import dpl.Database.LeagueDataDB;
 import dpl.Database.ManagerDataDB;
-import dpl.Database.StandingsDataDb;
 import dpl.Database.TradeDataDB;
 import dpl.ErrorHandling.RetirementManagementException;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.IGameplayConfigPersistance;
@@ -14,9 +13,7 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ICoachPers
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ILeaguePersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IManagerPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradePersistence;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
 public class App {
@@ -32,7 +29,7 @@ public class App {
         IGameplayConfigPersistance configDb = new GameConfigDB();
         IManagerPersistance managerDb = new ManagerDataDB();
         ITradePersistence tradeDb = new TradeDataDB();
-        IStandingsPersistance standingDb = new StandingsDataDb();
+        IStandingsPersistance standingDb = SystemConfig.getSingleInstance().getSerializeDeserializeAbstractFactory().StandingSerializationDeserialization();
         StateContext context = new StateContext(input, output);
         context.setState(config.getSimulationStateMachineAbstractFactory().InitialState(input, output));
         context.doProcessing();

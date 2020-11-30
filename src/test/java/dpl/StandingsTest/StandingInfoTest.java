@@ -1,5 +1,6 @@
 package dpl.StandingsTest;
 
+import dpl.LeagueSimulationManagement.LeagueManagement.Standings.Standing;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
@@ -57,19 +58,6 @@ public class StandingInfoTest {
 		assertFalse(standings.getTeamLoseMap().containsKey("Halifax"));
 		standings.updateTeamLoseMap("Halifax");
 		assertTrue(standings.getTeamLoseMap().containsKey("Halifax"));
-	}
-
-	@Test
-	public void updateStandingsTest() {
-		try {
-			assertNotEquals(1, standingsDb.getStandingsTeamWin().get("Boston").intValue());
-			standings.updateTeamWinMap("Boston");
-			standings.updateStandings();
-			assertEquals(1, standingsDb.getStandingsTeamWin().get("Boston").intValue());
-		} catch (SQLException e) {
-			output.setOutput(e.getMessage());
-			output.sendOutput();
-		}
 	}
 
 	@Test
@@ -142,6 +130,12 @@ public class StandingInfoTest {
 	}
 
 	@Test
+	public void getStandingTest() {
+		assertTrue(standings.getStanding() instanceof Standing);
+		assertNotEquals(null, standings.getStanding());
+	}
+
+	@Test
 	public void getTotalSavesInSeasonTest() {
 		assertNotEquals(50, standings.getTotalSavesInSeason(), 0.5);
 		standings.setTotalSavesInSeason(50);
@@ -153,16 +147,6 @@ public class StandingInfoTest {
 		assertNotEquals(50, standings.getTotalSavesInSeason(), 0.5);
 		standings.setTotalSavesInSeason(50);
 		assertEquals(50, standings.getTotalSavesInSeason(), 0.5);
-	}
-
-	@Test
-	public void initializeStandingsTest() {
-		try {
-			assertTrue(standings.initializeStandings());
-		} catch (Exception e) {
-			output.setOutput(e.getMessage());
-			output.sendOutput();
-		}
 	}
 
 	@Test

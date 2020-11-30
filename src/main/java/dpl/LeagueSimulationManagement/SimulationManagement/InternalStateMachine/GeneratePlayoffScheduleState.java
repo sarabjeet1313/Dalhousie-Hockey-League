@@ -1,18 +1,18 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
-import dpl.DplConstants.GeneratePlayoffConstants;
-import dpl.DplConstants.StateConstants;
+import dpl.LeagueSimulationManagement.SimulationManagement.GeneratePlayoffConstants;
+import dpl.LeagueSimulationManagement.SimulationManagement.StateConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Training;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.IScheduleAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.*;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.SystemConfig;
 
-import java.sql.SQLException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -78,16 +78,36 @@ public class GeneratePlayoffScheduleState implements ISimulationState {
 			}
 			output.setOutput("\nSeason stats after Regular season matches : \n");
 			output.sendOutput();
+			sendUpdatesToTrophy();
 			standings.showStats();
 			standings.resetStats();
 			schedule.generateSchedule(leagueToSimulate);
 			log.log(Level.INFO, GeneratePlayoffConstants.PLAYOFF_SUCCESSFUL.toString());
 			schedule.setCurrentDay(this.startDate);
-		} catch (SQLException e) {
+		} catch (Exception e) {
+			log.log(Level.SEVERE, e.getMessage());
 			output.setOutput(e.getMessage());
 			output.sendOutput();
+			System.exit(1);
 		}
 		log.log(Level.INFO, GeneratePlayoffConstants.SCHEDULING_PLAYOFF.toString());
+	}
+
+	private void sendUpdatesToTrophy() {
+		List<Conference> conferenceList = leagueToSimulate.getConferenceList();
+		for (Conference conference : conferenceList) {
+			List<Division> divisionList = conference.getDivisionList();
+			for (Division division : divisionList) {
+				List<Team> teamList = division.getTeamList();
+				for (Team team : teamList) {
+					List<Player> playerList = team.getPlayerList();
+					//TODO prashant's team subscribe
+					for(Player player: playerList) {
+						//TODO prashant's player subscribe
+					}
+				}
+			}
+		}
 	}
 
 	public boolean shouldContinue() {

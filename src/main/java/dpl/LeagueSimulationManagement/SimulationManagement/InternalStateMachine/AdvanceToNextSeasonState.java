@@ -1,8 +1,14 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
-import dpl.DplConstants.ScheduleConstants;
-import dpl.DplConstants.StateConstants;
-import dpl.ErrorHandling.RetirementManagementException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import dpl.SystemConfig;
+import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ScheduleConstants;
+import dpl.LeagueSimulationManagement.SimulationManagement.StateConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
@@ -71,9 +77,11 @@ public class AdvanceToNextSeasonState implements ISimulationState {
 			leagueToSimulate = retirement.increaseAge(days, leagueToSimulate);
 			leagueToSimulate = injury.updatePlayerInjuryStatus(days, leagueToSimulate);
 			log.log(Level.INFO, StateConstants.NEXT_SEASON_ENTRY);
-		} catch (SQLException | RetirementManagementException e) {
+		} catch (Exception e) {
+			log.log(Level.SEVERE, e.getMessage());
 			output.setOutput(e.getMessage());
 			output.sendOutput();
+			System.exit(1);
 		}
 	}
 
@@ -91,11 +99,12 @@ public class AdvanceToNextSeasonState implements ISimulationState {
 			long difference = date2.getTime() - date1.getTime();
 			long days = TimeUnit.DAYS.convert(difference, TimeUnit.MILLISECONDS);
 			return days;
-		} catch (ParseException e) {
+		} catch (Exception e) {
+			log.log(Level.SEVERE, e.getMessage());
 			output.setOutput(StateConstants.EXPECTING_DAYS_STATE);
 			output.sendOutput();
+			return 0;
 		}
-		return 0;
 	}
 
 	public boolean shouldContinue() {

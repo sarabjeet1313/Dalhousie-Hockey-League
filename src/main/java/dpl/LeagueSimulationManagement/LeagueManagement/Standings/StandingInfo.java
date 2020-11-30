@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class StandingInfo {
 
@@ -89,6 +90,10 @@ public class StandingInfo {
 
 	public void setTotalSavesInSeason(double totalSavesInSeason) {
 		this.totalSavesInSeason = totalSavesInSeason;
+	}
+
+	public Standing getStanding() {
+		return this.standing;
 	}
 
 	public void showStats() {
@@ -176,60 +181,16 @@ public class StandingInfo {
 		return teams;
 	}
 
-	public boolean initializeStandings() throws SQLException {
-		boolean result = false;
-		try {
-			String leagueName = leagueToSimulate.getLeagueName();
-			List<Conference> conferenceList = leagueToSimulate.getConferenceList();
+	public List<String> sortMapDraft() {
+		List<String> teams = new ArrayList<>();
+		Map<String, Integer> temMap = teamWinMap.entrySet().stream()
+				  .sorted(Map.Entry.comparingByValue())
+				  .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
 
-			for (Conference conferences : conferenceList) {
-				List<Division> divisionList = conferences.getDivisionList();
-				String conferenceName = conferences.getConferenceName();
-
-				for (Division divisions : divisionList) {
-					List<Team> teamList = divisions.getTeamList();
-					String divisionName = divisions.getDivisionName();
-
-					for (Team teams : teamList) {
-						String teamName = teams.getTeamName();
-						result = standingsDb.insertToStandings(leagueName, conferenceName, divisionName, teamName);
-						if (result) {
-							continue;
-						} else {
-							return result;
-						}
-					}
-				}
-			}
-		} catch (SQLException e) {
-			throw e;
-		}
-		return result;
+		temMap.forEach((key, value) ->  {
+			teams.add(key);
+		} );
+		return teams;
 	}
 
-	public void updateStandings() throws SQLException {
-		try {
-			for (Map.Entry<String, Integer> entry : this.teamWinMap.entrySet()) {
-				String teamWon = entry.getKey();
-				int noOfMatchesWon = entry.getValue();
-
-				for (int i = 0; i < noOfMatchesWon; i++) {
-					standingsDb.updateStandingsWin(teamWon);
-				}
-				teamWinMap.put(teamWon, 0);
-			}
-
-			for (Map.Entry<String, Integer> entry : this.teamLoseMap.entrySet()) {
-				String teamLose = entry.getKey();
-				int noOfMatchesLose = entry.getValue();
-
-				for (int i = 0; i < noOfMatchesLose; i++) {
-					standingsDb.updateStandingsLosses(teamLose);
-				}
-				teamLoseMap.put(teamLose, 0);
-			}
-		} catch (SQLException e) {
-			throw e;
-		}
-	}
 }

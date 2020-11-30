@@ -1,6 +1,6 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
-import dpl.DplConstants.StateConstants;
+import dpl.LeagueSimulationManagement.SimulationManagement.StateConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
@@ -63,7 +63,17 @@ public class PersistState implements ISimulationState {
 		log.log(Level.INFO, StateConstants.PERSIST_ENTRY);
 		output.setOutput("Inside persist state");
 		output.sendOutput();
-
+		if(utility.getSeasonOverStatus()) {
+			try {
+				standingsDb.insertToStandings(standings.getStanding());
+			} catch (Exception e) {
+				log.log(Level.SEVERE, e.getMessage());
+				output.setOutput(e.getMessage());
+				output.sendOutput();
+				System.exit(1);
+			}
+		}
+		log.log(Level.INFO, StateConstants.PERSIST_ENTRY);
 	}
 
 	public boolean shouldContinue() {

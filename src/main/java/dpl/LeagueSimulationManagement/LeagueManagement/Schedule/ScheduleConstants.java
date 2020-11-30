@@ -1,4 +1,4 @@
-package dpl.DplConstants;
+package dpl.LeagueSimulationManagement.LeagueManagement.Schedule;
 
 public class ScheduleConstants {
     public static final String DATE_FORMAT = "dd-MM-yyyy";
