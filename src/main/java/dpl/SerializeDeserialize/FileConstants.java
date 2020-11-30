@@ -1,4 +1,4 @@
-package dpl.DplConstants;
+package dpl.SerializeDeserialize;
 
 public enum FileConstants {
 

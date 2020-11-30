@@ -1,4 +1,4 @@
-package dpl.DplConstants;
+package dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement;
 
 public enum TeamManagementConstants {
 	
@@ -6,6 +6,7 @@ public enum TeamManagementConstants {
 	TEAM_A("AllStarTeamA"),
 	TEAM_B("AllStarTeamB"),
 	RETIREMENT_INFO("Finding Retired Players"),
+	SHOULD_PLAYER_INJURE("Found the player who should injure"),	
 	SHOULD_PLAYER_RETIRE("Found the player who should retire"),
 	RETIREMENT_EXCEPTION("Exception occured in league"),
 	TEST_JSON("test.json");

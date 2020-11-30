@@ -1,26 +1,24 @@
 package dpl.Database;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import dpl.SystemConfig;
-import dpl.DplConstants.CoachConstants;
-import dpl.DplConstants.ConferenceConstants;
-import dpl.DplConstants.DivisionConstants;
-import dpl.DplConstants.LeagueConstants;
-import dpl.DplConstants.ManagerConstants;
-import dpl.DplConstants.PlayerConstants;
-import dpl.DplConstants.StoredProcedureConstants;
-import dpl.DplConstants.TeamConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Coach;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.CoachConstants;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ConferenceConstants;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.DivisionConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ILeaguePersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManagementAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.LeagueConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Manager;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ManagerConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.PlayerConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.TeamConstants;
 
 public class LeagueDataDB implements ILeaguePersistance {
 	InvokeStoredProcedure invoke = null;
@@ -44,7 +42,7 @@ public class LeagueDataDB implements ILeaguePersistance {
 	}
 
 	@Override
-	public League loadLeagueData(String teamName) throws SQLException {
+	public League loadLeagueData(String teamName) {
 		League league = new League();
 		List<Player> playerList = new ArrayList<Player>();
 		List<Player> freeAgentList = new ArrayList<Player>();
@@ -57,7 +55,8 @@ public class LeagueDataDB implements ILeaguePersistance {
 			boolean flag = Boolean.FALSE;
 			while (result.next()) {
 				boolean isUserTeam = Boolean.FALSE;
-				Player player = teamManagement.PlayerWithParameters(result.getString(PlayerConstants.PLAYER_NAME.toString()),
+				Player player = teamManagement.PlayerWithParameters(
+						result.getString(PlayerConstants.PLAYER_NAME.toString()),
 						result.getString(PlayerConstants.PLAYER_POSITION.toString()),
 						result.getBoolean(PlayerConstants.PLAYER_CAPTAIN.toString()),
 						result.getInt(PlayerConstants.PLAYER_AGE.toString()),
@@ -68,10 +67,7 @@ public class LeagueDataDB implements ILeaguePersistance {
 						result.getBoolean(PlayerConstants.IS_INJURED.toString()),
 						result.getBoolean(PlayerConstants.RETIRED_STATUS.toString()),
 						result.getInt(PlayerConstants.DAYS_INJURED.toString()),
-						result.getBoolean(PlayerConstants.IS_ACTIVE.toString()),
-						20,
-						4,
-						1999);
+						result.getBoolean(PlayerConstants.IS_ACTIVE.toString()), 20, 4, 1999, false);
 				String tempResult = result.getString(TeamConstants.TEAM_NAME.toString());
 				if (result.wasNull()) {
 					freeAgentList.add(player);
@@ -80,13 +76,16 @@ public class LeagueDataDB implements ILeaguePersistance {
 						flag = Boolean.FALSE;
 					}
 					if (flag == Boolean.FALSE) {
-						headCoach = teamManagement.CoachWithParameters(result.getString(CoachConstants.COACH_NAME.toString()),
+						headCoach = teamManagement.CoachWithParameters(
+								result.getString(CoachConstants.COACH_NAME.toString()),
 								result.getDouble(CoachConstants.COACH_SKATING.toString()),
 								result.getDouble(CoachConstants.COACH_SHOOTING.toString()),
 								result.getDouble(CoachConstants.COACH_CHECKING.toString()),
 								result.getDouble(CoachConstants.COACH_SAVING.toString()));
 						// temp fix
-						manager = teamManagement.ManagerWithParameters(result.getString(ManagerConstants.GENERAL_MANAGER_NAME.toString()), ManagerConstants.PERSONALITY.toString());
+						manager = teamManagement.ManagerWithParameters(
+								result.getString(ManagerConstants.GENERAL_MANAGER_NAME.toString()),
+								ManagerConstants.PERSONALITY.toString());
 						flag = loadCommonLeagueData(result.getString(LeagueConstants.LEAGUE_NAME.toString()),
 								result.getString(ConferenceConstants.CONFERENCE_NAME.toString()),
 								result.getString(DivisionConstants.DIVISION_NAME.toString()),
@@ -99,14 +98,18 @@ public class LeagueDataDB implements ILeaguePersistance {
 						if (rteamName.equals(teamName)) {
 							isUserTeam = Boolean.TRUE;
 						}
-						Team team = teamManagement.TeamWithParameters(rteamName, manager, headCoach, playerList, isUserTeam);
+						Team team = teamManagement.TeamWithParameters(rteamName, manager, headCoach, playerList,
+								isUserTeam);
 						league = league.loadLeagueObject(leagueName, conferenceName, divisionName, team, league);
-						manager = teamManagement.ManagerWithParameters(result.getString(ManagerConstants.GENERAL_MANAGER_NAME.toString()), ManagerConstants.PERSONALITY.toString());
+						manager = teamManagement.ManagerWithParameters(
+								result.getString(ManagerConstants.GENERAL_MANAGER_NAME.toString()),
+								ManagerConstants.PERSONALITY.toString());
 						flag = loadCommonLeagueData(result.getString(LeagueConstants.LEAGUE_NAME.toString()),
 								result.getString(ConferenceConstants.CONFERENCE_NAME.toString()),
 								result.getString(DivisionConstants.DIVISION_NAME.toString()),
 								result.getString(TeamConstants.TEAM_NAME.toString()));
-						headCoach = teamManagement.CoachWithParameters(result.getString(CoachConstants.COACH_NAME.toString()),
+						headCoach = teamManagement.CoachWithParameters(
+								result.getString(CoachConstants.COACH_NAME.toString()),
 								result.getDouble(CoachConstants.COACH_SKATING.toString()),
 								result.getDouble(CoachConstants.COACH_SHOOTING.toString()),
 								result.getDouble(CoachConstants.COACH_CHECKING.toString()),
@@ -116,10 +119,7 @@ public class LeagueDataDB implements ILeaguePersistance {
 					}
 				}
 			}
-		} catch (SQLException e) {
-			throw e;
-		} finally {
-			invoke.closeConnection();
+		} catch (Exception e) {
 		}
 		league.setLeagueName(leagueName);
 		league.setFreeAgents(freeAgentList);
@@ -127,7 +127,7 @@ public class LeagueDataDB implements ILeaguePersistance {
 	}
 
 	@Override
-	public int checkLeagueName(League league) throws SQLException {
+	public int checkLeagueName(League league) {
 		ResultSet result;
 		int rowCount = 0;
 		try {
@@ -137,17 +137,14 @@ public class LeagueDataDB implements ILeaguePersistance {
 			while (result.next()) {
 				rowCount = result.getInt(LeagueConstants.ROW_COUNT.toString());
 			}
-		} catch (SQLException e) {
-			throw e;
-		} finally {
-			invoke.closeConnection();
+		} catch (Exception e) {
 		}
 		return rowCount;
 	}
 
 	@Override
 	public boolean persisitLeagueData(League league, String conferenceName, String divisionName, String teamName,
-			String generalManager, String headCoach, Player player) throws SQLException {
+			String generalManager, String headCoach, Player player) {
 		ResultSet result;
 		boolean isPersisted = Boolean.FALSE;
 		try {
@@ -173,16 +170,13 @@ public class LeagueDataDB implements ILeaguePersistance {
 			while (result.next()) {
 				isPersisted = result.getBoolean(LeagueConstants.SUCCESS.toString());
 			}
-		} catch (SQLException e) {
-			throw e;
-		} finally {
-			invoke.closeConnection();
+		} catch (Exception e) {
 		}
 		return isPersisted;
 	}
 
 	@Override
-	public boolean updateLeagueData(League league, String teamName, Player player) throws SQLException {
+	public boolean updateLeagueData(League league, String teamName, Player player) {
 		ResultSet result;
 		boolean isPersisted = Boolean.FALSE;
 		try {
@@ -204,10 +198,7 @@ public class LeagueDataDB implements ILeaguePersistance {
 			while (result.next()) {
 				isPersisted = result.getBoolean(LeagueConstants.SUCCESS.toString());
 			}
-		} catch (SQLException e) {
-			throw e;
-		} finally {
-			invoke.closeConnection();
+		} catch (Exception e) {
 		}
 		return isPersisted;
 	}

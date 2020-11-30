@@ -68,19 +68,6 @@ public class StandingInfoTest {
 		assertEquals(0, standings.getStanding().getSeason());
 	}
 
-//	@Test
-//	public void updateStandingsTest() {
-//		try {
-//			assertNotEquals(1, standingsDb.getStandingsTeamWin().get("Boston").intValue());
-//			standings.updateTeamWinMap("Boston");
-//			standings.updateStandings();
-//			assertEquals(1, standingsDb.getStandingsTeamWin().get("Boston").intValue());
-//		} catch (SQLException e) {
-//			output.setOutput(e.getMessage());
-//			output.sendOutput();
-//		}
-//	}
-
 	@Test
 	public void getTopDivisionTeamsTest() {
 		standings.updateTeamWinMap("Boston");
@@ -164,16 +151,6 @@ public class StandingInfoTest {
 		assertEquals(50, standings.getTotalSavesInSeason(), 0.5);
 	}
 
-//	@Test
-//	public void initializeStandingsTest() {
-//		try {
-//			assertTrue(standings.initializeStandings());
-//		} catch (Exception e) {
-//			output.setOutput(e.getMessage());
-//			output.sendOutput();
-//		}
-//	}
-
 	@Test
 	public void showStatsTest() {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -183,6 +160,14 @@ public class StandingInfoTest {
 		String gotOutput = out.toString().replaceAll("\n", "");
 		gotOutput = gotOutput.replaceAll("\r", "");
 		assertEquals(expected, gotOutput);
+	}
+
+	@Test
+	public void sortMapDraftTest() {
+		standings.sortMapDraft();
+		assertFalse(standings.getTeamWinMap().containsKey("Boston"));
+		standings.updateTeamWinMap("Halifax");
+		assertTrue(standings.getTeamWinMap().containsKey("Halifax"));
 	}
 
 }

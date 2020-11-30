@@ -1,13 +1,13 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import com.google.gson.annotations.Expose;
 
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 
 public class GameplayConfig {
+
 	private double penaltyChance = 0.45;
 	private int checkingValueToPenalty = 10;
 	private double shootingValueToGoal = 4.9;
@@ -49,7 +49,6 @@ public class GameplayConfig {
 		this.aging = aging;
 	}
 
-
 	public Injury getInjury() {
 		return injury;
 	}
@@ -86,27 +85,24 @@ public class GameplayConfig {
 		return checkingValueToPenalty;
 	}
 
-	public boolean saveGameplayConfig(League league) throws SQLException, IOException {
+	public boolean saveGameplayConfig(League league) throws IOException {
 		boolean isValid = Boolean.FALSE;
 		try {
 			isValid = configDb.persistGameConfig(league.getGameConfig(), league.getLeagueName());
-		} catch (SQLException e) {
-			throw e;
 		} catch (IOException e) {
 			throw e;
 		}
 		return isValid;
 	}
 
-	public GameplayConfig loadGameplayConfig(League league) throws SQLException, IOException {
+	public GameplayConfig loadGameplayConfig(League league) throws IOException {
 		GameplayConfig config = null;
 		try {
 			config = configDb.loadGameplayConfigData(league.getLeagueName());
-		} catch (SQLException e) {
-			throw e;
 		} catch (IOException e) {
 			throw e;
 		}
 		return config;
 	}
+
 }

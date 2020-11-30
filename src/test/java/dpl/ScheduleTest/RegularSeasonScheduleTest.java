@@ -97,6 +97,17 @@ public class RegularSeasonScheduleTest {
     }
 
     @Test
+    public void generateScheduleOnTheFlyTest() {
+        state.setCurrentDay("13-11-2020");
+        state.setFirstDay("14-11-2020");
+        state.setLastDay("20-11-2020");
+        state.generateSchedule(leagueToSimulate);
+        state.generateScheduleOnTheFly(mockSchedule.getMockScheduledTeams(), "13-11-2020");
+        assertEquals("Halifax", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
+        assertNotEquals("Toronto", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
+    }
+
+    @Test
     public void generateScheduleTest() {
         state.setCurrentDay("13-11-2020");
         state.setFirstDay("14-11-2020");

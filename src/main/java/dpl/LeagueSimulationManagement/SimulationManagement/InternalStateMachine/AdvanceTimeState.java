@@ -1,13 +1,13 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
-import dpl.DplConstants.ScheduleConstants;
-import dpl.DplConstants.StateConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Training;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
+import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ScheduleConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
+import dpl.LeagueSimulationManagement.SimulationManagement.StateConstants;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.SystemConfig;
 
@@ -41,7 +41,7 @@ public class AdvanceTimeState implements ISimulationState {
 		this.stateName = StateConstants.ADVANCE_TIME_STATE;
 		this.internalStateMachineFactory = SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory();
 		this.currentDate = startDate;
-		this.training = new Training(output);
+		this.training = SystemConfig.getSingleInstance().getGameplayConfigurationAbstractFactory().Training();
 		this.endDate = endDate;
 		this.output = output;
 		this.context = context;

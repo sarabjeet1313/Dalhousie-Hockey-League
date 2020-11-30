@@ -36,12 +36,12 @@ public interface ITeamManagementAbstractFactory {
 	public Manager ManagerWithParameters(String managerName, String personality);
 
 	public Manager ManagerWithDbParameters(String managerName, String personality, IManagerPersistance managerDb);
-
+ 
 	public Player Player();
 
 	public Player PlayerWithParameters(String playerName, String position, boolean captain, int age, int skating,
 			int shooting, int checking, int saving, boolean isInjured, boolean retireStatus, int daysInjured,
-			boolean isActive, int birthDay, int birthMonth, int birthYear);
+			boolean isActive, int birthDay, int birthMonth, int birthYear, boolean isDraftPlayer);
 
 	public IRetirementManagement RetirementManagement();
 

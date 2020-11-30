@@ -41,10 +41,4 @@ public class Aging {
 		this.statDecayChance = statDecayChance;
 	}
 
-    public double getStateDecayChance() {
-        return statDecayChance;
-    }
-    public void setStateDecayChance(double stateDecayChance) {
-        this.statDecayChance = stateDecayChance;
-    }
 }

@@ -1,45 +1,77 @@
 package dpl.GameplayConfigurationTest;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotEquals;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import dpl.SystemConfig;
+import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.IGameplayConfigurationAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Training;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Coach;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManagementAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
-import dpl.TeamManagementTest.LeagueObjectTestData;
+import dpl.TeamManagementTest.LeagueMockData;
 
 public class TrainingTest {
-	
+
 	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
 			.getTeamManagementAbstractFactory();
-	League mockData = new LeagueObjectTestData().getLeagueData();
-	Training training = new Training(100, 100);
-	Player player = teamManagement.PlayerWithParameters("Player One", "forward", true, 1, 1, 1, 1, 1, false, false, 0, false, 23, 3, 1999);
-	Coach coach = teamManagement.CoachWithParameters("Coach One", 0.5, 0.5, 0.5, 0.5);
+	private IGameplayConfigurationAbstractFactory gameConfig = SystemConfig.getSingleInstance()
+			.getGameplayConfigurationAbstractFactory();
+	private League leagueToSimulate;
+	private Training training;
+	private Player player;
+	private Coach coach;
+
+	@Before
+	public void setUp() throws Exception {
+		leagueToSimulate = new LeagueMockData().getTestData();
+		training = gameConfig.Training(100, 100);
+		player = teamManagement.PlayerWithParameters("Player One", "forward", true, 1, 1, 1, 1, 1, false, false, 0,
+				false, 23, 3, 1999, Boolean.FALSE);
+		coach = teamManagement.CoachWithParameters("Coach One", 0.5, 0.5, 0.5, 0.5);
+	}
 
 	@Test
+	public void parameterizedConstructorTest() {
+		assertEquals(100, training.getDaysUntilStatIncreaseCheck());
+		assertEquals(100, training.getTrackDays());
+	}
+	
+	@Test
 	public void getDaysUntilStatIncreaseCheckTest() {
-		assertEquals(100, mockData.getGameConfig().getTraining().getDaysUntilStatIncreaseCheck());
+		assertEquals(100, training.getDaysUntilStatIncreaseCheck());
+		assertNotEquals(200, training.getDaysUntilStatIncreaseCheck());
 	}
 
 	@Test
 	public void setDaysUntilStatIncreaseCheckTest() {
-		mockData.getGameConfig().getTraining().setDaysUntilStatIncreaseCheck(50);
-		assertEquals(50, mockData.getGameConfig().getTraining().getDaysUntilStatIncreaseCheck());
+		assertEquals(100, training.getDaysUntilStatIncreaseCheck());
+		training.setDaysUntilStatIncreaseCheck(150);
+		assertEquals(150, training.getDaysUntilStatIncreaseCheck());
+	}
+	
+	@Test
+	public void getTrackDaysTest() {
+		assertEquals(100, training.getTrackDays());
+		assertNotEquals(200, training.getTrackDays());
+	}
+	
+	@Test
+	public void setTrackDaysTest() {
+		assertEquals(100, training.getTrackDays());
+		training.setTrackDays(150);
+		assertEquals(150, training.getTrackDays());
 	}
 
 	@Test
-	public void generateRandomValueTest() {
-		assertTrue((0 < training.generateRandomValue()) && (training.generateRandomValue() < 1));
-	}
-
-	@Test
-	public void playerTrainingTest() {
-
+	public void trackDaysForTrainingTest() {
+		Training tempTraining = leagueToSimulate.getGameConfig().getTraining();
+		assertEquals(tempTraining.getDaysUntilStatIncreaseCheck(), tempTraining.getTrackDays());
+		leagueToSimulate = tempTraining.trackDaysForTraining(leagueToSimulate);
+		assertNotEquals(tempTraining.getDaysUntilStatIncreaseCheck(), tempTraining.getTrackDays());
 	}
 }

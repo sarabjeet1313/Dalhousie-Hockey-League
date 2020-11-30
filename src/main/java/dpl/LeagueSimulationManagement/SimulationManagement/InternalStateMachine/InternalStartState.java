@@ -1,9 +1,9 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
-import dpl.DplConstants.StateConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradePersistence;
+import dpl.LeagueSimulationManagement.SimulationManagement.StateConstants;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.SystemConfig;

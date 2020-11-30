@@ -105,14 +105,24 @@ public class SeasonCalendarTest {
 
     @Test
     public void isTradeDeadlinePendingTest() {
-        assertTrue(state.isTradeDeadlinePending("30-11-2020"));
-        assertFalse(state.isTradeDeadlinePending("30-06-2021"));
+        try {
+            assertTrue(state.isTradeDeadlinePending("30-11-2020"));
+            assertFalse(state.isTradeDeadlinePending("30-06-2021"));
+        } catch (Exception e) {
+            output.setOutput(e.getMessage());
+            output.sendOutput();
+        }
     }
 
     @Test
     public void isLastDayOfSeasonTest() {
-        assertTrue(state.isLastDayOfSeason("01-06-2021"));
-        assertFalse(state.isLastDayOfSeason("30-06-2021"));
+        try {
+            assertTrue(state.isLastDayOfSeason("01-06-2021"));
+            assertFalse(state.isLastDayOfSeason("30-06-2021"));
+        } catch (Exception e) {
+            output.setOutput(e.getMessage());
+            output.sendOutput();
+        }
 
     }
 }

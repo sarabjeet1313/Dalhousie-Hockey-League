@@ -7,6 +7,7 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 public class CoachMockData implements ICoachPersistance {
 	
 	League league = new LeagueMockData().getTestData(); 
+	
 	@Override
 	public boolean persistCoaches(Coach coach, String teamName, String leagueName) {
 		boolean isValid = false;

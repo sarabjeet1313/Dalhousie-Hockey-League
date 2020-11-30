@@ -1,7 +1,6 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,20 +8,23 @@ import com.google.gson.annotations.Expose;
 
 import dpl.SystemConfig;
 import dpl.DplConstants.GeneralConstants;
-import dpl.DplConstants.TeamManagementConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.GameplayConfig;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
 public class League implements ILeagueOperation {
 
-	@Expose (serialize = true, deserialize = true) private String leagueName;
-	@Expose (serialize = true, deserialize = true) private List<Conference> conferenceList;
-	@Expose (serialize = true, deserialize = true) private List<Player> freeAgents;
-	@Expose (serialize = true, deserialize = true) private List<Coach> coaches;
-	@Expose (serialize = true, deserialize = true) private List<Manager> managerList;
+	@Expose(serialize = true, deserialize = true)
+	private String leagueName;
+	@Expose(serialize = true, deserialize = true)
+	private List<Conference> conferenceList;
+	@Expose(serialize = true, deserialize = true)
+	private List<Player> freeAgents;
+	@Expose(serialize = true, deserialize = true)
+	private List<Coach> coaches;
+	@Expose(serialize = true, deserialize = true)
+	private List<Manager> managerList;
 	private static List<League> leagueList;
-	@Expose (serialize = true, deserialize = true) private GameplayConfig gameConfig;
+	@Expose(serialize = true, deserialize = true)
+	private GameplayConfig gameConfig;
 	private ILeaguePersistance leagueDb;
 	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
 			.getTeamManagementAbstractFactory();
@@ -118,13 +120,11 @@ public class League implements ILeagueOperation {
 		this.gameConfig = gameConfig;
 	}
 
-	public boolean isValidLeagueName(League league) throws SQLException, IOException {
+	public boolean isValidLeagueName(League league) throws IOException {
 		int rowCount = 0;
 		boolean isValid = Boolean.TRUE;
 		try {
 			rowCount = leagueDb.checkLeagueName(league);
-		} catch (SQLException e) {
-			throw e;
 		} catch (IOException e) {
 			throw e;
 		}
@@ -135,12 +135,10 @@ public class League implements ILeagueOperation {
 	}
 
 	@Override
-	public League loadLeague(String teamName) throws SQLException, IOException {
+	public League loadLeague(String teamName) throws IOException {
 		League league = null;
 		try {
 			league = leagueDb.loadLeagueData(teamName);
-		} catch (SQLException e) {
-			throw e;
 		} catch (IOException e) {
 			throw e;
 		}
@@ -148,7 +146,7 @@ public class League implements ILeagueOperation {
 	}
 
 	@Override
-	public boolean createTeam(League league) throws SQLException, IOException {
+	public boolean createTeam(League league) throws IOException {
 		boolean isCreated = Boolean.FALSE;
 		String leagueName = league.getLeagueName();
 		String conferenceName, divisionName, teamName, coachName,
@@ -179,25 +177,22 @@ public class League implements ILeagueOperation {
 									generalManager.getManagerName(), headCoach.getCoachName(), playerList.get(pIndex));
 						}
 						isCreated = headCoach.saveTeamCoaches(headCoach, teamName, leagueName);
-						isCreated = generalManager.saveTeamGeneralManager(generalManager.getManagerName(), teamName,
+						isCreated = generalManager.saveTeamGeneralManager(generalManager, teamName,
 								leagueName);
 					}
 				}
 			}
 			conferenceName = divisionName = teamName = coachName = TeamManagementConstants.EMPTY.toString();
-//			playerList.clear();
 			playerList = league.getFreeAgents();
 			if (!playerList.isEmpty()) {
 				for (int index = 0; index < playerList.size(); index++) {
-					isCreated = leagueDb.persisitLeagueData(league, conferenceName, divisionName, teamName,
-							managerName, coachName, playerList.get(index));
+					isCreated = leagueDb.persisitLeagueData(league, conferenceName, divisionName, teamName, managerName,
+							coachName, playerList.get(index));
 				}
 			}
 			league.getGameConfig().saveGameplayConfig(league);
 			headCoach.saveLeagueCoaches(league);
 			generalManager.saveManagerList(league);
-		} catch (SQLException e) {
-			throw e;
 		} catch (IOException e) {
 			throw e;
 		}
@@ -295,7 +290,7 @@ public class League implements ILeagueOperation {
 	}
 
 	@Override
-	public boolean updateLeague(League league) throws SQLException, IOException {
+	public boolean updateLeague(League league) throws IOException {
 		boolean isUpdated = Boolean.FALSE;
 		String teamName = TeamManagementConstants.EMPTY.toString();
 		List<Conference> conferenceList = league.getConferenceList();
@@ -316,8 +311,6 @@ public class League implements ILeagueOperation {
 					}
 				}
 			}
-		} catch (SQLException e) {
-			throw e;
 		} catch (IOException e) {
 			throw e;
 		}

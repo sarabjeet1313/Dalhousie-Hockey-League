@@ -1,4 +1,4 @@
-package dpl.DplConstants;
+package dpl.LeagueSimulationManagement.SimulationManagement;
 
 public enum GenerateRegularConstants {
 

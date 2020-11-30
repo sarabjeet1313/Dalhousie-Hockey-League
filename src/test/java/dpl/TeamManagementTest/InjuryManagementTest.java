@@ -14,7 +14,7 @@ public class InjuryManagementTest {
 	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
 			.getTeamManagementAbstractFactory();
 	IInjuryManagement playerManagement = teamManagement.InjuryManagement();
-	Player player = teamManagement.PlayerWithParameters("Player1", "Forward", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000);
+	Player player = teamManagement.PlayerWithParameters("Player1", "Forward", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000, Boolean.FALSE);
 	
 	@Test
 	public void getPlayerInjuryDaysTest() {

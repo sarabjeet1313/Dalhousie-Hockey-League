@@ -1,18 +1,15 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
 import dpl.DplConstants.GeneralConstants;
-import dpl.DplConstants.ScheduleConstants;
-import dpl.DplConstants.StateConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
+import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ScheduleConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.*;
 import dpl.LeagueSimulationManagement.NewsSystem.GamePlayedPublisher;
 import dpl.LeagueSimulationManagement.NewsSystem.INewsSystemAbstractFactory;
-import dpl.LeagueSimulationManagement.NewsSystem.NewsSubscriber;
-import dpl.LeagueSimulationManagement.NewsSystem.NewsSystemAbstractFactory;
-import dpl.LeagueSimulationManagement.TrophySystem.ITrophySystemAbstractFactory;
+import dpl.LeagueSimulationManagement.SimulationManagement.StateConstants;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.SystemConfig;
 
@@ -59,7 +56,6 @@ public class SimulateGameState implements ISimulationState {
 	private int secondTeamSkatingTotal;
 	private int firstTeamShotsCounter;
 	private int secondTeamShotsCounter;
-	private Map<String, Integer> teamGoals;
 	private GameContext gameContext;
 	private ISimulateMatch simulateMatch;
 	private IInternalStateMachineAbstractFactory internalStateMachineFactory;
@@ -101,7 +97,6 @@ public class SimulateGameState implements ISimulationState {
 		this.firstTeamGoaliesOnIce = new ArrayList<>();
 		this.secondTeamGoalies = new ArrayList<>();
 		this.secondTeamGoaliesOnIce = new ArrayList<>();
-		this.teamGoals = new HashMap<>();
 		this.firstTeamSkatingTotal = 0;
 		this.secondTeamSkatingTotal = 0;
 		this.firstTeamShotsCounter = 0;
@@ -109,7 +104,7 @@ public class SimulateGameState implements ISimulationState {
 	}
 
 	static {
-		GamePlayedPublisher.getInstance().subscribe(new NewsSubscriber());
+		GamePlayedPublisher.getInstance().subscribe(SystemConfig.getSingleInstance().getNewsSystemAbstractFactory().NewsSubscriber());
 	}
 
 	public ISimulationState nextState(InternalStateContext context) {
@@ -135,323 +130,6 @@ public class SimulateGameState implements ISimulationState {
 		output.sendOutput();
 	}
 
-	private void simulateRegularMatches() {
-		if (currentSchedule.containsKey(this.currentDate)) {
-			List<Map<String, String>> teamsCompetingList = currentSchedule.get(this.currentDate);
-			if (teamsCompetingList.size() > 0) {
-				Map<String, String> teamsCompeting = teamsCompetingList.get(0);
-				for (Map.Entry<String, String> entry : teamsCompeting.entrySet()) {
-					String firstTeam = entry.getKey();
-					String secondTeam = entry.getValue();
-					output.setOutput("Match is going on between " + firstTeam + " vs " + secondTeam);
-					output.sendOutput();
-					resetGoals(firstTeam, secondTeam);
-					simulateMatch(firstTeam, secondTeam);
-					standings.setTotalSeasonMatches(standings.getTotalSeasonMatches() + 1);
-
-					if (teamGoals.get(firstTeam) >= teamGoals.get(secondTeam)) {
-						winningTeam = firstTeam;
-						losingTeam = secondTeam;
-					} else {
-						winningTeam = secondTeam;
-						losingTeam = firstTeam;
-					}
-
-					GamePlayedPublisher.getInstance().notify(winningTeam, losingTeam, currentDate);
-					standings.updateTeamWinMap(winningTeam);
-					standings.updateTeamLoseMap(losingTeam);
-				}
-				teamsCompetingList.remove(0);
-				currentSchedule.put(this.currentDate, teamsCompetingList);
-				schedule.setFinalSchedule(currentSchedule);
-			}
-		}
-	}
-
-	private void simulatePlayoffMatches() {
-		if (currentSchedule.containsKey(this.currentDate)) {
-			List<Map<String, String>> teamsCompetingList = currentSchedule.get(this.currentDate);
-			if (teamsCompetingList.size() > 0) {
-				Map<String, String> teamsCompeting = teamsCompetingList.get(0);
-				for (Map.Entry<String, String> entry : teamsCompeting.entrySet()) {
-					String firstTeam = entry.getKey();
-					String secondTeam = entry.getValue();
-					int firstTeamWin = 1;
-					int secondTeamWin = 1;
-					for (int index = 0; index < 7; index++) {
-						if (firstTeamWin >= 5 || secondTeamWin >= 5) {
-							break;
-						}
-						output.setOutput("Match is going on between " + firstTeam + " vs " + secondTeam);
-						output.sendOutput();
-						resetGoals(firstTeam, secondTeam);
-						standings.setTotalSeasonMatches(standings.getTotalSeasonMatches() + 1);
-						simulateMatch(firstTeam, secondTeam);
-
-						if (teamGoals.get(firstTeam) >= teamGoals.get(secondTeam)) {
-							winningTeam = firstTeam;
-							firstTeamWin++;
-							losingTeam = secondTeam;
-						} else {
-							winningTeam = secondTeam;
-							secondTeamWin++;
-							losingTeam = firstTeam;
-						}
-
-						GamePlayedPublisher.getInstance().notify(winningTeam, losingTeam, currentDate);
-						standings.updateTeamWinMap(winningTeam);
-						standings.updateTeamLoseMap(losingTeam);
-					}
-
-					if (firstTeamWin > secondTeamWin) {
-						generateNextRoundSchedule(firstTeam, secondTeam);
-					}
-
-					if (secondTeamWin > firstTeamWin) {
-						generateNextRoundSchedule(secondTeam, firstTeam);
-					}
-				}
-				schedule.setFinalSchedule(currentSchedule);
-			}
-		}
-	}
-
-	private void simulateMatch(String firstTeam, String secondTeam) {
-
-		initializeTeamPlayers(firstTeam, secondTeam);
-		int diff = firstTeamSkatingTotal - secondTeamSkatingTotal;
-
-		if (diff < 0) {
-			if (Math.abs(diff) <= 6) {
-				secondTeamShotsCounter = fixedShotsPerTeam + Math.abs(diff);
-			} else {
-				secondTeamShotsCounter = fixedShotsPerTeam + 6;
-			}
-			firstTeamShotsCounter = fixedShotsPerTeam;
-		} else {
-			if (diff > 6) {
-				firstTeamShotsCounter = fixedShotsPerTeam + 6;
-			} else {
-				firstTeamShotsCounter = fixedShotsPerTeam + diff;
-			}
-			secondTeamShotsCounter = fixedShotsPerTeam;
-		}
-		int totalShots = firstTeamShotsCounter + secondTeamShotsCounter;
-
-		for (int i = 1; i <= totalShots; i++) {
-			setFirstTeamPlayersOnIce();
-			setSecondTeamPlayersOnIce();
-			if (i > 44) {
-				firstTeamGoaliesOnIce.add(firstTeamGoalies.get(1));
-				secondTeamGoaliesOnIce.add(secondTeamGoalies.get(1));
-			} else {
-				firstTeamGoaliesOnIce.add(firstTeamGoalies.get(0));
-				secondTeamGoaliesOnIce.add(secondTeamGoalies.get(0));
-			}
-
-			if (Math.random() > 0.5 && firstTeamShotsCounter > 0) {
-				firstTeamMakeAShot(firstTeam);
-				firstTeamShotsCounter--;
-			} else {
-				if (secondTeamShotsCounter > 0) {
-					secondTeamMakeAShot(secondTeam);
-					secondTeamShotsCounter--;
-				}
-			}
-		}
-	}
-
-	private void firstTeamMakeAShot(String team) {
-
-		standings.setTotalShotsInSeason(standings.getTotalShotsInSeason() + 1);
-		double rand1 = Math.random();
-		double rand2 = Math.random();
-		double randomPenalty = Math.random();
-
-		Collections.shuffle(firstTeamForwardsOnIce);
-		Player forwardPlayer = firstTeamForwardsOnIce.get(0);
-
-		Collections.shuffle(secondTeamDefenseMenOnIce);
-		Player defensePlayer = secondTeamDefenseMenOnIce.get(0);
-
-		Collections.shuffle(secondTeamGoaliesOnIce);
-		Player goalie = secondTeamGoaliesOnIce.get(0);
-
-		if (forwardPlayer.getShooting() * rand1 > (defensePlayer.getChecking() * rand2 + goalie.getSaving() * rand2)
-				+ shootingValueToGoal) {
-			forwardPlayer.setGoals(forwardPlayer.getGoals() + 1);
-			standings.setTotalGoalsInSeason(standings.getTotalGoalsInSeason() + 1);
-			int goals = teamGoals.get(team);
-			teamGoals.put(team, goals + 1);
-		} else if (goalie.getSaving() * rand1 > forwardPlayer.getShooting() * rand2) {
-			goalie.setSaves(goalie.getSaves() + 1);
-			standings.setTotalSavesInSeason(standings.getTotalSavesInSeason() + 1);
-		} else {
-			if (randomPenalty < penaltyChance && defensePlayer.getChecking() > checkingValueToPenalty) {
-				defensePlayer.setPenalties(defensePlayer.getPenalties() + 1);
-				standings.setTotalPenaltiesInSeason(standings.getTotalPenaltiesInSeason() + 1);
-			}
-			defensePlayer.setSaves(defensePlayer.getSaves() + 1);
-			standings.setTotalSavesInSeason(standings.getTotalSavesInSeason() + 1);
-		}
-	}
-
-	private void secondTeamMakeAShot(String team) {
-
-		standings.setTotalShotsInSeason(standings.getTotalShotsInSeason() + 1);
-		double rand1 = Math.random();
-		double rand2 = Math.random();
-		double randomPenalty = Math.random();
-
-		Collections.shuffle(secondTeamForwardsOnIce);
-		Player forwardPlayer = secondTeamForwardsOnIce.get(0);
-
-		Collections.shuffle(firstTeamDefenseMenOnIce);
-		Player defensePlayer = firstTeamDefenseMenOnIce.get(0);
-
-		Collections.shuffle(firstTeamGoaliesOnIce);
-		Player goalie = firstTeamGoaliesOnIce.get(0);
-
-		if (forwardPlayer.getShooting() * rand1 > (defensePlayer.getChecking() * rand2 + goalie.getSaving() * rand2)
-				+ shootingValueToGoal) {
-			forwardPlayer.setGoals(forwardPlayer.getGoals() + 1);
-			standings.setTotalGoalsInSeason(standings.getTotalGoalsInSeason() + 1);
-			int goals = teamGoals.get(team);
-			teamGoals.put(team, goals + 1);
-		} else if (goalie.getSaving() * rand1 > forwardPlayer.getShooting() * rand2) {
-			goalie.setSaves(goalie.getSaves() + 1);
-			standings.setTotalSavesInSeason(standings.getTotalSavesInSeason() + 1);
-		} else {
-			if (randomPenalty < penaltyChance && defensePlayer.getChecking() > checkingValueToPenalty) {
-				defensePlayer.setPenalties(defensePlayer.getPenalties() + 1);
-				standings.setTotalPenaltiesInSeason(standings.getTotalPenaltiesInSeason() + 1);
-			}
-			defensePlayer.setSaves(defensePlayer.getSaves() + 1);
-			standings.setTotalSavesInSeason(standings.getTotalSavesInSeason() + 1);
-		}
-	}
-
-	private void initializeTeamPlayers(String firstTeam, String secondTeam) {
-		List<Conference> conferenceList = leagueToSimulate.getConferenceList();
-		for (Conference conference : conferenceList) {
-			List<Division> divisionList = conference.getDivisionList();
-			for (Division division : divisionList) {
-				List<Team> teamList = division.getTeamList();
-				for (Team team : teamList) {
-					String teamName = team.getTeamName();
-
-					if (teamName.equals(firstTeam)) {
-						List<Player> playerList = team.getPlayerList();
-						initializeFirstTeamPlayers(playerList);
-					}
-
-					if (teamName.equals(secondTeam)) {
-						List<Player> playerList = team.getPlayerList();
-						initializeSecondTeamPlayers(playerList);
-					}
-				}
-			}
-		}
-	}
-
-	private void initializeFirstTeamPlayers(List<Player> playerList) {
-		for (Player player : playerList) {
-
-			if (player.getPosition().equals(GeneralConstants.FORWARD.toString())) {
-				firstTeamForwards.add(player);
-				firstTeamSkatingTotal += player.getSkating();
-			}
-			if (player.getPosition().equals(GeneralConstants.GOALIE.toString())) {
-				firstTeamGoalies.add(player);
-				firstTeamSkatingTotal += player.getSkating();
-			}
-			if (player.getPosition().equals(GeneralConstants.DEFENSE.toString())) {
-				firstTeamDefenseMen.add(player);
-				firstTeamSkatingTotal += player.getSkating();
-			}
-		}
-	}
-
-	private void initializeSecondTeamPlayers(List<Player> playerList) {
-		for (Player player : playerList) {
-			if (player.getPosition().equals(GeneralConstants.FORWARD.toString())) {
-				secondTeamForwards.add(player);
-				secondTeamSkatingTotal += player.getSkating();
-			}
-			if (player.getPosition().equals(GeneralConstants.GOALIE.toString())) {
-				secondTeamGoalies.add(player);
-				secondTeamSkatingTotal += player.getSkating();
-			}
-			if (player.getPosition().equals(GeneralConstants.DEFENSE.toString())) {
-				secondTeamDefenseMen.add(player);
-				secondTeamSkatingTotal += player.getSkating();
-			}
-		}
-	}
-
-	private void setFirstTeamPlayersOnIce() {
-		for (int i = 0; i < 3; i++) {
-			Collections.shuffle(firstTeamForwards);
-			if (firstTeamForwards.size() > 0) {
-				firstTeamForwardsOnIce.add(firstTeamForwards.get(0));
-			}
-		}
-
-		for (int i = 0; i < 2; i++) {
-			Collections.shuffle(firstTeamDefenseMen);
-			if (firstTeamDefenseMen.size() > 0) {
-				firstTeamDefenseMenOnIce.add(firstTeamDefenseMen.get(0));
-			}
-		}
-	}
-
-	private void setSecondTeamPlayersOnIce() {
-		for (int i = 0; i < 3; i++) {
-			Collections.shuffle(secondTeamForwards);
-			if (secondTeamForwards.size() > 0) {
-				secondTeamForwardsOnIce.add(secondTeamForwards.get(0));
-			}
-		}
-
-		for (int i = 0; i < 2; i++) {
-			Collections.shuffle(secondTeamDefenseMen);
-			if (secondTeamDefenseMen.size() > 0) {
-				secondTeamDefenseMenOnIce.add(secondTeamDefenseMen.get(0));
-			}
-		}
-	}
-
-	private void generateNextRoundSchedule(String winningTeam, String losingTeam) {
-
-		List<String> teams = schedule.getTeamsToBeScheduled();
-		teams.add(winningTeam);
-		schedule.setTeamsToBeScheduled(teams);
-
-		List<String> teamsScheduled = schedule.getTeamsScheduled();
-		teamsScheduled.remove(winningTeam);
-		teamsScheduled.remove(losingTeam);
-		schedule.setTeamsScheduled(teamsScheduled);
-
-		if (schedule.getTeamsScheduled().isEmpty()) {
-			if (schedule.getTeamsToBeScheduled().size() < 2) {
-				utility.setSeasonOverStatus(true);
-				utility.setSeasonWinner(schedule.getTeamsToBeScheduled().get(0));
-				utility.setLastSeasonDay(this.currentDate);
-			} else {
-				schedule.generateScheduleOnTheFly(schedule.getTeamsToBeScheduled(), this.currentDate);
-				List<String> teamsAlreadyScheduled = new ArrayList<String>(schedule.getTeamsToBeScheduled());
-				schedule.setTeamsScheduled(teamsAlreadyScheduled);
-				List<String> clearTeams = new ArrayList<>();
-				schedule.setTeamsToBeScheduled(clearTeams);
-			}
-		}
-	}
-
-	private void resetGoals(String firstTeam, String secondTeam) {
-		teamGoals.put(firstTeam, 0);
-		teamGoals.put(secondTeam, 0);
-	}
-
 	public boolean shouldContinue() {
 		return true;
 	}
@@ -462,10 +140,6 @@ public class SimulateGameState implements ISimulationState {
 
 	public String getNextStateName() {
 		return this.nextStateName;
-	}
-
-	public Map<String, Integer> getTeamGoals() {
-		return teamGoals;
 	}
 
 }

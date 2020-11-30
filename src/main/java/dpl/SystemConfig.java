@@ -18,7 +18,6 @@ import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStateMachineAbstractFactory;
 import dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine.ISimulationStateMachineAbstractFactory;
 import dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine.SimulationStateMachineAbstractFactory;
-//import dpl.LeagueSimulationManagement.TrophySystem.TrophySystemAbstractFactory;
 import dpl.LeagueSimulationManagement.TrophySystem.ITrophySystemAbstractFactory;
 import dpl.LeagueSimulationManagement.TrophySystem.TrophySystemAbstractFactory;
 import dpl.LeagueSimulationManagement.UserInputOutput.Parser.IParserAbstractFactory;
@@ -120,9 +119,11 @@ public class SystemConfig {
         return userOutputAbstractFactory;
     }
 
+
     public ITrophySystemAbstractFactory getTrophySystemAbstractFactory() {
         return trophySystemAbstractFactory;
     }
+
 
     public ISerializeDeserializeAbstractFactory getSerializeDeserializeAbstractFactory() {
         return serializeDeserializeAbstractFactory;

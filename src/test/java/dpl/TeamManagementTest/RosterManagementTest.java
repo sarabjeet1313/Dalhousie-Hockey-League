@@ -3,7 +3,6 @@ package dpl.TeamManagementTest;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IRosterManagement;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManagementAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.RosterManagement;
 import dpl.SystemConfig;
 import org.junit.Assert;
 import org.junit.Test;
@@ -14,6 +13,7 @@ public class RosterManagementTest {
             .getTeamManagementAbstractFactory();
     League leagueData = new LeagueObjectTestData().getLeagueData();
     IRosterManagement irm = teamManagement.RosterManagement();
+    
     @Test
     public void checkRosterTest(){
         Assert.assertEquals(Boolean.FALSE, irm.checkRoster("Boston",leagueData));
@@ -29,5 +29,11 @@ public class RosterManagementTest {
     public void updateLeagueActiveStatusTest(){
         Assert.assertEquals("Dalhousie Hockey League", irm.updateLeagueActiveStatus(leagueData).getLeagueName());
     }
+
+    @Test
+    public void balanceOutRoster(){
+        Assert.assertEquals(1, 1);
+    }
+
 }
 

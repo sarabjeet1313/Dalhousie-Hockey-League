@@ -1,14 +1,14 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine;
 
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import dpl.SystemConfig;
-import dpl.DplConstants.InitializeLeaguesConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.GameplayConfig;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.IGameplayConfigPersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.InitializeModels.InitializeLeaguesConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Coach;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Conference;
@@ -35,6 +35,7 @@ public class LoadTeamState implements IState {
 	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
 			.getTeamManagementAbstractFactory();
 	private ISimulationStateMachineAbstractFactory simulationStateMachineAbstractFactory;
+	private static final Logger log = Logger.getLogger(LoadTeamState.class.getName());
 
 	public LoadTeamState(IUserInput input, IUserOutput output, ILeaguePersistance leagueDb,
 			IGameplayConfigPersistance configDb, ITradePersistence tradeDb, IStandingsPersistance standingsDb) {
@@ -45,12 +46,14 @@ public class LoadTeamState implements IState {
 		this.configDb = configDb;
 		this.tradeDb = tradeDb;
 		this.standingsDb = standingsDb;
-		this.simulationStateMachineAbstractFactory = SystemConfig.getSingleInstance().getSimulationStateMachineAbstractFactory();
+		this.simulationStateMachineAbstractFactory = SystemConfig.getSingleInstance()
+				.getSimulationStateMachineAbstractFactory();
 	}
 
 	public void nextState(StateContext context) {
 		this.nextStateName = "Simulate";
-		context.setState(this.simulationStateMachineAbstractFactory.SimulateState(input, output, teamName, leagueToSimulate, tradeDb, standingsDb));
+		context.setState(this.simulationStateMachineAbstractFactory.SimulateState(input, output, teamName,
+				leagueToSimulate, tradeDb, standingsDb));
 	}
 
 	public void doProcessing() {
@@ -65,8 +68,8 @@ public class LoadTeamState implements IState {
 		List<Coach> coaches = null;
 		List<Manager> managers = new ArrayList<Manager>();
 		GameplayConfig config = new GameplayConfig(configDb);
-		leagueToSimulate = teamManagement.LeagueWithDbParameters(InitializeLeaguesConstants.TEST_LEAGUE.toString(), conferencesList, freeAgents,
-				coaches, managers, config, leagueDb);
+		leagueToSimulate = teamManagement.LeagueWithDbParameters(InitializeLeaguesConstants.TEST_LEAGUE.toString(),
+				conferencesList, freeAgents, coaches, managers, config, leagueDb);
 		try {
 			leagueToSimulate = leagueToSimulate.loadLeague(teamName);
 			config = config.loadGameplayConfig(leagueToSimulate);
@@ -76,14 +79,11 @@ public class LoadTeamState implements IState {
 				output.setOutput("League has been initialized for the team: " + teamName);
 				output.sendOutput();
 			}
-		} catch (SQLException e) {
-			output.setOutput(e.getMessage());
-			output.sendOutput();
-		} catch (IOException e) {
+		} catch (Exception e) {
+			log.log(Level.SEVERE, e.getMessage());
 			output.setOutput(e.getMessage());
 			output.sendOutput();
 		}
-
 	}
 
 	public String getStateName() {

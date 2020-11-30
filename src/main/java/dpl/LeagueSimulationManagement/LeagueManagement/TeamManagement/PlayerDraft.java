@@ -3,19 +3,25 @@ package dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITrade;
+import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradingAbstractFactory;
 import dpl.SystemConfig;
-import dpl.DplConstants.PlayerConstants;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Conference;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Division;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
 
 public class PlayerDraft implements IPlayerDraft {
-	
+
 	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
 			.getTeamManagementAbstractFactory();
+	private ITradingAbstractFactory tradingFactory = SystemConfig.getSingleInstance()
+			.getTradingAbstractFactory();
+
+	private static final Logger log = Logger.getLogger(PlayerDraft.class.getName());
+	public final String GENERATE_DRAFT_PLAYER = "Generating playes for drafting";
+	public final String CHECK_DRAFT_TRADING = "Check the posibility of drafting for trading";
+	public final String START_DRAFTING = "Drafting Started Round : ";
+	public final String NORMALIZE_DRAFT_PLAYERS = "Resolving the drafted players. Normalizing the Team players to 30";
 
 	@Override
 	public List<Team> generateDraftingTeams(List<String> teamList, League league) {
@@ -62,6 +68,7 @@ public class PlayerDraft implements IPlayerDraft {
 			}
 			playerList.add(generatePlayerStat(position, index + 1));
 		}
+		log.log(Level.INFO, GENERATE_DRAFT_PLAYER);
 		return playerList;
 	}
 
@@ -116,15 +123,18 @@ public class PlayerDraft implements IPlayerDraft {
 		day = new Random().nextInt(29) + 1;
 		month = new Random().nextInt(12) + 1;
 		year = new Random().nextInt(2) + 1998;
-		Player player = teamManagement.PlayerWithParameters("Player " + count, playerType, Boolean.FALSE, 2020 - year, skating, shooting,
-				checking, saving, Boolean.FALSE, Boolean.FALSE, 0, Boolean.FALSE, day, month, year);
+		Player player = teamManagement.PlayerWithParameters("Player " + count, playerType, Boolean.FALSE, 2020 - year,
+				skating, shooting, checking, saving, Boolean.FALSE, Boolean.FALSE, 0, Boolean.FALSE, day, month, year,
+				Boolean.TRUE);
 		return player;
 	}
 
-	public List<Team> startRoundDraft(List<Team> teamList, List<Player> playerList) {
-		List<Team> tempTeamList = new ArrayList<>();
+	@Override
+	public List<Team> startRoundDraft(List<Team> teamList, List<Player> playerList, League league) {
+		ITrade trade = tradingFactory.Trade();
 		int pIndex = 0;
 		for (int index = 0; index < 7; index++) {
+			log.log(Level.INFO, START_DRAFTING + (index+1));
 			for (int tIndex = 0; tIndex < teamList.size(); tIndex++) {
 				if (playerList.size() > 0) {
 					List<Player> tempList = teamList.get(tIndex).getPlayerList();
@@ -133,6 +143,7 @@ public class PlayerDraft implements IPlayerDraft {
 					teamList.get(tIndex).setPlayerList(tempList);
 				}
 			}
+			teamList = trade.startTradeDraftPick(league, teamList);
 		}
 		return teamList;
 	}
@@ -142,6 +153,12 @@ public class PlayerDraft implements IPlayerDraft {
 		List<Conference> conferenceList = league.getConferenceList();
 		List<Division> divisionList = null;
 		List<Team> teamObjList = null;
+		if(teamList.size() == 0) {
+			return league;
+		}
+		if(teamList.get(0).getPlayerList().size() < 30) {
+			return league;
+		}
 
 		for (int index = 0; index < conferenceList.size(); index++) {
 			divisionList = conferenceList.get(index).getDivisionList();
@@ -160,6 +177,7 @@ public class PlayerDraft implements IPlayerDraft {
 			}
 		}
 		league.getFreeAgents().addAll(extraPlayerList);
+		log.log(Level.INFO, NORMALIZE_DRAFT_PLAYERS);
 		return league;
 	}
 
@@ -170,7 +188,7 @@ public class PlayerDraft implements IPlayerDraft {
 		int forwordCount = 16;
 		int defenceCount = 10;
 		int goalieCount = 4;
-		for(int index = 0; index < playerList.size(); index++){
+		for (int index = 0; index < playerList.size(); index++) {
 			Player player = playerList.get(index);
 			if (player.isInjured() == Boolean.FALSE && forwordCount > 0 && defenceCount > 0 && goalieCount > 0) {
 				if (player.getPosition().equals(PlayerConstants.FORWARD.toString())) {
@@ -186,18 +204,18 @@ public class PlayerDraft implements IPlayerDraft {
 			}
 		}
 		playerList.removeAll(tempList);
-		for(int index = 0; index < playerList.size(); index++){
+		for (int index = 0; index < playerList.size(); index++) {
 			Player player = playerList.get(index);
-			if((forwordCount + defenceCount + goalieCount) == 0) {
+			if ((forwordCount + defenceCount + goalieCount) == 0) {
 				break;
 			}
-			if(forwordCount > 0 && player.getPosition().equals(PlayerConstants.FORWARD.toString())) {
+			if (forwordCount > 0 && player.getPosition().equals(PlayerConstants.FORWARD.toString())) {
 				tempList1.add(player);
 				forwordCount = forwordCount - 1;
-			} else if(defenceCount > 0 && player.getPosition().equals(PlayerConstants.DEFENCE.toString())) {
+			} else if (defenceCount > 0 && player.getPosition().equals(PlayerConstants.DEFENCE.toString())) {
 				tempList1.add(player);
 				defenceCount = defenceCount - 1;
-			} else if(goalieCount > 0 && player.getPosition().equals(PlayerConstants.GOALIE.toString())) {
+			} else if (goalieCount > 0 && player.getPosition().equals(PlayerConstants.GOALIE.toString())) {
 				tempList1.add(player);
 				goalieCount = goalieCount - 1;
 			}
