@@ -84,7 +84,6 @@ public class LoadTeamState implements IState {
 			output.setOutput(e.getMessage());
 			output.sendOutput();
 		}
-
 	}
 
 	public String getStateName() {

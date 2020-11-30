@@ -56,7 +56,7 @@ public class Manager {
 		return isSaved;
 	}
 
-	public String getMangerPersonalityByTeam(String teamName, League league){
+	public String getMangerPersonalityByTeam(String teamName, League league) {
 		String currentTeamName;
 		String  personalityType = ManagerConstants.NORMAL.toString();
 		List<Conference> conferenceList = league.getConferenceList();
