@@ -1,5 +1,7 @@
 package dpl.TradingTest;
 
+import dpl.LeagueSimulationManagement.LeagueManagement.Standings.Standing;
+import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.SystemConfig;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.*;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.*;
@@ -123,14 +125,14 @@ public class TradeObjectTestMockData implements ITradePersistence {
     }
 
     @Override
-    public List<String> getEligibleTeamName(int lossPoints) {
+    public List<String> getEligibleTeamName(int lossPoints, League league, StandingInfo standingInfo) {
         List<String> eligibleTradeTeam = new ArrayList<>();
         eligibleTradeTeam.add("Boston");
         return eligibleTradeTeam;
     }
 
     @Override
-    public boolean resetTradeLossPoint(String teamName) {
+    public boolean resetTradeLossPoint(String teamName, StandingInfo standingInfo) {
         return Boolean.FALSE;
     }
 }

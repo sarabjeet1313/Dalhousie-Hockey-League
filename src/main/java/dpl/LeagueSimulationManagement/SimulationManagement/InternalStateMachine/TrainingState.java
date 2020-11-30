@@ -1,6 +1,6 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
-import dpl.Database.TradeDataDB;
+import dpl.LeagueSimulationManagement.LeagueManagement.Trading.TradeUtility;
 import dpl.DplConstants.StateConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Training;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
@@ -54,7 +54,7 @@ public class TrainingState implements ISimulationState {
 		this.season = season;
 		this.standingsDb = standingsDb;
 		this.standings = standings;
-		this.tradeDb = new TradeDataDB();
+		this.tradeDb = new TradeUtility();
 		this.trade = new Trade(tradeDb);
 		this.injury = new InjuryManagement();
 	}

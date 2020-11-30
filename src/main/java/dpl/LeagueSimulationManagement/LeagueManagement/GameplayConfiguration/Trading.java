@@ -11,6 +11,10 @@ public class Trading {
 	@Expose (serialize = true, deserialize = true) double randomAcceptanceChance;
     @Expose (serialize = true, deserialize = true) HashMap<String , Double> gmTable;
 
+    public Trading(){
+        super();
+    }
+
     public Trading(int lossPoint, double randomTradeOfferChance, int maxPlayersPerTrade,
                    double randomAcceptanceChance , HashMap<String, Double> gmtable) {
         this.lossPoint = lossPoint;

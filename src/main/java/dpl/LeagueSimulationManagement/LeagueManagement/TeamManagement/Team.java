@@ -132,7 +132,7 @@ public class Team implements ITeamInfo {
         List<Conference> conferenceL = league.getConferenceList();
         List<Division> divisionL;
         List<Team> teamL;
-        List<String> allTeamNameList = new ArrayList<String>();
+        List<String> allTeamNameList = new ArrayList<>();
 
         for (int cIndex = 0; cIndex < conferenceL.size(); cIndex++) {
             divisionL = conferenceL.get(cIndex).getDivisionList();
@@ -188,7 +188,6 @@ public class Team implements ITeamInfo {
         Team team = null;
         List<Player> playerList = getPlayersByTeam(teamName, league);
         List<Player> activePlayers = new ArrayList<>();
-        //List<Player> goalieList = new ArrayList<>();
         for (Player teamPlayer : playerList) {
             if (teamPlayer.isActive()) {
                 activePlayers.add(teamPlayer);

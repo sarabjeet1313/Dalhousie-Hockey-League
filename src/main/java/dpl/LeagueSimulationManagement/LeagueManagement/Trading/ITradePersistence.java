@@ -1,11 +1,13 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.Trading;
 
-import java.sql.SQLException;
+import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
+
 import java.util.List;
 
 public interface ITradePersistence {
 
-    public List<String> getEligibleTeamName(int lossPoints) throws SQLException;
+    public List<String> getEligibleTeamName(int lossPoints, League league, StandingInfo standing);
 
-    public boolean resetTradeLossPoint(String teamName) throws SQLException;
+    public boolean resetTradeLossPoint(String teamName, StandingInfo standingInfo);
 }

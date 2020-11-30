@@ -1,6 +1,7 @@
 package dpl;
 
-import dpl.Database.TradeDataDB;
+import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradingAbstractFactory;
+import dpl.LeagueSimulationManagement.LeagueManagement.Trading.TradeUtility;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.IGameplayConfigPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ICoachPersistance;
@@ -23,7 +24,7 @@ public class App {
         ICoachPersistance coachDb = config.getSerializeDeserializeAbstractFactory().CoachSerializationDeserialization();
         IGameplayConfigPersistance configDb = config.getSerializeDeserializeAbstractFactory().GameplayConfigSerializationDeserialization();
         IManagerPersistance managerDb = config.getSerializeDeserializeAbstractFactory().ManagerSerializationDeserialization();
-        ITradePersistence tradeDb = new TradeDataDB();
+        ITradePersistence tradeDb = new TradeUtility();
         IStandingsPersistance standingDb = config.getSerializeDeserializeAbstractFactory().StandingSerializationDeserialization();
         StateContext context = new StateContext(input, output);
         context.setState(config.getSimulationStateMachineAbstractFactory().InitialState(input, output));

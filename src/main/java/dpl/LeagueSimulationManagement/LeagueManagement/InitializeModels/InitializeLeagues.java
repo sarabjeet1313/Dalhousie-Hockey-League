@@ -636,9 +636,10 @@ public class InitializeLeagues implements IInitializeLeagues {
 			}
 
 			JsonObject gmTableObject = tradingObj.get(GameConfigConstants.GMTABLE.toString()).getAsJsonObject();
-			HashMap<String, Double> gmTable = new HashMap<>();
-			gmTableObject.keySet().forEach(keyStr -> {
-				gmTable.put(keyStr, gmTable.get(keyStr));
+			HashMap<String,Double> gmTable = new HashMap<>();
+			gmTableObject.keySet().forEach(keyStr ->
+			{
+				gmTable.put(keyStr, gmTableObject.get(keyStr).getAsDouble());
 			});
 			trading = new Trading(lossPoint, randomTradeOfferChance, maxPlayersPerTrade, randomAcceptanceChance,
 					gmTable);
