@@ -412,9 +412,7 @@ public class Trade implements ITrade {
 			if(doWantToTradeDraftPick(index)){
 				currentTeamName = teamList.get(index).getTeamName();
 				currentPlayerList = teamInfo.getPlayersByTeam(currentTeamName, league);
-				log.log(Level.INFO,"index "+index);
 				pickToTradeFor = pickToTradeFor(index);
-				log.log(Level.INFO,"pick "+pickToTradeFor);
 				if(pickToTradeFor < 10){
 					playerToTrade = getStrongestPlayer(currentPlayerList);
 				}else{
