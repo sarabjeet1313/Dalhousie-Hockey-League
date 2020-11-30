@@ -1,19 +1,6 @@
 package dpl.InternalStateMachineTest;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import java.util.Calendar;
-
-import org.junit.Before;
-import org.junit.Test;
-
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
-import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.RegularSeasonSchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
@@ -21,16 +8,21 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IInjuryMan
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ILeaguePersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IRetirementManagement;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.PlayerDraft;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStateContext;
-import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.PersistState;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.PlayerDraftState;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.StandingsTest.StandingsMockDb;
+import dpl.SystemConfig;
 import dpl.TeamManagementTest.LeagueMockData;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.util.Calendar;
+
+import static org.junit.Assert.*;
 
 public class PlayerDraftTest {
 
@@ -50,17 +42,17 @@ public class PlayerDraftTest {
     
     @Before
     public void setUp() throws Exception {
-        league = new LeagueMockData();
-        leagueToSimulate = new LeagueMockData().getTestData();
-        input = new CmdUserInput();
-        output = new CmdUserOutput();
+        league = LeagueMockData.getInstance();
+        leagueToSimulate = LeagueMockData.getInstance().getTestData();
+        input = SystemConfig.getSingleInstance().getUserInputAbstractFactory().CmdUserInput();
+        output = SystemConfig.getSingleInstance().getUserOutputAbstractFactory().CmdUserOutput();
         calendar = Calendar.getInstance();
-        standingsDb = new StandingsMockDb(0);
-        schedule = new RegularSeasonSchedule(calendar, output);
-        standings = new StandingInfo(leagueToSimulate, 0, standingsDb, output);
-        context = new InternalStateContext(input, output);
-        utility = new SeasonCalendar(0, output);
-        state = new PlayerDraftState(leagueToSimulate, schedule, standingsDb , standings, injury, retirement, context, utility, "13-11-2020", "", 0, output);
+        standingsDb = StandingsMockDb.getInstance();
+        schedule = SystemConfig.getSingleInstance().getScheduleAbstractFactory().RegularSeasonSchedule(calendar, output);
+        standings = SystemConfig.getSingleInstance().getStandingsAbstractFactory().StandingInfo(leagueToSimulate, 0, standingsDb, output);
+        context = SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory().InternalStateContext(input, output);
+        utility = SystemConfig.getSingleInstance().getScheduleAbstractFactory().SeasonCalendar(0, output);
+        state = (PlayerDraftState) SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory().PlayerDraftState(leagueToSimulate, schedule, standingsDb , standings, injury, retirement, context, utility, "13-11-2020", "", 0, output);
     }
 
     @Test

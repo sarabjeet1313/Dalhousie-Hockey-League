@@ -1,6 +1,7 @@
 package dpl.StandingsTest;
 
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.Standing;
+import dpl.SystemConfig;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,15 +13,15 @@ public class StandingTest {
 
     @Before
     public void setUp() throws Exception {
-        standing = new Standing();
-        standingsMock = new StandingsMockDb(1);
+        standing = SystemConfig.getSingleInstance().getStandingsAbstractFactory().Standing();
+        standingsMock = StandingsMockDb.getInstance();
         standing.setSeason(1);
         standing.setStandings(standingsMock.getTeamStandings());
     }
 
     @Test
     public void standingTest() {
-        Standing standing = new Standing();
+        Standing standing = SystemConfig.getSingleInstance().getStandingsAbstractFactory().Standing();
         assertTrue(standing instanceof Standing);
     }
 

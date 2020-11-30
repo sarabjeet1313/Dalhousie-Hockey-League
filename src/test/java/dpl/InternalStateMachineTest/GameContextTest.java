@@ -1,15 +1,13 @@
 package dpl.InternalStateMachineTest;
 
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
-import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.RegularSeasonSchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.GameContext;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.ISimulateMatch;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.SimulatePlayoffSeasonMatch;
-import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.SimulateRegularSeasonMatch;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.ScheduleTest.MockSchedule;
+import dpl.SystemConfig;
 import dpl.TeamManagementTest.LeagueMockData;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,14 +28,14 @@ public class GameContextTest {
 
     @Before
     public void setUp() throws Exception {
-        output = new CmdUserOutput();
-        context = new GameContext(match);
-        mockSchedule = new MockSchedule();
-        leagueToSimulate = new LeagueMockData().getTestData();
+        output = SystemConfig.getSingleInstance().getUserOutputAbstractFactory().CmdUserOutput();
+        context = SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory().GameContext(match);
+        mockSchedule = MockSchedule.getInstance();
+        leagueToSimulate = LeagueMockData.getInstance().getTestData();
         calendar = Calendar.getInstance();
-        schedule = new RegularSeasonSchedule(calendar, output);
+        schedule = SystemConfig.getSingleInstance().getScheduleAbstractFactory().RegularSeasonSchedule(calendar, output);
         schedule.setFinalSchedule(mockSchedule.getMockSchedule());
-        match = new SimulateRegularSeasonMatch("13-11-2020", schedule, output, leagueToSimulate, null);
+        match = SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory().SimulateRegularSeasonMatch("13-11-2020", schedule, output, leagueToSimulate, null);
     }
 
     @Test

@@ -3,10 +3,9 @@ package dpl.InternalStateMachineTest;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.AdvanceTimeState;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStateContext;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+import dpl.SystemConfig;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,11 +20,11 @@ public class AdvanceTimeStateTest {
 
     @Before
     public void setUp() throws Exception {
-        input = new CmdUserInput();
-        output = new CmdUserOutput();
-        utility = new SeasonCalendar(0, output);
-        context = new InternalStateContext(input, output);
-        state = new AdvanceTimeState(null, null, utility, null, null, "02-04-2021", "03-04-2021", output, context, 0);
+        input = SystemConfig.getSingleInstance().getUserInputAbstractFactory().CmdUserInput();
+        output = SystemConfig.getSingleInstance().getUserOutputAbstractFactory().CmdUserOutput();
+        utility = SystemConfig.getSingleInstance().getScheduleAbstractFactory().SeasonCalendar(0, output);
+        context = SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory().InternalStateContext(input, output);
+        state = (AdvanceTimeState)SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory().AdvanceTimeState(null, null, utility, null, null, "02-04-2021", "03-04-2021", output, context, 0);
     }
 
     @Test

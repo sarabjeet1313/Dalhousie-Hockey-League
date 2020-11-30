@@ -8,6 +8,7 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.StandingsTest.StandingsMockDb;
+import dpl.SystemConfig;
 import dpl.TeamManagementTest.LeagueMockData;
 import org.junit.Before;
 import org.junit.Test;
@@ -26,11 +27,11 @@ public class ScheduleAbstractFactoryTest {
 
     @Before
     public void setUp() throws Exception {
-        factory = new ScheduleAbstractFactory();
-        output = new CmdUserOutput();
-        standingsDb = new StandingsMockDb(0);
-        leagueToSimulate = new LeagueMockData().getTestData();
-        standings = new StandingInfo(leagueToSimulate, 0, standingsDb, output);
+        factory = SystemConfig.getSingleInstance().getScheduleAbstractFactory();
+        output = SystemConfig.getSingleInstance().getUserOutputAbstractFactory().CmdUserOutput();
+        standingsDb = StandingsMockDb.getInstance();
+        leagueToSimulate = LeagueMockData.getInstance().getTestData();
+        standings = SystemConfig.getSingleInstance().getStandingsAbstractFactory().StandingInfo(leagueToSimulate, 0, standingsDb, output);
     }
 
     @Test

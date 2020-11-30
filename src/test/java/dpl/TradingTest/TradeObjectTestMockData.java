@@ -18,6 +18,7 @@ import java.util.List;
 
 public class TradeObjectTestMockData implements ITradePersistence {
 
+    private static TradeObjectTestMockData instance;
 	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
 			.getTeamManagementAbstractFactory();
     private Player player1 = teamManagement.PlayerWithParameters("Player One", "forward", true, 1, 1, 1, 1, 1, false, false, 0,false, 23, 3, 1999, Boolean.FALSE);
@@ -49,6 +50,13 @@ public class TradeObjectTestMockData implements ITradePersistence {
     Coach coach2 = teamManagement.CoachWithDbParameters("Coach Two", 0.1, 0.2, 0.1, 0.1, coachMock);
     Coach coach3 = teamManagement.CoachWithDbParameters("Coach Three", 0.1, 0.2, 0.1, 0.1, coachMock);
     Coach headCoach = teamManagement.CoachWithDbParameters("Mary Smith", 0.2, 0.3, 0.1, 0.4, coachMock);
+
+    public static TradeObjectTestMockData getInstance() {
+        if(null == instance) {
+           instance = new TradeObjectTestMockData();
+        }
+        return instance;
+    }
 
     public League getLeagueData() {
         playerList.add(player1);

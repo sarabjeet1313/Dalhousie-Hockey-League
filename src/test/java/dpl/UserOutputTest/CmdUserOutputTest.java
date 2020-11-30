@@ -2,6 +2,7 @@ package dpl.UserOutputTest;
 
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+import dpl.SystemConfig;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -15,7 +16,7 @@ public class CmdUserOutputTest {
 
     @Before
     public void setUpClass() throws Exception {
-        cmdOutput = new CmdUserOutput();
+        cmdOutput = SystemConfig.getSingleInstance().getUserOutputAbstractFactory().CmdUserOutput();
     }
 
     @Test

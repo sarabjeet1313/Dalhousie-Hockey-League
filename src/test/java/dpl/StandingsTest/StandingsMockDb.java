@@ -1,20 +1,30 @@
 package dpl.StandingsTest;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.Standing;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.TeamStanding;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class StandingsMockDb implements IStandingsPersistance {
+
+    private static StandingsMockDb instance;
     private int season;
     private Map<String, Integer> standingsTeamWin;
     private Map<String, Integer> standingsTeamLoss;
     private List<StandingsMock> standings;
     private List<TeamStanding> teamStandings;
     private Map<String, Integer> teamWinMap;
+
+    public static StandingsMockDb getInstance() {
+        if (instance == null) {
+            instance = new StandingsMockDb(0);
+        }
+        return instance;
+    }
 
     public StandingsMockDb(int season) {
         this.season = season;
@@ -28,9 +38,9 @@ public class StandingsMockDb implements IStandingsPersistance {
         standingsTeamWin.put("Boston", 0);
         standingsTeamLoss.put("Boston", 3);
         standingsTeamLoss.put("Halifax", 0);
-        StandingsMock standing1 = new StandingsMock(season, "Dal Hockey League", "Eastern Conference", "Atlantic", "Boston");
-        StandingsMock standing2 = new StandingsMock(season, "Dal Hockey League", "Eastern Conference", "Atlantic", "Halifax");
-        StandingsMock standing3 = new StandingsMock(season, "Dal Hockey League", "Eastern Conference", "Pacific", "Toronto");
+        StandingsMock standing1 = StandingsMock.getInstance(season, "Dal Hockey League", "Eastern Conference", "Atlantic", "Boston");
+        StandingsMock standing2 = StandingsMock.getInstance(season, "Dal Hockey League", "Eastern Conference", "Atlantic", "Halifax");
+        StandingsMock standing3 = StandingsMock.getInstance(season, "Dal Hockey League", "Eastern Conference", "Pacific", "Toronto");
         standings.add(standing1);
         standings.add(standing2);
 

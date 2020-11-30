@@ -1,7 +1,6 @@
 package dpl.InternalStateMachineTest;
 
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
-import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.RegularSeasonSchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
@@ -9,11 +8,10 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ILeaguePer
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStateContext;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.PersistState;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.StandingsTest.StandingsMockDb;
+import dpl.SystemConfig;
 import dpl.TeamManagementTest.LeagueMockData;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,17 +39,17 @@ public class PersistStateTest {
 
     @Before
     public void setUp() throws Exception {
-        league = new LeagueMockData();
-        leagueToSimulate = new LeagueMockData().getTestData();
-        input = new CmdUserInput();
-        output = new CmdUserOutput();
+        league = LeagueMockData.getInstance();
+        leagueToSimulate = LeagueMockData.getInstance().getTestData();
+        input = SystemConfig.getSingleInstance().getUserInputAbstractFactory().CmdUserInput();
+        output = SystemConfig.getSingleInstance().getUserOutputAbstractFactory().CmdUserOutput();
         calendar = Calendar.getInstance();
-        standingsDb = new StandingsMockDb(0);
-        schedule = new RegularSeasonSchedule(calendar, output);
-        standings = new StandingInfo(leagueToSimulate, 0, standingsDb, output);
-        context = new InternalStateContext(input, output);
-        utility = new SeasonCalendar(0, output);
-        state = new PersistState(leagueToSimulate, schedule, standingsDb , standings, context, utility, "13-11-2020", "", 0, output);
+        standingsDb = StandingsMockDb.getInstance();
+        schedule = SystemConfig.getSingleInstance().getScheduleAbstractFactory().RegularSeasonSchedule(calendar, output);
+        standings = SystemConfig.getSingleInstance().getStandingsAbstractFactory().StandingInfo(leagueToSimulate, 0, standingsDb, output);
+        context = SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory().InternalStateContext(input, output);
+        utility = SystemConfig.getSingleInstance().getScheduleAbstractFactory().SeasonCalendar(0, output);
+        state = (PersistState) SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory().PersistState(leagueToSimulate, schedule, standingsDb , standings, context, utility, "13-11-2020", "", 0, output);
     }
 
     @Test
