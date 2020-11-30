@@ -15,6 +15,8 @@ public interface IGameplayConfigurationAbstractFactory {
 
 	public Injury Injury(double randomInjuryChance, int injuryDaysLow, int injuryDaysHigh);
 
+	public Trading Trading();
+
 	public Trading Trading(int lossPoint, double randomTradeOfferChance, int maxPlayersPerTrade,
 			double randomAcceptanceChance, HashMap<String, Double> gmTable);
 

@@ -79,7 +79,7 @@ public class PlayerDraftState implements ISimulationState {
         List<String> teamNameList = standings.sortMapDraft();
         List<Team> teamList= playerDraft.generateDraftingTeams(teamNameList, leagueToSimulate);
         List<Player> playerList = playerDraft.generateDraftingPlayers(teamList.size());
-        List<Team> updatedTeamList = playerDraft.startRoundDraft(teamList, playerList);
+        List<Team> updatedTeamList = playerDraft.startRoundDraft(teamList, playerList, leagueToSimulate);
         leagueToSimulate = playerDraft.postDrafting(updatedTeamList, leagueToSimulate);
         
         log.log(Level.INFO, StateConstants.PLAYER_DRAFT);

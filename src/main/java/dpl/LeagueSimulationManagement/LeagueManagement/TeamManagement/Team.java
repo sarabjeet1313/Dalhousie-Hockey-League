@@ -135,7 +135,7 @@ public class Team implements ITeamInfo {
 		List<Conference> conferenceL = league.getConferenceList();
 		List<Division> divisionL;
 		List<Team> teamL;
-		List<String> allTeamNameList = new ArrayList<String>();
+		List<String> allTeamNameList = new ArrayList<>();
 
 		for (int cIndex = 0; cIndex < conferenceL.size(); cIndex++) {
 			divisionL = conferenceL.get(cIndex).getDivisionList();
@@ -208,5 +208,4 @@ public class Team implements ITeamInfo {
 			return Boolean.FALSE;
 		}
 	}
-	
 }

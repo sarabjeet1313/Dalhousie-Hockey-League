@@ -31,6 +31,11 @@ public class GameplayConfigurationAbstractFactory implements IGameplayConfigurat
 	}
 
 	@Override
+	public Trading Trading() {
+		return new Trading();
+	}
+
+	@Override
 	public Trading Trading(int lossPoint, double randomTradeOfferChance, int maxPlayersPerTrade,
 			double randomAcceptanceChance, HashMap<String, Double> gmTable) {
 		return new Trading(lossPoint, randomTradeOfferChance, maxPlayersPerTrade, randomAcceptanceChance, gmTable);

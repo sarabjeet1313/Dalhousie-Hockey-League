@@ -65,6 +65,7 @@ public class Standing {
             for(TeamStanding teamStanding : standings) {
                 if (teamStanding.getTeamName().equals(teamName)) {
                     teamStanding.setLosses(teamStanding.getLosses() + 1);
+                    teamStanding.setTradeLossPoint(teamStanding.getTradeLossPoint() +1);
                 }
             }
         }
@@ -72,6 +73,7 @@ public class Standing {
             TeamStanding teamStanding = SystemConfig.getSingleInstance().getStandingsAbstractFactory().TeamStanding();
             teamStanding.setTeamName(teamName);
             teamStanding.setLosses(1);
+            teamStanding.setTradeLossPoint(1);
             standings.add(teamStanding);
         }
 

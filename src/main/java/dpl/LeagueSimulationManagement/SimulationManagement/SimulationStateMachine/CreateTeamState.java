@@ -15,6 +15,7 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Division;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ICoachPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ILeaguePersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IManagerPersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IRosterManagement;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManagementAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Manager;
@@ -40,6 +41,7 @@ public class CreateTeamState implements IState {
 	private Conference conferences;
 	private Division divisions;
 	private Team teams;
+	private IRosterManagement rosterManagement;
 	private String conferenceName = "";
 	private String divisionName = "";
 	private String teamName = "";
@@ -71,6 +73,7 @@ public class CreateTeamState implements IState {
 		this.standingDb = standingDb;
 		this.initializedLeague = league;
 		this.stateName = "Create Team";
+		this.rosterManagement = teamManagement.RosterManagement();
 		this.conferences = teamManagement.ConferenceWithParameters("", null);
 		this.divisions = teamManagement.DivisionWithParameters("", null);
 		this.teams = teamManagement.TeamWithParameters("", genManager, headCoach, null, Boolean.FALSE);
@@ -433,6 +436,7 @@ public class CreateTeamState implements IState {
 					}
 				}
 			}
+			initializedLeague = rosterManagement.updateLeagueActiveStatus(initializedLeague);
 			isCreated = initializedLeague.createTeam(initializedLeague);
 		} catch (IOException e) {
 			log.log(Level.SEVERE, e.getMessage());

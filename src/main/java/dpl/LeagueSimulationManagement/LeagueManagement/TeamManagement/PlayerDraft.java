@@ -6,12 +6,17 @@ import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITrade;
+import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradingAbstractFactory;
 import dpl.SystemConfig;
 
 public class PlayerDraft implements IPlayerDraft {
 
 	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
 			.getTeamManagementAbstractFactory();
+	private ITradingAbstractFactory tradingFactory = SystemConfig.getSingleInstance()
+			.getTradingAbstractFactory();
+
 	private static final Logger log = Logger.getLogger(PlayerDraft.class.getName());
 	public final String GENERATE_DRAFT_PLAYER = "Generating playes for drafting";
 	public final String CHECK_DRAFT_TRADING = "Check the posibility of drafting for trading";
@@ -124,10 +129,11 @@ public class PlayerDraft implements IPlayerDraft {
 		return player;
 	}
 
-	public List<Team> startRoundDraft(List<Team> teamList, List<Player> playerList) {
+	public List<Team> startRoundDraft(List<Team> teamList, List<Player> playerList, League league) {
+		ITrade trade = tradingFactory.Trade();
 		int pIndex = 0;
 		for (int index = 0; index < 7; index++) {
-			log.log(Level.INFO, START_DRAFTING + index);
+			log.log(Level.INFO, START_DRAFTING + (index+1));
 			for (int tIndex = 0; tIndex < teamList.size(); tIndex++) {
 				if (playerList.size() > 0) {
 					List<Player> tempList = teamList.get(tIndex).getPlayerList();
@@ -136,6 +142,7 @@ public class PlayerDraft implements IPlayerDraft {
 					teamList.get(tIndex).setPlayerList(tempList);
 				}
 			}
+			teamList = trade.startTradeDraftPick(league, teamList);
 		}
 		return teamList;
 	}
