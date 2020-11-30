@@ -1,6 +1,5 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.Standings;
 
-import dpl.Database.InvokeStoredProcedure;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Conference;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Division;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
@@ -9,7 +8,6 @@ import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.SystemConfig;
 
-import java.sql.SQLException;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,16 +23,13 @@ public class StandingInfo {
 	private double totalPenaltiesInSeason;
 	private double totalShotsInSeason;
 	private double totalSavesInSeason;
-	private InvokeStoredProcedure isp;
 	private Map<String, Integer> teamWinMap;
 	private Map<String, Integer> teamLoseMap;
-	private IStandingsPersistance standingsDb;
 	private Standing standing;
 	private static final Logger log = Logger.getLogger(EndOfSeasonState.class.getName());
 
 	public StandingInfo(League leagueToSimulate, int season, IStandingsPersistance standingsDb, IUserOutput output) {
 		this.leagueToSimulate = leagueToSimulate;
-		this.standingsDb = standingsDb;
 		this.standing = SystemConfig.getSingleInstance().getStandingsAbstractFactory().Standing();
 		this.standing.setSeason(season);
 		this.output = output;
@@ -108,7 +103,7 @@ public class StandingInfo {
 		output.sendOutput();
 		output.setOutput("Shots : " + Math.round(totalShots * 100.0) / 100.0);
 		output.sendOutput();
-		output.setOutput("Saves : " + Math.round(totalSaves * 100.0) / 100.0);
+		output.setOutput("Saves : " + Math.round(totalSaves * 100.0) / 100.0 + "\n\n");
 		output.sendOutput();
 	}
 

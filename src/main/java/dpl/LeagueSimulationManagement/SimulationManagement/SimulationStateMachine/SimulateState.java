@@ -42,7 +42,7 @@ public class SimulateState implements IState {
         InternalStateContext stateContext = new InternalStateContext(input, output);
         stateContext.setState(new InternalStartState(input, output, teamName, leagueToSimulate, stateContext, tradeDb, standingsDb));
         stateContext.doProcessing();
-        stateContext.nextState(); // simulation state
+        stateContext.nextState();
         stateContext.doProcessing();
         stateContext.nextState();
         stateContext.doProcessing();

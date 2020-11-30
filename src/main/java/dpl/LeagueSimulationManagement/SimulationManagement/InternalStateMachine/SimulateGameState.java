@@ -1,15 +1,14 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
 import dpl.DplConstants.GeneralConstants;
-import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ScheduleConstants;
-import dpl.LeagueSimulationManagement.SimulationManagement.StateConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
+import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ScheduleConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.*;
 import dpl.LeagueSimulationManagement.NewsSystem.GamePlayedPublisher;
-import dpl.LeagueSimulationManagement.NewsSystem.NewsSubscriber;
+import dpl.LeagueSimulationManagement.SimulationManagement.StateConstants;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.SystemConfig;
 
@@ -105,7 +104,7 @@ public class SimulateGameState implements ISimulationState {
 	}
 
 	static {
-		GamePlayedPublisher.getInstance().subscribe(new NewsSubscriber());
+		GamePlayedPublisher.getInstance().subscribe(SystemConfig.getSingleInstance().getNewsSystemAbstractFactory().NewsSubscriber());
 	}
 
 	public ISimulationState nextState(InternalStateContext context) {
@@ -435,7 +434,7 @@ public class SimulateGameState implements ISimulationState {
 				utility.setLastSeasonDay(this.currentDate);
 			} else {
 				schedule.generateScheduleOnTheFly(schedule.getTeamsToBeScheduled(), this.currentDate);
-				List<String> teamsAlreadyScheduled = new ArrayList<String>(schedule.getTeamsToBeScheduled());
+				List<String> teamsAlreadyScheduled = new ArrayList<>(schedule.getTeamsToBeScheduled());
 				schedule.setTeamsScheduled(teamsAlreadyScheduled);
 				List<String> clearTeams = new ArrayList<>();
 				schedule.setTeamsToBeScheduled(clearTeams);

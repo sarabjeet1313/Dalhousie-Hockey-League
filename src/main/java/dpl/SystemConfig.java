@@ -12,6 +12,8 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManag
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.TeamManagementAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradingAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.TradingAbstractFactory;
+import dpl.LeagueSimulationManagement.NewsSystem.INewsSystemAbstractFactory;
+import dpl.LeagueSimulationManagement.NewsSystem.NewsSystemAbstractFactory;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.IInternalStateMachineAbstractFactory;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStateMachineAbstractFactory;
 import dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine.ISimulationStateMachineAbstractFactory;
@@ -41,6 +43,7 @@ public class SystemConfig {
     private IUserInputAbstractFactory userInputAbstractFactory;
     private IUserOutputAbstractFactory userOutputAbstractFactory;
     private ISerializeDeserializeAbstractFactory serializeDeserializeAbstractFactory;
+    private INewsSystemAbstractFactory newsSystemAbstractFactory;
 
     private SystemConfig() {
         teamManagementAbstractFactory = new TeamManagementAbstractFactory();
@@ -55,6 +58,7 @@ public class SystemConfig {
         userInputAbstractFactory = new UserInputAbstractFactory();
         userOutputAbstractFactory = new UserOutputAbstractFactory();
         serializeDeserializeAbstractFactory = new SerializeDeserializeAbstractFactory();
+        newsSystemAbstractFactory = new NewsSystemAbstractFactory();
     }
 
     public static SystemConfig getSingleInstance() {
@@ -110,6 +114,10 @@ public class SystemConfig {
 
     public ISerializeDeserializeAbstractFactory getSerializeDeserializeAbstractFactory() {
         return serializeDeserializeAbstractFactory;
+    }
+
+    public INewsSystemAbstractFactory getNewsSystemAbstractFactory() {
+        return newsSystemAbstractFactory;
     }
 
 }

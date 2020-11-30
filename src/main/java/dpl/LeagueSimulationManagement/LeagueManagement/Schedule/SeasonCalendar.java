@@ -6,7 +6,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.Logger;
 
 public class SeasonCalendar {
 
@@ -19,12 +18,9 @@ public class SeasonCalendar {
     private String lastSeasonDay;
     private String seasonWinner;
     private SimpleDateFormat dateFormat;
-    private IUserOutput output;
-    private Logger log = Logger.getLogger(SeasonCalendar.class.getName());
 
     public SeasonCalendar(int season, IUserOutput output) {
         this.currentSeason = season;
-        this.output = output;
         this.dateFormat = new SimpleDateFormat(ScheduleConstants.DATE_FORMAT);
         this.seasonCalendar = Calendar.getInstance();
         setYears();

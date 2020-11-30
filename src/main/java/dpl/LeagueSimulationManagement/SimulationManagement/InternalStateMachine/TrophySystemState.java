@@ -1,6 +1,5 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
-import dpl.LeagueSimulationManagement.SimulationManagement.StateConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
@@ -8,6 +7,7 @@ import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IInjuryManagement;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IRetirementManagement;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
+import dpl.LeagueSimulationManagement.SimulationManagement.StateConstants;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.SystemConfig;
 
@@ -61,7 +61,6 @@ public class TrophySystemState implements ISimulationState {
     public void doProcessing() {
         output.setOutput(StateConstants.TROPHY_STATE);
         output.sendOutput();
-        // TODO
         log.log(Level.INFO, StateConstants.TROPHY_STATE);
     }
 

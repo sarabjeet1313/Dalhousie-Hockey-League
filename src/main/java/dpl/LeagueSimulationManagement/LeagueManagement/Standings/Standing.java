@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Standing {
+
     private int season;
     private List<TeamStanding> standings;
 

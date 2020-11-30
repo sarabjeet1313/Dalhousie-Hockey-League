@@ -4,6 +4,7 @@ import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
 public class InternalStateContext {
+
     public static ISimulationState currentState;
     public String currentStateName;
 
