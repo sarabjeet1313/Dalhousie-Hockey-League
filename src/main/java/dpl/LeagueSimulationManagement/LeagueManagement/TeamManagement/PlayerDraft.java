@@ -153,7 +153,9 @@ public class PlayerDraft implements IPlayerDraft {
 		List<Conference> conferenceList = league.getConferenceList();
 		List<Division> divisionList = null;
 		List<Team> teamObjList = null;
-		
+		if(teamList.size() == 0) {
+			return league;
+		}
 		if(teamList.get(0).getPlayerList().size() < 30) {
 			return league;
 		}

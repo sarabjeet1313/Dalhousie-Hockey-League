@@ -1,20 +1,20 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.InitializeModels;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import dpl.SystemConfig;
-import dpl.DplConstants.GameConfigConstants;
 import dpl.DplConstants.GeneralConstants;
-import dpl.DplConstants.InitializeLeaguesConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Aging;
+import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.GameConfigConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.GameplayConfig;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.IGameplayConfigPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Injury;
@@ -62,6 +62,7 @@ public class InitializeLeagues implements IInitializeLeagues {
 	private IManagerPersistance managerDb;
 	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
 			.getTeamManagementAbstractFactory();
+	private Logger log = Logger.getLogger(InitializeLeagues.class.getName());
 
 	public InitializeLeagues(String filePath, ILeaguePersistance leagueDb, IUserOutput output, IUserInput input,
 			ICoachPersistance coachDb, IGameplayConfigPersistance configDb, IManagerPersistance managerDb) {
@@ -138,17 +139,16 @@ public class InitializeLeagues implements IInitializeLeagues {
 			league.setFreeAgents(freeAgents);
 			league.setCoaches(coaches);
 			league.setManagerList(managerList);
-		} catch (NullPointerException e) {
+		} catch (Exception e) {
+			log.log(Level.SEVERE, e.getMessage());
 			output.setOutput(e.getMessage());
 			output.sendOutput();
-		} catch (IOException e) {
-			output.setOutput(e.getMessage());
-			output.sendOutput();
+			System.exit(1);
 		}
 		return league;
 	}
 
-	private List<Conference> loadConferencesInfo() {
+	private List<Conference> loadConferencesInfo() throws NullPointerException{
 		JsonArray conferences = parser.parseList(InitializeLeaguesConstants.CONFERENCES.toString());
 		Iterator<JsonElement> conferenceListElement = conferences.iterator();
 
@@ -632,9 +632,8 @@ public class InitializeLeagues implements IInitializeLeagues {
 			}
 
 			JsonObject gmTableObject = tradingObj.get(GameConfigConstants.GMTABLE.toString()).getAsJsonObject();
-			HashMap<String,Double> gmTable = new HashMap<>();
-			gmTableObject.keySet().forEach(keyStr ->
-			{
+			HashMap<String, Double> gmTable = new HashMap<>();
+			gmTableObject.keySet().forEach(keyStr -> {
 				gmTable.put(keyStr, gmTableObject.get(keyStr).getAsDouble());
 			});
 			trading = new Trading(lossPoint, randomTradeOfferChance, maxPlayersPerTrade, randomAcceptanceChance,

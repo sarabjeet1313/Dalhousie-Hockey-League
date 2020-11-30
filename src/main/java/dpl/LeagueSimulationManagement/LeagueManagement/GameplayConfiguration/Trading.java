@@ -1,8 +1,8 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration;
 
-import com.google.gson.annotations.Expose;
-
 import java.util.HashMap;
+
+import com.google.gson.annotations.Expose;
 
 public class Trading {
 	@Expose(serialize = true, deserialize = true)

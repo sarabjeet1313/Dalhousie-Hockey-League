@@ -11,7 +11,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
 
-import dpl.DplConstants.FileConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Conference;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Division;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ILeaguePersistance;
@@ -115,9 +114,12 @@ public class LeagueSerializationDeserialization implements ILeaguePersistance {
 		boolean isSerialized = Boolean.FALSE;
 		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
 		try {
-			Writer fileWriter = new FileWriter(url.getFile());
-			gson.toJson(league, fileWriter);
-			fileWriter.close();
+			reader = new FileReader(url.getFile());
+			if (reader.read() == -1) {
+				Writer fileWriter = new FileWriter(url.getFile());
+				gson.toJson(league, fileWriter);
+				fileWriter.close();
+			}
 			isSerialized = Boolean.TRUE;
 		} catch (IOException e) {
 			isSerialized = Boolean.FALSE;
