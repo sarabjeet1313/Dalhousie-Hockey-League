@@ -2,6 +2,7 @@ package dpl.InternalStateMachineTest;
 
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.RegularSeasonSchedule;
+import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
@@ -29,6 +30,7 @@ public class SimulatePlayoffSeasonMatchTest {
     private Calendar calendar;
     private StandingInfo standings;
     private IStandingsPersistance standingsDb;
+    private SeasonCalendar utility;
 
     @Before
     public void setUp() throws Exception {
@@ -40,7 +42,8 @@ public class SimulatePlayoffSeasonMatchTest {
         schedule.setFinalSchedule(mockSchedule.getMockSchedule());
         standingsDb = new StandingsMockDb(0);
         standings = new StandingInfo(leagueToSimulate, 0, standingsDb, output);
-        playoffSeasonMatch = new SimulatePlayoffSeasonMatch("13-11-2020", schedule, output, leagueToSimulate, standings, null);
+        utility = new SeasonCalendar(0, output);
+        playoffSeasonMatch = new SimulatePlayoffSeasonMatch("14-11-2020", schedule, output, leagueToSimulate, standings, utility);
     }
 
     @Test
