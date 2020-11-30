@@ -1,6 +1,5 @@
 package dpl.LeagueSimulationManagement.TrophySystem;
 
-import dpl.DplConstants.TrophySystemConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
 
 public class TeamPoint extends Subject {

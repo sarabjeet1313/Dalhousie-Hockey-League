@@ -9,7 +9,10 @@ import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersi
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.*;
 import dpl.LeagueSimulationManagement.NewsSystem.GamePlayedPublisher;
+import dpl.LeagueSimulationManagement.NewsSystem.INewsSystemAbstractFactory;
 import dpl.LeagueSimulationManagement.NewsSystem.NewsSubscriber;
+import dpl.LeagueSimulationManagement.NewsSystem.NewsSystemAbstractFactory;
+import dpl.LeagueSimulationManagement.TrophySystem.ITrophySystemAbstractFactory;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.SystemConfig;
 
@@ -61,6 +64,7 @@ public class SimulateGameState implements ISimulationState {
 	private ISimulateMatch simulateMatch;
 	private IInternalStateMachineAbstractFactory internalStateMachineFactory;
 	private ITeamManagementAbstractFactory teamManagementAbstractFactory;
+	private INewsSystemAbstractFactory newsSystemAbstractFactory;
 	private static final Logger log = Logger.getLogger(SimulateGameState.class.getName());
 
 	public SimulateGameState(League leagueToSimulate, ISchedule schedule, IStandingsPersistance standingsDb,

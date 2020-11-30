@@ -1,8 +1,9 @@
 package dpl.LeagueSimulationManagement.TrophySystem;
 
-import dpl.DplConstants.TrophySystemConstants;
 
-public class TrophySystemAbstractFactory {
+public class TrophySystemAbstractFactory implements ITrophySystemAbstractFactory {
+
+
     public static IObserver createObserver(TrophySystemConstants awardType) {
         IObserver observer = null;
         switch (awardType) {
@@ -28,10 +29,20 @@ public class TrophySystemAbstractFactory {
                 observer = new ParticipantAwardObserver();
                 break;
             default:
-                System.out.println(TrophySystemConstants.ARROW.toString());
                 break;
         }
 
         return observer;
     }
+
+    @Override
+    public TopGoalScore TopGoalScore() {
+        return new TopGoalScore();
+    }
+
+    @Override
+    public AwardedTrophy AwardedTrophy() {
+        return new AwardedTrophy();
+    }
+
 }

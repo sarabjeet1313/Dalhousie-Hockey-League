@@ -1,14 +1,14 @@
 package dpl.LeagueSimulationManagement.TrophySystem;
 
-import dpl.DplConstants.TrophySystemConstants;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+import dpl.SystemConfig;
 
 import java.util.*;
 
 public class TrophyHistory {
     private static Map<Integer, List<Map<String, String>>> trophyList;
     private static TrophyHistory instance;
-    private IUserOutput output;
+    private IUserOutput output = SystemConfig.getSingleInstance().getUserOutputAbstractFactory().CmdUserOutput();
 
     private TrophyHistory() {
         trophyList = new HashMap<>();
@@ -49,9 +49,19 @@ public class TrophyHistory {
     public void displayTrophyHistory() {
         List<Integer> keys = new ArrayList<>(trophyList.keySet());
         Collections.sort(keys);
+        String yearNum;
         Collections.reverse(keys);
         for (Integer year : keys) {
-            output.setOutput(TrophySystemConstants.YEAR.toString() + year);
+            if (year == 2) {
+                yearNum = TrophySystemConstants.YEAR_TWENTY.toString();
+            } else {
+                yearNum = TrophySystemConstants.YEAR_TEN.toString();
+            }
+            output.setOutput(TrophySystemConstants.NEXT_LINE.toString());
+            output.sendOutput();
+            output.setOutput(TrophySystemConstants.TROPHY_HISTORY.toString());
+            output.sendOutput();
+            output.setOutput(TrophySystemConstants.YEAR.toString() + yearNum);
             output.sendOutput();
             output.setOutput(TrophySystemConstants.LINE.toString());
             output.sendOutput();
@@ -61,6 +71,8 @@ public class TrophyHistory {
                     output.sendOutput();
                 }
             }
+            output.setOutput(TrophySystemConstants.NEXT_LINE.toString());
+            output.sendOutput();
         }
     }
 }

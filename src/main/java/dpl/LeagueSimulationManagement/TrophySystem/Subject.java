@@ -9,8 +9,7 @@ public abstract class Subject {
     private Map<String, Object> keyValuePairs;
     private List<IObserver> observers;
 
-    public Subject()
-    {
+    public Subject() {
         observers = new ArrayList<IObserver>();
         keyValuePairs = new HashMap<>();
     }
@@ -23,19 +22,18 @@ public abstract class Subject {
         this.observers.remove(observer);
     }
 
-    public void notifyAllObservers()
-    {
-        for(IObserver observer: observers){
+    public void notifyAllObservers() {
+        for (IObserver observer : observers) {
             observer.update(this);
         }
         keyValuePairs.clear();
     }
-    public void setValue(String key, Object o)
-    {
+
+    public void setValue(String key, Object o) {
         keyValuePairs.put(key, o);
     }
 
-    public Object getValue(String key){
+    public Object getValue(String key) {
         return keyValuePairs.get(key);
     }
 }

@@ -3,6 +3,7 @@ package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.*;
 import dpl.SystemConfig;
 import dpl.DplConstants.StateConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.IGameplayConfigurationAbstractFactory;
@@ -13,10 +14,6 @@ import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IInjuryManagement;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IRetirementManagement;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManagementAbstractFactory;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradePersistence;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradingAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.Trade;
@@ -57,7 +54,7 @@ public class InternalSimulationState implements ISimulationState {
     private ITradePersistence tradeDb;
     private TradeReset tradeReset;
     private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
-			.getTeamManagementAbstractFactory();
+            .getTeamManagementAbstractFactory();
     private IInternalStateMachineAbstractFactory internalStateMachineFactory;
     private IScheduleAbstractFactory scheduleAbstractFactory;
     private IStandingsAbstractFactory standingsAbstractFactory;
@@ -91,6 +88,8 @@ public class InternalSimulationState implements ISimulationState {
         this.standingsDb = standingsDb;
     }
 
+
+
     public ISimulationState nextState(InternalStateContext context) {
         this.nextStateName = StateConstants.INTERNAL_END_STATE;
         ISimulationState endState = this.internalStateMachineFactory.InternalEndState(output);
@@ -111,7 +110,7 @@ public class InternalSimulationState implements ISimulationState {
             initialState = this.internalStateMachineFactory.GenerateRegularSeasonScheduleState(leagueToSimulate, this.output, this.season, this.context, standingsDb, standingsInfo, utility);
             context.setState(initialState);
 
-            while(context.shouldContinue()) {
+            while (context.shouldContinue()) {
                 context.doProcessing();
                 ISimulationState state = context.nextState();
                 context.setState(state);
@@ -123,6 +122,7 @@ public class InternalSimulationState implements ISimulationState {
             standingsInfo.showStats();
         }
     }
+
 
     public boolean shouldContinue() {
         return true;

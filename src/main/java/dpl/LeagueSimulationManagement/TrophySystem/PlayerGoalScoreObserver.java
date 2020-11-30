@@ -1,6 +1,5 @@
 package dpl.LeagueSimulationManagement.TrophySystem;
 
-import dpl.DplConstants.TrophySystemConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
 
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ public class PlayerGoalScoreObserver implements IObserver {
         playerList.add((Player) subject.getValue(TrophySystemConstants.PLAYER.toString()));
 
         for (Player player : playerList) {
-            if (saves < player.getSaves() && goals < player.getGoals()) {
+            if (saves <= player.getSaves() || goals <= player.getGoals()) {
                 saves = player.getSaves();
                 goals = player.getGoals();
                 bestPlayer = player;

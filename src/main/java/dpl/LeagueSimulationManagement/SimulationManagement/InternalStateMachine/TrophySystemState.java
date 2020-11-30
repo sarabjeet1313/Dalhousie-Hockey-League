@@ -1,18 +1,18 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
 import dpl.DplConstants.StateConstants;
-import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Training;
+import dpl.LeagueSimulationManagement.TrophySystem.TrophySystemConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IInjuryManagement;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IRetirementManagement;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.*;
+import dpl.LeagueSimulationManagement.TrophySystem.*;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 import dpl.SystemConfig;
 
 import java.util.Calendar;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -34,6 +34,9 @@ public class TrophySystemState implements ISimulationState {
     private int season;
     private IInternalStateMachineAbstractFactory internalStateMachineFactory;
     private static final Logger log = Logger.getLogger(TrophySystemState.class.getName());
+    private ITrophySystemAbstractFactory trophySystemAbstractFactory = SystemConfig.getSingleInstance()
+            .getTrophySystemAbstractFactory();
+
 
     public TrophySystemState(League leagueToSimulate, ISchedule schedule, IStandingsPersistance standingsDb, StandingInfo standings, IInjuryManagement injury, IRetirementManagement retirement, InternalStateContext context,
                              SeasonCalendar utility, String currentDate, String endDate, int season, IUserOutput output) {
@@ -53,6 +56,12 @@ public class TrophySystemState implements ISimulationState {
         this.stateName = StateConstants.TROPHY_STATE;
     }
 
+    static {
+        GoalSave.getInstance().attach(TrophySystemAbstractFactory.createObserver(TrophySystemConstants.VEZINA_TROPHY));
+        TopGoalScore.getInstance().attach(TrophySystemAbstractFactory.createObserver((TrophySystemConstants.MAURICE_RICHARD_TROPHY)));
+        BestDefenceMen.getInstance().attach(TrophySystemAbstractFactory.createObserver(TrophySystemConstants.ROB_HAWKEY_MEMORIAL_CUP));
+    }
+
     public ISimulationState nextState(InternalStateContext context) {
         this.nextStateName = StateConstants.PLAYER_DRAFT;
         return this.internalStateMachineFactory.PlayerDraftState(leagueToSimulate, schedule, standingsDb, standings, injury, retirement, context,
@@ -62,8 +71,28 @@ public class TrophySystemState implements ISimulationState {
     public void doProcessing() {
         output.setOutput(StateConstants.TROPHY_STATE);
         output.sendOutput();
-        // TODO
+        sendUpdatesToTrophy();
+        trophySystemAbstractFactory.AwardedTrophy().trophyStanleyCup(season + 1);
+        TrophyHistory.getInstance().displayTrophyHistory();
         log.log(Level.INFO, StateConstants.TROPHY_STATE);
+    }
+
+    private void sendUpdatesToTrophy() {
+        List<Conference> conferenceList = leagueToSimulate.getConferenceList();
+        for (Conference conference : conferenceList) {
+            List<Division> divisionList = conference.getDivisionList();
+            for (Division division : divisionList) {
+                List<Team> teamList = division.getTeamList();
+                for (Team team : teamList) {
+                    List<Player> playerList = team.getPlayerList();
+                    for (Player player : playerList) {
+                        GoalSave.getInstance().notifyPlayerSaveGoal(player);
+                        TopGoalScore.getInstance().notifyPlayerGoal(player);
+                        BestDefenceMen.getInstance().notifyWhenPlayerGoal(player);
+                    }
+                }
+            }
+        }
     }
 
     public boolean shouldContinue() {

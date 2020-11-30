@@ -2,14 +2,19 @@ package dpl.LeagueSimulationManagement.NewsSystem;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import dpl.DplConstants.NewsSystemConstants;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.RetirementManagement;
+import dpl.LeagueSimulationManagement.TrophySystem.TrophySystemConstants;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+import dpl.SystemConfig;
 
 public class FreeAgencyPublisher {
     private final List<IFreeAgencyInfo> subscribers;
     private static FreeAgencyPublisher instance;
-    private IUserOutput output;
+    private static final Logger log = Logger.getLogger(RetirementManagement.class.getName());
+    private IUserOutput output = SystemConfig.getSingleInstance().getUserOutputAbstractFactory().CmdUserOutput();
 
     private FreeAgencyPublisher() {
         subscribers = new ArrayList<>();
@@ -39,6 +44,7 @@ public class FreeAgencyPublisher {
                 subscriber.updateFreeAgency(player, hiredOrReleased);
             }
         } catch (IllegalArgumentException e) {
+            log.log(Level.SEVERE, TrophySystemConstants.EXCEPTION_MESSAGE.toString());
             output.setOutput(e + NewsSystemConstants.ARGUMENT_MESSAGE.toString());
             output.sendOutput();
         }

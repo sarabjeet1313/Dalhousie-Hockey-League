@@ -1,6 +1,6 @@
 package dpl.TrophySystemTest;
 
-import dpl.DplConstants.TrophySystemConstants;
+import dpl.LeagueSimulationManagement.TrophySystem.TrophySystemConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
 import dpl.LeagueSimulationManagement.TrophySystem.BestDefenceMen;
 import dpl.LeagueSimulationManagement.TrophySystem.IObserver;
@@ -21,8 +21,8 @@ public class ParticipantAwardObserverTest {
         subject = BestDefenceMen.getInstance();
         Player player = new Player();
         player.setPenalties(34);
-        player.setPlayerName("Alex");
-        subject.setValue(TrophySystemConstants.PLAYER.toString(), player);
+        player.setPlayerName(TrophySystemTestConstants.PLAYER_TEST.toString());
+        subject.setValue(TrophySystemTestConstants.PLAYER.toString(), player);
         observer = TrophySystemAbstractFactory.createObserver(TrophySystemConstants.ROB_HAWKEY_MEMORIAL_CUP);
     }
 
@@ -34,6 +34,6 @@ public class ParticipantAwardObserverTest {
     @Test
     public void updateTest() {
         observer.update(subject);
-        assertEquals("Alex", BestDefenceMen.getInstance().getBestDefenceMen().getPlayerName());
+        assertEquals(TrophySystemTestConstants.PLAYER_TEST.toString(), BestDefenceMen.getInstance().getBestDefenceMen().getPlayerName());
     }
 }

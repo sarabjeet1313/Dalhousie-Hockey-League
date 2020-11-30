@@ -1,9 +1,13 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.annotations.Expose;
 
+import dpl.LeagueSimulationManagement.TrophySystem.TrophySystemConstants;
+import dpl.LeagueSimulationManagement.TrophySystem.BestCoachLeague;
+import dpl.LeagueSimulationManagement.TrophySystem.TrophySystemAbstractFactory;
 import dpl.SystemConfig;
 import dpl.DplConstants.GameConfigConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Coach;
@@ -17,16 +21,22 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
 public class Training {
-	
-	@Expose (serialize = true, deserialize = true) private int daysUntilStatIncreaseCheck;
-	@Expose (serialize = true, deserialize = true) private int trackDays;
+
+    @Expose(serialize = true, deserialize = true)
+    private int daysUntilStatIncreaseCheck;
+    @Expose(serialize = true, deserialize = true)
+    private int trackDays;
     private IUserOutput output;
     private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
-			.getTeamManagementAbstractFactory();
+            .getTeamManagementAbstractFactory();
 
     public Training(int daysUntilStatIncreaseCheck, int trackDays) {
         this.daysUntilStatIncreaseCheck = daysUntilStatIncreaseCheck;
         this.trackDays = trackDays;
+    }
+
+    static {
+        BestCoachLeague.getInstance().attach(TrophySystemAbstractFactory.createObserver(TrophySystemConstants.JACK_ADAMS_AWARD));
     }
 
     public Training(IUserOutput output) {
@@ -53,14 +63,14 @@ public class Training {
         return Math.random();
     }
 
-    public void updateStats(Player player, Coach headCoach, League league) {
-        int statPlayer=0;
+    private void updateStats(Player player, Coach headCoach, League league) {
+        int statPlayer = 0;
         double randomValue = generateRandomValue();
         boolean statsUpdated = Boolean.FALSE;
         IInjuryManagement injury = teamManagement.InjuryManagement();
         if (randomValue < headCoach.getSkating()) {
             player.setSkating(player.getSkating() + 1);
-            statPlayer+=1;
+            statPlayer += 1;
             statsUpdated = Boolean.TRUE;
         } else {
             player = injury.getPlayerInjuryDays(player, league);
@@ -68,7 +78,7 @@ public class Training {
         randomValue = generateRandomValue();
         if (randomValue < headCoach.getShooting() && player.isInjured() == Boolean.FALSE) {
             player.setShooting(player.getShooting() + 1);
-            statPlayer+=1;
+            statPlayer += 1;
             statsUpdated = Boolean.TRUE;
         } else {
             if (player.isInjured() == Boolean.FALSE) {
@@ -79,7 +89,7 @@ public class Training {
         if (randomValue < headCoach.getChecking() && player.isInjured() == Boolean.FALSE) {
             statsUpdated = Boolean.TRUE;
             player.setChecking(player.getChecking() + 1);
-            statPlayer+=1;
+            statPlayer += 1;
         } else {
             if (player.isInjured() == Boolean.FALSE) {
                 player = injury.getPlayerInjuryDays(player, league);
@@ -88,19 +98,18 @@ public class Training {
         randomValue = generateRandomValue();
         if (randomValue < headCoach.getSaving() && player.isInjured() == Boolean.FALSE) {
             player.setShooting(player.getShooting() + 1);
-            statPlayer+=1;
+            statPlayer += 1;
             statsUpdated = Boolean.TRUE;
         } else {
             if (player.isInjured() == Boolean.FALSE) {
                 player = injury.getPlayerInjuryDays(player, league);
             }
         }
-        if(statsUpdated == Boolean.TRUE) {
+        if (statsUpdated == Boolean.TRUE) {
             output.setOutput(GameConfigConstants.TRAINING_STATS.toString() + player.getPlayerName());
             output.sendOutput();
         }
-        //notify(coach, statPlayer);
-
+        BestCoachLeague.getInstance().notifyCoachTraining(headCoach, statPlayer);
     }
 
     private League playerTraining(League league) {
