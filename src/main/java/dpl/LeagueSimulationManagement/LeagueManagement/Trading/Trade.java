@@ -1,16 +1,10 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.Trading;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.DoubleStream;
 
-import dpl.LeagueSimulationManagement.LeagueManagement.Standings.Standing;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.NewsSystem.NewsSubscriber;
 import dpl.LeagueSimulationManagement.NewsSystem.TradePublisher;
@@ -23,6 +17,14 @@ public class Trade implements ITrade {
 	private List<Player> playerListOfferTeam;
 	private List<Player> playerListRequestedTeam;
 	private ITradePersistence tradeDB;
+
+	private static final Logger log = Logger.getLogger(PlayerDraft.class.getName());
+	public final String PLAYER_OFFERED_FOR_TRADE = "Player offered for trade : ";
+	public final String OF_STRENGTH = " of Strength ";
+	public final String TRADE_OFFERED_BY_TEAM = "| Trade offered by team  ";
+	public final String DRAFT_PICK_ORDER = " for Draft pick order :" ;
+	public final String NORMALIZE_DRAFT_PLAYERS = "Resolving the drafted players. Normalizing the Team players to 30";
+
 
 	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance().getTeamManagementAbstractFactory();
 	private ITradingAbstractFactory tradingAbstractFactory = SystemConfig.getSingleInstance().getTradingAbstractFactory();
@@ -174,6 +176,42 @@ public class Trade implements ITrade {
 			}
 		}
 		return returnWeakestPlayerList;
+	}
+
+	public Player getStrongestPlayer(List<Player> playerList){
+		double maxStrength = 0;
+		IPlayerInfo playerInfo = teamManagement.Player();
+		Player strongestPlayer = null;
+		for(Player player : playerList ){
+			if(maxStrength < playerInfo.getPlayerStrength(player)){
+				maxStrength = playerInfo.getPlayerStrength(player);
+				strongestPlayer = player;
+			}
+		}
+		return strongestPlayer;
+	}
+
+	public Player getAveragePlayer(List<Player> playerList){
+		double avgStrength = 0;
+		double totalStrength = 0;
+		IPlayerInfo playerInfo = teamManagement.Player();
+		Player averagePlayer = null;
+		for(Player player : playerList ){
+			totalStrength = playerInfo.getPlayerStrength(player)+ totalStrength;
+		}
+		avgStrength = totalStrength / playerList.size();
+		for (Player player: playerList){
+			if (avgStrength < playerInfo.getPlayerStrength(player)
+					&& playerInfo.getPlayerStrength(player) < avgStrength + 2){
+				averagePlayer = player;
+				break;
+			}
+		}
+		if(averagePlayer == null){
+			Random random = new Random();
+			averagePlayer = playerList.get(random.nextInt(playerList.size()));
+		}
+		return averagePlayer;
 	}
 
 	public List<Player> getStrongestPlayers(Trade t, List<String> allTeamNameList, League league,
@@ -336,15 +374,65 @@ public class Trade implements ITrade {
 		}
 	//Specific maybe ?
 		tradeReset.UpdateTrade(standings);
-		rosterManagement.balanceOutRoster(leagueObject);
-
 		return leagueObject;
+	}
+
+	public boolean doWantToTradeDraftPick(int positionToTrade){
+		if(positionToTrade < 7){
+			return Math.random() < 0.1;
+		}else if( positionToTrade < 15){
+			return Math.random() < 0.3;
+		}else if( positionToTrade < 25){
+			return Math.random() < 0.4;
+		}else{
+			return Math.random()< 0.56;
+		}
+	}
+
+	public int pickToTradeFor(int upperBound){
+		Random random = new Random();
+		if(upperBound ==0){
+			return 0;
+		}
+		return random.nextInt(upperBound);
 	}
 
 	@Override
 	public List<Team> startTradeDraftPick(League league, List<Team> teamList) {
 
+		ITeamInfo teamInfo = teamManagement.Team();
+		List<Player> currentPlayerList;
+		String currentTeamName;
+		Player playerToTrade;
+		double tradeAcceptanceChance = league.getGameConfig().getTrading().getRandomAcceptanceChance();
+		int pickToTradeFor;
+		List<Team> teamListToReturn = new ArrayList<>(teamList);
 
-		return null;
+		for (int index = teamList.size(); index-- > 0; ) {
+			if(doWantToTradeDraftPick(index)){
+				currentTeamName = teamList.get(index).getTeamName();
+				currentPlayerList = teamInfo.getPlayersByTeam(currentTeamName, league);
+				log.log(Level.INFO,"index "+index);
+				pickToTradeFor = pickToTradeFor(index);
+				log.log(Level.INFO,"pick "+pickToTradeFor);
+				if(pickToTradeFor < 10){
+					playerToTrade = getStrongestPlayer(currentPlayerList);
+				}else{
+					playerToTrade = getAveragePlayer(currentPlayerList);
+				}
+				if(Math.random() < tradeAcceptanceChance){
+					List<Player> tradeOfferPlayerList = new ArrayList<>();
+					List<Player> tradeRequestPlayerList = new ArrayList<>();
+					log.log(Level.INFO, PLAYER_OFFERED_FOR_TRADE+ playerToTrade.getPlayerName()+ OF_STRENGTH+ playerToTrade.getPlayerStrength(playerToTrade) +TRADE_OFFERED_BY_TEAM+ teamList.get(index).getTeamName()
+							+DRAFT_PICK_ORDER + (pickToTradeFor+1));
+					tradeOfferPlayerList = teamList.get(index).getPlayerList();
+					tradeOfferPlayerList.remove(playerToTrade);
+					tradeRequestPlayerList = teamList.get(pickToTradeFor).getPlayerList();
+					tradeRequestPlayerList.add(playerToTrade);
+					Collections.swap(teamListToReturn, index, pickToTradeFor);
+				}
+			}
+		}
+		return teamListToReturn;
 	}
 }
