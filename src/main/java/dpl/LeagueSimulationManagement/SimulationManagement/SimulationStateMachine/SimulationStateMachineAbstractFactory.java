@@ -7,8 +7,6 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ILeaguePer
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IManagerPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradePersistence;
-import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.IInternalStateMachineAbstractFactory;
-import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStateMachineAbstractFactory;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 

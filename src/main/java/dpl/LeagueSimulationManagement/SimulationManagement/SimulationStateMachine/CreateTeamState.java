@@ -1,6 +1,5 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -438,7 +437,7 @@ public class CreateTeamState implements IState {
 			}
 			initializedLeague = rosterManagement.updateLeagueActiveStatus(initializedLeague);
 			isCreated = initializedLeague.createTeam(initializedLeague);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			log.log(Level.SEVERE, e.getMessage());
 			output.setOutput(e.getMessage());
 			output.sendOutput();
