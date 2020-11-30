@@ -1,6 +1,7 @@
 package dpl.SimulationStateMachineTest;
 
 import dpl.SystemConfig;
+import dpl.GameplayConfigurationTest.GamaplayConfigMockData;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.IGameplayConfigPersistance;
 import dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine.CreateTeamState;
 import dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine.StateContext;
@@ -14,7 +15,6 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Manager;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
 import dpl.TeamManagementTest.CoachMockData;
-import dpl.TeamManagementTest.GamaplayConfigMockData;
 import dpl.TeamManagementTest.LeagueMockData;
 import dpl.TeamManagementTest.LeagueObjectTestData;
 import dpl.TeamManagementTest.ManagerMockData;

@@ -76,7 +76,8 @@ public class CreateTeamState implements IState {
 		this.conferences = teamManagement.ConferenceWithParameters("", null);
 		this.divisions = teamManagement.DivisionWithParameters("", null);
 		this.teams = teamManagement.TeamWithParameters("", genManager, headCoach, null, Boolean.FALSE);
-		this.simulationStateMachineAbstractFactory = SystemConfig.getSingleInstance().getSimulationStateMachineAbstractFactory();
+		this.simulationStateMachineAbstractFactory = SystemConfig.getSingleInstance()
+				.getSimulationStateMachineAbstractFactory();
 		this.validate = simulationStateMachineAbstractFactory.CustomValidation();
 	}
 
@@ -86,7 +87,8 @@ public class CreateTeamState implements IState {
 
 	public void nextState(StateContext context) {
 		this.nextStateName = "Simulate";
-		context.setState(this.simulationStateMachineAbstractFactory.SimulateState(input, output, teamName, initializedLeague, tradeDb, standingDb));
+		context.setState(this.simulationStateMachineAbstractFactory.SimulateState(input, output, teamName,
+				initializedLeague, tradeDb, standingDb));
 	}
 
 	private void displayManagerList() {
@@ -95,35 +97,38 @@ public class CreateTeamState implements IState {
 		List<Manager> tempManagerList = new ArrayList<Manager>();
 		int managerId = -1;
 		do {
-			output.setOutput("Please select the General manager for " + teamName);
+			output.setOutput(CreateTeamConstants.SELECT_GM.toString() + teamName);
 			output.sendOutput();
-			output.setOutput("ManagerID | MANAGER NAME | MANAGER'S PERSONALITY");
+			output.setOutput(CreateTeamConstants.MANAGER_DISPLAY.toString());
 			output.sendOutput();
 			List<Manager> gmList = initializedLeague.getManagerList();
 			for (int index = 0; index < gmList.size(); index++) {
-				output.setOutput(index + 1 + "	| " + gmList.get(index).getManagerName()+"   |   " + gmList.get(index).getManagerPersonality());
+				output.setOutput(index + 1 + "	| " + gmList.get(index).getManagerName() + "   |   "
+						+ gmList.get(index).getManagerPersonality());
 				output.sendOutput();
 			}
-			output.setOutput("Please enter the selected Manager ID");
+			output.setOutput(CreateTeamConstants.CHOOSE_MANAGER.toString());
 			output.sendOutput();
 			input.setInput();
 			inputValue = input.getInput();
 			if (validate.isNumber(inputValue) == Boolean.FALSE) {
 				validManager = false;
-				output.setOutput("Manager ID cannot be string");
+				output.setOutput(CreateTeamConstants.MANAGER_ERROR.toString());
 				output.sendOutput();
 			} else {
 				managerId = Integer.parseInt(inputValue) - 1;
 			}
 			if (managerId <= -1 || (managerId > gmList.size())) {
 				validManager = false;
-				output.setOutput("Please enter a valid Manager ID");
+				output.setOutput(CreateTeamConstants.MANAGER_ERROR_1.toString());
 				output.sendOutput();
 			} else {
-				genManager = teamManagement.ManagerWithDbParameters(gmList.get(managerId).getManagerName(), gmList.get(managerId).getManagerPersonality() ,managerDb);
+				genManager = teamManagement.ManagerWithDbParameters(gmList.get(managerId).getManagerName(),
+						gmList.get(managerId).getManagerPersonality(), managerDb);
 				gmList.remove(managerId);
 				for (int index = 0; index < gmList.size(); index++) {
-					Manager manager = teamManagement.ManagerWithDbParameters(gmList.get(index).getManagerName(),gmList.get(managerId).getManagerPersonality(), managerDb);
+					Manager manager = teamManagement.ManagerWithDbParameters(gmList.get(index).getManagerName(),
+							gmList.get(managerId).getManagerPersonality(), managerDb);
 					tempManagerList.add(manager);
 				}
 				initializedLeague.setManagerList(tempManagerList);
@@ -135,13 +140,12 @@ public class CreateTeamState implements IState {
 	private void displayCoachesList() {
 		boolean validCoach = false;
 		String inputValue = "";
-		List<Coach> tempCoachList = new ArrayList<Coach>();
 		int headCoachNumber = -1;
 		do {
-			output.setOutput("Please select the Head Coach for " + teamName);
+			output.setOutput(CreateTeamConstants.SELECT_COACH + teamName);
 			output.sendOutput();
 			List<Coach> cList = initializedLeague.getCoaches();
-			output.setOutput("Coach ID |	COACH NAME     	| SKATING | SHOOTING | CHECKING | SAVING");
+			output.setOutput(CreateTeamConstants.COACH_DISPLAY.toString());
 			output.sendOutput();
 			for (int index = 0; index < cList.size(); index++) {
 				output.setOutput(index + 1 + "  	| " + cList.get(index).getCoachName() + "    	| "
@@ -149,20 +153,20 @@ public class CreateTeamState implements IState {
 						+ cList.get(index).getChecking() + " |  " + cList.get(index).getSaving());
 				output.sendOutput();
 			}
-			output.setOutput("Please enter the selected coach ID");
+			output.setOutput(CreateTeamConstants.CHOOSE_COACH.toString());
 			output.sendOutput();
 			input.setInput();
 			inputValue = input.getInput();
 			if (validate.isNumber(inputValue) == Boolean.FALSE) {
 				validCoach = false;
-				output.setOutput("Coach ID cannot be null");
+				output.setOutput(CreateTeamConstants.COACH_ERROR.toString());
 				output.sendOutput();
 				headCoachNumber = -1;
 			} else {
 				headCoachNumber = Integer.parseInt(inputValue) - 1;
 			}
 			if (headCoachNumber <= -1 || (headCoachNumber > cList.size())) {
-				output.setOutput("Please enter a valid Coach ID");
+				output.setOutput(CreateTeamConstants.COACH_ERROR_1.toString());
 				output.sendOutput();
 				validCoach = false;
 			} else {
@@ -271,32 +275,34 @@ public class CreateTeamState implements IState {
 				}
 				output.setOutput("Player Already added");
 				output.sendOutput();
-			} else if( fdList.get(temp).getPosition().equals("forward") ){
-				if(forwardPlayers < 1){
+			} else if (fdList.get(temp).getPosition().equals("forward")) {
+				if (forwardPlayers < 1) {
 					if (index == 0) {
 						index = -1;
 					} else {
 						index = index - 1;
 					}
-					output.setOutput("Max number of Forward Players (16) already Reached!! \n Choose Players with Type: Defence!!");
+					output.setOutput(
+							"Max number of Forward Players (16) already Reached!! \n Choose Players with Type: Defence!!");
 					output.sendOutput();
-				}else {
+				} else {
 					forwardPlayers--;
 					playersList.add(fdList.get(temp));
 					tempList2.add(fdList.get(temp));
 					indexList.add(temp + 1);
 					FreeAgencyPublisher.getInstance().notify(fdList.get(temp).getPlayerName(), "hired");
 				}
-			}else {
-				if(defencePlayers < 1){
+			} else {
+				if (defencePlayers < 1) {
 					if (index == 0) {
 						index = -1;
 					} else {
 						index = index - 1;
 					}
-					output.setOutput("Max number of Defence Players (10) already Reached!! \n Choose Players with Type: Forward!!");
+					output.setOutput(
+							"Max number of Defence Players (10) already Reached!! \n Choose Players with Type: Forward!!");
 					output.sendOutput();
-				}else {
+				} else {
 					defencePlayers--;
 					playersList.add(fdList.get(temp));
 					tempList2.add(fdList.get(temp));
@@ -426,7 +432,8 @@ public class CreateTeamState implements IState {
 					for (int dIndex = 0; dIndex < divisionList.size(); dIndex++) {
 						if (divisionList.get(dIndex).getDivisionName().equals(divisionName)) {
 							List<Team> teamList = divisionList.get(dIndex).getTeamList();
-							Team newTeam = teamManagement.TeamWithParameters(teamName, genManager, headCoach, playerList, Boolean.TRUE);
+							Team newTeam = teamManagement.TeamWithParameters(teamName, genManager, headCoach,
+									playerList, Boolean.TRUE);
 							teamList.add(newTeam);
 							initializedLeague.getConferenceList().get(index).getDivisionList().get(dIndex)
 									.setTeamList(teamList);

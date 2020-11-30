@@ -2,10 +2,15 @@ package dpl.SerializeDeserialize;
 
 public interface ISerializeDeserializeAbstractFactory {
 
-		public CoachSerializationDeserialization CoachSerializationDeserialization();
-		public StandingSerializationDeserialization StandingSerializationDeserialization();
-		public GameplayConfigSerializationDeserialization GameplayConfigSerializationDeserialization();
-		public LeagueSerializationDeserialization LeagueSerializationDeserialization();
-		public ManagerSerializationDeserialization ManagerSerializationDeserialization();
-		public RetiredPlayerSerializationDeserialization RetiredPlayerSerializationDeserialization();
+	public CoachSerializationDeserialization CoachSerializationDeserialization();
+
+	public StandingSerializationDeserialization StandingSerializationDeserialization();
+
+	public GameplayConfigSerializationDeserialization GameplayConfigSerializationDeserialization();
+
+	public LeagueSerializationDeserialization LeagueSerializationDeserialization();
+
+	public ManagerSerializationDeserialization ManagerSerializationDeserialization();
+
+	public RetiredPlayerSerializationDeserialization RetiredPlayerSerializationDeserialization();
 }

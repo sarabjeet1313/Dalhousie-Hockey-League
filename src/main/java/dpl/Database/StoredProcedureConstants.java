@@ -1,4 +1,4 @@
-package dpl.DplConstants;
+package dpl.Database;
 
 public enum StoredProcedureConstants {
 	

@@ -2,11 +2,11 @@ package dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachi
 
 public interface IState {
 
-    public void nextState(StateContext context);
+	public void nextState(StateContext context);
 
-    public void doProcessing();
+	public void doProcessing();
 
-    public String getStateName();
+	public String getStateName();
 
-    public String getNextStateName();
+	public String getNextStateName();
 }

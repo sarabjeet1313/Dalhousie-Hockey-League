@@ -1,26 +1,28 @@
 package dpl.SerializeDeserialize;
 
-import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.net.URL;
 
-import dpl.DplConstants.FileConstants;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IManagerPersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Manager;
 
 public class ManagerSerializationDeserialization implements IManagerPersistance {
 
 	@Override
-	public boolean persistManagerInfo(String managerName, String teamName, String leagueName) throws IOException {
+	public boolean persistManagerInfo(Manager manager, String teamName, String leagueName) throws IOException {
 		boolean isSerialized = Boolean.FALSE;
+		Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
+		URL url = null;
+		Writer fileWriter = null;
 		try {
-			URL url = getClass().getClassLoader().getResource(FileConstants.MANAGER_SERIALIZATION_FILE.toString());
-			Writer fileWriter = new FileWriter(url.getFile());
-			BufferedWriter bufferWriter = new BufferedWriter(fileWriter);
-			bufferWriter.write(managerName + FileConstants.NEW_LINE);
-			
-			bufferWriter.close();
+			url = getClass().getClassLoader().getResource(FileConstants.MANAGER_SERIALIZATION_FILE.toString());
+			fileWriter = new FileWriter(url.getFile());
+			gson.toJson(manager, fileWriter);
 			fileWriter.close();
 			isSerialized = Boolean.TRUE;
 		} catch (IOException e) {

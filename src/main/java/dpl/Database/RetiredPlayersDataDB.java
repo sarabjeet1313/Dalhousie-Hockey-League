@@ -1,6 +1,5 @@
 package dpl.Database;
 
-import dpl.DplConstants.StoredProcedureConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IRetiredPlayerPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
