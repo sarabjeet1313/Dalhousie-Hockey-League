@@ -13,8 +13,18 @@ public class AllStarGameManagementTest {
 	IAllStarGameManagement star = new AllStarGameManagement();
 
 	@Test
-	public void getTeamsForAllStarGameTest() {
+	public void performAllStarGameTest() {
 		Assert.assertEquals(2, star.performAllStarGame(leagueData).size());
+	}
+	
+	@Test
+	public void getSortedPlayersByTypeTest() {
+		Assert.assertTrue(star.getSortedPlayersByType(leagueData.getConferenceList(), "Forward").size() > 0);
+	}
+	
+	@Test
+	public void getPlayersBytTeamTest() {
+		Assert.assertTrue(star.getPlayersBytTeam().get(0).size() > 0);
 	}
 	
 }
