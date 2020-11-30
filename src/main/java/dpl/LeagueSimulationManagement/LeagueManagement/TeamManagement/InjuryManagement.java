@@ -2,11 +2,16 @@ package dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement;
 
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import dpl.DplConstants.TeamManagementConstants;
 import dpl.LeagueSimulationManagement.NewsSystem.InjuryPublisher;
 import dpl.LeagueSimulationManagement.NewsSystem.NewsSubscriber;
 
 public class InjuryManagement implements IInjuryManagement {
+
+	private static final Logger log = Logger.getLogger(InjuryManagement.class.getName());
 
     static {
         InjuryPublisher.getInstance().subscribe(new NewsSubscriber());
@@ -48,6 +53,7 @@ public class InjuryManagement implements IInjuryManagement {
         int injuryDaysHigh = league.getGameConfig().getInjury().getInjuryDaysHigh();
         double randomValue = Math.random() * 100;
         if ((randomValue <= randomInjuryChance) && (player.isInjured() == Boolean.FALSE)) {
+			log.log(Level.INFO, TeamManagementConstants.SHOULD_PLAYER_INJURE.toString());
             player.setInjured(Boolean.TRUE);
             int injuryDays = random.nextInt(injuryDaysHigh - injuryDaysLow) + injuryDaysLow;
             player.setDaysInjured(injuryDays);
