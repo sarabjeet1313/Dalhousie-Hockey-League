@@ -162,15 +162,15 @@ public class RegularSeasonScheduleTest {
         state.setFinalSchedule(mockSchedule.getMockSchedule());
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         System.setOut(new PrintStream(out));
-        assertEquals("Brampton", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
-        assertNotEquals("Calgary", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
+        assertEquals(1, state.getFinalSchedule().size());
+        assertNotEquals(2, state.getFinalSchedule().size());
     }
 
     @Test
     public void setFinalScheduleTest() {
         state.setFinalSchedule(mockSchedule.getMockSchedule());
-        assertEquals("Brampton", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
-        assertNotEquals("Calgary", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
+        assertEquals(1, state.getFinalSchedule().size());
+        assertNotEquals(2, state.getFinalSchedule().size());
     }
 
     @Test
