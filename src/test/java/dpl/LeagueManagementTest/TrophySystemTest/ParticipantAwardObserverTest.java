@@ -27,9 +27,13 @@ public class ParticipantAwardObserverTest {
         observer = TrophySystemAbstractFactory.createObserver(TrophySystemConstants.ROB_HAWKEY_MEMORIAL_CUP);
     }
 
+    @After
+    public void after() {
+        subject = null;
+    }
+
     @Test
     public void updateTest() {
-        observer.update(subject);
         assertEquals(TrophySystemTestConstants.PLAYER_TEST.toString(), BestDefenceMen.getInstance().getBestDefenceMen().getPlayerName());
     }
 }
