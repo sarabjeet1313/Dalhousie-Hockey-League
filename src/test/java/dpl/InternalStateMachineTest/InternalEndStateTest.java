@@ -1,9 +1,9 @@
 package dpl.InternalStateMachineTest;
 
-import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalEndState;
-import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStateContext;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+import dpl.SimulationManagement.InternalStateMachine.InternalEndState;
+import dpl.SimulationManagement.InternalStateMachine.InternalStateContext;
+import dpl.UserInputOutput.UserInput.IUserInput;
+import dpl.UserInputOutput.UserOutput.IUserOutput;
 import dpl.SystemConfig;
 import org.junit.Before;
 import org.junit.Test;

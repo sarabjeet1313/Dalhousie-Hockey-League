@@ -1,20 +1,20 @@
 package dpl.InternalStateMachineTest;
 
-import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
-import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
-import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
-import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IInjuryManagement;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ILeaguePersistance;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IRetirementManagement;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
-import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStateContext;
-import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.PlayerDraftState;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
-import dpl.StandingsTest.StandingsMockDb;
+import dpl.LeagueManagement.Schedule.ISchedule;
+import dpl.LeagueManagement.Schedule.SeasonCalendar;
+import dpl.LeagueManagement.Standings.IStandingsPersistance;
+import dpl.LeagueManagement.Standings.StandingInfo;
+import dpl.LeagueManagement.TeamManagement.IInjuryManagement;
+import dpl.LeagueManagement.TeamManagement.ILeaguePersistance;
+import dpl.LeagueManagement.TeamManagement.IRetirementManagement;
+import dpl.LeagueManagement.TeamManagement.League;
+import dpl.SimulationManagement.InternalStateMachine.InternalStateContext;
+import dpl.SimulationManagement.InternalStateMachine.PlayerDraftState;
+import dpl.UserInputOutput.UserInput.IUserInput;
+import dpl.UserInputOutput.UserOutput.IUserOutput;
+import dpl.LeagueManagementTest.StandingsTest.StandingsMockDb;
 import dpl.SystemConfig;
-import dpl.TeamManagementTest.LeagueMockData;
+import dpl.LeagueManagementTest.TeamManagementTest.LeagueMockData;
 import org.junit.Before;
 import org.junit.Test;
 

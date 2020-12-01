@@ -9,7 +9,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import dpl.LeagueSimulationManagement.NewsSystem.InjuryPublisher;
+import dpl.NewsSystem.InjuryPublisher;
 
 public class InjuryTest {
     private final ByteArrayOutputStream console = new ByteArrayOutputStream();

@@ -1,28 +1,28 @@
 package dpl.SimulationStateMachineTest;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+
+import dpl.LeagueManagementTest.GameplayConfigurationTest.GameplayConfigMockData;
+import dpl.LeagueManagement.Standings.IStandingsPersistance;
+import dpl.LeagueManagement.TeamManagement.League;
+import dpl.LeagueManagement.Trading.ITradePersistence;
+import dpl.SimulationManagement.SimulationStateMachine.ParsingState;
+import dpl.SimulationManagement.SimulationStateMachine.StateContext;
+import dpl.UserInputOutput.UserInput.CmdUserInput;
+import dpl.UserInputOutput.UserInput.IUserInput;
+import dpl.UserInputOutput.UserOutput.CmdUserOutput;
+import dpl.UserInputOutput.UserOutput.IUserOutput;
+import dpl.LeagueManagementTest.StandingsTest.StandingsMockDb;
+import dpl.LeagueManagementTest.TeamManagementTest.CoachMockData;
+import dpl.LeagueManagementTest.TeamManagementTest.LeagueMockData;
+import dpl.LeagueManagementTest.TeamManagementTest.ManagerMockData;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.net.URL;
 
-import org.junit.Before;
-import org.junit.Test;
-
-import dpl.Database.GameConfigDB;
-import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
-import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradePersistence;
-import dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine.ParsingState;
-import dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine.StateContext;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
-import dpl.StandingsTest.StandingsMockDb;
-import dpl.TeamManagementTest.CoachMockData;
-import dpl.TeamManagementTest.LeagueMockData;
-import dpl.TeamManagementTest.ManagerMockData;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class ParsingStateTest {
 	
@@ -33,7 +33,7 @@ public class ParsingStateTest {
     private LeagueMockData leagueDb;
     private String filePath;
     private CoachMockData coachMock;
-    private GameConfigDB configMock;
+    private GameplayConfigMockData configMock;
     private ManagerMockData managerMock;
     private IStandingsPersistance standingMock;
     private ITradePersistence tradeMock;

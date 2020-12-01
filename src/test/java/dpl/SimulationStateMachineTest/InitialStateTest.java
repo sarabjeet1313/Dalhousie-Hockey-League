@@ -7,12 +7,12 @@ import java.io.PrintStream;
 import org.junit.Before;
 import org.junit.Test;
 
-import dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine.InitialState;
-import dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine.StateContext;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+import dpl.SimulationManagement.SimulationStateMachine.InitialState;
+import dpl.SimulationManagement.SimulationStateMachine.StateContext;
+import dpl.UserInputOutput.UserInput.CmdUserInput;
+import dpl.UserInputOutput.UserInput.IUserInput;
+import dpl.UserInputOutput.UserOutput.CmdUserOutput;
+import dpl.UserInputOutput.UserOutput.IUserOutput;
 
 public class InitialStateTest {
     private static InitialState state;

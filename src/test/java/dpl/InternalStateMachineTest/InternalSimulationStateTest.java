@@ -1,16 +1,16 @@
 package dpl.InternalStateMachineTest;
 
-import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
-import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
-import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradePersistence;
-import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalSimulationState;
-import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStateContext;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
-import dpl.StandingsTest.StandingsMockDb;
+import dpl.LeagueManagement.Schedule.SeasonCalendar;
+import dpl.LeagueManagement.Standings.IStandingsPersistance;
+import dpl.LeagueManagement.Trading.ITradePersistence;
+import dpl.SimulationManagement.InternalStateMachine.InternalSimulationState;
+import dpl.SimulationManagement.InternalStateMachine.InternalStateContext;
+import dpl.UserInputOutput.UserInput.IUserInput;
+import dpl.UserInputOutput.UserOutput.IUserOutput;
+import dpl.LeagueManagementTest.StandingsTest.StandingsMockDb;
 import dpl.SystemConfig;
-import dpl.TeamManagementTest.LeagueMockData;
-import dpl.TradingTest.TradeObjectTestMockData;
+import dpl.LeagueManagementTest.TeamManagementTest.LeagueMockData;
+import dpl.LeagueManagementTest.TradingTest.TradeObjectTestMockData;
 import org.junit.Before;
 import org.junit.Test;
 
