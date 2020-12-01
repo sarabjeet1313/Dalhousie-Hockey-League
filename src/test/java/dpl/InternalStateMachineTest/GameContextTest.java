@@ -1,14 +1,14 @@
 package dpl.InternalStateMachineTest;
 
-import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
-import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.GameContext;
-import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.ISimulateMatch;
-import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.SimulatePlayoffSeasonMatch;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
-import dpl.ScheduleTest.MockSchedule;
+import dpl.LeagueManagement.Schedule.ISchedule;
+import dpl.LeagueManagement.TeamManagement.League;
+import dpl.SimulationManagement.InternalStateMachine.GameContext;
+import dpl.SimulationManagement.InternalStateMachine.ISimulateMatch;
+import dpl.SimulationManagement.InternalStateMachine.SimulatePlayoffSeasonMatch;
+import dpl.UserInputOutput.UserOutput.IUserOutput;
+import dpl.LeagueManagementTest.ScheduleTest.MockSchedule;
 import dpl.SystemConfig;
-import dpl.TeamManagementTest.LeagueMockData;
+import dpl.LeagueManagementTest.TeamManagementTest.LeagueMockData;
 import org.junit.Before;
 import org.junit.Test;
 

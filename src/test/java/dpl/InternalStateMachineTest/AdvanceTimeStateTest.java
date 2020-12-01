@@ -1,10 +1,10 @@
 package dpl.InternalStateMachineTest;
 
-import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
-import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.AdvanceTimeState;
-import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStateContext;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+import dpl.LeagueManagement.Schedule.SeasonCalendar;
+import dpl.SimulationManagement.InternalStateMachine.AdvanceTimeState;
+import dpl.SimulationManagement.InternalStateMachine.InternalStateContext;
+import dpl.UserInputOutput.UserInput.IUserInput;
+import dpl.UserInputOutput.UserOutput.IUserOutput;
 import dpl.SystemConfig;
 import org.junit.Before;
 import org.junit.Test;

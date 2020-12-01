@@ -1,12 +1,12 @@
 package dpl.SimulationStateMachineTest;
-import dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine.SimulateState;
-import dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine.StateContext;
-import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
-import dpl.StandingsTest.StandingsMockDb;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+import dpl.SimulationManagement.SimulationStateMachine.SimulateState;
+import dpl.SimulationManagement.SimulationStateMachine.StateContext;
+import dpl.LeagueManagement.Standings.IStandingsPersistance;
+import dpl.LeagueManagementTest.StandingsTest.StandingsMockDb;
+import dpl.UserInputOutput.UserInput.CmdUserInput;
+import dpl.UserInputOutput.UserInput.IUserInput;
+import dpl.UserInputOutput.UserOutput.CmdUserOutput;
+import dpl.UserInputOutput.UserOutput.IUserOutput;
 
 import org.junit.Before;
 import org.junit.Test;
