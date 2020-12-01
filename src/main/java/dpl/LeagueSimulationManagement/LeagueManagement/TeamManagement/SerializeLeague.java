@@ -8,13 +8,12 @@ import java.net.URL;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import dpl.DplConstants.TeamManagementConstants;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
+import dpl.SystemConfig;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
 public class SerializeLeague implements ISerialize {
 
-    IUserOutput output = new CmdUserOutput();
+    IUserOutput output = SystemConfig.getSingleInstance().getUserOutputAbstractFactory().CmdUserOutput();
 
     @Override
     public boolean serializeLeagueModel(League league) throws IOException {

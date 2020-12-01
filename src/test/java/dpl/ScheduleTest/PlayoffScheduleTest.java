@@ -3,18 +3,18 @@ package dpl.ScheduleTest;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.PlayoffSchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
-import dpl.StandingsTest.StandingsMockDb;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
-import dpl.TeamManagementTest.LeagueMockData;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
-
+import dpl.StandingsTest.StandingsMockDb;
+import dpl.SystemConfig;
+import dpl.TeamManagementTest.LeagueMockData;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 import java.sql.SQLException;
+
+import static org.junit.Assert.*;
 
 public class PlayoffScheduleTest {
 
@@ -27,11 +27,12 @@ public class PlayoffScheduleTest {
 
     @Before
     public void setUp() throws Exception {
-        output = new CmdUserOutput();
-        standingsDb = new StandingsMockDb(0);
-        leagueToSimulate = new LeagueMockData().getTestData();
-        state = new PlayoffSchedule(output, standingsDb, 0);
-        mockSchedule = new MockSchedule();
+        output = SystemConfig.getSingleInstance().getUserOutputAbstractFactory().CmdUserOutput();
+        standingsDb = StandingsMockDb.getInstance();
+        leagueToSimulate = LeagueMockData.getInstance().getTestData();
+        standings = SystemConfig.getSingleInstance().getStandingsAbstractFactory().StandingInfo(leagueToSimulate, 0, standingsDb, output);
+        state = SystemConfig.getSingleInstance().getScheduleAbstractFactory().PlayoffSchedule(output, standingsDb, standings, 0);
+        mockSchedule = MockSchedule.getInstance();
     }
 
     @Test
@@ -126,17 +127,13 @@ public class PlayoffScheduleTest {
 
     @Test
     public void generateScheduleTest() {
-    	try {
         state.setCurrentDay("13-11-2020");
         state.setFirstDay("13-11-2020");
         state.setLastDay("20-11-2020");
         state.generateSchedule(leagueToSimulate);
-        assertEquals("Halifax", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
-        assertNotEquals("Toronto", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
-    	} catch (SQLException e) {
-    		output.setOutput(e.getMessage());
-    		output.sendOutput();
-		}
+        state.setFinalSchedule(mockSchedule.getFinalSchedule());
+        assertEquals("Brampton", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
+        assertNotEquals("Halifax", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
     }
 
     @Test
@@ -168,7 +165,15 @@ public class PlayoffScheduleTest {
     @Test
     public void setFinalScheduleTest() {
         state.setFinalSchedule(mockSchedule.getMockSchedule());
-        assertEquals("Halifax", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
+        assertEquals("Brampton", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
         assertNotEquals("Calgary", state.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
     }
+
+    @Test
+    public void anyUnplayedGameTest() {
+        state.setFinalSchedule(mockSchedule.getMockSchedule());
+        assertTrue(state.anyUnplayedGame("14-11-2020"));
+        assertFalse(state.anyUnplayedGame("17-11-2020"));
+    }
+
 }

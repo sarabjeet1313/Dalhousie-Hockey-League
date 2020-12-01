@@ -1,38 +1,38 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.Trading;
 
-import java.sql.SQLException;
+import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class TradeReset {
+	
     private ITradePersistence tradeDB;
     private List<String> teamNames = new ArrayList<>();
 
-    public TradeReset(ITradePersistence tradeDB){
+    public TradeReset(ITradePersistence tradeDB) {
         this.tradeDB = tradeDB;
     }
 
-    public void addToTeamNames (String teamName){
+    public void addToTeamNames(String teamName) {
         this.teamNames.add(teamName);
     }
 
-    public void clearList(){
+    public void clearList() {
         this.teamNames.clear();
     }
 
-    public void UpdateTrade() throws SQLException{
+    public void UpdateTrade(StandingInfo standingInfo){
         boolean isPersisted = Boolean.FALSE;
-        try {
         if(this.teamNames.size() > 1){
             for(String teamName: this.teamNames){
-                isPersisted = tradeDB.resetTradeLossPoint(teamName);
+                isPersisted = tradeDB.resetTradeLossPoint(teamName, standingInfo);
             }
         }
         if(isPersisted == Boolean.TRUE){
             this.clearList();
         }
-        }catch (SQLException e) {
-			throw e;
-		}
+
     }
+    
 }

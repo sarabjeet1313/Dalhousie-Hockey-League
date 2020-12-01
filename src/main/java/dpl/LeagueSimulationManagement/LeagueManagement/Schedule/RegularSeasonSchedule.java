@@ -1,16 +1,17 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.Schedule;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
-
-import dpl.DplConstants.ScheduleConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Conference;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Division;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class RegularSeasonSchedule implements ISchedule {
 
@@ -33,22 +34,22 @@ public class RegularSeasonSchedule implements ISchedule {
     private List<String> teamsToBeScheduled;
     private List<String> teamsScheduled;
     private List<String> teamsCompeting;
+    private static final Logger log = Logger.getLogger(RegularSeasonSchedule.class.getName());
 
     public RegularSeasonSchedule(Calendar calendar, IUserOutput output) {
-
         this.totalDivisions = 0;
         this.totalTeams = 0;
         this.seasonType = ScheduleConstants.REGULAR_SEASON;
         this.calendar = calendar;
         this.output = output;
-        listOfConferences = new ArrayList<String>();
-        conferenceTeamsMap = new HashMap<String, List<String>>();
-        divisionTeamsMap = new HashMap<String, List<String>>();
-        conferenceDivisionMap = new HashMap<String, List<String>>();
-        listOfConferences = new ArrayList<String>();
-        matchScheduledForTeam = new HashMap<String, Integer>();
-        finalSchedule = new HashMap<String, List<Map<String, String>>>();
-        matchesOnADay = new HashMap<String, Integer>();
+        listOfConferences = new ArrayList<>();
+        conferenceTeamsMap = new HashMap<>();
+        divisionTeamsMap = new HashMap<>();
+        conferenceDivisionMap = new HashMap<>();
+        listOfConferences = new ArrayList<>();
+        matchScheduledForTeam = new HashMap<>();
+        finalSchedule = new HashMap<>();
+        matchesOnADay = new HashMap<>();
         teamsScheduled = new ArrayList<>();
         teamsToBeScheduled = new ArrayList<>();
         teamsCompeting = new ArrayList<>();
@@ -93,11 +94,12 @@ public class RegularSeasonSchedule implements ISchedule {
         populateInternalModel(leagueToSimulate);
         setMatchesPerDay();
         generate();
+        log.log(Level.INFO, "Regular season schedule generated");
     }
 
     private void populateInternalModel(League leagueToSimulate) {
-
         if (null == leagueToSimulate) {
+            log.log(Level.SEVERE, "Null league found in internal model inside regular season schedule");
             return;
         }
 
@@ -106,24 +108,20 @@ public class RegularSeasonSchedule implements ISchedule {
         for (int index = 0; index < conferenceList.size(); index++) {
             List<Division> divisionList = conferenceList.get(index).getDivisionList();
             String conferenceName = conferenceList.get(index).getConferenceName();
-
             this.listOfConferences.add(conferenceName);
             this.totalDivisions += divisionList.size();
-
-            List<String> divisions = new ArrayList<String>();
+            List<String> divisions = new ArrayList<>();
             for (int dIndex = 0; dIndex < divisionList.size(); dIndex++) {
                 List<Team> teamList = divisionList.get(dIndex).getTeamList();
                 String divisionName = divisionList.get(dIndex).getDivisionName();
                 divisions.add(divisionName);
                 this.totalTeams += teamList.size();
-
-                List<String> teams = new ArrayList<String>();
+                List<String> teams = new ArrayList<>();
                 for (int tIndex = 0; tIndex < teamList.size(); tIndex++) {
                     String teamName = teamList.get(tIndex).getTeamName();
                     teams.add(teamName);
                     matchScheduledForTeam.put(teamName, 0);
                 }
-
                 if (conferenceTeamsMap.containsKey(conferenceName)) {
                     List<String> alreadyAddedTeams = conferenceTeamsMap.get(conferenceName);
                     alreadyAddedTeams.addAll(teams);
@@ -131,49 +129,43 @@ public class RegularSeasonSchedule implements ISchedule {
                 } else {
                     conferenceTeamsMap.put(conferenceName, teams);
                 }
-
                 divisionTeamsMap.put(divisionName, teams);
             }
             conferenceDivisionMap.put(conferenceName, divisions);
         }
-
     }
 
     private void setMatchesPerDay() {
         SimpleDateFormat myFormat = new SimpleDateFormat(ScheduleConstants.DATE_FORMAT);
-
         try {
             Date date1 = myFormat.parse(firstDay);
             Date date2 = myFormat.parse(lastDay);
             long diff = date2.getTime() - date1.getTime();
             int totalDays = (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
-
             int matchCount = (totalTeams * ScheduleConstants.REGULAR_MATCH_PER_TEAM) / totalDays;
             if (matchCount < 1) {
                 matchesPerDay = 1;
             } else {
                 matchesPerDay = matchCount + 1;
             }
-
         } catch (ParseException e) {
-            e.printStackTrace();
+            output.setOutput(e.getMessage());
+            output.sendOutput();
+            log.log(Level.SEVERE, e.getMessage());
+            System.exit(1);
         }
     }
 
     private void generate() {
-
         for (String conference : listOfConferences) {
-
             List<String> teamsInConference = conferenceTeamsMap.get(conference);
             for (String team : teamsInConference) {
-
                 String divisionName = "";
                 for (Map.Entry<String, List<String>> entry : divisionTeamsMap.entrySet()) {
                     if (entry.getValue().contains(team)) {
                         divisionName = entry.getKey();
                     }
                 }
-
                 scheduleIntraDivisionMatches(divisionName, team);
                 scheduleInterDivisionMatches(conference, divisionName, team);
                 scheduleInterConferenceMatches(conference, team);
@@ -186,8 +178,7 @@ public class RegularSeasonSchedule implements ISchedule {
 
         int matchCounter = 0;
         if (teamsInDivision.size() < 2) {
-            output.setOutput("Less than 2 teams provided. Cannot simulate league.");
-            output.sendOutput();
+            log.log(Level.SEVERE, "Less than 2 teams provided. Cannot simulate league.");
             return;
         }
         int loopCounter = ScheduleConstants.REGULAR_SEASON_MAX_MATCH_PER_DAY / (teamsInDivision.size() - 1);
@@ -200,7 +191,7 @@ public class RegularSeasonSchedule implements ISchedule {
 
                 if (matchScheduledForTeam.containsKey(teamName) && matchCounter < (ScheduleConstants.REGULAR_SEASON_MAX_MATCH_PER_DAY + 1)) {
                     if (matchesOnADay.get(currentDay) < matchesPerDay) {
-                        Map<String, String> teamsCompeting = new HashMap<String, String>();
+                        Map<String, String> teamsCompeting = new HashMap<>();
                         teamsCompeting.put(teamName, team);
 
                         if (finalSchedule.containsKey(currentDay)) {
@@ -223,7 +214,7 @@ public class RegularSeasonSchedule implements ISchedule {
 
                     } else {
                         incrementCurrentDay();
-                        Map<String, String> teamsCompeting = new HashMap<String, String>();
+                        Map<String, String> teamsCompeting = new HashMap<>();
                         teamsCompeting.put(teamName, team);
 
 
@@ -270,8 +261,7 @@ public class RegularSeasonSchedule implements ISchedule {
 
         int matchCounter = 0;
         if (teamsInOtherDivision.size() < 2) {
-            output.setOutput("Less than 2 teams provided. Cannot simulate league.");
-            output.sendOutput();
+            log.log(Level.SEVERE, "Less than 2 teams provided. Cannot simulate league.");
             return;
         }
         int loopCounter = ScheduleConstants.REGULAR_SEASON_MAX_MATCH_PER_DAY / (teamsInOtherDivision.size() - 1);
@@ -284,7 +274,7 @@ public class RegularSeasonSchedule implements ISchedule {
 
                 if (matchScheduledForTeam.containsKey(teamName) && matchCounter < ScheduleConstants.REGULAR_SEASON_MAX_MATCH_PER_DAY + 1) {
                     if (matchesOnADay.get(currentDay) < matchesPerDay) {
-                        Map<String, String> teamsCompeting = new HashMap<String, String>();
+                        Map<String, String> teamsCompeting = new HashMap<>();
                         teamsCompeting.put(teamName, team);
 
                         if (finalSchedule.containsKey(currentDay)) {
@@ -307,7 +297,7 @@ public class RegularSeasonSchedule implements ISchedule {
 
                     } else {
                         incrementCurrentDay();
-                        Map<String, String> teamsCompeting = new HashMap<String, String>();
+                        Map<String, String> teamsCompeting = new HashMap<>();
                         teamsCompeting.put(teamName, team);
 
                         if (finalSchedule.containsKey(currentDay)) {
@@ -351,8 +341,7 @@ public class RegularSeasonSchedule implements ISchedule {
 
         int matchCounter = 0;
         if (teamsInOtherConferences.size() < 2) {
-            output.setOutput("Less than 2 teams provided. Cannot simulate league.");
-            output.sendOutput();
+            log.log(Level.SEVERE, "Less than 2 teams provided. Cannot simulate league.");
             return;
         }
         int loopCounter = ScheduleConstants.REGULAR_SEASON_MAX_MATCH_PER_DAY / (teamsInOtherConferences.size() - 1);
@@ -365,7 +354,7 @@ public class RegularSeasonSchedule implements ISchedule {
 
                 if (matchScheduledForTeam.containsKey(teamName) && matchCounter < ScheduleConstants.REGULAR_SEASON_MAX_MATCH_PER_DAY + 1) {
                     if (matchesOnADay.get(currentDay) < matchesPerDay) {
-                        Map<String, String> teamsCompeting = new HashMap<String, String>();
+                        Map<String, String> teamsCompeting = new HashMap<>();
                         teamsCompeting.put(teamName, team);
 
                         if (finalSchedule.containsKey(currentDay)) {
@@ -388,7 +377,7 @@ public class RegularSeasonSchedule implements ISchedule {
 
                     } else {
                         incrementCurrentDay();
-                        Map<String, String> teamsCompeting = new HashMap<String, String>();
+                        Map<String, String> teamsCompeting = new HashMap<>();
                         teamsCompeting.put(teamName, team);
 
                         if (finalSchedule.containsKey(currentDay)) {
@@ -420,7 +409,6 @@ public class RegularSeasonSchedule implements ISchedule {
     }
 
     public boolean incrementCurrentDay() {
-
         if (currentDay.equals(lastDay)) {
             return false;
         } else {
@@ -429,8 +417,10 @@ public class RegularSeasonSchedule implements ISchedule {
             try {
                 calendar.setTime(dateFormat.parse(currentDay));
             } catch (ParseException e) {
-                output.setOutput("Exception while getting current date in Regular Season State");
+                output.setOutput(e.getMessage());
                 output.sendOutput();
+                log.log(Level.SEVERE, e.getMessage());
+                return false;
             }
             calendar.add(Calendar.DAY_OF_MONTH, 1);
             currentDay = dateFormat.format(calendar.getTime());

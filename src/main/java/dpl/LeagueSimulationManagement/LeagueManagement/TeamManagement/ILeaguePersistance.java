@@ -1,16 +1,16 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement;
 
-import java.sql.SQLException;
+import java.io.IOException;
 
 public interface ILeaguePersistance {
 
-    public boolean persisitLeagueData(String leagueName, String conferenceName, String divisionName, String teamName,
-                                      String generalManager, String headCoach, Player player) throws SQLException;
+    public boolean persisitLeagueData(League league, String conferenceName, String divisionName, String teamName,
+                                      String generalManager, String headCoach, Player player) throws IOException;
 
-    public int checkLeagueName(String leagueName) throws SQLException;
+    public int checkLeagueName(League league) throws IOException;
 
-    public League loadLeagueData(String teamName) throws SQLException;
+    public League loadLeagueData(String teamName) throws IOException;
 
-    public boolean UpdateLeagueData(String leagueName, String teamName, Player player) throws SQLException;
+    public boolean updateLeagueData(League league, String teamName, Player player) throws IOException;
 
 }

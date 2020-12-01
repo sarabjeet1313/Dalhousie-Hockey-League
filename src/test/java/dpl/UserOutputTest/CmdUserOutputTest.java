@@ -1,22 +1,22 @@
 package dpl.UserOutputTest;
-import org.junit.Test;
 
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
-
+import dpl.SystemConfig;
 import org.junit.Before;
+import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class CmdUserOutputTest {
     private IUserOutput cmdOutput;
 
     @Before
     public void setUpClass() throws Exception {
-        cmdOutput = new CmdUserOutput();
+        cmdOutput = SystemConfig.getSingleInstance().getUserOutputAbstractFactory().CmdUserOutput();
     }
 
     @Test

@@ -3,20 +3,24 @@ package dpl.TeamManagementTest;
 import java.util.ArrayList;
 import org.junit.Test;
 
+import dpl.SystemConfig;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Conference;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Division;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManagementAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
 
 import org.junit.Assert;
 
 public class ConferenceTest {
 	
-	ArrayList<Division> divisionList = new ArrayList<Division>();
-	Conference conference = new Conference("Eastern Conference", divisionList);
-	ArrayList<Team> teamList = new ArrayList<Team>();
-	ArrayList<Team> teamList1 = new ArrayList<Team>();
-	Division division = new Division("Atlantic", teamList);
-	Division division1 = new Division("Florida", teamList1);
+	ArrayList<Division> divisionList = new ArrayList<>();
+	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
+			.getTeamManagementAbstractFactory();
+	Conference conference = teamManagement.ConferenceWithParameters("Eastern Conference", divisionList);
+	ArrayList<Team> teamList = new ArrayList<>();
+	ArrayList<Team> teamList1 = new ArrayList<>();
+	Division division = teamManagement.DivisionWithParameters("Atlantic", teamList);
+	Division division1 = teamManagement.DivisionWithParameters("Florida", teamList1);
 	
 	@Test
 	public void parameterizedConstructorTest() {
@@ -48,7 +52,7 @@ public class ConferenceTest {
 	@Test
 	public void setDivisionListTest() {
 		divisionList.add(division);
-		Conference conference1 = new Conference("Westren Conference", divisionList);
+		Conference conference1 = teamManagement.ConferenceWithParameters("Westren Conference", divisionList);
 		divisionList.add(division1);
 		conference1.setDivisionList(divisionList);
 		Assert.assertEquals(2, conference1.getDivisionList().size());

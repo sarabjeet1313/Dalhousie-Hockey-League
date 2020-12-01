@@ -1,14 +1,23 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration;
 
-import java.sql.SQLException;
+import java.io.IOException;
+
+import com.google.gson.annotations.Expose;
 
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 
 public class GameplayConfig {
+
+	private double penaltyChance = 0.45;
+	private int checkingValueToPenalty = 10;
+	private double shootingValueToGoal = 4.9;
+	@Expose(serialize = true, deserialize = true)
 	private Aging aging;
-	private GameResolver gameResolver;
+	@Expose(serialize = true, deserialize = true)
 	private Injury injury;
+	@Expose(serialize = true, deserialize = true)
 	private Training training;
+	@Expose(serialize = true, deserialize = true)
 	private Trading trading;
 	private IGameplayConfigPersistance configDb;
 
@@ -16,19 +25,17 @@ public class GameplayConfig {
 		this.configDb = configDb;
 	}
 
-	public GameplayConfig(Aging aging, GameResolver gameResolver, Injury injury, Training training, Trading trading,
+	public GameplayConfig(Aging aging, Injury injury, Training training, Trading trading,
 			IGameplayConfigPersistance configDb) {
 		this.aging = aging;
-		this.gameResolver = gameResolver;
 		this.injury = injury;
 		this.training = training;
 		this.trading = trading;
 		this.configDb = configDb;
 	}
 
-	public GameplayConfig(Aging aging, GameResolver gameResolver, Injury injury, Training training, Trading trading) {
+	public GameplayConfig(Aging aging, Injury injury, Training training, Trading trading) {
 		this.aging = aging;
-		this.gameResolver = gameResolver;
 		this.injury = injury;
 		this.training = training;
 		this.trading = trading;
@@ -40,14 +47,6 @@ public class GameplayConfig {
 
 	public void setAging(Aging aging) {
 		this.aging = aging;
-	}
-
-	public GameResolver getGameResolver() {
-		return gameResolver;
-	}
-
-	public void setGameResolver(GameResolver gameResolver) {
-		this.gameResolver = gameResolver;
 	}
 
 	public Injury getInjury() {
@@ -74,23 +73,36 @@ public class GameplayConfig {
 		this.trading = trading;
 	}
 
-	public boolean saveGameplayConfig(League league) throws SQLException {
+	public double getPenaltyChance() {
+		return penaltyChance;
+	}
+
+	public double getShootingValue() {
+		return shootingValueToGoal;
+	}
+
+	public int getCheckingValue() {
+		return checkingValueToPenalty;
+	}
+
+	public boolean saveGameplayConfig(League league) throws IOException {
 		boolean isValid = Boolean.FALSE;
 		try {
 			isValid = configDb.persistGameConfig(league.getGameConfig(), league.getLeagueName());
-		} catch (SQLException e) {
+		} catch (IOException e) {
 			throw e;
 		}
 		return isValid;
 	}
 
-	public GameplayConfig loadGameplayConfig(League league) throws SQLException {
+	public GameplayConfig loadGameplayConfig(League league) throws IOException {
 		GameplayConfig config = null;
 		try {
 			config = configDb.loadGameplayConfigData(league.getLeagueName());
-		} catch (SQLException e) {
+		} catch (IOException e) {
 			throw e;
 		}
 		return config;
 	}
+
 }

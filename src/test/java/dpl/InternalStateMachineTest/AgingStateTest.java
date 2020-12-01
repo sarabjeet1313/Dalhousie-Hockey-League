@@ -1,15 +1,15 @@
 package dpl.InternalStateMachineTest;
 
-import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.*;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.InjuryManagement;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IInjuryManagement;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManagementAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
-import dpl.TeamManagementTest.LeagueMockData;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
+import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.AgingState;
+import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStateContext;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
-
+import dpl.SystemConfig;
+import dpl.TeamManagementTest.LeagueMockData;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,17 +23,19 @@ public class AgingStateTest {
     private IUserInput input;
     private AgingState state;
     private League leagueToSimulate;
-    private InjuryManagement injury;
+    private IInjuryManagement injury;
+    private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
+			.getTeamManagementAbstractFactory();
 
     @Before
     public void setUp() throws Exception {
-        input = new CmdUserInput();
-        output = new CmdUserOutput();
-        utility = new SeasonCalendar(0, output);
-        context = new InternalStateContext(input, output);
-        injury = new InjuryManagement();
-        leagueToSimulate = new LeagueMockData().getTestData();
-        state = new AgingState(leagueToSimulate, injury, context, utility, "13-11-2020", output);
+        input = SystemConfig.getSingleInstance().getUserInputAbstractFactory().CmdUserInput();
+        output = SystemConfig.getSingleInstance().getUserOutputAbstractFactory().CmdUserOutput();
+        utility = SystemConfig.getSingleInstance().getScheduleAbstractFactory().SeasonCalendar(0, output);
+        context = SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory().InternalStateContext(input, output);
+        injury = teamManagement.InjuryManagement();
+        leagueToSimulate = LeagueMockData.getInstance().getTestData();
+        state = (AgingState)SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory().AgingState(leagueToSimulate, null, null, null, injury, context, utility, "13-11-2020", "", 0, output);
     }
 
     @Test
@@ -52,7 +54,7 @@ public class AgingStateTest {
     }
 
     @Test
-    public void getUpdatedLeague() {
+    public void getUpdatedLeagueTest() {
         state.doProcessing();
         assertFalse(null == state.getUpdatedLeague());
         assertTrue(state.getUpdatedLeague() instanceof League);
@@ -73,6 +75,12 @@ public class AgingStateTest {
         utility.setSeasonOverStatus(true);
         state.nextState(context);
         assertNotEquals("Persist", state.getNextStateName());
-        assertEquals("NextSeason", state.getNextStateName());
+        assertEquals("TrophyState", state.getNextStateName());
+    }
+
+    @Test
+    public void shouldContinueTest() {
+        assertTrue(state.shouldContinue());
+        assertFalse(!state.shouldContinue());
     }
 }

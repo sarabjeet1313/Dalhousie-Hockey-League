@@ -1,16 +1,19 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
-import java.sql.SQLException;
-import java.util.Calendar;
-
-import dpl.DplConstants.StateConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
-import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.RegularSeasonSchedule;
+import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.IScheduleAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
+import dpl.LeagueSimulationManagement.SimulationManagement.GenerateRegularConstants;
+import dpl.LeagueSimulationManagement.SimulationManagement.StateConstants;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+import dpl.SystemConfig;
+
+import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class GenerateRegularSeasonScheduleState implements ISimulationState {
 
@@ -25,17 +28,26 @@ public class GenerateRegularSeasonScheduleState implements ISimulationState {
 	private InternalStateContext context;
 	private ISchedule schedule;
 	private SeasonCalendar seasonCalendar;
+	private IStandingsPersistance standingsDb;
+	private int season;
+	private IInternalStateMachineAbstractFactory internalStateMachineFactory;
+	private IScheduleAbstractFactory scheduleAbstractFactory;
+	private static final Logger log = Logger.getLogger(GenerateRegularSeasonScheduleState.class.getName());
 
 	public GenerateRegularSeasonScheduleState(League leagueToSimulate, IUserOutput output, int season,
-			InternalStateContext context, IStandingsPersistance standingsDb) {
+			InternalStateContext context, IStandingsPersistance standingsDb, StandingInfo standings, SeasonCalendar utility) {
 		this.stateName = StateConstants.GENERATE_REGULAR_SEASON_SCHEDULE_STATE;
+		this.internalStateMachineFactory = SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory();
+		this.scheduleAbstractFactory = SystemConfig.getSingleInstance().getScheduleAbstractFactory();
 		this.leagueToSimulate = leagueToSimulate;
-		this.standings = new StandingInfo(leagueToSimulate, season, standingsDb);
+		this.standings = standings;
 		this.calendar = Calendar.getInstance();
-		this.schedule = new RegularSeasonSchedule(calendar, output);
-		this.seasonCalendar = new SeasonCalendar(season, output);
+		this.schedule = scheduleAbstractFactory.RegularSeasonSchedule(calendar, output);
+		this.seasonCalendar = utility;
+		this.standingsDb = standingsDb;
 		this.output = output;
 		this.context = context;
+		this.season = season;
 		this.startDate = seasonCalendar.getRegularSeasonStartDay();
 		schedule.setCurrentDay(this.startDate);
 		schedule.setFirstDay(seasonCalendar.getRegularSeasonFirstDay());
@@ -44,28 +56,33 @@ public class GenerateRegularSeasonScheduleState implements ISimulationState {
 		seasonCalendar.setLastSeasonDay(this.endDate);
 	}
 
-	public void nextState(InternalStateContext context) {
+	public ISimulationState nextState(InternalStateContext context) {
 		this.nextStateName = StateConstants.ADVANCE_TIME_STATE;
+		return this.internalStateMachineFactory.AdvanceTimeState(this.leagueToSimulate, this.schedule, this.seasonCalendar, this.standingsDb, this.standings, this.startDate, this.endDate, output, context, this.season);
 	}
 
 	public void doProcessing() {
-		output.setOutput("Scheduling the regular season for simulation.");
+		output.setOutput(GenerateRegularConstants.SCHEDULING_REGULAR.toString());
 		output.sendOutput();
+		log.log(Level.INFO, GenerateRegularConstants.SCHEDULING_REGULAR.toString());
 		try {
-			standings.initializeStandings();
 			if (null == leagueToSimulate) {
-				output.setOutput("Error scheduling season, passed league object is null. Please check");
-				output.sendOutput();
+				log.log(Level.SEVERE, GenerateRegularConstants.SCHEDULING_ERROR.toString());
 				return;
 			}
 			schedule.generateSchedule(leagueToSimulate);
-			output.setOutput("Regular season has been scheduled successfully.");
-			output.sendOutput();
+			log.log(Level.INFO, GenerateRegularConstants.REGULAR_SUCCESSFUL.toString());
 			schedule.setCurrentDay(seasonCalendar.getRegularSeasonStartDay());
-		} catch (SQLException e) {
+		} catch (Exception e) {
+			log.log(Level.SEVERE, e.getMessage());
 			output.setOutput(e.getMessage());
 			output.sendOutput();
+			System.exit(1);
 		}
+	}
+
+	public boolean shouldContinue() {
+		return true;
 	}
 
 	public String getRegularSeasonEndDate() {

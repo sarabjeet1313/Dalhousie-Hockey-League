@@ -2,12 +2,15 @@ package dpl.TeamManagementTest;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import dpl.StandingsTest.StandingsMockDb;
+import dpl.SystemConfig;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Aging;
-import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.GameResolver;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.GameplayConfig;
+import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.IGameplayConfigPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Injury;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Trading;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Training;
@@ -16,65 +19,75 @@ import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Conference
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Division;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ILeaguePersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IRetirementManagement;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManagementAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Manager;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.RetirementManagement;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
 
 public class LeagueMockData implements ILeaguePersistance {
 
-	private Player player1 = new Player("Player One", "forward", true, 49, 1, 1, 1, 1, false, false, 0);
-	private Player player2 = new Player("Player Two", "defense", false, 51, 1, 1, 1, 1, false, true, 0);
-	private Player player3 = new Player("Player Three", "goalie", false, 1, 1, 1, 1, 1, false, false, 0);
-	private Player player4 = new Player("Agent1", "forward", false, 1, 1, 1, 1, 1, false, false, 0);
-	private Player player5 = new Player("Agent2", "defense", false, 51, 1, 1, 1, 1, false, true, 0);
-	private Player player6 = new Player("Agent3", "defense", false, 1, 1, 1, 1, 1, false, false, 0);
-	Player agent1 = new Player("Agent4", "forward", true, 1, 1, 1, 1, 1, false, false, 0);
-	Player agent2 = new Player("Agent5", "goalie", false, 50, 1, 1, 1, 1, false, false, 0);
-	Player agent3 = new Player("Agent6", "forward", false, 1, 1, 1, 1, 1, false, false, 0);
-	Player agent4 = new Player("Agent7", "forward", false, 1, 1, 1, 1, 1, false, false, 0);
-	Player agent5 = new Player("Agent8", "defense", false, 1, 1, 1, 1, 1, false, false, 0);
-	Player agent6 = new Player("Agent9", "forward", false, 48, 1, 1, 1, 1, false, false, 0);
-	Player agent7 = new Player("Agent10", "forward", true, 1, 1, 1, 1, 1, false, false, 0);
-	Player agent8 = new Player("Agent11", "defense", false, 1, 1, 1, 1, 1, false, false, 0);
-	Player agent9 = new Player("Agent12", "goalie", false, 1, 1, 1, 1, 1, false, false, 0);
-	Player agent10 = new Player("Agent13", "forward", false, 1, 1, 1, 1, 1, false, false, 0);
-	Player agent11 = new Player("Agent14", "defense", false, 1, 1, 1, 1, 1, false, false, 0);
-	Player agent12 = new Player("Agent15", "defense", false, 49, 1, 1, 1, 1, false, false, 0);
-	Player agent13 = new Player("Agent16", "forward", true, 1, 1, 1, 1, 1, false, false, 0);
-	Player agent14 = new Player("Agent17", "defense", false, 1, 1, 1, 1, 1, false, false, 0);
-	Player agent15 = new Player("Agent18", "forward", false, 1, 1, 1, 1, 1, false, false, 0);
-	Player agent16 = new Player("Agent19", "forward", false, 1, 1, 1, 1, 1, false, false, 0);
-	Player agent17 = new Player("Agent20", "defense", false, 1, 1, 1, 1, 1, false, false, 0);
-	Player agent18 = new Player("Agent21", "defense", false, 1, 1, 1, 1, 1, false, false, 0);
-	Player agent19 = new Player("Agent22", "defense", false, 1, 1, 1, 1, 1, false, false, 0);
-	Player agent20 = new Player("Agent23", "goalie", false, 1, 1, 1, 1, 1, false, false, 0);
-	Player agent21 = new Player("Agent24", "forward", true, 1, 1, 1, 1, 1, false, false, 0);
-	Player agent22 = new Player("Agent25", "defense", false, 1, 1, 1, 1, 1, false, false, 0);
-	Player agent23 = new Player("Agent26", "goalie", false, 1, 1, 1, 1, 1, false, false, 0);
-	Player agent24 = new Player("Agent27", "forward", false, 1, 1, 1, 1, 1, false, false, 0);
-	Player agent25 = new Player("Agent28", "defense", false, 1, 1, 1, 1, 1, false, false, 0);
-	Player agent26 = new Player("Agent29", "defense", false, 1, 1, 1, 1, 1, false, false, 0);
-	Player agent27 = new Player("Agent30", "goalie", false, 1, 1, 1, 1, 1, false, false, 0);
-	Coach coach1 = new Coach("Coach One", 0.1, 0.2, 0.1, 0.1);
-	Coach coach2 = new Coach("Coach Two", 0.1, 0.2, 0.1, 0.1);
-	Coach coach3 = new Coach("Coach Three", 0.1, 0.2, 0.1, 0.1);
-	Coach headCoach = new Coach("Mary Smith", 0.2, 0.3, 0.1, 0.4);
-	Manager manager1 = new Manager("Karen Potam");
-	Manager manager2 = new Manager("Joseph Squidly");
-	Manager manager3 = new Manager("Tom Spaghetti");
-	List<Player> playerList = new ArrayList<Player>();
-	List<Player> freePlayerList = new ArrayList<Player>();
-	List<Coach> coachList = new ArrayList<Coach>();
-	List<Manager> managerList = new ArrayList<Manager>();
-	Aging aging = new Aging(35, 50);
-	GameResolver gameResolver = new GameResolver(0.1);
+	private static LeagueMockData instance;
+	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
+			.getTeamManagementAbstractFactory();
+	private Player player1 = teamManagement.PlayerWithParameters("Player One", "forward", true, 49, 1, 1, 1, 1, false, false, 0,false, 20, 5, 2000, Boolean.FALSE);
+	private Player player2 = teamManagement.PlayerWithParameters("Player Two", "defense", false, 51, 1, 1, 1, 1, false, true, 0, false, 20, 5, 2000, Boolean.FALSE);
+	private Player player3 = teamManagement.PlayerWithParameters("Player Three", "goalie", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000, Boolean.FALSE);
+	private Player player4 = teamManagement.PlayerWithParameters("Agent1", "forward", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000, Boolean.FALSE);
+	private Player player5 = teamManagement.PlayerWithParameters("Agent2", "defense", false, 51, 1, 1, 1, 1, false, true, 0,false, 20, 5, 2000, Boolean.FALSE);
+	private Player player6 = teamManagement.PlayerWithParameters("Agent3", "defense", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000, Boolean.FALSE);
+	Player agent1 = teamManagement.PlayerWithParameters("Agent4", "forward", true, 1, 1, 1, 1, 1, false, false, 0, false, 25, 7, 2001, Boolean.FALSE);
+	Player agent2 = teamManagement.PlayerWithParameters("Agent5", "goalie", false, 50, 1, 1, 1, 1, false, false, 0, false, 25, 7, 2001, Boolean.FALSE);
+	Player agent3 = teamManagement.PlayerWithParameters("Agent6", "forward", false, 1, 1, 1, 1, 1, false, false, 0, false, 25, 7, 2001, Boolean.FALSE);
+	Player agent4 = teamManagement.PlayerWithParameters("Agent7", "forward", false, 1, 1, 1, 1, 1, false, false, 0, false, 25, 7, 2001, Boolean.FALSE);
+	Player agent5 = teamManagement.PlayerWithParameters("Agent8", "defense", false, 1, 1, 1, 1, 1, false, false, 0, false, 25, 7, 2001, Boolean.FALSE);
+	Player agent6 = teamManagement.PlayerWithParameters("Agent9", "forward", false, 48, 1, 1, 1, 1, false, false, 0, false, 25, 7, 2001, Boolean.FALSE);
+	Player agent7 = teamManagement.PlayerWithParameters("Agent10", "forward", true, 51, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000, Boolean.FALSE);
+	Player agent8 = teamManagement.PlayerWithParameters("Agent11", "defense", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000, Boolean.FALSE);
+	Player agent9 = teamManagement.PlayerWithParameters("Agent12", "goalie", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000, Boolean.FALSE);
+	Player agent10 = teamManagement.PlayerWithParameters("Agent13", "forward", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000, Boolean.FALSE);
+	Player agent11 = teamManagement.PlayerWithParameters("Agent14", "defense", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000, Boolean.FALSE);
+	Player agent12 = teamManagement.PlayerWithParameters("Agent15", "defense", false, 49, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000, Boolean.FALSE);
+	Player agent13 = teamManagement.PlayerWithParameters("Agent16", "forward", true, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000, Boolean.FALSE);
+	Player agent14 = teamManagement.PlayerWithParameters("Agent17", "defense", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000, Boolean.FALSE);
+	Player agent15 = teamManagement.PlayerWithParameters("Agent18", "forward", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000, Boolean.FALSE);
+	Player agent16 = teamManagement.PlayerWithParameters("Agent19", "forward", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000, Boolean.FALSE);
+	Player agent17 = teamManagement.PlayerWithParameters("Agent20", "defense", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000, Boolean.FALSE);
+	Player agent18 = teamManagement.PlayerWithParameters("Agent21", "defense", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000, Boolean.FALSE);
+	Player agent19 = teamManagement.PlayerWithParameters("Agent22", "defense", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000, Boolean.FALSE);
+	Player agent20 = teamManagement.PlayerWithParameters("Agent23", "goalie", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000, Boolean.FALSE);
+	Player agent21 = teamManagement.PlayerWithParameters("Agent24", "forward", true, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000, Boolean.FALSE);
+	Player agent22 = teamManagement.PlayerWithParameters("Agent25", "defense", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000, Boolean.FALSE);
+	Player agent23 = teamManagement.PlayerWithParameters("Agent26", "goalie", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000, Boolean.FALSE);
+	Player agent24 = teamManagement.PlayerWithParameters("Agent27", "forward", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000, Boolean.FALSE);
+	Player agent25 = teamManagement.PlayerWithParameters("Agent28", "defense", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000, Boolean.FALSE);
+	Player agent26 = teamManagement.PlayerWithParameters("Agent29", "defense", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000, Boolean.FALSE);
+	Player agent27 = teamManagement.PlayerWithParameters("Agent30", "goalie", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000, Boolean.FALSE);
+	Coach coach1 = teamManagement.CoachWithParameters("Coach One", 0.1, 0.2, 0.1, 0.1);
+	Coach coach2 = teamManagement.CoachWithParameters("Coach Two", 0.1, 0.2, 0.1, 0.1);
+	Coach coach3 = teamManagement.CoachWithParameters("Coach Three", 0.1, 0.2, 0.1, 0.1);
+	Coach headCoach = teamManagement.CoachWithParameters("Mary Smith", 0.2, 0.3, 0.1, 0.4);
+	Manager manager1 = teamManagement.ManagerWithParameters("Karen Potam", "normal");
+	Manager manager2 = teamManagement.ManagerWithParameters("Joseph Squidly", "normal");
+	Manager manager3 = teamManagement.ManagerWithParameters("Tom Spaghetti", "normal");
+	List<Player> playerList = new ArrayList<>();
+	List<Player> freePlayerList = new ArrayList<>();
+	List<Coach> coachList = new ArrayList<>();
+	List<Manager> managerList = new ArrayList<>();
+	Aging aging = new Aging(35, 50, 0.02);
 	Injury injury = new Injury(0.05, 1, 260);
 	Training training = new Training(100, 100);
-	Trading trading = new Trading(8, 0.05, 2, 0.05);
+	HashMap<String, Double> gmTable = new HashMap<>();
+	Trading trading = new Trading(8, 0.05, 2, 0.05, gmTable);
 	League league = getTestData();
-	IRetirementManagement retireManager = new RetirementManagement();
+	IRetirementManagement retireManager = teamManagement.RetirementManagement();
+
+	public static LeagueMockData getInstance() {
+		if (instance == null) {
+			instance = new LeagueMockData();
+		}
+		return instance;
+	}
 
 	public League getTestData() {
 		playerList.add(player1);
@@ -88,21 +101,23 @@ public class LeagueMockData implements ILeaguePersistance {
 		coachList.add(coach2);
 		coachList.add(coach3);
 		managerList.add(manager3);
-		Team team1 = new Team("Boston", manager1, headCoach, playerList, Boolean.FALSE);
-		Team team2 = new Team("Halifax", manager2, headCoach, playerList, Boolean.FALSE);
+		Team team1 = teamManagement.TeamWithParameters("Boston", manager1, headCoach, playerList, Boolean.FALSE);
+		Team team2 = teamManagement.TeamWithParameters("Halifax", manager2, headCoach, playerList, Boolean.FALSE);
+		Team team3 = teamManagement.TeamWithParameters("Toronto", manager2, headCoach, playerList, Boolean.FALSE);
 		ArrayList<Team> teamList = new ArrayList<Team>();
 		teamList.add(team1);
 		teamList.add(team2);
-		Division division = new Division("Atlantic", teamList);
+		teamList.add(team3);
+		Division division = teamManagement.DivisionWithParameters("Atlantic", teamList);
 		ArrayList<Division> divisionList = new ArrayList<Division>();
 		divisionList.add(division);
-		Conference conference1 = new Conference("Eastern Conference", divisionList);
-		Conference conference2 = new Conference("Western Conference", divisionList);
+		Conference conference1 = teamManagement.ConferenceWithParameters("Eastern Conference", divisionList);
+		Conference conference2 = teamManagement.ConferenceWithParameters("Western Conference", divisionList);
 		ArrayList<Conference> conferenceList = new ArrayList<Conference>();
 		conferenceList.add(conference1);
 		conferenceList.add(conference2);
-		GameplayConfig config = new GameplayConfig(aging, gameResolver, injury, training, trading);
-		League league = new League("Dalhousie Hockey League", conferenceList, freePlayerList, coachList, managerList,
+		GameplayConfig config = new GameplayConfig(aging, injury, training, trading);
+		League league = teamManagement.LeagueWithParameters("Dalhousie Hockey League", conferenceList, freePlayerList, coachList, managerList,
 				config);
 		return league;
 	}
@@ -114,17 +129,17 @@ public class LeagueMockData implements ILeaguePersistance {
 	}
 
 	@Override
-	public int checkLeagueName(String leagueName) {
-		League league = getTestData();
+	public int checkLeagueName(League league) {
+		League tempLeague = getTestData();
 		int rowCount = 0;
-		if (league.getLeagueName().equals(leagueName)) {
+		if (league.getLeagueName().equals(tempLeague.getLeagueName())) {
 			rowCount = 1;
 		}
 		return rowCount;
 	}
 
 	@Override
-	public boolean persisitLeagueData(String leagueName, String conferenceName, String divisionName, String teamName,
+	public boolean persisitLeagueData(League league, String conferenceName, String divisionName, String teamName,
 			String generalManager, String headCoach, Player player) {
 		if (teamName.equals("Empty")) {
 			List<Player> playerList = new ArrayList<Player>();
@@ -139,8 +154,7 @@ public class LeagueMockData implements ILeaguePersistance {
 		int likelihoodOfRetirement = retireManager.getLikelihoodOfRetirement(league, player);
 		Random rand = new Random();
 
-		if (rand.nextInt(likelihoodOfRetirement) == 0 || player.getAge() > maximumAge) {
-			replaceRetiredPlayers(league);
+		if (rand.nextInt(likelihoodOfRetirement) - 1 == 0 || player.getAge() > maximumAge) {
 			return Boolean.TRUE;
 		} else {
 			return Boolean.FALSE;
@@ -151,12 +165,11 @@ public class LeagueMockData implements ILeaguePersistance {
 		List<Conference> conferenceList = league.getConferenceList();
 		List<Player> freeAgentsList = league.getFreeAgents();
 		List<Player> tempList = new ArrayList<Player>();
-		int maximumRetirementAge = league.getGameConfig().getAging().getMaximumAge();
 
 		for (Player freeplayer : freeAgentsList) {
-			int years = freeplayer.getAge();
 
-			if (years > maximumRetirementAge) {
+			if (shouldPlayerRetire(league, freeplayer)) {
+				freeplayer.setRetireStatus(true);
 				tempList.add(freeplayer);
 			}
 		}
@@ -205,8 +218,8 @@ public class LeagueMockData implements ILeaguePersistance {
 	}
 
 	public League increaseAge(int days, League league) {
+		League tempLeague = null;
 		List<Conference> conferenceList = league.getConferenceList();
-		int maximumRetirementAge = league.getGameConfig().getAging().getMaximumAge();
 		List<Player> freeAgentsList = league.getFreeAgents();
 
 		for (int index = 0; index < conferenceList.size(); index++) {
@@ -219,7 +232,7 @@ public class LeagueMockData implements ILeaguePersistance {
 						int years = player.getAge();
 						player.setAge(years + 1);
 
-						if(player.getAge() >= maximumRetirementAge) {
+						if (shouldPlayerRetire(league, player)) {
 							player.setRetireStatus(true);
 						}
 					}
@@ -231,21 +244,23 @@ public class LeagueMockData implements ILeaguePersistance {
 
 		for (Player freeplayer : freeAgentsList) {
 			int years = freeplayer.getAge();
-			freeplayer.setAge(years + (int) (days / 365));
+			freeplayer.setAge(years + 1);
 
-			if (freeplayer.getAge() > maximumRetirementAge) {
+			if (shouldPlayerRetire(league, freeplayer)) {
 				freeplayer.setRetireStatus(true);
 			}
 		}
+
 		league.setFreeAgents(freeAgentsList);
-		return replaceRetiredPlayers(league);
+		tempLeague = replaceRetiredPlayers(league);
+		return tempLeague;
 	}
 
 	@Override
-	public boolean UpdateLeagueData(String leagueName, String teamName, Player player) {
+	public boolean updateLeagueData(League league, String teamName, Player player) {
 		boolean isUpdated = Boolean.FALSE;
-		League league = getTestData();
-		if(league.getLeagueName().equals(leagueName)) {
+		League tempLeague = getTestData();
+		if (league.getLeagueName().equals(tempLeague.getLeagueName())) {
 			isUpdated = Boolean.TRUE;
 		}
 		return isUpdated;

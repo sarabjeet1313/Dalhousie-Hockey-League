@@ -1,18 +1,13 @@
 package dpl.InternalStateMachineTest;
 
+import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.*;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.AdvanceToNextSeasonState;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStateContext;
-import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ILeaguePersistance;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.InjuryManagement;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.RetirementManagement;
-import dpl.TeamManagementTest.LeagueMockData;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
-
+import dpl.SystemConfig;
+import dpl.TeamManagementTest.LeagueMockData;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,23 +21,25 @@ public class AdvanceToNextSeasonStateTest {
     private InternalStateContext context;
     private AdvanceToNextSeasonState state;
     private League leagueToSimulate;
-    private InjuryManagement injury;
-    private RetirementManagement retirement;
+    private IInjuryManagement injury;
+    private IRetirementManagement retirement;
     private ILeaguePersistance leagueMock;
+    private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
+			.getTeamManagementAbstractFactory();
 
     @Before
     public void setUp() throws Exception {
-        leagueMock = new LeagueMockData();
-        input = new CmdUserInput();
-        output = new CmdUserOutput();
-        injury = new InjuryManagement();
-        retirement = new RetirementManagement();
-        leagueToSimulate = new LeagueMockData().getTestData();
-        utility = new SeasonCalendar(0, output);
+        leagueMock = LeagueMockData.getInstance();
+        input = SystemConfig.getSingleInstance().getUserInputAbstractFactory().CmdUserInput();
+        output = SystemConfig.getSingleInstance().getUserOutputAbstractFactory().CmdUserOutput();
+        injury = teamManagement.InjuryManagement();
+        retirement = teamManagement.RetirementManagement();
+        leagueToSimulate = LeagueMockData.getInstance().getTestData();
+        utility = SystemConfig.getSingleInstance().getScheduleAbstractFactory().SeasonCalendar(0, output);
         leagueToSimulate.setLeagueDb(leagueMock);
         utility.setLastSeasonDay("20-11-2020");
-        context = new InternalStateContext(input, output);
-        state = new AdvanceToNextSeasonState(leagueToSimulate, injury, retirement, context, utility, "13-11-2020", output);
+        context = SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory().InternalStateContext(input, output);
+        state = (AdvanceToNextSeasonState) SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory().AdvanceToNextSeasonState(leagueToSimulate, null, null, null, injury, retirement, context, utility, "13-11-2020", "", 0, output);
     }
 
     @Test
@@ -79,5 +76,11 @@ public class AdvanceToNextSeasonStateTest {
         assertNotEquals("Persist", state.getNextStateName());
         state.nextState(context);
         assertEquals("Persist", state.getNextStateName());
+    }
+
+    @Test
+    public void shouldContinueTest() {
+        assertTrue(state.shouldContinue());
+        assertFalse(!state.shouldContinue());
     }
 }

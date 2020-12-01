@@ -1,17 +1,17 @@
 package dpl.InternalStateMachineTest;
+
+import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.ISimulationState;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalEndState;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStartState;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStateContext;
-import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
-import dpl.StandingsTest.StandingsMockDb;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
-
-import org.junit.Test;
+import dpl.StandingsTest.StandingsMockDb;
+import dpl.SystemConfig;
 import org.junit.Before;
+import org.junit.Test;
+
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
@@ -27,11 +27,11 @@ public class InternalStateContextTest {
 
     @Before
     public void setUp() throws Exception {
-        input = new CmdUserInput();
-        output = new CmdUserOutput();
-        context = new InternalStateContext(input, output);
-        standingMock = new StandingsMockDb(0);
-        state = new InternalStartState(input, output, "", null, context, null, standingMock);
+        input = SystemConfig.getSingleInstance().getUserInputAbstractFactory().CmdUserInput();
+        output = SystemConfig.getSingleInstance().getUserOutputAbstractFactory().CmdUserOutput();
+        context = SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory().InternalStateContext(input, output);
+        standingMock = StandingsMockDb.getInstance();
+        state = (InternalStartState)SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory().InternalStartState(input, output, "", null, context, null, standingMock);
         context.setState(state);
     }
 
@@ -39,6 +39,7 @@ public class InternalStateContextTest {
     public void nextStateTest() {
         context.nextState();
         assertEquals("InternalSimulation", context.currentStateName);
+        assertNotEquals("Negative", context.currentStateName);
         context.setState(state);
     }
 
@@ -46,6 +47,13 @@ public class InternalStateContextTest {
     public void setStateTest() {
         context.setState(state);
         assertEquals("Start", context.currentStateName);
+        assertNotEquals("Negative", context.currentStateName);
+    }
+
+    @Test
+    public void getCurrentStateTest() {
+        assertTrue(context.getCurrentstate() instanceof InternalStartState);
+        assertFalse(context.getCurrentstate() instanceof InternalEndState);
     }
 
     @Test
@@ -59,4 +67,11 @@ public class InternalStateContextTest {
         gotOutput = gotOutput.replaceAll("\r", "");
         assertEquals(expected, gotOutput);
     }
+
+    @Test
+    public void shouldContinueTest() {
+        assertTrue(context.shouldContinue());
+        assertFalse(!context.shouldContinue());
+    }
+
 }

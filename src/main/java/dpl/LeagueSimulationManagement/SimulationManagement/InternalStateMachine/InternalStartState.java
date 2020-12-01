@@ -1,11 +1,12 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
-import dpl.DplConstants.StateConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradePersistence;
+import dpl.LeagueSimulationManagement.SimulationManagement.StateConstants;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+import dpl.SystemConfig;
 
 public class InternalStartState implements ISimulationState {
     private IUserInput input;
@@ -18,6 +19,7 @@ public class InternalStartState implements ISimulationState {
     private InternalStateContext context;
     private ITradePersistence tradeDb;
     private IStandingsPersistance standingsDb;
+    private IInternalStateMachineAbstractFactory internalStateMachineFactory;
 
     public InternalStartState(IUserInput input, IUserOutput output, String teamName, League leagueToSimulate,
                               InternalStateContext context, ITradePersistence tradeDb, IStandingsPersistance standingsDb) {
@@ -30,11 +32,14 @@ public class InternalStartState implements ISimulationState {
         this.numOfSeasons = 0;
         this.tradeDb = tradeDb;
         this.standingsDb = standingsDb;
+        this.internalStateMachineFactory = SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory();
     }
 
-    public void nextState(InternalStateContext context) {
+    public ISimulationState nextState(InternalStateContext context) {
         this.nextStateName = StateConstants.INTERNAL_SIMULATION_STATE;
-        context.setState(new InternalSimulationState(input, output, numOfSeasons, teamName, leagueToSimulate, context, tradeDb, standingsDb));
+        ISimulationState state = this.internalStateMachineFactory.InternalSimulationState(input, output, numOfSeasons, teamName, leagueToSimulate, context, tradeDb, standingsDb);
+        context.setState(state);
+        return state;
     }
 
     public void doProcessing() {
@@ -42,6 +47,10 @@ public class InternalStartState implements ISimulationState {
         output.sendOutput();
         input.setInput();
         this.numOfSeasons = Integer.parseInt(input.getInput());
+    }
+
+    public boolean shouldContinue() {
+        return true;
     }
 
     public String getStateName() {

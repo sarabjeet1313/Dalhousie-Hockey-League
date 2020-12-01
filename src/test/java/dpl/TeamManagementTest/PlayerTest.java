@@ -2,14 +2,18 @@ package dpl.TeamManagementTest;
 
 import org.junit.Test;
 
+import dpl.SystemConfig;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IPlayerInfo;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManagementAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
 
 import org.junit.Assert;
 
 public class PlayerTest {
 
-	Player player = new Player("Player1", "Forward", false, 1, 1, 1, 1, 1, false, false, 0);
+	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
+			.getTeamManagementAbstractFactory();
+	Player player = teamManagement.PlayerWithParameters("Player1", "Forward", false, 1, 1, 1, 1, 1, false, false, 0, false, 23, 3, 1999, Boolean.FALSE);
 	IPlayerInfo playerInfo = new PlayerInfoMock();
 	private static final double DELTA = 1e-15;
 
@@ -126,37 +130,82 @@ public class PlayerTest {
 
 	@Test
 	public void getPlayerStrengthTest() {
-		Player player = new Player("Player1", "Forward", false, 1, 1, 1, 1, 1, false, false, 0);
+		Player player = teamManagement.PlayerWithParameters("Player1", "Forward", false, 1, 1, 1, 1, 1, false, false,
+				0, false, 23, 3, 1999, Boolean.FALSE);
 		double strength = playerInfo.getPlayerStrength(player);
 		Assert.assertEquals(2.5, strength, DELTA);
 	}
 
 	@Test
 	public void getPlayerStrengthTwoTest() {
-		Player player = new Player("Player1", "Forward", false, 1, 2, 1, 1, 1, false, false, 0);
+		Player player = teamManagement.PlayerWithParameters("Player1", "Forward", false, 1, 2, 1, 1, 1, false, false,
+				0, false, 23, 3, 1999, Boolean.FALSE);
 		double strength = playerInfo.getPlayerStrength(player);
 		Assert.assertNotEquals(2.5, strength, DELTA);
 	}
 
 	@Test
 	public void getPlayerStrengthThreeTest() {
-		Player player = new Player("Player1", "Forward", false, 1, 1, 1, 1, 1, true, false, 0);
+		Player player = teamManagement.PlayerWithParameters("Player1", "Forward", false, 1, 1, 1, 1, 1, true, false, 0, false, 23, 3, 1999, Boolean.FALSE);
 		double strength = playerInfo.getPlayerStrength(player);
 		Assert.assertEquals(1.25, strength, DELTA);
 	}
 
 	@Test
 	public void getPlayerStrengthFourTest() {
-		Player player = new Player("Player1", "Defense", false, 1, 1, 2, 1, 1, true, false, 0);
+		Player player = teamManagement.PlayerWithParameters("Player1", "Defense", false, 1, 1, 2, 1, 1, true, false, 0, false, 23, 3, 1999, Boolean.FALSE);
 		double strength = playerInfo.getPlayerStrength(player);
 		Assert.assertEquals(1.5, strength, DELTA);
 	}
 
 	@Test
 	public void getPlayerStrengthFiveTest() {
-		Player player = new Player("Player1", "Forward", false, 1, 2, 1, 1, 1, false, false, 0);
+		Player player = teamManagement.PlayerWithParameters("Player1", "Forward", false, 1, 2, 1, 1, 1, false, false,
+				0, false, 23, 3, 1999, Boolean.FALSE);
 		double strength = playerInfo.getPlayerStrength(player);
 		Assert.assertNotEquals(4.5, strength, DELTA);
+	}
+
+	@Test
+	public void getGoalsTest() {
+		Assert.assertNotEquals(10, player.getGoals());
+		player.setGoals(10);
+		Assert.assertEquals(10, player.getGoals());
+	}
+
+	@Test
+	public void setGoalsTest() {
+		Assert.assertNotEquals(10, player.getGoals());
+		player.setGoals(10);
+		Assert.assertEquals(10, player.getGoals());
+	}
+
+	@Test
+	public void getPenaltiesTest() {
+		Assert.assertNotEquals(20, player.getPenalties());
+		player.setPenalties(20);
+		Assert.assertEquals(20, player.getPenalties());
+	}
+
+	@Test
+	public void setPenaltiesTest() {
+		Assert.assertNotEquals(20, player.getPenalties());
+		player.setPenalties(20);
+		Assert.assertEquals(20, player.getPenalties());
+	}
+
+	@Test
+	public void getSavesTest() {
+		Assert.assertNotEquals(30, player.getSaves());
+		player.setSaves(30);
+		Assert.assertEquals(30, player.getSaves());
+	}
+
+	@Test
+	public void setSavesTest() {
+		Assert.assertNotEquals(30, player.getSaves());
+		player.setSaves(30);
+		Assert.assertEquals(30, player.getSaves());
 	}
 
 }

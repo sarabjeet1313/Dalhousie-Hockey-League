@@ -1,13 +1,20 @@
 package dpl.LeagueSimulationManagement.NewsSystem;
+
 import java.util.ArrayList;
 import java.util.List;
-import dpl.DplConstants.NewsSystemConstants;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.RetirementManagement;
+import dpl.LeagueSimulationManagement.TrophySystem.TrophySystemConstants;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+import dpl.SystemConfig;
 
 public class TradePublisher {
     private final List<ITradeInfo> subscribers;
     private static TradePublisher instance;
-    private IUserOutput output;
+    private static final Logger log = Logger.getLogger(RetirementManagement.class.getName());
+    private IUserOutput output = SystemConfig.getSingleInstance().getUserOutputAbstractFactory().CmdUserOutput();
 
     private TradePublisher() {
         subscribers = new ArrayList<>();
@@ -28,15 +35,16 @@ public class TradePublisher {
         this.subscribers.remove(subscriber);
     }
 
-    public void notify(String fromTeam, String toTeam, String[][] playersTraded) {
+    public void notify(String fromTeam, String toTeam, ArrayList<String> fromTeamTrade, ArrayList<String> toTeamTrade) {
         try {
-            if (null == fromTeam || null == toTeam || null == playersTraded) {
+            if (null == fromTeam || null == toTeam || toTeamTrade.size() < 1 || fromTeamTrade.size() < 1) {
                 throw new IllegalArgumentException();
             }
             for (ITradeInfo subscriber : this.subscribers) {
-                subscriber.updateTrade(fromTeam, toTeam, playersTraded);
+                subscriber.updateTrade(fromTeam, toTeam, fromTeamTrade, toTeamTrade);
             }
         } catch (IllegalArgumentException e) {
+            log.log(Level.SEVERE, TrophySystemConstants.EXCEPTION_MESSAGE.toString());
             output.setOutput(e + NewsSystemConstants.ARGUMENT_MESSAGE.toString());
             output.sendOutput();
         }

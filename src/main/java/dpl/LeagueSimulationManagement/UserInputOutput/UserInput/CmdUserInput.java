@@ -3,22 +3,23 @@ package dpl.LeagueSimulationManagement.UserInputOutput.UserInput;
 import java.util.Scanner;
 
 public class CmdUserInput implements IUserInput {
-    private String inputResponse;
 
-    public CmdUserInput() {
-        setInitialValues();
-    }
+	private String inputResponse;
 
-    public void setInitialValues() {
-        inputResponse = "";
-    }
+	public CmdUserInput() {
+		setInitialValues();
+	}
 
-    public String getInput() {
-        return this.inputResponse;
-    }
+	public void setInitialValues() {
+		inputResponse = "";
+	}
 
-    public void setInput() {
-        Scanner scanInput = new Scanner(System.in);
-        this.inputResponse = scanInput.nextLine();
-    }
+	public String getInput() {
+		return this.inputResponse;
+	}
+
+	public void setInput() {
+		Scanner scanInput = new Scanner(System.in);
+		this.inputResponse = scanInput.nextLine();
+	}
 }

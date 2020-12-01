@@ -1,11 +1,15 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
 public interface ISimulationState {
-    public void nextState(InternalStateContext context);
 
-    public void doProcessing();
+    ISimulationState nextState(InternalStateContext context);
 
-    public String getStateName();
+    void doProcessing();
 
-    public String getNextStateName();
+    String getStateName();
+
+    String getNextStateName();
+
+    boolean shouldContinue();
+
 }

@@ -1,18 +1,16 @@
 package dpl.InternalStateMachineTest;
 
-import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.*;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
-import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.RegularSeasonSchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
-import dpl.TeamManagementTest.LeagueMockData;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.Trade;
-import dpl.TradingTest.TradeObjectTestMockData;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
+import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStateContext;
+import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.TradingState;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
-
+import dpl.SystemConfig;
+import dpl.TeamManagementTest.LeagueMockData;
+import dpl.TradingTest.TradeObjectTestMockData;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -36,17 +34,17 @@ public class TradingStateTest {
 
     @Before
     public void setUp() throws Exception {
-        mockLeague = new LeagueMockData();
-        input = new CmdUserInput();
-        output = new CmdUserOutput();
+        mockLeague = LeagueMockData.getInstance();
+        input = SystemConfig.getSingleInstance().getUserInputAbstractFactory().CmdUserInput();
+        output = SystemConfig.getSingleInstance().getUserOutputAbstractFactory().CmdUserOutput();
         leagueToSimulate = mockLeague.getTestData();
         calendar = Calendar.getInstance();
-        schedule = new RegularSeasonSchedule(calendar, output);
-        context = new InternalStateContext(input, output);
-        utility = new SeasonCalendar(0, output);
-        tradeMock = new TradeObjectTestMockData();
-        trade = new Trade(tradeMock);
-        state = new TradingState(leagueToSimulate, trade, context, output);
+        schedule = SystemConfig.getSingleInstance().getScheduleAbstractFactory().RegularSeasonSchedule(calendar, output);
+        context = SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory().InternalStateContext(input, output);
+        utility = SystemConfig.getSingleInstance().getScheduleAbstractFactory().SeasonCalendar(0, output);
+        tradeMock = TradeObjectTestMockData.getInstance();
+        trade = SystemConfig.getSingleInstance().getTradingAbstractFactory().Trade(tradeMock);
+        state = (TradingState)SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory().TradingState(leagueToSimulate, trade, context, output, null, "", "", 0, null, null, schedule);
     }
 
     @Test
@@ -82,5 +80,11 @@ public class TradingStateTest {
         assertNotEquals("Aging", state.getNextStateName());
         state.nextState(context);
         assertEquals("Aging", state.getNextStateName());
+    }
+
+    @Test
+    public void shouldContinueTest() {
+        assertTrue(state.shouldContinue());
+        assertFalse(!state.shouldContinue());
     }
 }

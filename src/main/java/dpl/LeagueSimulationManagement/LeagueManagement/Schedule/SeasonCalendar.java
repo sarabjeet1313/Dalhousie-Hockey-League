@@ -1,11 +1,11 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.Schedule;
 
+import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
-import dpl.DplConstants.ScheduleConstants;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
 public class SeasonCalendar {
 
@@ -18,11 +18,9 @@ public class SeasonCalendar {
     private String lastSeasonDay;
     private String seasonWinner;
     private SimpleDateFormat dateFormat;
-    private IUserOutput output;
 
     public SeasonCalendar(int season, IUserOutput output) {
         this.currentSeason = season;
-        this.output = output;
         this.dateFormat = new SimpleDateFormat(ScheduleConstants.DATE_FORMAT);
         this.seasonCalendar = Calendar.getInstance();
         setYears();
@@ -80,6 +78,14 @@ public class SeasonCalendar {
         return dateFormat.format(seasonCalendar.getTime());
     }
 
+    public String getAllStartGameDay() {
+        seasonCalendar.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY);
+        seasonCalendar.set(Calendar.DAY_OF_WEEK_IN_MONTH, ScheduleConstants.LAST_WEEK);
+        seasonCalendar.set(Calendar.MONTH, Calendar.JANUARY);
+        seasonCalendar.set(Calendar.YEAR, playoffYear);
+        return dateFormat.format(seasonCalendar.getTime());
+    }
+
     public String getSeasonWinner() {
         return seasonWinner;
     }
@@ -104,7 +110,7 @@ public class SeasonCalendar {
         return this.lastSeasonDay;
     }
 
-    public boolean isTradeDeadlinePending(String currentDate) {
+    public boolean isTradeDeadlinePending(String currentDate) throws ParseException {
         seasonCalendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         seasonCalendar.set(Calendar.DAY_OF_WEEK_IN_MONTH, 4);
         seasonCalendar.set(Calendar.MONTH, Calendar.FEBRUARY);
@@ -119,15 +125,13 @@ public class SeasonCalendar {
             if (start.compareTo(end) >= 0) {
                 return false;
             }
-        } catch (Exception e) {
-            output.setOutput("Found Exception in calculating trade deadline.");
-            output.sendOutput();
-            return false;
+        } catch (ParseException e) {
+            throw e;
         }
         return false;
     }
 
-    public boolean isLastDayOfSeason(String currentDate) {
+    public boolean isLastDayOfSeason(String currentDate) throws ParseException {
         try {
             Date start = dateFormat.parse(currentDate);
             Date end = dateFormat.parse(getPlayoffLastDay());
@@ -140,9 +144,8 @@ public class SeasonCalendar {
             if (start.compareTo(end) < 0) {
                 return false;
             }
-        } catch (Exception e) {
-            output.setOutput("Found Exception in calculating last day of season.");
-            output.sendOutput();
+        } catch (ParseException e) {
+            throw e;
         }
         return true;
     }

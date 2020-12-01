@@ -1,21 +1,24 @@
 package dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine;
 
-import dpl.DplConstants.StateConstants;
-import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Training;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
+import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.IScheduleAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
+import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.*;
 import dpl.LeagueSimulationManagement.LeagueManagement.Trading.ITradePersistence;
-import dpl.LeagueSimulationManagement.LeagueManagement.Trading.Trade;
-import dpl.LeagueSimulationManagement.LeagueManagement.Trading.TradeReset;
+import dpl.LeagueSimulationManagement.SimulationManagement.StateConstants;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+import dpl.SystemConfig;
+
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class InternalSimulationState implements ISimulationState {
 
-    private IUserInput input;
     private IUserOutput output;
     private int season;
     private int totalSeasons;
@@ -24,37 +27,24 @@ public class InternalSimulationState implements ISimulationState {
     private String nextStateName;
     private League leagueToSimulate;
     private InternalStateContext context;
+    private ISimulationState initialState;
     private SeasonCalendar utility;
     private String currentDate;
-    private Training training;
-    private IRetirementManagement retirement;
-    private IInjuryManagement injury;
-    private Trade trade;
     private ISchedule schedule;
-    private StandingInfo standings;
+    private StandingInfo standingsInfo;
     private IStandingsPersistance standingsDb;
-    private TrainingState trainingState;
-    private GeneratePlayoffScheduleState playoffScheduleState;
-    private AdvanceTimeState advanceTimeState;
-    private SimulateGameState simulateGame;
-    private AgingState agingState;
-    private TradingState tradingState;
-    private InjuryCheckState injuryCheck;
-    private AdvanceToNextSeasonState advanceToNextSeason;
-    private PersistState persistState;
-    private ITradePersistence tradeDb;
-    private TradeReset tradeReset;
-
+    private IInternalStateMachineAbstractFactory internalStateMachineFactory;
+    private IScheduleAbstractFactory scheduleAbstractFactory;
+    private IStandingsAbstractFactory standingsAbstractFactory;
+    private static final Logger log = Logger.getLogger(InternalSimulationState.class.getName());
 
     public InternalSimulationState(IUserInput input, IUserOutput output, int seasons, String teamName,
                                    League leagueToSimulate, InternalStateContext context, ITradePersistence tradeDb,
                                    IStandingsPersistance standingsDb) {
-        this.training = new Training(output);
-        this.injury = new InjuryManagement();
-        this.retirement = new RetirementManagement();
-        this.trade = new Trade(tradeDb);
-        this.tradeReset = new TradeReset(tradeDb);
-        this.input = input;
+        
+        this.internalStateMachineFactory = SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory();
+        this.standingsAbstractFactory = SystemConfig.getSingleInstance().getStandingsAbstractFactory();
+        this.scheduleAbstractFactory = SystemConfig.getSingleInstance().getScheduleAbstractFactory();
         this.output = output;
         this.totalSeasons = seasons;
         this.teamName = teamName;
@@ -63,91 +53,46 @@ public class InternalSimulationState implements ISimulationState {
         this.season = 0;
         this.context = context;
         this.currentDate = "";
-        this.tradeDb = tradeDb;
         this.standingsDb = standingsDb;
     }
 
-    public void nextState(InternalStateContext context) {
-        this.nextStateName = "InternalEndState";
-        context.setState(new InternalEndState(output));
+
+
+    public ISimulationState nextState(InternalStateContext context) {
+        this.nextStateName = StateConstants.INTERNAL_END_STATE;
+        ISimulationState endState = this.internalStateMachineFactory.InternalEndState(output);
+        context.setState(endState);
+        return endState;
     }
 
     public void doProcessing() {
-
+        log.log(Level.INFO, StateConstants.GAME_SIMULATION);
         for (int index = 1; index <= totalSeasons; index++) {
             this.season = index - 1;
             output.setOutput("Season " + index + " is simulating.");
             output.sendOutput();
 
             standingsDb.setSeason(index);
-            standings = new StandingInfo(leagueToSimulate, season, standingsDb);
-            GenerateRegularSeasonScheduleState initialState = new GenerateRegularSeasonScheduleState(leagueToSimulate, this.output, this.season, this.context, standingsDb);
-            initialState.doProcessing();
+            standingsInfo = this.standingsAbstractFactory.StandingInfo(leagueToSimulate, season, standingsDb, output);
+            utility = this.scheduleAbstractFactory.SeasonCalendar(season, output);
+            initialState = this.internalStateMachineFactory.GenerateRegularSeasonScheduleState(leagueToSimulate, this.output, this.season, this.context, standingsDb, standingsInfo, utility);
+            context.setState(initialState);
 
-            this.schedule = initialState.getSchedule();
-            String startDate = initialState.getRegularSeasonStartDate();
-            String endDate = initialState.getRegularSeasonEndDate();
-
-            this.currentDate = startDate;
-
-            boolean seasonPending = true;
-            do {
-                utility = new SeasonCalendar(season, output);
-
-                advanceTimeState = new AdvanceTimeState(currentDate, endDate, output, context);
-                advanceTimeState.doProcessing();
-                this.currentDate = advanceTimeState.getCurrentDate();
-
-                boolean isLastDayForSeason = advanceTimeState.isALastDay();
-
-                if (isLastDayForSeason) {
-                    playoffScheduleState = new GeneratePlayoffScheduleState(leagueToSimulate, utility, standingsDb, output, context, season);
-                    playoffScheduleState.doProcessing();
-                    schedule = playoffScheduleState.getSchedule();
-                    trainingState = new TrainingState(leagueToSimulate, training, schedule, utility, currentDate,
-                            output, context);
-                } else {
-                    trainingState = new TrainingState(leagueToSimulate, training, schedule, utility, currentDate,
-                            output, context);
-                }
-
-                trainingState.doProcessing();
-                boolean anyUnplayedGames = schedule.anyUnplayedGame(currentDate);
-
-                while (anyUnplayedGames) {
-                    simulateGame = new SimulateGameState(leagueToSimulate, schedule, standings, context, utility,
-                            currentDate, output);
-                    simulateGame.doProcessing();
-
-                    injuryCheck = new InjuryCheckState(leagueToSimulate, injury, schedule, context, utility,
-                            currentDate, output);
-                    injuryCheck.doProcessing();
-                    anyUnplayedGames = schedule.anyUnplayedGame(currentDate);
-                }
-
-                if (utility.isTradeDeadlinePending(this.currentDate)) {
-                    tradingState = new TradingState(leagueToSimulate, trade, context, output);
-                    tradingState.doProcessing();
-                }
-
-                agingState = new AgingState(leagueToSimulate, injury, context, utility, currentDate, output);
-                agingState.doProcessing();
-
-                if (utility.getSeasonOverStatus() | utility.isLastDayOfSeason(currentDate)) {
-                    advanceToNextSeason = new AdvanceToNextSeasonState(leagueToSimulate, injury, retirement, context,
-                            utility, currentDate, output);
-                    advanceToNextSeason.doProcessing();
-                    seasonPending = false;
-                }
-                persistState = new PersistState(leagueToSimulate, schedule, standings, tradeReset, context, utility, currentDate,
-                        output);
-                persistState.doProcessing();
-
-            } while (seasonPending);
-
+            while (context.shouldContinue()) {
+                context.doProcessing();
+                ISimulationState state = context.nextState();
+                context.setState(state);
+            }
             output.setOutput("Season " + index + " winner is : " + utility.getSeasonWinner());
             output.sendOutput();
+            output.setOutput("\nSeason stats after Playoffs : \n");
+            output.sendOutput();
+            standingsInfo.showStats();
         }
+    }
+
+    public boolean shouldContinue() {
+        return true;
     }
 
     public String getStateName() {

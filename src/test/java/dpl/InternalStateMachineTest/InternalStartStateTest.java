@@ -1,19 +1,20 @@
 package dpl.InternalStateMachineTest;
+
+import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStartState;
 import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStateContext;
-import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
-import dpl.StandingsTest.StandingsMockDb;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
-
-import org.junit.Test;
+import dpl.StandingsTest.StandingsMockDb;
+import dpl.SystemConfig;
 import org.junit.Before;
+import org.junit.Test;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
+
 import static org.junit.Assert.*;
 
 public class InternalStartStateTest {
@@ -26,11 +27,11 @@ public class InternalStartStateTest {
 
     @Before
     public void setUp() throws Exception {
-        input = new CmdUserInput();
-        output = new CmdUserOutput();
-        context = new InternalStateContext(input, output);
-        standingMock = new StandingsMockDb(0);
-        state = new InternalStartState(input, output, "", null, context, null, standingMock);
+        input = SystemConfig.getSingleInstance().getUserInputAbstractFactory().CmdUserInput();
+        output = SystemConfig.getSingleInstance().getUserOutputAbstractFactory().CmdUserOutput();
+        context = SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory().InternalStateContext(input, output);
+        standingMock = StandingsMockDb.getInstance();
+        state = (InternalStartState) SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory().InternalStartState(input, output, "", null, context, null, standingMock);
     }
 
     @Test
@@ -60,9 +61,14 @@ public class InternalStartStateTest {
         String input = "0";
         InputStream in = new ByteArrayInputStream(input.getBytes());
         System.setIn(in);
-        this.input.setInput();
+        state.doProcessing();
         assertNotEquals("1", String.valueOf(state.numOfSeasons));
         assertEquals("0", String.valueOf(state.numOfSeasons));
     }
 
+    @Test
+    public void shouldContinueTest() {
+        assertTrue(state.shouldContinue());
+        assertFalse(!state.shouldContinue());
+    }
 }

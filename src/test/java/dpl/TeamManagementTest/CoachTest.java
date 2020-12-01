@@ -1,71 +1,111 @@
 package dpl.TeamManagementTest;
 
-import org.junit.Assert;
+
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.io.IOException;
+
 import org.junit.Test;
 
+import dpl.SystemConfig;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Coach;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ICoachPersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManagementAbstractFactory;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
+import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
 public class CoachTest {
 	
-	Coach coach = new Coach("Coach1", 0.1, 0.1, 0.1, 0.1);
+	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
+			.getTeamManagementAbstractFactory();
+	private League leagueToSimulate = new LeagueMockData().getTestData();
+	private ICoachPersistance coachMock = new CoachMockData();
+	private IUserOutput output = new CmdUserOutput();
+	private Coach coach = teamManagement.CoachWithDbParameters("Coach1", 0.1, 0.1, 0.1, 0.1, coachMock);
 	private static final double DELTA = 1e-15;
 
 	@Test
 	public void parameterizedConstructorTest() {
-		Assert.assertEquals("Coach1", coach.getCoachName());
-		Assert.assertEquals(0.1, coach.getSkating(), DELTA);
-		Assert.assertEquals(0.1, coach.getShooting(), DELTA);
-		Assert.assertEquals(0.1, coach.getChecking(), DELTA);
-		Assert.assertEquals(0.1, coach.getSaving(), DELTA);
+		assertEquals("Coach1", coach.getCoachName());
+		assertEquals(0.1, coach.getSkating(), DELTA);
+		assertEquals(0.1, coach.getShooting(), DELTA);
+		assertEquals(0.1, coach.getChecking(), DELTA);
+		assertEquals(0.1, coach.getSaving(), DELTA);
 	}
 	
 	@Test
 	public void getCoachNameTest() {
-		Assert.assertEquals("Coach1", coach.getCoachName());
+		assertEquals("Coach1", coach.getCoachName());
 	} 
 	
 	@Test
 	public void setCoachNameTest() {
 		coach.setCoachName("Coach2");
-		Assert.assertEquals("Coach2", coach.getCoachName());
+		assertEquals("Coach2", coach.getCoachName());
 	}
 	
 	@Test
 	public void getSkatingTest() {
-		Assert.assertEquals(0.1, coach.getSkating(), DELTA);
+		assertEquals(0.1, coach.getSkating(), DELTA);
 	} 
 	
 	@Test
 	public void setSkatingTest() {
 		coach.setSkating(0.1);
-		Assert.assertEquals(0.1, coach.getSkating(), DELTA);
+		assertEquals(0.1, coach.getSkating(), DELTA);
 	}
 	
 	@Test
 	public void getCheckingTest() {
-		Assert.assertEquals(0.1, coach.getChecking(), DELTA);
+		assertEquals(0.1, coach.getChecking(), DELTA);
 	} 
 	
 	@Test
 	public void setCheckingTest() {
 		coach.setChecking(0.1);
-		Assert.assertEquals(0.1, coach.getChecking(), DELTA);
+		assertEquals(0.1, coach.getChecking(), DELTA);
 	}
 	
 	@Test
 	public void getSavingTest() {
-		Assert.assertEquals(0.1, coach.getSaving(), DELTA);
+		assertEquals(0.1, coach.getSaving(), DELTA);
 	} 
 	
 	@Test
 	public void setSavingTest() {
 		coach.setSaving(0.1);
-		Assert.assertEquals(0.1, coach.getSaving(), DELTA);
+		assertEquals(0.1, coach.getSaving(), DELTA);
 	}
 	
 	@Test
 	public void setSavingTwoTest() {
 		coach.setSaving(0.1);
-		Assert.assertNotEquals(0.2, coach.getSaving(), DELTA);
+		assertNotEquals(0.2, coach.getSaving());
+	}
+	
+	@Test
+	public void saveTeamCoachesTest() {
+		String teamName = "Boston";
+		try {
+			assertFalse(coach.saveTeamCoaches(coach, teamName, leagueToSimulate.getLeagueName()));
+		} catch (Exception e) {
+			output.setOutput(e.getMessage());
+			output.sendOutput();
+		}
+	}
+	
+	@Test
+	public void saveLeagueCoaches() {
+		try {
+			assertFalse(coach.saveLeagueCoaches(leagueToSimulate));
+		} catch (Exception e) {
+			output.setOutput(e.getMessage());
+			output.sendOutput();
+		}
 	}
 }

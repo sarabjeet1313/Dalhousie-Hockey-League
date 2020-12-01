@@ -1,18 +1,18 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.Schedule;
 
-import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
-
-import dpl.DplConstants.ScheduleConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Conference;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Division;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class PlayoffSchedule implements ISchedule {
 
@@ -29,18 +29,19 @@ public class PlayoffSchedule implements ISchedule {
 	private Map<String, List<Map<String, String>>> finalSchedule;
 	private List<String> teamsToBeScheduled;
 	private List<String> teamsScheduled;
-	private IStandingsPersistance standingsDb;
+	private SimpleDateFormat dateFormat;
+	private static final Logger log = Logger.getLogger(PlayoffSchedule.class.getName());
 
-	public PlayoffSchedule(IUserOutput output, IStandingsPersistance standings, int season) {
+	public PlayoffSchedule(IUserOutput output, IStandingsPersistance standingsDb, StandingInfo standings, int season) {
 		this.calendar = Calendar.getInstance();
 		this.output = output;
-		this.standingsDb = standings;
+		this.standings = standings;
 		this.seasonType = ScheduleConstants.PLAYOFF_SEASON;
 		conferenceTeamList = new HashMap<>();
 		finalSchedule = new HashMap<>();
 		teamsToBeScheduled = new ArrayList<>();
 		teamsScheduled = new ArrayList<>();
-
+		dateFormat = new SimpleDateFormat(ScheduleConstants.DATE_FORMAT);
 	}
 
 	public int getSeasonType() {
@@ -91,20 +92,17 @@ public class PlayoffSchedule implements ISchedule {
 		return this.teamsScheduled;
 	}
 
-	public void generateSchedule(League leagueToSimulate) throws SQLException {
-		try {
-			setMatchesPerDay();
-			populateInternalModel(leagueToSimulate);
-			for (Map.Entry<String, List<String>> entry : conferenceTeamList.entrySet()) {
-				List<String> teamsToCompete = entry.getValue();
-				generateScheduleOnTheFly(teamsToCompete, this.currentDay);
-			}
-		} catch (SQLException e) {
-			throw e;
+	public void generateSchedule(League leagueToSimulate) {
+		setMatchesPerDay();
+		populateInternalModel(leagueToSimulate);
+		for (Map.Entry<String, List<String>> entry : conferenceTeamList.entrySet()) {
+			List<String> teamsToCompete = entry.getValue();
+			generateScheduleOnTheFly(teamsToCompete, this.currentDay);
 		}
+		log.log(Level.INFO, "PlayOff schedule generated");
 	}
 
-	private void populateInternalModel(League leagueToSimulate) throws SQLException {
+	private void populateInternalModel(League leagueToSimulate) {
 		try {
 			if (leagueToSimulate == null) {
 				return;
@@ -114,12 +112,12 @@ public class PlayoffSchedule implements ISchedule {
 			for (int index = 0; index < conferenceList.size(); index++) {
 				List<Division> divisionList = conferenceList.get(index).getDivisionList();
 				String conferenceName = conferenceList.get(index).getConferenceName();
-				List<String> divisions = new ArrayList<String>();
+				List<String> divisions = new ArrayList<>();
 				for (int dIndex = 0; dIndex < divisionList.size(); dIndex++) {
 
-					List<String> teams = new ArrayList<String>();
+					List<String> teams = new ArrayList<>();
 					String divisionName = divisionList.get(dIndex).getDivisionName();
-					teams = standingsDb.getTop4TeamsFromStandings(divisionName);
+					teams = standings.getTopDivisionTeams(leagueToSimulate, divisionName);
 
 					if (conferenceTeamList.containsKey(conferenceName)) {
 						List<String> alreadyAddedTeams = conferenceTeamList.get(conferenceName);
@@ -132,33 +130,32 @@ public class PlayoffSchedule implements ISchedule {
 					teamsScheduled.addAll(teams);
 				}
 			}
-		} catch (SQLException e) {
-			throw e;
+		} catch (NullPointerException e) {
+			output.setOutput(e.getMessage());
+			output.sendOutput();
+			log.log(Level.SEVERE, e.getMessage());
+			System.exit(1);
 		}
 	}
 
 	public void generateScheduleOnTheFly(List<String> teamsToCompete, String currentDay) {
 		this.currentDay = currentDay;
 		incrementCurrentDay();
-
 		int totalTeams = teamsToCompete.size();
 		for (int i = 0; i < totalTeams / 2; i++) {
-			Map<String, String> teamsCompeting = new HashMap<String, String>();
+			Map<String, String> teamsCompeting = new HashMap<>();
 			teamsCompeting.put(teamsToCompete.get(i), teamsToCompete.get(totalTeams - 1 - i));
 			List<Map<String, String>> matchList = new ArrayList<>();
 			matchList.add(teamsCompeting);
 			this.finalSchedule.put(this.currentDay, matchList);
-
 			incrementCurrentDay();
 		}
 	}
 
 	private void setMatchesPerDay() {
-		SimpleDateFormat myFormat = new SimpleDateFormat(ScheduleConstants.DATE_FORMAT);
-
 		try {
-			Date date1 = myFormat.parse(firstDay);
-			Date date2 = myFormat.parse(lastDay);
+			Date date1 = dateFormat.parse(firstDay);
+			Date date2 = dateFormat.parse(lastDay);
 			long diff = date2.getTime() - date1.getTime();
 			int totalDays = (int) TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
 
@@ -170,7 +167,10 @@ public class PlayoffSchedule implements ISchedule {
 			}
 
 		} catch (ParseException e) {
-			e.printStackTrace();
+			output.setOutput(e.getMessage());
+			output.sendOutput();
+			log.log(Level.SEVERE, e.getMessage());
+			System.exit(1);
 		}
 	}
 
@@ -178,12 +178,13 @@ public class PlayoffSchedule implements ISchedule {
 		if (currentDay.equals(lastDay)) {
 			return false;
 		} else {
-			SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 			try {
 				calendar.setTime(dateFormat.parse(currentDay));
 			} catch (ParseException e) {
-				output.setOutput("Exception while getting current date in Playoff Schedule state");
+				output.setOutput(e.getMessage());
 				output.sendOutput();
+				log.log(Level.SEVERE, e.getMessage());
+				System.exit(1);
 			}
 			calendar.add(Calendar.DAY_OF_MONTH, 1);
 			currentDay = dateFormat.format(calendar.getTime());

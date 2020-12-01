@@ -1,16 +1,11 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.Standings;
 
-import java.sql.SQLException;
-import java.util.List;
+import java.io.IOException;
 
 public interface IStandingsPersistance {
-    void setSeason(int season);
 
-    boolean insertToStandings(String leagueName, String conferenceName, String divisionName, String teamName)throws SQLException ;
+	void setSeason(int season);
 
-    void updateStandingsLosses(String teamName)throws SQLException ;
+	boolean insertToStandings(Standing standing) throws IOException;
 
-    void updateStandingsWin(String teamName)throws SQLException ;
-
-    public List<String> getTop4TeamsFromStandings(String divisionName)throws SQLException ;
 }

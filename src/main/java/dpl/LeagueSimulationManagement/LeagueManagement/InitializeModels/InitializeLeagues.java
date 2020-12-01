@@ -1,44 +1,48 @@
 package dpl.LeagueSimulationManagement.LeagueManagement.InitializeModels;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import dpl.DplConstants.CoachConstants;
-import dpl.DplConstants.ConferenceConstants;
+
+import dpl.SystemConfig;
 import dpl.DplConstants.GeneralConstants;
-import dpl.DplConstants.DivisionConstants;
-import dpl.DplConstants.GameConfigConstants;
-import dpl.DplConstants.InitializeLeaguesConstants;
-import dpl.DplConstants.ManagerConstants;
-import dpl.DplConstants.PlayerConstants;
-import dpl.DplConstants.TeamConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Aging;
-import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.GameResolver;
+import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.GameConfigConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.GameplayConfig;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.IGameplayConfigPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Injury;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Trading;
 import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.Training;
-import dpl.LeagueSimulationManagement.UserInputOutput.Parser.CmdParseJSON;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Coach;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.CoachConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Conference;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ConferenceConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Division;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.DivisionConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ICoachPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ILeaguePersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IManagerPersistance;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManagementAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Manager;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ManagerConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.PlayerConstants;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Team;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.TeamConstants;
+import dpl.LeagueSimulationManagement.UserInputOutput.Parser.CmdParseJSON;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 public class InitializeLeagues implements IInitializeLeagues {
+
 	private CmdParseJSON parser;
 	private String filePath;
 	private ILeaguePersistance leagueDb;
@@ -51,12 +55,14 @@ public class InitializeLeagues implements IInitializeLeagues {
 	private List<Manager> managerList;
 	private GameplayConfig gameConfig;
 	private Aging aging;
-	private GameResolver resolver;
 	private Injury injury;
 	private Training training;
 	private Trading trading;
 	private IGameplayConfigPersistance configDb;
 	private IManagerPersistance managerDb;
+	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
+			.getTeamManagementAbstractFactory();
+	private Logger log = Logger.getLogger(InitializeLeagues.class.getName());
 
 	public InitializeLeagues(String filePath, ILeaguePersistance leagueDb, IUserOutput output, IUserInput input,
 			ICoachPersistance coachDb, IGameplayConfigPersistance configDb, IManagerPersistance managerDb) {
@@ -99,8 +105,9 @@ public class InitializeLeagues implements IInitializeLeagues {
 			}
 
 			leagueName = truncateString(leagueName);
-			league = new League(leagueName, conferenceList, freeAgents, coaches, managerList, gameConfig, leagueDb);
-			boolean check = league.isValidLeagueName(leagueName);
+			league = teamManagement.LeagueWithDbParameters(leagueName, conferenceList, freeAgents, coaches, managerList,
+					gameConfig, leagueDb);
+			boolean check = league.isValidLeagueName(league);
 
 			if (check == Boolean.FALSE) {
 				output.setOutput(InitializeLeaguesConstants.VALID_MSG.toString());
@@ -132,17 +139,16 @@ public class InitializeLeagues implements IInitializeLeagues {
 			league.setFreeAgents(freeAgents);
 			league.setCoaches(coaches);
 			league.setManagerList(managerList);
-		} catch (SQLException e) {
+		} catch (Exception e) {
+			log.log(Level.SEVERE, e.getMessage());
 			output.setOutput(e.getMessage());
 			output.sendOutput();
-		} catch (NullPointerException e) {
-			output.setOutput(e.getMessage());
-			output.sendOutput();
+			System.exit(1);
 		}
 		return league;
 	}
 
-	private List<Conference> loadConferencesInfo() {
+	private List<Conference> loadConferencesInfo() throws NullPointerException{
 		JsonArray conferences = parser.parseList(InitializeLeaguesConstants.CONFERENCES.toString());
 		Iterator<JsonElement> conferenceListElement = conferences.iterator();
 
@@ -159,7 +165,7 @@ public class InitializeLeagues implements IInitializeLeagues {
 				return null;
 			}
 
-			Conference conferenceObject = new Conference(conferenceName, bufferDivisionList);
+			Conference conferenceObject = teamManagement.ConferenceWithParameters(conferenceName, bufferDivisionList);
 			conferenceList.add(conferenceObject);
 			JsonArray divisions = conference.get(DivisionConstants.DIVISIONS_MODEL.toString()).getAsJsonArray();
 			Iterator<JsonElement> divisionListElement = divisions.iterator();
@@ -176,7 +182,7 @@ public class InitializeLeagues implements IInitializeLeagues {
 					return null;
 				}
 
-				Division divisionObject = new Division(divisionName, bufferTeamList);
+				Division divisionObject = teamManagement.DivisionWithParameters(divisionName, bufferTeamList);
 				bufferDivisionList.add(divisionObject);
 				conferenceObject.setDivisionList(bufferDivisionList);
 				JsonArray teams = division.get(TeamConstants.TEAMS.toString()).getAsJsonArray();
@@ -193,15 +199,17 @@ public class InitializeLeagues implements IInitializeLeagues {
 						return null;
 					}
 
-					String genManager = team.get(ManagerConstants.GENERAL_MANAGER.toString()).toString();
-					genManager = truncateString(genManager);
-
-					if (isEmptyString(genManager)) {
+					JsonObject gemManager = team.get(ManagerConstants.GENERAL_MANAGER.toString()).getAsJsonObject();
+					String managerName = gemManager.get(ManagerConstants.NAME.toString()).toString();
+					managerName = truncateString(managerName);
+					String personality = gemManager.get(ManagerConstants.PERSONALITY.toString()).toString();
+					personality = truncateString(personality);
+					if (isEmptyString(managerName)) {
 						output.setOutput(ManagerConstants.GENERAL_MANAGER_ERROR.toString());
 						output.sendOutput();
 						return null;
 					}
-					Manager managerobj = new Manager(genManager, managerDb);
+					Manager managerObj = teamManagement.ManagerWithDbParameters(managerName, personality, managerDb);
 
 					JsonObject headCoach = team.get(CoachConstants.HEAD_COACH.toString()).getAsJsonObject();
 					String headCoachName = headCoach.get(CoachConstants.NAME.toString()).toString();
@@ -226,15 +234,16 @@ public class InitializeLeagues implements IInitializeLeagues {
 						return null;
 					}
 
-					Coach headCoachObj = new Coach(headCoachName, coachSkating, coachShooting, coachChecking,
-							coachSaving, coachDb);
+					Coach headCoachObj = teamManagement.CoachWithDbParameters(headCoachName, coachSkating,
+							coachShooting, coachChecking, coachSaving, coachDb);
 
-					Team teamObject = new Team(teamName, managerobj, headCoachObj, bufferPlayerList, false);
+					Team teamObject = teamManagement.TeamWithParameters(teamName, managerObj, headCoachObj,
+							bufferPlayerList, false);
 					bufferTeamList.add(teamObject);
 					divisionObject.setTeamList(bufferTeamList);
 					JsonArray players = team.get(PlayerConstants.PLAYERS.toString()).getAsJsonArray();
 
-					if (players.size() > 20) {
+					if (players.size() > 30) {
 						output.setOutput(TeamConstants.TEAM_OVER_FLOW.toString());
 						output.sendOutput();
 						return null;
@@ -288,19 +297,14 @@ public class InitializeLeagues implements IInitializeLeagues {
 							isCaptainPositionOccupied = captain;
 						}
 
-						int age = player.get(PlayerConstants.PLAYER_AGE.toString()).getAsInt();
-
-						if (age < 0) {
-							output.setOutput(PlayerConstants.PLAYER.toString() + count
-									+ PlayerConstants.PLAYER_AGE_ERROR.toString());
-							output.sendOutput();
-							return null;
-						}
-
 						int skating = player.get(PlayerConstants.SKATING.toString()).getAsInt();
 						int shooting = player.get(PlayerConstants.SHOOTING.toString()).getAsInt();
 						int checking = player.get(PlayerConstants.CHECKING.toString()).getAsInt();
 						int saving = player.get(PlayerConstants.SAVING.toString()).getAsInt();
+						int birthDay = player.get(PlayerConstants.BIRTH_DAY.toString()).getAsInt();
+						int birthMonth = player.get(PlayerConstants.BIRTH_MONTH.toString()).getAsInt();
+						int birthYear = player.get(PlayerConstants.BIRTH_YEAR.toString()).getAsInt();
+						int age = 2020 - birthYear+10;
 
 						String returnedValue = isValidPlayer(skating, shooting, checking, saving);
 
@@ -310,8 +314,9 @@ public class InitializeLeagues implements IInitializeLeagues {
 							return null;
 						}
 
-						Player playerObject = new Player(playerName, position, captain, age, skating, shooting,
-								checking, saving, Boolean.FALSE, Boolean.FALSE, 0);
+						Player playerObject = teamManagement.PlayerWithParameters(playerName, position, captain, age,
+								skating, shooting, checking, saving, Boolean.FALSE, Boolean.FALSE, 0, Boolean.FALSE,
+								birthDay, birthMonth, birthYear, Boolean.FALSE);
 						bufferPlayerList.add(playerObject);
 						teamObject.setPlayerList(bufferPlayerList);
 					}
@@ -399,19 +404,14 @@ public class InitializeLeagues implements IInitializeLeagues {
 					return null;
 				}
 
-				int age = freeAgentObj.get(PlayerConstants.PLAYER_AGE.toString()).getAsInt();
-				if (age < 0) {
-					output.setOutput(PlayerConstants.FREE_AGENT.toString() + count
-							+ PlayerConstants.PLAYER_AGE_ERROR.toString());
-					output.sendOutput();
-					return null;
-				}
-
 				int skating = freeAgentObj.get(PlayerConstants.SKATING.toString()).getAsInt();
 				int shooting = freeAgentObj.get(PlayerConstants.SHOOTING.toString()).getAsInt();
 				int checking = freeAgentObj.get(PlayerConstants.CHECKING.toString()).getAsInt();
 				int saving = freeAgentObj.get(PlayerConstants.SAVING.toString()).getAsInt();
-
+				int birthDay = freeAgentObj.get(PlayerConstants.BIRTH_DAY.toString()).getAsInt();
+				int birthMonth = freeAgentObj.get(PlayerConstants.BIRTH_MONTH.toString()).getAsInt();
+				int birthYear = freeAgentObj.get(PlayerConstants.BIRTH_YEAR.toString()).getAsInt();
+				int age = 2020 - birthYear +10;
 				String freeAgentReturnedValue = isValidPlayer(skating, shooting, checking, saving);
 
 				if (freeAgentReturnedValue.length() > 0) {
@@ -420,8 +420,8 @@ public class InitializeLeagues implements IInitializeLeagues {
 					return null;
 				}
 
-				freeAgents.add(new Player(agentName, position, captain, age, skating, shooting, checking, saving, false,
-						false, 0));
+				freeAgents.add(teamManagement.PlayerWithParameters(agentName, position, captain, age, skating, shooting,
+						checking, saving, false, false, 0, false, birthDay, birthMonth, birthYear, Boolean.FALSE));
 			}
 		} catch (NullPointerException e) {
 			throw e;
@@ -479,7 +479,8 @@ public class InitializeLeagues implements IInitializeLeagues {
 					return null;
 				}
 
-				coaches.add(new Coach(coachName, coachSkating, coachShooting, coachChecking, coachSaving, coachDb));
+				coaches.add(teamManagement.CoachWithDbParameters(coachName, coachSkating, coachShooting, coachChecking,
+						coachSaving, coachDb));
 			}
 		} catch (NullPointerException e) {
 			throw e;
@@ -492,14 +493,17 @@ public class InitializeLeagues implements IInitializeLeagues {
 		Iterator<JsonElement> managerElement = managerParseList.iterator();
 		try {
 			while (managerElement.hasNext()) {
-				String managerName = managerElement.next().getAsString();
+				JsonObject mangerObj = managerElement.next().getAsJsonObject();
+				String managerName = mangerObj.get(ManagerConstants.NAME.toString()).toString();
 				managerName = truncateString(managerName);
+				String personality = mangerObj.get(ManagerConstants.PERSONALITY.toString()).toString();
+				personality = truncateString(personality);
 				if (isEmptyString(managerName)) {
 					output.setOutput(ManagerConstants.GENERAL_MANAGER_ERROR_EMPTY.toString());
 					output.sendOutput();
 					return null;
 				}
-				Manager manager = new Manager(managerName, managerDb);
+				Manager manager = teamManagement.ManagerWithDbParameters(managerName, personality, managerDb);
 				managerList.add(manager);
 			}
 		} catch (NullPointerException e) {
@@ -511,12 +515,11 @@ public class InitializeLeagues implements IInitializeLeagues {
 	private GameplayConfig loadGameplayConfig() throws NullPointerException {
 		try {
 			JsonObject config = parser.parseConfig(GameConfigConstants.GAME_PLAY_CONFIG.toString());
-			if (loadAgingInfo(config) == null || loadGameResolverInfo(config) == null
-					|| loadInjuriesInfo(config) == null || loadTrainingInfo(config) == null
+			if (loadAgingInfo(config) == null || loadInjuriesInfo(config) == null || loadTrainingInfo(config) == null
 					|| loadTradingInfo(config) == null) {
 				return null;
 			}
-			gameConfig = new GameplayConfig(aging, resolver, injury, training, trading, configDb);
+			gameConfig = new GameplayConfig(aging, injury, training, trading, configDb);
 		} catch (NullPointerException e) {
 			throw e;
 		}
@@ -528,6 +531,7 @@ public class InitializeLeagues implements IInitializeLeagues {
 		JsonObject agingObj = config.get(GameConfigConstants.AGING.toString()).getAsJsonObject();
 		int avgAge = agingObj.get(GameConfigConstants.AVGERAGE_RETIREMENT_AGE.toString()).getAsInt();
 		int maxAge = agingObj.get(GameConfigConstants.MAX_AGE.toString()).getAsInt();
+		double statDecayChance = agingObj.get(GameConfigConstants.STAT_DECAY_CHANCE.toString()).getAsDouble();
 		if (avgAge < 1) {
 			output.setOutput(GameConfigConstants.INVALID_RETIREMENT_AGE.toString());
 			output.sendOutput();
@@ -538,25 +542,8 @@ public class InitializeLeagues implements IInitializeLeagues {
 			output.sendOutput();
 			return null;
 		}
-		aging = new Aging(avgAge, maxAge);
+		aging = new Aging(avgAge, maxAge, statDecayChance);
 		return aging;
-	}
-
-	private GameResolver loadGameResolverInfo(JsonObject config) throws NullPointerException {
-		try {
-			JsonObject gameResolverObj = config.get(GameConfigConstants.GAME_RESOLVER.toString()).getAsJsonObject();
-			double randomWinChance = gameResolverObj.get(GameConfigConstants.RANDOM_WIN_CHANCE.toString())
-					.getAsDouble();
-			if (randomWinChance < 0 || randomWinChance > 1) {
-				output.setOutput(GameConfigConstants.INVALID_RANDOM_WIN_CHANCE.toString());
-				output.sendOutput();
-				return null;
-			}
-			resolver = new GameResolver(randomWinChance);
-		} catch (NullPointerException e) {
-			throw e;
-		}
-		return resolver;
 	}
 
 	private Injury loadInjuriesInfo(JsonObject config) throws NullPointerException {
@@ -635,7 +622,14 @@ public class InitializeLeagues implements IInitializeLeagues {
 				output.sendOutput();
 				return null;
 			}
-			trading = new Trading(lossPoint, randomTradeOfferChance, maxPlayersPerTrade, randomAcceptanceChance);
+
+			JsonObject gmTableObject = tradingObj.get(GameConfigConstants.GMTABLE.toString()).getAsJsonObject();
+			HashMap<String, Double> gmTable = new HashMap<>();
+			gmTableObject.keySet().forEach(keyStr -> {
+				gmTable.put(keyStr, gmTableObject.get(keyStr).getAsDouble());
+			});
+			trading = new Trading(lossPoint, randomTradeOfferChance, maxPlayersPerTrade, randomAcceptanceChance,
+					gmTable);
 		} catch (NullPointerException e) {
 			throw e;
 		}

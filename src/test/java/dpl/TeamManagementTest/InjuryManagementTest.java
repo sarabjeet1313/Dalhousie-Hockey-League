@@ -3,15 +3,18 @@ package dpl.TeamManagementTest;
 import org.junit.Assert;
 import org.junit.Test;
 
+import dpl.SystemConfig;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.IInjuryManagement;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.InjuryManagement;
+import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ITeamManagementAbstractFactory;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.Player;
 
 public class InjuryManagementTest {
 	
-	IInjuryManagement playerManagement = new InjuryManagement();
-	Player player = new Player("Player1", "Forward", false, 1, 1, 1, 1, 1, false, false, 0);
+	private ITeamManagementAbstractFactory teamManagement = SystemConfig.getSingleInstance()
+			.getTeamManagementAbstractFactory();
+	IInjuryManagement playerManagement = teamManagement.InjuryManagement();
+	Player player = teamManagement.PlayerWithParameters("Player1", "Forward", false, 1, 1, 1, 1, 1, false, false, 0, false, 20, 5, 2000, Boolean.FALSE);
 	
 	@Test
 	public void getPlayerInjuryDaysTest() {

@@ -1,5 +1,7 @@
 package dpl.LeagueSimulationManagement.NewsSystem;
 
+import java.util.ArrayList;
+
 public interface ITradeInfo {
-    void updateTrade(String fromTeam, String toTeam, String[][] playersTraded);
+    void updateTrade(String fromTeam, String toTeam, ArrayList<String> fromTeamTrade, ArrayList<String> toTeamTrade);
 }

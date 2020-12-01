@@ -1,4 +1,9 @@
 package dpl.SimulationStateMachineTest;
+import static org.junit.Assert.assertEquals;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -8,10 +13,6 @@ import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
-
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-import static org.junit.Assert.*;
 
 public class InitialStateTest {
     private static InitialState state;

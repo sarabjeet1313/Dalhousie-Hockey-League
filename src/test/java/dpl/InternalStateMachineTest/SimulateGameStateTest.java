@@ -1,19 +1,18 @@
 package dpl.InternalStateMachineTest;
 
-import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.*;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.ISchedule;
-import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.RegularSeasonSchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Schedule.SeasonCalendar;
-import dpl.ScheduleTest.MockSchedule;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
 import dpl.LeagueSimulationManagement.LeagueManagement.Standings.StandingInfo;
-import dpl.StandingsTest.StandingsMockDb;
 import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.League;
-import dpl.TeamManagementTest.LeagueMockData;
+import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStateContext;
+import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.SimulateGameState;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
 import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
-
+import dpl.ScheduleTest.MockSchedule;
+import dpl.StandingsTest.StandingsMockDb;
+import dpl.SystemConfig;
+import dpl.TeamManagementTest.LeagueMockData;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -37,17 +36,17 @@ public class SimulateGameStateTest {
 
     @Before
     public void setUp() throws Exception {
-        leagueToSimulate = new LeagueMockData().getTestData();
+        leagueToSimulate = LeagueMockData.getInstance().getTestData();
         calendar = Calendar.getInstance();
-        schedule = new RegularSeasonSchedule(calendar, output);
-        mockSchedule = new MockSchedule();
+        schedule = SystemConfig.getSingleInstance().getScheduleAbstractFactory().RegularSeasonSchedule(calendar, output);
+        mockSchedule = MockSchedule.getInstance();
         schedule.setFinalSchedule(mockSchedule.getMockSchedule());
-        standingsDb = new StandingsMockDb(0);
-        standings = new StandingInfo(leagueToSimulate, 0, standingsDb);
-        context = new InternalStateContext(input, output);
-        utility = new SeasonCalendar(0, output);
-        output = new CmdUserOutput();
-        state = new SimulateGameState(leagueToSimulate, schedule, standings, context, utility, "14-11-2020", output);
+        standingsDb = StandingsMockDb.getInstance();
+        standings = SystemConfig.getSingleInstance().getStandingsAbstractFactory().StandingInfo(leagueToSimulate, 0, standingsDb, output);
+        context = SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory().InternalStateContext(input, output);
+        utility = SystemConfig.getSingleInstance().getScheduleAbstractFactory().SeasonCalendar(0, output);
+        output = SystemConfig.getSingleInstance().getUserOutputAbstractFactory().CmdUserOutput();
+        state = (SimulateGameState) SystemConfig.getSingleInstance().getInternalStateMachineAbstractFactory().SimulateGameState(leagueToSimulate, schedule, standingsDb, standings, context, utility, "14-11-2020", "", 0, output);
     }
 
     @Test
@@ -61,8 +60,8 @@ public class SimulateGameStateTest {
     @Test
     public void doProcessingTest() {
         state.doProcessing();
-        assertEquals("Toronto", schedule.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
-        assertNotEquals("Calgary", schedule.getFinalSchedule().get("14-11-2020").get(0).get("Boston"));
+        assertEquals(1, schedule.getFinalSchedule().size());
+        assertNotEquals(2, schedule.getFinalSchedule().size());
     }
 
     @Test
@@ -76,5 +75,11 @@ public class SimulateGameStateTest {
         assertNotEquals("Negative", state.getNextStateName());
         state.nextState(context);
         assertEquals("Injury", state.getNextStateName());
+    }
+
+    @Test
+    public void shouldContinueTest() {
+        assertTrue(state.shouldContinue());
+        assertFalse(!state.shouldContinue());
     }
 }
