@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class ParticipantAwardObserverTest {
     private Subject subject;
@@ -24,11 +25,6 @@ public class ParticipantAwardObserverTest {
         player.setPlayerName(TrophySystemTestConstants.PLAYER_TEST.toString());
         subject.setValue(TrophySystemTestConstants.PLAYER.toString(), player);
         observer = TrophySystemAbstractFactory.createObserver(TrophySystemConstants.ROB_HAWKEY_MEMORIAL_CUP);
-    }
-
-    @After
-    public void after() {
-        subject = null;
     }
 
     @Test
