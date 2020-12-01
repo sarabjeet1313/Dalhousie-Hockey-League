@@ -1,0 +1,16 @@
+package dpl.PersistSerializeDeserialize;
+
+public interface ISerializeDeserializeAbstractFactory {
+
+	public CoachSerializationDeserialization CoachSerializationDeserialization();
+
+	public StandingSerializationDeserialization StandingSerializationDeserialization();
+
+	public GameplayConfigSerializationDeserialization GameplayConfigSerializationDeserialization();
+
+	public LeagueSerializationDeserialization LeagueSerializationDeserialization();
+
+	public ManagerSerializationDeserialization ManagerSerializationDeserialization();
+
+	public RetiredPlayerSerializationDeserialization RetiredPlayerSerializationDeserialization();
+}

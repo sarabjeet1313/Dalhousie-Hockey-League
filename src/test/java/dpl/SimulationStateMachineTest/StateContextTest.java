@@ -7,19 +7,19 @@ import java.io.PrintStream;
 import org.junit.Before;
 import org.junit.Test;
 
-import dpl.LeagueSimulationManagement.LeagueManagement.GameplayConfiguration.IGameplayConfigPersistance;
-import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
-import dpl.LeagueSimulationManagement.LeagueManagement.TeamManagement.ILeaguePersistance;
-import dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine.IState;
-import dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine.InitialState;
-import dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine.LoadTeamState;
-import dpl.LeagueSimulationManagement.SimulationManagement.SimulationStateMachine.StateContext;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.CmdUserInput;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.CmdUserOutput;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
-import dpl.StandingsTest.StandingsMockDb;
-import dpl.TeamManagementTest.LeagueMockData;
+import dpl.LeagueManagement.GameplayConfiguration.IGameplayConfigPersistance;
+import dpl.LeagueManagement.Standings.IStandingsPersistance;
+import dpl.LeagueManagement.TeamManagement.ILeaguePersistance;
+import dpl.SimulationManagement.SimulationStateMachine.IState;
+import dpl.SimulationManagement.SimulationStateMachine.InitialState;
+import dpl.SimulationManagement.SimulationStateMachine.LoadTeamState;
+import dpl.SimulationManagement.SimulationStateMachine.StateContext;
+import dpl.UserInputOutput.UserInput.CmdUserInput;
+import dpl.UserInputOutput.UserInput.IUserInput;
+import dpl.UserInputOutput.UserOutput.CmdUserOutput;
+import dpl.UserInputOutput.UserOutput.IUserOutput;
+import dpl.LeagueManagementTest.StandingsTest.StandingsMockDb;
+import dpl.LeagueManagementTest.TeamManagementTest.LeagueMockData;
 
 public class StateContextTest {
     private static IState state;

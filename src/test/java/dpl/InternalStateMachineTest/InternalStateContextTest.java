@@ -1,13 +1,13 @@
 package dpl.InternalStateMachineTest;
 
-import dpl.LeagueSimulationManagement.LeagueManagement.Standings.IStandingsPersistance;
-import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.ISimulationState;
-import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalEndState;
-import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStartState;
-import dpl.LeagueSimulationManagement.SimulationManagement.InternalStateMachine.InternalStateContext;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserInput.IUserInput;
-import dpl.LeagueSimulationManagement.UserInputOutput.UserOutput.IUserOutput;
-import dpl.StandingsTest.StandingsMockDb;
+import dpl.LeagueManagement.Standings.IStandingsPersistance;
+import dpl.SimulationManagement.InternalStateMachine.ISimulationState;
+import dpl.SimulationManagement.InternalStateMachine.InternalEndState;
+import dpl.SimulationManagement.InternalStateMachine.InternalStartState;
+import dpl.SimulationManagement.InternalStateMachine.InternalStateContext;
+import dpl.UserInputOutput.UserInput.IUserInput;
+import dpl.UserInputOutput.UserOutput.IUserOutput;
+import dpl.LeagueManagementTest.StandingsTest.StandingsMockDb;
 import dpl.SystemConfig;
 import org.junit.Before;
 import org.junit.Test;
